@@ -20,74 +20,56 @@
     </header>
 
     <main>
-        <section class="careers-intro">
-            <h1>Careers</h1>
-            <p>Join our amazing team of bus drivers, mechanics, dispatchers, and more! Explore the available positions below:</p>
-        </section>
-
         <section class="career-positions">
-            <div class="position-card">
-                <h3>Mechanic</h3>
-                <p>Responsible for maintaining and repairing school buses.</p>
-            </div>
-            <div class="position-card">
+            <div class="card">
                 <h3>Full-Time Bus Driver</h3>
-                <p>Drive buses and ensure student safety during routes.</p>
+                <p>Drive buses for full-time shifts.</p>
             </div>
-            <div class="position-card">
+            <div class="card">
                 <h3>Sub Driver</h3>
-                <p>Provide driving coverage when full-time drivers are unavailable.</p>
+                <p>Fill in for drivers on leave.</p>
             </div>
-            <div class="position-card">
+            <div class="card">
                 <h3>Dispatch</h3>
-                <p>Manage routes, schedules, and communication with drivers.</p>
+                <p>Manage bus schedules and routes.</p>
             </div>
-        </section>
-
-        <section class="career-requirements">
-            <h2>Requirements</h2>
-            <ul>
-                <li>Must be at least 13 years or older</li>
-                <li>Must have a mic</li>
-                <li>Must have a decent computer</li>
-                <li>Must have Discord and Roblox</li>
-            </ul>
+            <div class="card">
+                <h3>Mechanic</h3>
+                <p>Maintain and repair the buses.</p>
+            </div>
         </section>
 
         <section class="career-form">
             <h2>Apply Now</h2>
-            <form action="submit_application.php" method="POST">
-                <label for="name">Your Name:</label>
+            <form onsubmit="return validateAge()">
+                <label for="name">Full Name:</label>
                 <input type="text" id="name" name="name" required>
 
-                <label for="age">Your Age:</label>
+                <label for="age">Age (13+ only):</label>
                 <input type="number" id="age" name="age" min="13" required>
 
                 <label for="discord">Discord Username:</label>
                 <input type="text" id="discord" name="discord" required>
 
-                <label for="roblox">Roblox Username:</label>
-                <input type="text" id="roblox" name="roblox" required>
-
                 <label for="position">Position Applying For:</label>
                 <select id="position" name="position" required>
-                    <option value="Mechanic">Mechanic</option>
+                    <option value="">Select a Position</option>
                     <option value="Full-Time Bus Driver">Full-Time Bus Driver</option>
                     <option value="Sub Driver">Sub Driver</option>
                     <option value="Dispatch">Dispatch</option>
+                    <option value="Mechanic">Mechanic</option>
                 </select>
 
-                <label for="experience">Why do you want this position?</label>
-                <textarea id="experience" name="experience" rows="4" required></textarea>
-
-                <label for="microphone">Do you have a working mic?</label>
-                <select id="microphone" name="microphone" required>
+                <label for="mic">Do You Have a Working Mic?</label>
+                <select id="mic" name="mic" required>
+                    <option value="">Select Yes or No</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
 
-                <label for="computer">Do you have a decent computer?</label>
+                <label for="computer">Do You Have a Decent Computer?</label>
                 <select id="computer" name="computer" required>
+                    <option value="">Select Yes or No</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
@@ -100,5 +82,8 @@
     <footer>
         <p>&copy; 2025 Sayville Public Schools Roleplay</p>
     </footer>
+
+    <!-- Link to the script.js file -->
+    <script src="script.js"></script>
 </body>
 </html>
