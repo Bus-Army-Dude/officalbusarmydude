@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Sayville Public Schools Roleplay</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="roster.html">Roster</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-intro">
+            <h1>Contact Us</h1>
+            <p>If you have any questions, feel free to reach out to us using the form below:</p>
+        </section>
+
+        <section class="contact-form">
+            <form action="submit_contact.php" method="POST">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="discord">Discord Username:</label>
+                <input type="text" id="discord" name="discord" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section class="contact-info">
+            <div class="contact-method">
+                <h3>Discord</h3>
+                <p>Join our official Discord server and send us a message.</p>
+            </div>
+            <div class="contact-method">
+                <h3>Email</h3>
+                <p>Email us at: <a href="mailto:busarmydude@gmail.com">busarmydude@gmail.com</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sayville Public Schools Roleplay</p>
+    </footer>
+</body>
+</html>
