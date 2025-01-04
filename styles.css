@@ -6,10 +6,11 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f9;
     color: #333;
     line-height: 1.6;
+    padding-top: 80px; /* Space for fixed header */
 }
 
 a {
@@ -21,20 +22,16 @@ ul {
     list-style: none;
 }
 
-h1, h2, h3 {
-    color: #333;
-}
-
 /* Header Styles */
 header {
-    background-color: #1e2a38;
+    background-color: #007bff;
     color: #fff;
-    padding: 10px 0;
+    padding: 20px 0;
     position: fixed;
-    width: 100%;
     top: 0;
     left: 0;
-    z-index: 10;
+    width: 100%;
+    z-index: 1000;
 }
 
 header nav ul {
@@ -43,56 +40,77 @@ header nav ul {
 }
 
 header nav ul li {
-    margin: 0 15px;
+    margin: 0 20px;
 }
 
 header nav ul li a {
     color: #fff;
     font-size: 18px;
-    padding: 8px 15px;
-    transition: background-color 0.3s;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 header nav ul li a:hover {
-    background-color: #0066cc;
+    background-color: #0056b3;
     border-radius: 4px;
+    transform: translateY(-2px);
 }
 
 /* Main Content Styles */
 main {
-    padding: 80px 20px 20px; /* Adjusted for fixed header */
+    padding: 30px;
 }
 
+/* Career Page Intro */
 .careers-intro {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 .careers-intro h1 {
-    font-size: 32px;
-    font-weight: bold;
+    font-size: 38px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 .careers-intro p {
     font-size: 18px;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
+/* Available Positions */
 .available-positions {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 .available-positions li {
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.available-positions li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
 }
 
 .available-positions h3 {
     font-size: 24px;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.available-positions p {
+    font-size: 16px;
     margin-bottom: 10px;
 }
 
@@ -101,21 +119,29 @@ main {
 }
 
 .available-positions ul li {
-    font-size: 16px;
-    margin-bottom: 5px;
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: #666;
 }
 
+.available-positions p strong {
+    font-weight: 600;
+}
+
+/* Apply Form */
 .apply-form {
     background-color: #fff;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     max-width: 800px;
     margin: 0 auto;
+    margin-top: 50px;
 }
 
 .apply-form h2 {
     font-size: 28px;
+    color: #333;
     margin-bottom: 20px;
 }
 
@@ -128,29 +154,43 @@ main {
     font-size: 16px;
     margin-bottom: 5px;
     margin-top: 15px;
+    color: #444;
 }
 
 .apply-form input, .apply-form select, .apply-form textarea {
-    padding: 10px;
+    padding: 14px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
     margin-bottom: 15px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.apply-form input:focus, .apply-form select:focus, .apply-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.apply-form textarea {
+    height: 150px;
+    resize: none;
 }
 
 .apply-form button {
-    background-color: #0066cc;
+    background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 12px 20px;
+    padding: 15px;
     font-size: 18px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .apply-form button:hover {
-    background-color: #005bb5;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 /* Footer Styles */
@@ -159,9 +199,21 @@ footer {
     color: #fff;
     text-align: center;
     padding: 20px;
-    margin-top: 40px;
+    margin-top: 50px;
+    font-size: 14px;
 }
 
-footer p {
-    font-size: 16px;
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+    }
+
+    .available-positions {
+        grid-template-columns: 1fr;
+    }
+    
+    .apply-form {
+        padding: 20px;
+    }
 }
