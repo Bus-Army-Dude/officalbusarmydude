@@ -1,4 +1,4 @@
-/* Global Styles */
+/* Global Reset */
 * {
     margin: 0;
     padding: 0;
@@ -6,320 +6,198 @@
     font-family: 'Arial', sans-serif;
 }
 
+/* Body Styling */
 body {
-    background-color: #f7f7f7;
+    background-color: #f4f4f4;
     color: #333;
-    line-height: 1.6;
     font-size: 16px;
+    line-height: 1.6;
 }
 
-/* Header Navigation */
 header {
-    background-color: #007BFF;
-    padding: 15px;
+    background-color: #0056b3;
+    padding: 1rem 0;
     text-align: center;
+    color: white;
 }
 
-nav ul {
+header nav ul {
     list-style: none;
-    display: flex;
-    justify-content: center;
+    padding: 0;
 }
 
-nav ul li {
+header nav ul li {
+    display: inline;
     margin: 0 15px;
 }
 
-nav ul li a {
-    color: white;
+header nav ul li a {
     text-decoration: none;
+    color: white;
     font-weight: bold;
-    padding: 10px;
-    transition: color 0.3s ease;
+    font-size: 1.1rem;
 }
 
-nav ul li a:hover {
-    color: #ffcc00;
+header nav ul li a:hover {
+    text-decoration: underline;
 }
 
 /* Main Content */
 main {
-    margin: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-section {
-    margin-bottom: 30px;
+/* Section Titles */
+h2, h3, h4 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
 
-h1, h2, h3 {
-    font-weight: bold;
-    color: #333;
+h3 {
+    font-size: 1.5rem;
 }
 
-/* Home Page */
-.home-intro {
-    text-align: center;
-    padding: 50px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.home-intro h1 {
-    font-size: 3rem;
-    color: #007BFF;
-}
-
-.home-intro p {
-    font-size: 1.2rem;
-    color: #555;
-}
-
-/* Careers Page */
+/* Career Position */
 .career-positions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    margin-bottom: 2rem;
 }
 
-.position-card {
-    background-color: #ffffff;
-    padding: 20px;
-    width: 22%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.position-card:hover {
-    transform: translateY(-5px);
-}
-
-.position-card h3 {
-    color: #007BFF;
-}
-
-.position-card p {
-    color: #555;
-}
-
-.career-requirements ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 20px;
-}
-
-.career-requirements li {
-    margin: 10px 0;
-}
-
-.career-form {
-    background-color: #ffffff;
-    padding: 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
+.position {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
     border-radius: 8px;
 }
 
-.career-form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
+.position h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
 }
 
-.career-form input,
-.career-form select,
-.career-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+.position p, .position ul {
     font-size: 1rem;
 }
 
-.career-form button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 12px;
-    width: 100%;
-    font-size: 1.1rem;
-    cursor: pointer;
+.position ul {
+    list-style: disc inside;
+}
+
+.position ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Apply Now Form */
+.career-form {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    padding: 2rem;
     border-radius: 8px;
+}
+
+.career-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.career-form label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.career-form input, .career-form select, .career-form textarea {
+    font-size: 1rem;
+    padding: 10px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.career-form textarea {
+    resize: vertical;
+}
+
+.career-form button {
+    background-color: #0056b3;
+    color: white;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .career-form button:hover {
-    background-color: #0056b3;
+    background-color: #004494;
 }
 
-/* Roster Page */
-.active-members {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    header nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    header {
+        padding: 1rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .career-positions .position {
+        padding: 1rem;
+    }
+
+    .career-form {
+        padding: 1.5rem;
+    }
+
+    .career-form label, .career-form input, .career-form select, .career-form textarea {
+        font-size: 1rem;
+    }
+
+    .career-form button {
+        font-size: 1rem;
+    }
 }
 
-.member-card {
-    background-color: #ffffff;
-    padding: 20px;
-    width: 250px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.member-card:hover {
-    transform: translateY(-5px);
-}
-
-.member-card p {
-    color: #555;
-}
-
-.member-card strong {
-    color: #007BFF;
-}
-
-/* Events Page */
-.event-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.event-item {
-    background-color: #ffffff;
-    padding: 20px;
-    width: 250px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.event-item:hover {
-    transform: translateY(-5px);
-}
-
-.event-item h2 {
-    color: #007BFF;
-}
-
-.event-item p {
-    color: #555;
-}
-
-.event-item a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
-/* Contact Page */
-.contact-intro {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.contact-form {
-    background-color: #ffffff;
-    padding: 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
-    border-radius: 8px;
-}
-
-.contact-form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+/* Error Message for Age Validation */
+#error-message {
+    color: red;
     font-size: 1rem;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
 }
 
-.contact-form button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 12px;
-    width: 100%;
-    font-size: 1.1rem;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-
-.contact-form button:hover {
-    background-color: #0056b3;
-}
-
-.contact-info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 50px;
-}
-
-.contact-method {
-    width: 45%;
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    text-align: center;
-}
-
-.contact-method h3 {
-    color: #007BFF;
-}
-
-.contact-method p {
-    color: #555;
-}
-
+/* Footer */
 footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #007BFF;
+    background-color: #333;
     color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
 }
 
 footer p {
     font-size: 1rem;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .career-positions,
-    .active-members,
-    .event-list {
-        flex-direction: column;
-        align-items: center;
-    }
+/* Miscellaneous Styling */
+h3, h4, h5 {
+    color: #0056b3;
+}
 
-    .position-card,
-    .member-card,
-    .event-item {
-        width: 90%;
-    }
+input[type="number"] {
+    -moz-appearance: textfield;
+}
 
-    .contact-info {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .contact-method {
-        width: 90%;
-        margin-bottom: 20px;
-    }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
