@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Careers - Sayville Public Schools</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <title>Careers - Sayville Public Schools Roleplay</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="events.html">Events</a></li>
                 <li><a href="careers.html">Careers</a></li>
                 <li><a href="roster.html">Roster</a></li>
+                <li><a href="events.html">Events</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -22,90 +21,76 @@
 
     <main>
         <section class="careers-intro">
-            <h1>Careers at Sayville Public Schools Roleplay</h1>
-            <p>We are always looking for passionate and dedicated individuals to join our community. Whether you want to be a bus driver, mechanic, dispatcher, or another key role, there’s a place for you here!</p>
+            <h1>Careers</h1>
+            <p>Join our amazing team of bus drivers, mechanics, dispatchers, and more! Explore the available positions below:</p>
         </section>
 
-        <section class="available-positions">
-            <h2>Current Openings</h2>
+        <section class="career-positions">
+            <div class="position-card">
+                <h3>Mechanic</h3>
+                <p>Responsible for maintaining and repairing school buses.</p>
+            </div>
+            <div class="position-card">
+                <h3>Full-Time Bus Driver</h3>
+                <p>Drive buses and ensure student safety during routes.</p>
+            </div>
+            <div class="position-card">
+                <h3>Sub Driver</h3>
+                <p>Provide driving coverage when full-time drivers are unavailable.</p>
+            </div>
+            <div class="position-card">
+                <h3>Dispatch</h3>
+                <p>Manage routes, schedules, and communication with drivers.</p>
+            </div>
+        </section>
+
+        <section class="career-requirements">
+            <h2>Requirements</h2>
             <ul>
-                <li>
-                    <h3>Full-Time Bus Driver</h3>
-                    <p><strong>Role Overview:</strong> Full-time bus drivers are responsible for safely transporting students to and from school. You’ll be assigned a specific route and expected to maintain the safety and discipline of passengers.</p>
-                    <p><strong>Requirements:</strong></p>
-                    <ul>
-                        <li>Must be at least 13 years or older</li>
-                        <li>Must have a mic</li>
-                        <li>Must have a decent computer</li>
-                        <li>Must have Discord and Roblox</li>
-                    </ul>
-                    <p><strong>Apply Now:</strong> If you’re interested in becoming a full-time bus driver, fill out the application below!</p>
-                </li>
-                <li>
-                    <h3>Substitute Bus Driver</h3>
-                    <p><strong>Role Overview:</strong> Substitute drivers fill in when a full-time driver is unavailable. You’ll be responsible for covering routes and ensuring students are transported safely.</p>
-                    <p><strong>Requirements:</strong></p>
-                    <ul>
-                        <li>Must be at least 13 years or older</li>
-                        <li>Must have a mic</li>
-                        <li>Must have a decent computer</li>
-                        <li>Must have Discord and Roblox</li>
-                    </ul>
-                    <p><strong>Apply Now:</strong> Submit your application below if you are interested in this role!</p>
-                </li>
-                <li>
-                    <h3>Mechanic</h3>
-                    <p><strong>Role Overview:</strong> Mechanics are responsible for maintaining and repairing buses. You'll ensure that all vehicles are in safe, working condition before each trip.</p>
-                    <p><strong>Requirements:</strong></p>
-                    <ul>
-                        <li>Must be at least 13 years or older</li>
-                        <li>Must have a mic</li>
-                        <li>Must have a decent computer</li>
-                        <li>Must have Discord and Roblox</li>
-                    </ul>
-                    <p><strong>Apply Now:</strong> Use the form below to submit your application!</p>
-                </li>
-                <li>
-                    <h3>Dispatcher</h3>
-                    <p><strong>Role Overview:</strong> Dispatchers manage bus routes, schedules, and communication with drivers. You’ll ensure everything runs smoothly and on time.</p>
-                    <p><strong>Requirements:</strong></p>
-                    <ul>
-                        <li>Must be at least 13 years or older</li>
-                        <li>Must have a mic</li>
-                        <li>Must have a decent computer</li>
-                        <li>Must have Discord and Roblox</li>
-                    </ul>
-                    <p><strong>Apply Now:</strong> Apply using the form below to be considered for the dispatcher role.</p>
-                </li>
+                <li>Must be at least 13 years or older</li>
+                <li>Must have a mic</li>
+                <li>Must have a decent computer</li>
+                <li>Must have Discord and Roblox</li>
             </ul>
         </section>
 
-        <section class="apply-form">
-            <h2>Apply for a Position</h2>
-            <p>Interested in one of our open positions? Fill out the form below to apply!</p>
-            <form action="#" method="post">
-                <label for="applicant-name">Name</label>
-                <input type="text" id="applicant-name" name="applicant-name" required>
+        <section class="career-form">
+            <h2>Apply Now</h2>
+            <form action="submit_application.php" method="POST">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
 
-                <label for="applicant-email">Email</label>
-                <input type="email" id="applicant-email" name="applicant-email" required>
+                <label for="age">Your Age:</label>
+                <input type="number" id="age" name="age" min="13" required>
 
-                <label for="applicant-role">Position Applying For</label>
-                <select id="applicant-role" name="applicant-role" required>
-                    <option value="full-time-bus-driver">Full-Time Bus Driver</option>
-                    <option value="substitute-bus-driver">Substitute Bus Driver</option>
-                    <option value="mechanic">Mechanic</option>
-                    <option value="dispatcher">Dispatcher</option>
+                <label for="discord">Discord Username:</label>
+                <input type="text" id="discord" name="discord" required>
+
+                <label for="roblox">Roblox Username:</label>
+                <input type="text" id="roblox" name="roblox" required>
+
+                <label for="position">Position Applying For:</label>
+                <select id="position" name="position" required>
+                    <option value="Mechanic">Mechanic</option>
+                    <option value="Full-Time Bus Driver">Full-Time Bus Driver</option>
+                    <option value="Sub Driver">Sub Driver</option>
+                    <option value="Dispatch">Dispatch</option>
                 </select>
 
-                <label for="applicant-discord">What is your Discord username?</label>
-                <input type="text" id="applicant-discord" name="applicant-discord" required>
+                <label for="experience">Why do you want this position?</label>
+                <textarea id="experience" name="experience" rows="4" required></textarea>
 
-                <label for="applicant-roblox">What is your Roblox username?</label>
-                <input type="text" id="applicant-roblox" name="applicant-roblox" required>
+                <label for="microphone">Do you have a working mic?</label>
+                <select id="microphone" name="microphone" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
 
-                <label for="applicant-bio">Why do you want this role?</label>
-                <textarea id="applicant-bio" name="applicant-bio" required></textarea>
+                <label for="computer">Do you have a decent computer?</label>
+                <select id="computer" name="computer" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
 
                 <button type="submit">Submit Application</button>
             </form>
@@ -113,7 +98,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Sayville Public Schools Roleplay. All rights reserved.</p>
+        <p>&copy; 2025 Sayville Public Schools Roleplay</p>
     </footer>
 </body>
 </html>
