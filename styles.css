@@ -1,262 +1,180 @@
-/* Global Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
-
-/* Body Styling */
+/* General Styling */
 body {
-    background-color: #ffffff;
-    color: #333333;
-    font-size: 16px;
-    line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
+    background-color: #F3F4F6;
     margin: 0;
-    font-family: 'Roboto', sans-serif;
-    width: 100%;
-    height: 100%;
-}
-
-/* Header Styling */
-header {
-    width: 100%;
-    background-color: #6A1B9A; /* Purple */
-    color: white;
-    padding: 30px 20px;
-    text-align: center;
-    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Navigation Bar */
-header nav ul {
-    list-style: none;
     padding: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+header {
+    background-color: #6A1B9A;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Navigation Styling */
+nav {
     display: flex;
     justify-content: center;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
+    background-color: #4A148C;
+    padding: 15px 0;
 }
 
-header nav ul li {
-    margin: 0 15px;
-}
-
-header nav ul li a {
+nav a {
     color: white;
     text-decoration: none;
-    font-weight: 500;
-    font-size: 1.2rem;
-}
-
-header nav ul li a:hover {
-    color: #F9A825; /* Gold */
-}
-
-/* Section Styling */
-section {
-    max-width: 100%; /* Allow section to fill the screen */
-    margin: 0 auto;
-    padding: 40px 20px;
-}
-
-/* Career Positions Section */
-.career-positions {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 3rem;
-}
-
-.position {
-    background-color: white;
-    border-radius: 12px;
-    padding: 2rem;
-    width: 300px;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-
-.position:hover {
-    transform: translateY(-5px);
-}
-
-.position h4 {
-    color: #6A1B9A;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.position ul {
-    list-style: none;
-    padding-left: 1rem;
-}
-
-.position ul li {
-    font-size: 1rem;
-    color: #555;
-}
-
-/* Apply Now Form - Question Above Answer */
-.career-form .form-section {
-    margin-bottom: 2rem;
-}
-
-.career-form .form-section label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    margin: 0 20px;
     font-size: 1.1rem;
-    color: #6A1B9A;
+    font-weight: 600;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    border-radius: 50px;
 }
 
-.career-form .form-section input,
-.career-form .form-section select,
-.career-form .form-section textarea {
-    width: 100%;
-    padding: 14px 20px;
-    margin-top: 0.5rem;
+nav a:hover {
+    background-color: #F9A825;
+    color: #333;
+}
+
+nav a.active {
+    background-color: #6A1B9A;
+}
+
+/* Section Titles */
+h2 {
+    color: #6A1B9A;
+    font-size: 2rem;
     margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Modern Form Styling */
+form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+.form-section {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 600;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
     border-radius: 10px;
     border: 1px solid #ddd;
-    font-size: 1rem;
-    color: #333;
     box-sizing: border-box;
+    margin-top: 0.5rem;
     transition: all 0.3s ease;
 }
 
-.career-form .form-section input:focus,
-.career-form .form-section select:focus,
-.career-form .form-section textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #6A1B9A;
     outline: none;
-    border-color: #F9A825;
-    box-shadow: 0px 0px 5px rgba(249, 168, 37, 0.7);
+    box-shadow: 0px 0px 10px rgba(106, 27, 154, 0.2);
 }
 
-/* Form Section Containers */
-.career-form .form-section {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Update to the question/answer format */
-.career-form .form-section select {
-    padding: 14px 20px;
-    margin-top: 0.5rem;
-}
-
-.career-form .form-section textarea {
+textarea {
     resize: vertical;
     min-height: 120px;
-    margin-top: 0.5rem;
-}
-
-.career-form .form-section input {
-    margin-top: 0.5rem;
-}
-
-/* Ensure clear spacing between each input and label */
-.career-form label + input,
-.career-form label + select,
-.career-form label + textarea {
-    margin-top: 1rem;
 }
 
 /* Submit Button */
-.career-form button {
+button {
     background-color: #6A1B9A;
     color: white;
-    padding: 14px 28px;
     font-size: 1.2rem;
     font-weight: 600;
+    padding: 14px 28px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 1.5rem;
     width: 100%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.career-form button:hover {
+button:hover {
     background-color: #F9A825;
     transform: translateY(-4px);
 }
 
-.career-form button:active {
-    transform: translateY(2px);
-}
-
-/* Error Message */
+/* Error message */
 #error-message {
     color: #E53935;
     font-size: 1rem;
-    margin-top: -1rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
+    margin-bottom: 1rem;
 }
 
-/* Footer */
+/* Card/Container for each Section */
+.card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05);
+    margin: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Footer Styling */
 footer {
-    width: 100%;
-    background-color: #333;
-    color: white;
-    padding: 1.5rem;
+    background-color: #4A148C;
+    padding: 20px 0;
     text-align: center;
-    margin-top: 3rem;
+    color: white;
+    margin-top: 40px;
 }
 
 footer p {
-    font-size: 1.1rem;
+    margin: 0;
+    font-size: 1rem;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    header {
-        padding: 20px;
-    }
-
-    header nav ul {
-        display: flex;
+    nav {
         flex-direction: column;
-        align-items: center;
     }
 
-    header nav ul li {
+    nav a {
         margin: 10px 0;
     }
 
-    .career-positions {
-        flex-direction: column;
-        align-items: center;
+    form {
+        padding: 20px;
     }
 
-    .position {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .career-form {
-        padding: 2rem;
-    }
-
-    .career-form h3 {
+    header h1 {
         font-size: 2rem;
-    }
-
-    .career-form label {
-        font-size: 1rem;
-    }
-
-    .career-form input,
-    .career-form select,
-    .career-form textarea {
-        font-size: 1rem;
-    }
-
-    footer p {
-        font-size: 1rem;
     }
 }
