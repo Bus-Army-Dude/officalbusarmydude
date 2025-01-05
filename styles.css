@@ -1,4 +1,4 @@
-/* Base styles */
+/* Base Styles */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -10,6 +10,7 @@ body {
     color: #333;
 }
 
+/* Navigation Bar */
 header {
     background-color: #333;
     color: white;
@@ -33,38 +34,11 @@ header nav ul li a {
     font-weight: bold;
 }
 
+/* Main Content Area */
 main {
     flex-grow: 1; /* Ensures the main content grows to fill the remaining space */
     padding: 20px;
     margin-bottom: 70px; /* Space for footer */
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 30px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-}
-
-/* Open Positions Section */
-.positions {
-    margin-bottom: 30px;
-}
-
-.position {
-    padding: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
-}
-
-.position h3 {
-    margin-top: 0;
 }
 
 /* Apply Now Section */
@@ -110,56 +84,17 @@ form button:hover {
     background-color: #555;
 }
 
-/* Apply Now Section with embedded Google Form */
-iframe {
-    width: 100%;
-    height: 1500px; /* Adjust this value based on your form's height */
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
     margin-top: 30px;
-    border: none;
-    display: block; /* Remove any spacing around the iframe */
-}
-
-/* Ensure iframe adapts on smaller screens */
-@media (max-width: 768px) {
-    iframe {
-        height: 1200px; /* Slightly reduced height for mobile screens */
-    }
-}
-
-@media (max-width: 480px) {
-    iframe {
-        height: 1000px; /* Further reduced height for small mobile screens */
-    }
-}
-
-/* Horizontal Borders for Job Positions */
-.position {
-    border-top: 3px solid #333;
-    border-bottom: 3px solid #ddd;
-}
-
-.position h3 {
-    font-size: 1.5rem;
-    color: #333;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-}
-
-.position ul {
-    list-style: none;
-    padding: 0;
-}
-
-.position ul li {
-    padding-left: 20px;
-    position: relative;
-}
-
-.position ul li::before {
-    content: "•";
-    position: absolute;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
     left: 0;
-    color: #333;
 }
 
 /* Flexbox for Footer */
@@ -173,22 +108,6 @@ footer {
     position: fixed;
     bottom: 0;
     left: 0;
-}
-
-/* Ensure footer stays at the bottom of the page */
-html, body {
-    height: 100%;
-    margin: 0;
-}
-
-main {
-    flex-grow: 1;
-}
-
-/* Header and Footer alignment */
-header {
-    position: relative;
-    z-index: 10;
 }
 
 /* Careers Page Specific */
@@ -243,97 +162,6 @@ section button[type="submit"] {
 
 section button[type="submit"]:hover {
     background-color: #45a049;
-}
-
-/* Footer Fixed */
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 15px 0;
-    background-color: #333;
-    color: white;
-    text-align: center;
-}
-
-/* Styling for positions section */
-.positions {
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.positions .position {
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-}
-
-.positions .position h3 {
-    color: #333;
-    margin-top: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.positions .position ul {
-    list-style-type: none;
-    padding-left: 20px;
-}
-
-.positions .position ul li {
-    margin: 5px 0;
-}
-
-/* Contact Page */
-.contact-form {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-}
-
-.contact-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.contact-form button:hover {
-    background-color: #555;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .apply-now-container .section {
-        width: 100%;
-    }
-
-    header nav ul {
-        display: block;
-        text-align: center;
-    }
-
-    header nav ul li {
-        margin: 10px 0;
-    }
-
-    footer {
-        position: static;
-    }
 }
 
 /* Roster Section */
@@ -399,8 +227,47 @@ footer {
     transform: translateY(-10px);
 }
 
-/* Responsive adjustments for mobile screens */
+/* Apply Google Form iframe Styling */
+iframe {
+    width: 100%;
+    height: 1500px; /* Set the height to ensure the entire form is visible */
+    margin-top: 30px;
+    border: none;
+    display: block;
+}
+
+/* Adjust iframe height for smaller screen sizes */
 @media (max-width: 768px) {
+    iframe {
+        height: 1200px; /* Slightly reduce height for tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    iframe {
+        height: 1000px; /* Further reduce height for mobile screens */
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .apply-now-container .section {
+        width: 100%;
+    }
+
+    header nav ul {
+        display: block;
+        text-align: center;
+    }
+
+    header nav ul li {
+        margin: 10px 0;
+    }
+
+    footer {
+        position: static;
+    }
+
     .roster-members {
         justify-content: space-evenly;
     }
@@ -430,4 +297,95 @@ footer {
         width: 70px;
         height: 70px;
     }
+}
+
+/* Additional Styling */
+header {
+    position: relative;
+    z-index: 10;
+}
+
+.positions .position {
+    border-top: 3px solid #333;
+    border-bottom: 3px solid #ddd;
+}
+
+.position h3 {
+    font-size: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.position ul {
+    list-style: none;
+    padding: 0;
+}
+
+.position ul li {
+    padding-left: 20px;
+    position: relative;
+}
+
+.position ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #333;
+}
+
+.position {
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.position h3 {
+    margin-top: 0;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+/* Flexbox for Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+main {
+    flex-grow: 1;
+}
+
+header {
+    position: relative;
+    z-index: 10;
+}
+
+h1, h2 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #333;
 }
