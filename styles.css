@@ -124,13 +124,28 @@ button:hover {
     background-color: #8C27B3;
 }
 
-/* Footer */
+/* Footer styling */
 footer {
-    text-align: center;
-    padding: 1rem;
     background-color: #6A1B9A;
     color: #fff;
-    position: absolute;
-    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    position: relative;
     bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Make sure footer is at the bottom */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
 }
