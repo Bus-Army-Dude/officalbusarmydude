@@ -2,6 +2,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const experienceSelect = document.getElementById('experience');
     const experienceDetails = document.getElementById('experience-details');
 
+    // Initial check to ensure the field is hidden if not selected as "Yes"
+    if (experienceSelect.value !== 'yes') {
+        experienceDetails.style.display = 'none';
+    }
+
     // Event listener for the "Do you have experience?" question
     experienceSelect.addEventListener('change', function() {
         if (experienceSelect.value === 'yes') {
@@ -10,12 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
             experienceDetails.style.display = 'none';   // Hide explanation box
         }
     });
-
-    // Ensure the field starts hidden
-    if (experienceSelect.value !== 'yes') {
-        experienceDetails.style.display = 'none';
-    }
 });
+
 
 
     // Age validation: Ensure the user is 13 or older
