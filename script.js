@@ -1,17 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Get references to the dropdown and the experience explanation field
-    const experienceSelect = document.getElementById('experience');  
-    const experienceDetails = document.getElementById('experience-details');  
+    // Get the dropdown and the div that contains the textarea
+    const experienceSelect = document.getElementById('experience');
+    const experienceDetails = document.getElementById('experience-details');
 
-    // Initially hide the explanation field
+    // Initially hide the experience explanation section
     experienceDetails.style.display = 'none';
 
-    // Add event listener to toggle the explanation field based on the dropdown selection
+    // Add event listener to show/hide the experience explanation field
     experienceSelect.addEventListener('change', function() {
         if (experienceSelect.value === 'yes') {
-            experienceDetails.style.display = 'block';  // Show the explanation field
+            // Show the textarea when "Yes" is selected
+            experienceDetails.style.display = 'block';
         } else {
-            experienceDetails.style.display = 'none';  // Hide the explanation field
+            // Hide the textarea when "No" is selected
+            experienceDetails.style.display = 'none';
         }
     });
 });
