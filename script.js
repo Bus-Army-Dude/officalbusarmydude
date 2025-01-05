@@ -1,24 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
     const experienceSelect = document.getElementById('experience');
     const experienceDetails = document.getElementById('experience-details');
+    const ageInput = document.getElementById('age');
+    const form = document.querySelector('form');
 
     // Event listener for the "Do you have experience?" question
     experienceSelect.addEventListener('change', function() {
-        // If the user selects "Yes", show the explanation field
         if (experienceSelect.value === 'yes') {
             experienceDetails.style.display = 'block';
         } else {
-            // If the user selects "No", hide the explanation field
             experienceDetails.style.display = 'none';
         }
     });
-});
-
-
-
 
     // Age validation: Ensure the user is 13 or older
-    const ageInput = document.getElementById('age');
     ageInput.addEventListener('input', function() {
         const ageValue = ageInput.value;
         const ageError = document.getElementById('ageError');
@@ -41,9 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Form submission validation
-    const form = document.querySelector('form');
     form.addEventListener('submit', function(event) {
-        // Ensure the "requirements" dropdown is selected
         const requirementsSelect = document.getElementById('requirements');
         if (requirementsSelect.value === "") {
             event.preventDefault();
