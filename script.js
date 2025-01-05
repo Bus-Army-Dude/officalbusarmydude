@@ -1,18 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
     const experienceSelect = document.getElementById('experience');
     const experienceDetails = document.getElementById('experience-details');
-    const experienceExplanation = document.getElementById('experienceExplanation');
 
+    // Event listener for the "Do you have experience?" question
     experienceSelect.addEventListener('change', function() {
+        // If the user selects "Yes", show the explanation field
         if (experienceSelect.value === 'yes') {
             experienceDetails.style.display = 'block';
-            experienceExplanation.setAttribute('required', 'required'); // Make the explanation required if "Yes"
         } else {
+            // If the user selects "No", hide the explanation field
             experienceDetails.style.display = 'none';
-            experienceExplanation.removeAttribute('required'); // Remove the required attribute if "No"
         }
     });
 });
+
 
 
 
