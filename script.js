@@ -1,18 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const experienceSelect = document.getElementById('experience');
-    const experienceDetails = document.getElementById('experience-details');
+    const experienceSelect = document.getElementById('experience');  // The dropdown
+    const experienceDetails = document.getElementById('experience-details');  // The explanation div
 
-    // Initial check to ensure the field is hidden if not selected as "Yes"
-    if (experienceSelect.value !== 'yes') {
-        experienceDetails.style.display = 'none';
-    }
+    // Initial check to hide the experience details by default (in case the user doesn't select yet)
+    experienceDetails.style.display = 'none';
 
-    // Event listener for the "Do you have experience?" question
+    // Event listener for the dropdown to show/hide the explanation textarea
     experienceSelect.addEventListener('change', function() {
         if (experienceSelect.value === 'yes') {
             experienceDetails.style.display = 'block';  // Show explanation box
         } else {
-            experienceDetails.style.display = 'none';   // Hide explanation box
+            experienceDetails.style.display = 'none';  // Hide explanation box
         }
     });
 });
