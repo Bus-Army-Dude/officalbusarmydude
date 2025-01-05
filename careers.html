@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Careers - Sayville Public Schools Roleplay</title>
+    <title>Careers - Sayville Public Schools</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,170 +12,111 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="events.html">Events</a></li>
                 <li><a href="careers.html">Careers</a></li>
-                <li><a href="roster.html">Roster</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="roster.html">Roster</a></li>
+                <li><a href="events.html">Events</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="career-positions">
-            <h2>Careers at Sayville Public Schools Roleplay</h2>
+        <section class="careers">
+            <h1>Join the SPS Team</h1>
             <p>The official application for SSD. Filling this out can earn you a spot on the Trainee team.</p>
 
-            <h3>Available Positions:</h3>
-
-            <div class="position">
-                <h4>Full-Time Driver</h4>
-                <p>Description: A full-time bus driver responsible for picking up and dropping off students at designated stops.</p>
-                <h5>Requirements:</h5>
-                <ul>
-                    <li>Experience in driving a school bus in Roblox</li>
-                    <li>Consistent activity and participation in server events</li>
-                    <li>Must be at least 13 years old</li>
-                </ul>
+            <div class="positions">
+                <h2>Open Positions</h2>
+                <div class="position">
+                    <h3>Full-Time Driver</h3>
+                    <ul>
+                        <li>Must be at least 13 years old</li>
+                        <li>Skill in driving a school bus in-game</li>
+                        <li>Activity needs to be at an average level</li>
+                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
+                    </ul>
+                </div>
+                <div class="position">
+                    <h3>Sub Driver</h3>
+                    <ul>
+                        <li>Must be at least 13 years old</li>
+                        <li>Skill in driving a school bus in-game</li>
+                        <li>Activity needs to be at an average level</li>
+                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
+                    </ul>
+                </div>
+                <div class="position">
+                    <h3>Mechanic</h3>
+                    <ul>
+                        <li>Must be at least 13 years old</li>
+                        <li>Experience in vehicle maintenance preferred</li>
+                        <li>Activity needs to be at an average level</li>
+                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
+                    </ul>
+                </div>
+                <div class="position">
+                    <h3>Dispatch</h3>
+                    <ul>
+                        <li>Must be at least 13 years old</li>
+                        <li>Skill in managing bus routes</li>
+                        <li>Activity needs to be at an average level</li>
+                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="position">
-                <h4>Sub Driver</h4>
-                <p>Description: A substitute bus driver who fills in for full-time drivers when they are unavailable.</p>
-                <h5>Requirements:</h5>
-                <ul>
-                    <li>Basic knowledge of Roblox school bus operation</li>
-                    <li>Ability to take over routes at short notice</li>
-                    <li>Must be at least 13 years old</li>
-                </ul>
-            </div>
+            <form id="apply-form" action="#" method="POST">
+                <h2>Apply Now</h2>
+                <p>Requirements: Skill in driving a school bus, activity, reading the SSD Handbook, and filling out the form correctly.</p>
 
-            <div class="position">
-                <h4>Mechanic</h4>
-                <p>Description: A mechanic responsible for maintaining and repairing buses when needed.</p>
-                <h5>Requirements:</h5>
-                <ul>
-                    <li>Knowledge of how Roblox vehicles work</li>
-                    <li>Ability to repair buses and ensure they’re in working condition</li>
-                    <li>Must be at least 13 years old</li>
-                </ul>
-            </div>
-
-            <div class="position">
-                <h4>Dispatch</h4>
-                <p>Description: Dispatch is responsible for organizing routes, directing drivers, and ensuring smooth operations.</p>
-                <h5>Requirements:</h5>
-                <ul>
-                    <li>Strong communication skills</li>
-                    <li>Ability to multitask and keep track of bus routes</li>
-                    <li>Must be at least 13 years old</li>
-                </ul>
-            </div>
-
-            <p>Successful applicants will be decided by the Secretaries of SSD.</p>
-        </section>
-
-        <section class="career-form">
-            <h2>Apply Now</h2>
-            <form action="submit_application.php" method="POST">
-                <!-- Section 1: Requirements Confirmation -->
-                <h3>Requirements:</h3>
-                <p>I have read and understand the requirements for applying for a position at SPS.</p>
-                <label>
-                    <input type="radio" name="requirements" value="agree" required> I agree
-                </label>
-                <label>
-                    <input type="radio" name="requirements" value="disagree" required> I disagree
-                </label>
-
-                <!-- Section 2: Names & Permissions -->
-                <h3>Names & Permissions</h3>
-                <p>Please give us the information needed to continue.</p>
-
-                <label for="discord">Discord Username (Required):</label>
-                <input type="text" id="discord" name="discord" required>
-
-                <label for="roblox">Roblox Username (Required):</label>
-                <input type="text" id="roblox" name="roblox" required placeholder="Ex: Riverkritzar200">
-
-                <label for="age">What is your age? (Required):</label>
-                <input type="number" id="age" name="age" min="13" required>
-
-                <label for="robloxLink">Link to Roblox profile (Required):</label>
-                <input type="url" id="robloxLink" name="robloxLink" required>
-
-                <label for="group">Are you in the SSD Roblox Group? (Required):</label>
-                <select id="group" name="group" required>
-                    <option value="">Select Yes or No</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-
-                <!-- Section 3: Personal Information -->
-                <h3>Personal Information</h3>
-                <p>Here, you will fill out information about your activity, past experiences, and reasoning for filling out this form.</p>
-
-                <label for="position">What position are you applying for? (Required):</label>
-                <select id="position" name="position" required>
-                    <option value="">Select a Position</option>
-                    <option value="Full-Time Driver">Full-Time Driver</option>
-                    <option value="Sub Driver">Sub Driver</option>
-                    <option value="Mechanic">Mechanic</option>
-                    <option value="Dispatch">Dispatch</option>
-                </select>
-
-                <label for="whyJoin">Why do you want to join the "SPS Team"? (Required):</label>
-                <textarea id="whyJoin" name="whyJoin" rows="4" required></textarea>
-
-                <label for="experience">Do you have experience in driving a Roblox school bus? (Optional if selected "No" below, but if "Yes" please explain):</label>
-                <select id="experience" name="experience" required>
-                    <option value="">Select Yes or No</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-
-                <div id="experienceDetails" style="display: none;">
-                    <label for="experienceDetailsText">Please explain your experience (Required if "Yes"):</label>
-                    <textarea id="experienceDetailsText" name="experienceDetailsText" rows="4"></textarea>
+                <div class="form-section">
+                    <label for="requirements">I have read and understand the requirements for applying for a position at SPS. (Required)</label>
+                    <select id="requirements" name="requirements" required>
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="agree">I agree</option>
+                        <option value="disagree">I disagree</option>
+                    </select>
                 </div>
 
-                <label for="betterChoice">What makes you a better choice than other applicants? (Required):</label>
-                <textarea id="betterChoice" name="betterChoice" rows="4" required></textarea>
+                <div class="form-section">
+                    <label for="discord">Discord Username (Required)</label>
+                    <input type="text" id="discord" name="discord" placeholder="Discord Username" required>
+                </div>
 
-                <label for="strengths">What are your strengths? (Required):</label>
-                <textarea id="strengths" name="strengths" rows="4" required></textarea>
+                <div class="form-section">
+                    <label for="roblox">Roblox Username (Required)</label>
+                    <input type="text" id="roblox" name="roblox" placeholder="Roblox Username" required>
+                </div>
 
-                <label for="weaknesses">What are your weaknesses? (Required):</label>
-                <textarea id="weaknesses" name="weaknesses" rows="4" required></textarea>
+                <div class="form-section">
+                    <label for="age">What is your age? (Required)</label>
+                    <input type="number" id="age" name="age" placeholder="Enter your age" required min="13">
+                </div>
 
-                <label for="weekdaysActivity">Please rate your activity on weekdays (Required):</label>
-                <input type="number" id="weekdaysActivity" name="weekdaysActivity" min="1" max="5" required>
+                <div class="form-section">
+                    <label for="roblox-profile">Link to Roblox Profile (Required)</label>
+                    <input type="url" id="roblox-profile" name="roblox-profile" placeholder="Insert Link" required>
+                </div>
 
-                <label for="weekendsActivity">Please rate your activity on weekends (Required):</label>
-                <input type="number" id="weekendsActivity" name="weekendsActivity" min="1" max="5" required>
+                <div class="form-section">
+                    <label for="position">What position are you applying for? (Required)</label>
+                    <select id="position" name="position" required>
+                        <option value="" disabled selected>Select Position</option>
+                        <option value="fulltime-driver">Full-Time Driver</option>
+                        <option value="sub-driver">Sub Driver</option>
+                        <option value="mechanic">Mechanic</option>
+                        <option value="dispatch">Dispatch</option>
+                    </select>
+                </div>
 
-                <label for="timezone">What is your timezone? (Required):</label>
-                <select id="timezone" name="timezone" required>
-                    <option value="">Select Timezone</option>
-                    <option value="EST/EDT">Eastern Time (EST/EDT)</option>
-                    <option value="CST/CDT">Central Time (CST/CDT)</option>
-                    <option value="MST/MDT">Mountain Time (MST/MDT)</option>
-                    <option value="PST/PDT">Pacific Time (PST/PDT)</option>
-                    <option value="AKST/AKDT">Alaska Time (AKST/AKDT)</option>
-                    <option value="HST">Hawaii-Aleutian Time (HST)</option>
-                    <option value="UTC">Coordinated Universal Time (UTC)</option>
-                    <option value="GMT">Greenwich Mean Time (GMT)</option>
-                    <option value="CET/CEST">Central European Time (CET/CEST)</option>
-                    <option value="EET/EEST">Eastern European Time (EET/EEST)</option>
-                    <option value="IST">Indian Standard Time (IST)</option>
-                    <option value="JST">Japan Standard Time (JST)</option>
-                    <option value="AEST/AEDT">Australian Eastern Time (AEST/AEDT)</option>
-                    <option value="NZST/NZDT">New Zealand Standard Time (NZST/NZDT)</option>
-                </select>
-
-                <!-- Section 4: Final Questions -->
-                <h3>Final Questions</h3>
-                <label for="finalQuestions">Do you have any questions, comments, or concerns about becoming a Bus Driver/Trainee? (Optional):</label>
-                <textarea id="finalQuestions" name="finalQuestions" rows="4"></textarea>
+                <div class="form-section">
+                    <label for="experience">Do you have experience in driving a Roblox school bus? (Optional if selected "No" below, but if "Yes" please explain)</label>
+                    <select id="experience" name="experience">
+                        <option value="no">No, I don't have experience</option>
+                        <option value="yes">Yes, I have experience</option>
+                    </select>
+                    <textarea id="experience-details" name="experience-details" placeholder="Explain your experience if Yes"></textarea>
+                </div>
 
                 <button type="submit">Submit Application</button>
             </form>
@@ -183,10 +124,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Sayville Public Schools Roleplay. All rights reserved.</p>
+        <p>© 2025 Sayville Public Schools. All rights reserved.</p>
     </footer>
-    
-    <!-- Link to external JavaScript file -->
-    <script src="script.js"></script>
 </body>
 </html>
