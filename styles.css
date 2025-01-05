@@ -98,94 +98,99 @@ h3 {
 
 /* Apply Now Form */
 .career-form {
-    background-color: white;
-    border: 2px solid #ddd;
+    background-color: #fff;
+    border: 1px solid #ddd;
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    transition: transform 0.3s ease-in-out;
 }
 
-.career-form form {
-    display: flex;
-    flex-direction: column;
+.career-form:hover {
+    transform: scale(1.02); /* Slight zoom on hover for modern feel */
 }
 
+/* Form Title */
+.career-form h3 {
+    color: #6a1b9a; /* Purple */
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Form Description */
+.career-form p {
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Label Styling */
 .career-form label {
     font-size: 1rem;
-    margin-bottom: 0.5rem;
     color: #6a1b9a; /* Purple */
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: 500;
 }
 
+/* Form Fields Styling */
 .career-form input, .career-form select, .career-form textarea {
-    font-size: 1rem;
-    padding: 10px;
-    margin-bottom: 1.5rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
-}
-
-.career-form input:focus, .career-form select:focus, .career-form textarea:focus {
-    border-color: #f9a825; /* Gold on focus */
-    outline: none;
-}
-
-.career-form textarea {
-    resize: vertical;
     width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.3s ease-in-out;
     box-sizing: border-box;
 }
 
+/* Focus State for Inputs */
+.career-form input:focus, .career-form select:focus, .career-form textarea:focus {
+    outline: none;
+    border-color: #f9a825; /* Gold */
+    box-shadow: 0px 0px 5px rgba(249, 168, 37, 0.7); /* Soft gold glow */
+}
+
+/* Textarea Styling */
+.career-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Button Styling */
 .career-form button {
-    background-color: #f9a825; /* Gold */
+    background-color: #6a1b9a; /* Purple */
     color: white;
-    padding: 1rem;
+    padding: 12px 25px;
     font-size: 1.2rem;
+    font-weight: 600;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 2rem;
+    width: 100%;
 }
 
 .career-form button:hover {
-    background-color: #6a1b9a; /* Purple on hover */
+    background-color: #f9a825; /* Gold */
+    transform: translateY(-3px); /* Button lift effect */
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    header nav ul li {
-        display: block;
-        margin: 10px 0;
-    }
-
-    header {
-        padding: 1rem;
-    }
-
-    main {
-        padding: 1rem;
-    }
-
-    .career-positions .position {
-        padding: 1.5rem;
-    }
-
-    .career-form {
-        padding: 1.5rem;
-    }
-
-    .career-form label, .career-form input, .career-form select, .career-form textarea {
-        font-size: 1rem;
-    }
-
-    .career-form button {
-        font-size: 1rem;
-    }
+.career-form button:active {
+    transform: translateY(2px); /* Button press effect */
 }
 
-/* Error Message for Age Validation */
+/* Error Message Styling */
 #error-message {
-    color: red;
+    color: #e53935;
     font-size: 1rem;
     margin-top: -1rem;
     margin-bottom: 1.5rem;
@@ -217,4 +222,37 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    header nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    header {
+        padding: 1rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .career-positions .position {
+        padding: 1.5rem;
+    }
+
+    .career-form {
+        padding: 1.5rem;
+    }
+
+    .career-form label, .career-form input, .career-form select, .career-form textarea {
+        font-size: 1rem;
+    }
+
+    .career-form button {
+        font-size: 1rem;
+        padding: 10px;
+    }
 }
