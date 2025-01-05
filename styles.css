@@ -486,32 +486,37 @@ h1, h2 {
     justify-content: space-between;
 }
 
+/* Event Card */
 .event-card {
     width: 30%;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; /* Add border to each card */
     border-radius: 8px;
     background-color: white;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
+/* Event Card Title */
 .event-card h2 {
     font-size: 1.8rem;
     color: #333;
     margin-bottom: 10px;
 }
 
+/* Event Description */
 .event-card p {
     font-size: 1.1rem;
     color: #666;
     margin: 5px 0;
 }
 
+/* Event Date, Time, Location */
 .event-card .event-date, .event-card .event-time, .event-card .event-location {
     font-weight: bold;
 }
 
+/* Hover Effect */
 .event-card:hover {
     transform: translateY(-10px);
 }
@@ -526,6 +531,7 @@ h1, h2 {
     .event-card {
         width: 100%;  /* Take full width on mobile */
         margin-bottom: 20px;  /* Add spacing between stacked cards */
+        border: 1px solid #ddd;  /* Ensure the border remains visible */
     }
 
     /* Adjust the event title for better fit on small screens */
