@@ -1,17 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
     const experienceSelect = document.getElementById('experience');
     const experienceDetails = document.getElementById('experience-details');
-    const ageInput = document.getElementById('age');
-    const form = document.querySelector('form');
 
     // Event listener for the "Do you have experience?" question
     experienceSelect.addEventListener('change', function() {
         if (experienceSelect.value === 'yes') {
-            experienceDetails.style.display = 'block';
+            experienceDetails.style.display = 'block';  // Show explanation box
         } else {
-            experienceDetails.style.display = 'none';
+            experienceDetails.style.display = 'none';   // Hide explanation box
         }
     });
+
+    // Ensure the field starts hidden
+    if (experienceSelect.value !== 'yes') {
+        experienceDetails.style.display = 'none';
+    }
+});
+
 
     // Age validation: Ensure the user is 13 or older
     ageInput.addEventListener('input', function() {
