@@ -34,8 +34,9 @@ header nav ul li a {
 }
 
 main {
-    flex: 1; /* Ensures the main content grows to fill the remaining space */
+    flex-grow: 1; /* Ensures the main content grows to fill the remaining space */
     padding: 20px;
+    margin-bottom: 70px; /* Space for footer */
 }
 
 footer {
@@ -45,7 +46,7 @@ footer {
     padding: 10px;
     margin-top: 30px;
     width: 100%;
-    position: absolute;  /* This ensures the footer stays at the bottom */
+    position: fixed;
     bottom: 0;
     left: 0;
 }
@@ -147,7 +148,7 @@ footer {
     padding: 10px;
     margin-top: 30px;
     width: 100%;
-    position: absolute;  /* This ensures the footer stays at the bottom */
+    position: fixed;
     bottom: 0;
     left: 0;
 }
