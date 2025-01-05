@@ -25,50 +25,24 @@
             <h1>Join the SPS Team</h1>
             <p>The official application for SSD. Filling this out can earn you a spot on the Trainee team.</p>
 
-            <div class="positions">
-                <h2>Open Positions</h2>
-                <div class="position">
-                    <h3>Full-Time Driver</h3>
-                    <ul>
-                        <li>Must be at least 13 years old</li>
-                        <li>Skill in driving a school bus in-game</li>
-                        <li>Activity needs to be at an average level</li>
-                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
-                    </ul>
-                </div>
-                <div class="position">
-                    <h3>Sub Driver</h3>
-                    <ul>
-                        <li>Must be at least 13 years old</li>
-                        <li>Skill in driving a school bus in-game</li>
-                        <li>Activity needs to be at an average level</li>
-                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
-                    </ul>
-                </div>
-                <div class="position">
-                    <h3>Mechanic</h3>
-                    <ul>
-                        <li>Must be at least 13 years old</li>
-                        <li>Experience in vehicle maintenance preferred</li>
-                        <li>Activity needs to be at an average level</li>
-                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
-                    </ul>
-                </div>
-                <div class="position">
-                    <h3>Dispatch</h3>
-                    <ul>
-                        <li>Must be at least 13 years old</li>
-                        <li>Skill in managing bus routes</li>
-                        <li>Activity needs to be at an average level</li>
-                        <li>Must have a working mic, decent computer, Discord, and Roblox</li>
-                    </ul>
-                </div>
+            <!-- Form Description Section -->
+            <div class="form-description">
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>Skill in driving a school bus in-game</li>
+                    <li>Activity needs to be at an average level</li>
+                    <li>Must have read the <a href="https://docs.google.com/document/d/1QhZGr6uYDeaW6hAJ9ZtjedSoxlss6KOEq35ulGkadNk/edit?usp=sharing" target="_blank">SSD Company Handbook</a></li>
+                    <li>(Recommended) Past experience in other bus companies</li>
+                    <li>Form completed with proper grammar, spelling, punctuation, and written thoroughly</li>
+                    <li>By applying, you are willing to take time out of your day to participate in the server. Failure to do that will result in termination from your position.</li>
+                </ul>
+                <p>Successful applicants will be decided by the Secretaries of SSD.</p>
             </div>
 
             <form id="apply-form" action="#" method="POST">
                 <h2>Apply Now</h2>
-                <p>Requirements: Skill in driving a school bus, activity, reading the SSD Handbook, and filling out the form correctly.</p>
-
+                
+                <!-- First Section: I have read and understand the requirements -->
                 <div class="form-section">
                     <label for="requirements">I have read and understand the requirements for applying for a position at SPS. (Required)</label>
                     <select id="requirements" name="requirements" required>
@@ -78,27 +52,37 @@
                     </select>
                 </div>
 
+                <!-- Names & Permissions Section -->
                 <div class="form-section">
+                    <h3>Names & Permissions</h3>
+                    <p>Please give us the information needed to continue.</p>
                     <label for="discord">Discord Username (Required)</label>
                     <input type="text" id="discord" name="discord" placeholder="Discord Username" required>
-                </div>
 
-                <div class="form-section">
                     <label for="roblox">Roblox Username (Required)</label>
                     <input type="text" id="roblox" name="roblox" placeholder="Roblox Username" required>
-                </div>
+                    <small>Description: Ex: Riverkritzar200 (Display name is optional, but username is required)</small>
 
-                <div class="form-section">
                     <label for="age">What is your age? (Required)</label>
                     <input type="number" id="age" name="age" placeholder="Enter your age" required min="13">
-                </div>
+                    <small>Description: To be eligible for employment at Sayville Public Schools Roleplay, you must be at least 13 years of age or older.</small>
 
-                <div class="form-section">
-                    <label for="roblox-profile">Link to Roblox Profile (Required)</label>
+                    <label for="roblox-profile">Link to Roblox profile (Required)</label>
                     <input type="url" id="roblox-profile" name="roblox-profile" placeholder="Insert Link" required>
+
+                    <label for="ssd-group">Are you in the SSD Roblox Group? (Required)</label>
+                    <select id="ssd-group" name="ssd-group" required>
+                        <option value="">Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
                 </div>
 
+                <!-- Personal Information Section -->
                 <div class="form-section">
+                    <h3>Personal Information</h3>
+                    <p>Here, you will fill out information about your activity, past experiences, and reasoning for filling out this form.</p>
+
                     <label for="position">What position are you applying for? (Required)</label>
                     <select id="position" name="position" required>
                         <option value="" disabled selected>Select Position</option>
@@ -107,22 +91,50 @@
                         <option value="mechanic">Mechanic</option>
                         <option value="dispatch">Dispatch</option>
                     </select>
-                </div>
 
-                <div class="form-section">
-                    <label for="experience">Do you have experience in driving a Roblox school bus? (Optional if selected "No" below, but if "Yes" please explain):</label>
+                    <label for="reason">Why do you want to join the "SPS Team"? (Required)</label>
+                    <textarea id="reason" name="reason" required></textarea>
+
+                    <label for="experience">Do you have experience in driving a Roblox school bus? (Optional if selected "No" below, but if "Yes" please explain)</label>
                     <select id="experience" name="experience" required>
                         <option value="">Please select</option>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
                     </select>
-                    
-                    <!-- The explanation textarea will be shown if 'Yes' is selected -->
+
                     <div id="experience-details" style="display: none;">
                         <label for="experienceExplanation">Please explain your experience:</label>
-                        <textarea id="experienceExplanation" name="experienceExplanation" rows="4" cols="50"></textarea>
+                        <textarea id="experienceExplanation" name="experienceExplanation"></textarea>
                     </div>
 
+                    <label for="better-choice">What makes you a better choice than other applicants? (Required)</label>
+                    <textarea id="better-choice" name="better-choice" required></textarea>
+
+                    <label for="strengths">What are your strengths? (Required)</label>
+                    <textarea id="strengths" name="strengths" required></textarea>
+
+                    <label for="weaknesses">What are your weaknesses? (Required)</label>
+                    <textarea id="weaknesses" name="weaknesses" required></textarea>
+
+                    <label for="activity-weekdays">Please rate your activity on weekdays. (Required)</label>
+                    <input type="number" id="activity-weekdays" name="activity-weekdays" min="1" max="5" required>
+
+                    <label for="activity-weekends">Please rate your activity on weekends. (Required)</label>
+                    <input type="number" id="activity-weekends" name="activity-weekends" min="1" max="5" required>
+
+                    <label for="timezone">What is your timezone? (Required)</label>
+                    <select id="timezone" name="timezone" required>
+                        <option value="" disabled selected>Select Timezone</option>
+                        <option value="GMT">GMT</option>
+                        <!-- Add all timezones here -->
+                    </select>
+                </div>
+
+                <!-- Final Questions Section -->
+                <div class="form-section">
+                    <h3>Final Questions?</h3>
+                    <label for="final-questions">Do you have any questions, comments, or concerns about becoming a Bus Driver/Trainee? (Optional)</label>
+                    <textarea id="final-questions" name="final-questions"></textarea>
                 </div>
 
                 <button type="submit">Submit Application</button>
