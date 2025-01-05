@@ -8,14 +8,15 @@
 
 /* Body Styling */
 body {
-    background-color: #f4f4f4;
+    background-color: #f9f9f9;
     color: #333;
     font-size: 16px;
     line-height: 1.6;
 }
 
+/* Header Styling */
 header {
-    background-color: #0056b3;
+    background-color: #6a1b9a; /* Purple */
     padding: 1rem 0;
     text-align: center;
     color: white;
@@ -28,7 +29,7 @@ header nav ul {
 
 header nav ul li {
     display: inline;
-    margin: 0 15px;
+    margin: 0 20px;
 }
 
 header nav ul li a {
@@ -40,6 +41,7 @@ header nav ul li a {
 
 header nav ul li a:hover {
     text-decoration: underline;
+    color: #f9a825; /* Gold on hover */
 }
 
 /* Main Content */
@@ -53,10 +55,12 @@ main {
 h2, h3, h4 {
     font-size: 2rem;
     margin-bottom: 1rem;
+    color: #6a1b9a; /* Purple */
 }
 
 h3 {
     font-size: 1.5rem;
+    color: #f9a825; /* Gold */
 }
 
 /* Career Position */
@@ -65,20 +69,23 @@ h3 {
 }
 
 .position {
-    background-color: #fff;
+    background-color: white;
     border: 2px solid #ddd;
     margin-bottom: 1.5rem;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .position h4 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
+    color: #6a1b9a; /* Purple */
 }
 
 .position p, .position ul {
     font-size: 1rem;
+    color: #333;
 }
 
 .position ul {
@@ -91,10 +98,11 @@ h3 {
 
 /* Apply Now Form */
 .career-form {
-    background-color: #fff;
+    background-color: white;
     border: 2px solid #ddd;
     padding: 2rem;
     border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .career-form form {
@@ -105,6 +113,7 @@ h3 {
 .career-form label {
     font-size: 1rem;
     margin-bottom: 0.5rem;
+    color: #6a1b9a; /* Purple */
 }
 
 .career-form input, .career-form select, .career-form textarea {
@@ -113,22 +122,22 @@ h3 {
     margin-bottom: 1.5rem;
     border: 1px solid #ddd;
     border-radius: 5px;
+    transition: border-color 0.3s ease;
 }
 
-/* Career Form Textarea */
+.career-form input:focus, .career-form select:focus, .career-form textarea:focus {
+    border-color: #f9a825; /* Gold on focus */
+    outline: none;
+}
+
 .career-form textarea {
-    width: 100%; /* Ensures it takes the full width available */
-    font-size: 1rem;
-    padding: 10px;
-    margin-bottom: 1.5rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     resize: vertical;
-    box-sizing: border-box; /* Ensures the padding and border are included in the width */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .career-form button {
-    background-color: #0056b3;
+    background-color: #f9a825; /* Gold */
     color: white;
     padding: 1rem;
     font-size: 1.2rem;
@@ -139,7 +148,7 @@ h3 {
 }
 
 .career-form button:hover {
-    background-color: #004494;
+    background-color: #6a1b9a; /* Purple on hover */
 }
 
 /* Media Queries for Responsiveness */
@@ -158,7 +167,7 @@ h3 {
     }
 
     .career-positions .position {
-        padding: 1rem;
+        padding: 1.5rem;
     }
 
     .career-form {
@@ -197,7 +206,7 @@ footer p {
 
 /* Miscellaneous Styling */
 h3, h4, h5 {
-    color: #0056b3;
+    color: #6a1b9a; /* Purple */
 }
 
 input[type="number"] {
