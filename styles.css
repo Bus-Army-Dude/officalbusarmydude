@@ -518,9 +518,24 @@ h1, h2 {
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+    /* Stack event cards on smaller screens */
+    .event-cards {
+        justify-content: center; /* Center cards on mobile */
+    }
+
     .event-card {
-        width: 100%;
-        margin-bottom: 20px;
+        width: 100%;  /* Take full width on mobile */
+        margin-bottom: 20px;  /* Add spacing between stacked cards */
+    }
+
+    /* Adjust the event title for better fit on small screens */
+    .event-card h2 {
+        font-size: 1.6rem; /* Slightly smaller font for mobile */
+    }
+
+    /* Adjust font size for the event description */
+    .event-card p {
+        font-size: 1rem; /* Smaller text for mobile screens */
     }
 }
 
@@ -534,4 +549,26 @@ footer {
     position: fixed;
     bottom: 0;
     left: 0;
+}
+
+/* Additional Enhancements for Small Mobile Devices (below 480px) */
+@media (max-width: 480px) {
+    /* Make the header text a bit smaller */
+    .events h1 {
+        font-size: 2rem;
+    }
+
+    /* Adjust font sizes even further for tight screens */
+    .event-card h2 {
+        font-size: 1.4rem;
+    }
+
+    .event-card p {
+        font-size: 0.9rem;
+    }
+
+    /* Increase the margin between event cards for tighter spacing */
+    .event-card {
+        margin-bottom: 15px;
+    }
 }
