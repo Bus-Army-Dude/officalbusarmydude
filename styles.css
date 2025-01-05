@@ -110,6 +110,15 @@ form button:hover {
     background-color: #555;
 }
 
+/* Apply Now Section with embedded Google Form */
+iframe {
+    width: 100%;
+    height: auto;
+    max-width: 640px; /* Adjust for mobile responsiveness */
+    margin-top: 30px;
+    border: none;
+}
+
 /* Horizontal Borders for Job Positions */
 .position {
     border-top: 3px solid #333;
