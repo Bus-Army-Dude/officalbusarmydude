@@ -115,8 +115,16 @@ h3 {
     border-radius: 5px;
 }
 
+/* Career Form Textarea */
 .career-form textarea {
+    width: 100%; /* Ensures it takes the full width available */
+    font-size: 1rem;
+    padding: 10px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     resize: vertical;
+    box-sizing: border-box; /* Ensures the padding and border are included in the width */
 }
 
 .career-form button {
