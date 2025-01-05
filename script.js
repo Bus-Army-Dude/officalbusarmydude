@@ -1,15 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
     const experienceSelect = document.getElementById('experience');
     const experienceDetails = document.getElementById('experience-details');
+    const experienceExplanation = document.getElementById('experienceExplanation');
 
     experienceSelect.addEventListener('change', function() {
         if (experienceSelect.value === 'yes') {
             experienceDetails.style.display = 'block';
+            experienceExplanation.setAttribute('required', 'required'); // Make the explanation required if "Yes"
         } else {
             experienceDetails.style.display = 'none';
+            experienceExplanation.removeAttribute('required'); // Remove the required attribute if "No"
         }
     });
 });
+
 
 
     // Age validation: Ensure the user is 13 or older
