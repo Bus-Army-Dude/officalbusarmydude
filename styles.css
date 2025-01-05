@@ -5,7 +5,7 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensure the body takes up at least 100% of the viewport height */
     background-color: #f4f4f4;
     color: #333;
 }
@@ -34,13 +34,8 @@ header nav ul li a {
 }
 
 main {
-    flex: 1;
+    flex: 1; /* Ensures the main content grows to fill the remaining space */
     padding: 20px;
-}
-
-.careers h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
 }
 
 footer {
@@ -50,8 +45,9 @@ footer {
     padding: 10px;
     margin-top: 30px;
     width: 100%;
-    position: relative;
+    position: absolute;  /* This ensures the footer stays at the bottom */
     bottom: 0;
+    left: 0;
 }
 
 /* Open Positions Section */
@@ -151,7 +147,7 @@ footer {
     padding: 10px;
     margin-top: 30px;
     width: 100%;
-    position: absolute;
+    position: absolute;  /* This ensures the footer stays at the bottom */
     bottom: 0;
     left: 0;
 }
@@ -165,3 +161,155 @@ html, body {
 main {
     flex-grow: 1;
 }
+
+/* Header and Footer alignment */
+header {
+    position: relative;
+    z-index: 10;
+}
+
+/* Careers Page Specific */
+.careers .form-section {
+    margin-bottom: 30px;
+}
+
+h1, h2 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Form Input Styles */
+input[type="text"], input[type="number"], input[type="url"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Layout for Apply Now Section */
+.apply-now-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.apply-now-container .section {
+    width: 48%;
+}
+
+.apply-now-container .section label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+section button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+section button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Footer Fixed */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
+
+/* Styling for positions section */
+.positions {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.positions .position {
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.positions .position h3 {
+    color: #333;
+    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.positions .position ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.positions .position ul li {
+    margin: 5px 0;
+}
+
+/* Contact Page */
+.contact-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background-color: #555;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .apply-now-container .section {
+        width: 100%;
+    }
+
+    header nav ul {
+        display: block;
+        text-align: center;
+    }
+
+    header nav ul li {
+        margin: 10px 0;
+    }
+
+    footer {
+        position: static;
+    }
+}
+
