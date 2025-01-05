@@ -751,3 +751,17 @@ footer {
         margin-bottom: 20px;
     }
 }
+
+/* Adjust styles for the welcome text */
+.welcome-text {
+    font-size: 3rem; /* Increase font size */
+    font-weight: bold; /* Make the text bolder */
+    color: #fff; /* White text for contrast */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Add a shadow to make the text pop */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    border-radius: 8px; /* Rounded corners */
+    max-width: 90%;
+    margin: 0 auto; /* Center the text */
+    text-align: center;
+}
