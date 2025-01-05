@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Handle experience explanation section
     const experienceSelect = document.getElementById('experience');
-    const experienceDetails = document.getElementById('experienceDetails');
+    const experienceDetails = document.getElementById('experience-details');
 
     experienceSelect.addEventListener('change', function() {
-        if (experienceSelect.value === "Yes") {
+        if (experienceSelect.value === "yes") {
             experienceDetails.style.display = 'block';
         } else {
             experienceDetails.style.display = 'none';
@@ -34,20 +34,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Form submission validation (Optional: for better UX, can be customized)
+    // Form submission validation
     const form = document.querySelector('form');
     form.addEventListener('submit', function(event) {
-        // Example of additional custom validation if needed
-        const radioButtons = document.querySelectorAll('input[name="requirements"]');
-        let isValid = false;
-
-        radioButtons.forEach(button => {
-            if (button.checked) {
-                isValid = true;
-            }
-        });
-
-        if (!isValid) {
+        // Ensure the "requirements" dropdown is selected
+        const requirementsSelect = document.getElementById('requirements');
+        if (requirementsSelect.value === "") {
             event.preventDefault();
             alert("Please confirm you understand the application requirements.");
         }
