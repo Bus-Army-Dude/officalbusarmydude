@@ -3,159 +3,188 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Body Styling */
 body {
-    background-color: #f9f9f9;
+    background-color: #F5F5F5;
     color: #333;
     font-size: 16px;
     line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Main Container */
+main {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
 /* Header Styling */
 header {
-    background-color: #6a1b9a; /* Purple */
-    padding: 1rem 0;
-    text-align: center;
+    width: 100%;
+    background: linear-gradient(135deg, #6A1B9A, #F9A825); /* Diagonal gradient for modern look */
+    padding: 2rem 1rem;
     color: white;
+    text-align: center;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 30px 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 header nav ul {
     list-style: none;
     padding: 0;
+    margin-top: 1rem;
 }
 
 header nav ul li {
-    display: inline;
-    margin: 0 20px;
+    display: inline-block;
+    margin: 0 15px;
 }
 
 header nav ul li a {
-    text-decoration: none;
     color: white;
-    font-weight: bold;
+    text-decoration: none;
+    font-weight: 500;
     font-size: 1.1rem;
+    position: relative;
 }
 
-header nav ul li a:hover {
-    text-decoration: underline;
-    color: #f9a825; /* Gold on hover */
+header nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #F9A825;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* Main Content */
-main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+header nav ul li a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
 }
 
-/* Section Titles */
-h2, h3, h4 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #6a1b9a; /* Purple */
-}
-
-h3 {
-    font-size: 1.5rem;
-    color: #f9a825; /* Gold */
-}
-
-/* Career Position */
+/* Career Position Cards */
 .career-positions {
-    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 3rem;
 }
 
 .position {
     background-color: white;
-    border: 2px solid #ddd;
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 280px;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.position:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.1);
 }
 
 .position h4 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #6a1b9a; /* Purple */
+    font-size: 1.6rem;
+    color: #6A1B9A;
+    margin-bottom: 1rem;
 }
 
 .position p, .position ul {
     font-size: 1rem;
-    color: #333;
+    color: #555;
 }
 
 .position ul {
-    list-style: disc inside;
+    list-style-type: none;
+    padding-left: 1rem;
 }
 
 .position ul li {
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
 }
 
 /* Apply Now Form */
 .career-form {
     background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 0 auto;
-    transition: transform 0.3s ease-in-out;
+    border-radius: 20px;
+    padding: 2rem 3rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
 .career-form:hover {
-    transform: scale(1.02); /* Slight zoom on hover for modern feel */
+    transform: scale(1.02);
 }
 
 /* Form Title */
 .career-form h3 {
-    color: #6a1b9a; /* Purple */
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
+    color: #6A1B9A;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
     text-align: center;
 }
 
 /* Form Description */
 .career-form p {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: #333;
-    text-align: center;
     margin-bottom: 2rem;
+    text-align: center;
 }
 
 /* Label Styling */
 .career-form label {
-    font-size: 1rem;
-    color: #6a1b9a; /* Purple */
+    font-size: 1.2rem;
+    color: #6A1B9A;
     margin-bottom: 0.5rem;
     display: block;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 /* Form Fields Styling */
-.career-form input, .career-form select, .career-form textarea {
+.career-form input,
+.career-form select,
+.career-form textarea {
     width: 100%;
-    padding: 12px 20px;
+    padding: 14px 20px;
     margin-bottom: 1.5rem;
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid #ddd;
     font-size: 1rem;
     color: #333;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease;
     box-sizing: border-box;
 }
 
-/* Focus State for Inputs */
-.career-form input:focus, .career-form select:focus, .career-form textarea:focus {
+.career-form input:focus,
+.career-form select:focus,
+.career-form textarea:focus {
     outline: none;
-    border-color: #f9a825; /* Gold */
-    box-shadow: 0px 0px 5px rgba(249, 168, 37, 0.7); /* Soft gold glow */
+    border-color: #F9A825;
+    box-shadow: 0px 0px 5px rgba(249, 168, 37, 0.7);
 }
 
 /* Textarea Styling */
@@ -166,93 +195,84 @@ h3 {
 
 /* Button Styling */
 .career-form button {
-    background-color: #6a1b9a; /* Purple */
+    background-color: #6A1B9A;
     color: white;
-    padding: 12px 25px;
+    padding: 14px 28px;
     font-size: 1.2rem;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     width: 100%;
 }
 
 .career-form button:hover {
-    background-color: #f9a825; /* Gold */
-    transform: translateY(-3px); /* Button lift effect */
+    background-color: #F9A825;
+    transform: translateY(-4px);
 }
 
 .career-form button:active {
-    transform: translateY(2px); /* Button press effect */
+    transform: translateY(2px);
 }
 
 /* Error Message Styling */
 #error-message {
-    color: #e53935;
+    color: #E53935;
     font-size: 1rem;
     margin-top: -1rem;
     margin-bottom: 1.5rem;
+    text-align: center;
 }
 
-/* Footer */
+/* Footer Styling */
 footer {
+    width: 100%;
     background-color: #333;
     color: white;
+    padding: 1.5rem;
     text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
 footer p {
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
-/* Miscellaneous Styling */
-h3, h4, h5 {
-    color: #6a1b9a; /* Purple */
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Media Queries for Responsiveness */
+/* Responsive Design */
 @media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
     header nav ul li {
         display: block;
         margin: 10px 0;
     }
 
-    header {
-        padding: 1rem;
-    }
-
-    main {
-        padding: 1rem;
-    }
-
-    .career-positions .position {
-        padding: 1.5rem;
+    .career-positions {
+        flex-direction: column;
+        gap: 1rem;
     }
 
     .career-form {
-        padding: 1.5rem;
+        padding: 1.5rem 2rem;
     }
 
-    .career-form label, .career-form input, .career-form select, .career-form textarea {
+    .career-form h3 {
+        font-size: 1.8rem;
+    }
+
+    .career-form label,
+    .career-form input,
+    .career-form select,
+    .career-form textarea {
         font-size: 1rem;
     }
 
     .career-form button {
         font-size: 1rem;
-        padding: 10px;
+        padding: 12px 20px;
     }
 }
