@@ -111,7 +111,7 @@
 
                 <div class="form-section">
                     <label for="experience">Do you have experience in driving a Roblox school bus? (Optional if selected "No" below, but if "Yes" please explain)</label>
-                    <select id="experience" name="experience">
+                    <select id="experience" name="experience" onchange="toggleExperienceDetails()">
                         <option value="no">No, I don't have experience</option>
                         <option value="yes">Yes, I have experience</option>
                     </select>
@@ -126,5 +126,7 @@
     <footer>
         <p>© 2025 Sayville Public Schools. All rights reserved.</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
