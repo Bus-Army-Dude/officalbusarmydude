@@ -113,10 +113,23 @@ form button:hover {
 /* Apply Now Section with embedded Google Form */
 iframe {
     width: 100%;
-    height: auto;
-    max-width: 640px; /* Adjust for mobile responsiveness */
+    height: 1500px; /* Adjust this value based on your form's height */
     margin-top: 30px;
     border: none;
+    display: block; /* Remove any spacing around the iframe */
+}
+
+/* Ensure iframe adapts on smaller screens */
+@media (max-width: 768px) {
+    iframe {
+        height: 1200px; /* Slightly reduced height for mobile screens */
+    }
+}
+
+@media (max-width: 480px) {
+    iframe {
+        height: 1000px; /* Further reduced height for small mobile screens */
+    }
 }
 
 /* Horizontal Borders for Job Positions */
