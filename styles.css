@@ -756,7 +756,7 @@ footer {
 .welcome-text {
     font-size: 3rem; /* Increase font size */
     font-weight: bold; /* Make the text bolder */
-    color: #fff; /* White text for contrast */
+    color: #ffffff; /* Set the text color to white */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Add a shadow to make the text pop */
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
@@ -765,3 +765,4 @@ footer {
     margin: 0 auto; /* Center the text */
     text-align: center;
 }
+
