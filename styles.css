@@ -463,3 +463,75 @@ h1, h2 {
         font-size: 1rem;
     }
 }
+
+/* Events Page */
+.events {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.events h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Event Cards Container */
+.event-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.event-card {
+    width: 30%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.event-card h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.event-card p {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+.event-card .event-date, .event-card .event-time, .event-card .event-location {
+    font-weight: bold;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .event-card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
