@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: #f4f4f9;
     color: #333;
+    min-height: 100vh;
 }
 
 header {
@@ -35,6 +36,17 @@ main {
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    flex-grow: 1;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #6A1B9A;
+    color: #fff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
 /* Careers Section */
@@ -89,6 +101,7 @@ input[type="text"], input[type="number"], input[type="url"], select, textarea {
 
 textarea {
     height: 100px;
+    display: none; /* Initially hidden */
 }
 
 input:focus, select:focus, textarea:focus {
