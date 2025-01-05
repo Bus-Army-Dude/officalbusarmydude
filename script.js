@@ -1,15 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Handle experience explanation section
     const experienceSelect = document.getElementById('experience');
     const experienceDetails = document.getElementById('experience-details');
 
     experienceSelect.addEventListener('change', function() {
-        if (experienceSelect.value === "yes") {
+        if (experienceSelect.value === 'yes') {
             experienceDetails.style.display = 'block';
         } else {
             experienceDetails.style.display = 'none';
         }
     });
+});
+
 
     // Age validation: Ensure the user is 13 or older
     const ageInput = document.getElementById('age');
