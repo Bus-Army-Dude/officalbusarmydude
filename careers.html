@@ -110,15 +110,16 @@
                 </div>
 
                 <div class="form-section">
-                    <label for="experience">Select yes or no:</label>
+                    <label for="experience">Do you have experience in driving a Roblox school bus? (Optional if selected "No" below, but if "Yes" please explain):</label>
                     <select id="experience" name="experience" required>
                         <option value="">Please select</option>
-                        <option value="yes">Yes, I have experience</option>
-                        <option value="no">No, I don't have experience</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
                     </select>
+                    
                     <div id="experience-details" style="display: none;">
                         <label for="experienceExplanation">Please explain your experience:</label>
-                        <textarea id="experienceExplanation" name="experienceExplanation"></textarea>
+                        <textarea id="experienceExplanation" name="experienceExplanation" rows="4" cols="50"></textarea>
                     </div>
 
                 <button type="submit">Submit Application</button>
