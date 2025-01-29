@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             headers: {
                 'Accept': 'application/vnd.github.v3+json',
-                'Authorization': `token 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`,
+                'Authorization': `token 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`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
