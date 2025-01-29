@@ -1,14 +1,14 @@
 /* Variables */
 :root {
-    --primary-color: #1a73e8;
-    --secondary-color: #4285f4;
-    --background-color: #ffffff;
-    --text-color: #333333;
-    --border-color: #e0e0e0;
-    --highlight-color: #007BFF;
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --background-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --white: #ffffff;
+    --border-color: #bdc3c7;
     --shadow-color: rgba(0, 0, 0, 0.1);
-    --font-family: 'Roboto', sans-serif;
-    --font-family-bold: 'Arial', sans-serif;
+    --font-family: 'Open Sans', sans-serif;
     --font-size-large: 2.5rem;
     --font-size-medium: 1.8rem;
     --font-size-small: 1.1rem;
@@ -55,7 +55,7 @@ header nav ul li a {
 }
 
 header nav ul li a:hover {
-    color: var(--secondary-color);
+    color: var(--accent-color);
 }
 
 main {
@@ -103,12 +103,12 @@ form input, form select, form textarea {
 }
 
 form input:focus, form select:focus, form textarea:focus {
-    border-color: var(--primary-color);
+    border-color: var(--secondary-color);
     outline: none;
 }
 
 form button {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     color: var(--white);
     padding: 12px 20px;
     border: none;
@@ -118,7 +118,7 @@ form button {
 }
 
 form button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--accent-color);
 }
 
 /* Footer */
@@ -139,7 +139,7 @@ footer {
 }
 
 h1, h2 {
-    font-family: var(--font-family-bold);
+    font-family: var(--font-family);
     font-weight: bold;
     color: var(--text-color);
 }
@@ -242,7 +242,7 @@ section button[type="submit"]:hover {
 
 .bus-number {
     font-size: 0.9rem;
-    color: var(--highlight-color);
+    color: var(--accent-color);
     margin-top: 10px;
 }
 
@@ -312,7 +312,7 @@ iframe {
 
 /* Additional Styling */
 .positions .position {
-    border-top: 3px solid var(--primary-color);
+    border-top: 3px solid var(--secondary-color);
     border-bottom: 3px solid var(--border-color);
 }
 
