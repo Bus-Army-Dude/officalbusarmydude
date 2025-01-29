@@ -1,0 +1,67 @@
+name: Submit Application
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [submit-application]
+
+jobs:
+  submit-application:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2
+
+    - name: Process form submission
+      run: |
+        echo "Form submission received"
+        echo "Full Name: ${{ github.event.client_payload.fullName }}"
+        echo "Age: ${{ github.event.client_payload.age }}"
+        echo "Birthday: ${{ github.event.client_payload.birthday }}"
+        echo "Email: ${{ github.event.client_payload.email }}"
+        echo "Position: ${{ github.event.client_payload.position }}"
+        echo "Roblox Username: ${{ github.event.client_payload.robloxUsername }}"
+        echo "Discord Username: ${{ github.event.client_payload.discordUsername }}"
+        echo "Experience: ${{ github.event.client_payload.experience }}"
+        echo "Availability: ${{ github.event.client_payload.availability }}"
+        echo "Interest: ${{ github.event.client_payload.interest }}"
+        echo "Skills: ${{ github.event.client_payload.skills }}"
+        echo "Internet: ${{ github.event.client_payload.internet }}"
+        echo "Computer Specs: ${{ github.event.client_payload.computerSpecs }}"
+        echo "Microphone: ${{ github.event.client_payload.microphone }}"
+        echo "Teamwork: ${{ github.event.client_payload.teamwork }}"
+        echo "Timezone: ${{ github.event.client_payload.timezone }}"
+        echo "Roblox Experience: ${{ github.event.client_payload.robloxExperience }}"
+        echo "Roleplay Experience: ${{ github.event.client_payload.roleplayExperience }}"
+        echo "Heard About Us: ${{ github.event.client_payload.heardAboutUs }}"
+        echo "Additional Info: ${{ github.event.client_payload.additionalInfo }}"
+        
+        # Save form data to a file
+        FILE_NAME="submissions/application_$(date +'%Y%m%d%H%M%S').json"
+        echo "{}" | jq \
+          --arg fullName "${{ github.event.client_payload.fullName }}" \
+          --arg age "${{ github.event.client_payload.age }}" \
+          --arg birthday "${{ github.event.client_payload.birthday }}" \
+          --arg email "${{ github.event.client_payload.email }}" \
+          --arg position "${{ github.event.client_payload.position }}" \
+          --arg robloxUsername "${{ github.event.client_payload.robloxUsername }}" \
+          --arg discordUsername "${{ github.event.client_payload.discordUsername }}" \
+          --arg experience "${{ github.event.client_payload.experience }}" \
+          --arg availability "${{ github.event.client_payload.availability }}" \
+          --arg interest "${{ github.event.client_payload.interest }}" \
+          --arg skills "${{ github.event.client_payload.skills }}" \
+          --arg internet "${{ github.event.client_payload.internet }}" \
+          --arg computerSpecs "${{ github.event.client_payload.computerSpecs }}" \
+          --arg microphone "${{ github.event.client_payload.microphone }}" \
+          --arg teamwork "${{ github.event.client_payload.teamwork }}" \
+          --arg timezone "${{ github.event.client_payload.timezone }}" \
+          --arg robloxExperience "${{ github.event.client_payload.robloxExperience }}" \
+          --arg roleplayExperience "${{ github.event.client_payload.roleplayExperience }}" \
+          --arg heardAboutUs "${{ github.event.client_payload.heardAboutUs }}" \
+          --arg additionalInfo "${{ github.event.client_payload.additionalInfo }}" \
+          '.fullName=$fullName | .age=$age | .birthday=$birthday | .email=$email | .position=$position | .robloxUsername=$robloxUsername | .discordUsername=$discordUsername | .experience=$experience | .availability=$availability | .interest=$interest | .skills=$skills | .internet=$internet | .computerSpecs=$computerSpecs | .microphone=$microphone | .teamwork=$teamwork | .timezone=$timezone | .robloxExperience=$robloxExperience | .roleplayExperience=$roleplayExperience | .heardAboutUs=$heardAboutUs | .additionalInfo=$additionalInfo' > $FILE_NAME
+        
+        git add $FILE_NAME
+        git commit -m "Add new application submission"
+        git push
