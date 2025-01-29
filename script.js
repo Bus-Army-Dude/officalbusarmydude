@@ -1,24 +1,36 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const experienceSelect = document.getElementById('experience');
-    const experienceDetails = document.getElementById('experience-details');
-    const ageInput = document.getElementById('age');
-    const form = document.getElementById('apply-form');
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('jobApplicationForm');
 
-    // Event listener for the "Do you have experience?" question
-    experienceSelect.addEventListener('change', function() {
-        if (experienceSelect.value === 'yes') {
-            experienceDetails.style.display = 'block';
-        } else {
-            experienceDetails.style.display = 'none';
-        }
-    });
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-    // Form submission validation
-    form.addEventListener('submit', function(event) {
-        const age = parseInt(ageInput.value, 10);
-        if (age < 13) {
-            event.preventDefault(); // Prevent form submission
-            alert("You must be at least 13 years old to apply.");
-        }
+        const formData = new FormData(form);
+        const data = {};
+
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        fetch('https://api.github.com/repos/Bus-Army-Dude/sayvillepublicschools/dispatches', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/vnd.github.v3+json',
+                'Authorization': `token YOUR_GITHUB_PERSONAL_ACCESS_TOKEN`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                event_type: 'submit-application',
+                client_payload: data
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            alert('Application submitted successfully!');
+            form.reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the application.');
+        });
     });
 });
