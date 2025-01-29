@@ -85,7 +85,7 @@ form h2 {
     margin-bottom: 20px;
 }
 
-form .form-section {
+form .form-group {
     margin-bottom: 20px;
 }
 
@@ -134,7 +134,7 @@ footer {
 }
 
 /* Careers Page Specific */
-.careers .form-section {
+.careers .form-group {
     margin-bottom: 30px;
 }
 
@@ -145,7 +145,7 @@ h1, h2 {
 }
 
 /* Form Input Styles */
-input[type="text"], input[type="number"], input[type="url"], select, textarea {
+input[type="text"], input[type="number"], input[type="date"], input[type="email"], select, textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid var(--border-color);
@@ -164,11 +164,11 @@ input[type="radio"], input[type="checkbox"] {
     gap: var(--margin);
 }
 
-.apply-now-container .section {
+.apply-now-container .form-group {
     flex: 1 1 calc(50% - 20px);
 }
 
-.apply-now-container .section label {
+.apply-now-container .form-group label {
     display: block;
     margin-bottom: 5px;
 }
@@ -258,7 +258,7 @@ iframe {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .apply-now-container .section {
+    .apply-now-container .form-group {
         flex: 1 1 100%;
     }
 
