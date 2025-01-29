@@ -2,10 +2,9 @@
 :root {
     --primary-color: #1a73e8;
     --secondary-color: #4285f4;
-    --background-color: #f4f4f4;
-    --text-color: #333;
-    --white: #ffffff;
-    --border-color: #ddd;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
     --highlight-color: #007BFF;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --font-family: 'Roboto', sans-serif;
@@ -13,9 +12,9 @@
     --font-size-large: 2.5rem;
     --font-size-medium: 1.8rem;
     --font-size-small: 1.1rem;
-    --padding: 10px;
-    --margin: 10px;
-    --border-radius: 8px;
+    --padding: 20px;
+    --margin: 20px;
+    --border-radius: 12px;
     --transition-duration: 0.3s;
 }
 
@@ -37,8 +36,6 @@ header {
     color: var(--white);
     padding: var(--padding);
     text-align: center;
-    position: relative;
-    z-index: 10;
     box-shadow: 0 2px 4px var(--shadow-color);
 }
 
@@ -63,16 +60,16 @@ header nav ul li a:hover {
 
 main {
     flex-grow: 1;
-    padding: 20px;
+    padding: 40px;
     display: grid;
-    gap: 20px;
+    gap: 40px;
     margin-bottom: 70px;
 }
 
 /* Form Styles */
 form {
     background-color: var(--white);
-    padding: 20px;
+    padding: 40px;
     border-radius: var(--border-radius);
     box-shadow: 0px 4px 10px var(--shadow-color);
     margin-top: 30px;
@@ -89,7 +86,7 @@ form h2 {
 }
 
 form .form-section {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 form label {
@@ -98,10 +95,10 @@ form label {
 
 form input, form select, form textarea {
     width: 100%;
-    padding: 8px;
+    padding: 12px;
     margin-top: 5px;
     border: 1px solid var(--border-color);
-    border-radius: 5px;
+    border-radius: 8px;
     transition: border-color var(--transition-duration);
 }
 
@@ -113,9 +110,9 @@ form input:focus, form select:focus, form textarea:focus {
 form button {
     background-color: var(--primary-color);
     color: var(--white);
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color var(--transition-duration);
 }
@@ -151,9 +148,9 @@ h1, h2 {
 /* Form Input Styles */
 input[type="text"], input[type="number"], input[type="url"], select, textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 8px;
     box-sizing: border-box;
 }
 
@@ -165,11 +162,11 @@ input[type="radio"], input[type="checkbox"] {
 .apply-now-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    gap: var(--margin);
 }
 
 .apply-now-container .section {
-    width: 48%;
+    flex: 1 1 calc(50% - 20px);
 }
 
 .apply-now-container .section label {
@@ -180,10 +177,10 @@ input[type="radio"], input[type="checkbox"] {
 section button[type="submit"] {
     background-color: #4CAF50;
     color: var(--white);
-    padding: 10px;
+    padding: 12px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-top: 10px;
     transition: background-color var(--transition-duration);
 }
@@ -263,7 +260,7 @@ iframe {
 /* Responsive Design */
 @media (max-width: 768px) {
     .apply-now-container .section {
-        width: 100%;
+        flex: 1 1 100%;
     }
 
     header nav ul {
@@ -362,7 +359,7 @@ html, body {
 }
 
 .banner {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: var(--white);
     padding: 50px 20px;
     text-align: center;
@@ -394,7 +391,7 @@ section p {
 
 .safety, .why-sayville, .approach, .careers, .enhance-learning, .news-events, .numbers {
     background-color: var(--white);
-    padding: 30px;
+    padding: 40px 20px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
 }
@@ -429,7 +426,7 @@ section p {
 
 /* About Us Page */
 .about-us {
-    padding: 40px;
+    padding: 40px 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -502,7 +499,7 @@ section p {
 
 /* Events Page */
 .events {
-    padding: 40px;
+    padding: 40px 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -522,7 +519,7 @@ section p {
 }
 
 .event-card {
-    width: 30%;
+    flex: 1 1 calc(33% - 20px);
     padding: 20px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -553,7 +550,8 @@ section p {
 
 @media (max-width: 768px) {
     .event-cards {
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
 
     .event-card {
