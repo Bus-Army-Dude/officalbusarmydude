@@ -1,21 +1,42 @@
+/* Variables */
+:root {
+    --primary-color: #333;
+    --secondary-color: #555;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --white: #ffffff;
+    --border-color: #ddd;
+    --highlight-color: #007BFF;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --font-family: 'Roboto', sans-serif;
+    --font-family-bold: 'Arial', sans-serif;
+    --font-size-large: 2.5rem;
+    --font-size-medium: 1.8rem;
+    --font-size-small: 1.1rem;
+    --padding: 10px;
+    --margin: 10px;
+    --border-radius: 8px;
+}
+
 /* Base Styles */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes up at least 100% of the viewport height */
-    background-color: #f4f4f4;
-    color: #333;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-/* Navigation Bar */
 header {
-    background-color: #333;
-    color: white;
-    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: var(--padding);
     text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
 header nav ul {
@@ -25,33 +46,32 @@ header nav ul {
 
 header nav ul li {
     display: inline;
-    margin: 0 10px;
+    margin: 0 var(--margin);
 }
 
 header nav ul li a {
-    color: white;
+    color: var(--white);
     text-decoration: none;
     font-weight: bold;
 }
 
-/* Main Content Area */
 main {
-    flex-grow: 1; /* Ensures the main content grows to fill the remaining space */
+    flex-grow: 1;
     padding: 20px;
-    margin-bottom: 70px; /* Space for footer */
+    margin-bottom: 70px;
 }
 
-/* Apply Now Section */
+/* Form Styles */
 form {
-    background-color: white;
+    background-color: var(--white);
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: 0px 4px 10px var(--shadow-color);
     margin-top: 30px;
 }
 
 form h2 {
-    font-size: 1.8rem;
+    font-size: var(--font-size-medium);
     margin-bottom: 20px;
 }
 
@@ -67,13 +87,13 @@ form input, form select, form textarea {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
 }
 
 form button {
-    background-color: #333;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -81,29 +101,15 @@ form button {
 }
 
 form button:hover {
-    background-color: #555;
+    background-color: var(--secondary-color);
 }
 
 /* Footer */
 footer {
-    background-color: #333;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
     text-align: center;
-    padding: 10px;
-    margin-top: 30px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-}
-
-/* Flexbox for Footer */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 30px;
+    padding: var(--padding);
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -116,16 +122,16 @@ footer {
 }
 
 h1, h2 {
-    font-family: 'Arial', sans-serif;
+    font-family: var(--font-family-bold);
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
 }
 
 /* Form Input Styles */
 input[type="text"], input[type="number"], input[type="url"], select, textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -152,7 +158,7 @@ input[type="radio"], input[type="checkbox"] {
 
 section button[type="submit"] {
     background-color: #4CAF50;
-    color: white;
+    color: var(--white);
     padding: 10px;
     border: none;
     cursor: pointer;
@@ -171,11 +177,10 @@ section button[type="submit"]:hover {
 }
 
 .roster h2 {
-    font-size: 2rem;
+    font-size: var(--font-size-large);
     margin-bottom: 20px;
 }
 
-/* Container for roster members */
 .roster-members {
     display: flex;
     flex-wrap: wrap;
@@ -184,18 +189,16 @@ section button[type="submit"]:hover {
     margin-top: 20px;
 }
 
-/* Individual member box */
 .member {
     width: 250px;
-    border: 2px solid #000; /* Black border */
-    border-radius: 8px;
+    border: 2px solid #000;
+    border-radius: var(--border-radius);
     padding: 15px;
     text-align: center;
     background-color: #f9f9f9;
     transition: transform 0.3s ease;
 }
 
-/* Member image */
 .member-img {
     width: 100px;
     height: 100px;
@@ -204,7 +207,6 @@ section button[type="submit"]:hover {
     margin-bottom: 15px;
 }
 
-/* Member info */
 .member-info h3 {
     font-size: 1.2rem;
     margin: 0;
@@ -215,14 +217,12 @@ section button[type="submit"]:hover {
     color: #555;
 }
 
-/* Bus number styling */
 .bus-number {
     font-size: 0.9rem;
-    color: #007BFF; /* Blue color for bus number */
+    color: var(--highlight-color);
     margin-top: 10px;
 }
 
-/* Hover effect on member card */
 .member:hover {
     transform: translateY(-10px);
 }
@@ -230,23 +230,10 @@ section button[type="submit"]:hover {
 /* Apply Google Form iframe Styling */
 iframe {
     width: 100%;
-    height: 1500px; /* Set the height to ensure the entire form is visible */
+    height: 1500px;
     margin-top: 30px;
     border: none;
     display: block;
-}
-
-/* Adjust iframe height for smaller screen sizes */
-@media (max-width: 768px) {
-    iframe {
-        height: 1200px; /* Slightly reduce height for tablets */
-    }
-}
-
-@media (max-width: 480px) {
-    iframe {
-        height: 1000px; /* Further reduce height for mobile screens */
-    }
 }
 
 /* Responsive Design */
@@ -280,6 +267,10 @@ iframe {
         width: 80px;
         height: 80px;
     }
+
+    iframe {
+        height: 1200px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -297,24 +288,24 @@ iframe {
         width: 70px;
         height: 70px;
     }
+
+    iframe {
+        height: 1000px;
+    }
 }
 
 /* Additional Styling */
-header {
-    position: relative;
-    z-index: 10;
-}
-
 .positions .position {
-    border-top: 3px solid #333;
-    border-bottom: 3px solid #ddd;
+    border-top: 3px solid var(--primary-color);
+    border-bottom: 3px solid var(--border-color);
 }
 
 .position h3 {
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-color);
     border-bottom: 2px solid #ccc;
     padding-bottom: 10px;
+    margin-top: 0;
 }
 
 .position ul {
@@ -331,43 +322,14 @@ header {
     content: "•";
     position: absolute;
     left: 0;
-    color: #333;
+    color: var(--text-color);
 }
 
 .position {
     padding: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
     margin-bottom: 15px;
-}
-
-.position h3 {
-    margin-top: 0;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 30px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-}
-
-/* Flexbox for Footer */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    margin-top: 30px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
 }
 
 html, body {
@@ -375,19 +337,70 @@ html, body {
     margin: 0;
 }
 
-main {
-    flex-grow: 1;
+.banner {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 50px 20px;
+    text-align: center;
 }
 
-header {
-    position: relative;
-    z-index: 10;
+.banner h1 {
+    font-size: var(--font-size-large);
+    margin-bottom: 15px;
 }
 
-h1, h2 {
-    font-family: 'Arial', sans-serif;
+.banner p {
+    font-size: 1.2rem;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+section h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+section p {
+    font-size: var(--font-size-small);
+    line-height: 1.6;
+}
+
+.safety, .why-sayville, .approach, .careers, .enhance-learning, .news-events, .numbers {
+    background-color: var(--white);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.numbers-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.number {
+    text-align: center;
+}
+
+.number .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.welcome-text {
+    font-size: 3rem;
     font-weight: bold;
-    color: #333;
+    color: var(--white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+    max-width: 90%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 /* About Us Page */
@@ -398,8 +411,8 @@ h1, h2 {
 }
 
 .about-us h1 {
-    font-size: 2.5rem;
-    color: #333;
+    font-size: var(--font-size-large);
+    color: var(--text-color);
     margin-bottom: 20px;
     text-align: center;
 }
@@ -421,7 +434,7 @@ h1, h2 {
 }
 
 .about-us p {
-    font-size: 1.1rem;
+    font-size: var(--font-size-small);
     line-height: 1.6;
     color: #666;
 }
@@ -432,16 +445,15 @@ h1, h2 {
 }
 
 .about-us ul li {
-    font-size: 1.1rem;
+    font-size: var(--font-size-small);
     line-height: 1.8;
     color: #666;
 }
 
 .about-us ul li strong {
-    color: #333;
+    color: var(--text-color);
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .about-us {
         padding: 20px;
@@ -472,13 +484,12 @@ h1, h2 {
 }
 
 .events h1 {
-    font-size: 2.5rem;
-    color: #333;
+    font-size: var(--font-size-large);
+    color: var(--text-color);
     margin-bottom: 20px;
     text-align: center;
 }
 
-/* Event Cards Container */
 .event-cards {
     display: flex;
     flex-wrap: wrap;
@@ -486,85 +497,61 @@ h1, h2 {
     justify-content: space-between;
 }
 
-/* Event Card */
 .event-card {
     width: 30%;
     padding: 20px;
-    border: 1px solid #ddd; /* Add border to each card */
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--white);
+    box-shadow: 0px 4px 10px var(--shadow-color);
     transition: transform 0.3s ease;
 }
 
-/* Event Card Title */
 .event-card h2 {
-    font-size: 1.8rem;
-    color: #333;
+    font-size: var(--font-size-medium);
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
-/* Event Description */
 .event-card p {
-    font-size: 1.1rem;
+    font-size: var(--font-size-small);
     color: #666;
     margin: 5px 0;
 }
 
-/* Event Date, Time, Location */
 .event-card .event-date, .event-card .event-time, .event-card .event-location {
     font-weight: bold;
 }
 
-/* Hover Effect */
 .event-card:hover {
     transform: translateY(-10px);
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
-    /* Stack event cards on smaller screens */
     .event-cards {
-        justify-content: center; /* Center cards on mobile */
+        justify-content: center;
     }
 
     .event-card {
-        width: 100%;  /* Take full width on mobile */
-        margin-bottom: 20px;  /* Add spacing between stacked cards */
-        border: 1px solid #ddd;  /* Ensure the border remains visible */
+        width: 100%;
+        margin-bottom: 20px;
+        border: 1px solid var(--border-color);
     }
 
-    /* Adjust the event title for better fit on small screens */
     .event-card h2 {
-        font-size: 1.6rem; /* Slightly smaller font for mobile */
+        font-size: 1.6rem;
     }
 
-    /* Adjust font size for the event description */
     .event-card p {
-        font-size: 1rem; /* Smaller text for mobile screens */
+        font-size: 1rem;
     }
 }
 
-/* Footer Styles */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-}
-
-/* Additional Enhancements for Small Mobile Devices (below 480px) */
 @media (max-width: 480px) {
-    /* Make the header text a bit smaller */
     .events h1 {
         font-size: 2rem;
     }
 
-    /* Adjust font sizes even further for tight screens */
     .event-card h2 {
         font-size: 1.4rem;
     }
@@ -573,196 +560,7 @@ footer {
         font-size: 0.9rem;
     }
 
-    /* Increase the margin between event cards for tighter spacing */
     .event-card {
         margin-bottom: 15px;
     }
 }
-
-/* Base styles */
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    text-align: center;
-}
-
-header nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-header nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-header nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-main {
-    flex-grow: 1;
-    padding: 20px;
-}
-
-/* Banner Section */
-.banner {
-    background: #333;
-    color: white;
-    padding: 50px 20px;
-    text-align: center;
-}
-
-.banner h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-}
-
-.banner p {
-    font-size: 1.2rem;
-}
-
-/* Section Styles */
-section {
-    margin-bottom: 40px;
-}
-
-section h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-section p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-}
-
-/* Safety First Section */
-.safety {
-    background-color: #fff;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Why Sayville Schools Section */
-.why-sayville {
-    background-color: #fff;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Approach Section */
-.approach {
-    background-color: #fff;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Careers Section */
-.careers {
-    background-color: #fff;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Enhance Learning Section */
-.enhance-learning {
-    background-color: #fff;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Latest News & Events Section */
-.news-events {
-    background-color: #fff;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Sayville Schools in Numbers Section */
-.numbers {
-    background-color: #fff;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-.numbers-container {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-}
-
-.number {
-    text-align: center;
-}
-
-.number .icon {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-/* Footer */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 15px;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    header nav ul {
-        display: block;
-        text-align: center;
-    }
-
-    header nav ul li {
-        margin: 10px 0;
-    }
-
-    .numbers-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .number {
-        margin-bottom: 20px;
-    }
-}
-
-/* Adjust styles for the welcome text */
-.welcome-text {
-    font-size: 3rem; /* Increase font size */
-    font-weight: bold; /* Make the text bolder */
-    color: #ffffff; /* Set the text color to white */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Add a shadow to make the text pop */
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    border-radius: 8px; /* Rounded corners */
-    max-width: 90%;
-    margin: 0 auto; /* Center the text */
-    text-align: center;
-}
-
