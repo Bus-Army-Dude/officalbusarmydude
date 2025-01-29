@@ -13,6 +13,11 @@ jobs:
     - name: Check out the repository
       uses: actions/checkout@v2
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
     - name: Process form submission
       run: |
         echo "Form submission received"
@@ -37,8 +42,11 @@ jobs:
         echo "Heard About Us: ${{ github.event.client_payload.heardAboutUs }}"
         echo "Additional Info: ${{ github.event.client_payload.additionalInfo }}"
         
+        # Create the submissions directory if it doesn't exist
+        mkdir -p .github/workflows/submissions
+        
         # Save form data to a file
-        FILE_NAME="submissions/application_$(date +'%Y%m%d%H%M%S').json"
+        FILE_NAME=".github/workflows/submissions/application_$(date +'%Y%m%d%H%M%S').json"
         echo "{}" | jq \
           --arg fullName "${{ github.event.client_payload.fullName }}" \
           --arg age "${{ github.event.client_payload.age }}" \
@@ -62,6 +70,8 @@ jobs:
           --arg additionalInfo "${{ github.event.client_payload.additionalInfo }}" \
           '.fullName=$fullName | .age=$age | .birthday=$birthday | .email=$email | .position=$position | .robloxUsername=$robloxUsername | .discordUsername=$discordUsername | .experience=$experience | .availability=$availability | .interest=$interest | .skills=$skills | .internet=$internet | .computerSpecs=$computerSpecs | .microphone=$microphone | .teamwork=$teamwork | .timezone=$timezone | .robloxExperience=$robloxExperience | .roleplayExperience=$roleplayExperience | .heardAboutUs=$heardAboutUs | .additionalInfo=$additionalInfo' > $FILE_NAME
         
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add $FILE_NAME
         git commit -m "Add new application submission"
         git push
