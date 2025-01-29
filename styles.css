@@ -128,10 +128,9 @@ footer {
     text-align: center;
     padding: var(--padding);
     width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     box-shadow: 0 -2px 4px var(--shadow-color);
+    margin-top: 40px; /* Ensure there's space between content and footer */
 }
 
 /* Careers Page Specific */
@@ -270,10 +269,6 @@ iframe {
 
     header nav ul li {
         margin: 10px 0;
-    }
-
-    footer {
-        position: static;
     }
 
     .roster-members {
