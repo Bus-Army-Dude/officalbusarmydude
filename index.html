@@ -4,75 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>macOS 15 Emulator</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Top Menu Bar -->
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="left-menu">
-            <span class="apple-icon"></span>
-            <span class="app-name">macOS 15 Emulator</span>
+            <span class="apple-icon"></span> <!-- Apple Icon -->
+            <span>macOS 15</span>
         </div>
         <div class="center-menu">
-            <span id="time"></span>
+            <span>Applications</span>
         </div>
         <div class="right-menu">
-            <span class="wifi">Wi-Fi</span>
-            <span class="battery">Battery</span>
-            <span class="sound">🔊</span>
-            <span class="user">User</span>
+            <span>9:41 AM</span> <!-- Time -->
+            <span>Battery</span>
+            <span>Wi-Fi</span>
+            <span>Bluetooth</span>
         </div>
     </div>
 
-    <!-- Desktop Icons -->
+    <!-- Desktop -->
     <div class="desktop">
-        <div class="desktop-icon" data-app="app1">
-            <img src="app1.png" alt="App 1">
-            <p>App 1</p>
+        <div class="desktop-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Mac_Icon.png" alt="App Icon">
+            <span>App 1</span>
         </div>
-        <div class="desktop-icon" data-app="app2">
-            <img src="app2.png" alt="App 2">
-            <p>App 2</p>
+        <div class="desktop-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Mac_Icon.png" alt="App Icon">
+            <span>App 2</span>
+        </div>
+        <div class="desktop-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Mac_Icon.png" alt="App Icon">
+            <span>App 3</span>
         </div>
     </div>
 
     <!-- Dock -->
     <div class="dock">
-        <div class="dock-item" data-app="app1">
-            <img src="app1.png" alt="App 1">
+        <div class="dock-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Mac_Icon.png" alt="App Icon">
         </div>
-        <div class="dock-item" data-app="app2">
-            <img src="app2.png" alt="App 2">
+        <div class="dock-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Mac_Icon.png" alt="App Icon">
+        </div>
+        <div class="dock-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/Mac_Icon.png" alt="App Icon">
         </div>
     </div>
 
-    <!-- App Windows (Hidden by default) -->
-    <div class="app-window" id="app1-window">
+    <!-- App Window Example -->
+    <div class="app-window show">
         <div class="app-window-header">
-            <span class="app-title">App 1</span>
+            <span class="app-title">App Window</span>
             <div class="window-controls">
-                <button class="close-btn">✖</button>
-                <button class="minimize-btn">–</button>
+                <button>⨉</button>
+                <button>—</button>
+                <button>□</button>
             </div>
         </div>
         <div class="app-content">
-            <h1>App 1 Content</h1>
+            <h1>Welcome to the App Window!</h1>
+            <p>This is a sample app window to simulate macOS 15 style.</p>
         </div>
     </div>
 
-    <div class="app-window" id="app2-window">
-        <div class="app-window-header">
-            <span class="app-title">App 2</span>
-            <div class="window-controls">
-                <button class="close-btn">✖</button>
-                <button class="minimize-btn">–</button>
-            </div>
-        </div>
-        <div class="app-content">
-            <h1>App 2 Content</h1>
-        </div>
-    </div>
-
+    <!-- Link to JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
