@@ -4,22 +4,112 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>macOS 15 Emulator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+  <script src="script.js" defer></script> <!-- Link to your JS file -->
 </head>
 <body>
-  <div id="desktop">
-    <div id="dock">
-      <div class="dock-item" id="finder">Finder</div>
-      <div class="dock-item" id="terminal">Terminal</div>
-      <div class="dock-item" id="safari">Safari</div>
-    </div>
-    <div id="app-windows">
-      <!-- Draggable windows will appear here -->
-    </div>
-    <div id="start-menu">
-      <button id="start-button">Start</button>
-    </div>
+
+  <!-- Menu Bar (Optional) -->
+  <div id="menu-bar">
+    <span>Apple</span>
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Go</span>
   </div>
-  <script src="script.js"></script>
+
+  <!-- Desktop Area -->
+  <div id="desktop">
+
+    <!-- Start Button (Triggers Start Menu) -->
+    <button id="start-button">Start</button>
+
+    <!-- Dock (Contains icons like Finder, Safari, etc.) -->
+    <div id="dock">
+      <div class="dock-item" data-app="safari">
+        <span>Safari</span>
+      </div>
+      <div class="dock-item" data-app="finder">
+        <span>Finder</span>
+      </div>
+      <div class="dock-item" data-app="terminal">
+        <span>Terminal</span>
+      </div>
+      <div class="dock-item" data-app="notes">
+        <span>Notes</span>
+      </div>
+      <div class="dock-item" data-app="mail">
+        <span>Mail</span>
+      </div>
+    </div>
+
+    <!-- App Windows (Initially Hidden) -->
+    <div id="app-windows">
+
+      <!-- Finder Window -->
+      <div class="app-window" id="finder-window">
+        <div class="app-window-header">
+          Finder
+        </div>
+        <h3>My Files</h3>
+        <p>Here you can browse your files.</p>
+      </div>
+
+      <!-- Safari Window -->
+      <div class="app-window" id="safari-window">
+        <div class="app-window-header">
+          Safari
+        </div>
+        <h3>Welcome to Safari</h3>
+        <p>Browse the web like never before!</p>
+      </div>
+
+      <!-- Terminal Window -->
+      <div class="app-window" id="terminal-window">
+        <div class="app-window-header">
+          Terminal
+        </div>
+        <h3>Terminal</h3>
+        <p>Run shell commands here.</p>
+      </div>
+
+      <!-- Notes Window -->
+      <div class="app-window" id="notes-window">
+        <div class="app-window-header">
+          Notes
+        </div>
+        <h3>Your Notes</h3>
+        <p>Write down your ideas here.</p>
+      </div>
+
+      <!-- Mail Window -->
+      <div class="app-window" id="mail-window">
+        <div class="app-window-header">
+          Mail
+        </div>
+        <h3>Your Mail</h3>
+        <p>Check your inbox here.</p>
+      </div>
+
+    </div>
+
+    <!-- Desktop Icons (For Files, Apps, etc.) -->
+    <div id="desktop-icons">
+      <div class="desktop-icon" data-app="finder">
+        <span>Finder</span>
+      </div>
+      <div class="desktop-icon" data-app="safari">
+        <span>Safari</span>
+      </div>
+      <div class="desktop-icon" data-app="notes">
+        <span>Notes</span>
+      </div>
+      <div class="desktop-icon" data-app="mail">
+        <span>Mail</span>
+      </div>
+    </div>
+
+  </div>
+
 </body>
 </html>
