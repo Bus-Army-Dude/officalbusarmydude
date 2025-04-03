@@ -1,90 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Sayville Public Schools</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>macOS 15 Emulator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="careers.html">Careers</a></li>
-                <li><a href="roster.html">Roster</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <!-- Banner Section -->
-        <section class="welcome-text">
-            <h1>Welcome to Sayville Public Schools</h1>
-            <p>Your success is our priority. Join our community today!</p>
-        </section>
-    
-        <!-- Safety First Section -->
-        <section class="safety">
-            <h2>Safety First</h2>
-            <p>The safety and security of our students, staff, and guests are of paramount importance to us at our institution. We are fully committed to taking all necessary measures to ensure a safe environment.</p>
-        </section>
-    
-        <!-- Why Sayville Schools Section -->
-        <section class="why-sayville">
-            <h2>Why Sayville Schools</h2>
-            <p>We strive for good friendship and success. At Sayville Public Schools, we believe that every student can achieve greatness, and we support them in every way possible to ensure their success.</p>
-        </section>
-    
-        <!-- Our Approach Section -->
-        <section class="approach">
-            <h2>Our Approach</h2>
-            <p>We foster a positive environment that encourages learning, creativity, and growth. Our approach is rooted in friendship, collaboration, and success for every student.</p>
-        </section>
-    
-        <!-- Careers Section -->
-        <section class="careers">
-            <h2>Careers</h2>
-            <p>Want to become a bus driver? Well, you came to the right place! <a href="careers.html">Apply now</a> and join the Sayville team!</p>
-        </section>
-    
-        <!-- Enhance Learning Section -->
-        <section class="enhance-learning">
-            <h2>Enhance Learning</h2>
-            <p>Here we learn new things every day. So why not join our team today and help shape the future of our students?</p>
-        </section>
-    
-        <!-- Latest News & Events Section -->
-        <section class="news-events">
-            <h2>Latest News & Events</h2>
-            <p>Here you can find all the latest news and updates of SPS. <a href="events.html">Check out our events page for more!</a></p>
-        </section>
-    
-        <!-- Sayville Schools in Numbers Section -->
-        <section class="numbers">
-            <h2>Sayville Schools in Numbers</h2>
-            <div class="numbers-container">
-                <div class="number">
-                    <span class="icon">📆</span>
-                    <p>2022 EST.</p>
-                </div>
-                <div class="number">
-                    <span class="icon">🚌</span>
-                    <p>7 Bus Drivers</p>
-                </div>
-                <div class="number">
-                    <span class="icon">🏫</span>
-                    <p>4 Schools</p>
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; 2025 Sayville Public Schools. All rights reserved.</p>
-    </footer>
+  <div id="desktop">
+    <div id="dock">
+      <div class="dock-item" id="finder">Finder</div>
+      <div class="dock-item" id="terminal">Terminal</div>
+      <div class="dock-item" id="safari">Safari</div>
+    </div>
+    <div id="app-windows">
+      <!-- Draggable windows will appear here -->
+    </div>
+    <div id="start-menu">
+      <button id="start-button">Start</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
