@@ -1,139 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>macOS 15 Emulator</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS 15 Emulator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Menu Bar -->
-  <div id="menu-bar">
-    <span>Apple</span>
-    <span>File</span>
-    <span>Edit</span>
-    <span>View</span>
-    <span>Go</span>
-    <div class="time">
-      <span id="time">12:00 PM</span>
-    </div>
-  </div>
-
-  <!-- Desktop Area -->
-  <div id="desktop">
-    <!-- Start Button -->
-    <button id="start-button">Start</button>
-
-    <!-- Dock -->
-    <div id="dock">
-      <div class="dock-item" data-app="safari">
-        <span>Safari</span>
-      </div>
-      <div class="dock-item" data-app="finder">
-        <span>Finder</span>
-      </div>
-      <div class="dock-item" data-app="terminal">
-        <span>Terminal</span>
-      </div>
-      <div class="dock-item" data-app="notes">
-        <span>Notes</span>
-      </div>
-      <div class="dock-item" data-app="mail">
-        <span>Mail</span>
-      </div>
-    </div>
-
-    <!-- App Windows -->
-    <div id="app-windows">
-      <div class="app-window" id="finder-window">
-        <div class="app-window-header">
-          Finder
-          <div class="window-controls">
-            <button class="minimize-btn">–</button>
-            <button class="close-btn">×</button>
-          </div>
+    <!-- Top Menu Bar -->
+    <div class="top-bar">
+        <div class="left-menu">
+            <span class="apple-icon"></span>
+            <span class="app-name">macOS 15 Emulator</span>
         </div>
-        <div class="app-window-content">
-          <h3>My Files</h3>
-          <p>Here you can browse your files.</p>
+        <div class="center-menu">
+            <span id="time"></span>
         </div>
-      </div>
-
-      <div class="app-window" id="safari-window">
-        <div class="app-window-header">
-          Safari
-          <div class="window-controls">
-            <button class="minimize-btn">–</button>
-            <button class="close-btn">×</button>
-          </div>
+        <div class="right-menu">
+            <span class="wifi">Wi-Fi</span>
+            <span class="battery">Battery</span>
+            <span class="sound">🔊</span>
+            <span class="user">User</span>
         </div>
-        <div class="app-window-content">
-          <h3>Welcome to Safari</h3>
-          <p>Browse the web like never before!</p>
-        </div>
-      </div>
-
-      <div class="app-window" id="terminal-window">
-        <div class="app-window-header">
-          Terminal
-          <div class="window-controls">
-            <button class="minimize-btn">–</button>
-            <button class="close-btn">×</button>
-          </div>
-        </div>
-        <div class="app-window-content">
-          <h3>Terminal</h3>
-          <p>Run shell commands here.</p>
-        </div>
-      </div>
-
-      <div class="app-window" id="notes-window">
-        <div class="app-window-header">
-          Notes
-          <div class="window-controls">
-            <button class="minimize-btn">–</button>
-            <button class="close-btn">×</button>
-          </div>
-        </div>
-        <div class="app-window-content">
-          <h3>Your Notes</h3>
-          <p>Write down your ideas here.</p>
-        </div>
-      </div>
-
-      <div class="app-window" id="mail-window">
-        <div class="app-window-header">
-          Mail
-          <div class="window-controls">
-            <button class="minimize-btn">–</button>
-            <button class="close-btn">×</button>
-          </div>
-        </div>
-        <div class="app-window-content">
-          <h3>Your Mail</h3>
-          <p>Check your inbox here.</p>
-        </div>
-      </div>
     </div>
 
     <!-- Desktop Icons -->
-    <div id="desktop-icons">
-      <div class="desktop-icon" data-app="finder">
-        <span>Finder</span>
-      </div>
-      <div class="desktop-icon" data-app="safari">
-        <span>Safari</span>
-      </div>
-      <div class="desktop-icon" data-app="notes">
-        <span>Notes</span>
-      </div>
-      <div class="desktop-icon" data-app="mail">
-        <span>Mail</span>
-      </div>
+    <div class="desktop">
+        <div class="desktop-icon" data-app="app1">
+            <img src="app1.png" alt="App 1">
+            <p>App 1</p>
+        </div>
+        <div class="desktop-icon" data-app="app2">
+            <img src="app2.png" alt="App 2">
+            <p>App 2</p>
+        </div>
     </div>
-  </div>
 
+    <!-- Dock -->
+    <div class="dock">
+        <div class="dock-item" data-app="app1">
+            <img src="app1.png" alt="App 1">
+        </div>
+        <div class="dock-item" data-app="app2">
+            <img src="app2.png" alt="App 2">
+        </div>
+    </div>
+
+    <!-- App Windows (Hidden by default) -->
+    <div class="app-window" id="app1-window">
+        <div class="app-window-header">
+            <span class="app-title">App 1</span>
+            <div class="window-controls">
+                <button class="close-btn">✖</button>
+                <button class="minimize-btn">–</button>
+            </div>
+        </div>
+        <div class="app-content">
+            <h1>App 1 Content</h1>
+        </div>
+    </div>
+
+    <div class="app-window" id="app2-window">
+        <div class="app-window-header">
+            <span class="app-title">App 2</span>
+            <div class="window-controls">
+                <button class="close-btn">✖</button>
+                <button class="minimize-btn">–</button>
+            </div>
+        </div>
+        <div class="app-content">
+            <h1>App 2 Content</h1>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
