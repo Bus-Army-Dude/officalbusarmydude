@@ -1,330 +1,232 @@
-/* Variables */
-:root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --accent-color: #e74c3c;
-    --background-color: #ecf0f1;
-    --text-color: #2c3e50;
-    --white: #ffffff;
-    --border-color: #bdc3c7;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --font-family: 'Open Sans', sans-serif;
-    --font-size-large: 2.5rem;
-    --font-size-medium: 1.8rem;
-    --font-size-small: 1.1rem;
-    --padding: 20px;
-    --margin: 20px;
-    --border-radius: 12px;
-    --transition-duration: 0.3s;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Base Styles */
+/* Body Styling */
 body {
-    font-family: var(--font-family);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  background-color: #f0f0f5;
+  color: #333;
+  overflow: hidden;
 }
 
-header {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: var(--padding);
-    text-align: center;
-    box-shadow: 0 2px 4px var(--shadow-color);
+/* Desktop Area */
+#desktop {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('background.jpg'); /* Add macOS-like wallpaper */
+  background-size: cover;
+  background-position: center;
 }
 
-header nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: var(--margin);
+/* Dock at the Bottom */
+#dock {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px 0;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  z-index: 100;
 }
 
-header nav ul li a {
-    color: var(--white);
-    text-decoration: none;
-    font-weight: bold;
-    transition: color var(--transition-duration);
+/* Dock Items */
+.dock-item {
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  padding: 5px;
+  width: 50px;
+  transition: transform 0.3s;
 }
 
-header nav ul li a:hover {
-    color: var(--accent-color);
+.dock-item:hover {
+  transform: scale(1.1);
 }
 
-main {
-    flex-grow: 1;
-    padding: 40px;
-    display: grid;
-    gap: 40px;
-    margin-bottom: 70px;
+/* App Windows */
+#app-windows {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
 }
 
-/* Form Styles */
-form {
-    background-color: var(--white);
-    padding: 40px;
-    border-radius: var(--border-radius);
-    box-shadow: 0px 4px 10px var(--shadow-color);
-    margin-top: 30px;
-    transition: transform var(--transition-duration);
+.app-window {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: none;
+  transition: all 0.3s ease-in-out;
 }
 
-form:hover {
-    transform: translateY(-5px);
+.app-window h3 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-form h2 {
-    font-size: var(--font-size-medium);
-    margin-bottom: 20px;
+.app-window p {
+  font-size: 14px;
+  color: #555;
 }
 
-form .form-group {
-    margin-bottom: 20px;
+/* Header of Each Window */
+.app-window-header {
+  background-color: #f7f7f7;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  border-radius: 5px 5px 0 0;
+  cursor: grab;
 }
 
-form label {
-    font-weight: bold;
+/* Start Menu Button */
+#start-menu {
+  position: absolute;
+  bottom: 60px;
+  left: 10px;
+  z-index: 10;
 }
 
-form input, form select, form textarea {
-    width: 100%;
-    padding: 12px;
-    margin-top: 5px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    transition: border-color var(--transition-duration);
+#start-button {
+  background-color: #4a90e2;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-form input:focus, form select:focus, form textarea:focus {
-    border-color: var(--secondary-color);
-    outline: none;
+#start-button:hover {
+  background-color: #3578b5;
 }
 
-form button {
-    background-color: var(--secondary-color);
-    color: var(--white);
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color var(--transition-duration);
+/* Window Interaction Styling */
+.app-window.draggable {
+  cursor: move;
 }
 
-form button:hover {
-    background-color: var(--accent-color);
+/* Window Minimized Styling */
+.app-window.minimized {
+  width: 100px;
+  height: 50px;
+  background-color: #ddd;
+  box-shadow: none;
+  overflow: hidden;
 }
 
-form small {
-    display: block;
-    margin-top: 5px;
-    color: #777;
+.app-window.minimized .app-window-header {
+  font-size: 12px;
+  text-align: center;
 }
 
-/* Footer */
-footer {
-    background-color: var(--primary-color);
-    color: var(--white);
-    text-align: center;
-    padding: var(--padding);
-    width: 100%;
-    position: relative;
-    box-shadow: 0 -2px 4px var(--shadow-color);
-    margin-top: 40px; /* Ensure there's space between content and footer */
+/* Styling for Windows when they're active */
+.app-window.active {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Careers Page Specific */
-.careers .form-group {
-    margin-bottom: 30px;
+/* Draggable Window Styling */
+.app-window-header {
+  cursor: grab;
 }
 
-h1, h2 {
-    font-family: var(--font-family);
-    font-weight: bold;
-    color: var(--text-color);
+/* Draggable Window Style on Active State */
+.app-window-header:active {
+  cursor: grabbing;
 }
 
-/* Form Input Styles */
-input[type="text"], input[type="number"], input[type="date"], input[type="email"], select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-sizing: border-box;
+/* Mac-like Button Hover Effects */
+.dock-item:hover {
+  transform: scale(1.1);
 }
 
-input[type="radio"], input[type="checkbox"] {
-    margin-right: 10px;
+/* Styling for the Desktop Icon Grid */
+#desktop-icons {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  z-index: 10;
 }
 
-/* Layout for Apply Now Section */
-.apply-now-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--margin);
+.desktop-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 60px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
-.apply-now-container .form-group {
-    flex: 1 1 calc(50% - 20px);
+.desktop-icon:hover {
+  transform: scale(1.1);
 }
 
-.apply-now-container .form-group label {
-    display: block;
-    margin-bottom: 5px;
+/* Mac Menu Bar (Optional) */
+#menu-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  font-size: 14px;
 }
 
-section button[type="submit"] {
-    background-color: #4CAF50;
-    color: var(--white);
-    padding: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    margin-top: 10px;
-    transition: background-color var(--transition-duration);
+#menu-bar span {
+  margin-right: 20px;
+  cursor: pointer;
 }
 
-section button[type="submit"]:hover {
-    background-color: #45a049;
+#menu-bar span:hover {
+  text-decoration: underline;
 }
 
-/* Roster Section */
-.roster {
-    padding: 20px;
-    text-align: center;
+/* Windows App Resize (Optional) */
+.app-window.resizeable {
+  resize: both;
+  overflow: auto;
 }
 
-.roster h2 {
-    font-size: var(--font-size-large);
-    margin-bottom: 20px;
+/* Cursor Style */
+body {
+  cursor: default;
 }
 
-.roster-members {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+.dock-item {
+  cursor: pointer;
 }
 
-.member {
-    width: 250px;
-    border: 2px solid #000;
-    border-radius: var(--border-radius);
-    padding: 15px;
-    text-align: center;
-    background-color: #f9f9f9;
-    transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+.app-window-header {
+  cursor: grab;
 }
 
-.member:hover {
-    transform: translateY(-10px);
-    box-shadow: 0px 8px 15px var(--shadow-color);
+.app-window-header:active {
+  cursor: grabbing;
 }
-
-.member-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
-}
-
-.member-info h3 {
-    font-size: 1.2rem;
-    margin: 0;
-}
-
-.member-info p {
-    font-size: 1rem;
-    color: #555;
-}
-
-.bus-number {
-    font-size: 0.9rem;
-    color: var(--accent-color);
-    margin-top: 10px;
-}
-
-/* Apply Google Form iframe Styling */
-iframe {
-    width: 100%;
-    height: 1500px;
-    margin-top: 30px;
-    border: none;
-    display: block;
-    transition: height var(--transition-duration);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .apply-now-container .form-group {
-        flex: 1 1 100%;
-    }
-
-    header nav ul {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    header nav ul li {
-        margin: 10px 0;
-    }
-
-    .roster-members {
-        justify-content: space-evenly;
-    }
-
-    .member {
-        width: 200px;
-    }
-
-    .member-img {
-        width: 80px;
-        height: 80px;
-    }
-
-    iframe {
-        height: 1200px;
-    }
-}
-
-@media (max-width: 480px) {
-    .roster-members {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .member {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .member-img {
-        width: 70px;
-        height: 70px;
-    }
-
-    iframe {
-        height: 1000px;
-    }
-}
-
-/* Additional Styling */
-.positions .position {
-    border-top: 3px solid var (--secondary-color);
-    border-bottom: 3px solid var(--border-color);
-}
-
-.position h3 {
-    font-size: 1.5rem;
-    color: var(--text-color);
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-    margin-top:
