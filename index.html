@@ -4,27 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>macOS 15 Emulator</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
-  <script src="script.js" defer></script> <!-- Link to your JS file -->
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
 
-  <!-- Menu Bar (Optional) -->
+  <!-- Menu Bar -->
   <div id="menu-bar">
     <span>Apple</span>
     <span>File</span>
     <span>Edit</span>
     <span>View</span>
     <span>Go</span>
+    <div class="time">
+      <span id="time">12:00 PM</span>
+    </div>
   </div>
 
   <!-- Desktop Area -->
   <div id="desktop">
-
-    <!-- Start Button (Triggers Start Menu) -->
+    <!-- Start Button -->
     <button id="start-button">Start</button>
 
-    <!-- Dock (Contains icons like Finder, Safari, etc.) -->
+    <!-- Dock -->
     <div id="dock">
       <div class="dock-item" data-app="safari">
         <span>Safari</span>
@@ -43,57 +45,80 @@
       </div>
     </div>
 
-    <!-- App Windows (Initially Hidden) -->
+    <!-- App Windows -->
     <div id="app-windows">
-
-      <!-- Finder Window -->
       <div class="app-window" id="finder-window">
         <div class="app-window-header">
           Finder
+          <div class="window-controls">
+            <button class="minimize-btn">–</button>
+            <button class="close-btn">×</button>
+          </div>
         </div>
-        <h3>My Files</h3>
-        <p>Here you can browse your files.</p>
+        <div class="app-window-content">
+          <h3>My Files</h3>
+          <p>Here you can browse your files.</p>
+        </div>
       </div>
 
-      <!-- Safari Window -->
       <div class="app-window" id="safari-window">
         <div class="app-window-header">
           Safari
+          <div class="window-controls">
+            <button class="minimize-btn">–</button>
+            <button class="close-btn">×</button>
+          </div>
         </div>
-        <h3>Welcome to Safari</h3>
-        <p>Browse the web like never before!</p>
+        <div class="app-window-content">
+          <h3>Welcome to Safari</h3>
+          <p>Browse the web like never before!</p>
+        </div>
       </div>
 
-      <!-- Terminal Window -->
       <div class="app-window" id="terminal-window">
         <div class="app-window-header">
           Terminal
+          <div class="window-controls">
+            <button class="minimize-btn">–</button>
+            <button class="close-btn">×</button>
+          </div>
         </div>
-        <h3>Terminal</h3>
-        <p>Run shell commands here.</p>
+        <div class="app-window-content">
+          <h3>Terminal</h3>
+          <p>Run shell commands here.</p>
+        </div>
       </div>
 
-      <!-- Notes Window -->
       <div class="app-window" id="notes-window">
         <div class="app-window-header">
           Notes
+          <div class="window-controls">
+            <button class="minimize-btn">–</button>
+            <button class="close-btn">×</button>
+          </div>
         </div>
-        <h3>Your Notes</h3>
-        <p>Write down your ideas here.</p>
+        <div class="app-window-content">
+          <h3>Your Notes</h3>
+          <p>Write down your ideas here.</p>
+        </div>
       </div>
 
-      <!-- Mail Window -->
       <div class="app-window" id="mail-window">
         <div class="app-window-header">
           Mail
+          <div class="window-controls">
+            <button class="minimize-btn">–</button>
+            <button class="close-btn">×</button>
+          </div>
         </div>
-        <h3>Your Mail</h3>
-        <p>Check your inbox here.</p>
+        <div class="app-window-content">
+          <h3>Your Mail</h3>
+          <p>Check your inbox here.</p>
+        </div>
       </div>
-
     </div>
 
-    <!-- Desktop Icons (For Files, Apps, etc.) -->
+    <!-- Desktop Icons -->
     <div id="desktop-icons">
       <div class="desktop-icon" data-app="finder">
         <span>Finder</span>
@@ -108,7 +133,6 @@
         <span>Mail</span>
       </div>
     </div>
-
   </div>
 
 </body>
