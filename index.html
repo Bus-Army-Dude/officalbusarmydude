@@ -1,45 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Status Page</title>
-  <link rel="stylesheet" href="styles/styles.css" />
-  <script defer src="scripts/script.js"></script>
+  <link rel="stylesheet" href="styles/styles.css">
+  <script defer src="scripts/script.js"></script> <!-- This will handle dynamic data loading -->
 </head>
 <body>
-  <!-- Global Status Banner -->
-  <div id="global-status-banner" class="status-banner">
-    <p>Loading status...</p>
-  </div>
+  <div class="container">
+    <!-- Global Status Banner -->
+    <div class="status-banner" id="global-status-banner">
+      <!-- Dynamically set status will go here -->
+      All Systems Operational
+    </div>
 
-  <main class="container">
-    <!-- System Status Section -->
-    <section id="components-section" class="components-section">
-      <h2>System Status</h2>
-      <!-- Component groups will be injected dynamically here -->
-      <div id="component-groups" class="component-groups"></div>
-    </section>
-
-    <!-- Incidents and Maintenance -->
-    <section id="incidents-section" class="incidents-section">
-      <h2>Incidents & Maintenance</h2>
-      <!-- Incident cards will be injected dynamically here -->
-      <div id="incident-cards" class="incident-cards"></div>
-    </section>
-
-    <!-- Uptime Tracker -->
-    <section id="uptime-section" class="uptime-section">
-      <h2>Uptime Tracker</h2>
-      <div class="uptime-chart">
-        <!-- Placeholder for uptime chart -->
-        <p>Uptime chart goes here</p>
+    <!-- System Components Section -->
+    <section class="components-section">
+      <div id="component-groups">
+        <!-- Component groups will be injected here dynamically -->
       </div>
     </section>
-  </main>
 
-  <footer class="footer">
-    <p>&copy; 2025 Status Page. All rights reserved.</p>
+    <!-- Incidents Section -->
+    <section class="incidents-section">
+      <h2>Incidents & Maintenance</h2>
+      <div id="incident-cards">
+        <!-- Incident cards will be injected here dynamically -->
+      </div>
+    </section>
+
+    <!-- Uptime Section -->
+    <section class="uptime-section">
+      <h2>Uptime</h2>
+      <div class="uptime-chart">
+        <!-- Uptime graph/chart will be injected here dynamically -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Your Company. All rights reserved.</p>
   </footer>
 </body>
 </html>
