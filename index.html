@@ -4,33 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Status Page</title>
-  <link rel="stylesheet" href="styles/style.css" />
-  <script defer src="scripts/script.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <!-- Global System Status Banner -->
+  <!-- Global Status Banner -->
   <div id="global-status-banner" class="status-banner">
-    <!-- Filled by JS -->
+    <p>Loading status...</p>
   </div>
 
   <main class="container">
-    <!-- Component Groups -->
+    <!-- System Status Section -->
     <section id="components-section" class="components-section">
       <h2>System Status</h2>
-      <!-- Filled by JS -->
+      <!-- Component groups will be injected dynamically here -->
+      <div id="component-groups" class="component-groups"></div>
     </section>
 
     <!-- Incidents and Maintenance -->
     <section id="incidents-section" class="incidents-section">
       <h2>Incidents & Maintenance</h2>
-      <!-- Filled by JS -->
+      <!-- Incident cards will be injected dynamically here -->
+      <div id="incident-cards" class="incident-cards"></div>
     </section>
 
-    <!-- Uptime Statistics -->
+    <!-- Uptime Tracker -->
     <section id="uptime-section" class="uptime-section">
       <h2>Uptime Tracker</h2>
-      <!-- Filled by JS (Charts, %s) -->
+      <div class="uptime-chart">
+        <!-- Placeholder for uptime chart -->
+        <p>Uptime chart goes here</p>
+      </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Status Page. All rights reserved.</p>
+  </footer>
 </body>
 </html>
