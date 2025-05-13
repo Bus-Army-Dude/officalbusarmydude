@@ -25,7 +25,7 @@ function loadShifts() {
     snapshot.forEach(doc => {
       const shift = doc.data();
       const div = document.createElement('div');
-      div.textContent = `${shift.date}: ${shift.start} - ${shift.end} @ ${shift.location}`;
+      div.innerHTML = `<strong>${shift.date}</strong><br>${shift.start} - ${shift.end} @ ${shift.location}`;
       shiftsContainer.appendChild(div);
     });
   });
