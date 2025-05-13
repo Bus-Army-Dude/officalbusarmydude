@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+  padding: 2rem;
+}
+form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+#shiftsContainer {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
