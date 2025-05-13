@@ -2,24 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Work Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
-  <h1>Work Tracker</h1>
+  <div class="container">
+    <h1>📅 Work Tracker</h1>
 
-  <form id="shiftForm">
-    <input type="date" id="date" required />
-    <input type="time" id="start" required />
-    <input type="time" id="end" required />
-    <input type="text" id="location" placeholder="Location" required />
-    <button type="submit">Add Shift</button>
-  </form>
+    <form id="shiftForm">
+      <input type="date" id="date" required />
+      <input type="time" id="start" required />
+      <input type="time" id="end" required />
+      <input type="text" id="location" placeholder="Work Location" required />
+      <button type="submit">Add Shift</button>
+    </form>
 
-  <div id="shiftsContainer"></div>
+    <h2>🕒 Past Shifts</h2>
+    <div id="shiftsContainer"></div>
+  </div>
 
   <script src="firebase-config.js"></script>
   <script src="app.js"></script>
