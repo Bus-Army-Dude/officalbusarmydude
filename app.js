@@ -1,3 +1,5 @@
+import { collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
 const shiftForm = document.getElementById('shiftForm');
 const shiftsContainer = document.getElementById('shiftsContainer');
 
@@ -8,27 +10,28 @@ shiftForm.addEventListener('submit', async (e) => {
   const end = document.getElementById('end').value;
   const location = document.getElementById('location').value;
 
-  await db.collection('shifts').add({
-    date,
-    start,
-    end,
-    location,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-
-  shiftForm.reset();
+  try {
+    await addDoc(collection(window.db, "shifts"), {
+      date,
+      start,
+      end,
+      location,
+      timestamp: serverTimestamp()
+    });
+    shiftForm.reset();
+  } catch (err) {
+    console.error("🔥 Error adding doc: ", err);
+  }
 });
 
-function loadShifts() {
-  db.collection("shifts").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-    shiftsContainer.innerHTML = '';
-    snapshot.forEach(doc => {
-      const shift = doc.data();
-      const div = document.createElement('div');
-      div.innerHTML = `<strong>${shift.date}</strong><br>${shift.start} - ${shift.end} @ ${shift.location}`;
-      shiftsContainer.appendChild(div);
-    });
-  });
-}
+const q = query(collection(window.db, "shifts"), orderBy("timestamp", "desc"));
 
-loadShifts();
+onSnapshot(q, (snapshot) => {
+  shiftsContainer.innerHTML = '';
+  snapshot.forEach(doc => {
+    const shift = doc.data();
+    const div = document.createElement('div');
+    div.innerHTML = `<strong>${shift.date}</strong><br>${shift.start} - ${shift.end} @ ${shift.location}`;
+    shiftsContainer.appendChild(div);
+  });
+});
