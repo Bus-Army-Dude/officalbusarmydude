@@ -17,6 +17,7 @@ const eventEndDateInput = document.getElementById("eventEndDate");
 const eventEndTimeInput = document.getElementById("eventEndTime");
 const eventAllDayCheckbox = document.getElementById("eventAllDay");
 const eventRepeatSelect = document.getElementById("eventRepeat");
+const eventColorSelect = document.getElementById("eventColor");
 const eventDescriptionInput = document.getElementById("eventDescription");
 
 const startTimeGroup = document.getElementById("startTimeGroup");
@@ -24,8 +25,8 @@ const endTimeGroup = document.getElementById("endTimeGroup");
 
 
 let currentDate = new Date();
-// Events stored as { "YYYY-M-D": [eventObj1, eventObj2] }
-// Month is 0-indexed in the key for consistency with Date.getMonth()
+// Events stored as { "YYYY-MM-DD": [eventObj1, eventObj2] }
+// Keys are now YYYY-MM-DD strings directly from the date input.
 let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
 let currentlySelectedDayKey = null; // Key of the day cell that was clicked
 let editingEventId = null; // To store the ID of the event being edited
@@ -53,13 +54,17 @@ function formatTime(dateObj) {
     return `${hours}:${minutes}`;
 }
 
-// Helper to create a consistent storage key (YYYY-M-D, 0-indexed month)
-function getEventStorageKey(dateObj) {
-    return `${dateObj.getFullYear()}-${dateObj.getMonth()}-${dateObj.getDate()}`;
+// Helper to create a consistent storage key (YYYY-MM-DD string)
+// Takes a YYYY-MM-DD date string (from input) and returns it directly as the key.
+function getEventStorageKey(dateString) {
+    // This function now simply returns the YYYY-MM-DD string as the key.
+    // It's assumed dateString is already in 'YYYY-MM-DD' format from input[type="date"]
+    return dateString;
 }
 
 function openModalForNewEvent(date) {
-  currentlySelectedDayKey = getEventStorageKey(date); // Store the actual day key
+  // Use formatDate to get the YYYY-MM-DD string for the key
+  currentlySelectedDayKey = getEventStorageKey(formatDate(date));
   editingEventId = null;
 
   modalTitle.textContent = "Add Event";
@@ -72,9 +77,11 @@ function openModalForNewEvent(date) {
   // Sensible default times (e.g., next hour, rounded to nearest hour)
   const now = new Date();
   let defaultStartTime = new Date(date);
-  defaultStartTime.setHours(now.getHours() + 1, 0, 0, 0); // Set to top of next hour
-  if (defaultStartTime.getDate() !== date.getDate() && defaultStartTime.getHours() < 24) { // Handle case where next hour rolls into next day
-      defaultStartTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 9, 0); // Default to 9 AM for the selected day
+  // Set to top of next hour, ensuring it's on the selected day
+  defaultStartTime.setHours(now.getHours() + 1, 0, 0, 0);
+  if (defaultStartTime.getDate() !== date.getDate() && defaultStartTime.getHours() < 24) {
+      // If next hour rolls into next day due to timezone or just being late in day, default to 9 AM
+      defaultStartTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 9, 0);
   }
 
 
@@ -88,6 +95,7 @@ function openModalForNewEvent(date) {
   eventNameInput.value = "";
   eventAllDayCheckbox.checked = false;
   eventRepeatSelect.value = "none";
+  eventColorSelect.value = "default"; // Set default color
   eventDescriptionInput.value = "";
 
   toggleTimeInputs(); // Ensure time inputs are visible initially
@@ -109,6 +117,7 @@ function openModalForEditEvent(eventData, dayKey) {
     eventEndTimeInput.value = eventData.endTime || ""; // Use empty string if null
     eventAllDayCheckbox.checked = eventData.isAllDay;
     eventRepeatSelect.value = eventData.repeat || "none";
+    eventColorSelect.value = eventData.color || "default"; // Set existing color or default
     eventDescriptionInput.value = eventData.description || "";
 
     toggleTimeInputs();
@@ -158,9 +167,10 @@ function renderCalendar(dateToDisplay) {
   for (let day = 1; day <= totalDaysInMonth; day++) {
     const dayDiv = document.createElement("div");
     dayDiv.classList.add("day-cell");
+    // Create Date object for the current day being rendered (local time)
     const currentDateObj = new Date(year, month, day);
-    // This dayKey uses 0-indexed month, consistent with how `events` are stored
-    const dayKey = getEventStorageKey(currentDateObj);
+    // Get the storage key (YYYY-MM-DD string) for the current day being rendered
+    const dayKey = getEventStorageKey(formatDate(currentDateObj));
 
     const dayNumberSpan = document.createElement("span");
     dayNumberSpan.classList.add("day-number");
@@ -190,11 +200,17 @@ function renderCalendar(dateToDisplay) {
       });
 
       events[dayKey].forEach(event => {
+        // Prevent rendering of events without a name (e.g., corrupted entries)
+        if (!event.name) {
+            console.warn("Skipping rendering of an event with no name:", event);
+            return;
+        }
+
         const eventEl = document.createElement("div");
         eventEl.className = "event-entry";
-        if (event.isAllDay) {
-            eventEl.classList.add("all-day");
-        }
+        // Apply color class
+        eventEl.classList.add(event.color || (event.isAllDay ? "teal" : "default"));
+
         // Display time only if not all-day
         eventEl.textContent = `${event.isAllDay ? 'All-day' : (event.startTime || '')} ${event.name}`;
         eventEl.title = `${event.name}\n${event.isAllDay ? 'All-day' : (event.startTime + ' - ' + event.endTime)}\n${event.description || ''}`;
@@ -228,12 +244,13 @@ window.onclick = (event) => {
 
 saveEventButton.onclick = () => {
   const name = eventNameInput.value.trim();
-  const startDate = eventStartDateInput.value; // YYYY-MM-DD
+  const startDate = eventStartDateInput.value; // YYYY-MM-DD string from input
   const startTime = eventStartTimeInput.value; // HH:MM
-  const endDate = eventEndDateInput.value;     // YYYY-MM-DD
+  const endDate = eventEndDateInput.value;     // YYYY-MM-DD string from input
   const endTime = eventEndTimeInput.value;     // HH:MM
   const isAllDay = eventAllDayCheckbox.checked;
   const repeat = eventRepeatSelect.value;
+  const color = eventColorSelect.value; // Get selected color
   const description = eventDescriptionInput.value.trim();
 
   if (!name) {
@@ -249,10 +266,19 @@ saveEventButton.onclick = () => {
     return;
   }
 
-  // Basic validation: end date/time should not be before start date/time
-  // Create Date objects for comparison
-  const startDateTime = new Date(`${startDate}T${isAllDay ? '00:00' : startTime || '00:00'}`);
-  const endDateTime = new Date(`${endDate}T${isAllDay ? '23:59' : endTime || '23:59'}`);
+  // Robust Date object creation for comparison (parsing YYYY-MM-DD parts)
+  // Month is 0-indexed in Date constructor, so subtract 1
+  const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+  const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
+
+  const startDateTime = new Date(startYear, startMonth - 1, startDay,
+                                 isAllDay ? 0 : parseInt(startTime.split(':')[0]),
+                                 isAllDay ? 0 : parseInt(startTime.split(':')[1] || '0')); // Handle empty minutes
+
+  const endDateTime = new Date(endYear, endMonth - 1, endDay,
+                               isAllDay ? 23 : parseInt(endTime.split(':')[0]),
+                               isAllDay ? 59 : parseInt(endTime.split(':')[1] || '0')); // Handle empty minutes
+
 
   if (endDateTime < startDateTime) {
     alert("End date/time cannot be before start date/time.");
@@ -262,37 +288,33 @@ saveEventButton.onclick = () => {
   const eventData = {
     id: editingEventId || generateId(),
     name,
-    startDate, // Storing as YYYY-MM-DD string
+    startDate, // Store as YYYY-MM-DD string
     startTime: isAllDay ? null : startTime,
-    endDate,   // Storing as YYYY-MM-DD string
+    endDate,   // Store as YYYY-MM-DD string
     endTime: isAllDay ? null : endTime,
     isAllDay,
     repeat,
+    color, // Store the selected color
     description,
   };
 
-  // Determine the key where this event should be stored.
-  // Use a Date object derived from startDate string to get the 0-indexed month.
-  const newEventStorageKey = getEventStorageKey(new Date(startDate));
+  // The storage key is simply the startDate string
+  const newEventStorageKey = getEventStorageKey(startDate);
 
   if (editingEventId) {
     // Editing an existing event
+    // Find the event's current location and remove it regardless of `currentlySelectedDayKey`
     let oldEventStorageKey = null;
-
-    // Find the event's current location and remove it
     for (const key in events) {
         if (events.hasOwnProperty(key) && Array.isArray(events[key])) {
             const eventIndex = events[key].findIndex(ev => ev.id === editingEventId);
             if (eventIndex !== -1) {
-                // Found the event, store its old key
                 oldEventStorageKey = key;
-                // Remove the event from its old location
                 events[key].splice(eventIndex, 1);
-                // Clean up if the day array becomes empty
                 if (events[key].length === 0) {
                     delete events[key];
                 }
-                break; // Event found and removed, exit loop
+                break;
             }
         }
     }
