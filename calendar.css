@@ -87,6 +87,24 @@ button:hover {
   font-size: 14px;
 }
 
+/* Current Day Highlight (Added from previous suggestion) */
+.day-cell.current-day span {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%; /* Makes the number in a circle */
+  padding: 4px 6px;
+  display: inline-block;
+  width: 24px; /* Adjust as needed */
+  height: 24px; /* Adjust as needed */
+  line-height: 16px; /* Adjust to vertically center */
+  text-align: center;
+}
+
+.day-cell.current-day {
+  background-color: #dbe5f1; /* Slightly different background for the whole cell */
+}
+
+
 /* Events inside a day */
 .event-list {
   margin-top: 6px;
@@ -117,6 +135,92 @@ button:hover {
   border-radius: 3px;
 }
 
+/* MODAL STYLES */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.5); /* Black w/ opacity - overlay */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 25px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 450px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative; /* For positioning the close button */
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.modal-content input[type="text"],
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.modal-content textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modal-content button {
+  padding: 10px 15px;
+  margin-top: 10px;
+  margin-right: 10px; /* Space between buttons */
+}
+
+.modal-content button.cancel-button {
+  background-color: #6c757d; /* A grey color for cancel */
+}
+.modal-content button.cancel-button:hover {
+  background-color: #5a6268;
+}
+
+
+.close-button {
+  color: #aaa;
+  float: right; /* Position to the top-right */
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute; /* Position relative to modal-content */
+  top: 10px;
+  right: 15px;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 /* Responsive tweaks */
 @media (max-width: 600px) {
   #monthYear {
@@ -135,5 +239,15 @@ button:hover {
   button {
     font-size: 12px;
     padding: 4px 8px;
+  }
+
+  .modal-content {
+    margin: 20% auto;
+    width: 90%;
+  }
+
+  .modal-content button {
+    padding: 8px 12px;
+    font-size: 13px;
   }
 }
