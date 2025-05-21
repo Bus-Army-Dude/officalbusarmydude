@@ -176,6 +176,14 @@ button:hover, .button-primary:hover {
   background-color: #17a2b8; /* Different color for all-day events (Teal) */
 }
 
+/* Event Colors */
+.event-entry.default { background-color: #28a745; } /* Green */
+.event-entry.blue { background-color: #007bff; }
+.event-entry.red { background-color: #dc3545; }
+.event-entry.purple { background-color: #6f42c1; }
+.event-entry.orange { background-color: #fd7e14; }
+.event-entry.teal { background-color: #17a2b8; }
+
 
 /* Scrollbar inside each day */
 .event-list::-webkit-scrollbar {
