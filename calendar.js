@@ -391,7 +391,7 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
 
         let eventTextContent = `${timeDisplay} ${event.name}`;
         let eventTooltip = `${event.name}`;
-        if (event.address) { // NEW: Add address to tooltip
+        if (event.address) { // This is line 329 in the previous code, ensure it's correct.
             eventTooltip += `\nLocation: ${event.address}`;
         }
         eventTooltip += `\n${event.description || 'No description.'}\nStarts: ${displayTime(event.startTime || '00:00')} on ${displayDate(event.startDate)}\nEnds: ${displayTime(event.endTime || '23:59')} on ${displayDate(event.endDate)}`;
