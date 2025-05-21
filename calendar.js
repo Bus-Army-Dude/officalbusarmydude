@@ -261,7 +261,7 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
             const currentRenderDayObj = new Date(year, month, day);
 
             // If a recurrence end date is set, and the current day is past it, skip.
-            if (recurrenceEndDateTime && currentRenderDayObj > recurrenceEndDateTime) {
+            if (recurrenceEndDateTime && currentRenderDayDayObj > recurrenceEndDateTime) {
                 continue;
             }
 
@@ -391,12 +391,9 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
 
         let eventTextContent = `${timeDisplay} ${event.name}`;
         let eventTooltip = `${event.name}`;
-        // Debugging logs - please leave these in for now
-        console.log("DEBUG: Before 'if (event.address)' check.");
-        if (event.address) {
+        if (event.address) { // This is where the error points
             eventTooltip += `\nLocation: ${event.address}`;
         }
-        console.log("DEBUG: After 'if (event.address)' check.");
         eventTooltip += `\n${event.description || 'No description.'}\nStarts: ${displayTime(event.startTime || '00:00')} on ${displayDate(event.startDate)}\nEnds: ${displayTime(event.endTime || '23:59')} on ${displayDate(event.endDate)}`;
 
         // If the event spans multiple days, add visual indication
@@ -405,6 +402,7 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
         if (eventStartDate.toDateString() !== eventEndDate.toDateString()) {
             eventTextContent = `Multi-day: ${event.name}`; // Simpler for display in small cell
         }
+
 
         eventEl.textContent = eventTextContent;
         eventEl.title = eventTooltip; // Improved tooltip
