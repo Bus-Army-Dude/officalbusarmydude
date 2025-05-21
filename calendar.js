@@ -1,3 +1,4 @@
+// Please copy this entire code block into your empty calendar.js file
 const monthYearDisplay = document.getElementById("monthYear");
 const calendarGrid = document.getElementById("calendarGrid");
 const todayButton = document.getElementById("todayButton");
@@ -26,7 +27,7 @@ const eventColorSelect = document.getElementById("eventColor");
 const eventDescriptionInput = document.getElementById("eventDescription");
 
 const startTimeGroup = document.getElementById("startTimeGroup");
-const endTimeGroup = document = document.getElementById("endTimeGroup");
+const endTimeGroup = document.getElementById("endTimeGroup");
 
 
 let currentDate = new Date();
@@ -385,7 +386,7 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
 
         let eventTextContent = `${timeDisplay} ${event.name}`;
         let eventTooltip = `${event.name}`;
-        if (event.address) {
+        if (event.address) { // This is where the error points (around line 323)
             eventTooltip += `\nLocation: ${event.address}`;
         }
         eventTooltip += `\n${event.description || 'No description.'}\nStarts: ${displayTime(event.startTime || '00:00')} on ${displayDate(event.startDate)}\nEnds: ${displayTime(event.endTime || '23:59')} on ${displayDate(event.endDate)}`;
