@@ -26,7 +26,7 @@ const eventColorSelect = document.getElementById("eventColor");
 const eventDescriptionInput = document.getElementById("eventDescription");
 
 const startTimeGroup = document.getElementById("startTimeGroup");
-const endTimeGroup = document.getElementById("endTimeGroup");
+const endTimeGroup = document = document.getElementById("endTimeGroup");
 
 
 let currentDate = new Date();
@@ -36,9 +36,6 @@ let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
 let currentlySelectedDayKey = null; // Key of the day cell that was clicked
 let editingEventId = null; // To store the ID of the event being edited
 
-// Set to keep track of active reminder timeouts to clear them if needed
-const activeReminders = new Set();
-
 
 function generateId() {
   return Math.random().toString(36).substr(2, 9);
@@ -46,9 +43,6 @@ function generateId() {
 
 function saveEvents() {
   localStorage.setItem("calendarEvents", JSON.stringify(events));
-  // Clear existing reminders and set new ones after saving events
-  clearAllReminders();
-  setEventReminders();
 }
 
 // Helper to get YYYY-MM-DD from a Date object (for input[type="date"] value)
@@ -261,7 +255,7 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
             const currentRenderDayObj = new Date(year, month, day);
 
             // If a recurrence end date is set, and the current day is past it, skip.
-            if (recurrenceEndDateTime && currentRenderDayDayObj > recurrenceEndDateTime) {
+            if (recurrenceEndDateTime && currentRenderDayObj > recurrenceEndDateTime) {
                 continue;
             }
 
@@ -391,7 +385,7 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
 
         let eventTextContent = `${timeDisplay} ${event.name}`;
         let eventTooltip = `${event.name}`;
-        if (event.address) { // This is where the error points
+        if (event.address) {
             eventTooltip += `\nLocation: ${event.address}`;
         }
         eventTooltip += `\n${event.description || 'No description.'}\nStarts: ${displayTime(event.startTime || '00:00')} on ${displayDate(event.startDate)}\nEnds: ${displayTime(event.endTime || '23:59')} on ${displayDate(event.endDate)}`;
@@ -591,7 +585,6 @@ deleteEventButton.onclick = () => {
 
     if (eventFoundAndDeleted) {
         saveEvents();
-        console.log("Event deleted successfully:", editingEventId);
     } else {
         console.warn("Could not find event to delete with ID:", editingEventId);
     }
@@ -600,7 +593,7 @@ deleteEventButton.onclick = () => {
 };
 
 
-// NAVIGATION AND REMINDER FUNCTIONS
+// NAVIGATION FUNCTIONS
 
 document.getElementById("prevMonth").onclick = () => {
   currentDate.setMonth(currentDate.getMonth() - 1);
@@ -631,114 +624,5 @@ goToDateInput.addEventListener('change', (e) => {
 });
 
 
-// Reminder Logic
-function clearAllReminders() {
-    activeReminders.forEach(timeoutId => clearTimeout(timeoutId));
-    activeReminders.clear();
-}
-
-function setEventReminders() {
-    clearAllReminders();
-
-    const now = new Date();
-
-    for (const dayKey in events) {
-        if (events.hasOwnProperty(dayKey) && Array.isArray(events[dayKey])) {
-            events[dayKey].forEach(event => {
-                if (event.isAllDay || !event.startTime) {
-                    return;
-                }
-
-                // Parse event's original start date for recurrence calculations
-                const [eventStartYear, eventStartMonth, eventStartDay] = event.startDate.split('-').map(Number);
-                const eventStartDateObj = new Date(eventStartYear, eventStartMonth - 1, eventStartDay);
-
-                // Determine the next occurrence date for reminder
-                let nextOccurrenceDate = new Date(eventStartDateObj);
-
-                // Advance nextOccurrenceDate to today or a future date if it's in the past
-                // This logic needs to be careful with the recurrence type
-                let advanced = false;
-                while (nextOccurrenceDate.getTime() < now.getTime() - (5 * 60 * 1000)) { // 5 min buffer before now
-                    if (event.repeat === 'daily') {
-                        nextOccurrenceDate.setDate(nextOccurrenceDate.getDate() + 1);
-                        advanced = true;
-                    } else if (event.repeat === 'weekly') {
-                        nextOccurrenceDate.setDate(nextOccurrenceDate.getDate() + 7);
-                        advanced = true;
-                    } else if (event.repeat === 'monthly') {
-                        // Ensure month change doesn't incorrectly skip the original day
-                        const currentDayOfMonth = nextOccurrenceDate.getDate();
-                        nextOccurrenceDate.setMonth(nextOccurrenceDate.getMonth() + 1);
-                        // If advancing month made the day number invalid (e.g. Feb 30 -> Mar 2), set to last day of prev month
-                        if (nextOccurrenceDate.getDate() < currentDayOfMonth) {
-                            nextOccurrenceDate.setDate(0); // Sets to last day of previous month
-                        }
-                        advanced = true;
-                    } else if (event.repeat === 'yearly') {
-                        nextOccurrenceDate.setFullYear(nextOccurrenceDate.getFullYear() + 1);
-                        advanced = true;
-                    } else {
-                        break; // No recurrence or future date, break
-                    }
-
-                    // NEW: Stop if advanced date goes past recurrence end date
-                    if (event.repeatEndDate) {
-                        const [repeatEndYear, repeatEndMonth, repeatEndDay] = event.repeatEndDate.split('-').map(Number);
-                        const reminderRepeatEndDate = new Date(repeatEndYear, repeatEndMonth - 1, repeatEndDay, 23, 59, 59);
-                        if (nextOccurrenceDate > reminderRepeatEndDate) {
-                            break; // Do not set reminders past the recurrence end date
-                        }
-                    }
-
-                    // Safety break for extremely long advancing loops
-                    if (nextOccurrenceDate.getFullYear() > now.getFullYear() + 5) break;
-                }
-                // If it wasn't advanced but was supposed to be (e.g., initial date was today)
-                if (!advanced && nextOccurrenceDate.getTime() < now.getTime() - (5 * 60 * 1000) && event.repeat !== 'none') {
-                     // This means the initial nextOccurrenceDate (which was eventStartDateObj) is still in the past,
-                     // but the loop didn't advance it, likely because event.repeat is 'none'.
-                     // For non-recurring events, we should still use their original date.
-                     // For recurring events, if we didn't advance, it means they are too far in the past/future
-                     // or the recurrence logic needs adjustment.
-                     // For simplicity, let's just make sure we use the potentially advanced date.
-                }
-
-
-                const [eventHour, eventMinute] = event.startTime.split(':').map(Number);
-                const eventDateTimeForReminder = new Date(nextOccurrenceDate.getFullYear(), nextOccurrenceDate.getMonth(), nextOccurrenceDate.getDate(), eventHour, eventMinute);
-
-
-                const timeUntilEvent = eventDateTimeForReminder.getTime() - now.getTime();
-
-                // Set reminder if event is in the future (within next 24 hours for client-side limits)
-                if (timeUntilEvent > 0 && timeUntilEvent < (24 * 60 * 60 * 1000)) {
-                    // NEW: Also check against recurrence end date here before setting timeout
-                    if (event.repeatEndDate) {
-                        const [repeatEndYear, repeatEndMonth, repeatEndDay] = event.repeatEndDate.split('-').map(Number);
-                        const reminderRepeatEndDate = new Date(repeatEndYear, repeatEndMonth - 1, repeatEndDay, 23, 59, 59);
-                        if (eventDateTimeForReminder > reminderRepeatEndDate) {
-                            continue; // Skip setting reminder if this occurrence is past the recurrence end date
-                        }
-                    }
-
-                    const timeoutId = setTimeout(() => {
-                        let reminderMessage = `Reminder: Event "${event.name}" is starting now at ${displayTime(event.startTime)}!`;
-                        if (event.address) {
-                            reminderMessage += `\nLocation: ${event.address}`;
-                        }
-                        alert(reminderMessage);
-                        activeReminders.delete(timeoutId);
-                    }, timeUntilEvent);
-                    activeReminders.add(timeoutId);
-                }
-            });
-        }
-    }
-    console.log(`Set ${activeReminders.size} reminders for events within the next 24 hours.`);
-}
-
-
 // INITIALIZATION
 renderCalendar(currentDate);
-setEventReminders();
