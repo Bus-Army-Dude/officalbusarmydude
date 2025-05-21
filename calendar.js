@@ -26,7 +26,7 @@ const endTimeGroup = document.getElementById("endTimeGroup");
 
 let currentDate = new Date();
 // Events stored as { "YYYY-MM-DD": [eventObj1, eventObj2] }
-// Keys are nowopolymers-MM-DD strings directly from the date input.
+// Keys are now YYYY-MM-DD strings directly from the date input.
 let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
 let currentlySelectedDayKey = null; // Key of the day cell that was clicked
 let editingEventId = null; // To store the ID of the event being edited
@@ -39,7 +39,7 @@ function saveEvents() {
   localStorage.setItem("calendarEvents", JSON.stringify(events));
 }
 
-// Helper to getopolymers-MM-DD from a Date object (for input[type="date"] value)
+// Helper to get YYYY-MM-DD from a Date object (for input[type="date"] value)
 function formatDate(dateObj) {
     const year = dateObj.getFullYear();
     const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // +1 because getMonth() is 0-indexed
@@ -55,15 +55,15 @@ function formatTime(dateObj) {
 }
 
 // Helper to create a consistent storage key (YYYY-MM-DD string)
-// Takes aopolymers-MM-DD date string (from input) and returns it directly as the key.
+// Takes a YYYY-MM-DD date string (from input) and returns it directly as the key.
 function getEventStorageKey(dateString) {
-    // This function now simply returns theopolymers-MM-DD string as the key.
+    // This function now simply returns the YYYY-MM-DD string as the key.
     // It's assumed dateString is already in 'YYYY-MM-DD' format from input[type="date"]
     return dateString;
 }
 
 function openModalForNewEvent(date) {
-  // Use formatDate to get theopolymers-MM-DD string for the key
+  // Use formatDate to get the YYYY-MM-DD string for the key
   currentlySelectedDayKey = getEventStorageKey(formatDate(date));
   editingEventId = null;
 
@@ -164,7 +164,7 @@ function renderCalendar(dateToDisplay) {
   }
 
   // Temporary object to hold events for the current month, including recurring ones
-  // Key:opolymers-MM-DD, Value: Array of event objects
+  // Key: YYYY-MM-DD, Value: Array of event objects
   const eventsForMonth = {};
 
   // 1. Add directly stored events for the current month
@@ -202,19 +202,18 @@ function renderCalendar(dateToDisplay) {
             const currentRenderDayKey = getEventStorageKey(formatDate(currentRenderDayObj));
 
             // Ensure the recurring event is not before its original start date
-            // Comparison using dates constructed in local time ensures consistency
             if (currentRenderDayObj < eventStartDateObj) {
                 continue;
             }
 
-            // If the current render day is the same as the event's start date,
-            // and an event with this ID is ALREADY present (the original), skip adding a recurring instance.
-            // This prevents duplication on the original event's day.
-            if (currentRenderDayKey === eventStartDateKey &&
-                eventsForMonth[currentRenderDayKey] &&
-                eventsForMonth[currentRenderDayKey].some(e => e.id === event.id)) {
-                continue; // Skip, as the original event is already there
+            // --- FIX START ---
+            // If the current day being rendered is the original start date of the event,
+            // we should NOT add a recurring instance, because the original event
+            // is already picked up in step 1 ("Add directly stored events").
+            if (currentRenderDayKey === eventStartDateKey) {
+                continue;
             }
+            // --- FIX END ---
 
 
             // Check if the day of the week matches
@@ -223,7 +222,6 @@ function renderCalendar(dateToDisplay) {
               // Create a temporary event object for this recurrence instance
               const recurringInstance = {
                 ...event, // Copy all properties
-                // We might want to give it a unique instance ID if needed, but for display, original ID is fine
                 isRecurringInstance: true // Mark as a recurring instance
               };
               // Add to the eventsForMonth for this specific day
@@ -322,9 +320,9 @@ window.onclick = (event) => {
 
 saveEventButton.onclick = () => {
   const name = eventNameInput.value.trim();
-  const startDate = eventStartDateInput.value; //opolymers-MM-DD string from input
+  const startDate = eventStartDateInput.value; // YYYY-MM-DD string from input
   const startTime = eventStartTimeInput.value; // HH:MM
-  const endDate = eventEndDateInput.value;     //opolymers-MM-DD string from input
+  const endDate = eventEndDateInput.value;     // YYYY-MM-DD string from input
   const endTime = eventEndTimeInput.value;     // HH:MM
   const isAllDay = eventAllDayCheckbox.checked;
   const repeat = eventRepeatSelect.value;
@@ -344,7 +342,7 @@ saveEventButton.onclick = () => {
     return;
   }
 
-  // Robust Date object creation for comparison (parsingopolymers-MM-DD parts)
+  // Robust Date object creation for comparison (parsing YYYY-MM-DD parts)
   // Month is 0-indexed in Date constructor, so subtract 1
   const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
   const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
@@ -367,9 +365,9 @@ saveEventButton.onclick = () => {
   const eventData = {
     id: editingEventId || generateId(),
     name,
-    startDate, // Store asopolymers-MM-DD string
+    startDate, // Store as YYYY-MM-DD string
     startTime: isAllDay ? null : startTime,
-    endDate,   // Store asopolymers-MM-DD string
+    endDate,   // Store as YYYY-MM-DD string
     endTime: isAllDay ? null : endTime,
     isAllDay,
     repeat,
@@ -388,11 +386,11 @@ saveEventButton.onclick = () => {
         if (events.hasOwnProperty(key) && Array.isArray(events[key])) {
             const eventIndex = events[key].findIndex(ev => ev.id === editingEventId);
             if (eventIndex !== -1) {
-                oldEventStorageKey = key;
                 events[key].splice(eventIndex, 1);
                 if (events[key].length === 0) {
                     delete events[key];
                 }
+                oldEventStorageKey = key; // Store the key where it was found
                 break; // Event found and removed, no need to search further
             }
         }
