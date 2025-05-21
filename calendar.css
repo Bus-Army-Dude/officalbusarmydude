@@ -39,6 +39,7 @@ body {
 .header-right {
   display: flex;
   justify-content: flex-end;
+  align-items: center; /* Align search input vertically */
 }
 .header-center {
   flex: 2;
@@ -75,6 +76,23 @@ button:hover, .button-primary:hover {
 }
 #todayButton:hover {
     background-color: #545b62;
+}
+
+
+/* NEW: Search Input Styling */
+#eventSearchInput {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 180px; /* Adjust width as needed */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#eventSearchInput:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
 
@@ -369,6 +387,11 @@ button:hover, .button-primary:hover {
     overflow-y: auto;
   }
    .modal-content h2 { font-size: 20px; margin-bottom: 20px;}
+
+  /* NEW: Responsive search input */
+  #eventSearchInput {
+    width: 140px;
+  }
 }
 @media (max-width: 480px) {
     .calendar-header { flex-direction: column; gap: 10px;}
@@ -379,4 +402,14 @@ button:hover, .button-primary:hover {
     .day-names { font-size: 13px; }
     .day-cell span.day-number { font-size: 12px; }
     .day-cell.current-day span.day-number { width: 24px; height: 24px;}
+
+    /* NEW: Responsive search input */
+    #eventSearchInput {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .header-right {
+        justify-content: stretch;
+        width: 100%;
+    }
 }
