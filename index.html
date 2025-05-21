@@ -20,6 +20,7 @@
         <button id="nextMonth" aria-label="Next Month">›</button>
       </div>
       <div class="header-right">
+        <input type="month" id="goToDateInput" title="Go to Month">
         <input type="text" id="eventSearchInput" placeholder="Search events...">
         </div>
     </div>
@@ -46,6 +47,11 @@
       <div class="form-group">
         <label for="eventName">Event Name</label>
         <input type="text" id="eventName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="eventAddress">Location / Address</label>
+        <input type="text" id="eventAddress" placeholder="e.g., 123 Main St, Anytown">
       </div>
 
       <div class="form-group-inline">
@@ -86,6 +92,11 @@
         </select>
       </div>
 
+      <div class="form-group recurrence-end-date-group hidden">
+        <label for="eventRepeatEndDate">Ends On</label>
+        <input type="date" id="eventRepeatEndDate">
+      </div>
+
       <div class="form-group">
         <label for="eventColor">Event Color</label>
         <select id="eventColor">
@@ -95,6 +106,12 @@
           <option value="purple">Purple</option>
           <option value="orange">Orange</option>
           <option value="teal">Teal</option>
+          <option value="pink">Pink</option>
+          <option value="yellow">Yellow</option>
+          <option value="indigo">Indigo</option>
+          <option value="brown">Brown</option>
+          <option value="cyan">Cyan</option>
+          <option value="lime">Lime Green</option>
         </select>
       </div>
 
