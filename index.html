@@ -14,7 +14,6 @@
     <button id="nextMonth">→</button>
   </div>
 
-  <!-- Day names row -->
   <div class="day-names">
     <div>Sun</div>
     <div>Mon</div>
@@ -25,11 +24,21 @@
     <div>Sat</div>
   </div>
 
-  <!-- Calendar grid of days -->
   <div class="calendar-grid" id="calendarGrid">
-    <!-- JS injects days here -->
-  </div>
+    </div>
 
+  <div id="eventModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Add New Event</h2>
+      <label for="eventTime">Time:</label>
+      <input type="text" id="eventTime" placeholder="e.g., 2:30 PM">
+      <label for="eventDesc">Description:</label>
+      <textarea id="eventDesc" placeholder="Event details"></textarea>
+      <button id="saveEventButton">Save Event</button>
+      <button id="cancelEventButton" class="cancel-button">Cancel</button>
+    </div>
+  </div>
   <script src="calendar.js"></script>
 </body>
 </html>
