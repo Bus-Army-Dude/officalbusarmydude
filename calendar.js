@@ -188,21 +188,26 @@ function renderCalendar(dateToDisplay) {
             return; // Skip malformed events from recurrence logic
         }
 
-        const eventStartDateObj = new Date(event.startDate); // Parse the start date for recurrence logic
+        // Robustly parse the start date for recurrence logic in local time
+        const [startYearRec, startMonthRec, startDayRec] = event.startDate.split('-').map(Number);
+        const eventStartDateObj = new Date(startYearRec, startMonthRec - 1, startDayRec); // Month is 0-indexed
+
 
         if (event.repeat === "weekly") {
           // Check for weekly recurrence
           // Iterate over all days in the current month to see if this weekly event falls on them
           for (let day = 1; day <= totalDaysInMonth; day++) {
-            const currentRenderDayObj = new Date(year, month, day);
+            const currentRenderDayObj = new Date(year, month, day); // This is already local
             const currentRenderDayKey = getEventStorageKey(formatDate(currentRenderDayObj));
 
             // Ensure the recurring event is not before its original start date
+            // Comparison using dates constructed in local time ensures consistency
             if (currentRenderDayObj < eventStartDateObj) {
                 continue;
             }
 
             // Check if the day of the week matches
+            // Both `currentRenderDayObj` and `eventStartDateObj` are now reliably local dates
             if (currentRenderDayObj.getDay() === eventStartDateObj.getDay()) {
               // Create a temporary event object for this recurrence instance
               const recurringInstance = {
