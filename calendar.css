@@ -149,6 +149,23 @@ button:hover, .button-primary:hover {
     color: #adb5bd; /* Dim days from other months */
 }
 
+/* Event count badge */
+.event-count-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 10px;
+    min-width: 18px; /* Ensure it's a circle/oval */
+    text-align: center;
+    line-height: 1;
+    z-index: 10;
+}
+
 
 /* Events inside a day */
 .event-list {
