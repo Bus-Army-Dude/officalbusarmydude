@@ -390,11 +390,13 @@ function renderCalendar(dateToDisplay, searchQuery = '') {
         const tooltipTimeRange = event.isAllDay ? 'All-day' : (displayTime(event.startTime || '') + ' - ' + displayTime(event.endTime || ''));
 
         let eventTextContent = `${timeDisplay} ${event.name}`;
-        let eventTooltip = `${event.name}`;
-        if (event.address) { // This is line 329 in the previous code, ensure it's correct.
-            eventTooltip += `\nLocation: ${event.address}`;
-        }
-        eventTooltip += `\n${event.description || 'No description.'}\nStarts: ${displayTime(event.startTime || '00:00')} on ${displayDate(event.startDate)}\nEnds: ${displayTime(event.endTime || '23:59')} on ${displayDate(event.endDate)}`;
+            let eventTooltip = `${event.name}`;
+            console.log("Before if (event.address)"); // DEBUG LINE
+            if (event.address) {
+                eventTooltip += `\nLocation: ${event.address}`;
+            }
+            console.log("After if (event.address)"); // DEBUG LINE
+            eventTooltip += `\n${event.description || 'No description.'}\nStarts: ${displayTime(event.startTime || '00:00')} on ${displayDate(event.startDate)}\nEnds: ${displayTime(event.endTime || '23:59')} on ${displayDate(event.endDate)}`;
 
         // If the event spans multiple days, add visual indication
         const eventStartDate = new Date(event.startDate);
