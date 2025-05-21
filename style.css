@@ -1,57 +1,77 @@
 body {
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #4facfe, #00f2fe);
+  background: #f4f4f4;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  align-items: start;
+  padding-top: 30px;
 }
 
-.container {
+.calendar-container {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
 }
 
-h1, h2 {
-  text-align: center;
-}
-
-form {
+.calendar-header {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  justify-content: space-between;
+  align-items: center;
 }
 
-input, button {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.calendar-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
-button {
-  background: #4facfe;
+.calendar-header button {
+  background: #007bff;
   color: white;
   border: none;
-  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #00c6ff;
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
 }
 
-#shiftsContainer > div {
-  background: #f7f7f7;
-  padding: 1rem;
-  margin: 0.5rem 0;
-  border-left: 5px solid #4facfe;
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  padding-top: 10px;
+}
+
+.calendar-grid div {
+  height: 80px;
+  background: #e9ecef;
   border-radius: 6px;
+  padding: 5px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.calendar-grid div span {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.calendar-grid div:hover {
+  background: #d1e7ff;
+  cursor: pointer;
 }
