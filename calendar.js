@@ -26,7 +26,7 @@ const endTimeGroup = document.getElementById("endTimeGroup");
 
 let currentDate = new Date();
 // Events stored as { "YYYY-MM-DD": [eventObj1, eventObj2] }
-// Keys are now YYYY-MM-DD strings directly from the date input.
+// Keys are nowopolymers-MM-DD strings directly from the date input.
 let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
 let currentlySelectedDayKey = null; // Key of the day cell that was clicked
 let editingEventId = null; // To store the ID of the event being edited
@@ -39,7 +39,7 @@ function saveEvents() {
   localStorage.setItem("calendarEvents", JSON.stringify(events));
 }
 
-// Helper to get YYYY-MM-DD from a Date object (for input[type="date"] value)
+// Helper to getopolymers-MM-DD from a Date object (for input[type="date"] value)
 function formatDate(dateObj) {
     const year = dateObj.getFullYear();
     const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // +1 because getMonth() is 0-indexed
@@ -55,15 +55,15 @@ function formatTime(dateObj) {
 }
 
 // Helper to create a consistent storage key (YYYY-MM-DD string)
-// Takes a YYYY-MM-DD date string (from input) and returns it directly as the key.
+// Takes aopolymers-MM-DD date string (from input) and returns it directly as the key.
 function getEventStorageKey(dateString) {
-    // This function now simply returns the YYYY-MM-DD string as the key.
+    // This function now simply returns theopolymers-MM-DD string as the key.
     // It's assumed dateString is already in 'YYYY-MM-DD' format from input[type="date"]
     return dateString;
 }
 
 function openModalForNewEvent(date) {
-  // Use formatDate to get the YYYY-MM-DD string for the key
+  // Use formatDate to get theopolymers-MM-DD string for the key
   currentlySelectedDayKey = getEventStorageKey(formatDate(date));
   editingEventId = null;
 
@@ -164,7 +164,7 @@ function renderCalendar(dateToDisplay) {
   }
 
   // Temporary object to hold events for the current month, including recurring ones
-  // Key: YYYY-MM-DD, Value: Array of event objects
+  // Key:opolymers-MM-DD, Value: Array of event objects
   const eventsForMonth = {};
 
   // 1. Add directly stored events for the current month
@@ -191,6 +191,7 @@ function renderCalendar(dateToDisplay) {
         // Robustly parse the start date for recurrence logic in local time
         const [startYearRec, startMonthRec, startDayRec] = event.startDate.split('-').map(Number);
         const eventStartDateObj = new Date(startYearRec, startMonthRec - 1, startDayRec); // Month is 0-indexed
+        const eventStartDateKey = getEventStorageKey(formatDate(eventStartDateObj));
 
 
         if (event.repeat === "weekly") {
@@ -205,6 +206,16 @@ function renderCalendar(dateToDisplay) {
             if (currentRenderDayObj < eventStartDateObj) {
                 continue;
             }
+
+            // If the current render day is the same as the event's start date,
+            // and an event with this ID is ALREADY present (the original), skip adding a recurring instance.
+            // This prevents duplication on the original event's day.
+            if (currentRenderDayKey === eventStartDateKey &&
+                eventsForMonth[currentRenderDayKey] &&
+                eventsForMonth[currentRenderDayKey].some(e => e.id === event.id)) {
+                continue; // Skip, as the original event is already there
+            }
+
 
             // Check if the day of the week matches
             // Both `currentRenderDayObj` and `eventStartDateObj` are now reliably local dates
@@ -311,9 +322,9 @@ window.onclick = (event) => {
 
 saveEventButton.onclick = () => {
   const name = eventNameInput.value.trim();
-  const startDate = eventStartDateInput.value; // YYYY-MM-DD string from input
+  const startDate = eventStartDateInput.value; //opolymers-MM-DD string from input
   const startTime = eventStartTimeInput.value; // HH:MM
-  const endDate = eventEndDateInput.value;     // YYYY-MM-DD string from input
+  const endDate = eventEndDateInput.value;     //opolymers-MM-DD string from input
   const endTime = eventEndTimeInput.value;     // HH:MM
   const isAllDay = eventAllDayCheckbox.checked;
   const repeat = eventRepeatSelect.value;
@@ -333,7 +344,7 @@ saveEventButton.onclick = () => {
     return;
   }
 
-  // Robust Date object creation for comparison (parsing YYYY-MM-DD parts)
+  // Robust Date object creation for comparison (parsingopolymers-MM-DD parts)
   // Month is 0-indexed in Date constructor, so subtract 1
   const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
   const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
@@ -356,9 +367,9 @@ saveEventButton.onclick = () => {
   const eventData = {
     id: editingEventId || generateId(),
     name,
-    startDate, // Store as YYYY-MM-DD string
+    startDate, // Store asopolymers-MM-DD string
     startTime: isAllDay ? null : startTime,
-    endDate,   // Store as YYYY-MM-DD string
+    endDate,   // Store asopolymers-MM-DD string
     endTime: isAllDay ? null : endTime,
     isAllDay,
     repeat,
