@@ -3,40 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monthly Calendar</title>
+  <title>Enhanced Calendar</title>
   <link rel="stylesheet" href="calendar.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div class="calendar-header">
-    <button id="prevMonth">←</button>
-    <h1 id="monthYear">Month Year</h1>
-    <button id="nextMonth">→</button>
-  </div>
-
-  <div class="day-names">
-    <div>Sun</div>
-    <div>Mon</div>
-    <div>Tue</div>
-    <div>Wed</div>
-    <div>Thu</div>
-    <div>Fri</div>
-    <div>Sat</div>
-  </div>
-
-  <div class="calendar-grid" id="calendarGrid">
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <div class="header-left">
+        <button id="todayButton">Today</button>
+      </div>
+      <div class="header-center">
+        <button id="prevMonth" aria-label="Previous Month">‹</button>
+        <h1 id="monthYear">Month Year</h1>
+        <button id="nextMonth" aria-label="Next Month">›</button>
+      </div>
+      <div class="header-right">
+        </div>
     </div>
+
+    <div class="day-names">
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
+    </div>
+
+    <div class="calendar-grid" id="calendarGrid">
+      </div>
+  </div>
 
   <div id="eventModal" class="modal">
     <div class="modal-content">
-      <span class="close-button">&times;</span>
-      <h2>Add New Event</h2>
-      <label for="eventTime">Time:</label>
-      <input type="text" id="eventTime" placeholder="e.g., 2:30 PM">
-      <label for="eventDesc">Description:</label>
-      <textarea id="eventDesc" placeholder="Event details"></textarea>
-      <button id="saveEventButton">Save Event</button>
-      <button id="cancelEventButton" class="cancel-button">Cancel</button>
+      <span class="close-button" id="closeModalButton" aria-label="Close modal">&times;</span>
+      <h2 id="modalTitle">Add Event</h2>
+
+      <div class="form-group">
+        <label for="eventName">Event Name</label>
+        <input type="text" id="eventName" placeholder="e.g., Team Meeting">
+      </div>
+
+      <div class="form-group-inline">
+        <div class="form-group">
+          <label for="eventStartDate">Start Date</label>
+          <input type="date" id="eventStartDate">
+        </div>
+        <div class="form-group time-input-group" id="startTimeGroup">
+          <label for="eventStartTime">Start Time</label>
+          <input type="time" id="eventStartTime">
+        </div>
+      </div>
+
+      <div class="form-group-inline">
+        <div class="form-group">
+          <label for="eventEndDate">End Date</label>
+          <input type="date" id="eventEndDate">
+        </div>
+        <div class="form-group time-input-group" id="endTimeGroup">
+          <label for="eventEndTime">End Time</label>
+          <input type="time" id="eventEndTime">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" id="eventAllDay">
+        <label for="eventAllDay" class="checkbox-label">All-day event</label>
+      </div>
+
+      <div class="form-group">
+        <label for="eventRepeat">Repeats</label>
+        <select id="eventRepeat">
+          <option value="none">Does not repeat</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          </select>
+      </div>
+
+      <div class="form-group">
+        <label for="eventDescription">Description</label>
+        <textarea id="eventDescription" placeholder="Add more details..."></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button id="deleteEventButton" class="button-danger" style="display: none;">Delete</button>
+        <button id="saveEventButton" class="button-primary">Save</button>
+        <button id="cancelEventButton" class="button-secondary">Cancel</button>
+      </div>
     </div>
   </div>
   <script src="calendar.js"></script>
