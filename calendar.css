@@ -33,13 +33,15 @@ body {
   border-bottom: 1px solid #e9ecef;
 }
 
-.header-left, .header-right {
+.header-left {
   flex: 1;
 }
 .header-right {
+  flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center; /* Align search input vertically */
+  gap: 10px; /* Space between search and "Go to Date" */
 }
 .header-center {
   flex: 2;
@@ -79,7 +81,7 @@ button:hover, .button-primary:hover {
 }
 
 
-/* NEW: Search Input Styling */
+/* Search Input Styling */
 #eventSearchInput {
   padding: 8px 12px;
   border: 1px solid #ced4da;
@@ -90,6 +92,23 @@ button:hover, .button-primary:hover {
 }
 
 #eventSearchInput:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* NEW: Go to Date Input Styling */
+#goToDateInput {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 140px; /* Adjust width as needed */
+  text-align: center;
+  font-family: inherit;
+  cursor: pointer;
+}
+#goToDateInput:focus {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
@@ -218,6 +237,13 @@ button:hover, .button-primary:hover {
 .event-entry.purple { background-color: #6f42c1; }
 .event-entry.orange { background-color: #fd7e14; }
 .event-entry.teal { background-color: #17a2b8; }
+/* NEW: More Colors */
+.event-entry.pink { background-color: #e83e8c; }
+.event-entry.yellow { background-color: #ffc107; color: #343a40;} /* Darker text for yellow */
+.event-entry.indigo { background-color: #6610f2; }
+.event-entry.brown { background-color: #795548; }
+.event-entry.cyan { background-color: #17a2b8; } /* Using teal color for cyan - consistent */
+.event-entry.lime { background-color: #8bc34a; } /* Lime green */
 
 
 /* Scrollbar inside each day */
@@ -326,7 +352,8 @@ button:hover, .button-primary:hover {
 }
 
 
-.time-input-group.hidden {
+.time-input-group.hidden,
+.recurrence-end-date-group.hidden { /* NEW: Hide recurrence end date group */
     display: none;
 }
 
@@ -388,9 +415,9 @@ button:hover, .button-primary:hover {
   }
    .modal-content h2 { font-size: 20px; margin-bottom: 20px;}
 
-  /* NEW: Responsive search input */
-  #eventSearchInput {
-    width: 140px;
+  /* Responsive search and go to date input */
+  #eventSearchInput, #goToDateInput {
+    width: 120px; /* Smaller on tablets */
   }
 }
 @media (max-width: 480px) {
@@ -403,13 +430,14 @@ button:hover, .button-primary:hover {
     .day-cell span.day-number { font-size: 12px; }
     .day-cell.current-day span.day-number { width: 24px; height: 24px;}
 
-    /* NEW: Responsive search input */
-    #eventSearchInput {
+    /* Responsive search and go to date input */
+    #eventSearchInput, #goToDateInput {
       width: 100%;
       margin-top: 10px;
     }
     .header-right {
         justify-content: stretch;
         width: 100%;
+        flex-direction: column; /* Stack them vertically */
     }
 }
