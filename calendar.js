@@ -31,12 +31,19 @@ let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
 let currentlySelectedDayKey = null; // Key of the day cell that was clicked
 let editingEventId = null; // To store the ID of the event being edited
 
+// Set to keep track of active reminder timeouts to clear them if needed
+const activeReminders = new Set();
+
+
 function generateId() {
   return Math.random().toString(36).substr(2, 9);
 }
 
 function saveEvents() {
   localStorage.setItem("calendarEvents", JSON.stringify(events));
+  // Clear existing reminders and set new ones after saving events
+  clearAllReminders();
+  setEventReminders();
 }
 
 // Helper to get YYYY-MM-DD from a Date object (for input[type="date"] value)
@@ -54,7 +61,7 @@ function formatTime(dateObj) {
     return `${hours}:${minutes}`;
 }
 
-// NEW Helper to convert 24-hour time string (HH:MM) to 12-hour format (H:MM AM/PM)
+// Helper to convert 24-hour time string (HH:MM) to 12-hour format (H:MM AM/PM)
 function displayTime(time24h) {
     if (!time24h) return ''; // Handle empty or null times
 
@@ -205,14 +212,12 @@ function renderCalendar(dateToDisplay) {
         const eventStartDateKey = getEventStorageKey(formatDate(eventStartDateObj));
 
 
-        if (event.repeat === "weekly") {
-          // Check for weekly recurrence
-          // Iterate over all days in the current month to see if this weekly event falls on them
-          for (let day = 1; day <= totalDaysInMonth; day++) {
+        for (let day = 1; day <= totalDaysInMonth; day++) {
             const currentRenderDayObj = new Date(year, month, day); // This is already local
             const currentRenderDayKey = getEventStorageKey(formatDate(currentRenderDayObj));
 
             // Ensure the recurring event is not before its original start date
+            // The time component is ignored for recurrence matching, only date matters
             if (currentRenderDayObj < eventStartDateObj) {
                 continue;
             }
@@ -224,26 +229,38 @@ function renderCalendar(dateToDisplay) {
                 continue;
             }
 
+            let shouldAddRecurringInstance = false;
+            switch (event.repeat) {
+                case "daily":
+                    shouldAddRecurringInstance = true; // Daily events repeat every day after start date
+                    break;
+                case "weekly":
+                    // Check if the day of the week matches
+                    shouldAddRecurringInstance = (currentRenderDayObj.getDay() === eventStartDateObj.getDay());
+                    break;
+                case "monthly":
+                    // Check if the day of the month matches
+                    shouldAddRecurringInstance = (currentRenderDayObj.getDate() === eventStartDateObj.getDate());
+                    break;
+                // case "none": // Handled by not entering this loop or just passing through
+                default:
+                    shouldAddRecurringInstance = false;
+                    break;
+            }
 
-            // Check if the day of the week matches
-            // Both `currentRenderDayObj` and `eventStartDateObj` are now reliably local dates
-            if (currentRenderDayObj.getDay() === eventStartDateObj.getDay()) {
-              // Create a temporary event object for this recurrence instance
-              const recurringInstance = {
-                ...event, // Copy all properties
-                isRecurringInstance: true // Mark as a recurring instance
-              };
-              // Add to the eventsForMonth for this specific day
-              if (!eventsForMonth[currentRenderDayKey]) {
-                eventsForMonth[currentRenderDayKey] = [];
-              }
-              eventsForMonth[currentRenderDayKey].push(recurringInstance);
+
+            if (shouldAddRecurringInstance) {
+                const recurringInstance = {
+                    ...event, // Copy all properties
+                    isRecurringInstance: true // Mark as a recurring instance
+                };
+                // Add to the eventsForMonth for this specific day
+                if (!eventsForMonth[currentRenderDayKey]) {
+                    eventsForMonth[currentRenderDayKey] = [];
+                }
+                eventsForMonth[currentRenderDayKey].push(recurringInstance);
             }
           }
-        }
-        // TODO: Implement "daily" and "monthly" recurrence logic here
-        // if (event.repeat === "daily") { ... }
-        // if (event.repeat === "monthly") { ... }
       });
     }
   }
@@ -301,7 +318,7 @@ function renderCalendar(dateToDisplay) {
 
 
         eventEl.textContent = `${timeDisplay} ${event.name}`;
-        eventEl.title = `${event.name}\n${tooltipTimeRange}\n${event.description || ''}`;
+        eventEl.title = `${event.name}\n${event.description || 'No description.'}\n${tooltipTimeRange}`; // Improved tooltip
         eventEl.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent day cell click when clicking event
             // When editing a recurring instance, always open the original event for edit
@@ -309,6 +326,15 @@ function renderCalendar(dateToDisplay) {
         });
         eventListDiv.appendChild(eventEl);
       });
+
+      // Add event count badge for days with events
+      const eventCount = eventsForMonth[dayKey].length;
+      if (eventCount > 0) {
+          const countBadge = document.createElement("div");
+          countBadge.classList.add("event-count-badge");
+          countBadge.textContent = eventCount;
+          dayDiv.appendChild(countBadge);
+      }
     }
     dayDiv.appendChild(eventListDiv);
 
@@ -321,7 +347,8 @@ function renderCalendar(dateToDisplay) {
 }
 
 
-// Modal Event Listeners
+// MODAL RELATED FUNCTIONS AND LISTENERS
+
 closeModalButton.onclick = closeModal;
 cancelEventButton.onclick = closeModal;
 
@@ -462,7 +489,8 @@ deleteEventButton.onclick = () => {
 };
 
 
-// Navigation Event Listeners
+// NAVIGATION AND REMINDER FUNCTIONS
+
 document.getElementById("prevMonth").onclick = () => {
   currentDate.setMonth(currentDate.getMonth() - 1);
   renderCalendar(currentDate);
@@ -478,6 +506,48 @@ todayButton.onclick = () => {
   renderCalendar(currentDate);
 };
 
+// Reminder Logic
+function clearAllReminders() {
+    activeReminders.forEach(timeoutId => clearTimeout(timeoutId));
+    activeReminders.clear();
+}
 
-// Initial render
+function setEventReminders() {
+    clearAllReminders(); // Clear any existing reminders first
+
+    const now = new Date();
+
+    for (const dayKey in events) {
+        if (events.hasOwnProperty(dayKey) && Array.isArray(events[dayKey])) {
+            events[dayKey].forEach(event => {
+                if (event.isAllDay || !event.startTime) {
+                    return; // No time-based reminder for all-day events or events without a start time
+                }
+
+                // Construct event date/time object
+                const [eventYear, eventMonth, eventDay] = event.startDate.split('-').map(Number);
+                const [eventHour, eventMinute] = event.startTime.split(':').map(Number);
+                const eventDateTime = new Date(eventYear, eventMonth - 1, eventDay, eventHour, eventMinute);
+
+                const timeUntilEvent = eventDateTime.getTime() - now.getTime();
+
+                // Set reminder if event is in the future (up to 24 hours from now for efficiency)
+                // In a real app, this would be handled by a backend/server
+                // For client-side, we limit the look-ahead to avoid too many timeouts
+                if (timeUntilEvent > 0 && timeUntilEvent < (24 * 60 * 60 * 1000)) { // Within next 24 hours
+                    const timeoutId = setTimeout(() => {
+                        alert(`Reminder: Event "${event.name}" is starting now at ${displayTime(event.startTime)}!`);
+                        activeReminders.delete(timeoutId); // Remove from set after triggering
+                    }, timeUntilEvent);
+                    activeReminders.add(timeoutId);
+                }
+            });
+        }
+    }
+    console.log(`Set ${activeReminders.size} reminders for events within the next 24 hours.`);
+}
+
+
+// INITIALIZATION
 renderCalendar(currentDate);
+setEventReminders(); // Set reminders when the page loads
