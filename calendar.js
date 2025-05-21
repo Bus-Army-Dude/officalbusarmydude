@@ -163,13 +163,74 @@ function renderCalendar(dateToDisplay) {
     calendarGrid.innerHTML += `<div class="empty"></div>`;
   }
 
-  // Add day cells for the current month
+  // Temporary object to hold events for the current month, including recurring ones
+  // Key: YYYY-MM-DD, Value: Array of event objects
+  const eventsForMonth = {};
+
+  // 1. Add directly stored events for the current month
+  for (let day = 1; day <= totalDaysInMonth; day++) {
+    const currentDateObj = new Date(year, month, day);
+    const dayKey = getEventStorageKey(formatDate(currentDateObj));
+    if (events[dayKey]) {
+      eventsForMonth[dayKey] = [...(events[dayKey] || [])]; // Clone to avoid modifying original
+    } else {
+      eventsForMonth[dayKey] = [];
+    }
+  }
+
+  // 2. Add recurring events
+  // Iterate over ALL stored events to find recurring ones
+  for (const storedDayKey in events) {
+    if (events.hasOwnProperty(storedDayKey) && Array.isArray(events[storedDayKey])) {
+      events[storedDayKey].forEach(event => {
+        if (!event.name) {
+            console.warn("Skipping processing of an event with no name:", event);
+            return; // Skip malformed events from recurrence logic
+        }
+
+        const eventStartDateObj = new Date(event.startDate); // Parse the start date for recurrence logic
+
+        if (event.repeat === "weekly") {
+          // Check for weekly recurrence
+          // Iterate over all days in the current month to see if this weekly event falls on them
+          for (let day = 1; day <= totalDaysInMonth; day++) {
+            const currentRenderDayObj = new Date(year, month, day);
+            const currentRenderDayKey = getEventStorageKey(formatDate(currentRenderDayObj));
+
+            // Ensure the recurring event is not before its original start date
+            if (currentRenderDayObj < eventStartDateObj) {
+                continue;
+            }
+
+            // Check if the day of the week matches
+            if (currentRenderDayObj.getDay() === eventStartDateObj.getDay()) {
+              // Create a temporary event object for this recurrence instance
+              const recurringInstance = {
+                ...event, // Copy all properties
+                // We might want to give it a unique instance ID if needed, but for display, original ID is fine
+                isRecurringInstance: true // Mark as a recurring instance
+              };
+              // Add to the eventsForMonth for this specific day
+              if (!eventsForMonth[currentRenderDayKey]) {
+                eventsForMonth[currentRenderDayKey] = [];
+              }
+              eventsForMonth[currentRenderDayKey].push(recurringInstance);
+            }
+          }
+        }
+        // TODO: Implement "daily" and "monthly" recurrence logic here
+        // if (event.repeat === "daily") { ... }
+        // if (event.repeat === "monthly") { ... }
+      });
+    }
+  }
+
+
+  // Now, populate the calendar grid using the consolidated eventsForMonth
   for (let day = 1; day <= totalDaysInMonth; day++) {
     const dayDiv = document.createElement("div");
     dayDiv.classList.add("day-cell");
-    // Create Date object for the current day being rendered (local time)
     const currentDateObj = new Date(year, month, day);
-    // Get the storage key (YYYY-MM-DD string) for the current day being rendered
     const dayKey = getEventStorageKey(formatDate(currentDateObj));
 
     const dayNumberSpan = document.createElement("span");
@@ -189,20 +250,20 @@ function renderCalendar(dateToDisplay) {
     const eventListDiv = document.createElement("div");
     eventListDiv.classList.add("event-list");
 
-    // Load and display events for this dayKey
-    if (events[dayKey]) {
+    // Display events from the consolidated eventsForMonth
+    if (eventsForMonth[dayKey] && eventsForMonth[dayKey].length > 0) {
       // Sort events by start time for consistent display
-      events[dayKey].sort((a, b) => {
-          if (a.isAllDay && !b.isAllDay) return -1; // All-day events first
+      eventsForMonth[dayKey].sort((a, b) => {
+          if (a.isAllDay && !b.isAllDay) return -1;
           if (!a.isAllDay && b.isAllDay) return 1;
-          if (!a.startTime || !b.startTime) return 0; // Handle null times if any
+          if (!a.startTime || !b.startTime) return 0;
           return a.startTime.localeCompare(b.startTime);
       });
 
-      events[dayKey].forEach(event => {
-        // Prevent rendering of events without a name (e.g., corrupted entries)
+      eventsForMonth[dayKey].forEach(event => {
+        // Redundant check, but good for safety if eventsForMonth was built imperfectly
         if (!event.name) {
-            console.warn("Skipping rendering of an event with no name:", event);
+            console.warn("Skipping rendering of an event with no name after consolidation:", event);
             return;
         }
 
@@ -216,7 +277,8 @@ function renderCalendar(dateToDisplay) {
         eventEl.title = `${event.name}\n${event.isAllDay ? 'All-day' : (event.startTime + ' - ' + event.endTime)}\n${event.description || ''}`;
         eventEl.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent day cell click when clicking event
-            openModalForEditEvent(event, dayKey); // Pass the event data and its current dayKey
+            // When editing a recurring instance, always open the original event for edit
+            openModalForEditEvent(event, getEventStorageKey(event.startDate));
         });
         eventListDiv.appendChild(eventEl);
       });
@@ -271,13 +333,14 @@ saveEventButton.onclick = () => {
   const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
   const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
 
-  const startDateTime = new Date(startYear, startMonth - 1, startDay,
-                                 isAllDay ? 0 : parseInt(startTime.split(':')[0]),
-                                 isAllDay ? 0 : parseInt(startTime.split(':')[1] || '0')); // Handle empty minutes
+  const startHour = isAllDay ? 0 : parseInt(startTime.split(':')[0]);
+  const startMinute = isAllDay ? 0 : parseInt(startTime.split(':')[1] || '0');
 
-  const endDateTime = new Date(endYear, endMonth - 1, endDay,
-                               isAllDay ? 23 : parseInt(endTime.split(':')[0]),
-                               isAllDay ? 59 : parseInt(endTime.split(':')[1] || '0')); // Handle empty minutes
+  const endHour = isAllDay ? 23 : parseInt(endTime.split(':')[0]);
+  const endMinute = isAllDay ? 59 : parseInt(endTime.split(':')[1] || '0');
+
+  const startDateTime = new Date(startYear, startMonth - 1, startDay, startHour, startMinute);
+  const endDateTime = new Date(endYear, endMonth - 1, endDay, endHour, endMinute);
 
 
   if (endDateTime < startDateTime) {
@@ -314,7 +377,7 @@ saveEventButton.onclick = () => {
                 if (events[key].length === 0) {
                     delete events[key];
                 }
-                break;
+                break; // Event found and removed, no need to search further
             }
         }
     }
