@@ -20,6 +20,7 @@
         <button id="nextMonth" aria-label="Next Month">›</button>
       </div>
       <div class="header-right">
+        <input type="text" id="eventSearchInput" placeholder="Search events...">
         </div>
     </div>
 
@@ -44,7 +45,7 @@
 
       <div class="form-group">
         <label for="eventName">Event Name</label>
-        <input type="text" id="eventName" placeholder="e.g., Team Meeting">
+        <input type="text" id="eventName" required>
       </div>
 
       <div class="form-group-inline">
@@ -81,18 +82,19 @@
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
-          </select>
+          <option value="yearly">Yearly</option>
+        </select>
       </div>
 
       <div class="form-group">
-        <label for="eventColor">Color</label>
+        <label for="eventColor">Event Color</label>
         <select id="eventColor">
-            <option value="default">Default (Green)</option>
-            <option value="blue">Blue</option>
-            <option value="red">Red</option>
-            <option value="purple">Purple</option>
-            <option value="orange">Orange</option>
-            <option value="teal">Teal (All-day default)</option>
+          <option value="default">Default (Green)</option>
+          <option value="blue">Blue</option>
+          <option value="red">Red</option>
+          <option value="purple">Purple</option>
+          <option value="orange">Orange</option>
+          <option value="teal">Teal</option>
         </select>
       </div>
 
@@ -108,6 +110,7 @@
       </div>
     </div>
   </div>
+
   <script src="calendar.js"></script>
 </body>
 </html>
