@@ -26,7 +26,7 @@ const endTimeGroup = document.getElementById("endTimeGroup");
 
 let currentDate = new Date();
 // Events stored as { "YYYY-MM-DD": [eventObj1, eventObj2] }
-// Keys are now YYYY-MM-DD strings directly from the date input.
+// Keys are YYYY-MM-DD strings directly from the date input.
 let events = JSON.parse(localStorage.getItem("calendarEvents")) || {};
 let currentlySelectedDayKey = null; // Key of the day cell that was clicked
 let editingEventId = null; // To store the ID of the event being edited
@@ -47,12 +47,23 @@ function formatDate(dateObj) {
     return `${year}-${month}-${day}`;
 }
 
-// Helper to get HH:MM from a Date object (for input[type="time"] value)
+// Helper to get HH:MM (24-hour format) from a Date object (for input[type="time"] value)
 function formatTime(dateObj) {
     const hours = dateObj.getHours().toString().padStart(2, '0');
     const minutes = dateObj.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
 }
+
+// NEW Helper to convert 24-hour time string (HH:MM) to 12-hour format (H:MM AM/PM)
+function displayTime(time24h) {
+    if (!time24h) return ''; // Handle empty or null times
+
+    const [hours, minutes] = time24h.split(':').map(Number);
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+    return `${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+}
+
 
 // Helper to create a consistent storage key (YYYY-MM-DD string)
 // Takes a YYYY-MM-DD date string (from input) and returns it directly as the key.
@@ -88,8 +99,8 @@ function openModalForNewEvent(date) {
   let defaultEndTime = new Date(defaultStartTime);
   defaultEndTime.setHours(defaultStartTime.getHours() + 1);
 
-  eventStartTimeInput.value = formatTime(defaultStartTime);
-  eventEndTimeInput.value = formatTime(defaultEndTime);
+  eventStartTimeInput.value = formatTime(defaultStartTime); // Uses 24-hour for input
+  eventEndTimeInput.value = formatTime(defaultEndTime); // Uses 24-hour for input
 
 
   eventNameInput.value = "";
@@ -206,14 +217,12 @@ function renderCalendar(dateToDisplay) {
                 continue;
             }
 
-            // --- FIX START ---
             // If the current day being rendered is the original start date of the event,
             // we should NOT add a recurring instance, because the original event
             // is already picked up in step 1 ("Add directly stored events").
             if (currentRenderDayKey === eventStartDateKey) {
                 continue;
             }
-            // --- FIX END ---
 
 
             // Check if the day of the week matches
@@ -286,9 +295,13 @@ function renderCalendar(dateToDisplay) {
         // Apply color class
         eventEl.classList.add(event.color || (event.isAllDay ? "teal" : "default"));
 
-        // Display time only if not all-day
-        eventEl.textContent = `${event.isAllDay ? 'All-day' : (event.startTime || '')} ${event.name}`;
-        eventEl.title = `${event.name}\n${event.isAllDay ? 'All-day' : (event.startTime + ' - ' + event.endTime)}\n${event.description || ''}`;
+        // Display time only if not all-day, using the new displayTime function
+        const timeDisplay = event.isAllDay ? 'All-day' : displayTime(event.startTime || '');
+        const tooltipTimeRange = event.isAllDay ? 'All-day' : (displayTime(event.startTime || '') + ' - ' + displayTime(event.endTime || ''));
+
+
+        eventEl.textContent = `${timeDisplay} ${event.name}`;
+        eventEl.title = `${event.name}\n${tooltipTimeRange}\n${event.description || ''}`;
         eventEl.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent day cell click when clicking event
             // When editing a recurring instance, always open the original event for edit
