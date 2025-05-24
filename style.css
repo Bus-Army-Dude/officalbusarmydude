@@ -1,0 +1,152 @@
+/* General Body Styles */
+body {
+    font-family: 'Inter', sans-serif; /* Using Google Font defined in HTML */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Light gray background */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.site-header {
+    background-color: #4A90E2; /* Clever-like blue */
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.site-logo {
+    width: 80px; /* Adjust as needed */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.site-header h1 {
+    margin: 10px 0 5px;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+.site-header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* Main Resource Container */
+.resource-container {
+    max-width: 960px;
+    margin: 40px auto; /* Spacing from header and footer */
+    padding: 0 20px;
+}
+
+/* Resource Grid */
+.resource-grid {
+    display: grid;
+    /* Responsive grid: columns will automatically adjust based on available space */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px; /* Space between grid items */
+}
+
+/* Individual Resource Card Styles */
+.resource-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Subtle shadow */
+    padding: 20px;
+    text-align: center;
+    text-decoration: none; /* Remove underline from links */
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Stack image, title, description */
+    align-items: center;
+    justify-content: center; /* Vertically center content */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    min-height: 180px; /* Ensure cards have a consistent height */
+}
+
+.resource-card:hover {
+    transform: translateY(-7px); /* Lift effect on hover */
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15); /* Stronger shadow on hover */
+}
+
+.resource-card img {
+    width: 70px; /* Size of the icon */
+    height: 70px;
+    object-fit: contain; /* Ensure image scales properly */
+    margin-bottom: 15px;
+}
+
+.resource-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #2c3e50; /* Darker text for heading */
+}
+
+.resource-card p {
+    font-size: 0.95em;
+    color: #666;
+    margin: 0;
+}
+
+/* Footer Styles */
+.site-footer {
+    text-align: center;
+    padding: 25px 20px;
+    margin-top: 50px;
+    background-color: #34495e; /* Darker footer */
+    color: #ecf0f1;
+    font-size: 0.9em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .site-header h1 {
+        font-size: 2em;
+    }
+    .site-header p {
+        font-size: 1em;
+    }
+    .resource-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Smaller cards on smaller screens */
+        gap: 15px;
+    }
+    .resource-card {
+        min-height: 160px;
+        padding: 15px;
+    }
+    .resource-card img {
+        width: 60px;
+        height: 60px;
+    }
+    .resource-card h3 {
+        font-size: 1.1em;
+    }
+    .resource-card p {
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 480px) {
+    .resource-grid {
+        grid-template-columns: 1fr; /* Stack cards vertically on very small screens */
+    }
+    .resource-card {
+        flex-direction: row; /* Layout icon and text side-by-side */
+        text-align: left;
+        padding: 15px 20px;
+        min-height: auto;
+    }
+    .resource-card img {
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+}
