@@ -1,133 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Enhanced Calendar</title>
-  <link rel="stylesheet" href="calendar.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Business Resources Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
 <body>
-
-  <div class="calendar-container">
-    <div class="calendar-header">
-      <div class="header-left">
-        <button id="todayButton">Today</button>
-      </div>
-      <div class="header-center">
-        <button id="prevMonth" aria-label="Previous Month">‹</button>
-        <h1 id="monthYear">Month Year</h1>
-        <button id="nextMonth" aria-label="Next Month">›</button>
-      </div>
-      <div class="header-right">
-        <input type="month" id="goToDateInput" title="Go to Month">
-        <input type="text" id="eventSearchInput" placeholder="Search events...">
+    <header class="site-header">
+        <div class="header-content">
+            <img src="images/logo.png" alt="My Business Logo" class="site-logo">
+            <h1>My Business Resources</h1>
+            <p>Your centralized hub for all essential tools and information.</p>
         </div>
-    </div>
+    </header>
 
-    <div class="day-names">
-      <div>Sun</div>
-      <div>Mon</div>
-      <div>Tue</div>
-      <div>Wed</div>
-      <div>Thu</div>
-      <div>Fri</div>
-      <div>Sat</div>
-    </div>
+    <main class="resource-container">
+        <div class="resource-grid">
 
-    <div class="calendar-grid" id="calendarGrid">
-      </div>
-  </div>
+            <a href="https://www.google.com" target="_blank" class="resource-card">
+                <img src="images/google-icon.png" alt="Google Search">
+                <h3>Google Search</h3>
+                <p>Quick access to the world's information.</p>
+            </a>
 
-  <div id="eventModal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" id="closeModalButton" aria-label="Close modal">&times;</span>
-      <h2 id="modalTitle">Add Event</h2>
+            <a href="https://calendar.google.com/" target="_blank" class="resource-card">
+                <img src="images/calendar-icon.png" alt="Google Calendar">
+                <h3>Team Calendar</h3>
+                <p>View upcoming meetings and events.</p>
+            </a>
 
-      <div class="form-group">
-        <label for="eventName">Event Name</label>
-        <input type="text" id="eventName" required>
-      </div>
+            <a href="files/company-policy.pdf" target="_blank" class="resource-card">
+                <img src="images/pdf-icon.png" alt="Company Policy">
+                <h3>Company Policy</h3>
+                <p>Download the latest employee handbook.</p>
+            </a>
 
-      <div class="form-group">
-        <label for="eventAddress">Location / Address</label>
-        <input type="text" id="eventAddress" placeholder="e.g., 123 Main St, Anytown">
-      </div>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="resource-card">
+                <img src="images/youtube-icon.png" alt="Training Video">
+                <h3>Onboarding Training</h3>
+                <p>Watch our essential new hire video.</p>
+            </a>
 
-      <div class="form-group-inline">
-        <div class="form-group">
-          <label for="eventStartDate">Start Date</label>
-          <input type="date" id="eventStartDate">
-        </div>
-        <div class="form-group time-input-group" id="startTimeGroup">
-          <label for="eventStartTime">Start Time</label>
-          <input type="time" id="eventStartTime">
-        </div>
-      </div>
+            <a href="https://trello.com/" target="_blank" class="resource-card">
+                <img src="images/trello-icon.png" alt="Trello">
+                <h3>Project Management</h3>
+                <p>Collaborate on tasks and projects.</p>
+            </a>
 
-      <div class="form-group-inline">
-        <div class="form-group">
-          <label for="eventEndDate">End Date</label>
-          <input type="date" id="eventEndDate">
-        </div>
-        <div class="form-group time-input-group" id="endTimeGroup">
-          <label for="eventEndTime">End Time</label>
-          <input type="time" id="eventEndTime">
-        </div>
-      </div>
+            <a href="files/contact-list.xlsx" target="_blank" class="resource-card">
+                <img src="images/excel-icon.png" alt="Contact List">
+                <h3>Team Contact List</h3>
+                <p>Quick access to internal contacts.</p>
+            </a>
 
-      <div class="form-group">
-        <input type="checkbox" id="eventAllDay">
-        <label for="eventAllDay" class="checkbox-label">All-day event</label>
-      </div>
+            </div>
+    </main>
 
-      <div class="form-group">
-        <label for="eventRepeat">Repeats</label>
-        <select id="eventRepeat">
-          <option value="none">Does not repeat</option>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-        </select>
-      </div>
+    <footer class="site-footer">
+        <p>&copy; 2025 My Business. All rights reserved.</p>
+    </footer>
 
-      <div class="form-group recurrence-end-date-group hidden">
-        <label for="eventRepeatEndDate">Ends On</label>
-        <input type="date" id="eventRepeatEndDate">
-      </div>
-
-      <div class="form-group">
-        <label for="eventColor">Event Color</label>
-        <select id="eventColor">
-          <option value="default">Default (Green)</option>
-          <option value="blue">Blue</option>
-          <option value="red">Red</option>
-          <option value="purple">Purple</option>
-          <option value="orange">Orange</option>
-          <option value="teal">Teal</option>
-          <option value="pink">Pink</option>
-          <option value="yellow">Yellow</option>
-          <option value="indigo">Indigo</option>
-          <option value="brown">Brown</option>
-          <option value="cyan">Cyan</option>
-          <option value="lime">Lime Green</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="eventDescription">Description</label>
-        <textarea id="eventDescription" placeholder="Add more details..."></textarea>
-      </div>
-
-      <div class="modal-actions">
-        <button id="deleteEventButton" class="button-danger" style="display: none;">Delete</button>
-        <button id="saveEventButton" class="button-primary">Save</button>
-        <button id="cancelEventButton" class="button-secondary">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="calendar.js"></script>
-</body>
+    </body>
 </html>
