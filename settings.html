@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Customize your experience. Toggle dark mode, accessibility features, and more.">
+    <title>Settings - Bus Army Dude's Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="settings.css">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="152x152" href="images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body class="settings-page">
+    <div id="settings-page-identifier" hidden></div>
+    
+    <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
+    
+    <div class="container" role="main" id="main-content">
+        <div class="settings-section">
+            <div class="settings-header">
+                <h1>Settings</h1>
+                <span class="version">v1.16.0</span>
+            </div>
+
+            <!-- Appearance Section -->
+            <div class="settings-subsection">
+                <h2 class="subsection-title">Appearance</h2>
+                <div class="setting-card">
+                    <div class="setting-label">
+                        <h3 class="setting-title">Dark Mode</h3>
+                        <p class="setting-description">Switch between light and dark theme</p>
+                    </div>
+                    <label for="darkModeToggle" class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Accessibility Section -->
+            <div class="settings-subsection"> <h2 class="subsection-title">Accessibility</h2>
+
+              <div class="setting-card">
+                  <div class="setting-label">
+                      <h3 class="setting-title">Text Size</h3>
+                      <p class="setting-description">Adjust the text size for better readability</p>
+                  </div>
+                  <div class="text-size-control">
+                      <div class="size-value" id="textSizeValue">16px</div>
+                      <div class="slider-container">
+                          <input
+                              type="range"
+                              id="text-size-slider"
+                              min="12"
+                              max="24"
+                              value="16"
+                              step="1"
+                              aria-label="Adjust text size"
+                          >
+                          <div class="size-labels">
+                              <span class="size-small">A</span>
+                              <span class="size-medium">A</span>
+                              <span class="size-large">A</span>
+                          </div>
+                      </div>
+                  </div>
+              </div> <div class="setting-card focus-outline-setting-card">
+                  <div class="setting-label">
+                      <h3 class="setting-title">Focus Outline</h3>
+                      <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
+                  </div>
+                  <label for="focusOutlineToggle" class="toggle-switch">
+                      <input type="checkbox" id="focusOutlineToggle">
+                      <span class="toggle-slider"></span>
+                  </label>
+              </div> </div> <div class="settings-subsection danger-zone">
+              <h2 class="subsection-title">Danger Zone</h2>
+              <div class="setting-card">
+                  <div class="setting-label">
+                      <h3 class="setting-title">Reset to Factory Settings</h3>
+                      <p class="setting-description">Restore all settings to their default values</p>
+                  </div>
+                  <button id="resetSettings" class="reset-button">Reset</button>
+              </div>
+          </div>
+
+            <a href="index.html" class="back-link">← Back to Profile</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© <span id="year"></span> Bus Army Dude. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-of-service.html">Terms of Service</a>
+            <a href="accessibility-statement.html">Accessibility Statement</a>
+        </div>
+    </footer>
+
+    <script src="settings.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
