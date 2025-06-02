@@ -2582,7 +2582,26 @@ body.maintenance-active {
 
 /* Prevent printing of the page */
 @media print {
-    body {
+    html, body {
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important; /* Hide scrollbars */
+        display: none !important;   /* Hide the content entirely */
+        visibility: hidden !important; /* Further ensure content is not visible */
+        background-color: #fff !important; /* Force a white background to ensure blankness */
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Hide everything else too, just in case */
+    * {
         display: none !important;
+        visibility: hidden !important;
+        background-image: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        border: none !important;
     }
 }
