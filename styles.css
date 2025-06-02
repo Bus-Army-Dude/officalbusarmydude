@@ -2580,4 +2580,9 @@ body.maintenance-active {
     color: var(--text-color);
 }
 
-/* No hover effects elsewhere! */
+/* Prevent printing of the page */
+@media print {
+    body {
+        display: none !important;
+    }
+}
