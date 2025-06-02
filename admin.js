@@ -2149,8 +2149,7 @@ onAuthStateChanged(auth, user => {
     async function loadShoutoutsAdmin(platform) { //
         const listContainer = document.getElementById(`shoutouts-${platform}-list-admin`); //
         const countElement = document.getElementById(`${platform}-count`); //
-        console.log(`DEBUG: loadShoutoutsAdmin called for ${platform} at ${new Date().toLocaleTimeString()}`); // <-- ADD THIS LINE
-
+        console.log(`DEBUG: loadShoutoutsAdmin called for ${platform} at ${new Date().toLocaleTimeString()}`); //
 
         if (!listContainer) { //
             console.error(`List container not found for platform: ${platform}`); //
@@ -2160,14 +2159,15 @@ onAuthStateChanged(auth, user => {
         listContainer.innerHTML = `<p>Loading ${platform} shoutouts...</p>`; //
 
         // Ensure the global storage for this platform exists and is clear
+        // Make sure 'allShoutouts' is declared in a scope accessible here, e.g., at the top of DOMContentLoaded
         if (typeof allShoutouts !== 'undefined' && allShoutouts && allShoutouts.hasOwnProperty(platform)) { //
              allShoutouts[platform] = []; //
         } else { //
             console.error(`allShoutouts variable or platform key '${platform}' is missing or not initialized.`); //
              if (typeof allShoutouts === 'undefined' || !allShoutouts) { //
-                 allShoutouts = { tiktok: [], instagram: [], youtube: [] }; //
+                 allShoutouts = { tiktok: [], instagram: [], youtube: [] }; // Initialize if completely undefined
              } else if (!allShoutouts.hasOwnProperty(platform)) { //
-                 allShoutouts[platform] = []; //
+                 allShoutouts[platform] = []; // Initialize for the specific platform if missing
              }
         }
 
@@ -2211,110 +2211,175 @@ onAuthStateChanged(auth, user => {
     }
     // --- END UPDATED: loadShoutoutsAdmin Function ---
 
-async function handleAddShoutout(platform, formElement) {
-    console.log(`DEBUG: handleAddShoutout triggered for ${platform}.`);
+    /** Filters and displays shoutouts in the admin list */
+    function displayFilteredShoutouts(platform) {
+        const listContainer = document.getElementById(`shoutouts-${platform}-list-admin`);
+        const countElement = document.getElementById(`${platform}-count`);
+        const searchInput = document.getElementById(`search-${platform}`);
 
-    if (isAddingShoutout) {
-        console.warn(`DEBUG: handleAddShoutout already running for ${platform}, ignoring duplicate call.`);
-        return;
+        if (!listContainer || !searchInput || !allShoutouts || !allShoutouts[platform]) {
+            console.error(`Missing elements or data for filtering platform: ${platform}.`);
+            if(listContainer) listContainer.innerHTML = `<p class="error">Error displaying filtered list.</p>`;
+            return;
+        }
+
+        // *** PRESERVATION STEP 1: Save scroll position ***
+        let savedScrollTop = 0;
+        if (listContainer) { // Check if container exists before accessing scrollTop
+            savedScrollTop = listContainer.scrollTop;
+        }
+        // *** End PRESERVATION STEP 1 ***
+
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const fullList = allShoutouts[platform]; // allShoutouts should be populated by loadShoutoutsAdmin
+
+        const filteredList = fullList.filter(account => {
+            if (!searchTerm) return true;
+            const nickname = (account.nickname || '').toLowerCase();
+            const username = (account.username || '').toLowerCase();
+            return nickname.includes(searchTerm) || username.includes(searchTerm);
+        });
+
+        listContainer.innerHTML = ''; // Clear the current list
+
+        if (filteredList.length > 0) {
+            filteredList.forEach(account => {
+                // Ensure renderAdminListItem and the handlers are correctly defined and accessible
+                if (typeof renderAdminListItem === 'function' && typeof handleDeleteShoutout === 'function' && typeof openEditModal === 'function') {
+                    renderAdminListItem(
+                        listContainer,
+                        account.id,     // Document ID
+                        platform,       // Platform name
+                        account,        // Pass the full account data object
+                        handleDeleteShoutout, // Pass delete handler
+                        openEditModal       // Pass edit handler
+                    );
+                } else {
+                    console.error("renderAdminListItem function or its handlers are not defined during filtering!");
+                    listContainer.innerHTML = `<p class="error">Critical Error: Rendering function or handlers missing.</p>`;
+                    return; // Stop rendering this list if a critical function is missing
+                }
+            });
+        } else {
+            if (searchTerm) {
+                listContainer.innerHTML = `<p>No shoutouts found matching "${searchInput.value}".</p>`;
+            } else {
+                listContainer.innerHTML = `<p>No ${platform} shoutouts found.</p>`;
+            }
+        }
+
+        if (countElement) {
+            countElement.textContent = `(${filteredList.length})`;
+        }
+
+        // *** PRESERVATION STEP 2: Restore scroll position ***
+        if (listContainer) { // Check if container exists before setting scrollTop
+            listContainer.scrollTop = savedScrollTop;
+        }
+        // *** End PRESERVATION STEP 2 ***
     }
-    isAddingShoutout = true;
-    console.log(`DEBUG: Set isAddingShoutout = true for ${platform}`);
-
-    if (!formElement) {
-        console.error("Form element not provided to handleAddShoutout");
-        isAddingShoutout = false;
-        return;
-    }
-
-    // Get form values (ensure all relevant fields are captured)
-    const username = formElement.querySelector(`#${platform}-username`)?.value.trim();
-    const nickname = formElement.querySelector(`#${platform}-nickname`)?.value.trim();
-    const orderStr = formElement.querySelector(`#${platform}-order`)?.value.trim();
-    const order = parseInt(orderStr);
-    const isVerified = formElement.querySelector(`#${platform}-isVerified`)?.checked || false;
-    const bio = formElement.querySelector(`#${platform}-bio`)?.value.trim() || null;
-    const profilePic = formElement.querySelector(`#${platform}-profilePic`)?.value.trim() || null;
-    let followers = 'N/A';
-    let subscribers = 'N/A';
-    let coverPhoto = null;
-    if (platform === 'youtube') {
-        subscribers = formElement.querySelector(`#${platform}-subscribers`)?.value.trim() || 'N/A';
-        coverPhoto = formElement.querySelector(`#${platform}-coverPhoto`)?.value.trim() || null;
-    } else {
-        followers = formElement.querySelector(`#${platform}-followers`)?.value.trim() || 'N/A';
-    }
 
 
-    // Basic validation
-    if (!username || !nickname || !orderStr || isNaN(order) || order < 0) {
-        showAdminStatus(`Invalid input for ${platform}. Check required fields and ensure Order is a non-negative number.`, true);
-        isAddingShoutout = false; // Reset flag
-        return;
-    }
+    async function handleAddShoutout(platform, formElement) {
+        console.log(`DEBUG: handleAddShoutout triggered for ${platform}.`);
 
-    // Duplicate Check Logic
-    try {
-        const shoutoutsCol = collection(db, 'shoutouts');
-        const duplicateCheckQuery = query(shoutoutsCol, where("platform", "==", platform), where("username", "==", username), limit(1));
-        const querySnapshot = await getDocs(duplicateCheckQuery);
+        if (isAddingShoutout) {
+            console.warn(`DEBUG: handleAddShoutout already running for ${platform}, ignoring duplicate call.`);
+            return;
+        }
+        isAddingShoutout = true;
+        console.log(`DEBUG: Set isAddingShoutout = true for ${platform}`);
 
-        if (!querySnapshot.empty) {
-            console.warn("Duplicate found for", platform, username);
-            showAdminStatus(`Error: A shoutout for username '@${username}' on platform '${platform}' already exists.`, true);
+        if (!formElement) {
+            console.error("Form element not provided to handleAddShoutout");
+            isAddingShoutout = false;
+            return;
+        }
+
+        // Get form values (ensure all relevant fields are captured)
+        const username = formElement.querySelector(`#${platform}-username`)?.value.trim();
+        const nickname = formElement.querySelector(`#${platform}-nickname`)?.value.trim();
+        const orderStr = formElement.querySelector(`#${platform}-order`)?.value.trim();
+        const order = parseInt(orderStr);
+        const isVerified = formElement.querySelector(`#${platform}-isVerified`)?.checked || false;
+        const bio = formElement.querySelector(`#${platform}-bio`)?.value.trim() || null;
+        const profilePic = formElement.querySelector(`#${platform}-profilePic`)?.value.trim() || null;
+        let followers = 'N/A';
+        let subscribers = 'N/A';
+        let coverPhoto = null;
+        if (platform === 'youtube') {
+            subscribers = formElement.querySelector(`#${platform}-subscribers`)?.value.trim() || 'N/A';
+            coverPhoto = formElement.querySelector(`#${platform}-coverPhoto`)?.value.trim() || null;
+        } else {
+            followers = formElement.querySelector(`#${platform}-followers`)?.value.trim() || 'N/A';
+        }
+
+
+        // Basic validation
+        if (!username || !nickname || !orderStr || isNaN(order) || order < 0) {
+            showAdminStatus(`Invalid input for ${platform}. Check required fields and ensure Order is a non-negative number.`, true);
             isAddingShoutout = false; // Reset flag
             return;
         }
-        console.log("No duplicate found. Proceeding to add.");
 
-        // Prepare data
-        const accountData = {
-            platform: platform, username: username, nickname: nickname, order: order,
-            isVerified: isVerified, bio: bio, profilePic: profilePic,
-            createdAt: serverTimestamp(), isEnabled: true // Default to enabled
-        };
-        if (platform === 'youtube') {
-            accountData.subscribers = subscribers;
-            accountData.coverPhoto = coverPhoto;
-        } else {
-            accountData.followers = followers;
+        // Duplicate Check Logic
+        try {
+            const shoutoutsCol = collection(db, 'shoutouts');
+            const duplicateCheckQuery = query(shoutoutsCol, where("platform", "==", platform), where("username", "==", username), limit(1));
+            const querySnapshot = await getDocs(duplicateCheckQuery);
+
+            if (!querySnapshot.empty) {
+                console.warn("Duplicate found for", platform, username);
+                showAdminStatus(`Error: A shoutout for username '@${username}' on platform '${platform}' already exists.`, true);
+                isAddingShoutout = false; // Reset flag
+                return;
+            }
+            console.log("No duplicate found. Proceeding to add.");
+
+            // Prepare data
+            const accountData = {
+                platform: platform, username: username, nickname: nickname, order: order,
+                isVerified: isVerified, bio: bio, profilePic: profilePic,
+                createdAt: serverTimestamp(), isEnabled: true // Default to enabled
+            };
+            if (platform === 'youtube') {
+                accountData.subscribers = subscribers;
+                accountData.coverPhoto = coverPhoto;
+            } else {
+                accountData.followers = followers;
+            }
+
+            // Add document
+            console.log(`DEBUG: Attempting addDoc for ${username}...`);
+            const docRef = await addDoc(collection(db, 'shoutouts'), accountData);
+            console.log(`DEBUG: addDoc SUCCESS for ${username}. New ID: ${docRef.id}`);
+
+            await updateMetadataTimestamp(platform); // Update timestamp
+            showAdminStatus(`${platform.charAt(0).toUpperCase() + platform.slice(1)} shoutout added successfully.`, false);
+            formElement.reset();
+
+            // Reset preview area
+            const previewArea = formElement.querySelector(`#add-${platform}-preview`);
+            if (previewArea) { previewArea.innerHTML = '<p><small>Preview will appear here as you type.</small></p>'; }
+
+            if (typeof loadShoutoutsAdmin === 'function') {
+                loadShoutoutsAdmin(platform); // Reload list
+            } else { console.error("loadShoutoutsAdmin function missing after add!"); }
+
+        } catch (error) {
+            console.error(`Error during handleAddShoutout for ${platform}:`, error);
+            showAdminStatus(`Error adding ${platform} shoutout: ${error.message}`, true);
+            if (typeof logAdminActivity === 'function') {
+                 logAdminActivity('SHOUTOUT_ADD_FAILED', { platform: platform, username: username, error: error.message });
+            }
+        } finally {
+            setTimeout(() => {
+                isAddingShoutout = false;
+                console.log(`DEBUG: Reset isAddingShoutout = false for ${platform}`);
+            }, 1500);
+            console.log(`DEBUG: handleAddShoutout processing END for ${platform} at ${new Date().toLocaleTimeString()}`);
         }
-
-        // Add document
-        console.log(`DEBUG: Attempting addDoc for ${username}...`);
-        const docRef = await addDoc(collection(db, 'shoutouts'), accountData);
-        console.log(`DEBUG: addDoc SUCCESS for ${username}. New ID: ${docRef.id}`);
-
-
-        // ******************
-
-        await updateMetadataTimestamp(platform); // Update timestamp
-        showAdminStatus(`${platform.charAt(0).toUpperCase() + platform.slice(1)} shoutout added successfully.`, false);
-        formElement.reset();
-
-        // Reset preview area
-        const previewArea = formElement.querySelector(`#add-${platform}-preview`);
-        if (previewArea) { previewArea.innerHTML = '<p><small>Preview will appear here as you type.</small></p>'; }
-
-        if (typeof loadShoutoutsAdmin === 'function') {
-            loadShoutoutsAdmin(platform); // Reload list
-        } else { console.error("loadShoutoutsAdmin function missing after add!"); }
-
-    } catch (error) {
-        console.error(`Error during handleAddShoutout for ${platform}:`, error);
-        showAdminStatus(`Error adding ${platform} shoutout: ${error.message}`, true);
-        // Optionally log failure here too if desired
-         if (typeof logAdminActivity === 'function') {
-             logAdminActivity('SHOUTOUT_ADD_FAILED', { platform: platform, username: username, error: error.message });
-         }
-    } finally {
-        setTimeout(() => {
-            isAddingShoutout = false;
-            console.log(`DEBUG: Reset isAddingShoutout = false for ${platform}`);
-        }, 1500);
-        console.log(`DEBUG: handleAddShoutout processing END for ${platform} at ${new Date().toLocaleTimeString()}`);
     }
-}
 
     // --- Function to Handle Updates from Edit Modal (with DETAILED Logging) ---
     async function handleUpdateShoutout(event) {
@@ -2374,11 +2439,8 @@ async function handleAddShoutout(platform, formElement) {
             const changes = {};
             let hasChanges = false;
             for (const key in newDataFromForm) {
-                // Special check for null/empty string equivalence if needed, otherwise direct compare
                 if (oldData[key] !== newDataFromForm[key]) {
-                    // Handle null/undefined vs empty string if necessary, e.g.:
-                    // if ((oldData[key] ?? "") !== (newDataFromForm[key] ?? "")) {
-                    changes[key] = { to: newDataFromForm[key] }; // Log only the new value for simplicity
+                    changes[key] = { to: newDataFromForm[key] };
                     hasChanges = true;
                 }
             }
@@ -2405,49 +2467,39 @@ async function handleAddShoutout(platform, formElement) {
 
    // --- MODIFIED: Function to Handle Deleting a Shoutout (with Logging) ---
     async function handleDeleteShoutout(docId, platform, listItemElement) {
-        // Confirm deletion with the user
         if (!confirm(`Are you sure you want to permanently delete this ${platform} shoutout? This cannot be undone.`)) {
-            return; // Do nothing if user cancels
+            return;
         }
 
-        showAdminStatus("Deleting shoutout..."); // Feedback
-        const docRef = doc(db, 'shoutouts', docId); // Define docRef once for fetching and deleting
+        showAdminStatus("Deleting shoutout...");
+        const docRef = doc(db, 'shoutouts', docId);
 
         try {
-            // *** Step 1: Fetch the data BEFORE deleting (for logging details) ***
-            let detailsToLog = { platform: platform, id: docId, username: 'N/A', nickname: 'N/A' }; // Default info
+            let detailsToLog = { platform: platform, id: docId, username: 'N/A', nickname: 'N/A' };
             try {
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    detailsToLog.username = data.username || 'N/A'; // Get username if available
-                    detailsToLog.nickname = data.nickname || 'N/A'; // Get nickname if available
+                    detailsToLog.username = data.username || 'N/A';
+                    detailsToLog.nickname = data.nickname || 'N/A';
                     console.log(`Preparing to delete shoutout: ${detailsToLog.nickname} (@${detailsToLog.username})`);
                 } else {
-                    // Document might already be gone? Log what we know.
                     console.warn(`Document ${docId} not found before deletion, logging ID and platform only.`);
                 }
             } catch (fetchError) {
                  console.error(`Error fetching shoutout ${docId} data before deletion:`, fetchError);
-                 // Continue with deletion attempt, log will have less detail
             }
-            // *** End Fetch Data ***
 
-            // *** Step 2: Delete the document from Firestore ***
             await deleteDoc(docRef);
-            await updateMetadataTimestamp(platform); // Update site timestamp
+            await updateMetadataTimestamp(platform);
             showAdminStatus(`${platform.charAt(0).toUpperCase() + platform.slice(1)} shoutout deleted successfully.`, false);
 
-            // *** Step 3: Log the Deletion Activity AFTER successful deletion ***
             if (typeof logAdminActivity === 'function') {
-                logAdminActivity('SHOUTOUT_DELETE', detailsToLog); // Log the details gathered before deletion
+                logAdminActivity('SHOUTOUT_DELETE', detailsToLog);
             } else {
                 console.error("logAdminActivity function not found! Cannot log deletion.");
             }
-            // *** End Log Activity ***
 
-
-            // Step 4: Reload the list to update UI and internal 'allShoutouts' array.
             if (typeof loadShoutoutsAdmin === 'function') {
                 loadShoutoutsAdmin(platform);
             }
@@ -2456,15 +2508,15 @@ async function handleAddShoutout(platform, formElement) {
             console.error(`Error deleting ${platform} shoutout (ID: ${docId}):`, error);
             showAdminStatus(`Error deleting ${platform} shoutout: ${error.message}`, true);
 
-            // *** Optionally log the FAILED delete attempt ***
              if (typeof logAdminActivity === 'function') {
-                 // Log failure with details gathered before attempting delete (if fetch worked)
                  logAdminActivity('SHOUTOUT_DELETE_FAILED', { ...detailsToLog, error: error.message });
              }
         }
     }
 
     
+// --- Useful Links Functions ---
+
 // *** Function to render a single Useful Link item in the admin list ***
 function renderUsefulLinkAdminListItem(container, docId, label, url, order, deleteHandler, editHandler) { //
     if (!container) return; //
@@ -2502,6 +2554,7 @@ function renderUsefulLinkAdminListItem(container, docId, label, url, order, dele
 
 // *** CORRECTED Function to Load Useful Links ***
 async function loadUsefulLinksAdmin() {
+    // Assuming usefulLinksListAdmin, usefulLinksCount, allUsefulLinks, usefulLinksCollectionRef are globally available or defined in an accessible scope
     if (!usefulLinksListAdmin) { console.error("Useful links list container missing."); return; }
     if (usefulLinksCount) usefulLinksCount.textContent = '';
     usefulLinksListAdmin.innerHTML = `<p>Loading useful links...</p>`;
@@ -2518,7 +2571,7 @@ async function loadUsefulLinksAdmin() {
         console.log(`Stored ${allUsefulLinks.length} useful links.`);
 
         // Call the filter function to display initially (will show all)
-        displayFilteredUsefulLinks();
+        displayFilteredUsefulLinks(); // This function will now handle scroll restoration
 
     } catch (error) {
         console.error("Error loading useful links:", error);
@@ -2528,9 +2581,70 @@ async function loadUsefulLinksAdmin() {
     }
 }
 
+// --- REVISED + CORRECTED Filtering Function for Useful Links (with Scroll Fix) ---
+function displayFilteredUsefulLinks() {
+    const listContainer = usefulLinksListAdmin; // Assuming usefulLinksListAdmin is globally available
+    const countElement = usefulLinksCount;     // Assuming usefulLinksCount is globally available
+    const searchInput = document.getElementById('search-useful-links');
+
+    if (!listContainer || !searchInput || typeof allUsefulLinks === 'undefined') {
+        console.error("Useful Links Filter Error: Missing elements/data.");
+        if(listContainer) listContainer.innerHTML = `<p class="error">Error displaying list.</p>`;
+        return;
+    }
+
+    // *** PRESERVATION STEP 1: Save scroll position ***
+    let savedScrollTop = 0;
+    if (listContainer) {
+        savedScrollTop = listContainer.scrollTop;
+    }
+    // *** End PRESERVATION STEP 1 ***
+
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    let listToRender = [];
+
+    if (!searchTerm) {
+        listToRender = allUsefulLinks;
+    } else {
+        listToRender = allUsefulLinks.filter(link => {
+            const label = (link.label || '').toLowerCase();
+            return label.includes(searchTerm);
+        });
+    }
+
+    listContainer.innerHTML = ''; // Clear list
+
+    if (listToRender.length > 0) {
+        listToRender.forEach(link => {
+            if (typeof renderUsefulLinkAdminListItem === 'function' && typeof handleDeleteUsefulLink === 'function' && typeof openEditUsefulLinkModal === 'function') {
+                 renderUsefulLinkAdminListItem(listContainer, link.id, link.label, link.url, link.order, handleDeleteUsefulLink, openEditUsefulLinkModal);
+            } else {
+                 console.error("Error: renderUsefulLinkAdminListItem or its handlers are missing!");
+                 listContainer.innerHTML = '<p class="error">Rendering function error.</p>';
+                 return;
+            }
+        });
+    } else {
+        if (searchTerm) {
+            listContainer.innerHTML = `<p>No useful links found matching "${searchTerm}".</p>`;
+        } else {
+            listContainer.innerHTML = `<p>No useful links found.</p>`;
+        }
+    }
+    if (countElement) { countElement.textContent = `(${listToRender.length})`; }
+
+    // *** PRESERVATION STEP 2: Restore scroll position ***
+    if (listContainer) {
+        listContainer.scrollTop = savedScrollTop;
+    }
+    // *** End PRESERVATION STEP 2 ***
+}
+
+
 // *** Function to Handle Adding a New Useful Link ***
 async function handleAddUsefulLink(event) { //
     event.preventDefault(); //
+    // Assuming addUsefulLinkForm, showAdminStatus, usefulLinksCollectionRef, serverTimestamp, loadUsefulLinksAdmin are accessible
     if (!addUsefulLinkForm) return; //
 
     const labelInput = addUsefulLinkForm.querySelector('#link-label'); //
@@ -2547,7 +2661,6 @@ async function handleAddUsefulLink(event) { //
         return; //
     }
 
-    // Simple check for valid URL structure (basic)
     try { //
         new URL(url); // This will throw an error if the URL is invalid
     } catch (_) { //
@@ -2566,7 +2679,6 @@ async function handleAddUsefulLink(event) { //
     try { //
         const docRef = await addDoc(usefulLinksCollectionRef, linkData); //
         console.log("Useful link added with ID:", docRef.id); //
-        // await updateMetadataTimestamp('usefulLinks'); // Optional: if tracking metadata
         showAdminStatus("Useful link added successfully.", false); //
         addUsefulLinkForm.reset(); // Reset the form
         loadUsefulLinksAdmin(); // Reload the list
@@ -2579,6 +2691,7 @@ async function handleAddUsefulLink(event) { //
 
 // *** Function to Handle Deleting a Useful Link ***
 async function handleDeleteUsefulLink(docId, listItemElement) { //
+    // Assuming showAdminStatus, db, deleteDoc, loadUsefulLinksAdmin are accessible
     if (!confirm("Are you sure you want to permanently delete this useful link?")) { //
         return; //
     }
@@ -2586,7 +2699,6 @@ async function handleDeleteUsefulLink(docId, listItemElement) { //
     showAdminStatus("Deleting useful link..."); //
     try { //
         await deleteDoc(doc(db, 'useful_links', docId)); //
-        // await updateMetadataTimestamp('usefulLinks'); // Optional
         showAdminStatus("Useful link deleted successfully.", false); //
         loadUsefulLinksAdmin(); // Reload list is simplest
 
@@ -2599,6 +2711,7 @@ async function handleDeleteUsefulLink(docId, listItemElement) { //
 
 // *** Function to Open and Populate the Edit Useful Link Modal ***
 function openEditUsefulLinkModal(docId) { //
+    // Assuming editUsefulLinkModal, editUsefulLinkForm, showAdminStatus, db, getDoc, editLinkLabelInput, editLinkUrlInput, editLinkOrderInput, showEditLinkStatus are accessible
     if (!editUsefulLinkModal || !editUsefulLinkForm) { //
         console.error("Edit useful link modal elements not found."); //
         showAdminStatus("UI Error: Cannot open edit form.", true); //
@@ -2620,7 +2733,7 @@ function openEditUsefulLinkModal(docId) { //
             showEditLinkStatus(""); // Clear loading message
         } else { //
             showAdminStatus("Error: Could not load link data for editing.", true); //
-             showEditLinkStatus("Error: Link not found.", true); // Show error inside modal
+            showEditLinkStatus("Error: Link not found.", true); // Show error inside modal
         }
     }).catch(error => { //
         console.error("Error getting link document for edit:", error); //
@@ -2631,6 +2744,7 @@ function openEditUsefulLinkModal(docId) { //
 
 // *** Function to Close the Edit Useful Link Modal ***
 function closeEditUsefulLinkModal() { //
+    // Assuming editUsefulLinkModal, editUsefulLinkForm, editLinkStatusMessage are accessible
     if (editUsefulLinkModal) editUsefulLinkModal.style.display = 'none'; //
     if (editUsefulLinkForm) editUsefulLinkForm.reset(); //
     editUsefulLinkForm?.removeAttribute('data-doc-id'); //
@@ -2638,71 +2752,68 @@ function closeEditUsefulLinkModal() { //
 }
 
 // --- Function to Handle Updating a Useful Link (with DETAILED Logging) ---
-    async function handleUpdateUsefulLink(event) {
-        event.preventDefault();
-        if (!editUsefulLinkForm) return;
-        const docId = editUsefulLinkForm.getAttribute('data-doc-id');
-        if (!docId) { showEditLinkStatus("Error: Missing document ID...", true); return; }
-        console.log("Attempting to update useful link (detailed log):", docId);
+async function handleUpdateUsefulLink(event) {
+    event.preventDefault();
+    // Assuming editUsefulLinkForm, showEditLinkStatus, db, getDoc, updateDoc, serverTimestamp, logAdminActivity, showAdminStatus, closeEditUsefulLinkModal, loadUsefulLinksAdmin are accessible
+    // Also editLinkLabelInput, editLinkUrlInput, editLinkOrderInput
+    if (!editUsefulLinkForm) return;
+    const docId = editUsefulLinkForm.getAttribute('data-doc-id');
+    if (!docId) { showEditLinkStatus("Error: Missing document ID...", true); return; }
+    console.log("Attempting to update useful link (detailed log):", docId);
 
-        // 1. Get NEW data from form
-        const label = editLinkLabelInput?.value.trim();
-        const url = editLinkUrlInput?.value.trim();
-        const orderStr = editLinkOrderInput?.value.trim();
-        const order = parseInt(orderStr);
+    const label = editLinkLabelInput?.value.trim();
+    const url = editLinkUrlInput?.value.trim();
+    const orderStr = editLinkOrderInput?.value.trim();
+    const order = parseInt(orderStr);
 
-        if (!label || !url || !orderStr || isNaN(order) || order < 0) { showEditLinkStatus("Invalid input...", true); return; }
-        try { new URL(url); } catch (_) { showEditLinkStatus("Invalid URL format.", true); return; }
+    if (!label || !url || !orderStr || isNaN(order) || order < 0) { showEditLinkStatus("Invalid input...", true); return; }
+    try { new URL(url); } catch (_) { showEditLinkStatus("Invalid URL format.", true); return; }
 
-        const newDataFromForm = { label: label, url: url, order: order };
+    const newDataFromForm = { label: label, url: url, order: order };
 
-        showEditLinkStatus("Saving changes...");
-        const docRef = doc(db, 'useful_links', docId); // Define once
+    showEditLinkStatus("Saving changes...");
+    const docRef = doc(db, 'useful_links', docId);
 
-        try {
-            // 2. Get OLD data BEFORE saving
-            let oldData = {};
-            const oldDataSnap = await getDoc(docRef);
-            if (oldDataSnap.exists()) { oldData = oldDataSnap.data(); }
+    try {
+        let oldData = {};
+        const oldDataSnap = await getDoc(docRef);
+        if (oldDataSnap.exists()) { oldData = oldDataSnap.data(); }
 
-            // 3. Save NEW data
-            await updateDoc(docRef, { ...newDataFromForm, lastModified: serverTimestamp() });
-            console.log("Useful link update successful:", docId);
+        await updateDoc(docRef, { ...newDataFromForm, lastModified: serverTimestamp() });
+        console.log("Useful link update successful:", docId);
 
-            // 4. Compare and find changes
-            const changes = {};
-            let hasChanges = false;
-            for (const key in newDataFromForm) {
-                if (oldData[key] !== newDataFromForm[key]) {
-                    changes[key] = { to: newDataFromForm[key] };
-                    hasChanges = true;
-                }
+        const changes = {};
+        let hasChanges = false;
+        for (const key in newDataFromForm) {
+            if (oldData[key] !== newDataFromForm[key]) {
+                changes[key] = { to: newDataFromForm[key] };
+                hasChanges = true;
             }
-
-            // 5. Log ONLY actual changes
-            if (hasChanges) {
-                 console.log("DEBUG: Detected useful link changes:", changes);
-                 if (typeof logAdminActivity === 'function') {
-                    logAdminActivity('USEFUL_LINK_UPDATE', { id: docId, label: label, changes: changes });
-                 } else { console.error("logAdminActivity function not found!");}
-            } else {
-                 console.log("DEBUG: Useful link update saved, but no values changed.");
-            }
-
-            showAdminStatus("Useful link updated successfully.", false);
-            closeEditUsefulLinkModal();
-            loadUsefulLinksAdmin();
-
-        } catch (error) {
-            console.error(`Error updating useful link (ID: ${docId}):`, error);
-            showEditLinkStatus(`Error saving: ${error.message}`, true);
-            showAdminStatus(`Error updating useful link: ${error.message}`, true);
         }
+
+        if (hasChanges) {
+             console.log("DEBUG: Detected useful link changes:", changes);
+             if (typeof logAdminActivity === 'function') {
+                logAdminActivity('USEFUL_LINK_UPDATE', { id: docId, label: label, changes: changes });
+             } else { console.error("logAdminActivity function not found!");}
+        } else {
+             console.log("DEBUG: Useful link update saved, but no values changed.");
+        }
+
+        showAdminStatus("Useful link updated successfully.", false);
+        closeEditUsefulLinkModal();
+        loadUsefulLinksAdmin();
+
+    } catch (error) {
+        console.error(`Error updating useful link (ID: ${docId}):`, error);
+        showEditLinkStatus(`Error saving: ${error.message}`, true);
+        showAdminStatus(`Error updating useful link: ${error.message}`, true);
     }
+}
 
 // ========================================================
-    // START: All Social Link Functions (Place INSIDE DOMContentLoaded)
-    // ========================================================
+// START: All Social Link Functions (Place INSIDE DOMContentLoaded)
+// ========================================================
 
     /**
      * Renders a single Social Link item in the admin list view.
@@ -2745,6 +2856,7 @@ function closeEditUsefulLinkModal() { //
      */
     async function loadSocialLinksAdmin() {
         // Re-select elements inside function for safety
+        // Assuming: socialLinksCollectionRef, orderBy, getDocs, allSocialLinks, displayFilteredSocialLinks, showAdminStatus are accessible
         const listContainer = document.getElementById('social-links-list-admin');
         const countElement = document.getElementById('social-links-count');
         if (!listContainer) { console.error("Social links list container missing."); return; }
@@ -2779,8 +2891,15 @@ function closeEditUsefulLinkModal() { //
         if (!listContainer || !searchInput || !countElement) { console.error("Social Links Filter Error: Crucial display elements missing."); if(listContainer) listContainer.innerHTML = `<p class="error">UI Error.</p>`; return; }
         if (typeof allSocialLinks === 'undefined') { console.error("Social Links Filter Error: Data array 'allSocialLinks' is undefined."); listContainer.innerHTML = `<p class="error">Data error.</p>`; if (countElement) countElement.textContent = '(Error)'; return; }
 
+        // *** PRESERVATION STEP 1: Save scroll position ***
+        let savedScrollTop = 0;
+        if (listContainer) {
+            savedScrollTop = listContainer.scrollTop;
+        }
+        // *** End PRESERVATION STEP 1 ***
+
         const searchTerm = searchInput.value.trim().toLowerCase();
-        listContainer.innerHTML = '';
+        listContainer.innerHTML = ''; // Clear list
 
         const listToRender = !searchTerm ? allSocialLinks : allSocialLinks.filter(link =>
             (link.label || '').toLowerCase().includes(searchTerm) ||
@@ -2788,7 +2907,6 @@ function closeEditUsefulLinkModal() { //
         );
 
         if (listToRender.length > 0) {
-            // Check handlers BEFORE loop
             if (typeof renderSocialLinkAdminListItem !== 'function' || typeof handleDeleteSocialLink !== 'function' || typeof openEditSocialLinkModal !== 'function') {
                  console.error("CRITICAL Error: Social link handlers (render, delete, edit) not defined!");
                  listContainer.innerHTML = '<p class="error">Rendering function error.</p>';
@@ -2802,6 +2920,12 @@ function closeEditUsefulLinkModal() { //
             listContainer.innerHTML = searchTerm ? `<p>No social links found matching "${searchTerm}".</p>` : `<p>No social links found.</p>`;
         }
         if (countElement) { countElement.textContent = `(${listToRender.length})`; }
+
+        // *** PRESERVATION STEP 2: Restore scroll position ***
+        if (listContainer) {
+            listContainer.scrollTop = savedScrollTop;
+        }
+        // *** End PRESERVATION STEP 2 ***
     }
 
     /**
@@ -2809,7 +2933,8 @@ function closeEditUsefulLinkModal() { //
      */
     async function handleAddSocialLink(event) {
         event.preventDefault();
-        const form = document.getElementById('add-social-link-form'); // Use local var
+        // Assuming: showAdminStatus, serverTimestamp, addDoc, socialLinksCollectionRef, loadSocialLinksAdmin are accessible
+        const form = document.getElementById('add-social-link-form');
         if (!form) { console.error("Add Social Link form not found!"); return; }
 
         const labelInput = form.querySelector('#social-link-label');
@@ -2844,6 +2969,7 @@ function closeEditUsefulLinkModal() { //
      * Handles deleting a specified social link.
      */
     async function handleDeleteSocialLink(docId, listItemElement) {
+        // Assuming: showAdminStatus, deleteDoc, db, loadSocialLinksAdmin are accessible
         if (!confirm("Are you sure you want to permanently delete this social link?")) { return; }
         showAdminStatus("Deleting social link...");
         try {
@@ -2861,6 +2987,7 @@ function closeEditUsefulLinkModal() { //
      */
     function openEditSocialLinkModal(docId) {
         // Re-select elements inside for safety
+        // Assuming: showAdminStatus, db, getDoc, showEditSocialLinkStatus are accessible
         const modal = document.getElementById('edit-social-link-modal');
         const form = document.getElementById('edit-social-link-form');
         const labelInput = document.getElementById('edit-social-link-label');
@@ -2883,7 +3010,7 @@ function closeEditUsefulLinkModal() { //
                 labelInput.value = data.label || '';
                 urlInput.value = data.url || '';
                 orderInput.value = data.order ?? '';
-                iconInput.value = data.iconClass || ''; // Populate icon class
+                iconInput.value = data.iconClass || '';
 
                 modal.style.display = 'block';
                 showEditSocialLinkStatus("");
@@ -2902,7 +3029,6 @@ function closeEditUsefulLinkModal() { //
      * Closes the Edit Social Link modal and resets the form.
      */
     function closeEditSocialLinkModal() {
-       // Re-select elements inside for safety
        const modal = document.getElementById('edit-social-link-modal');
        const form = document.getElementById('edit-social-link-form');
        const statusMsg = document.getElementById('edit-social-link-status-message');
@@ -2917,7 +3043,8 @@ function closeEditUsefulLinkModal() { //
      */
     async function handleUpdateSocialLink(event) {
         event.preventDefault();
-        const form = document.getElementById('edit-social-link-form'); // Use local var
+        // Assuming: showEditSocialLinkStatus, db, updateDoc, serverTimestamp, showAdminStatus, closeEditSocialLinkModal, loadSocialLinksAdmin are accessible
+        const form = document.getElementById('edit-social-link-form');
         if (!form) { console.error("Edit social link form not found!"); return; }
         const docId = form.getAttribute('data-doc-id');
         if (!docId) { showEditSocialLinkStatus("Error: Missing document ID.", true); return; }
@@ -2936,7 +3063,7 @@ function closeEditUsefulLinkModal() { //
 
         const newData = { label, url, order };
         if (iconClassValue) { newData.iconClass = iconClassValue; }
-        // else { newData.iconClass = deleteField(); } // Optional: Uncomment to remove field if input is empty
+        // else { newData.iconClass = deleteField(); } // If you import deleteField from Firestore
 
         showEditSocialLinkStatus("Saving changes...");
         const docRef = doc(db, 'social_links', docId);
@@ -2944,9 +3071,6 @@ function closeEditUsefulLinkModal() { //
         try {
             await updateDoc(docRef, { ...newData, lastModified: serverTimestamp() });
             console.log("Social link update successful:", docId);
-            // --- Logging (Optional but recommended) ---
-            // You can add the detailed logging logic from previous steps here if needed
-            // --- End Logging ---
             showAdminStatus("Social link updated successfully.", false);
             closeEditSocialLinkModal();
             loadSocialLinksAdmin();
@@ -2954,13 +3078,12 @@ function closeEditUsefulLinkModal() { //
             console.error(`Error updating social link (ID: ${docId}):`, error);
             showEditSocialLinkStatus(`Error saving: ${error.message}`, true);
             showAdminStatus(`Error updating social link: ${error.message}`, true);
-            // Log failure if needed
         }
     }
 
-    // ========================================================
-    // END: All Social Link Functions
-    // ========================================================
+// ========================================================
+// END: All Social Link Functions
+// ========================================================
 
     // Add Shoutout Forms
     if (addShoutoutTiktokForm) { //
@@ -3318,16 +3441,12 @@ function displayFilteredActivityLog() {
     logCountElement.textContent = `(${filteredLogs.length})`;
 }
 
-    // ========================================
-    // == Tech Item Management Functions V2 ===
-    // ========================================
-    // (Add ALL the Tech functions here: renderTechItemAdminListItem, displayFilteredTechItems, loadTechItemsAdmin,
-    //  handleAddTechItem, handleDeleteTechItem, openEditTechItemModal, closeEditTechItemModal, handleUpdateTechItem,
-    //  renderTechItemPreview, updateTechItemPreview, attachTechPreviewListeners)
+   // ========================================
+// == Tech Item Management Functions V2 ===
+// ========================================
 
     /** Renders a single tech item in the admin list view */
     function renderTechItemAdminListItem(container, docId, itemData, deleteHandler, editHandler) {
-        // ... (function code from previous response) ...
          if (!container) { console.warn("Tech list container missing for render"); return; }
          const itemDiv = document.createElement('div');
          itemDiv.className = 'list-item-admin';
@@ -3353,12 +3472,20 @@ function displayFilteredActivityLog() {
 
      /** Filters and displays tech items in the admin list based on search */
     function displayFilteredTechItems() {
-        // ... (function code from previous response) ...
+        // Assuming techItemsListAdmin, searchTechItemsInput, allTechItems, techItemsCount are globally available or passed
          if (!techItemsListAdmin || !searchTechItemsInput || typeof allTechItems === 'undefined') {
              console.error("Tech Items Filter Error: Missing elements/data.");
              if(techItemsListAdmin) techItemsListAdmin.innerHTML = `<p class="error">Error displaying tech list.</p>`;
              return;
          }
+
+        // *** PRESERVATION STEP 1: Save scroll position ***
+        let savedScrollTop = 0;
+        if (techItemsListAdmin) { // Ensure the container exists
+            savedScrollTop = techItemsListAdmin.scrollTop;
+        }
+        // *** End PRESERVATION STEP 1 ***
+
          const searchTerm = searchTechItemsInput.value.trim().toLowerCase();
          techItemsListAdmin.innerHTML = ''; // Clear list
          const filteredList = allTechItems.filter(item => {
@@ -3367,32 +3494,46 @@ function displayFilteredActivityLog() {
              const model = (item.model || '').toLowerCase();
              return name.includes(searchTerm) || model.includes(searchTerm);
          });
+
          if (filteredList.length > 0) {
              filteredList.forEach(item => {
-                 renderTechItemAdminListItem(techItemsListAdmin, item.id, item, handleDeleteTechItem, openEditTechItemModal);
+                 // Ensure renderTechItemAdminListItem and its handlers are defined and accessible
+                 if (typeof renderTechItemAdminListItem === 'function' && typeof handleDeleteTechItem === 'function' && typeof openEditTechItemModal === 'function') {
+                    renderTechItemAdminListItem(techItemsListAdmin, item.id, item, handleDeleteTechItem, openEditTechItemModal);
+                 } else {
+                    console.error("Critical error: renderTechItemAdminListItem or its handlers missing for Tech Items.");
+                    techItemsListAdmin.innerHTML = `<p class="error">Rendering function error for Tech Items.</p>`;
+                    return;
+                 }
              });
          } else {
               techItemsListAdmin.innerHTML = searchTerm ? `<p>No tech items found matching "${searchTerm}".</p>` : '<p>No tech items added yet.</p>';
          }
          if (techItemsCount) { techItemsCount.textContent = `(${filteredList.length})`; }
+
+        // *** PRESERVATION STEP 2: Restore scroll position ***
+        if (techItemsListAdmin) { // Ensure the container exists
+            techItemsListAdmin.scrollTop = savedScrollTop;
+        }
+        // *** End PRESERVATION STEP 2 ***
     }
 
     /** Loads all tech items from Firestore, stores them globally, and triggers display */
     async function loadTechItemsAdmin() {
-        // ... (function code from previous response) ...
+        // Assuming techItemsListAdmin, techItemsCount, allTechItems, techItemsCollectionRef, query, orderBy, getDocs, displayFilteredTechItems, showAdminStatus are accessible
          if (!techItemsListAdmin) { console.error("Tech items list container element missing."); return; }
          console.log("Loading tech items for admin...");
-         if (techItemsCount) techItemsCount.textContent = '(...)'; // Indicate loading count
-         techItemsListAdmin.innerHTML = `<p>Loading tech items...</p>`; // Loading message
+         if (techItemsCount) techItemsCount.textContent = '(...)';
+         techItemsListAdmin.innerHTML = `<p>Loading tech items...</p>`;
          allTechItems = []; // Clear global array before fetching
          try {
-             const techQuery = query(techItemsCollectionRef, orderBy("order", "asc")); // Order by display order
+             const techQuery = query(techItemsCollectionRef, orderBy("order", "asc"));
              const querySnapshot = await getDocs(techQuery);
              querySnapshot.forEach((doc) => {
-                 allTechItems.push({ id: doc.id, ...doc.data() }); // Store ID with data
+                 allTechItems.push({ id: doc.id, ...doc.data() });
              });
              console.log(`Loaded ${allTechItems.length} tech items.`);
-             displayFilteredTechItems(); // Initial display
+             displayFilteredTechItems(); // Initial display, now with scroll preservation
          } catch (error) {
              console.error("Error loading tech items:", error);
               let errorMsg = "Error loading tech items.";
@@ -3409,8 +3550,8 @@ function displayFilteredActivityLog() {
 
     /** Handles adding a new tech item via the form */
     async function handleAddTechItem(event) {
-        // ... (function code from previous response, INCLUDING activity log) ...
         event.preventDefault();
+        // Assuming addTechItemForm, showAdminStatus, serverTimestamp, addDoc, techItemsCollectionRef, logAdminActivity, addTechItemPreview, loadTechItemsAdmin are accessible
         if (!addTechItemForm) { console.error("Add tech form not found"); return; }
         const techData = {};
         const inputs = addTechItemForm.querySelectorAll('input[name], select[name], textarea[name]');
@@ -3437,7 +3578,7 @@ function displayFilteredActivityLog() {
 
      /** Handles deleting a specified tech item */
     async function handleDeleteTechItem(docId, listItemElement) {
-        // ... (function code from previous response, INCLUDING activity log) ...
+        // Assuming showAdminStatus, getDoc, doc, db, deleteDoc, logAdminActivity, loadTechItemsAdmin are accessible
         if (!confirm("Are you sure you want to permanently delete this tech item? This action cannot be undone.")) return;
          showAdminStatus("Deleting tech item...");
          let itemNameToLog = 'Unknown Item';
@@ -3457,7 +3598,7 @@ function displayFilteredActivityLog() {
 
     /** Opens the Edit Tech Item modal and populates it with data */
     async function openEditTechItemModal(docId) {
-        // ... (function code from previous response, INCLUDING triggering preview/listener attach) ...
+        // Assuming editTechItemModal, editTechItemForm, showAdminStatus, showEditTechItemStatus, editTechItemPreview, db, doc, getDoc, updateTechItemPreview, attachTechPreviewListeners are accessible
          if (!editTechItemModal || !editTechItemForm) { console.error("Edit tech item modal elements not found."); showAdminStatus("UI Error: Cannot open edit form.", true); return; }
          showEditTechItemStatus("Loading item data...");
          if(editTechItemPreview) editTechItemPreview.innerHTML = '<p><small>Loading preview...</small></p>';
@@ -3475,13 +3616,13 @@ function displayFilteredActivityLog() {
 
      /** Closes the Edit Tech Item modal */
     function closeEditTechItemModal() {
-        // ... (function code from previous response, INCLUDING resetting preview) ...
+        // Assuming editTechItemModal, editTechItemForm, editTechStatusMessage, editTechItemPreview are accessible
          if (editTechItemModal) editTechItemModal.style.display = 'none'; if (editTechItemForm) editTechItemForm.reset(); editTechItemForm?.removeAttribute('data-doc-id'); if (editTechStatusMessage) editTechStatusMessage.textContent = ''; if (editTechItemPreview) { editTechItemPreview.innerHTML = '<p><small>Preview will load when modal opens.</small></p>'; }
     }
 
      /** Handles updating a tech item from the edit modal */
     async function handleUpdateTechItem(event) {
-        // ... (function code from previous response, INCLUDING activity log) ...
+        // Assuming editTechItemForm, showEditTechItemStatus, serverTimestamp, db, doc, getDoc, updateDoc, logAdminActivity, showAdminStatus, closeEditTechItemModal, loadTechItemsAdmin are accessible
          event.preventDefault(); if (!editTechItemForm) {console.error("Edit tech form not found"); return;} const docId = editTechItemForm.getAttribute('data-doc-id'); if (!docId) { showEditTechItemStatus("Error: Missing document ID. Cannot save.", true); return; }
          const updatedData = {}; const inputs = editTechItemForm.querySelectorAll('input[name], select[name], textarea[name]'); let isValid = true; let techNameForLog = '';
           inputs.forEach(input => { const name = input.name; let value = input.value.trim(); if (input.type === 'number') { value = input.value === '' ? null : parseFloat(input.value); if (input.value !== '' && isNaN(value)) { value = null; if (input.name === 'order' || input.name === 'batteryHealth' || input.name === 'batteryCycles') { showEditTechItemStatus(`Invalid number entered for ${name}.`, true); isValid = false; } } else if (value !== null && value < 0 && (input.name === 'order' || input.name === 'batteryHealth' || input.name === 'batteryCycles')) { showEditTechItemStatus(`${name} cannot be negative.`, true); isValid = false; } } updatedData[name] = value === '' ? null : value; if (name === 'name') techNameForLog = value; });
@@ -3501,26 +3642,24 @@ function displayFilteredActivityLog() {
     // --- Tech Preview Rendering Functions ---
      /** Generates HTML for the tech item preview based on data object */
      function renderTechItemPreview(data) {
-        // ... (function code from previous response) ...
          const name = data.name || 'Device Name'; const model = data.model || ''; const iconClass = data.iconClass || 'fas fa-question-circle'; const material = data.material || ''; const storage = data.storage || ''; const batteryCapacity = data.batteryCapacity || ''; const color = data.color || ''; const price = data.price ? `$${data.price}` : ''; const dateReleased = data.dateReleased || ''; const dateBought = data.dateBought || ''; const osVersion = data.osVersion || ''; const batteryHealth = data.batteryHealth !== null && !isNaN(data.batteryHealth) ? parseInt(data.batteryHealth, 10) : null; const batteryCycles = data.batteryCycles !== null && !isNaN(data.batteryCycles) ? data.batteryCycles : null; let batteryHtml = ''; if (batteryHealth !== null) { let batteryClass = ''; if (batteryHealth <= 20) batteryClass = 'critical'; else if (batteryHealth <= 50) batteryClass = 'low-power'; batteryHtml = `<div class="tech-detail"><i class="fas fa-heart"></i><span>Battery Health:</span></div><div class="battery-container"><div class="battery-icon ${batteryClass}"><div class="battery-level" style="width: ${batteryHealth}%;"></div><div class="battery-percentage">${batteryHealth}%</div></div></div>`; } let cyclesHtml = ''; if (batteryCycles !== null) { cyclesHtml = `<div class="tech-detail"><i class="fas fa-sync"></i><span>Battery Charge Cycles:</span> ${batteryCycles}</div>`; } return `<div class="tech-item"><h3><i class="${iconClass}"></i> ${name}</h3> ${model ? `<div class="tech-detail"><i class="fas fa-info-circle"></i><span>Model:</span> ${model}</div>` : ''} ${material ? `<div class="tech-detail"><i class="fas fa-layer-group"></i><span>Material:</span> ${material}</div>` : ''} ${storage ? `<div class="tech-detail"><i class="fas fa-hdd"></i><span>Storage:</span> ${storage}</div>` : ''} ${batteryCapacity ? `<div class="tech-detail"><i class="fas fa-battery-full"></i><span>Battery Capacity:</span> ${batteryCapacity}</div>` : ''} ${color ? `<div class="tech-detail"><i class="fas fa-palette"></i><span>Color:</span> ${color}</div>` : ''} ${price ? `<div class="tech-detail"><i class="fas fa-tag"></i><span>Price:</span> ${price}</div>` : ''} ${dateReleased ? `<div class="tech-detail"><i class="fas fa-calendar-plus"></i><span>Date Released:</span> ${dateReleased}</div>` : ''} ${dateBought ? `<div class="tech-detail"><i class="fas fa-shopping-cart"></i><span>Date Bought:</span> ${dateBought}</div>` : ''} ${osVersion ? `<div class="tech-detail"><i class="fab fa-apple"></i><span>OS Version:</span> ${osVersion}</div>` : ''} ${batteryHtml} ${cyclesHtml} </div>`;
      }
 
      /** Reads form data and updates the corresponding tech preview area */
      function updateTechItemPreview(formType) {
-         // ... (function code from previous response) ...
+        // Assuming addTechItemForm, addTechItemPreview, editTechItemForm, editTechItemPreview, renderTechItemPreview are accessible
           let formElement; let previewElement; if (formType === 'add') { formElement = addTechItemForm; previewElement = addTechItemPreview; } else if (formType === 'edit') { formElement = editTechItemForm; previewElement = editTechItemPreview; } else { return; } if (!formElement || !previewElement) { return; } const techData = {}; const inputs = formElement.querySelectorAll('input[name], select[name], textarea[name]'); inputs.forEach(input => { const name = input.name; let value = input.value.trim(); if (input.type === 'number') { value = input.value === '' ? null : parseFloat(input.value); if (isNaN(value)) value = null; } techData[name] = value === '' ? null : value; }); try { const previewHTML = renderTechItemPreview(techData); previewElement.innerHTML = previewHTML; } catch (e) { console.error("Error rendering tech preview:", e); previewElement.innerHTML = '<p class="error"><small>Error generating preview.</small></p>'; }
      }
 
      /** Attaches input/change listeners to tech form inputs to trigger preview updates */
      function attachTechPreviewListeners(formElement, formType) {
-         // ... (function code from previous response) ...
+        // Assuming updateTechItemPreview is accessible
           if (!formElement) return; const inputs = formElement.querySelectorAll('input[name], select[name], textarea[name]'); console.log(`Attaching preview listeners to ${inputs.length} inputs for ${formType} tech form.`); inputs.forEach(input => { const eventType = (input.type === 'checkbox' || input.type === 'select-one') ? 'change' : 'input'; const listenerFlag = `__techPreviewListener_${eventType}`; if (!input[listenerFlag]) { input.addEventListener(eventType, () => { updateTechItemPreview(formType); }); input[listenerFlag] = true; } });
      }
 
-
-    // ==================================
-    // == END Tech Item Functions =======
-    // ==================================
+// ==================================
+// == END Tech Item Functions =======
+// ==================================
 
 
     // --- *** Event Listener for Saving ONLY Countdown Settings (WITH EXTRA LOGGING) *** ---
@@ -3629,12 +3768,13 @@ function displayFilteredActivityLog() {
     }
     // --- *** END Event Listener with Logging *** ---
 
-    // ==================================
+// ==================================
 // ===== FAQ Management Functions =====
 // ==================================
 
 /** Shows status messages inside the FAQ edit modal */
 function showEditFaqStatus(message, isError = false) {
+    // Assuming editFaqStatusMessage is a globally available DOM element reference
     if (!editFaqStatusMessage) { console.warn("Edit FAQ status message element not found"); return; }
     editFaqStatusMessage.textContent = message;
     editFaqStatusMessage.className = `status-message ${isError ? 'error' : 'success'}`;
@@ -3643,13 +3783,12 @@ function showEditFaqStatus(message, isError = false) {
 
 /** Renders a single FAQ item in the admin list */
 function renderFaqAdminListItem(container, docId, faqData, deleteHandler, editHandler) {
-     if (!container) { console.warn("FAQ list container missing"); return; }
-     const itemDiv = document.createElement('div');
-     itemDiv.className = 'list-item-admin';
-     itemDiv.setAttribute('data-id', docId);
-     const shortAnswer = (faqData.answer || '').substring(0, 100); // Snippet
+   if (!container) { console.warn("FAQ list container missing"); return; }
+   const itemDiv = document.createElement('div');
+   itemDiv.className = 'list-item-admin';
+   itemDiv.setAttribute('data-id', docId);
+   const shortAnswer = (faqData.answer || '').substring(0, 100); // Snippet
 
-    // --- UPDATED INNER HTML ---
     itemDiv.innerHTML = `
       <div class="item-content">
           <div class="item-details">
@@ -3662,7 +3801,6 @@ function renderFaqAdminListItem(container, docId, faqData, deleteHandler, editHa
           <button type="button" class="edit-button small-button">Edit</button>
           <button type="button" class="delete-button small-button">Delete</button>
       </div>`;
-    // --- END UPDATED INNER HTML ---
 
     const editButton = itemDiv.querySelector('.edit-button');
     if (editButton) editButton.addEventListener('click', () => editHandler(docId));
@@ -3673,34 +3811,65 @@ function renderFaqAdminListItem(container, docId, faqData, deleteHandler, editHa
 
 /** Filters and displays FAQs based on search */
 function displayFilteredFaqs() {
-     if (!faqListAdmin || !searchFaqInput || typeof allFaqs === 'undefined') { return; }
+    // Assuming faqListAdmin, searchFaqInput, allFaqs, faqCount, renderFaqAdminListItem, handleDeleteFaq, openEditFaqModal are accessible
+     if (!faqListAdmin || !searchFaqInput || typeof allFaqs === 'undefined') {
+        console.error("FAQ Filter Error: Missing elements/data.");
+        if(faqListAdmin) faqListAdmin.innerHTML = `<p class="error">Error displaying FAQ list.</p>`;
+        return;
+     }
+
+    // *** PRESERVATION STEP 1: Save scroll position ***
+    let savedScrollTop = 0;
+    if (faqListAdmin) { // Ensure the container exists
+        savedScrollTop = faqListAdmin.scrollTop;
+    }
+    // *** End PRESERVATION STEP 1 ***
+
      const searchTerm = searchFaqInput.value.trim().toLowerCase();
-     faqListAdmin.innerHTML = '';
+     faqListAdmin.innerHTML = ''; // Clear list
      const filteredList = allFaqs.filter(faq => {
          if (!searchTerm) return true;
          const question = (faq.question || '').toLowerCase();
          const answer = (faq.answer || '').toLowerCase();
          return question.includes(searchTerm) || answer.includes(searchTerm);
      });
+
      if (filteredList.length > 0) {
-         filteredList.forEach(faq => renderFaqAdminListItem(faqListAdmin, faq.id, faq, handleDeleteFaq, openEditFaqModal));
-     } else { faqListAdmin.innerHTML = searchTerm ? `<p>No FAQs found matching "${searchTerm}".</p>` : '<p>No FAQs added yet.</p>'; }
+        filteredList.forEach(faq => {
+            if (typeof renderFaqAdminListItem === 'function' && typeof handleDeleteFaq === 'function' && typeof openEditFaqModal === 'function') {
+                renderFaqAdminListItem(faqListAdmin, faq.id, faq, handleDeleteFaq, openEditFaqModal);
+            } else {
+                console.error("CRITICAL Error: FAQ handlers (render, delete, edit) not defined for FAQs.");
+                faqListAdmin.innerHTML = '<p class="error">Rendering function error for FAQs.</p>';
+                return;
+            }
+        });
+     } else {
+        faqListAdmin.innerHTML = searchTerm ? `<p>No FAQs found matching "${searchTerm}".</p>` : '<p>No FAQs added yet.</p>';
+     }
      if (faqCount) { faqCount.textContent = `(${filteredList.length})`; }
+
+    // *** PRESERVATION STEP 2: Restore scroll position ***
+    if (faqListAdmin) { // Ensure the container exists
+        faqListAdmin.scrollTop = savedScrollTop;
+    }
+    // *** End PRESERVATION STEP 2 ***
 }
 
 /** Loads FAQs from Firestore */
 async function loadFaqsAdmin() {
+    // Assuming faqListAdmin, faqCount, allFaqs, faqsCollectionRef, query, orderBy, getDocs, displayFilteredFaqs, showAdminStatus are accessible
      if (!faqListAdmin) { console.error("FAQ list container missing."); return; }
      console.log("Loading FAQs for admin...");
      if (faqCount) faqCount.textContent = '(...)';
      faqListAdmin.innerHTML = `<p>Loading FAQs...</p>`;
-     allFaqs = [];
+     allFaqs = []; // Clear global array
      try {
          const faqQuery = query(faqsCollectionRef, orderBy("order", "asc"));
          const querySnapshot = await getDocs(faqQuery);
          querySnapshot.forEach((doc) => { allFaqs.push({ id: doc.id, ...doc.data() }); });
          console.log(`Loaded ${allFaqs.length} FAQs.`);
-         displayFilteredFaqs();
+         displayFilteredFaqs(); // This will now handle scroll preservation
      } catch (error) {
          console.error("Error loading FAQs:", error);
          let errorMsg = "Error loading FAQs."; if (error.code === 'failed-precondition') errorMsg = "Error: Missing Firestore index for FAQs (order). Check console.";
@@ -3710,6 +3879,7 @@ async function loadFaqsAdmin() {
 
 /** Handles adding a new FAQ */
 async function handleAddFaq(event) {
+    // Assuming addFaqForm, showAdminStatus, serverTimestamp, addDoc, faqsCollectionRef, logAdminActivity, loadFaqsAdmin are accessible
      event.preventDefault();
      if (!addFaqForm) return;
      const questionInput = addFaqForm.querySelector('#faq-question');
@@ -3726,7 +3896,7 @@ async function handleAddFaq(event) {
      try {
          const docRef = await addDoc(faqsCollectionRef, faqData);
          console.log("FAQ added with ID:", docRef.id);
-         logAdminActivity('FAQ_ADD', { question: question, id: docRef.id });
+         if(typeof logAdminActivity === 'function') logAdminActivity('FAQ_ADD', { question: question, id: docRef.id });
          showAdminStatus("FAQ added successfully.", false);
          addFaqForm.reset();
          loadFaqsAdmin();
@@ -3735,6 +3905,7 @@ async function handleAddFaq(event) {
 
 /** Handles deleting an FAQ */
 async function handleDeleteFaq(docId, listItemElement) {
+    // Assuming showAdminStatus, getDoc, doc, db, deleteDoc, logAdminActivity, loadFaqsAdmin are accessible
      if (!confirm("Are you sure you want to permanently delete this FAQ?")) return;
      showAdminStatus("Deleting FAQ...");
      let questionToLog = 'Unknown Question';
@@ -3742,18 +3913,19 @@ async function handleDeleteFaq(docId, listItemElement) {
          const faqSnap = await getDoc(doc(db, 'faqs', docId));
          if (faqSnap.exists()) questionToLog = faqSnap.data().question || 'Unknown Question';
          await deleteDoc(doc(db, 'faqs', docId));
-         logAdminActivity('FAQ_DELETE', { question: questionToLog, id: docId });
+         if(typeof logAdminActivity === 'function') logAdminActivity('FAQ_DELETE', { question: questionToLog, id: docId });
          showAdminStatus("FAQ deleted successfully.", false);
          loadFaqsAdmin();
      } catch (error) {
          console.error(`Error deleting FAQ (ID: ${docId}):`, error);
-         logAdminActivity('FAQ_DELETE_FAILED', { question: questionToLog, id: docId, error: error.message });
+         if(typeof logAdminActivity === 'function') logAdminActivity('FAQ_DELETE_FAILED', { question: questionToLog, id: docId, error: error.message });
          showAdminStatus(`Error deleting FAQ: ${error.message}`, true);
      }
 }
 
 /** Opens and populates the edit FAQ modal */
 async function openEditFaqModal(docId) {
+    // Assuming editFaqModal, editFaqForm, showEditFaqStatus, db, doc, getDoc, editFaqQuestionInput, editFaqAnswerInput, editFaqOrderInput, showAdminStatus are accessible
      if (!editFaqModal || !editFaqForm) { console.error("Edit FAQ modal elements missing."); return; }
      showEditFaqStatus("Loading FAQ data...");
      try {
@@ -3773,6 +3945,7 @@ async function openEditFaqModal(docId) {
 
 /** Closes the edit FAQ modal */
 function closeEditFaqModal() {
+    // Assuming editFaqModal, editFaqForm, editFaqStatusMessage are accessible
      if (editFaqModal) editFaqModal.style.display = 'none';
      if (editFaqForm) editFaqForm.reset();
      editFaqForm?.removeAttribute('data-doc-id');
@@ -3781,6 +3954,7 @@ function closeEditFaqModal() {
 
 /** Handles updating an FAQ from the edit modal */
 async function handleUpdateFaq(event) {
+    // Assuming editFaqForm, showEditFaqStatus, editFaqQuestionInput, editFaqAnswerInput, editFaqOrderInput, serverTimestamp, db, doc, getDoc, updateDoc, logAdminActivity, showAdminStatus, closeEditFaqModal, loadFaqsAdmin are accessible
      event.preventDefault();
      if (!editFaqForm) return;
      const docId = editFaqForm.getAttribute('data-doc-id');
@@ -3794,17 +3968,16 @@ async function handleUpdateFaq(event) {
      showEditFaqStatus("Saving changes...");
      try {
          const docRef = doc(db, 'faqs', docId);
-         let oldData = {}; const oldDataSnap = await getDoc(docRef); if (oldDataSnap.exists()) oldData = oldDataSnap.data(); // Get old data for log
+         let oldData = {}; const oldDataSnap = await getDoc(docRef); if (oldDataSnap.exists()) oldData = oldDataSnap.data();
          await updateDoc(docRef, updatedData);
-         // Log changes
          const changes = {}; let hasChanges = false;
          for (const key in updatedData) { if (key !== 'lastModified' && oldData[key] !== updatedData[key]) { changes[key] = { from: oldData[key] ?? null, to: updatedData[key] }; hasChanges = true; } }
-         if (hasChanges) { logAdminActivity('FAQ_UPDATE', { id: docId, question: question, changes: changes }); }
+         if (hasChanges) { if(typeof logAdminActivity === 'function') logAdminActivity('FAQ_UPDATE', { id: docId, question: question, changes: changes }); }
          else { console.log("FAQ updated but no values changed."); }
          showAdminStatus("FAQ updated successfully.", false);
          closeEditFaqModal();
          loadFaqsAdmin();
-     } catch (error) { console.error(`Error updating FAQ (ID: ${docId}):`, error); showEditFaqStatus(`Error saving: ${error.message}`, true); logAdminActivity('FAQ_UPDATE_FAILED', { id: docId, question: question, error: error.message }); }
+     } catch (error) { console.error(`Error updating FAQ (ID: ${docId}):`, error); showEditFaqStatus(`Error saving: ${error.message}`, true); if(typeof logAdminActivity === 'function') logAdminActivity('FAQ_UPDATE_FAILED', { id: docId, question: question, error: error.message }); }
 }
 
 // ==================================
