@@ -174,6 +174,28 @@ body.settings-page .setting-description {
     line-height: 1.4;
 }
 
+/* ========== Appearance Mode Select (NEW) ========== */
+body.settings-page .appearance-mode-control {
+    display: flex;
+    align-items: center;
+}
+
+body.settings-page #appearanceModeSelect {
+    font-size: 16px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--content-bg);
+    color: var(--text-color);
+    transition: border-color 0.2s;
+    outline: none;
+    margin-left: 10px;
+}
+
+body.settings-page #appearanceModeSelect:focus {
+    border-color: var(--accent-color);
+}
+
 /* ========== Toggle Switch (Keeping Apple Style) (Scoped) ========== */
 body.settings-page .toggle-switch {
     position: relative;
