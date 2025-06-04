@@ -1,16 +1,16 @@
 class SettingsManager {
     constructor() {
         this.defaultSettings = {
-            appearanceMode: 'device', // new: device | dark | light
+            appearanceMode: 'device', // device | dark | light
             fontSize: 16,
             focusOutline: 'disabled',
             lastUpdated: Date.now()
         };
-        
+
         this.currentUser = 'BusArmyDude';
         this.settings = this.loadSettings();
         this.updateInterval = null;
-        
+
         // Initialize everything
         this.initializeControls();
         this.applySettings();
@@ -25,10 +25,13 @@ class SettingsManager {
             if (stored) {
                 const parsed = JSON.parse(stored);
                 return {
-                    appearanceMode: ['device','dark','light'].includes(parsed.appearanceMode) ? parsed.appearanceMode : this.defaultSettings.appearanceMode,
+                    appearanceMode: ['device', 'dark', 'light'].includes(parsed.appearanceMode)
+                        ? parsed.appearanceMode
+                        : this.defaultSettings.appearanceMode,
                     fontSize: this.validateFontSize(parsed.fontSize),
-                    focusOutline: ['enabled', 'disabled'].includes(parsed.focusOutline) ? 
-                        parsed.focusOutline : this.defaultSettings.focusOutline,
+                    focusOutline: ['enabled', 'disabled'].includes(parsed.focusOutline)
+                        ? parsed.focusOutline
+                        : this.defaultSettings.focusOutline,
                     lastUpdated: Date.now()
                 };
             }
@@ -47,13 +50,11 @@ class SettingsManager {
     }
 
     initializeControls() {
-        // Appearance Mode Select
         const appearanceModeSelect = document.getElementById('appearanceModeSelect');
         if (appearanceModeSelect) {
             appearanceModeSelect.value = this.settings.appearanceMode;
         }
 
-        // Text Size Slider
         const textSizeSlider = document.getElementById('text-size-slider');
         const textSizeValue = document.getElementById('textSizeValue');
         if (textSizeSlider && textSizeValue) {
@@ -61,13 +62,11 @@ class SettingsManager {
             textSizeValue.textContent = `${this.settings.fontSize}px`;
         }
 
-        // Focus Outline Toggle
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
             focusOutlineToggle.checked = this.settings.focusOutline === 'enabled';
         }
 
-        // Year in footer
         const yearElement = document.getElementById('year');
         if (yearElement) {
             yearElement.textContent = new Date().getFullYear();
@@ -75,7 +74,6 @@ class SettingsManager {
     }
 
     setupEventListeners() {
-        // Appearance Mode Select
         const appearanceModeSelect = document.getElementById('appearanceModeSelect');
         if (appearanceModeSelect) {
             appearanceModeSelect.addEventListener('change', (e) => {
@@ -85,7 +83,6 @@ class SettingsManager {
             });
         }
 
-        // Text Size Slider
         const textSizeSlider = document.getElementById('text-size-slider');
         if (textSizeSlider) {
             textSizeSlider.addEventListener('input', (e) => {
@@ -97,7 +94,6 @@ class SettingsManager {
             });
         }
 
-        // Focus Outline Toggle
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
             focusOutlineToggle.addEventListener('change', (e) => {
@@ -107,7 +103,6 @@ class SettingsManager {
             });
         }
 
-        // Reset Button
         const resetButton = document.getElementById('resetSettings');
         if (resetButton) {
             resetButton.addEventListener('click', () => this.resetSettings());
@@ -121,7 +116,6 @@ class SettingsManager {
             }
         });
 
-        // Listen for settings changes from other tabs
         window.addEventListener('storage', (e) => {
             if (e.key === 'websiteSettings') {
                 this.settings = JSON.parse(e.newValue);
@@ -130,7 +124,6 @@ class SettingsManager {
             }
         });
 
-        // Cleanup on page unload
         window.addEventListener('unload', () => this.cleanup());
     }
 
@@ -140,14 +133,13 @@ class SettingsManager {
             const timeString = now.toISOString()
                 .replace('T', ' ')
                 .substring(0, 19);
-            
+
             const timeElements = document.querySelectorAll('.current-datetime');
             timeElements.forEach(element => {
                 element.textContent = `Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): ${timeString}`;
             });
         };
 
-        // Update immediately and then every second
         updateTimeDisplay();
         this.updateInterval = setInterval(updateTimeDisplay, 1000);
     }
@@ -160,30 +152,31 @@ class SettingsManager {
     }
 
     applySettings() {
-        // Apply Appearance Mode
-        let useDark = false;
-        if (this.settings.appearanceMode === 'device') {
-            useDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        } else if (this.settings.appearanceMode === 'dark') {
-            useDark = true;
-        } else if (this.settings.appearanceMode === 'light') {
-            useDark = false;
-        }
-        document.body.classList.toggle('light-e', !useDark);
+        // Remove both theme classes first, then apply as needed
+        document.body.classList.remove('light-mode', 'dark-mode');
 
-        // Apply Font Size
+        let mode;
+        if (this.settings.appearanceMode === 'device') {
+            mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-mode' : 'light-mode';
+        } else if (this.settings.appearanceMode === 'dark') {
+            mode = 'dark-mode';
+        } else {
+            mode = 'light-mode';
+        }
+        document.body.classList.add(mode);
+
+        // Font Size
         document.documentElement.style.setProperty('--base-font-size', `${this.settings.fontSize}px`);
         this.updateTextSize();
-        
-        // Apply Focus Outline
-        document.body.classList.toggle('focus-outline-disabled', 
-            this.settings.focusOutline === 'disabled');
+
+        // Focus Outline
+        document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline === 'disabled');
     }
 
     updateTextSize() {
         const elements = document.querySelectorAll('body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, textarea, label');
         const baseSize = this.settings.fontSize;
-        
+
         elements.forEach(element => {
             let scale = 1;
             switch (element.tagName.toLowerCase()) {
@@ -203,8 +196,7 @@ class SettingsManager {
         try {
             this.settings.lastUpdated = Date.now();
             localStorage.setItem('websiteSettings', JSON.stringify(this.settings));
-            
-            // Dispatch event for other pages
+
             window.dispatchEvent(new CustomEvent('settingsChanged', {
                 detail: this.settings
             }));
@@ -233,7 +225,6 @@ class SettingsManager {
     }
 }
 
-// Initialize settings when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.settingsManager = new SettingsManager();
 });
