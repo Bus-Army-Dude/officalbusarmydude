@@ -23,19 +23,27 @@
     --focus-outline-color: #0066cc;
 }
 
-/* Dark Mode Variables - These remain global but affect settings page via var() */
-@media (prefers-color-scheme: dark) {
-    :root {
-        /* Using slightly Material-like dark tones */
-        --bg-color: #121212;
-        --content-bg: #1e1e1e;
-        --text-color: #e1e1e1;
-        --secondary-text: #a0a0a0;
-        --border-color: #3a3a3c;
-        --shadow-color: rgba(0, 0, 0, 0.5);
-        --slider-track-color: #424245;
-        --toggle-off: #636366;
-    }
+/* ====== Theme Override Classes ====== */
+body.settings-page.light-mode {
+    --bg-color: #f5f5f7;
+    --content-bg: #ffffff;
+    --text-color: #1d1d1f;
+    --secondary-text: #86868b;
+    --border-color: #d2d2d7;
+    --shadow-color: rgba(0, 0, 0, 0.12);
+    --slider-track-color: #e9e9eb;
+    --toggle-off: #e9e9eb;
+}, 
+
+body.settings-page.dark-mode {
+    --bg-color: #121212;
+    --content-bg: #1e1e1e;
+    --text-color: #e1e1e1;
+    --secondary-text: #a0a0a0;
+    --border-color: #3a3a3c;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --slider-track-color: #424245;
+    --toggle-off: #636366;
 }
 
 /* ========== General Styles for Settings Page ========== */
