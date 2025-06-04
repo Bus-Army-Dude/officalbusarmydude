@@ -146,7 +146,7 @@ This website is built using a combination of **JavaScript**, **CSS**, and **HTML
 ## Version History
 
 - **v1.16.0**: Introduced the **Admin Portal**, used to manage all the content on the website that only the owner can access
-- **v1.15.0**: Introduced the **Weather Page**, including detailed weather conditions, forecasts, and highlights.
+- **v1.15.0**: Bug Fixes.
 - **v1.14.0**: Theme Consistency and performance optimization.
 - **v1.13.0**: added the toggle button focus outline, also enhancements.
 - **v1.12.0**: added a merch store page.
