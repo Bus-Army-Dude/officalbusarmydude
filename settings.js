@@ -1,7 +1,7 @@
 class SettingsManager {
     constructor() {
         this.defaultSettings = {
-            darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
+            appearanceMode: 'device', // new: device | dark | light
             fontSize: 16,
             focusOutline: 'disabled',
             lastUpdated: Date.now()
@@ -25,7 +25,7 @@ class SettingsManager {
             if (stored) {
                 const parsed = JSON.parse(stored);
                 return {
-                    darkMode: typeof parsed.darkMode === 'boolean' ? parsed.darkMode : this.defaultSettings.darkMode,
+                    appearanceMode: ['device','dark','light'].includes(parsed.appearanceMode) ? parsed.appearanceMode : this.defaultSettings.appearanceMode,
                     fontSize: this.validateFontSize(parsed.fontSize),
                     focusOutline: ['enabled', 'disabled'].includes(parsed.focusOutline) ? 
                         parsed.focusOutline : this.defaultSettings.focusOutline,
@@ -47,10 +47,10 @@ class SettingsManager {
     }
 
     initializeControls() {
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        if (darkModeToggle) {
-            darkModeToggle.checked = this.settings.darkMode;
+        // Appearance Mode Select
+        const appearanceModeSelect = document.getElementById('appearanceModeSelect');
+        if (appearanceModeSelect) {
+            appearanceModeSelect.value = this.settings.appearanceMode;
         }
 
         // Text Size Slider
@@ -75,11 +75,11 @@ class SettingsManager {
     }
 
     setupEventListeners() {
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        if (darkModeToggle) {
-            darkModeToggle.addEventListener('change', (e) => {
-                this.settings.darkMode = e.target.checked;
+        // Appearance Mode Select
+        const appearanceModeSelect = document.getElementById('appearanceModeSelect');
+        if (appearanceModeSelect) {
+            appearanceModeSelect.addEventListener('change', (e) => {
+                this.settings.appearanceMode = e.target.value;
                 this.applySettings();
                 this.saveSettings();
             });
@@ -113,15 +113,13 @@ class SettingsManager {
             resetButton.addEventListener('click', () => this.resetSettings());
         }
 
-        // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)')
-            .addEventListener('change', e => {
-                if (!localStorage.getItem('websiteSettings')) {
-                    this.settings.darkMode = e.matches;
-                    this.applySettings();
-                    this.saveSettings();
-                }
-            });
+        // Listen for system theme changes (for device mode)
+        this._deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+        this._deviceThemeMedia.addEventListener('change', e => {
+            if (this.settings.appearanceMode === 'device') {
+                this.applySettings();
+            }
+        });
 
         // Listen for settings changes from other tabs
         window.addEventListener('storage', (e) => {
@@ -162,9 +160,17 @@ class SettingsManager {
     }
 
     applySettings() {
-        // Apply Light/Dark Mode
-        document.body.classList.toggle('light-e', !this.settings.darkMode);
-        
+        // Apply Appearance Mode
+        let useDark = false;
+        if (this.settings.appearanceMode === 'device') {
+            useDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } else if (this.settings.appearanceMode === 'dark') {
+            useDark = true;
+        } else if (this.settings.appearanceMode === 'light') {
+            useDark = false;
+        }
+        document.body.classList.toggle('light-e', !useDark);
+
         // Apply Font Size
         document.documentElement.style.setProperty('--base-font-size', `${this.settings.fontSize}px`);
         this.updateTextSize();
@@ -220,6 +226,9 @@ class SettingsManager {
     cleanup() {
         if (this.updateInterval) {
             clearInterval(this.updateInterval);
+        }
+        if (this._deviceThemeMedia) {
+            this._deviceThemeMedia.removeEventListener('change', this.applySettings);
         }
     }
 }
