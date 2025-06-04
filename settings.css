@@ -33,7 +33,7 @@ body.settings-page.light-mode {
     --shadow-color: rgba(0, 0, 0, 0.12);
     --slider-track-color: #e9e9eb;
     --toggle-off: #e9e9eb;
-}, 
+}
 
 body.settings-page.dark-mode {
     --bg-color: #121212;
