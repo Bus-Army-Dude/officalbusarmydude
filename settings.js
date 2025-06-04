@@ -156,12 +156,17 @@ class SettingsManager {
         document.body.classList.remove('light-mode', 'dark-mode');
 
         let mode;
-        if (this.settings.appearanceMode === 'device') {
-            mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-mode' : 'light-mode';
-        } else if (this.settings.appearanceMode === 'dark') {
-            mode = 'dark-mode';
-        } else {
-            mode = 'light-mode';
+        switch (this.settings.appearanceMode) {
+            case 'dark':
+                mode = 'dark-mode';
+                break;
+            case 'light':
+                mode = 'light-mode';
+                break;
+            case 'device':
+            default:
+                mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-mode' : 'light-mode';
+                break;
         }
         document.body.classList.add(mode);
 
