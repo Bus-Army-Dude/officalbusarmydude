@@ -4,7 +4,7 @@
 
 Welcome to the repository for my **Link in Bio** website. This site serves as a centralized hub for all my important links, shoutouts, and updates, including a detailed **Weather Page** for real-time weather information. The site focuses on accessibility, security, and responsive design to ensure a seamless experience across all devices.
 
-The current version of the website is **v1.16.0**
+The current version of the website is **v1.18.0**
 
 ---
 
@@ -145,6 +145,8 @@ This website is built using a combination of **JavaScript**, **CSS**, and **HTML
 
 ## Version History
 
+- **v1.18.0**: Introduced the option in the settings for the appearance to allow users to match there device appearance or to manually change it between light and dark mode.
+- **v1.17.0**: Bug Fixes.
 - **v1.16.0**: Introduced the **Admin Portal**, used to manage all the content on the website that only the owner can access
 - **v1.15.0**: Bug Fixes.
 - **v1.14.0**: Theme Consistency and performance optimization.
@@ -163,6 +165,6 @@ This website is built using a combination of **JavaScript**, **CSS**, and **HTML
 
 ## Conclusion
 
-This **Link in Bio** website is a powerful tool for showcasing my links, profiles, and updates. Visitors can interact with certain sections, but only I can modify the content. The new **Weather Page** provides comprehensive weather details, enhancing the user experience with real-time data and customization options.
+This **Link in Bio** website is a powerful tool for showcasing my links, profiles, and updates. Visitors can interact with certain sections, but only I can modify the content through the admin portal.
 
 If you have any feedback or questions, feel free to reach out through the **Connect with Me** section. Thanks for visiting!
