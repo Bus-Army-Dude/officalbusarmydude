@@ -1,239 +1,329 @@
+/**
+ * settings.js
+ * Manages all website settings including appearance (theme), font size, and focus outline.
+ * It loads settings from localStorage, applies them to the page,
+ * and saves any changes made by the user.
+ */
 class SettingsManager {
     constructor() {
+        // Default settings for the website
         this.defaultSettings = {
-            appearanceMode: 'device', // new: device | dark | light
-            fontSize: 16,
-            focusOutline: 'disabled',
-            lastUpdated: Date.now()
+            appearanceMode: 'device', // Options: 'device', 'dark', 'light'
+            fontSize: 16,             // Default font size in pixels
+            focusOutline: 'disabled', // Options: 'enabled', 'disabled' (as per existing CSS logic)
         };
-        
-        this.currentUser = 'BusArmyDude';
+
+        // Load current settings from localStorage or use defaults
         this.settings = this.loadSettings();
-        this.updateInterval = null;
-        
-        // Initialize everything
-        this.initializeControls();
-        this.applySettings();
-        this.setupEventListeners();
-        this.startTimeUpdate();
-        this.displayUserInfo();
+        this.deviceThemeMedia = null; // To store the media query list for OS theme changes
+
+        // Defer DOM-related initialization until the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("SettingsManager: DOMContentLoaded. Initializing UI controls and applying settings.");
+            this.initializeControls();      // Set up UI elements (dropdowns, sliders) based on loaded settings
+            this.applyAllSettings();        // Apply all visual settings (theme, font, focus)
+            this.setupEventListeners();     // Add event listeners for user interactions with settings controls
+
+            // Listen for changes in the operating system's theme preference
+            // This is relevant when the website's appearanceMode is set to 'device'
+            if (window.matchMedia) {
+                this.deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+                // Store the bound listener function so it can be correctly removed later if needed
+                this._boundDeviceThemeChangeHandler = this.handleDeviceThemeChange.bind(this);
+                this.deviceThemeMedia.addEventListener('change', this._boundDeviceThemeChangeHandler);
+            }
+
+            // Listen for settings changes made in other tabs or windows of the same website
+            // This ensures consistency across multiple open instances of the site
+            this._boundStorageHandler = this.handleStorageChange.bind(this);
+            window.addEventListener('storage', this._boundStorageHandler);
+
+            // Dynamically set the current year in the footer if the element exists
+            const yearElement = document.getElementById('year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+        });
     }
 
+    /**
+     * Loads settings from localStorage. If no settings are found or if they are invalid,
+     * it falls back to the default settings.
+     * @returns {object} The loaded or default settings.
+     */
     loadSettings() {
         try {
-            const stored = localStorage.getItem('websiteSettings');
-            if (stored) {
-                const parsed = JSON.parse(stored);
-                return {
-                    appearanceMode: ['device','dark','light'].includes(parsed.appearanceMode) ? parsed.appearanceMode : this.defaultSettings.appearanceMode,
-                    fontSize: this.validateFontSize(parsed.fontSize),
-                    focusOutline: ['enabled', 'disabled'].includes(parsed.focusOutline) ? 
-                        parsed.focusOutline : this.defaultSettings.focusOutline,
-                    lastUpdated: Date.now()
+            const storedSettings = localStorage.getItem('websiteSettings');
+            if (storedSettings) {
+                const parsedSettings = JSON.parse(storedSettings);
+                // Validate loaded settings against known valid options and defaults
+                const validatedSettings = {
+                    appearanceMode: ['device', 'dark', 'light'].includes(parsedSettings.appearanceMode)
+                        ? parsedSettings.appearanceMode
+                        : this.defaultSettings.appearanceMode,
+                    fontSize: this.validateFontSize(parsedSettings.fontSize !== undefined
+                        ? parsedSettings.fontSize
+                        : this.defaultSettings.fontSize),
+                    focusOutline: ['enabled', 'disabled'].includes(parsedSettings.focusOutline)
+                        ? parsedSettings.focusOutline
+                        : this.defaultSettings.focusOutline,
                 };
+                console.log("SettingsManager: Loaded settings from localStorage:", validatedSettings);
+                return validatedSettings;
             }
         } catch (error) {
-            console.error("Error loading settings:", error);
+            console.error("SettingsManager: Error loading settings from localStorage. Using defaults.", error);
         }
-        return { ...this.defaultSettings };
+        console.log("SettingsManager: No valid settings in localStorage, using default settings.");
+        return { ...this.defaultSettings }; // Return a copy of defaults
     }
 
+    /**
+     * Validates the font size.
+     * @param {*} size - The font size to validate.
+     * @returns {number} The validated font size, or the default if invalid.
+     */
     validateFontSize(size) {
-        const parsed = parseInt(size);
-        if (isNaN(parsed) || parsed < 12 || parsed > 24) {
-            return this.defaultSettings.fontSize;
+        const parsedSize = parseInt(size, 10);
+        if (isNaN(parsedSize) || parsedSize < 12 || parsedSize > 24) {
+            return this.defaultSettings.fontSize; // Fallback to default if invalid
         }
-        return parsed;
+        return parsedSize;
     }
 
+    /**
+     * Initializes the UI controls (dropdowns, sliders, toggles) on the settings page
+     * to reflect the currently loaded settings.
+     */
     initializeControls() {
-        // Appearance Mode Select
+        // Appearance Mode Select Dropdown
         const appearanceModeSelect = document.getElementById('appearanceModeSelect');
         if (appearanceModeSelect) {
             appearanceModeSelect.value = this.settings.appearanceMode;
         }
 
-        // Text Size Slider
+        // Text Size Slider and Value Display
         const textSizeSlider = document.getElementById('text-size-slider');
-        const textSizeValue = document.getElementById('textSizeValue');
-        if (textSizeSlider && textSizeValue) {
+        const textSizeValueDisplay = document.getElementById('textSizeValue');
+        if (textSizeSlider && textSizeValueDisplay) {
             textSizeSlider.value = this.settings.fontSize;
-            textSizeValue.textContent = `${this.settings.fontSize}px`;
+            textSizeValueDisplay.textContent = `${this.settings.fontSize}px`;
+            if (typeof this.updateSliderGradient === 'function') {
+                this.updateSliderGradient(textSizeSlider); // Update visual fill of the slider
+            }
         }
 
-        // Focus Outline Toggle
+        // Focus Outline Toggle Switch
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
             focusOutlineToggle.checked = this.settings.focusOutline === 'enabled';
         }
-
-        // Year in footer
-        const yearElement = document.getElementById('year');
-        if (yearElement) {
-            yearElement.textContent = new Date().getFullYear();
-        }
     }
 
+    /**
+     * Sets up event listeners for the UI controls on the settings page.
+     * These listeners handle user interactions and update settings accordingly.
+     */
     setupEventListeners() {
-        // Appearance Mode Select
+        // Appearance Mode Select Dropdown
         const appearanceModeSelect = document.getElementById('appearanceModeSelect');
         if (appearanceModeSelect) {
-            appearanceModeSelect.addEventListener('change', (e) => {
-                this.settings.appearanceMode = e.target.value;
-                this.applySettings();
-                this.saveSettings();
+            appearanceModeSelect.addEventListener('change', (event) => {
+                this.settings.appearanceMode = event.target.value;
+                this.applyAppearanceMode(); // Apply the change visually
+                this.saveSettings();        // Persist the change
             });
         }
 
         // Text Size Slider
         const textSizeSlider = document.getElementById('text-size-slider');
+        const textSizeValueDisplay = document.getElementById('textSizeValue');
         if (textSizeSlider) {
-            textSizeSlider.addEventListener('input', (e) => {
-                const size = parseInt(e.target.value);
-                this.settings.fontSize = size;
-                document.getElementById('textSizeValue').textContent = `${size}px`;
-                this.applySettings();
-                this.saveSettings();
+            textSizeSlider.addEventListener('input', (event) => {
+                const newSize = this.validateFontSize(parseInt(event.target.value, 10));
+                this.settings.fontSize = newSize;
+                if (textSizeValueDisplay) textSizeValueDisplay.textContent = `${newSize}px`;
+                this.applyFontSize(); // Apply the change visually
+                this.saveSettings();  // Persist the change
+                if (typeof this.updateSliderGradient === 'function') {
+                    this.updateSliderGradient(textSizeSlider); // Update slider visual fill
+                }
             });
         }
 
-        // Focus Outline Toggle
+        // Focus Outline Toggle Switch
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
-            focusOutlineToggle.addEventListener('change', (e) => {
-                this.settings.focusOutline = e.target.checked ? 'enabled' : 'disabled';
-                this.applySettings();
-                this.saveSettings();
+            focusOutlineToggle.addEventListener('change', (event) => {
+                this.settings.focusOutline = event.target.checked ? 'enabled' : 'disabled';
+                this.applyFocusOutline(); // Apply the change visually
+                this.saveSettings();      // Persist the change
             });
         }
 
-        // Reset Button
+        // Reset Settings Button
         const resetButton = document.getElementById('resetSettings');
         if (resetButton) {
             resetButton.addEventListener('click', () => this.resetSettings());
         }
-
-        // Listen for system theme changes (for device mode)
-        this._deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
-        this._deviceThemeMedia.addEventListener('change', e => {
-            if (this.settings.appearanceMode === 'device') {
-                this.applySettings();
-            }
-        });
-
-        // Listen for settings changes from other tabs
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'websiteSettings') {
-                this.settings = JSON.parse(e.newValue);
-                this.initializeControls();
-                this.applySettings();
-            }
-        });
-
-        // Cleanup on page unload
-        window.addEventListener('unload', () => this.cleanup());
     }
 
-    startTimeUpdate() {
-        const updateTimeDisplay = () => {
-            const now = new Date();
-            const timeString = now.toISOString()
-                .replace('T', ' ')
-                .substring(0, 19);
-            
-            const timeElements = document.querySelectorAll('.current-datetime');
-            timeElements.forEach(element => {
-                element.textContent = `Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): ${timeString}`;
-            });
-        };
-
-        // Update immediately and then every second
-        updateTimeDisplay();
-        this.updateInterval = setInterval(updateTimeDisplay, 1000);
-    }
-
-    displayUserInfo() {
-        const userElements = document.querySelectorAll('.current-user');
-        userElements.forEach(element => {
-            element.textContent = `Current User's Login: ${this.currentUser}`;
-        });
-    }
-
-    applySettings() {
-        // Apply Appearance Mode
-        let useDark = false;
+    /**
+     * Handles changes in the operating system's theme preference.
+     * This is called when the `prefers-color-scheme` media query changes.
+     */
+    handleDeviceThemeChange() {
+        console.log("SettingsManager: Device theme preference changed.");
+        // Only re-apply the theme if the website setting is currently 'device' (match device)
         if (this.settings.appearanceMode === 'device') {
-            useDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        } else if (this.settings.appearanceMode === 'dark') {
-            useDark = true;
-        } else if (this.settings.appearanceMode === 'light') {
-            useDark = false;
+            this.applyAppearanceMode();
         }
-        document.body.classList.toggle('light-e', !useDark);
-
-        // Apply Font Size
-        document.documentElement.style.setProperty('--base-font-size', `${this.settings.fontSize}px`);
-        this.updateTextSize();
-        
-        // Apply Focus Outline
-        document.body.classList.toggle('focus-outline-disabled', 
-            this.settings.focusOutline === 'disabled');
     }
 
-    updateTextSize() {
-        const elements = document.querySelectorAll('body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, textarea, label');
-        const baseSize = this.settings.fontSize;
-        
-        elements.forEach(element => {
-            let scale = 1;
-            switch (element.tagName.toLowerCase()) {
-                case 'h1': scale = 2; break;
-                case 'h2': scale = 1.75; break;
-                case 'h3': scale = 1.5; break;
-                case 'h4': scale = 1.25; break;
-                case 'h5': scale = 1.15; break;
-                case 'h6': scale = 1.1; break;
-                default: scale = 1;
-            }
-            element.style.fontSize = `${baseSize * scale}px`;
-        });
+    /**
+     * Handles changes to `localStorage` made by other tabs/windows.
+     * This ensures theme consistency across all open instances of the website.
+     * @param {StorageEvent} event - The storage event.
+     */
+    handleStorageChange(event) {
+        if (event.key === 'websiteSettings') {
+            console.log("SettingsManager: Detected 'websiteSettings' change in localStorage from another tab/window.");
+            this.settings = this.loadSettings();    // Reload settings from the updated localStorage
+            this.initializeControls();              // Update UI controls on the current page
+            this.applyAllSettings();                // Apply the new settings visually
+        }
     }
 
+    /**
+     * Applies all current settings (theme, font size, focus outline) to the page.
+     */
+    applyAllSettings() {
+        console.log("SettingsManager: Applying all settings:", this.settings);
+        this.applyAppearanceMode();
+        this.applyFontSize();
+        this.applyFocusOutline();
+    }
+
+    /**
+     * Applies the selected appearance mode (theme) to the document body.
+     * It adds/removes 'dark-mode' and 'light-mode' classes.
+     */
+    applyAppearanceMode() {
+        let isDarkMode;
+        const body = document.body;
+
+        if (this.settings.appearanceMode === 'device') {
+            isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            console.log(`SettingsManager: Appearance mode set to 'device'. System prefers dark: ${isDarkMode}.`);
+        } else if (this.settings.appearanceMode === 'dark') {
+            isDarkMode = true;
+            console.log("SettingsManager: Appearance mode explicitly set to 'dark'.");
+        } else { // 'light'
+            isDarkMode = false;
+            console.log("SettingsManager: Appearance mode explicitly set to 'light'.");
+        }
+
+        body.classList.toggle('dark-mode', isDarkMode);
+        body.classList.toggle('light-mode', !isDarkMode); // Ensure the opposite class is correctly managed
+        console.log(`SettingsManager: Body classes set. dark-mode: ${isDarkMode}, light-mode: ${!isDarkMode}`);
+    }
+
+    /**
+     * Applies the selected font size by setting a CSS custom property on the root element.
+     */
+    applyFontSize() {
+        const fontSize = this.settings.fontSize;
+        document.documentElement.style.setProperty('--font-size-base', `${fontSize}px`);
+        console.log(`SettingsManager: Applied font size: ${fontSize}px via CSS variable --font-size-base.`);
+        // If you have a more complex JavaScript-based font scaling, it would be called here.
+        // For example: if (typeof this.updateTextSizeDOM === 'function') this.updateTextSizeDOM(fontSize);
+    }
+
+    /**
+     * Applies the focus outline setting by toggling a class on the document body.
+     * CSS rules associated with '.focus-outline-disabled' will hide outlines.
+     */
+    applyFocusOutline() {
+        document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline === 'disabled');
+        console.log(`SettingsManager: Focus outline set to '${this.settings.focusOutline}'. Body class 'focus-outline-disabled' is ${this.settings.focusOutline === 'disabled'}.`);
+    }
+
+    /**
+     * Saves the current settings to localStorage.
+     */
     saveSettings() {
         try {
-            this.settings.lastUpdated = Date.now();
+            // this.settings.lastUpdated = Date.now(); // Consider if 'lastUpdated' is necessary for your use case
             localStorage.setItem('websiteSettings', JSON.stringify(this.settings));
-            
-            // Dispatch event for other pages
-            window.dispatchEvent(new CustomEvent('settingsChanged', {
-                detail: this.settings
-            }));
+            console.log("SettingsManager: Settings successfully saved to localStorage:", this.settings);
         } catch (error) {
-            console.error("Error saving settings:", error);
+            console.error("SettingsManager: Error saving settings to localStorage:", error);
         }
     }
 
+    /**
+     * Resets all settings to their default values, updates UI, applies, and saves them.
+     */
     resetSettings() {
-        if (confirm('Are you sure you want to reset all settings to their defaults?')) {
-            this.settings = { ...this.defaultSettings };
-            this.initializeControls();
-            this.applySettings();
-            this.saveSettings();
-            alert('Settings have been reset to defaults.');
+        if (confirm('Are you sure you want to reset all settings to their defaults? This action cannot be undone.')) {
+            this.settings = { ...this.defaultSettings }; // Create a fresh copy of defaults
+            this.initializeControls();                   // Update UI controls
+            this.applyAllSettings();                     // Apply default settings visually
+            this.saveSettings();                         // Save defaults to localStorage
+            alert('Settings have been reset to their default values.');
+            console.log("SettingsManager: All settings have been reset to defaults.");
         }
     }
 
+    /**
+     * Updates the visual fill/gradient of a range slider based on its current value.
+     * @param {HTMLInputElement} slider - The range slider element.
+     */
+    updateSliderGradient(slider) {
+        // Check if the slider and its necessary properties are valid
+        if (!slider || typeof slider.min === 'undefined' || typeof slider.max === 'undefined' || typeof slider.value === 'undefined') {
+            return;
+        }
+        try {
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
+            const currentValue = parseFloat(slider.value);
+
+            // Ensure values are numbers and max is greater than min to avoid division by zero
+            if (isNaN(min) || isNaN(max) || isNaN(currentValue) || max <= min) {
+                return;
+            }
+            // Calculate the percentage of the slider's progress
+            const percentage = ((currentValue - min) * 100) / (max - min);
+            // Set a CSS custom property on the slider element itself for styling the track fill
+            slider.style.setProperty('--slider-value-percentage', `${percentage}%`);
+        } catch (e) {
+            console.error("SettingsManager: Error updating slider gradient:", e);
+        }
+    }
+    
+    /**
+     * Cleans up event listeners when they are no longer needed (e.g., if the SettingsManager instance is destroyed).
+     */
     cleanup() {
-        if (this.updateInterval) {
-            clearInterval(this.updateInterval);
+        if (this.deviceThemeMedia && this._boundDeviceThemeChangeHandler) {
+            this.deviceThemeMedia.removeEventListener('change', this._boundDeviceThemeChangeHandler);
+            console.log("SettingsManager: Removed device theme change listener.");
         }
-        if (this._deviceThemeMedia) {
-            this._deviceThemeMedia.removeEventListener('change', this.applySettings);
+        if (this._boundStorageHandler) {
+            window.removeEventListener('storage', this._boundStorageHandler);
+            console.log("SettingsManager: Removed storage event listener.");
         }
+        // Any other listeners added by this instance should be removed here.
+        console.log("SettingsManager: Event listeners cleaned up.");
     }
 }
 
-// Initialize settings when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.settingsManager = new SettingsManager();
-});
+// Ensures that only one instance of SettingsManager is created and used globally.
+// This instance is attached to the window object for potential access from other scripts if necessary,
+// though ideally, other scripts would listen for custom events dispatched by SettingsManager
+// or react to changes in localStorage or body classes.
+if (!window.settingsManagerInstance) {
+    window.settingsManagerInstance = new SettingsManager();
+    console.log("SettingsManager: Instance created and attached to window.");
+}
