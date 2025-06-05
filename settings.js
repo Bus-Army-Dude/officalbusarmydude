@@ -1,5 +1,4 @@
-/**
- * settings.js
+/** * settings.js
  * Manages all website settings including appearance (theme), font size, and focus outline.
  * It loads settings from localStorage, applies them to the page,
  * and saves any changes made by the user.
@@ -209,23 +208,24 @@ class SettingsManager {
      * It adds/removes 'dark-mode' and 'light-mode' classes.
      */
     applyAppearanceMode() {
-        let isDarkMode;
         const body = document.body;
-
+        // Remove both classes first
+        body.classList.remove('dark-mode', 'light-mode');
+        let isDarkMode;
         if (this.settings.appearanceMode === 'device') {
             isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            body.classList.add(isDarkMode ? 'dark-mode' : 'light-mode');
             console.log(`SettingsManager: Appearance mode set to 'device'. System prefers dark: ${isDarkMode}.`);
         } else if (this.settings.appearanceMode === 'dark') {
             isDarkMode = true;
+            body.classList.add('dark-mode');
             console.log("SettingsManager: Appearance mode explicitly set to 'dark'.");
         } else { // 'light'
             isDarkMode = false;
+            body.classList.add('light-mode');
             console.log("SettingsManager: Appearance mode explicitly set to 'light'.");
         }
-
-        body.classList.toggle('dark-mode', isDarkMode);
-        body.classList.toggle('light-mode', !isDarkMode); // Ensure the opposite class is correctly managed
-        console.log(`SettingsManager: Body classes set. dark-mode: ${isDarkMode}, light-mode: ${!isDarkMode}`);
+        console.log(`SettingsManager: Body classes set. dark-mode: ${body.classList.contains('dark-mode')}, light-mode: ${body.classList.contains('light-mode')}`);
     }
 
     /**
