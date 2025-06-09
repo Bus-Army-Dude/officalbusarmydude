@@ -131,38 +131,18 @@ class GlobalSettings {
     }
 
     /**
-     * Applies the specified font size to relevant elements on the page.
+     * Applies the specified font size by setting a CSS custom property on the root element.
      * @param {number} size - The base font size in pixels.
      */
     applyFontSize(size) {
-        const cleanSize = Math.min(Math.max(parseInt(size, 10) || 16, 12), 24); // Ensure valid integer 12-24
-        // console.log(`Applying font size: ${cleanSize}px`); // Optional log
+        // Ensure the size is a valid integer between 12 and 24.
+        const cleanSize = Math.min(Math.max(parseInt(size, 10) || 16, 12), 24);
 
-        // Map of tag names to scaling factors
-        const textElements = {
-            'body': 1, 'h1': 2, 'h2': 1.75, 'h3': 1.5, 'h4': 1.25, 'h5': 1.15,
-            'h6': 1.1, 'p': 1, 'span': 1, 'a': 1, 'li': 1, 'button': 1,
-            'input': 1, 'textarea': 1, 'label': 1
-            // Add other tags if needed
-        };
+        // Set the --font-size-base CSS variable on the root element.
+        document.documentElement.style.setProperty('--font-size-base', `${cleanSize}px`);
+        console.log(`GlobalSettings: Applied font size: ${cleanSize}px`);
 
-        Object.entries(textElements).forEach(([elementTag, scale]) => {
-            try {
-                 const elements = document.getElementsByTagName(elementTag);
-                 for (let i = 0; i < elements.length; i++) {
-                     const el = elements[i];
-                     // *** Safety Check ***
-                     if (el && typeof el.style !== 'undefined') { // Check if element and style property exist
-                         el.style.fontSize = `${cleanSize * scale}px`;
-                     }
-                 }
-            } catch (e) {
-                 // Avoid crashing if error occurs on one tag type
-                 console.error(`Error applying font size to <${elementTag}> elements:`, e);
-            }
-        });
-
-        // Update and save settings ONLY if the font size actually changed
+        // Update and save the settings only if the font size has actually changed.
         if (this.settings.fontSize !== cleanSize) {
             this.settings.fontSize = cleanSize;
             this.settings.lastUpdate = Date.now();
