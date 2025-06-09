@@ -1,5 +1,5 @@
 /* ======================== */
-/*       Theme Variables    */
+/* Theme Variables    */
 /* ======================== */
 :root {
     /* Light Mode Colors */
@@ -83,6 +83,7 @@ body {
     padding: 20px;
     line-height: 1.6;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    font-size: var(--font-size-base);
 }
 
 .container {
@@ -1353,7 +1354,7 @@ body {
 }
 
 /* ======================== */
-/*     Back to Top Button   */
+/* Back to Top Button   */
 /* ======================== */
 
 .scroll-to-top {
