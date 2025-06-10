@@ -95,30 +95,29 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Use User-Agent Client Hints if available for more precise OS version (especially Windows 10 vs 11)
-        // This only applies if the initial OS detection was successful and it's not an "Unknown OS" or "Windows Phone" (as WP is deprecated)
         if (navigator.userAgentData && (os !== "Unknown OS" && os !== "Windows Phone")) {
             navigator.userAgentData.getHighEntropyValues(["platform", "platformVersion"])
                 .then(ua => {
-                    let clientHintOS = os; // Start with the OS detected from user agent
-                    let clientHintOSVersion = osVersion; // Start with the version detected from user agent
+                    let clientHintOS = os;
+                    let clientHintOSVersion = osVersion;
 
                     if (ua.platformVersion) {
+                        // Start by using the full, accurate version from Client Hints
+                        clientHintOSVersion = ua.platformVersion;
                         const versionParts = ua.platformVersion.split('.');
-                        // Client Hints often provide the full version, e.g., "15.5.0" for iOS, "10.0.19045" for Windows
-                        // We often only care about major.minor for clarity in many cases.
-                        clientHintOSVersion = versionParts.join('.'); // Use full version from Client Hints
 
+                        // Special handling for Windows to differentiate 10 vs 11
                         if (clientHintOS === "Windows") {
                             const buildNumber = parseInt(versionParts[2], 10);
                             if (buildNumber >= 22000) {
                                 clientHintOSVersion = "11 (Build " + versionParts.slice(2).join('.') + ")";
-                            } else { // Assuming build number < 22000 for NT 10.0 is Windows 10
+                            } else {
                                 clientHintOSVersion = "10 (Build " + versionParts.slice(2).join('.') + ")";
                             }
-                        } else if (clientHintOS === "macOS" || clientHintOS === "iOS" || clientHintOS === "iPadOS" || clientHintOS === "Android") {
-                             // For these, the full version from platformVersion is usually fine or simplify
-                            clientHintOSVersion = versionParts.slice(0, 2).join('.'); // e.g., "15.5.0" -> "15.5"
                         }
+                        // ***FIXED***: Removed the 'else if' block that was incorrectly simplifying
+                        // the version for macOS, iOS, iPadOS, and Android.
+                        // The full 'platformVersion' will now be used by default for these OSes.
                     }
 
                     fullOsInfo = clientHintOS;
@@ -134,25 +133,22 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById("os-info").textContent = fullOsInfo;
                 });
         } else {
-            // If User-Agent Client Hints are not supported or not applicable, use initial user agent parsed info
+            // If User-Agent Client Hints are not supported, use initial user agent parsed info
             document.getElementById("os-info").textContent = fullOsInfo;
         }
     }
 
-    // Function to detect general device type (iPhone, iPad, Android Device, etc.)
+    // Function to detect general device type
     function detectDevice() {
         let userAgent = navigator.userAgent;
 
-        // Prioritize specific Apple mobile devices
         if (/iPad/i.test(userAgent)) {
             return "iPad";
         } else if (/iPhone/i.test(userAgent)) {
             return "iPhone";
         } else if (/iPod/i.test(userAgent)) {
             return "iPod";
-        }
-        // Then other general categories
-        else if (/Macintosh/i.test(userAgent)) {
+        } else if (/Macintosh/i.test(userAgent)) {
             return "Mac";
         } else if (/Android/i.test(userAgent)) {
             return "Android Device";
@@ -168,77 +164,55 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to detect more specific device model
     function getDetailedDeviceModel() {
         if (navigator.userAgentData) {
-            // Use User-Agent Client Hints for more reliable model detection
-            // Requires HTTPS context for high-entropy values like 'model'
             navigator.userAgentData.getHighEntropyValues(["model"])
                 .then(ua => {
                     const model = ua.model;
-                    if (model && model !== "Unknown") { // Client Hints might return "Unknown" if not available
+                    if (model && model !== "Unknown") {
                         document.getElementById("model-info").textContent = model;
                     } else {
-                        // Fallback to user agent parsing if Client Hints don't provide a specific model
                         console.log("Client Hints model unknown, falling back to user agent parsing.");
                         document.getElementById("model-info").textContent = parseModelFromUserAgent(navigator.userAgent);
                     }
                 })
                 .catch(error => {
                     console.warn("Could not retrieve device model via Client Hints:", error);
-                    // Fallback to user agent parsing if Client Hints API call fails
                     document.getElementById("model-info").textContent = parseModelFromUserAgent(navigator.userAgent);
                 });
         } else {
-            // Fallback for browsers not supporting User-Agent Client Hints or non-secure contexts
             document.getElementById("model-info").textContent = parseModelFromUserAgent(navigator.userAgent);
         }
     }
 
-    // Helper function to parse model from User-Agent string (less reliable and harder to maintain)
+    // Helper function to parse model from User-Agent string
     function parseModelFromUserAgent(userAgent) {
         let deviceModel = "Not detected (UA)";
 
-        // Android: Look for model info typically between 'Android' and 'Build/' or end of string
-        // Examples: "Android 10; SM-G981B Build/QP1A.190711.020" -> SM-G981B
-        // "Android 12; Pixel 6 Build/SD1A.210817.023" -> Pixel 6
         const androidMatch = userAgent.match(/Android[^;]+; ([^)]+)(?: Build)?\//);
         if (androidMatch && androidMatch[1]) {
             let modelCandidate = androidMatch[1].trim();
-            // Clean up common patterns like "Build/" suffix
             if (modelCandidate.includes("Build/")) {
-                 modelCandidate = modelCandidate.substring(0, modelCandidate.indexOf("Build/")).trim();
+                modelCandidate = modelCandidate.substring(0, modelCandidate.indexOf("Build/")).trim();
             }
-            if (modelCandidate.includes(";")) { // Handles cases like "Mobile; SM-G981B"
-                 modelCandidate = modelCandidate.split(';').pop().trim();
+            if (modelCandidate.includes(";")) {
+                modelCandidate = modelCandidate.split(';').pop().trim();
             }
             deviceModel = modelCandidate;
-        }
-        // iOS/iPadOS: User Agent usually just says "iPhone" or "iPad". Specific model is very rare.
-        // Screen dimensions can sometimes *infer* a model, but it's not precise.
-        // We'll just return "iPhone" or "iPad" as a general model here if no Client Hint
-        else if (/iPad/.test(userAgent)) {
+        } else if (/iPad/.test(userAgent)) {
             deviceModel = "iPad (specific model unknown)";
         } else if (/iPhone/.test(userAgent)) {
             deviceModel = "iPhone (specific model unknown)";
-        }
-        // Windows Phone
-        else if (/Windows Phone/.test(userAgent)) {
-            // Windows Phone user agents sometimes contain model, e.g., "Lumia 950"
+        } else if (/Windows Phone/.test(userAgent)) {
             const wpModelMatch = userAgent.match(/Windows Phone (?:OS )?[\d.]+\d?; ([^;)]+)/);
             if (wpModelMatch && wpModelMatch[1]) {
                 deviceModel = wpModelMatch[1].trim();
             } else {
                 deviceModel = "Windows Phone (specific model unknown)";
             }
-        }
-        // macOS: Usually just "Macintosh" or "MacIntel" in UA, no specific model.
-        else if (/Macintosh|MacIntel/.test(userAgent)) {
+        } else if (/Macintosh|MacIntel/.test(userAgent)) {
             deviceModel = "Mac (specific model unknown)";
-        }
-        // Linux: Rarely contains specific hardware model in UA
-        else if (/Linux/.test(userAgent)) {
+        } else if (/Linux/.test(userAgent)) {
             deviceModel = "Linux Device (specific model unknown)";
-        }
-        // Generic catch-all if no specific pattern matched
-        else {
+        } else {
             deviceModel = "Unknown Device (UA fallback)";
         }
 
@@ -248,6 +222,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Apply detections to DOM elements when the page loads
     document.getElementById("device-info").textContent = detectDevice();
-    detectOSAndVersion(); // This function will update "os-info"
-    getDetailedDeviceModel(); // This function will update "model-info"
+    detectOSAndVersion();
+    getDetailedDeviceModel();
 });
