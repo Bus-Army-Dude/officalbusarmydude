@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (ua.platformVersion) {
                         clientHintOSVersion = ua.platformVersion;
                         const versionParts = ua.platformVersion.split('.');
+                        const majorPlatformVersion = parseInt(versionParts[0], 10);
                         
                         // Handle Windows 10 vs 11
                         if (clientHintOS === "Windows") {
@@ -108,11 +109,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         } 
                         // Translate macOS Darwin version to marketing version
                         else if (clientHintOS === "macOS") {
-                            const majorPlatformVersion = parseInt(versionParts[0], 10);
-                            let macosVersionName = `(Darwin ${ua.platformVersion})`; // Fallback name
-
+                            let macosVersionName = `(Darwin ${ua.platformVersion})`;
                             switch (majorPlatformVersion) {
-                                // *** ADDED per your request ***
                                 case 26: macosVersionName = "26.0 (Tahoe)"; break;
                                 case 24: macosVersionName = "15 (Sequoia)"; break;
                                 case 23: macosVersionName = "14 (Sonoma)"; break;
@@ -124,13 +122,24 @@ document.addEventListener("DOMContentLoaded", function() {
                                 case 17: macosVersionName = "10.13 (High Sierra)"; break;
                                 case 16: macosVersionName = "10.12 (Sierra)"; break;
                                 default:
-                                    // Handle other future or very old versions
                                     if (majorPlatformVersion > 26) {
                                         macosVersionName = `${majorPlatformVersion - 10} (Future Release)`;
                                     }
                                     break;
                             }
                             clientHintOSVersion = macosVersionName;
+                        }
+                        // *** NEW: Translate iOS and iPadOS version based on your request ***
+                        else if (clientHintOS === "iOS" || clientHintOS === "iPadOS") {
+                            let mobileOSVersionName = ua.platformVersion; // Default to raw version
+                            
+                            // Custom translation for the version you specified
+                            if (majorPlatformVersion === 19) {
+                                mobileOSVersionName = "26.0";
+                            }
+                            // Add any other custom iOS/iPadOS translations here
+                            
+                            clientHintOSVersion = mobileOSVersionName;
                         }
                     }
 
