@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // --- Apple Mobile Devices ---
         if (!window.MSStream) {
-            // iPadOS detection must come before macOS due to User-Agent string overlap
             if (/iPad/i.test(userAgent)) {
                 os = "iPadOS";
                 const osMatch = userAgent.match(/OS (\d+([_.]\d+)*)/i);
@@ -25,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // --- Android ---
-        // Check if OS is still unknown before attempting Android detection
         if (os === "Unknown OS" && /android/i.test(userAgent)) {
             os = "Android";
             const androidMatch = userAgent.match(/Android (\d+(\.\d+)*)/i);
@@ -34,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
         // --- macOS ---
-        // Check if OS is still unknown before attempting macOS detection
         else if (os === "Unknown OS" && /Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent)) {
             os = "macOS";
             const macOSMatch = userAgent.match(/Mac OS X (\d+([_.]\d+)*)/i);
@@ -43,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
         // --- Windows ---
-        // Check if OS is still unknown before attempting Windows detection
         else if (os === "Unknown OS" && /Win/.test(userAgent)) {
             os = "Windows";
             const windowsMatch = userAgent.match(/Windows NT (\d+\.\d+)/i);
@@ -51,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 ntVersion = windowsMatch[1];
                 switch (ntVersion) {
                     case "10.0":
-                        osVersion = "10 / 11"; // Windows 10 and 11 both report NT 10.0
+                        osVersion = "10 / 11";
                         break;
                     case "6.3":
                         osVersion = "8.1";
@@ -65,8 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     case "6.0":
                         osVersion = "Vista";
                         break;
-                    case "5.1":
-                    case "5.2": // Windows XP 64-bit
+                    case "5.1": case "5.2":
                         osVersion = "XP";
                         break;
                     default:
@@ -82,11 +77,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
         // --- Linux ---
-        // Check if OS is still unknown before attempting Linux detection
         else if (os === "Unknown OS" && /Linux/.test(userAgent)) {
             os = "Linux";
-            // Linux versions are not reliably found in user agents without distro-specific parsing
-            // For general "Linux" detection, we usually don't get a version.
         }
 
         let fullOsInfo = os;
@@ -94,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
             fullOsInfo += " " + osVersion;
         }
 
-        // Use User-Agent Client Hints if available for more precise OS version (especially Windows 10 vs 11)
+        // Use User-Agent Client Hints for more precise OS version
         if (navigator.userAgentData && (os !== "Unknown OS" && os !== "Windows Phone")) {
             navigator.userAgentData.getHighEntropyValues(["platform", "platformVersion"])
                 .then(ua => {
@@ -102,11 +94,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     let clientHintOSVersion = osVersion;
 
                     if (ua.platformVersion) {
-                        // Start by using the full, accurate version from Client Hints
                         clientHintOSVersion = ua.platformVersion;
                         const versionParts = ua.platformVersion.split('.');
-
-                        // Special handling for Windows to differentiate 10 vs 11
+                        
+                        // Handle Windows 10 vs 11
                         if (clientHintOS === "Windows") {
                             const buildNumber = parseInt(versionParts[2], 10);
                             if (buildNumber >= 22000) {
@@ -114,10 +105,33 @@ document.addEventListener("DOMContentLoaded", function() {
                             } else {
                                 clientHintOSVersion = "10 (Build " + versionParts.slice(2).join('.') + ")";
                             }
+                        } 
+                        // Translate macOS Darwin version to marketing version
+                        else if (clientHintOS === "macOS") {
+                            const majorPlatformVersion = parseInt(versionParts[0], 10);
+                            let macosVersionName = `(Darwin ${ua.platformVersion})`; // Fallback name
+
+                            switch (majorPlatformVersion) {
+                                // *** ADDED per your request ***
+                                case 26: macosVersionName = "26.0 (Tahoe)"; break;
+                                case 24: macosVersionName = "15 (Sequoia)"; break;
+                                case 23: macosVersionName = "14 (Sonoma)"; break;
+                                case 22: macosVersionName = "13 (Ventura)"; break;
+                                case 21: macosVersionName = "12 (Monterey)"; break;
+                                case 20: macosVersionName = "11 (Big Sur)"; break;
+                                case 19: macosVersionName = "10.15 (Catalina)"; break;
+                                case 18: macosVersionName = "10.14 (Mojave)"; break;
+                                case 17: macosVersionName = "10.13 (High Sierra)"; break;
+                                case 16: macosVersionName = "10.12 (Sierra)"; break;
+                                default:
+                                    // Handle other future or very old versions
+                                    if (majorPlatformVersion > 26) {
+                                        macosVersionName = `${majorPlatformVersion - 10} (Future Release)`;
+                                    }
+                                    break;
+                            }
+                            clientHintOSVersion = macosVersionName;
                         }
-                        // ***FIXED***: Removed the 'else if' block that was incorrectly simplifying
-                        // the version for macOS, iOS, iPadOS, and Android.
-                        // The full 'platformVersion' will now be used by default for these OSes.
                     }
 
                     fullOsInfo = clientHintOS;
@@ -129,11 +143,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
                 .catch(error => {
                     console.warn("Could not retrieve detailed OS version via Client Hints:", error);
-                    // Fallback to user agent parsed info if Client Hints fail
                     document.getElementById("os-info").textContent = fullOsInfo;
                 });
         } else {
-            // If User-Agent Client Hints are not supported, use initial user agent parsed info
             document.getElementById("os-info").textContent = fullOsInfo;
         }
     }
