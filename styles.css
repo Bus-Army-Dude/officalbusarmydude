@@ -1,95 +1,98 @@
-/* ======================== */
-/* Theme Variables    */
-/* ======================== */
+/* ======================================= */
+/* "iOS 26" Liquid Glass Theme (Master)    */
+/* ======================================= */
+
 :root {
-    /* Light Mode Colors */
-    --light-bg: #ffffff;
-    --light-content-bg: #f5f5f5;
-    --light-text: #212529;
-    --light-secondary-text: #495057;
-    --light-border: #dee2e6;
-    --light-accent: #4CAF50;
-    --light-hover: #45a049;
-    --light-link: #007bff;
-    --light-shadow: rgba(0, 0, 0, 0.1);
-    --light-icon: #ffffff;
+    /* --- Font & Timing --- */
+    --font-stack: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --transition-speed: 0.5s;
+    --transition-timing: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    /* --- Light Mode: Clean & Airy --- */
+    --light-bg: #E9EBF8;
+    --light-glass-bg: rgba(255, 255, 255, 0.55);
+    --light-text: #1d1d1f;
+    --light-secondary-text: #3c3c43;
+    --light-border: rgba(255, 255, 255, 0.8);
+    --light-accent: #007aff;
+    --light-accent-glow: rgba(0, 122, 255, 0.3);
+    --light-accent-rgb: 0, 122, 255;
+
+    /* --- Dark Mode: Deep & Vibrant --- */
+    --dark-bg: #0D1117;
+    --dark-glass-bg: rgba(30, 30, 32, 0.6);
+    --dark-text: #f0f6fc;
+    --dark-secondary-text: #8b949e;
+    --dark-border: rgba(255, 255, 255, 0.1);
+    --dark-accent: #58a6ff;
+    --dark-accent-glow: rgba(88, 166, 255, 0.25);
+    --dark-accent-rgb: 88, 166, 255;
     
-    /* Dark Mode Colors */
-    --dark-bg: #121212;
-    --dark-content-bg: #2d2d2d;
-    --dark-text: #E0E0E0;
-    --dark-secondary-text: #a0a0a0;
-    --dark-border: #333333;
-    --dark-accent: #4CAF50;
-    --dark-hover: #45a049;
-    --dark-link: #BB86FC;
-    --dark-shadow: rgba(0, 0, 0, 0.2);
-    --dark-icon: #000000;
+    /* --- Aurora Gradient Colors for Animated Background --- */
+    --aurora-color-1: #0a84ff;
+    --aurora-color-2: #ff3b30;
+    --aurora-color-3: #34c759;
+    --aurora-color-4: #ff9500;
 
-    /* Input and Dropdowns */
-    --input-bg: #ffffff;
-    --dropdown-background-dark: #222222;
-    --dropdown-text-dark: #ffffff;
-    --dropdown-border-dark: #555555;
-    --dropdown-focus-border: #007bff;
-    --dropdown-background-light: #ffffff;
-    --dropdown-text-light: #333333;
-    --dropdown-border-light: #cccccc;
-    --dropdown-focus-border-light: #007bff;
-    --dropdown-focus-border-dark: #ff5722;
-
-    /* Business Hours Status Colors */
-    --status-open: #34c759;
-    --status-closed: #ff3b30;
-    --status-temp: #ff9500;
-    --countdown-closing: #ff3b30;
-    --countdown-opening: #34c759;
-    --countdown-temp-closing: #ff9500;
-    --countdown-temp-opening: #34c759;
-
-    /* Fallback theme variables if no e class is applied (default to dark e) */
+    /* --- General Variables (Defaults to Dark) --- */
     --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
+    --glass-bg-color: var(--dark-glass-bg);
     --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
+    --secondary-text-color: var(--dark-secondary-text);
     --border-color: var(--dark-border);
     --accent-color: var(--dark-accent);
-    --hover-color: var(--dark-hover);
-    --link-color: var(--dark-link);
-    --shadow-color: var(--dark-shadow);
-    --icon-color: var(--dark-icon);
+    --accent-glow: var(--dark-accent-glow);
+    --accent-rgb: var(--dark-accent-rgb);
+    --shadow-color: rgba(0,0,0,0.2);
+    --border-radius-main: 28px;
+    --border-radius-sub: 18px;
 }
 
-/* Light e Override */
+/* --- Light Mode Override --- */
 body.light-e {
     --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
+    --glass-bg-color: var(--light-glass-bg);
     --text-color: var(--light-text);
-    --secondary-text: var(--light-secondary-text);
+    --secondary-text-color: var(--light-secondary-text);
     --border-color: var(--light-border);
     --accent-color: var(--light-accent);
-    --hover-color: var(--light-hover);
-    --link-color: var(--light-link);
-    --shadow-color: var(--light-shadow);
-    --icon-color: var(--light-icon);
+    --accent-glow: var(--light-accent-glow);
+    --accent-rgb: var(--light-accent-rgb);
+    --shadow-color: rgba(0,0,0,0.1);
 }
 
-/* Base Styles */
+/* ======================================= */
+/* Base & Animated Background          */
+/* ======================================= */
+
+@keyframes liquid-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 body {
-    background-color: var(--bg-color);
+    background: linear-gradient(-45deg, var(--aurora-color-1), var(--aurora-color-2), var(--aurora-color-3), var(--aurora-color-4));
+    background-size: 400% 400%;
+    animation: liquid-gradient 25s ease infinite;
     color: var(--text-color);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-stack);
     margin: 0;
     padding: 20px;
-    line-height: 1.6;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    font-size: var(--font-size-base);
+    transition: background-color var(--transition-speed) var(--transition-timing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 15px;
+}
+
+h1, h2, h3 {
+    color: var(--text-color);
+    font-weight: 700;
 }
 
 /* Profile Section */
