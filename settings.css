@@ -1,236 +1,190 @@
-/* ===================================================== */
-/* == Refined Apple + Material Theme (Scoped to .settings-page) == */
-/* ===================================================== */
+/* ======================================= */
+/* "iOS 26" Liquid Glass Theme (Settings)  */
+/* ======================================= */
 
-/* --- User-defined Theme Variables (Unchanged) --- */
 :root {
-    --font-size-base: 17px;
-    --bg-color: #f5f5f7;
-    --content-bg: #ffffff;
-    --text-color: #1d1d1f;
-    --secondary-text: #86868b;
-    --border-color: #d2d2d7;
-    --accent-color: #0066cc;
-    --hover-color: #0071e3;
+    /* --- Font & Timing --- */
+    --font-stack: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --transition-speed: 0.5s;
+    --transition-timing: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    /* --- Light Mode --- */
+    --light-bg: #E9EBF8;
+    --light-glass-bg: rgba(255, 255, 255, 0.45);
+    --light-nested-glass-bg: rgba(255, 255, 255, 0.7);
+    --light-text: #1d1d1f;
+    --light-secondary-text: #3c3c43;
+    --light-border: rgba(255, 255, 255, 0.9);
+    --light-accent: #007aff;
+    --light-accent-glow: rgba(0, 122, 255, 0.3);
+    
+    /* --- Dark Mode --- */
+    --dark-bg: #0D1117;
+    --dark-glass-bg: rgba(30, 30, 32, 0.5);
+    --dark-nested-glass-bg: rgba(30, 30, 32, 0.7);
+    --dark-text: #f0f6fc;
+    --dark-secondary-text: #8b949e;
+    --dark-border: rgba(255, 255, 255, 0.1);
+    --dark-accent: #58a6ff;
+    --dark-accent-glow: rgba(88, 166, 255, 0.25);
+    
+    /* --- Aurora Gradient Colors --- */
+    --aurora-color-1: #0a84ff;
+    --aurora-color-2: #ff3b30;
+    --aurora-color-3: #34c759;
+    --aurora-color-4: #ff9500;
+    
+    /* --- General Variables (Defaults to Dark) --- */
+    --bg-color: var(--dark-bg);
+    --glass-bg-color: var(--dark-glass-bg);
+    --nested-glass-bg-color: var(--dark-nested-glass-bg);
+    --text-color: var(--dark-text);
+    --secondary-text-color: var(--dark-secondary-text);
+    --border-color: var(--dark-border);
+    --accent-color: var(--dark-accent);
+    --accent-glow: var(--dark-accent-glow);
+    --shadow-color: rgba(0,0,0,0.2);
+    --border-radius-main: 28px;
+    --border-radius-sub: 18px;
     --toggle-on: #34c759;
-    --toggle-off: #e9e9eb;
-    --red-color: #ff3b30;
-    --shadow-color: rgba(0, 0, 0, 0.08); /* Softer shadow */
-    --slider-thumb-color: #ffffff;
-    --slider-track-color: #e9e9eb;
-    --slider-track-filled-color: var(--accent-color); /* Using accent color for filled track */
-    --focus-outline-color: #0066cc;
+    --slider-track-color: rgba(0,0,0,0.25);
+    --slider-track-filled-color: var(--accent-color);
+    --slider-thumb-color: #fff;
 }
 
-body.dark-mode {
-    --bg-color: #121212;
-    --content-bg: #1e1e1e;
-    --text-color: #e1e1e1;
-    --secondary-text: #a0a0a0;
-    --border-color: #3a3a3c;
-    --shadow-color: rgba(0, 0, 0, 0.2);
-    --slider-track-color: #424245;
-    --toggle-off: #636366;
+/* --- Light Mode Override --- */
+body.light-mode { /* Matches settings.js */
+    --bg-color: var(--light-bg);
+    --glass-bg-color: var(--light-glass-bg);
+    --nested-glass-bg-color: var(--light-nested-glass-bg);
+    --text-color: var(--light-text);
+    --secondary-text-color: var(--light-secondary-text);
+    --border-color: var(--light-border);
+    --accent-color: var(--light-accent);
+    --accent-glow: var(--light-accent-glow);
+    --shadow-color: rgba(0,0,0,0.1);
+    --slider-track-color: rgba(0,0,0,0.1);
 }
 
-/* ========== General Styles for Settings Page ========== */
+/* ======================================= */
+/* Base & Animated Background          */
+/* ======================================= */
+
+@keyframes liquid-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 body.settings-page {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    background-color: var(--bg-color);
+    background: linear-gradient(-45deg, var(--aurora-color-1), var(--aurora-color-2), var(--aurora-color-3), var(--aurora-color-4));
+    background-size: 400% 400%;
+    animation: liquid-gradient 25s ease infinite;
     color: var(--text-color);
-    font-size: var(--font-size-base);
-    line-height: 1.5;
+    font-family: var(--font-stack);
     margin: 0;
-    padding: 0;
-    transition: background-color 0.3s, color 0.3s;
+    padding: 20px;
 }
 
-/* ========== Main Container & Header ========== */
 .settings-page .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 0;
 }
 
-.settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-color);
+.settings-section {
+    background-color: var(--glass-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-main);
+    padding: clamp(20px, 4vw, 30px);
+    margin: 30px auto;
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
+
 .settings-header h1 {
-    font-size: 32px;
-    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
     margin: 0;
 }
-.settings-header .version {
-    font-size: 14px;
-    color: var(--secondary-text);
-    background-color: var(--content-bg);
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-}
 
-/* ========== Section & Card Layout ========== */
 .settings-subsection {
-    background-color: var(--content-bg);
-    border-radius: 12px;
+    background-color: var(--nested-glass-bg-color);
+    border-radius: var(--border-radius-sub);
     margin-bottom: 25px;
-    box-shadow: 0 4px 12px var(--shadow-color);
     overflow: hidden;
     border: 1px solid var(--border-color);
 }
-
 .subsection-title {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    padding: 12px 20px;
     margin: 0;
+    padding: 15px 20px;
     border-bottom: 1px solid var(--border-color);
-    background-color: rgba(0,0,0,0.02);
+    background-color: rgba(0,0,0,0.1);
 }
-body.dark-mode .subsection-title {
-    background-color: rgba(255,255,255,0.03);
-}
+
+/* ======================================= */
+/* Setting Cards & Controls              */
+/* ======================================= */
 
 .setting-card {
-    padding: 18px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px;
     border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s;
 }
 .setting-card:last-child { border-bottom: none; }
-.setting-card:hover { background-color: rgba(0,0,0,0.015); }
-body.dark-mode .setting-card:hover { background-color: rgba(255,255,255,0.02); }
+.setting-title { font-size: 1.1rem; }
+.setting-description { font-size: 0.9rem; color: var(--secondary-text-color); margin-top: 4px; }
 
-.setting-label {
-    flex: 1;
-    padding-right: 15px;
-}
-.setting-title {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 0 0 4px 0;
-}
-.setting-description {
-    font-size: 0.85rem;
-    color: var(--secondary-text);
-    margin: 0;
-}
-
-/* ========== Interactive Controls ========== */
-
-/* Refined Toggle Switch */
+/* --- New Toggle Switch --- */
 .toggle-switch { position: relative; display: inline-block; width: 51px; height: 31px; flex-shrink: 0; }
 .toggle-switch input { opacity: 0; width: 0; height: 0; }
-.toggle-slider { position: absolute; cursor: pointer; inset: 0; background-color: var(--toggle-off); transition: 0.4s; border-radius: 34px; }
-.toggle-slider:before { position: absolute; content: ""; height: 27px; width: 27px; left: 2px; bottom: 2px; background-color: white; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-input:checked + .toggle-slider { background-color: var(--toggle-on); }
-input:checked + .toggle-slider:before { transform: translateX(20px); }
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background-color: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); border-radius: 34px; transition: all var(--transition-speed) var(--transition-timing); }
+.toggle-slider:before { position: absolute; content: ""; height: 27px; width: 27px; left: 2px; bottom: 2px; background-color: #E5E5E5; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: all var(--transition-speed) var(--transition-timing); }
+input:checked + .toggle-slider { background-color: var(--toggle-on); box-shadow: 0 0 10px var(--accent-glow), inset 0 1px 1px rgba(255,255,255,0.2); }
+input:checked + .toggle-slider:before { transform: translateX(20px); background-color: #FFF; }
 
-/* Refined Text Size Control & Slider */
-.text-size-control {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+/* --- Modern Text Size Slider --- */
+.text-size-control { display: flex; align-items: center; gap: 15px; width: 100%; max-width: 300px; }
 #text-size-slider {
+    --slider-value: 50%; 
     -webkit-appearance: none; appearance: none;
-    width: 150px;
-    height: 8px; /* Slightly thicker track */
-    background: var(--slider-track-color);
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
+    width: 100%; height: 8px;
+    border-radius: 4px; outline: none; cursor: pointer;
+    background: linear-gradient(to right, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) var(--slider-value), var(--slider-track-color) var(--slider-value), var(--slider-track-color) 100%);
 }
-#text-size-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
-    border: 1px solid #ddd;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease;
-}
+#text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--slider-thumb-color); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: transform 0.2s ease; }
 #text-size-slider:hover::-webkit-slider-thumb { transform: scale(1.1); }
+#text-size-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--bg-color), 0 0 0 6px var(--accent-color); }
 
-/* Refined Reset Button */
-.reset-button {
-    background-color: var(--red-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
+/* --- Modern Dropdown --- */
+#appearanceModeSelect {
+    -webkit-appearance: none; appearance: none;
+    background-color: rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s ease-out;
+    padding: 10px 40px 10px 15px;
+    font-size: 1rem; font-weight: 500;
+    color: var(--text-color); cursor: pointer;
+    transition: all 0.2s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2386868b' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
 }
-.reset-button:hover { background-color: #d50000; }
-.reset-button:active { transform: scale(0.97); }
+#appearanceModeSelect:hover { border-color: var(--accent-color); }
+#appearanceModeSelect:focus-visible { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 3px var(--accent-glow); }
 
-/* Refined Back Link */
-.back-link {
-    display: inline-block;
-    color: var(--accent-color);
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 8px 0;
-    margin-top: 30px;
-    font-weight: 500;
+/* --- Buttons --- */
+.reset-button {
+    background: linear-gradient(145deg, #ff3b30, #c62828);
+    color: white; border: none; padding: 12px 24px;
+    border-radius: var(--border-radius-sub);
+    cursor: pointer; font-weight: 600;
+    transition: all var(--transition-speed) var(--transition-timing);
+    box-shadow: 0 4px 15px rgba(255,59,48,0.3);
 }
-.back-link:hover { text-decoration: underline; }
-
-/* ========== Footer ========== */
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--secondary-text);
-    font-size: 0.85rem;
-    margin-top: 40px;
-}
-footer a {
-    color: var(--secondary-text);
-    text-decoration: none;
-}
-footer a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-/* ========== Focus Styles (Scoped) ========== */
-.settings-page :focus-visible {
-    outline: 2px solid var(--focus-outline-color);
-    outline-offset: 3px;
-    border-radius: 6px;
-}
-
-/* Hide on touch-only devices */
-@media (hover: none) and (pointer: coarse) {
-    .settings-page :focus-visible { outline: none; }
-}
-
-/* Hide Focus Outline setting on smaller screens */
-@media (max-width: 1023px) {
-    .focus-outline-setting-card { display: none; }
-}
-
-/* ========== Media Queries for Responsive Layout ========== */
-@media (max-width: 600px) {
-    .settings-page .container { padding: 20px 15px; }
-    .settings-header h1 { font-size: 28px; }
-    .setting-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    .text-size-control { width: 100%; }
-    #text-size-slider { width: 100%; }
-}
+.reset-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,59,48,0.4); }
