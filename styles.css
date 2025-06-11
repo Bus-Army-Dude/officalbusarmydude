@@ -745,10 +745,11 @@ body.dark-mode .profile-section {
     }
 }
 
-/* ===================================== */
-/* 8. CREATOR SHOUTOUTS SECTION (FIXED)  */
-/* ===================================== */
+/* ================================================== */
+/* 8. CREATOR SHOUTOUTS SECTION (DEFINITIVE FIX)      */
+/* ================================================== */
 
+/* --- Main Section Container --- */
 .shoutouts-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
@@ -756,9 +757,6 @@ body.dark-mode .profile-section {
     padding: 25px;
     margin-bottom: 25px;
     box-shadow: none;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
 }
 
 .shoutouts-section h2 {
@@ -767,7 +765,6 @@ body.dark-mode .profile-section {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-family: var(--system-font);
     font-size: 1.5rem;
     text-align: left;
 }
@@ -802,86 +799,72 @@ body.dark-mode .profile-section {
     font-weight: 900;
 }
 
+/* --- Grid Layout --- */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 15px;
 }
 
+/* --- Base Card Style (Applied to all) --- */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
     background-color: var(--bg-tertiary);
     border-radius: var(--control-border-radius);
-    padding: 15px; /* FIX: This padding now correctly applies to all content */
+    border: 1px solid var(--separator-color);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: none;
-    border: 1px solid var(--separator-color);
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-    position: relative;
-    overflow: hidden;
+    /* FIX: The universal padding that guarantees nothing touches the edges */
+    padding: 15px;
+    gap: 15px; /* Creates space between all items in the card */
 }
 
+/* --- Cover Photo FIX --- */
 .youtube-cover-photo {
-    width: 100%;
+    width: 100%; /* Take full width of the padded container */
+    height: auto;
     aspect-ratio: 16 / 9;
     background-color: var(--bg-primary);
-    object-fit: cover; /* Changed back to cover for a full bleed */
+    object-fit: contain; /* Ensures the whole image is visible */
     display: block;
+    border-radius: 10px; /* Rounded corners for the photo itself */
+    margin: 0; /* Resets any problematic margins */
 }
 
-/* This targets the inner container for YouTube cards to ensure structure is consistent */
-.youtube-creator-card .youtube-creator-info {
+/* --- Content Layout --- */
+.creator-card-header,
+.youtube-creator-card .creator-card-header {
+    display: flex;
+    gap: 12px;
+    align-items: center; /* Align pic and text vertically */
+}
+.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin: 0; /* Reset margin */
+}
+.creator-info, .instagram-creator-info, .youtube-creator-info {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
-.creator-card:hover,
-.instagram-creator-card:hover,
-.youtube-creator-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow-color);
-    border-color: var(--separator-color);
-}
-
-.creator-pic,
-.instagram-creator-pic,
-.youtube-creator-pic {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--bg-secondary);
-    margin-bottom: 15px;
-    position: relative;
-    z-index: 1;
-}
-
-.creator-header,
-.instagram-creator-header,
-.youtube-creator-header {
+/* --- Common Inner Styles --- */
+.creator-header {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 2px;
 }
-.creator-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-.verified-badge, .instagram-verified-badge, .youtube-verified-badge {
-    width: 16px;
-    height: 16px;
-}
+.creator-header h3 { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
+.verified-badge { width: 16px; height: 16px; }
 
 .creator-username, .instagram-creator-username, .youtube-creator-username {
     color: var(--text-secondary);
@@ -890,14 +873,14 @@ body.dark-mode .profile-section {
 }
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio {
     color: var(--text-secondary);
-    margin: 10px 0;
+    margin: 0 0 10px 0; /* Adjusted margin */
     font-size: 0.9em;
     line-height: 1.5;
     flex-grow: 1;
 }
-
-/* FIX: Style for follower/subscriber count */
-.follower-count, .instagram-follower-count, .youtube-subscriber-count {
+.follower-count,
+.instagram-follower-count,
+.youtube-subscriber-count {
     color: var(--accent-color);
     font-weight: 600;
     margin: 10px 0;
@@ -914,69 +897,19 @@ body.dark-mode .profile-section {
     text-decoration: none;
     padding: 8px 18px;
     border-radius: 9999px;
-    margin-top: auto;
+    margin-top: 15px; /* Use margin to push from content above */
     transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
     width: fit-content;
     align-self: flex-start;
 }
-
 .visit-profile:hover,
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
     background-color: var(--accent-color);
     color: white;
     border-color: var(--accent-color);
-    transform: scale(1.03);
-}
-
-.unavailable-message {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    text-align: center;
-    background-color: var(--bg-tertiary);
-    padding: 20px;
-    border-radius: var(--control-border-radius);
-}
-
-/* Media queries (Kept original structure) */
-@media screen and (max-width: 768px) {
-    .shoutouts-section {
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-    .creator-grid,
-    .instagram-creator-grid,
-    .youtube-creator-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .creator-card,
-    .instagram-creator-card,
-    .youtube-creator-card {
-        padding: 12px;
-    }
-    .youtube-cover-photo {
-        /* No negative margin needed */
-        margin-bottom: 12px;
-    }
-}
-
-@media screen and (max-width: 380px) {
-    .shoutouts-section {
-        padding: 10px;
-    }
-    .creator-grid,
-    .instagram-creator-grid,
-    .youtube-creator-grid {
-        gap: 10px;
-    }
-    .creator-card,
-    .instagram-creator-card,
-    .youtube-creator-card {
-        padding: 10px;
-    }
 }
 
 :root {
