@@ -746,16 +746,18 @@ body.dark-mode .profile-section {
 }
 
 /* ===================================== */
-/* 8. CREATOR SHOUTOUTS SECTION (REDESIGN) */
+/* 8. CREATOR SHOUTOUTS SECTION (Grid)   */
 /* ===================================== */
 
 .shoutouts-section {
-    /* Make container transparent to let the grids sit on the main bg */
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--separator-color);
+    border-radius: var(--base-border-radius);
+    padding: 25px;
     margin-bottom: 25px;
+    box-shadow: none;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .shoutouts-section h2 {
@@ -799,87 +801,117 @@ body.dark-mode .profile-section {
     font-weight: 900;
 }
 
-/* --- NEW: Horizontal Scrolling Container --- */
+/* --- RESTORED: Grid Layout --- */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
-    display: flex; /* Use Flexbox for scrolling */
-    overflow-x: auto; /* Enable horizontal scrolling */
-    scroll-snap-type: x mandatory; /* Snap scrolling to cards */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 15px;
-    padding: 5px 25px; /* Add padding to see cards "peek" */
-    margin: 0 -25px; /* Negative margin to bleed to screen edges */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-}
-/* Hide scrollbar for a cleaner look */
-.creator-grid::-webkit-scrollbar,
-.instagram-creator-grid::-webkit-scrollbar,
-.youtube-creator-grid::-webkit-scrollbar {
-    display: none;
 }
 
-/* --- NEW: Creator Card Style for Scrolling --- */
+/* --- NEW: Modern Card Styling --- */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    flex: 0 0 85%; /* Card takes up 85% of container width */
-    max-width: 320px; /* Max width for larger screens */
-    scroll-snap-align: start; /* Snap to the start of the card */
-    
-    background-color: var(--bg-secondary);
-    border-radius: var(--base-border-radius);
+    background-color: var(--bg-tertiary);
+    border-radius: var(--control-border-radius);
     border: 1px solid var(--separator-color);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .creator-card:hover,
 .instagram-creator-card:hover,
 .youtube-creator-card:hover {
     transform: translateY(-3px);
+    box-shadow: 0 5px 15px var(--shadow-color);
 }
 
-/* --- FIX: YouTube Cover Photo --- */
 .youtube-cover-photo {
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
-    background-color: var(--bg-primary); /* BG for letterboxing */
+    background-color: var(--bg-primary);
     object-fit: contain; /* FIX: Prevents cropping */
     display: block;
     border-bottom: 1px solid var(--separator-color);
 }
 
-/* --- Card Internals (same as before) --- */
-.creator-card-content { display: flex; flex-direction: column; flex-grow: 1; padding: 15px; }
-.creator-card-header { display: flex; gap: 12px; align-items: flex-start; }
-.creator-pic, .instagram-creator-pic, .youtube-creator-pic { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-.creator-text-content { display: flex; flex-direction: column; flex-grow: 1; }
-.creator-header { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.creator-card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.creator-card-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.creator-text-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.creator-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
 .creator-header h3 { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
 .verified-badge, .instagram-verified-badge, .youtube-verified-badge { width: 16px; height: 16px; }
+
 .creator-username, .instagram-creator-username, .youtube-creator-username { color: var(--text-secondary); font-size: 0.95em; margin: 0 0 10px 0; }
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio { color: var(--text-secondary); margin: 10px 0; font-size: 0.9em; line-height: 1.5; flex-grow: 1; }
 .follower-count, .instagram-follower-count, .youtube-subscriber-count { color: var(--text-primary); font-weight: 500; margin: 10px 0; font-size: 0.9em; }
-.visit-profile, .instagram-visit-profile, .youtube-visit-profile { display: inline-block; background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--separator-color); text-decoration: none; padding: 8px 18px; border-radius: 9999px; margin-top: 15px; transition: all 0.2s ease; text-align: center; font-weight: 500; width: fit-content; align-self: flex-start; }
-.visit-profile:hover, .instagram-visit-profile:hover, .youtube-visit-profile:hover { background-color: var(--accent-color); color: white; border-color: var(--accent-color); transform: scale(1.03); }
 
-/* --- Responsive Grid for Desktop --- */
-@media screen and (min-width: 1024px) {
-    .creator-grid,
-    .instagram-creator-grid,
-    .youtube-creator-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        margin: 0;
-        padding: 5px; /* Reset padding for grid view */
-    }
-    .creator-card,
-    .instagram-creator-card,
-    .youtube-creator-card {
-        flex-basis: auto; /* Reset flex-basis for grid */
+/* Modern "Pill" Button Style */
+.visit-profile,
+.instagram-visit-profile,
+.youtube-visit-profile {
+    display: inline-block;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--separator-color);
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    margin-top: 15px;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-weight: 500;
+    width: fit-content;
+    align-self: flex-start;
+}
+
+.visit-profile:hover,
+.instagram-visit-profile:hover,
+.youtube-visit-profile:hover {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: scale(1.03);
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+    .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
+        grid-template-columns: 1fr;
     }
 }
 
