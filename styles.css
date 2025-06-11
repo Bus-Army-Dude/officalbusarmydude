@@ -745,10 +745,11 @@ body.dark-mode .profile-section {
     }
 }
 
-/* ===================================== */
-/* 8. CREATOR SHOUTOUTS SECTION (FINAL)  */
-/* ===================================== */
+/* ================================================== */
+/* 8. CREATOR SHOUTOUTS SECTION (DEFINITIVE FIX)      */
+/* ================================================== */
 
+/* --- Main Section Container --- */
 .shoutouts-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
@@ -778,7 +779,6 @@ body.dark-mode .profile-section {
 #instagram-header::before { content: '\f16d'; }
 #youtube-header::before { content: '\f167'; }
 
-
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp,
 #youtube-last-updated-timestamp {
@@ -798,6 +798,7 @@ body.dark-mode .profile-section {
     font-weight: 900;
 }
 
+/* --- Grid Layout --- */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
@@ -813,27 +814,19 @@ body.dark-mode .profile-section {
     background-color: var(--bg-tertiary);
     border-radius: var(--control-border-radius);
     border: 1px solid var(--separator-color);
-    display: flex;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-.creator-card:hover,
-.instagram-creator-card:hover,
-.youtube-creator-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px var(--shadow-color);
-}
-
-/* --- FIX: Specific Layout for TikTok & Instagram Cards --- */
+/* --- FIX for TikTok & Instagram Cards --- */
 .creator-card,
 .instagram-creator-card {
-    flex-direction: row;
-    padding: 15px;
+    padding: 15px; /* Apply padding directly to these cards */
     gap: 12px;
+    flex-direction: row;
     align-items: flex-start;
 }
-
 .creator-pic, .instagram-creator-pic {
     width: 50px;
     height: 50px;
@@ -841,20 +834,16 @@ body.dark-mode .profile-section {
     object-fit: cover;
     flex-shrink: 0;
 }
-
 .creator-info, .instagram-creator-info {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
-
-/* --- FIX: Specific Layout for YouTube Card --- */
+/* --- FIX for YouTube Card --- */
 .youtube-creator-card {
-    flex-direction: column;
-    padding: 0; /* No padding on the main card */
+    padding: 0; /* NO padding on the outer card */
 }
-
 .youtube-cover-photo {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -862,14 +851,12 @@ body.dark-mode .profile-section {
     object-fit: contain;
     display: block;
 }
-
 .youtube-creator-info {
-    padding: 15px; /* Add padding to the content wrapper */
+    padding: 15px; /* Add padding ONLY to the inner content div */
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
-/* The YouTube profile pic is inside the info div, so it's spaced correctly now */
 .youtube-creator-pic {
     width: 50px;
     height: 50px;
@@ -878,6 +865,7 @@ body.dark-mode .profile-section {
     flex-shrink: 0;
     margin-bottom: 10px;
 }
+
 
 /* --- Common Inner Styles --- */
 .creator-header {
@@ -899,10 +887,10 @@ body.dark-mode .profile-section {
     margin: 10px 0;
     font-size: 0.9em;
     line-height: 1.5;
-    flex-grow: 1;
+    flex-grow: 1; /* Pushes button to the bottom */
 }
 
-/* --- FIX: Bold and Colored Follower/Subscriber Counts --- */
+/* FIX: Bold and Colored Follower/Subscriber Counts */
 .follower-count,
 .instagram-follower-count,
 .youtube-subscriber-count {
@@ -912,7 +900,6 @@ body.dark-mode .profile-section {
     font-size: 0.95em;
 }
 
-/* --- Common Button Style --- */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
@@ -937,7 +924,6 @@ body.dark-mode .profile-section {
     background-color: var(--accent-color);
     color: white;
     border-color: var(--accent-color);
-    transform: scale(1.03);
 }
 
 :root {
