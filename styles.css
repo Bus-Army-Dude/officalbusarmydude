@@ -767,6 +767,7 @@ body.dark-mode .profile-section {
     font-size: 1.5rem;
     text-align: left;
 }
+
 .shoutouts-section h2::before {
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
@@ -776,6 +777,7 @@ body.dark-mode .profile-section {
 #tiktok-header::before { content: '\e07b'; }
 #instagram-header::before { content: '\f16d'; }
 #youtube-header::before { content: '\f167'; }
+
 
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp,
@@ -804,13 +806,14 @@ body.dark-mode .profile-section {
     gap: 15px;
 }
 
-/* --- Card Styles --- */
+/* --- Base Card Style (Applied to all) --- */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
     background-color: var(--bg-tertiary);
     border-radius: var(--control-border-radius);
     border: 1px solid var(--separator-color);
+    display: flex;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -822,6 +825,36 @@ body.dark-mode .profile-section {
     box-shadow: 0 5px 15px var(--shadow-color);
 }
 
+/* --- FIX: Specific Layout for TikTok & Instagram Cards --- */
+.creator-card,
+.instagram-creator-card {
+    flex-direction: row;
+    padding: 15px;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.creator-pic, .instagram-creator-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.creator-info, .instagram-creator-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+
+/* --- FIX: Specific Layout for YouTube Card --- */
+.youtube-creator-card {
+    flex-direction: column;
+    padding: 0; /* No padding on the main card */
+}
+
 .youtube-cover-photo {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -830,38 +863,23 @@ body.dark-mode .profile-section {
     display: block;
 }
 
-/* NEW: Flexbox layout for card content */
-.creator-info,
-.instagram-creator-info,
 .youtube-creator-info {
-    padding: 15px;
+    padding: 15px; /* Add padding to the content wrapper */
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
-
-.creator-card, .instagram-creator-card {
-    /* These cards use a flex layout for pic + info */
-    flex-direction: row;
-    padding: 15px;
-    gap: 12px;
-    align-items: flex-start;
-}
-
-.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
+/* The YouTube profile pic is inside the info div, so it's spaced correctly now */
+.youtube-creator-pic {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    margin: 0; /* Reset margin */
+    margin-bottom: 10px;
 }
 
-/* For YouTube card, pic is inside the info div */
-.youtube-creator-card .youtube-creator-info {
-    padding: 15px;
-}
-
+/* --- Common Inner Styles --- */
 .creator-header {
     display: flex;
     align-items: center;
@@ -884,13 +902,17 @@ body.dark-mode .profile-section {
     flex-grow: 1;
 }
 
-.follower-count, .instagram-follower-count, .youtube-subscriber-count {
+/* --- FIX: Bold and Colored Follower/Subscriber Counts --- */
+.follower-count,
+.instagram-follower-count,
+.youtube-subscriber-count {
     color: var(--accent-color);
     font-weight: 600;
     margin: 10px 0;
     font-size: 0.95em;
 }
 
+/* --- Common Button Style --- */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
