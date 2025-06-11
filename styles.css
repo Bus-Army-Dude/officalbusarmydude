@@ -337,15 +337,15 @@ body.dark-mode .profile-section {
     }
 }
 
-/* ===================================== */
-/* 6. SOCIAL LINKS SECTION (SPACING FIX) */
-/* ===================================== */
+/* ================================================== */
+/* 6. SOCIAL LINKS SECTION (SPACING FIX)              */
+/* ================================================== */
 
 .social-links-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
     border-radius: var(--base-border-radius);
-    padding: 25px;
+    padding: 20px 15px; /* FIX: Added padding for all screen sizes */
     margin-bottom: 25px;
     box-shadow: none;
 }
@@ -359,9 +359,16 @@ body.dark-mode .profile-section {
 
 .social-links-container {
     display: grid;
-    /* FIX: Default to a single column for mobile-first compatibility */
+    /* FIX: Default to a single, flexible column */
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 12px; /* Slightly reduced gap for a tighter look */
+}
+
+/* FIX: Switch to two columns ONLY on wider screens */
+@media screen and (min-width: 600px) {
+    .social-links-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .social-button {
@@ -392,25 +399,6 @@ body.dark-mode .profile-section {
 
 .social-button span {
     color: white;
-}
-
-/* --- FIX: Responsive Design for Larger Screens --- */
-
-/* For tablets and larger, switch to a two-column grid */
-@media screen and (min-width: 600px) {
-    .social-links-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Adjust padding on very small screens */
-@media screen and (max-width: 480px) {
-    .social-links-section {
-        padding: 20px 15px;
-    }
-    .social-button {
-        padding: 14px 16px;
-    }
 }
 
 /* Useful Links Section */
