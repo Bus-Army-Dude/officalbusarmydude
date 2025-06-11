@@ -2,7 +2,7 @@
 
 # Link in Bio Website
 
-Welcome to the repository for my **Link in Bio** website. This site serves as a centralized hub for all my important links, shoutouts, and updates, including a detailed **Weather Page** for real-time weather information. The site focuses on accessibility, security, and responsive design to ensure a seamless experience across all devices.
+Welcome to the repository for my **Link in Bio** website. This site serves as a centralized hub for all my important links, shoutouts, and update. The site focuses on accessibility, security, and responsive design to ensure a seamless experience across all devices.
 
 The current version of the website is **v1.18.0**
 
