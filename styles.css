@@ -339,104 +339,71 @@ body.dark-mode .profile-section {
 
 /* Social Links Section */
 .social-links-section {
-    /* UPDATED: Use the frosted glass material effect */
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-
-    /* UPDATED: Use theme variables for consistency */
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--separator-color);
     border-radius: var(--base-border-radius);
     padding: 25px;
     margin: 25px 0;
-    box-shadow: 0 8px 32px -8px var(--shadow-color);
-
-    /* Keep original layout properties */
-    text-align: center;
+    box-shadow: none;
     width: 100%;
     box-sizing: border-box;
-    color: var(--text-color);
 }
 
-body.dark-mode .social-links-section {
-    background: rgba(44, 44, 46, 0.75);
-    border-color: rgba(80, 80, 80, 0.8);
+.social-links-section h2 {
+    text-align: left;
+    font-size: 1.5rem;
+    margin: 0 0 15px 5px;
+    color: var(--text-primary);
 }
 
 .social-links-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    margin-top: 20px;
-    width: 100%;
-    box-sizing: border-box;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
 }
 
 .social-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 14px 24px;
+    padding: 16px 20px;
     
-    /* UPDATED: Simplified background and new color */
-    background-color: var(--bg-tertiary);
-    color: var(--text-primary);
+    /* UPDATED: Fill the button for visibility */
+    background-color: var(--accent-color);
+    color: white; /* Text is now white for contrast */
     
     border-radius: var(--control-border-radius);
     text-decoration: none;
     font-weight: 500;
-    letter-spacing: 0px; /* Removed letter spacing for a cleaner look */
     transition: all 0.2s ease;
-    width: 100%;
-    box-sizing: border-box;
-    box-shadow: none; /* Removed complex shadow for a flatter look */
-    position: relative;
-    overflow: hidden;
-    border: 1px solid transparent;
+    border: none;
 }
 
 .social-button:hover {
     transform: translateY(-2px);
-    
-    /* UPDATED: Simple hover effect */
-    background-color: var(--bg-secondary);
-    border-color: var(--separator-color);
-    box-shadow: 0 4px 10px var(--shadow-color);
+    filter: brightness(1.1); /* Subtle hover effect */
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .social-button .social-icon {
-    font-size: 20px;
-    margin-right: 15px;
-    color: var(--text-secondary); /* UPDATED: Use secondary text color */
-    flex-shrink: 0;
-    transition: color 0.2s ease;
+    font-size: 1.2rem;
+    margin-right: 12px;
+    color: white; /* Icon is now white */
 }
 
 .social-button span {
-    flex-grow: 1;
-    text-align: center;
-    color: var(--text-primary); /* UPDATED: Use primary text color */
-    transition: color 0.2s ease;
+    color: white; /* Text is now white */
 }
 
-/* UPDATED: New hover effect for icon and text */
-.social-button:hover .social-icon,
-.social-button:hover span {
-    color: var(--accent-color);
-}
-
-
-/* Responsive Design (Kept original structure) */
+/* Responsive Design */
 @media screen and (max-width: 768px) {
     .social-links-section {
         padding: 20px;
     }
-
     .social-links-container {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-
     .social-button {
         padding: 12px 20px;
         font-size: 0.95em;
@@ -447,11 +414,9 @@ body.dark-mode .social-links-section {
     .social-links-section {
         padding: 15px;
     }
-
     .social-button {
         padding: 12px 16px;
     }
-
     .social-button .social-icon {
         font-size: 18px;
         margin-right: 12px;
@@ -460,36 +425,29 @@ body.dark-mode .social-links-section {
 
 /* Useful Links Section */
 .useful-links-section {
-    /* UPDATED: Remove the card background for a cleaner layout */
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--separator-color);
+    border-radius: var(--base-border-radius);
+    padding: 25px;
     margin: 25px 0;
-    
-    /* Keep original layout properties */
-    text-align: center;
+    box-shadow: none;
     width: 100%;
     box-sizing: border-box;
 }
 
 /* Title Styling */
 .useful-links-section h2 {
-    /* UPDATED: Align title left for consistency */
     text-align: left;
     font-size: 1.5rem;
     margin: 0 0 15px 5px;
-    color: var(--text-color);
+    color: var(--text-primary);
 }
 
 /* Links Container */
 .links-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns for desktop */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
-    margin-top: 0; /* Removed margin as the h2 now has it */
-    width: 100%;
-    box-sizing: border-box;
 }
 
 /* Link Button */
@@ -499,48 +457,37 @@ body.dark-mode .social-links-section {
     justify-content: center;
     padding: 16px 20px;
     
-    /* UPDATED: Use consistent button style */
-    background-color: var(--bg-tertiary);
-    color: var(--text-primary);
-    border: 1px solid transparent;
-    border-radius: var(--control-border-radius);
+    /* UPDATED: Fill the button for visibility */
+    background-color: var(--accent-color);
+    color: white; /* Text is now white for contrast */
     
+    border-radius: var(--control-border-radius);
     text-decoration: none;
     font-weight: 500;
-    letter-spacing: 0px;
     transition: all 0.2s ease;
-    width: 100%;
-    box-sizing: border-box;
-    box-shadow: none;
+    border: none;
 }
 
 /* Button Hover Effects */
 .link-button:hover {
     transform: translateY(-2px);
-    
-    /* UPDATED: Use consistent hover style */
-    background-color: var(--bg-secondary);
-    border-color: var(--separator-color);
-    box-shadow: 0 4px 10px var(--shadow-color);
-    color: var(--accent-color);
+    filter: brightness(1.1); /* Subtle hover effect */
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-/* Responsive Design (Kept original structure) */
+/* Responsive Design */
 @media screen and (max-width: 768px) {
     .useful-links-section {
-        padding: 0; /* No padding needed for the container */
+        padding: 20px;
     }
-
     .links-container {
-        grid-template-columns: 1fr; /* Single column for mobile */
+        grid-template-columns: 1fr;
         gap: 15px;
     }
-
     .link-button {
         padding: 12px 20px;
         font-size: 0.95em;
     }
-
     .useful-links-section h2 {
         font-size: 1.4rem;
     }
@@ -548,13 +495,11 @@ body.dark-mode .social-links-section {
 
 @media screen and (max-width: 480px) {
     .useful-links-section {
-        padding: 0;
+        padding: 15px;
     }
-
     .link-button {
         padding: 12px 16px;
     }
-
     .useful-links-section h2 {
         font-size: 1.3rem;
     }
@@ -800,7 +745,10 @@ body.dark-mode .social-links-section {
     }
 }
 
-/* Container for each section - matching site style */
+/* ===================================== */
+/* 8. CREATOR SHOUTOUTS SECTION (Modern) */
+/* ===================================== */
+
 .shoutouts-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
@@ -813,7 +761,6 @@ body.dark-mode .social-links-section {
     overflow: hidden;
 }
 
-/* Section Headers and Timestamps */
 .shoutouts-section h2 {
     color: var(--text-primary);
     margin: 0 0 5px 5px;
@@ -825,11 +772,10 @@ body.dark-mode .social-links-section {
     text-align: left;
 }
 
-/* Platform-specific Icon Styles */
 .shoutouts-section h2::before {
-    font-family: 'Font Awesome 5 Brands'; /* Ensure this font is loaded */
+    font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
-    color: var(--text-secondary); /* Use a more subtle color for the icon */
+    color: var(--text-secondary);
     font-size: 1.3rem;
 }
 #tiktok-header::before { content: '\e07b'; }
@@ -837,7 +783,6 @@ body.dark-mode .social-links-section {
 #youtube-header::before { content: '\f167'; }
 
 
-/* Timestamp Styling */
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp,
 #youtube-last-updated-timestamp {
@@ -853,58 +798,30 @@ body.dark-mode .social-links-section {
 #instagram-last-updated-timestamp::before,
 #youtube-last-updated-timestamp::before {
     content: '\f073';
-    font-family: 'Font Awesome 6 Free'; /* Ensure FA6 is loaded for this icon */
+    font-family: 'Font Awesome 6 Free';
     font-weight: 900;
 }
 
-/* Common Creator Grid Styles */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 15px;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow: visible;
 }
 
-/* Common Creator Card Styles */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
     background-color: var(--bg-tertiary);
     border-radius: var(--control-border-radius);
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
+    display: flex; /* Use flexbox for the entire card */
+    flex-direction: column; /* Stack content vertically */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: none;
     border: 1px solid var(--separator-color);
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-    position: relative;
-    overflow: hidden; /* Change back to hidden for clean corners */
-}
-
-.youtube-cover-photo {
-    width: calc(100% + 30px); /* Span full card width */
-    margin: -15px -15px 15px -15px; /* Position at the very top */
-    height: auto;
-    display: block;
-    object-fit: cover;
-    aspect-ratio: 16 / 9; /* Give it a standard aspect ratio */
-}
-
-/* YouTube Creator Info Container */
-.youtube-creator-info {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0;
+    overflow: hidden;
+    padding: 15px; /* Add padding directly to the card */
 }
 
 .creator-card:hover,
@@ -912,49 +829,66 @@ body.dark-mode .social-links-section {
 .youtube-creator-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px var(--shadow-color);
-    border-color: var(--accent-color);
+    border-color: var(--separator-color);
 }
 
-/* Common Profile Picture Styles */
-.creator-pic,
-.instagram-creator-pic,
-.youtube-creator-pic {
-    width: 60px;
-    height: 60px;
+.youtube-cover-photo {
+    width: calc(100% + 30px);
+    margin: -15px -15px 15px -15px;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+    border-bottom: 1px solid var(--separator-color);
+}
+
+/* NEW: Wrapper for all content except the cover photo */
+.creator-card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* This is key to push the button to the bottom */
+}
+
+/* NEW: Header for Pic + Text */
+.creator-card-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--bg-secondary); /* Border matches card bg for inset look */
-    margin-bottom: 15px;
-    position: relative;
-    z-index: 1;
+    border: none;
+    flex-shrink: 0;
 }
 
-/* Common Header Styles */
-.creator-header,
-.instagram-creator-header,
-.youtube-creator-header {
+/* NEW: Wrapper for all text content */
+.creator-text-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.creator-header {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 2px;
 }
-
-/* Username and Verification Badge */
 .creator-header h3 {
     margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-primary);
-    line-height: 1.4;
 }
-.verified-badge,
-.instagram-verified-badge,
-.youtube-verified-badge {
+.verified-badge, .instagram-verified-badge, .youtube-verified-badge {
     width: 16px;
     height: 16px;
 }
 
-/* Handle, Bio, and Follower Count */
 .creator-username, .instagram-creator-username, .youtube-creator-username {
     color: var(--text-secondary);
     font-size: 0.95em;
@@ -965,6 +899,7 @@ body.dark-mode .social-links-section {
     margin: 10px 0;
     font-size: 0.9em;
     line-height: 1.5;
+    flex-grow: 1; /* Allows bio to push button down */
 }
 .follower-count, .instagram-follower-count, .youtube-subscriber-count {
     color: var(--text-primary);
@@ -973,43 +908,42 @@ body.dark-mode .social-links-section {
     font-size: 0.9em;
 }
 
-/* Visit Profile Button */
+/* UPDATED: Modern "Pill" Button Style */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background-color: var(--accent-color);
-    color: white;
+    background-color: var(--bg-primary); /* Subtle default background */
+    color: var(--text-primary);
+    border: 1px solid var(--separator-color);
     text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 25px;
-    margin-top: auto; /* Pushes button to the bottom */
+    padding: 8px 18px;
+    border-radius: 9999px; /* Pill shape */
+    margin-top: 15px; /* Pushes button away from content above */
     transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
-    border: none;
     width: fit-content;
+    align-self: flex-start; /* Aligns button to the left */
 }
 
 .visit-profile:hover,
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
-    filter: brightness(1.1);
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
     transform: scale(1.03);
 }
 
-/* Unavailable Message Styles */
 .unavailable-message {
     color: var(--text-secondary);
     font-size: 1rem;
-    margin-top: 20px;
     text-align: center;
-    background-color: var(--bg-tertiary);
     padding: 20px;
-    border-radius: var(--control-border-radius);
 }
 
-/* Media queries (Kept original structure) */
+/* Responsive queries remain the same */
 @media screen and (max-width: 1400px) {
     .creator-grid,
     .instagram-creator-grid,
@@ -1017,7 +951,6 @@ body.dark-mode .social-links-section {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
 }
-
 @media screen and (max-width: 768px) {
     .shoutouts-section {
         padding: 15px;
@@ -1039,7 +972,6 @@ body.dark-mode .social-links-section {
         margin: -12px -12px 15px -12px;
     }
 }
-
 @media screen and (max-width: 380px) {
     .shoutouts-section {
         padding: 10px;
@@ -1828,7 +1760,6 @@ body.maintenance-active {
 /* == Business Info Section Styles       == */
 /* ======================================== */
 
-/* Main container for business info */
 .business-info-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
@@ -1867,7 +1798,6 @@ body.maintenance-active {
     font-size: 1.1em;
     margin-bottom: 4px;
 }
-
 .status-main-text.status-open { color: var(--success-color); }
 .status-main-text.status-closed { color: var(--danger-color); }
 .status-main-text.status-unavailable { color: #f5a623; } /* Apple Orange */
@@ -1885,13 +1815,11 @@ body.maintenance-active {
 .hours-list {
     margin: 20px 0;
 }
-
 .hours-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .hours-list li {
     display: flex;
     justify-content: space-between;
@@ -1905,7 +1833,7 @@ body.maintenance-active {
 .hours-list li span { color: var(--text-secondary); text-align: right; }
 
 .hours-list li.current-day {
-    background-color: transparent; /* No background highlight needed */
+    background-color: transparent;
     font-weight: 600;
     margin: 0;
     padding: 10px 5px;
@@ -1930,7 +1858,6 @@ body.maintenance-active {
     padding-top: 15px;
     border-top: 1px solid var(--separator-color);
 }
-
 #temporary-hours-display:not(:empty) h4,
 #holiday-hours-display:not(:empty) h4 {
     font-size: 1.1em;
@@ -1939,7 +1866,6 @@ body.maintenance-active {
     font-weight: 600;
     text-align: left;
 }
-
 .special-hours-display {
     list-style: none;
     padding: 0;
@@ -1948,7 +1874,6 @@ body.maintenance-active {
     flex-direction: column;
     gap: 10px;
 }
-
 .special-hours-display li {
     background: var(--bg-tertiary);
     padding: 12px 15px;
@@ -1964,7 +1889,6 @@ body.maintenance-active {
     border-top: 1px solid var(--separator-color);
     text-align: center;
 }
-
 .contact-info a {
     display: inline-block;
     padding: 12px 24px;
@@ -1973,9 +1897,8 @@ body.maintenance-active {
     border-radius: 9999px;
     text-decoration: none;
     font-weight: 500;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
-
 .contact-info a:hover {
     transform: scale(1.05);
     filter: brightness(1.1);
