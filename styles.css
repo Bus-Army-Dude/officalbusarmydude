@@ -1760,7 +1760,7 @@ body.maintenance-active {
 /* == Business Info Section (Final)      == */
 /* ======================================== */
 
-/* Main container for business info */
+/* Main container for the entire section */
 .business-info-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
@@ -1782,14 +1782,13 @@ body.maintenance-active {
     text-align: left;
 }
 
-/* --- 1. Prominent Status Block --- */
+/* --- 1. Prominent Status Block (in its own card) --- */
 .business-status {
     text-align: left;
     padding: 15px;
     margin-bottom: 25px; /* Space between status and hours */
     border-radius: var(--control-border-radius);
-    border: 1px solid transparent; /* Hide border, use background for separation */
-    background-color: var(--bg-tertiary);
+    background-color: var(--bg-tertiary); /* Use tertiary for the card background */
     position: relative;
     overflow: hidden;
 }
@@ -1815,7 +1814,6 @@ body.maintenance-active {
     position: relative;
     z-index: 2;
 }
-
 .status-main-text::before {
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -1831,7 +1829,7 @@ body.maintenance-active {
     font-size: 0.9em;
     color: var(--text-secondary);
     margin-top: 5px;
-    padding-left: 32px; /* Indent under the icon */
+    padding-left: 32px;
     position: relative;
     z-index: 2;
 }
@@ -1843,13 +1841,7 @@ body.maintenance-active {
     background-color: var(--bg-tertiary);
     border-radius: var(--control-border-radius);
 }
-
-.hours-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
+.hours-list ul { list-style: none; padding: 0; margin: 0; }
 .hours-list li {
     display: flex;
     justify-content: space-between;
@@ -1858,28 +1850,13 @@ body.maintenance-active {
     border-bottom: 1px solid var(--separator-color);
     font-size: 1rem;
 }
-.hours-list li:last-child {
-    border-bottom: none;
-}
-
-.hours-list li strong {
-    font-weight: 500;
-    color: var(--text-primary);
-}
-
-.hours-list li span {
-    color: var(--text-secondary);
-    text-align: right;
-}
-
-.hours-list li.current-day {
-    /* No longer need a background, the color tells the story */
-    background-color: transparent;
-    font-weight: 600;
-}
+.hours-list li:last-child { border-bottom: none; }
+.hours-list li strong { font-weight: 500; color: var(--text-primary); }
+.hours-list li span { color: var(--text-secondary); text-align: right; }
 .hours-list li.current-day strong,
 .hours-list li.current-day span {
     color: var(--accent-color);
+    font-weight: 600;
 }
 
 .hours-timezone-note {
@@ -1889,7 +1866,7 @@ body.maintenance-active {
     text-align: center;
 }
 
-/* --- 3. Special Hours & Contact --- */
+/* --- 3. Special Hours (as individual cards) --- */
 #temporary-hours-display,
 #holiday-hours-display {
     margin-top: 25px;
@@ -1902,15 +1879,35 @@ body.maintenance-active {
     font-weight: 600;
     color: var(--text-primary);
     text-align: left;
-    margin: 0 0 15px 0;
+    margin: 0 0 15px 5px;
+}
+.special-hours-display {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between each special hour card */
 }
 .special-hours-display li {
     background: var(--bg-tertiary);
-    padding: 12px 15px;
+    padding: 15px;
     border-radius: var(--control-border-radius);
+    border: 1px solid var(--separator-color);
     font-size: 0.9em;
-    border-left: 3px solid var(--accent-color);
 }
+.special-hours-display li .hours-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.special-hours-display li strong { font-weight: 600; color: var(--text-primary); }
+.special-hours-display li .hours { font-weight: 500; color: var(--text-primary); }
+.special-hours-display li .dates { display: block; font-size: 0.9em; color: var(--text-secondary); margin-bottom: 5px; font-style: italic; }
+.special-hours-display li .temp-status-countdown-text,
+.special-hours-display li .holiday-status-countdown-text {
+    display: block; font-size: 0.9em; color: var(--accent-color); margin-top: 8px;
+    padding-top: 8px; border-top: 1px dashed var(--separator-color); text-align: left;
+}
+
+
+/* --- 4. Contact Info --- */
 .contact-info {
     margin-top: 25px;
     padding-top: 20px;
