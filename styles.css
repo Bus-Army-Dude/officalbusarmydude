@@ -338,7 +338,7 @@ body.dark-mode .profile-section {
 }
 
 /* ===================================== */
-/* 6. SOCIAL LINKS SECTION (FIXED)       */
+/* 6. SOCIAL LINKS SECTION (SPACING FIX) */
 /* ===================================== */
 
 .social-links-section {
@@ -359,7 +359,7 @@ body.dark-mode .profile-section {
 
 .social-links-container {
     display: grid;
-    /* FIX: Default to a single column for mobile */
+    /* FIX: Default to a single column for mobile-first compatibility */
     grid-template-columns: 1fr;
     gap: 15px;
 }
@@ -403,10 +403,10 @@ body.dark-mode .profile-section {
     }
 }
 
-/* Adjust padding on smaller screens */
+/* Adjust padding on very small screens */
 @media screen and (max-width: 480px) {
     .social-links-section {
-        padding: 15px;
+        padding: 20px 15px;
     }
     .social-button {
         padding: 14px 16px;
