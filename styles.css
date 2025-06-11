@@ -1,89 +1,79 @@
-/* ======================== */
-/* Theme Variables    */
-/* ======================== */
+/* =================================================================== */
+/* APPLE HUMAN INTERFACE-INSPIRED THEME                                */
+/* =================================================================== */
+
+/* ===================================== */
+/* 1. THEME VARIABLES & COLOR PALETTE    */
+/* ===================================== */
 :root {
-    /* Light Mode Colors */
-    --light-bg: #ffffff;
-    --light-content-bg: #f5f5f5;
-    --light-text: #212529;
-    --light-secondary-text: #495057;
-    --light-border: #dee2e6;
-    --light-accent: #4CAF50;
-    --light-hover: #45a049;
-    --light-link: #007bff;
-    --light-shadow: rgba(0, 0, 0, 0.1);
-    --light-icon: #ffffff;
-    
-    /* Dark Mode Colors */
-    --dark-bg: #121212;
-    --dark-content-bg: #2d2d2d;
-    --dark-text: #E0E0E0;
-    --dark-secondary-text: #a0a0a0;
-    --dark-border: #333333;
-    --dark-accent: #4CAF50;
-    --dark-hover: #45a049;
-    --dark-link: #BB86FC;
-    --dark-shadow: rgba(0, 0, 0, 0.2);
-    --dark-icon: #000000;
+    /* Font Stack & Base Size */
+    --system-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-size-base: 16px;
 
-    /* Input and Dropdowns */
-    --input-bg: #ffffff;
-    --dropdown-background-dark: #222222;
-    --dropdown-text-dark: #ffffff;
-    --dropdown-border-dark: #555555;
-    --dropdown-focus-border: #007bff;
-    --dropdown-background-light: #ffffff;
-    --dropdown-text-light: #333333;
-    --dropdown-border-light: #cccccc;
-    --dropdown-focus-border-light: #007bff;
-    --dropdown-focus-border-dark: #ff5722;
+    /* Dimensions */
+    --base-border-radius: 20px;
+    --control-border-radius: 12px;
+    --transition-speed: 0.3s;
 
-    /* Business Hours Status Colors */
-    --status-open: #34c759;
-    --status-closed: #ff3b30;
-    --status-temp: #ff9500;
-    --countdown-closing: #ff3b30;
-    --countdown-opening: #34c759;
-    --countdown-temp-closing: #ff9500;
-    --countdown-temp-opening: #34c759;
+    /* Light Mode Palette */
+    --light-bg-primary: #f5f5f7;       /* Overall background */
+    --light-bg-secondary: #ffffff;    /* Content background */
+    --light-text-primary: #1d1d1f;      /* Primary text */
+    --light-text-secondary: #6e6e73;   /* Secondary text */
+    --light-separator: rgba(60, 60, 67, 0.29);
+    --light-accent-blue: #007aff;
+    --light-accent-green: #34c759;
+    --light-accent-red: #ff3b30;
+    --light-shadow-color: rgba(0, 0, 0, 0.08);
 
-    /* Fallback theme variables if no e class is applied (default to dark e) */
-    --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
-    --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
-    --border-color: var(--dark-border);
-    --accent-color: var(--dark-accent);
-    --hover-color: var(--dark-hover);
-    --link-color: var(--dark-link);
-    --shadow-color: var(--dark-shadow);
-    --icon-color: var(--dark-icon);
+    /* Dark Mode Palette */
+    --dark-bg-primary: #000000;
+    --dark-bg-secondary: #1c1c1e;
+    --dark-text-primary: #ffffff;
+    --dark-text-secondary: #8d8d92;
+    --dark-separator: rgba(84, 84, 88, 0.65);
+    --dark-accent-blue: #0a84ff;
+    --dark-accent-green: #30d158;
+    --dark-accent-red: #ff453a;
+    --dark-shadow-color: rgba(0, 0, 0, 0.25);
+
+    /* Default Theme Variables */
+    --bg-primary: var(--light-bg-primary);
+    --bg-secondary: var(--light-bg-secondary);
+    --text-primary: var(--light-text-primary);
+    --text-secondary: var(--light-text-secondary);
+    --separator-color: var(--light-separator);
+    --accent-color: var(--light-accent-blue);
+    --success-color: var(--light-accent-green);
+    --danger-color: var(--light-accent-red);
+    --shadow-color: var(--light-shadow-color);
 }
 
-/* Light e Override */
-body.light-e {
-    --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
-    --text-color: var(--light-text);
-    --secondary-text: var(--light-secondary-text);
-    --border-color: var(--light-border);
-    --accent-color: var(--light-accent);
-    --hover-color: var(--light-hover);
-    --link-color: var(--light-link);
-    --shadow-color: var(--light-shadow);
-    --icon-color: var(--light-icon);
+body.dark-mode {
+    --bg-primary: var(--dark-bg-primary);
+    --bg-secondary: var(--dark-bg-secondary);
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+    --separator-color: var(--dark-separator);
+    --accent-color: var(--dark-accent-blue);
+    --success-color: var(--dark-accent-green);
+    --danger-color: var(--dark-accent-red);
+    --shadow-color: var(--dark-shadow-color);
 }
 
-/* Base Styles */
+/* ===================================== */
+/* 2. BASE STYLES                        */
+/* ===================================== */
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--system-font);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
     margin: 0;
     padding: 20px;
-    line-height: 1.6;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    font-size: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 .container {
