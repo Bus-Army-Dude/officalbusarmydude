@@ -746,7 +746,7 @@ body.dark-mode .profile-section {
 }
 
 /* ===================================== */
-/* 8. CREATOR SHOUTOUTS SECTION (Final)  */
+/* 8. CREATOR SHOUTOUTS SECTION (FINAL)  */
 /* ===================================== */
 
 .shoutouts-section {
@@ -756,8 +756,6 @@ body.dark-mode .profile-section {
     padding: 25px;
     margin-bottom: 25px;
     box-shadow: none;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .shoutouts-section h2 {
@@ -766,11 +764,9 @@ body.dark-mode .profile-section {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-family: var(--system-font);
     font-size: 1.5rem;
     text-align: left;
 }
-
 .shoutouts-section h2::before {
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
@@ -780,7 +776,6 @@ body.dark-mode .profile-section {
 #tiktok-header::before { content: '\e07b'; }
 #instagram-header::before { content: '\f16d'; }
 #youtube-header::before { content: '\f167'; }
-
 
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp,
@@ -801,24 +796,21 @@ body.dark-mode .profile-section {
     font-weight: 900;
 }
 
-/* --- Main Grid Layout --- */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 15px;
 }
 
-/* --- Modern Card Styling --- */
+/* --- Card Styles --- */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
     background-color: var(--bg-tertiary);
     border-radius: var(--control-border-radius);
     border: 1px solid var(--separator-color);
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -832,24 +824,26 @@ body.dark-mode .profile-section {
 
 .youtube-cover-photo {
     width: 100%;
-    height: auto;
     aspect-ratio: 16 / 9;
     background-color: var(--bg-primary);
     object-fit: contain;
     display: block;
 }
 
-/* NEW: Wrapper for all content inside the card */
-.creator-card-content {
+/* NEW: Flexbox layout for card content */
+.creator-info,
+.instagram-creator-info,
+.youtube-creator-info {
     padding: 15px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
-/* NEW: Flexbox header for pic and text */
-.creator-card-header {
-    display: flex;
+.creator-card, .instagram-creator-card {
+    /* These cards use a flex layout for pic + info */
+    flex-direction: row;
+    padding: 15px;
     gap: 12px;
     align-items: flex-start;
 }
@@ -860,12 +854,12 @@ body.dark-mode .profile-section {
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
+    margin: 0; /* Reset margin */
 }
 
-.creator-text-content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+/* For YouTube card, pic is inside the info div */
+.youtube-creator-card .youtube-creator-info {
+    padding: 15px;
 }
 
 .creator-header {
@@ -875,20 +869,28 @@ body.dark-mode .profile-section {
     margin-bottom: 2px;
 }
 .creator-header h3 { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); }
-.verified-badge, .instagram-verified-badge, .youtube-verified-badge { width: 16px; height: 16px; }
+.verified-badge { width: 16px; height: 16px; }
 
-.creator-username, .instagram-creator-username, .youtube-creator-username { color: var(--text-secondary); font-size: 0.95em; margin: 0 0 10px 0; }
-.creator-bio, .instagram-creator-bio, .youtube-creator-bio { color: var(--text-secondary); margin: 10px 0; font-size: 0.9em; line-height: 1.5; flex-grow: 1; }
+.creator-username, .instagram-creator-username, .youtube-creator-username {
+    color: var(--text-secondary);
+    font-size: 0.95em;
+    margin: 0 0 10px 0;
+}
+.creator-bio, .instagram-creator-bio, .youtube-creator-bio {
+    color: var(--text-secondary);
+    margin: 10px 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+    flex-grow: 1;
+}
 
-/* FIXED: Follower/Subscriber count styling */
 .follower-count, .instagram-follower-count, .youtube-subscriber-count {
     color: var(--accent-color);
-    font-weight: 600; /* Bold */
+    font-weight: 600;
     margin: 10px 0;
     font-size: 0.95em;
 }
 
-/* Visit Profile Button */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
