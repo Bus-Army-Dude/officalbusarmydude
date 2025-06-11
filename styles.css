@@ -746,7 +746,7 @@ body.dark-mode .profile-section {
 }
 
 /* ===================================== */
-/* 8. CREATOR SHOUTOUTS SECTION (Grid)   */
+/* 8. CREATOR SHOUTOUTS SECTION (Final)  */
 /* ===================================== */
 
 .shoutouts-section {
@@ -801,7 +801,7 @@ body.dark-mode .profile-section {
     font-weight: 900;
 }
 
-/* --- RESTORED: Grid Layout --- */
+/* --- Main Grid Layout --- */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
@@ -810,7 +810,7 @@ body.dark-mode .profile-section {
     gap: 15px;
 }
 
-/* --- NEW: Modern Card Styling --- */
+/* --- Modern Card Styling --- */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
@@ -835,11 +835,11 @@ body.dark-mode .profile-section {
     height: auto;
     aspect-ratio: 16 / 9;
     background-color: var(--bg-primary);
-    object-fit: contain; /* FIX: Prevents cropping */
+    object-fit: contain;
     display: block;
-    border-bottom: 1px solid var(--separator-color);
 }
 
+/* NEW: Wrapper for all content inside the card */
 .creator-card-content {
     padding: 15px;
     display: flex;
@@ -847,6 +847,7 @@ body.dark-mode .profile-section {
     flex-grow: 1;
 }
 
+/* NEW: Flexbox header for pic and text */
 .creator-card-header {
     display: flex;
     gap: 12px;
@@ -878,9 +879,16 @@ body.dark-mode .profile-section {
 
 .creator-username, .instagram-creator-username, .youtube-creator-username { color: var(--text-secondary); font-size: 0.95em; margin: 0 0 10px 0; }
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio { color: var(--text-secondary); margin: 10px 0; font-size: 0.9em; line-height: 1.5; flex-grow: 1; }
-.follower-count, .instagram-follower-count, .youtube-subscriber-count { color: var(--text-primary); font-weight: 500; margin: 10px 0; font-size: 0.9em; }
 
-/* Modern "Pill" Button Style */
+/* FIXED: Follower/Subscriber count styling */
+.follower-count, .instagram-follower-count, .youtube-subscriber-count {
+    color: var(--accent-color);
+    font-weight: 600; /* Bold */
+    margin: 10px 0;
+    font-size: 0.95em;
+}
+
+/* Visit Profile Button */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
@@ -906,13 +914,6 @@ body.dark-mode .profile-section {
     color: white;
     border-color: var(--accent-color);
     transform: scale(1.03);
-}
-
-/* Media queries */
-@media screen and (max-width: 768px) {
-    .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 :root {
