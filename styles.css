@@ -1757,9 +1757,10 @@ body.maintenance-active {
 }
 
 /* ======================================== */
-/* == Business Info Section (Modernized) == */
+/* == Business Info Section (Final)      == */
 /* ======================================== */
 
+/* Main container for business info */
 .business-info-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
@@ -1772,27 +1773,28 @@ body.maintenance-active {
 }
 
 .business-info-section h2 {
-    margin: 0 0 20px 0;
-    border-bottom: 1px solid var(--separator-color);
-    padding-bottom: 15px;
+    margin: 0 0 20px 5px;
+    border-bottom: none;
+    padding-bottom: 0;
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary);
     text-align: left;
 }
 
-/* --- 1. Status Display --- */
+/* --- 1. Prominent Status Block --- */
 .business-status {
     text-align: left;
     padding: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 25px; /* Space between status and hours */
     border-radius: var(--control-border-radius);
-    border: 1px solid var(--separator-color);
+    border: 1px solid transparent; /* Hide border, use background for separation */
+    background-color: var(--bg-tertiary);
     position: relative;
     overflow: hidden;
 }
 
-/* Colored background tints based on status */
+/* Colored background tints for status */
 .business-status::before {
     content: '';
     position: absolute;
@@ -1800,9 +1802,9 @@ body.maintenance-active {
     opacity: 0.1;
     z-index: 1;
 }
-.status-main-text.status-open + .business-status::before { background-color: var(--success-color); }
-.status-main-text.status-closed + .business-status::before { background-color: var(--danger-color); }
-.status-main-text.status-unavailable + .business-status::before { background-color: #f5a623; }
+.status-main-text.status-open ~ .business-status::before { background-color: var(--success-color); }
+.status-main-text.status-closed ~ .business-status::before { background-color: var(--danger-color); }
+.status-main-text.status-unavailable ~ .business-status::before { background-color: #f5a623; }
 
 .status-main-text {
     font-size: 1.2rem;
@@ -1814,7 +1816,6 @@ body.maintenance-active {
     z-index: 2;
 }
 
-/* Icon for the status */
 .status-main-text::before {
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -1830,37 +1831,55 @@ body.maintenance-active {
     font-size: 0.9em;
     color: var(--text-secondary);
     margin-top: 5px;
-    padding-left: 30px; /* Indent under the icon */
+    padding-left: 32px; /* Indent under the icon */
     position: relative;
     z-index: 2;
 }
 
-/* --- 2. Regular Hours Grid --- */
+/* --- 2. Weekly Hours (Vertical List) --- */
+.hours-list {
+    margin: 0;
+    padding: 0 15px;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--control-border-radius);
+}
+
 .hours-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
 }
+
 .hours-list li {
     display: flex;
     justify-content: space-between;
-    padding: 8px;
-    border-radius: 8px;
-    background-color: var(--bg-tertiary);
-    font-size: 0.95rem;
+    align-items: center;
+    padding: 12px 5px;
+    border-bottom: 1px solid var(--separator-color);
+    font-size: 1rem;
 }
-.hours-list li strong { font-weight: 500; }
-.hours-list li span { color: var(--text-secondary); }
+.hours-list li:last-child {
+    border-bottom: none;
+}
+
+.hours-list li strong {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.hours-list li span {
+    color: var(--text-secondary);
+    text-align: right;
+}
 
 .hours-list li.current-day {
-    background-color: var(--accent-color);
+    /* No longer need a background, the color tells the story */
+    background-color: transparent;
+    font-weight: 600;
 }
 .hours-list li.current-day strong,
 .hours-list li.current-day span {
-    color: white;
+    color: var(--accent-color);
 }
 
 .hours-timezone-note {
@@ -1870,7 +1889,7 @@ body.maintenance-active {
     text-align: center;
 }
 
-/* --- 3. Special Hours --- */
+/* --- 3. Special Hours & Contact --- */
 #temporary-hours-display,
 #holiday-hours-display {
     margin-top: 25px;
@@ -1892,8 +1911,6 @@ body.maintenance-active {
     font-size: 0.9em;
     border-left: 3px solid var(--accent-color);
 }
-
-/* --- 4. Contact Info --- */
 .contact-info {
     margin-top: 25px;
     padding-top: 20px;
