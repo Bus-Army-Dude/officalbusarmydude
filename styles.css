@@ -338,16 +338,19 @@ body.dark-mode .profile-section {
 }
 
 /* ================================================== */
-/* 6. SOCIAL LINKS SECTION (SPACING FIX)              */
+/* 6. SOCIAL LINKS SECTION (DEFINITIVE SPACING FIX)   */
 /* ================================================== */
 
+/* The main card container */
 .social-links-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
     border-radius: var(--base-border-radius);
-    padding: 20px 15px; /* FIX: Added padding for all screen sizes */
     margin-bottom: 25px;
     box-shadow: none;
+    /* FIX: This padding creates the required space on the left and right */
+    padding: 25px 15px;
+    box-sizing: border-box;
 }
 
 .social-links-section h2 {
@@ -357,25 +360,19 @@ body.dark-mode .profile-section {
     color: var(--text-primary);
 }
 
+/* The container holding the buttons */
 .social-links-container {
-    display: grid;
-    /* FIX: Default to a single, flexible column */
-    grid-template-columns: 1fr;
-    gap: 12px; /* Slightly reduced gap for a tighter look */
+    display: flex; /* Use a simple flex layout */
+    flex-direction: column; /* Stack buttons vertically by default */
+    gap: 12px;
 }
 
-/* FIX: Switch to two columns ONLY on wider screens */
-@media screen and (min-width: 600px) {
-    .social-links-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
+/* The buttons themselves */
 .social-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px 20px;
+    padding: 16px;
     background-color: var(--accent-color);
     color: white;
     border-radius: var(--control-border-radius);
@@ -383,6 +380,8 @@ body.dark-mode .profile-section {
     font-weight: 500;
     transition: all 0.2s ease;
     border: none;
+    width: 100%; /* Ensure button takes full width of the padded container */
+    box-sizing: border-box; /* Guarantees padding is included in width calculation */
 }
 
 .social-button:hover {
@@ -399,6 +398,15 @@ body.dark-mode .profile-section {
 
 .social-button span {
     color: white;
+}
+
+/* --- Responsive Grid for Wider Screens --- */
+/* When the screen is wide enough, switch to a two-column grid */
+@media screen and (min-width: 600px) {
+    .social-links-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 /* Useful Links Section */
