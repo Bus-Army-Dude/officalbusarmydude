@@ -829,14 +829,11 @@ body.dark-mode .profile-section {
 }
 
 .youtube-cover-photo {
-    /* FIX: Removed the negative margins that broke the layout */
     width: 100%;
-    margin-bottom: 15px;
-    height: auto;
-    display: block;
-    object-fit: cover;
     aspect-ratio: 16 / 9;
-    border-radius: 8px; /* Give the photo slightly rounded corners */
+    background-color: var(--bg-primary);
+    object-fit: cover; /* Changed back to cover for a full bleed */
+    display: block;
 }
 
 /* This targets the inner container for YouTube cards to ensure structure is consistent */
