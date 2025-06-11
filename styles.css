@@ -768,7 +768,6 @@ body.dark-mode .profile-section {
     font-size: 1.5rem;
     text-align: left;
 }
-
 .shoutouts-section h2::before {
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
@@ -778,7 +777,6 @@ body.dark-mode .profile-section {
 #tiktok-header::before { content: '\e07b'; }
 #instagram-header::before { content: '\f16d'; }
 #youtube-header::before { content: '\f167'; }
-
 
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp,
@@ -818,9 +816,8 @@ body.dark-mode .profile-section {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    /* FIX: The universal padding that guarantees nothing touches the edges */
-    padding: 15px;
-    gap: 15px; /* Creates space between all items in the card */
+    padding: 15px; /* Universal padding for all cards */
+    gap: 15px; /* Creates space between elements inside the card */
 }
 
 /* --- Cover Photo FIX --- */
@@ -835,7 +832,7 @@ body.dark-mode .profile-section {
     margin: 0; /* Resets any problematic margins */
 }
 
-/* --- Content Layout --- */
+/* --- Content Layouts --- */
 .creator-card-header,
 .youtube-creator-card .creator-card-header {
     display: flex;
@@ -873,7 +870,7 @@ body.dark-mode .profile-section {
 }
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio {
     color: var(--text-secondary);
-    margin: 0 0 10px 0; /* Adjusted margin */
+    margin: 10px 0;
     font-size: 0.9em;
     line-height: 1.5;
     flex-grow: 1;
@@ -897,7 +894,7 @@ body.dark-mode .profile-section {
     text-decoration: none;
     padding: 8px 18px;
     border-radius: 9999px;
-    margin-top: 15px; /* Use margin to push from content above */
+    margin-top: 15px;
     transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
