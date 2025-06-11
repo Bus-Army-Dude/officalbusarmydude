@@ -1760,7 +1760,6 @@ body.maintenance-active {
 /* == Business Info Section (Modernized) == */
 /* ======================================== */
 
-/* Main container for business info */
 .business-info-section {
     background-color: var(--bg-secondary);
     border: 1px solid var(--separator-color);
@@ -1773,89 +1772,95 @@ body.maintenance-active {
 }
 
 .business-info-section h2 {
-    margin: 0 0 20px 5px;
-    border-bottom: none;
-    padding-bottom: 0;
+    margin: 0 0 20px 0;
+    border-bottom: 1px solid var(--separator-color);
+    padding-bottom: 15px;
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary);
     text-align: left;
 }
 
-/* NEW: A wrapper for the list items */
-.info-list-group {
-    background-color: var(--bg-tertiary);
-    border-radius: var(--control-border-radius);
-    padding: 0 15px;
-}
-
-/* Status Display - now styled as the first item in the list */
+/* --- 1. Status Display --- */
 .business-status {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5px;
-    margin: 0;
-    border-bottom: 1px solid var(--separator-color);
-    background-color: transparent; /* Remove its own background */
-    border-radius: 0;
+    text-align: left;
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: var(--control-border-radius);
+    border: 1px solid var(--separator-color);
+    position: relative;
+    overflow: hidden;
 }
 
-/* Group the status text on the left */
-.status-text-group {
-    text-align: left;
+/* Colored background tints based on status */
+.business-status::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.1;
+    z-index: 1;
 }
+.status-main-text.status-open + .business-status::before { background-color: var(--success-color); }
+.status-main-text.status-closed + .business-status::before { background-color: var(--danger-color); }
+.status-main-text.status-unavailable + .business-status::before { background-color: #f5a623; }
 
 .status-main-text {
-    font-size: 1rem;
-    font-weight: 500;
-    display: inline-block; /* Allow it to sit next to the reason */
-    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 2;
 }
 
-.status-main-text.status-open { color: var(--success-color); }
-.status-main-text.status-closed { color: var(--danger-color); }
-.status-main-text.status-unavailable { color: #f5a623; }
-
-/* Group the countdown/reason on the right */
-.status-reason-group {
-    text-align: right;
+/* Icon for the status */
+.status-main-text::before {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 1.1em;
 }
+.status-main-text.status-open::before { content: '\f058'; color: var(--success-color); }
+.status-main-text.status-closed::before { content: '\f057'; color: var(--danger-color); }
+.status-main-text.status-unavailable::before { content: '\f071'; color: #f5a623; }
 
 .status-countdown-text,
 .status-reason-text {
     display: block;
     font-size: 0.9em;
     color: var(--text-secondary);
-    margin: 0;
-    line-height: 1.3;
+    margin-top: 5px;
+    padding-left: 30px; /* Indent under the icon */
+    position: relative;
+    z-index: 2;
 }
 
-/* Regular Hours List */
-.hours-list {
-    margin: 0; /* Remove margin as it's inside the group */
-}
+/* --- 2. Regular Hours Grid --- */
 .hours-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
 }
 .hours-list li {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 12px 5px;
-    border-bottom: 1px solid var(--separator-color);
-    font-size: 1rem;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: var(--bg-tertiary);
+    font-size: 0.95rem;
 }
-.hours-list li:last-child { border-bottom: none; }
 .hours-list li strong { font-weight: 500; }
-.hours-list li span { color: var(--text-secondary); text-align: right; }
+.hours-list li span { color: var(--text-secondary); }
 
+.hours-list li.current-day {
+    background-color: var(--accent-color);
+}
 .hours-list li.current-day strong,
 .hours-list li.current-day span {
-    color: var(--accent-color);
-    font-weight: 600;
+    color: white;
 }
 
 .hours-timezone-note {
@@ -1865,26 +1870,30 @@ body.maintenance-active {
     text-align: center;
 }
 
-/* Special Hours Display */
+/* --- 3. Special Hours --- */
 #temporary-hours-display,
 #holiday-hours-display {
     margin-top: 25px;
     padding-top: 15px;
     border-top: 1px solid var(--separator-color);
 }
-#temporary-hours-display:not(:empty) h4,
-#holiday-hours-display:not(:empty) h4 {
+#temporary-hours-display h4,
+#holiday-hours-display h4 {
     font-size: 1.1em;
-    margin: 0 0 15px 5px;
-    color: var(--text-primary);
     font-weight: 600;
+    color: var(--text-primary);
     text-align: left;
+    margin: 0 0 15px 0;
 }
 .special-hours-display li {
-    background: var(--bg-primary); /* Use main bg for contrast */
+    background: var(--bg-tertiary);
+    padding: 12px 15px;
+    border-radius: var(--control-border-radius);
+    font-size: 0.9em;
+    border-left: 3px solid var(--accent-color);
 }
 
-/* Contact Info */
+/* --- 4. Contact Info --- */
 .contact-info {
     margin-top: 25px;
     padding-top: 20px;
