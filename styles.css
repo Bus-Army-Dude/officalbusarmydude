@@ -1,25 +1,24 @@
-/* =================================================================== */
-/* FINAL SOCIAL LINKS STYLES (Theme Variables & Component Styles)      */
-/* Instructions: Remove all previous versions and use this single block. */
-/* =================================================================== */
-
-/* Step 1: Theme Variable Definitions */
+/* ======================== */
+/* Theme Variables    */
+/* ======================== */
 :root {
     /* Light Mode Colors */
     --light-bg: #ffffff;
     --light-content-bg: #f5f5f5;
     --light-text: #212529;
+    --light-secondary-text: #495057;
     --light-border: #dee2e6;
     --light-accent: #4CAF50;
     --light-hover: #45a049;
     --light-link: #007bff;
     --light-shadow: rgba(0, 0, 0, 0.1);
     --light-icon: #ffffff;
-
+    
     /* Dark Mode Colors */
     --dark-bg: #121212;
     --dark-content-bg: #2d2d2d;
     --dark-text: #E0E0E0;
+    --dark-secondary-text: #a0a0a0;
     --dark-border: #333333;
     --dark-accent: #4CAF50;
     --dark-hover: #45a049;
@@ -27,31 +26,52 @@
     --dark-shadow: rgba(0, 0, 0, 0.2);
     --dark-icon: #000000;
 
-    /* Default Theme Setup (Dark Mode) */
+    /* Input and Dropdowns */
+    --input-bg: #ffffff;
+    --dropdown-background-dark: #222222;
+    --dropdown-text-dark: #ffffff;
+    --dropdown-border-dark: #555555;
+    --dropdown-focus-border: #007bff;
+    --dropdown-background-light: #ffffff;
+    --dropdown-text-light: #333333;
+    --dropdown-border-light: #cccccc;
+    --dropdown-focus-border-light: #007bff;
+    --dropdown-focus-border-dark: #ff5722;
+
+    /* Business Hours Status Colors */
+    --status-open: #34c759;
+    --status-closed: #ff3b30;
+    --status-temp: #ff9500;
+    --countdown-closing: #ff3b30;
+    --countdown-opening: #34c759;
+    --countdown-temp-closing: #ff9500;
+    --countdown-temp-opening: #34c759;
+
+    /* Fallback theme variables if no e class is applied (default to dark e) */
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
+    --secondary-text: var(--dark-secondary-text);
     --border-color: var(--dark-border);
     --accent-color: var(--dark-accent);
     --hover-color: var(--dark-hover);
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
-    --social-button-text-color: var(--dark-icon); /* Black text for dark mode */
 }
 
-/* Light Theme Override */
+/* Light e Override */
 body.light-e {
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
+    --secondary-text: var(--light-secondary-text);
     --border-color: var(--light-border);
     --accent-color: var(--light-accent);
     --hover-color: var(--light-hover);
     --link-color: var(--light-link);
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
-    --social-button-text-color: var(--light-icon); /* White text for light mode */
 }
 
 /* Base Styles */
@@ -355,11 +375,23 @@ body {
     }
 }
 
-/* Step 2: Social Links Component Styles */
+/* Social Links Section */
 .social-links-section {
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg)
+    );
     padding: 30px;
+    border-radius: 16px;
+    box-shadow: 
+        0 8px 32px -8px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
     margin: 20px 0;
     text-align: center;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    box-sizing: border-box;
+    color: var(--text-color);
 }
 
 .social-links-container {
@@ -367,63 +399,86 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
     margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .social-button {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 14px 50px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
     background: linear-gradient(145deg,
         var(--accent-color),
         color-mix(in srgb, var(--accent-color) 80%, #ffffff)
-    ) !important;
-    border-radius: 25px !important;
-    text-decoration: none !important;
-    font-weight: 600 !important;
-    position: relative !important;
-    overflow: hidden !important;
-    transition: transform 0.2s ease !important;
+    );
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 
+        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    position: relative;
+    overflow: hidden;
 }
 
 .social-button:hover {
-    transform: translateY(-2px) !important;
+    transform: translateY(-2px);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
+        var(--accent-color)
+    );
+    box-shadow: 
+        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
+        0 0 0 1px var(--accent-color);
 }
 
-/* This rule forces the correct color on the text and icon */
-.social-button span,
 .social-button .social-icon {
-    color: var(--social-button-text-color) !important;
-}
-
-/* This rule forces the correct layout for the icon */
-.social-button .social-icon {
-    position: absolute !important;
-    left: 24px !important;
-    font-size: 20px !important;
+    font-size: 20px;
+    margin-right: 15px;
+    color: var(--icon-color); /* Use theme icon color */
+    flex-shrink: 0;
 }
 
 .social-button span {
-    text-align: center !important;
-    flex-grow: 1 !important;
+    flex-grow: 1;
+    text-align: center;
+    color: var(--icon-color); /* Use theme icon color */
 }
-
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
+    .social-links-section {
+        padding: 20px;
+    }
+
     .social-links-container {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
+
     .social-button {
-        padding: 12px 45px !important;
+        padding: 12px 20px;
+        font-size: 0.95em;
     }
 }
+
 @media screen and (max-width: 480px) {
-    .social-button {
-        padding: 12px 40px !important;
+    .social-links-section {
+        padding: 15px;
     }
+
+    .social-button {
+        padding: 12px 16px;
+    }
+
     .social-button .social-icon {
-        left: 18px !important;
+        font-size: 18px;
+        margin-right: 12px;
     }
 }
 
