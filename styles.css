@@ -92,131 +92,125 @@ body {
     padding: 0 20px;
 }
 
-/* Profile Section */
+/* ===================================== */
+/* 3. PROFILE SECTION (REVISED & FIXED)  */
+/* ===================================== */
+
 .profile-section {
-    position: relative;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: var(--base-border-radius);
     text-align: center;
-    margin-top: 20px;
+    padding: 30px 20px;
+    position: relative;
     margin-bottom: 30px;
-    padding: 25px;
-    background: var(--content-bg);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--border-color);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px -8px var(--shadow-color);
 }
 
-/* Profile Pic Wrapper */
+body.dark-mode .profile-section {
+    background: rgba(44, 44, 46, 0.75);
+    border-color: rgba(80, 80, 80, 0.8);
+}
+
 .profile-pic-wrapper {
     position: relative;
-    width: 150px;
+    width: 140px;
     margin: 0 auto;
 }
 
-/* Profile Picture */
 .profile-pic {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    margin: 0 auto;
-    display: block;
-    border: 3px solid var(--link-color);
-    position: relative;
-    box-shadow: 0 4px 15px var(--shadow-color);
-    /* --- ADD THIS LINE --- */
+    border: 4px solid var(--bg-secondary);
+    box-shadow: 0 5px 20px -5px var(--shadow-color);
     object-fit: cover;
-    /* --------------------- */
 }
 
-/* Profile Status Container */
 .profile-status-container {
     position: absolute;
     bottom: 5px;
     right: 5px;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-secondary);
     border-radius: 50%;
-    background: var(--content-bg);
-    border: 3px solid var(--link-color);
+    border: 3px solid var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
-    box-shadow: 0 2px 8px var(--shadow-color);
+    box-shadow: 0 2px 5px var(--shadow-color);
 }
 
 .profile-status {
     font-size: 16px;
 }
 
-/* Username Checkmark */
 .username-checkmark {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10px;
     margin: 15px 0;
 }
 
+/* FIX for invisible username */
 .username-checkmark h1 {
+    color: var(--text-primary);
+    background: none; /* Removes the old gradient */
+    -webkit-background-clip: unset;
+    background-clip: unset;
     margin: 0;
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    font-weight: 800;
-    background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.5px;
 }
 
 .verified {
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
+    width: 28px;
+    height: 28px;
+    margin: 0;
 }
 
-/* Settings Button */
-.settings-button {
+.profile-bio {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 12px auto 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* FIX for invisible buttons */
+.settings-button, .merch-button {
     position: absolute;
     top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: url('settings-icon.png') center/18px no-repeat, var(--link-color);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
     border: none;
     cursor: pointer;
-    padding: 0;
-    z-index: 10;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--link-color);
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
-.settings-button:hover {
-    transform: translateY(-2px) rotate(45deg);
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
+.settings-button:hover, .merch-button:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
 }
 
-/* Merch Button */
-.merch-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: url('gift-bag-icon.png') center/18px no-repeat, var(--accent-color);
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 10;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
-}
+.settings-button { right: 20px; }
+.merch-button { left: 20px; }
 
-.merch-button:hover {
-    transform: translateY(-2px) rotate(45deg);
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
-}
 
-/* Media Queries */
+/* Responsive Media Queries for Profile Section */
 @media screen and (max-width: 768px) {
     .profile-pic {
         width: 120px;
@@ -225,12 +219,13 @@ body {
 
     .settings-button,
     .merch-button {
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
     }
 
     .username-checkmark h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 }
 
@@ -241,13 +236,14 @@ body {
     }
 
     .settings-button,
-    .merch-button, {
-        width: 30px;
-        height: 30px;
+    .merch-button {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
     }
 
     .username-checkmark h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
     }
 }
 
