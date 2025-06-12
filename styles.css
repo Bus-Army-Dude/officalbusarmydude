@@ -2,76 +2,76 @@
 /* Theme Variables    */
 /* ======================== */
 :root {
-    /* Light Mode Colors */
-    --light-bg: #ffffff;
-    --light-content-bg: #f5f5f5;
-    --light-text: #212529;
-    --light-secondary-text: #495057;
-    --light-border: #dee2e6;
-    --light-accent: #4CAF50;
-    --light-hover: #45a049;
-    --light-link: #007bff;
-    --light-shadow: rgba(0, 0, 0, 0.1);
-    --light-icon: #000000; /* ✅ FIXED: Black icons on light background */
-    
-    /* Dark Mode Colors */
-    --dark-bg: #121212;
-    --dark-content-bg: #2d2d2d;
-    --dark-text: #E0E0E0;
-    --dark-secondary-text: #a0a0a0;
-    --dark-border: #333333;
-    --dark-accent: #4CAF50;
-    --dark-hover: #45a049;
-    --dark-link: #BB86FC;
-    --dark-shadow: rgba(0, 0, 0, 0.2);
-    --dark-icon: #ffffff; /* ✅ FIXED: White icons on dark background */
+    /* Light Mode Colors */
+    --light-bg: #ffffff;
+    --light-content-bg: #f5f5f5;
+    --light-text: #212529;
+    --light-secondary-text: #495057;
+    --light-border: #dee2e6;
+    --light-accent: #4CAF50;
+    --light-hover: #45a049;
+    --light-link: #007bff;
+    --light-shadow: rgba(0, 0, 0, 0.1);
+    --light-icon: #ffffff;
+    
+    /* Dark Mode Colors */
+    --dark-bg: #121212;
+    --dark-content-bg: #2d2d2d;
+    --dark-text: #E0E0E0;
+    --dark-secondary-text: #a0a0a0;
+    --dark-border: #333333;
+    --dark-accent: #4CAF50;
+    --dark-hover: #45a049;
+    --dark-link: #BB86FC;
+    --dark-shadow: rgba(0, 0, 0, 0.2);
+    --dark-icon: #000000;
 
-    /* Input and Dropdowns */
-    --input-bg: #ffffff;
-    --dropdown-background-dark: #222222;
-    --dropdown-text-dark: #ffffff;
-    --dropdown-border-dark: #555555;
-    --dropdown-focus-border: #007bff;
-    --dropdown-background-light: #ffffff;
-    --dropdown-text-light: #333333;
-    --dropdown-border-light: #cccccc;
-    --dropdown-focus-border-light: #007bff;
-    --dropdown-focus-border-dark: #ff5722;
+    /* Input and Dropdowns */
+    --input-bg: #ffffff;
+    --dropdown-background-dark: #222222;
+    --dropdown-text-dark: #ffffff;
+    --dropdown-border-dark: #555555;
+    --dropdown-focus-border: #007bff;
+    --dropdown-background-light: #ffffff;
+    --dropdown-text-light: #333333;
+    --dropdown-border-light: #cccccc;
+    --dropdown-focus-border-light: #007bff;
+    --dropdown-focus-border-dark: #ff5722;
 
-    /* Business Hours Status Colors */
-    --status-open: #34c759;
-    --status-closed: #ff3b30;
-    --status-temp: #ff9500;
-    --countdown-closing: #ff3b30;
-    --countdown-opening: #34c759;
-    --countdown-temp-closing: #ff9500;
-    --countdown-temp-opening: #34c759;
+    /* Business Hours Status Colors */
+    --status-open: #34c759;
+    --status-closed: #ff3b30;
+    --status-temp: #ff9500;
+    --countdown-closing: #ff3b30;
+    --countdown-opening: #34c759;
+    --countdown-temp-closing: #ff9500;
+    --countdown-temp-opening: #34c759;
 
-    /* Fallback theme variables if no e class is applied (default to dark e) */
-    --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
-    --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
-    --border-color: var(--dark-border);
-    --accent-color: var(--dark-accent);
-    --hover-color: var(--dark-hover);
-    --link-color: var(--dark-link);
-    --shadow-color: var(--dark-shadow);
-    --icon-color: var(--dark-icon); /* ✅ Default to dark mode icon */
+    /* Fallback theme variables if no e class is applied (default to dark e) */
+    --bg-color: var(--dark-bg);
+    --content-bg: var(--dark-content-bg);
+    --text-color: var(--dark-text);
+    --secondary-text: var(--dark-secondary-text);
+    --border-color: var(--dark-border);
+    --accent-color: var(--dark-accent);
+    --hover-color: var(--dark-hover);
+    --link-color: var(--dark-link);
+    --shadow-color: var(--dark-shadow);
+    --icon-color: var(--dark-icon);
 }
 
 /* Light e Override */
 body.light-e {
-    --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
-    --text-color: var(--light-text);
-    --secondary-text: var(--light-secondary-text);
-    --border-color: var(--light-border);
-    --accent-color: var(--light-accent);
-    --hover-color: var(--light-hover);
-    --link-color: var(--light-link);
-    --shadow-color: var(--light-shadow);
-    --icon-color: var(--light-icon); /* ✅ Correct icon for light mode */
+    --bg-color: var(--light-bg);
+    --content-bg: var(--light-content-bg);
+    --text-color: var(--light-text);
+    --secondary-text: var(--light-secondary-text);
+    --border-color: var(--light-border);
+    --accent-color: var(--light-accent);
+    --hover-color: var(--light-hover);
+    --link-color: var(--light-link);
+    --shadow-color: var(--light-shadow);
+    --icon-color: var(--light-icon);
 }
 
 /* Base Styles */
