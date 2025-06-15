@@ -92,41 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateTime();
 
-    // --- Page Refresh Countdown ---
-    const refreshInterval = 5 * 60 * 1000; // 5 minutes
-    let refreshTime = Date.now() + refreshInterval;
-
-    function updatePageRefreshCountdown() {
-        const countdownElement = document.querySelector('.version-info-section .countdown');
-        const currentTime = Date.now();
-        const timeLeft = Math.ceil((refreshTime - currentTime) / 1000);
-
-        if (countdownElement) {
-            if (timeLeft >= 0) {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                countdownElement.innerHTML = `Page refreshing in: <span class="timer-digits">${minutes}m ${seconds.toString().padStart(2, '0')}s</span>`;
-            } else {
-                countdownElement.textContent = "Refreshing now...";
-                smoothReload();
-            }
-        }
-    }
-
-    function smoothReload() {
-        const body = document.body;
-        body.style.transition = 'opacity 0.5s ease-in-out';
-        body.style.opacity = '0';
-        setTimeout(() => location.reload(), 500);
-    }
-
-    if (document.querySelector('.version-info-section .countdown')) {
-        updatePageRefreshCountdown();
-        setInterval(updatePageRefreshCountdown, 1000);
-    }
-
-    setInterval(updateTime, 1000);
-
     // --- Back to top button ---
     const scrollBtn = document.getElementById('scrollToTop');
     const indicator = document.querySelector('.scroll-to-top .progress-indicator');
