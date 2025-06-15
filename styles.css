@@ -99,12 +99,10 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 25px;
-
-    /* Shared glass properties */
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    background: var(--content-bg);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--border-color);
+    backdrop-filter: blur(10px);
 }
 
 /* Profile Pic Wrapper */
@@ -182,24 +180,18 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('settings-icon.png') center/18px no-repeat;
+    background: url('settings-icon.png') center/18px no-repeat, var(--link-color);
     border: none;
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-
-    /* Glass Effect */
-    background-color: color-mix(in srgb, var(--content-bg) 50%, transparent);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
-    box-shadow: 0 4px 15px var(--shadow-color);
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--link-color);
 }
 
 .settings-button:hover {
     transform: translateY(-2px) rotate(45deg);
-    box-shadow: 0 8px 20px var(--shadow-color);
+    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
 }
 
 /* Merch Button */
@@ -210,24 +202,18 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('gift-bag-icon.png') center/18px no-repeat;
+    background: url('gift-bag-icon.png') center/18px no-repeat, var(--accent-color);
     border: none;
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    
-    /* Glass Effect */
-    background-color: color-mix(in srgb, var(--content-bg) 50%, transparent);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
-    box-shadow: 0 4px 15px var(--shadow-color);
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
 }
 
 .merch-button:hover {
     transform: translateY(-2px) rotate(45deg);
-    box-shadow: 0 8px 20px var(--shadow-color);
+    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
 }
 
 /* Media Queries */
