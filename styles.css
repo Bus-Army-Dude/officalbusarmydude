@@ -99,12 +99,15 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 25px;
-    background: var(--content-bg);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--border-color);
-    backdrop-filter: blur(10px);
+    
+    /* Liquid Glass Effect */
+    background: color-mix(in srgb, var(--content-bg) 60%, transparent);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 20px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
 }
-
 /* Profile Pic Wrapper */
 .profile-pic-wrapper {
     position: relative;
