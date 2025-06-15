@@ -180,18 +180,24 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('settings-icon.png') center/18px no-repeat, var(--link-color);
+    background: url('settings-icon.png') center/18px no-repeat;
     border: none;
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--link-color);
+
+    /* Glass Effect */
+    background-color: color-mix(in srgb, var(--content-bg) 50%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+    box-shadow: 0 4px 15px var(--shadow-color);
 }
 
 .settings-button:hover {
     transform: translateY(-2px) rotate(45deg);
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
+    box-shadow: 0 8px 20px var(--shadow-color);
 }
 
 /* Merch Button */
@@ -202,18 +208,24 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('gift-bag-icon.png') center/18px no-repeat, var(--accent-color);
+    background: url('gift-bag-icon.png') center/18px no-repeat;
     border: none;
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    
+    /* Glass Effect */
+    background-color: color-mix(in srgb, var(--content-bg) 50%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+    box-shadow: 0 4px 15px var(--shadow-color);
 }
 
 .merch-button:hover {
     transform: translateY(-2px) rotate(45deg);
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    box-shadow: 0 8px 20px var(--shadow-color);
 }
 
 /* Media Queries */
