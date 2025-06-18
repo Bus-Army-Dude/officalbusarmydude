@@ -61,16 +61,25 @@ function formatFirestoreTimestamp(firestoreTimestamp) {
     if (!firestoreTimestamp || !(firestoreTimestamp instanceof Timestamp)) { return 'N/A'; }
     try {
         const date = firestoreTimestamp.toDate();
-        // Use locale for English, but you can change it to your preferred language/region
+        // Use the browser's locale and timezone
         const locale = navigator.language || 'en-US';
-        // Construct day of week, month, day, year, and time (HH:mm, 24-hour)
-        const dayName = date.toLocaleDateString(locale, { weekday: 'long' });
-        const monthName = date.toLocaleDateString(locale, { month: 'long' });
-        const day = date.getDate();
-        const year = date.getFullYear();
-        // Get 24-hour time with no seconds
-        const time = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', hour12: false });
-        return `Last Updated: ${dayName}, ${monthName} ${day}, ${year} at ${time}`;
+        // Get the weekday, month, day, year
+        const formattedDate = date.toLocaleDateString(locale, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        // Get the time with AM/PM and time zone abbreviation
+        // The timeZoneName: 'short' will give you "EDT", "PDT", etc.
+        const formattedTime = date.toLocaleTimeString(locale, {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZoneName: 'short'
+        });
+        // Combine for final display
+        return `${formattedDate} at ${formattedTime}`;
     } catch (error) {
         console.error("Error formatting timestamp:", error);
         return 'Invalid Date';
