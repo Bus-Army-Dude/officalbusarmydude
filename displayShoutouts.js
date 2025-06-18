@@ -61,9 +61,20 @@ function formatFirestoreTimestamp(firestoreTimestamp) {
     if (!firestoreTimestamp || !(firestoreTimestamp instanceof Timestamp)) { return 'N/A'; }
     try {
         const date = firestoreTimestamp.toDate();
+        // Use locale for English, but you can change it to your preferred language/region
         const locale = navigator.language || 'en-US';
-        return date.toLocaleString(locale, { dateStyle: 'medium', timeStyle: 'short' });
-    } catch (error) { console.error("Error formatting timestamp:", error); return 'Invalid Date'; }
+        // Construct day of week, month, day, year, and time (HH:mm, 24-hour)
+        const dayName = date.toLocaleDateString(locale, { weekday: 'long' });
+        const monthName = date.toLocaleDateString(locale, { month: 'long' });
+        const day = date.getDate();
+        const year = date.getFullYear();
+        // Get 24-hour time with no seconds
+        const time = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', hour12: false });
+        return `Last Updated: ${dayName}, ${monthName} ${day}, ${year} at ${time}`;
+    } catch (error) {
+        console.error("Error formatting timestamp:", error);
+        return 'Invalid Date';
+    }
 }
 
 // --- Functions to Render Cards (Shoutouts, Tech, FAQs) ---
