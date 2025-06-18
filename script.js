@@ -38,59 +38,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     enhancedInteractionControl.init();
 
-    // Time update function with timezone abbreviation
     function updateTime() {
-        const now = new Date();
+    const now = new Date();
 
-        // Get each part manually
-        const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const months = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ];
+    // Locale-aware and automatically gets user's timezone abbreviation (e.g. EDT, PDT, etc.)
+    const locale = navigator.language || 'en-US';
 
-        // --- These lines extract the weekday and month ---
-        const weekday = weekdays[now.getDay()];
-        const month = months[now.getMonth()];
-        const day = now.getDate();
-        const year = now.getFullYear();
+    // Date part: Monday, June 18, 2025
+    const datePart = now.toLocaleDateString(locale, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 
-        // Format time parts (hh:mm:ss AM/PM)
-        let hours = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
+    // Time part: 11:22:33 AM EDT
+    const timePart = now.toLocaleTimeString(locale, {
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+        timeZoneName: 'short'
+    });
 
-        hours = hours % 12;
-        hours = hours ? hours : 12; // 0 means 12 AM
+    const formattedDateTime = `${datePart} at ${timePart}`;
 
-        // Pad minutes and seconds with leading zeros
-        const minutesStr = minutes.toString().padStart(2, '0');
-        const secondsStr = seconds.toString().padStart(2, '0');
-        const hoursStr = hours.toString().padStart(2, '0');
-
-        // --- This line gets the abbreviated timezone ---
-        const timeZoneAbbr = now.toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ').pop();
-
-        // Construct final string, including weekday, month, day, year, hours, minutes, seconds, AM/PM, and timezone
-        const formattedDateTime = `${weekday}, ${month} ${day}, ${year} at ${hoursStr}:${minutesStr}:${secondsStr} ${ampm} ${timeZoneAbbr}`;
-
-        // Update datetime element
-        const dateTimeSectionElement = document.querySelector('.datetime-section .current-datetime');
-        if (dateTimeSectionElement) {
-            dateTimeSectionElement.textContent = formattedDateTime;
-        }
-
-        // Update version info simpler time with full date and timezone
-        const versionTimeElement = document.querySelector('.version-info-section .update-time');
-        if (versionTimeElement) {
-            // Use the already formatted string that includes everything
-            versionTimeElement.textContent = ` ${formattedDateTime}`;
-        }
+    // Update .current-datetime
+    const dateTimeSectionElement = document.querySelector('.datetime-section .current-datetime');
+    if (dateTimeSectionElement) {
+        dateTimeSectionElement.textContent = formattedDateTime;
     }
 
+    // Optional: update .update-time in version info as well
+    const versionTimeElement = document.querySelector('.version-info-section .update-time');
+    if (versionTimeElement) {
+        versionTimeElement.textContent = formattedDateTime;
+    }
+}
 
-    updateTime();
+updateTime();
+setInterval(updateTime, 1000);
 
     // --- Back to top button ---
     const scrollBtn = document.getElementById('scrollToTop');
