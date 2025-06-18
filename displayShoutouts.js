@@ -544,6 +544,50 @@ function attachFaqAccordionListeners() {
     console.log("FAQ accordion listeners attached (single open).");
 }
 
+/**
+ * Formats a Firestore Timestamp into a readable string.
+ * Example: "Monday, June 18, 2025 at 11:21 AM"
+ * @param {object} timestamp The Firestore timestamp object, which has a toDate() method.
+ * @returns {string} The formatted date string, or 'N/A' if the timestamp is invalid.
+ */
+function formatFirestoreTimestamp(timestamp) {
+  // Check if the timestamp is valid and has the toDate method
+  if (!timestamp || typeof timestamp.toDate !== 'function') {
+    return 'N/A';
+  }
+
+  const date = timestamp.toDate();
+
+  // Options for formatting the date part (e.g., "Monday, June 18, 2025")
+  const dateOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  // Options for formatting the time part (e.g., "11:21 AM")
+  const timeOptions = {
+    hour: 'numeric',
+    minute: '2-digit', // Ensures minutes like '05' are correctly padded
+    hour12: true,
+  };
+
+  // Create the formatted strings using the Intl.DateTimeFormat API
+  const formattedDate = new Intl.DateTimeFormat('en-US', dateOptions).format(date);
+  const formattedTime = new Intl.DateTimeFormat('en-US', timeOptions).format(date);
+
+  // Combine the two parts with " at " to match your desired format
+  return `${formattedDate} at ${formattedTime}`;
+}
+
+
+/**
+ * Loads shoutout data for a specific platform from Firestore and renders it.
+ * @param {string} platform The name of the platform (e.g., 'tiktok').
+ * @param {HTMLElement} gridElement The container element to display the creator cards.
+ * @param {HTMLElement} timestampElement The element to display the last updated time.
+ */
 async function loadShoutoutPlatformData(platform, gridElement, timestampElement) {
     if (!firebaseAppInitialized || !db) { console.error(`Shoutout load error (${platform}): Firebase not ready.`); if(gridElement) gridElement.innerHTML = `<p class="error">Error loading ${platform} creators (DB Init).</p>`; return; }
     if (!gridElement) {
@@ -579,6 +623,7 @@ async function loadShoutoutPlatformData(platform, gridElement, timestampElement)
                 const metaSnap = await getDoc(shoutoutsMetaRef);
                 if (metaSnap.exists()) {
                     const tsField = `lastUpdatedTime_${platform}`;
+                    // This line now works perfectly because formatFirestoreTimestamp is defined.
                     timestampElement.textContent = `Last Updated: ${formatFirestoreTimestamp(metaSnap.data()?.[tsField])}`;
                 } else {
                     if(timestampElement) timestampElement.textContent = 'Last Updated: N/A';
@@ -603,7 +648,6 @@ async function loadShoutoutPlatformData(platform, gridElement, timestampElement)
         }
     }
 }
-
 
 // --- BUSINESS INFO HELPER FUNCTIONS (FROM YOUR PROVIDED SCRIPT) ---
 function capitalizeFirstLetter(string) {
