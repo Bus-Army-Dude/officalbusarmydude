@@ -65,7 +65,7 @@ function formatFirestoreTimestamp(firestoreTimestamp) {
         const locale = navigator.language || 'en-US';
         // Get the weekday, month, day, year
         const formattedDate = date.toLocaleDateString(locale, {
-            weekday: 'short',
+            weekday: 'long',
             year: 'numeric',
             month: 'long',
             day: 'numeric'
