@@ -75,8 +75,9 @@ function formatFirestoreTimestamp(firestoreTimestamp) {
         const formattedTime = date.toLocaleTimeString(locale, {
             hour: 'numeric',
             minute: '2-digit',
+            second: '2-digit',
             hour12: true,
-            timeZoneName: 'short'
+            timeZoneName: 'long'
         });
         // Combine for final display
         return `${formattedDate} at ${formattedTime}`;
