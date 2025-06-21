@@ -350,21 +350,13 @@ async function loadAndDisplaySocialLinks() {
     const containerElement = document.querySelector('.social-links-container');
     if (!containerElement) { console.warn("Social links container missing (.social-links-container)."); return; }
 
-    if (!firebaseAppInitialized || !db) { 
-        console.error("Social Links load error: Firebase not ready."); 
-        containerElement.innerHTML = '<p class="error">Error loading socials (DB Init Error).</p>'; 
-        return; 
-    }
-    if (!socialLinksCollectionRef) { 
-        console.error("Social Links load error: Collection reference missing."); 
-        containerElement.innerHTML = '<p class="error">Error loading socials (Config Error).</p>'; 
-        return;
-    }
+    if (!firebaseAppInitialized || !db) { console.error("Social Links load error: Firebase not ready."); containerElement.innerHTML = '<p class="error">Error loading socials (DB Init Error).</p>'; return; }
+    if (!socialLinksCollectionRef) { console.error("Social Links load error: Collection reference missing."); containerElement.innerHTML = '<p class="error">Error loading socials (Config Error).</p>'; return;}
 
     containerElement.innerHTML = '<p>Loading socials...</p>';
     try {
-        const linkQuery = socialLinksCollectionRef.orderBy("order", "asc");
-        const querySnapshot = await linkQuery.get();
+        const linkQuery = query(socialLinksCollectionRef, orderBy("order", "asc"));
+        const querySnapshot = await getDocs(linkQuery);
         containerElement.innerHTML = '';
 
         if (querySnapshot.empty) {
