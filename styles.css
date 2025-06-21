@@ -13,7 +13,7 @@
     --light-link: #007bff;
     --light-shadow: rgba(0, 0, 0, 0.1);
     --light-icon: #ffffff;
-
+    
     /* Dark Mode Colors */
     --dark-bg: #121212;
     --dark-content-bg: #2d2d2d;
@@ -37,15 +37,7 @@
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
-
-    /* Social Button Theme-Aware Icon/Text */
     --social-icon-text-color: #000000; /* Black for dark mode */
-
-    /* Glassmorphism Variables (Dark Default) */
-    --glass-bg: rgba(255, 255, 255, 0.06);
-    --glass-section-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --accent-rgb: 76, 175, 80;
 }
 
 body.light-e {
@@ -59,10 +51,6 @@ body.light-e {
     --link-color: var(--light-link);
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
-    --glass-bg: rgba(0, 0, 0, 0.05);
-    --glass-section-bg: rgba(0, 0, 0, 0.025);
-    --glass-border: rgba(0, 0, 0, 0.08);
-    --accent-rgb: 76, 175, 80;
     --social-icon-text-color: #ffffff; /* White for light mode */
 }
 
