@@ -3629,7 +3629,7 @@ function displayFilteredActivityLog() {
     }
     // --- *** END Event Listener with Logging *** ---
 
-    // ==================================
+   // ==================================
 // ===== FAQ Management Functions =====
 // ==================================
 
@@ -3643,26 +3643,26 @@ function showEditFaqStatus(message, isError = false) {
 
 /** Renders a single FAQ item in the admin list */
 function renderFaqAdminListItem(container, docId, faqData, deleteHandler, editHandler) {
-     if (!container) { console.warn("FAQ list container missing"); return; }
-     const itemDiv = document.createElement('div');
-     itemDiv.className = 'list-item-admin';
-     itemDiv.setAttribute('data-id', docId);
-     const shortAnswer = (faqData.answer || '').substring(0, 100); // Snippet
+     if (!container) { console.warn("FAQ list container missing"); return; }
+     const itemDiv = document.createElement('div');
+     itemDiv.className = 'list-item-admin';
+     itemDiv.setAttribute('data-id', docId);
+     const shortAnswer = (faqData.answer || '').substring(0, 100); // Snippet
 
-    // --- UPDATED INNER HTML ---
-    itemDiv.innerHTML = `
-      <div class="item-content">
-          <div class="item-details">
-              <p><strong>Question:</strong> ${faqData.question || 'N/A'}</p> 
-              <p style="opacity: 0.8;"><strong>Answer Snippet:</strong> ${shortAnswer}${(faqData.answer || '').length > 100 ? '...' : ''}</p> 
-              <small>Order: ${faqData.order ?? 'N/A'}</small>
-          </div>
-      </div>
-      <div class="item-actions">
-          <button type="button" class="edit-button small-button">Edit</button>
-          <button type="button" class="delete-button small-button">Delete</button>
-      </div>`;
-    // --- END UPDATED INNER HTML ---
+   // --- UPDATED INNER HTML ---
+   itemDiv.innerHTML = `
+     <div class="item-content">
+         <div class="item-details">
+             <p><strong>Question:</strong> ${faqData.question || 'N/A'}</p> 
+             <p style="opacity: 0.8;"><strong>Answer Snippet:</strong> ${shortAnswer}${(faqData.answer || '').length > 100 ? '...' : ''}</p> 
+             <small>Order: ${faqData.order ?? 'N/A'}</small>
+         </div>
+     </div>
+     <div class="item-actions">
+         <button type="button" class="edit-button small-button">Edit</button>
+         <button type="button" class="delete-button small-button">Delete</button>
+     </div>`;
+   // --- END UPDATED INNER HTML ---
 
     const editButton = itemDiv.querySelector('.edit-button');
     if (editButton) editButton.addEventListener('click', () => editHandler(docId));
@@ -3726,7 +3726,6 @@ async function handleAddFaq(event) {
      try {
          const docRef = await addDoc(faqsCollectionRef, faqData);
          console.log("FAQ added with ID:", docRef.id);
-         logAdminActivity('FAQ_ADD', { question: question, id: docRef.id });
          showAdminStatus("FAQ added successfully.", false);
          addFaqForm.reset();
          loadFaqsAdmin();
@@ -3737,17 +3736,12 @@ async function handleAddFaq(event) {
 async function handleDeleteFaq(docId, listItemElement) {
      if (!confirm("Are you sure you want to permanently delete this FAQ?")) return;
      showAdminStatus("Deleting FAQ...");
-     let questionToLog = 'Unknown Question';
      try {
-         const faqSnap = await getDoc(doc(db, 'faqs', docId));
-         if (faqSnap.exists()) questionToLog = faqSnap.data().question || 'Unknown Question';
          await deleteDoc(doc(db, 'faqs', docId));
-         logAdminActivity('FAQ_DELETE', { question: questionToLog, id: docId });
          showAdminStatus("FAQ deleted successfully.", false);
          loadFaqsAdmin();
      } catch (error) {
          console.error(`Error deleting FAQ (ID: ${docId}):`, error);
-         logAdminActivity('FAQ_DELETE_FAILED', { question: questionToLog, id: docId, error: error.message });
          showAdminStatus(`Error deleting FAQ: ${error.message}`, true);
      }
 }
@@ -3794,23 +3788,17 @@ async function handleUpdateFaq(event) {
      showEditFaqStatus("Saving changes...");
      try {
          const docRef = doc(db, 'faqs', docId);
-         let oldData = {}; const oldDataSnap = await getDoc(docRef); if (oldDataSnap.exists()) oldData = oldDataSnap.data(); // Get old data for log
          await updateDoc(docRef, updatedData);
-         // Log changes
-         const changes = {}; let hasChanges = false;
-         for (const key in updatedData) { if (key !== 'lastModified' && oldData[key] !== updatedData[key]) { changes[key] = { from: oldData[key] ?? null, to: updatedData[key] }; hasChanges = true; } }
-         if (hasChanges) { logAdminActivity('FAQ_UPDATE', { id: docId, question: question, changes: changes }); }
-         else { console.log("FAQ updated but no values changed."); }
          showAdminStatus("FAQ updated successfully.", false);
          closeEditFaqModal();
          loadFaqsAdmin();
-     } catch (error) { console.error(`Error updating FAQ (ID: ${docId}):`, error); showEditFaqStatus(`Error saving: ${error.message}`, true); logAdminActivity('FAQ_UPDATE_FAILED', { id: docId, question: question, error: error.message }); }
+     } catch (error) { console.error(`Error updating FAQ (ID: ${docId}):`, error); showEditFaqStatus(`Error saving: ${error.message}`, true); }
 }
 
 // ==================================
 // === END FAQ Management Functions ===
 // ==================================
-
+    
 // --- ADD THIS FUNCTION ---
     // Displays status messages in the president section's status area
     function showPresidentStatus(message, isError = false) {
