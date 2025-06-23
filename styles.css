@@ -2,6 +2,7 @@
 /* Theme Variables          */
 /* ======================== */
 :root {
+    /* --- COLOR CHANGES --- */
     /* Light Mode Colors (Apple Palette) */
     --light-bg: #f5f5f7;
     --light-content-bg: #ffffff;
@@ -58,20 +59,23 @@ body.light-e {
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    /* The system font stack is ideal for targeting Apple's SF font */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    /* FROM: Original system font stack -> TO: More explicit Apple font stack */
+    font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    padding: 24px;
-    line-height: 1.5; /* Adjusted for Apple's typical line spacing */
-    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    
-    /* Adds the crisp font rendering seen on Apple devices */
+    /* FROM: 20px -> TO: Increased padding for a more spacious feel */
+    padding: 32px 24px;
+    /* FROM: 1.6 -> TO: 1.55, a common refinement for readability */
+    line-height: 1.55;
+    /* FROM: all 0.3s cubic-bezier(...) -> TO: More specific and slightly softer transition */
+    transition: background-color 0.4s ease, color 0.4s ease;
+    /* ADDED: Crisp font rendering to match Apple's style */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-    max-width: 980px; /* More common content width in Apple's design */
+    /* FROM: 1200px -> TO: 980px, a standard content width on apple.com */
+    max-width: 980px;
     margin: 0 auto;
     padding: 0 20px;
 }
