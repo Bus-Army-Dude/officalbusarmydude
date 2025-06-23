@@ -239,6 +239,11 @@ body {
     }
 }
 
+#status-widget {
+  width: 100%;
+  max-width: 100%; /* Ensures it doesn't overflow its container */
+}
+
 /* Current Date/Time Section */
 .datetime-section {
     background-color: var(--content-bg);
