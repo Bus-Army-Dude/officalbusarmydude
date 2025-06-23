@@ -2,7 +2,9 @@
 /* Theme Variables          */
 /* ======================== */
 :root {
-    /* Note: Sizing variables have been moved directly into the 'body' style */
+    /* --- Modern Base Sizing (using pixels) --- */
+    --font-size-base: 16px; /* Reverted from rem to px */
+    --line-height-base: 1.65;
 
     /* --- Modern Light Mode Colors --- */
     --light-bg: #F8F9FA;
@@ -62,11 +64,11 @@ body {
     color: var(--text-color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
+    /* Change: Sizing reverted from 2rem to 32px */
     padding: 32px;
-    /* Change: Sizing values applied directly, removed from :root */
-    font-size: 16px;
-    line-height: 1.65;
+    line-height: var(--line-height-base);
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
+    font-size: var(--font-size-base);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -74,6 +76,7 @@ body {
 .container {
     max-width: 1140px;
     margin: 0 auto;
+    /* Change: Sizing reverted from 1.5rem to 24px */
     padding: 0 24px;
 }
 
