@@ -1,30 +1,30 @@
 /* ======================== */
-/* Theme Variables    */
+/* Theme Variables          */
 /* ======================== */
 :root {
-    /* Light Mode Colors */
-    --light-bg: #ffffff;
-    --light-content-bg: #f5f5f5;
-    --light-text: #212529;
-    --light-secondary-text: #495057;
-    --light-border: #dee2e6;
-    --light-accent: #4CAF50;
-    --light-hover: #45a049;
-    --light-link: #007bff;
-    --light-shadow: rgba(0, 0, 0, 0.1);
-    --light-icon: #ffffff;
-    
-    /* Dark Mode Colors */
-    --dark-bg: #121212;
-    --dark-content-bg: #2d2d2d;
-    --dark-text: #E0E0E0;
-    --dark-secondary-text: #a0a0a0;
-    --dark-border: #333333;
-    --dark-accent: #4CAF50;
-    --dark-hover: #45a049;
-    --dark-link: #BB86FC;
+    /* Light Mode Colors (Apple Palette) */
+    --light-bg: #f5f5f7;
+    --light-content-bg: #ffffff;
+    --light-text: #1d1d1f;
+    --light-secondary-text: #6e6e73;
+    --light-border: rgba(0, 0, 0, 0.1);
+    --light-accent: #007aff;
+    --light-hover: #0071e3;
+    --light-link: #007aff;
+    --light-shadow: rgba(0, 0, 0, 0.05);
+    --light-icon: #1d1d1f;
+
+    /* Dark Mode Colors (Apple Palette) */
+    --dark-bg: #1c1c1e;
+    --dark-content-bg: #2c2c2e;
+    --dark-text: #f5f5f7;
+    --dark-secondary-text: #8d8d92;
+    --dark-border: rgba(255, 255, 255, 0.15);
+    --dark-accent: #0a84ff;
+    --dark-hover: #3395ff;
+    --dark-link: #0a84ff;
     --dark-shadow: rgba(0, 0, 0, 0.2);
-    --dark-icon: #000000;
+    --dark-icon: #f5f5f7;
 
     /* Fallback theme variables (default to dark) */
     --bg-color: var(--dark-bg);
@@ -37,7 +37,7 @@
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
-    --social-icon-text-color: #000000; /* Black for dark mode */
+    --social-icon-text-color: var(--dark-text);
 }
 
 body.light-e {
@@ -51,23 +51,27 @@ body.light-e {
     --link-color: var(--light-link);
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
-    --social-icon-text-color: #ffffff; /* White for light mode */
+    --social-icon-text-color: var(--light-text);
 }
 
 /* Base Styles */
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
+    /* The system font stack is ideal for targeting Apple's SF font */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    padding: 20px;
-    line-height: 1.6;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    font-size: var(--font-size-base);
+    padding: 24px;
+    line-height: 1.5; /* Adjusted for Apple's typical line spacing */
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    
+    /* Adds the crisp font rendering seen on Apple devices */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 980px; /* More common content width in Apple's design */
     margin: 0 auto;
     padding: 0 20px;
 }
