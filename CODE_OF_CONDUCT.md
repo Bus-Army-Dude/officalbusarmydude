@@ -2,7 +2,7 @@
 
 ## 1. **Our Pledge**
 
-We, as users and contributors of **Bus Army Dude's Link In Bio**, are committed to creating an inclusive and respectful environment for everyone. Our goal is to maintain a space free of harassment and discrimination, regardless of:
+We, as users and contributors of **Caleb's Link In Bio**, are committed to creating an inclusive and respectful environment for everyone. Our goal is to maintain a space free of harassment and discrimination, regardless of:
 
 - Age
 - Body size
