@@ -1936,157 +1936,76 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
          console.warn("Could not find all necessary elements for the 'Next' button functionality (Next Button, Email Input, Auth Status, Email Group, Password Group, Login Button)."); //
     }
 
-    // ===================================================================
-//  FINAL, UNIFIED LOGIN HANDLERS
-// ===================================================================
+// Listener for changes in authentication state (login/logout)
+onAuthStateChanged(auth, user => {
+    // --- User is signed IN ---
+    if (user) {
+        const adminEmails = ["ckritzar53@busarmydude.org", "rkritzar53@gmail.com"]; // Your authorized email
 
-// --- Custom Google Button Listener (Robust Version) ---
-// The constant is already declared at the top, so we just use it here.
-if (customGoogleButton) {
-    console.log("✅ Custom Google button found. Attaching listener.");
-    
-    customGoogleButton.addEventListener('click', () => {
-        console.log("🖱️ Custom Google button clicked.");
-        
-        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-            google.accounts.id.prompt((notification) => {
-                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                    console.warn("Google sign-in prompt was not displayed.");
-                }
-            });
-        } else {
-            console.error("❌ Google Identity Services library is not loaded or ready.");
-            alert("Google Sign-In is not ready. Please check your internet connection and refresh the page.");
-        }
-    });
+        // Check if the signed-in user is on the admin list
+        if (adminEmails.includes(user.email)) {
+            console.log(`✅ Access GRANTED for admin: ${user.email}`);
 
-} else {
-    console.error("❌ Could not find the custom Google button with id 'custom-google-signin-button'.");
-}
+            // 1. Immediately show the admin panel
+            const loginSection = document.getElementById('login-section');
+            const adminContent = document.getElementById('admin-content');
+            const logoutButton = document.getElementById('logout-button');
+            const adminGreeting = document.getElementById('admin-greeting');
+            const authStatus = document.getElementById('auth-status');
+            const adminStatusElement = document.getElementById('admin-status');
 
-// --- Manual Login Form Listener ---
-if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = emailInput.value;
-        const password = passwordInput.value;
-        authStatus.textContent = 'Logging in...';
-        authStatus.className = 'status-message';
-        signInWithEmailAndPassword(auth, email, password)
-            .catch((error) => {
-                console.error("Manual Login Failed:", error);
-                authStatus.textContent = 'Login Failed: Invalid email or password.';
-                authStatus.className = 'status-message error';
-            });
-    });
-}
-
-// --- Custom Google Button Listener ---
-const customGoogleButton = document.getElementById('custom-google-signin-button');
-if (customGoogleButton) {
-    customGoogleButton.addEventListener('click', () => {
-        console.log("🖱️ Custom Google button clicked.");
-        if (typeof google !== 'undefined') {
-            google.accounts.id.prompt();
-        } else {
-            alert("Google Sign-In is not ready. Please refresh the page.");
-        }
-    });
-}
-
-// --- Google Sign-In Handler ---
-// This function takes the credential from Google and signs into Firebase.
-async function handleGoogleSignIn(response) {
-    console.log("✅ Google credential received. Attempting to sign into Firebase...");
-    authStatus.textContent = 'Verifying with Firebase...';
-    authStatus.className = 'status-message';
-
-    const credential = GoogleAuthProvider.credential(response.credential);
-    try {
-        await signInWithCredential(auth, credential);
-        // Success! onAuthStateChanged will now take over.
-    } catch (error) {
-        console.error("❌ Firebase credential sign-in error:", error);
-        authStatus.textContent = `Firebase Login Failed: ${error.message}`;
-        authStatus.className = 'status-message error';
-    }
-}
-
-// --- Global Callback for Google ---
-// This makes your handleGoogleSignIn function globally accessible to the Google script.
-window.handleCredentialResponse = handleGoogleSignIn;
-
- // ===================================================================
-    //  FINAL AUTHENTICATION STATE HANDLER
-    // ===================================================================
-
-    // Listener for changes in authentication state (login/logout)
-    onAuthStateChanged(auth, user => {
-        // --- A user is signed IN to Firebase ---
-        if (user) {
-            // Your list of authorized administrators.
-            const adminEmails = ["ckritzar53@busarmydude.org", "rkritzar53@gmail.com"];
-
-            // Check if the user's email is on the admin list.
-            if (adminEmails.includes(user.email)) {
-                console.log(`✅ Access GRANTED for admin: ${user.email}`);
-
-                // 1. Update the UI Immediately
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('admin-content').style.display = 'block';
-                document.getElementById('logout-button').style.display = 'inline-block';
-                document.getElementById('admin-greeting').textContent = `Logged in as: ${user.displayName || user.email}`;
-                
-                // Clear any old status messages
-                if (authStatus) authStatus.textContent = '';
-
-
-                // 2. Safely Load All Admin Data
-                try {
-                    console.log("Loading all admin panel data...");
-                    
-                    // Call all your data-loading and setup functions here
-                    loadProfileData();
-                    loadBusinessInfoData();
-                    setupBusinessInfoListeners();
-                    loadShoutoutsAdmin('tiktok');
-                    loadShoutoutsAdmin('instagram');
-                    loadShoutoutsAdmin('youtube');
-                    loadUsefulLinksAdmin();
-                    loadSocialLinksAdmin();
-                    loadDisabilitiesAdmin();
-                    loadPresidentData();
-                    loadFaqsAdmin();
-                    loadTechItemsAdmin();
-                    
-                    console.log("✅ All data loading functions called successfully.");
-
-                } catch (error) {
-                    console.error("❌ A CRITICAL ERROR occurred while loading admin data:", error);
-                    showAdminStatus(`Error loading panel data: ${error.message}. The panel may be incomplete.`, true);
-                }
-
-                // 3. Start the inactivity timer
-                resetInactivityTimer();
-                addActivityListeners();
-
-            } else {
-                // --- User is signed in, but IS NOT an authorized admin ---
-                console.warn(`❌ Access DENIED for user: ${user.email}. Not in the admin list.`);
-                alert("Access Denied. This account is not authorized to access the admin panel.");
-                signOut(auth);
+            if (loginSection) loginSection.style.display = 'none';
+            if (adminContent) adminContent.style.display = 'block';
+            if (logoutButton) logoutButton.style.display = 'inline-block';
+            if (adminGreeting) {
+                adminGreeting.textContent = `Logged in as: ${user.displayName || user.email}`;
+            }
+            if (authStatus) authStatus.textContent = '';
+            if (adminStatusElement) adminStatusElement.textContent = '';
+            
+            // 2. Safely load all data
+            try {
+                console.log("Loading all admin panel data...");
+                loadProfileData();
+                loadBusinessInfoData();
+                setupBusinessInfoListeners();
+                loadShoutoutsAdmin('tiktok');
+                loadShoutoutsAdmin('instagram');
+                loadShoutoutsAdmin('youtube');
+                loadUsefulLinksAdmin();
+                loadSocialLinksAdmin();
+                loadDisabilitiesAdmin();
+                loadPresidentData();
+                loadFaqsAdmin();
+                loadTechItemsAdmin();
+            } catch (error) {
+                // If any data-loading function fails, it will be caught here
+                console.error("❌ CRITICAL ERROR during data loading:", error);
+                showAdminStatus(`Error loading admin data: ${error.message}. Check console.`, true);
             }
 
+            // 3. Start the inactivity timer
+            resetInactivityTimer();
+            addActivityListeners();
+
         } else {
-            // --- User is signed OUT ---
-            console.log("User is signed out. Displaying login screen.");
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('admin-content').style.display = 'none';
-            
-            // Stop the inactivity timer
-            removeActivityListeners();
+            // --- User is NOT an authorized admin ---
+            console.warn(`❌ Access DENIED for user: ${user.email}. Not in the admin list.`);
+            alert("Access Denied. This account is not authorized to access the admin panel.");
+            signOut(auth);
         }
-    });
+
+    } else {
+        // --- User is signed OUT ---
+        console.log("User is signed out. Displaying login screen.");
+        const loginSection = document.getElementById('login-section');
+        const adminContent = document.getElementById('admin-content');
+        if (loginSection) loginSection.style.display = 'block';
+        if (adminContent) adminContent.style.display = 'none';
+        
+        removeActivityListeners();
+    }
+});
     
     // Login Form Submission (Handles the final step after password entry)
     if (loginForm) { //
@@ -4295,6 +4214,11 @@ async function loadDisabilitiesAdmin() {
         }
     }
 
+    // --- Make the Google Sign-In handler accessible from the HTML ---
+    // Since this script is a module, we attach our handler to the window object
+    // so the global `handleCredentialResponse` function can call it.
+    window.handleGoogleSignIn = handleGoogleSignIn;
+
     // Combined Window Click Listener for Closing Modals
     window.addEventListener('click', (event) => {
         if (event.target === editModal) { closeEditModal(); }
@@ -4307,12 +4231,7 @@ async function loadDisabilitiesAdmin() {
 
 }); // End DOMContentLoaded Event Listener
 
-// ===================================================================
-//  GLOBAL CALLBACK FOR GOOGLE - ADD TO THE VERY END OF THE FILE
-// ===================================================================
 
-function handleCredentialResponse(response) {
-  // Dispatch a custom event with the credential response.
-  // This safely passes the data into our module script.
-  document.dispatchEvent(new CustomEvent('google-credential-response', { detail: response }));
-}
+window.handleCredentialResponse = (response) => {
+  handleGoogleSignIn(response);
+};
