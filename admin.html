@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">  
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,9 @@
       gtag('config', 'G-E0RSQS1MS7');
     </script>
 
-   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
@@ -29,6 +31,26 @@
 
         <section id="login-section" aria-labelledby="login-heading">
             <h2 id="login-heading">Admin Login</h2>
+
+            <div id="g_id_onload"
+                 data-client_id="YOUR_CLIENT_ID.apps.googleusercontent.com"
+                 data-callback="handleCredentialResponse"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
+
+            <hr style="border-color: var(--border-color); margin: 1.5rem 0;">
+
+
             <form id="login-form">
 
                 <div class="form-group" id="email-group">
@@ -89,9 +111,9 @@
                         <label for="profile-status">Status:</label>
                         <select id="profile-status" name="status">
                             <option value="online">Online (🟢)</option>
-                            <option value="idle">Idle (🟡)</option> 
+                            <option value="idle">Idle (🟡)</option>
                             <option value="offline">Offline (⚪️)</option>
-                            <option value="dnd">Do Not Disturb (🔴)</option> 
+                            <option value="dnd">Do Not Disturb (🔴)</option>
                         </select>
                     </div>
 
@@ -172,11 +194,11 @@
                      <div class="form-group">
                         <label for="president-term">Presidential Term:</label>
                         <input type="text" id="president-term" name="term" placeholder="e.g., 1/20/25 at 12:00 PM - 1/20/29 at 12:00 PM">
-                    </div>
+                     </div>
                      <div class="form-group">
                         <label for="president-vp">Vice President:</label>
                         <input type="text" id="president-vp" name="vp" placeholder="e.g., James David Vance">
-                    </div>
+                     </div>
                     <div class="form-group">
                         <label for="president-image-url">President Image URL:</label>
                         <input type="url" id="president-image-url" name="imageUrl" placeholder="https://..." inputmode="url">
@@ -235,7 +257,7 @@
 
     </section>
 
-            <section class="admin-section" id="creator-shoutouts" aria-labelledby="shoutouts-heading">
+             <section class="admin-section" id="creator-shoutouts" aria-labelledby="shoutouts-heading">
     <h3 id="shoutouts-heading">Creator Shoutouts</h3>
 
     <div class="shoutouts-platform-container" aria-labelledby="tiktok-heading">
@@ -320,9 +342,9 @@
                  <input type="url" id="instagram-profilePic" name="profilePic" placeholder="https://..." inputmode="url">
              </div>
              <div class="form-group checkbox-group apple-toggle-group">
-                <input type="checkbox" id="instagram-isVerified" name="isVerified" value="true" class="apple-toggle-checkbox">
-                <label for="instagram-isVerified" class="apple-toggle-label"></label>
-                <label for="instagram-isVerified">Is Verified?</label>
+                 <input type="checkbox" id="instagram-isVerified" name="isVerified" value="true" class="apple-toggle-checkbox">
+                 <label for="instagram-isVerified" class="apple-toggle-label"></label>
+                 <label for="instagram-isVerified">Is Verified?</label>
                  </div>
               <div class="form-group">
                  <label>Preview:</label>
@@ -339,7 +361,7 @@
             Existing Instagram Shoutouts <span id="instagram-count" class="list-count"></span>
          </h5>
          <div class="list-controls">
-            <input type="search" id="search-instagram" placeholder="Search Instagram Shoutouts..." aria-label="Search Instagram Shoutouts">
+             <input type="search" id="search-instagram" placeholder="Search Instagram Shoutouts..." aria-label="Search Instagram Shoutouts">
          </div>
          <div id="shoutouts-instagram-list-admin" class="list-container-admin" role="list" aria-labelledby="existing-instagram-heading">
              <p>Loading Instagram shoutouts...</p>
@@ -377,15 +399,15 @@
                  <input type="url" id="youtube-coverPhoto" name="coverPhoto" placeholder="https://..." inputmode="url">
             </div>
              <div class="form-group checkbox-group apple-toggle-group">
-                <input type="checkbox" id="youtube-isVerified" name="isVerified" value="true" class="apple-toggle-checkbox">
-                <label for="youtube-isVerified" class="apple-toggle-label"></label>
-                <label for="youtube-isVerified">Is Verified?</label>
+                 <input type="checkbox" id="youtube-isVerified" name="isVerified" value="true" class="apple-toggle-checkbox">
+                 <label for="youtube-isVerified" class="apple-toggle-label"></label>
+                 <label for="youtube-isVerified">Is Verified?</label>
                  </div>
-             <div class="form-group">
-                <label>Preview:</label>
-                <div id="add-youtube-preview" class="shoutout-preview-area">
-                    <p><small>Preview will appear here as you type.</small></p>
-                </div>
+              <div class="form-group">
+                 <label>Preview:</label>
+                 <div id="add-youtube-preview" class="shoutout-preview-area">
+                     <p><small>Preview will appear here as you type.</small></p>
+                 </div>
             </div>
             <div class="form-actions">
                 <button type="submit" class="button-primary">Add YouTube Shoutout</button>
@@ -393,7 +415,7 @@
         </form>
 
         <h5 id="existing-youtube-heading">
-           Existing YouTube Shoutouts <span id="youtube-count" class="list-count"></span>
+            Existing YouTube Shoutouts <span id="youtube-count" class="list-count"></span>
         </h5>
         <div class="list-controls">
            <input type="search" id="search-youtube" placeholder="Search YouTube Shoutouts..." aria-label="Search YouTube Shoutouts">
@@ -401,10 +423,10 @@
         <div id="shoutouts-youtube-list-admin" class="list-container-admin" role="list" aria-labelledby="existing-youtube-heading">
             <p>Loading YouTube shoutouts...</p>
         </div>
-        </div> 
+        </div>
     </section>
 
-            <section class="admin-section" id="useful-links-management" aria-labelledby="useful-links-heading">
+             <section class="admin-section" id="useful-links-management" aria-labelledby="useful-links-heading">
     <h3 id="useful-links-heading">Manage Useful Links</h3>
 
     <form id="add-useful-link-form" aria-labelledby="add-link-heading">
@@ -431,42 +453,42 @@
     </h5>
     <div class="list-controls">
          <input type="search" id="search-useful-links" placeholder="Search Useful Links..." aria-label="Search Useful Links">
-     </div>    
+       </div>
     <div id="useful-links-list-admin" class="list-container-admin" role="list" aria-labelledby="existing-links-heading">
         <p>Loading links...</p>
         </div>
 
     </section>
 
-            <section class="admin-section" id="business-info-management" aria-labelledby="business-info-heading">
+             <section class="admin-section" id="business-info-management" aria-labelledby="business-info-heading">
                 <h3 id="business-info-heading">Manage Business Information</h3>
-            
+
                 <form id="business-info-form">
                     <div class="form-group">
                         <label for="business-contact-email">Contact Email:</label>
-                        <input type="email" id="business-contact-email" name="contactEmail" 
+                        <input type="email" id="business-contact-email" name="contactEmail"
                                placeholder="Enter contact email address">
                     </div>
-            
+
                     <h4>Regular Business Hours</h4>
-                    <p><small><i>Enter all times based on US Eastern Time (ET / New York). 
-                       They will be automatically converted for visitors.</i></small></p>
+                    <p><small><i>Enter all times based on US Eastern Time (ET / New York).
+                            They will be automatically converted for visitors.</i></small></p>
                     <div id="regular-hours-container" class="hours-grid"></div>
-            
+
                     <h4>Holiday Hours / Specific Date Closures</h4>
                     <p><small><i>Enter times based on US Eastern Time (ET / New York).</i></small></p>
                     <div id="holiday-hours-list" class="special-hours-list"></div>
                     <button type="button" id="add-holiday-button" class="button-secondary small-button">
                         Add Holiday/Specific Date
                     </button>
-            
+
                     <h4>Temporary Hours (e.g., Events, Renovations)</h4>
                     <p><small><i>Enter times based on US Eastern Time (ET / New York).</i></small></p>
                     <div id="temporary-hours-list" class="special-hours-list"></div>
                     <button type="button" id="add-temporary-button" class="button-secondary small-button">
                         Add Temporary Hours Period
                     </button>
-            
+
                     <div class="form-group">
                         <label for="business-status-override">Status Override:</label>
                         <select id="business-status-override" name="statusOverride">
@@ -477,20 +499,20 @@
                         </select>
                         <small>Overrides the automatic open/closed calculation.</small>
                     </div>
-            
+
                     <div class="form-actions">
                         <button type="submit" id="save-business-info-button" class="button-primary">
                             Save Business Info
                         </button>
                     </div>
                 </form>
-            
+
                 <div class="admin-preview-container">
                     <h4>Live Preview (Simulated Visitor View)</h4>
-                    <p><small><i>This preview uses your current browser time and attempts to simulate 
-                       how a visitor in your timezone would see the hours and status based on the 
-                       unsaved values above. The actual display depends on each visitor's timezone. 
-                       Assumes ET input.</i></small></p>
+                    <p><small><i>This preview uses your current browser time and attempts to simulate
+                            how a visitor in your timezone would see the hours and status based on the
+                            unsaved values above. The actual display depends on each visitor's timezone.
+                            Assumes ET input.</i></small></p>
                     <div class="preview-content">
                         <div id="admin-preview-status" class="preview-status">
                             Status: Update form to preview...
@@ -499,14 +521,14 @@
                         <div id="admin-preview-contact" class="preview-contact"></div>
                     </div>
                 </div>
-                
-                <div id="business-info-status-message" class="status-message" 
+
+                <div id="business-info-status-message" class="status-message"
                      role="status" aria-live="polite"></div>
             </section>
 
-            <section class="admin-section" id="faq-management" aria-labelledby="faq-heading">
+             <section class="admin-section" id="faq-management" aria-labelledby="faq-heading">
                 <h3 id="faq-heading"><i class="fas fa-question-circle"></i> Manage FAQs</h3>
-            
+
                 <form id="add-faq-form" aria-labelledby="add-faq-heading">
                     <h4 id="add-faq-heading">Add New FAQ</h4>
                     <div class="form-group">
@@ -525,7 +547,7 @@
                        <button type="submit" class="button-primary">Add FAQ</button>
                     </div>
                 </form>
-            
+
                 <h4 id="existing-faq-heading">
                     Existing FAQs <span id="faq-count" class="list-count"></span>
                 </h4>
@@ -537,9 +559,9 @@
                     <p>Loading FAQs...</p> </div>
             </section>
 
-            <section class="admin-section" id="tech-management" aria-labelledby="tech-heading">
+             <section class="admin-section" id="tech-management" aria-labelledby="tech-heading">
                 <h3 id="tech-heading"><i class="fas fa-microchip"></i> Manage Tech Information</h3>
-            
+
                 <form id="add-tech-item-form" aria-labelledby="add-tech-heading">
                     <h4 id="add-tech-heading">Add New Tech Item</h4>
                     <div class="form-group">
@@ -554,7 +576,7 @@
                         <label for="tech-icon-class">Font Awesome Icon Class:</label>
                         <input type="text" id="tech-icon-class" name="iconClass" placeholder="e.g., fas fa-mobile-alt">
                          <small>Find icons at Font Awesome (e.g., 'fas fa-mobile-alt', 'fas fa-desktop')</small>
-                    </div>
+                     </div>
                     <div class="form-group">
                         <label for="tech-material">Material:</label>
                         <input type="text" id="tech-material" name="material" placeholder="e.g., Titanium, Aluminum">
@@ -587,30 +609,30 @@
                         <label for="tech-os-version">OS Version:</label>
                         <input type="text" id="tech-os-version" name="osVersion" placeholder="e.g., iOS 18.5 (22F5053f)">
                     </div>
-                    <div class="form-group">
+                     <div class="form-group">
                          <label for="tech-battery-health">Battery Health (%):</label>
                          <input type="number" id="tech-battery-health" name="batteryHealth" min="0" max="100" placeholder="e.g., 99">
-                    </div>
-                     <div class="form-group">
-                        <label for="tech-battery-cycles">Battery Charge Cycles:</label>
-                        <input type="number" id="tech-battery-cycles" name="batteryCycles" min="0" placeholder="e.g., 244">
                      </div>
+                      <div class="form-group">
+                         <label for="tech-battery-cycles">Battery Charge Cycles:</label>
+                         <input type="number" id="tech-battery-cycles" name="batteryCycles" min="0" placeholder="e.g., 244">
+                      </div>
                     <div class="form-group">
                         <label for="tech-order">Display Order:</label>
                         <input type="number" id="tech-order" name="order" min="0" step="1" required placeholder="Lower numbers show first">
                     </div>
-                
+
                     <div class="form-group">
                         <label>Preview:</label>
                         <div id="add-tech-item-preview" class="tech-preview-area">
-                             <p><small>Preview will appear here as you type.</small></p>
+                               <p><small>Preview will appear here as you type.</small></p>
                         </div>
                     </div>
                     <div class="form-actions">
                        <button type="submit" class="button-primary">Add Tech Item</button>
                     </div>
                 </form>
-            
+
                 <h4 id="existing-tech-heading">
                     Existing Tech Items <span id="tech-items-count" class="list-count"></span>
                 </h4>
@@ -623,7 +645,7 @@
                 </div>
             </section>
 
-            <section class="admin-section" id="disabilities-management" aria-labelledby="disabilities-heading">
+             <section class="admin-section" id="disabilities-management" aria-labelledby="disabilities-heading">
                 <h3 id="disabilities-heading">Manage Disabilities List</h3>
 
                 <form id="add-disability-form" aria-labelledby="add-disability-heading">
@@ -650,7 +672,7 @@
                 </h5>
                 <div class="list-controls">
                      <input type="search" id="search-disabilities" placeholder="Search Disability Links..." aria-label="Search Disability Links">
-                 </div>
+                  </div>
                 <div id="disabilities-list-admin" class="list-container-admin" role="list" aria-labelledby="existing-disabilities-heading">
                     <p>Loading disability links...</p>
                     </div>
@@ -684,7 +706,7 @@
             </div>
 
             <div id="edit-useful-link-modal" class="modal" style="display: none;"
-     role="dialog" aria-modal="true" aria-labelledby="edit-link-modal-heading">
+   role="dialog" aria-modal="true" aria-labelledby="edit-link-modal-heading">
 
     <div class="modal-content">
         <button type="button" class="close-button" id="cancel-edit-link-button" aria-label="Close dialog">&times;</button>
@@ -721,24 +743,24 @@
                 <input type="text" id="edit-social-link-label" name="label" required>
             </div>
              <div class="form-group">
-            <label for="edit-social-link-url">Link URL:</label>
-            <input type="url" id="edit-social-link-url" name="url" required inputmode="url">
-        </div>
+                <label for="edit-social-link-url">Link URL:</label>
+                <input type="url" id="edit-social-link-url" name="url" required inputmode="url">
+            </div>
 
-        <div class="form-group">
-             <label for="edit-social-link-icon-class">Font Awesome Icon Class (Optional):</label>
-             <input type="text" id="edit-social-link-icon-class" name="iconClass" placeholder="e.g., fa-brands fa-tiktok">
-             <small>Find classes at Font Awesome (e.g., 'fa-brands fa-tiktok', 'fa-brands fa-facebook'). Leave blank to auto-detect.</small>
-        </div>
-        <div class="form-group">
-            <label for="edit-social-link-order">Display Order:</label>
-            <input type="number" id="edit-social-link-order" name="order" min="0" step="1" required>
-        </div>
-        <div class="form-actions">
-          <button type="submit" class="button-primary">Save Changes</button>
-          <button type="button" id="cancel-edit-social-link-button-secondary" class="secondary-button">Cancel</button>
-        </div>
-    </form>
+            <div class="form-group">
+                 <label for="edit-social-link-icon-class">Font Awesome Icon Class (Optional):</label>
+                 <input type="text" id="edit-social-link-icon-class" name="iconClass" placeholder="e.g., fa-brands fa-tiktok">
+                 <small>Find classes at Font Awesome (e.g., 'fa-brands fa-tiktok', 'fa-brands fa-facebook'). Leave blank to auto-detect.</small>
+            </div>
+            <div class="form-group">
+                <label for="edit-social-link-order">Display Order:</label>
+                <input type="number" id="edit-social-link-order" name="order" min="0" step="1" required>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="button-primary">Save Changes</button>
+              <button type="button" id="cancel-edit-social-link-button-secondary" class="secondary-button">Cancel</button>
+            </div>
+        </form>
          <div id="edit-social-link-status-message" class="status-message" role="status" aria-live="polite"></div> </div>
 </div>
 
@@ -794,9 +816,9 @@
                 <div id="edit-shoutout-preview" class="shoutout-preview-area">
                     <p><small>Preview will appear here.</small></p>
                 </div>
-            </div>
+             </div>
              <div class="form-actions">
-                <button type="submit" class="button-primary">Save Changes</button>
+                 <button type="submit" class="button-primary">Save Changes</button>
              </div>
         </form>
          <div id="edit-shoutout-status-message" class="status-message" role="status" aria-live="polite"></div>
@@ -829,7 +851,7 @@
             </div>
         </form>
     </div>
-</div>        
+</div>
 
 <div id="edit-tech-item-modal" class="modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="edit-tech-modal-heading">
     <div class="modal-content">
@@ -892,23 +914,21 @@
             <div class="form-group">
               <label for="edit-tech-order">Display Order:</label>
               <input type="number" id="edit-tech-order" name="order" min="0" step="1" required>
-          </div>
-        
-          <div class="form-group">
-                <label>Preview:</label>
-                <div id="edit-tech-item-preview" class="tech-preview-area">
-                     <p><small>Preview will load when modal opens.</small></p>
-                </div>
-          </div>
-          <div id="edit-tech-status-message" class="status-message" role="status" aria-live="polite"></div>
-         <div class="form-actions">
-           <button type="submit" class="button-primary">Save Tech Changes</button>
-           <button type="button" class="secondary-button" id="cancel-edit-tech-button-secondary">Cancel</button>
-         </div>
+        </div>
+
+        <div class="form-group">
+            <label>Preview:</label>
+            <div id="edit-tech-item-preview" class="tech-preview-area">
+                 <p><small>Preview will load when modal opens.</small></p>
+            </div>
+        </div>
+        <div id="edit-tech-status-message" class="status-message" role="status" aria-live="polite"></div>
+       <div class="form-actions">
+          <button type="submit" class="button-primary">Save Tech Changes</button>
+          <button type="button" class="secondary-button" id="cancel-edit-tech-button-secondary">Cancel</button>
+       </div>
         </form>
     </div>
 </div>
 
 <script type="module" src="admin.js"></script>
-</body>
-</html>
