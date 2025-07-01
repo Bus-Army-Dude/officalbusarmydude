@@ -4232,14 +4232,6 @@ async function loadDisabilitiesAdmin() {
 }); // End DOMContentLoaded Event Listener
 
 
-// --- Global Function for Google's Callback ---
-// This function is called by the Google script when a user signs in.
-// It must be outside the DOMContentLoaded listener to be in the global scope.
-function handleCredentialResponse(response) {
-  // Call the function we attached to the window object inside our module.
-  if (window.handleGoogleSignIn) {
-    window.handleGoogleSignIn(response);
-  } else {
-    console.error("Google Sign-In handler (handleGoogleSignIn) is not available on the window object.");
-  }
-}
+window.handleCredentialResponse = (response) => {
+  handleGoogleSignIn(response);
+};
