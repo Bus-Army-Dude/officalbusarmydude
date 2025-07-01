@@ -1940,20 +1940,28 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
 //  FINAL, UNIFIED LOGIN HANDLERS
 // ===================================================================
 
-// --- Custom Google Button Listener ---
-const customGoogleButton = document.getElementById('custom-google-signin-button');
+// --- Custom Google Button Listener (Robust Version) ---
+// The constant is already declared at the top, so we just use it here.
 if (customGoogleButton) {
+    console.log("✅ Custom Google button found. Attaching listener.");
+    
     customGoogleButton.addEventListener('click', () => {
         console.log("🖱️ Custom Google button clicked.");
+        
         if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-            google.accounts.id.prompt();
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    console.warn("Google sign-in prompt was not displayed.");
+                }
+            });
         } else {
-            console.error("❌ Google Identity Services library not loaded.");
-            alert("Google Sign-In is not ready. Please refresh the page.");
+            console.error("❌ Google Identity Services library is not loaded or ready.");
+            alert("Google Sign-In is not ready. Please check your internet connection and refresh the page.");
         }
     });
+
 } else {
-    console.error("❌ Could not find the custom Google button.");
+    console.error("❌ Could not find the custom Google button with id 'custom-google-signin-button'.");
 }
 
 // --- Manual Login Form Listener ---
