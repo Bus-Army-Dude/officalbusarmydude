@@ -1938,92 +1938,71 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
 
 // Listener for changes in authentication state (login/logout)
 onAuthStateChanged(auth, user => {
+    // --- User is signed IN ---
     if (user) {
-        // ADD THIS LINE TO SEE EXACTLY WHO IS LOGGING IN
-        console.log('Attempting to grant access for user:', user.email);
+        const adminEmails = ["ckritzar53@busarmydude.org"]; // Your authorized email
 
-        // --- ADMIN CHECK ---
-        const adminEmails = ["ckritzar53@busarmydude.org"];
-
+        // Check if the signed-in user is on the admin list
         if (adminEmails.includes(user.email)) {
-            // --- User is an authorized admin ---
             console.log(`✅ Access GRANTED for admin: ${user.email}`);
 
-            // Hide the login form and show the main admin content
+            // 1. Immediately show the admin panel
+            const loginSection = document.getElementById('login-section');
+            const adminContent = document.getElementById('admin-content');
+            const logoutButton = document.getElementById('logout-button');
+            const adminGreeting = document.getElementById('admin-greeting');
+            const authStatus = document.getElementById('auth-status');
+            const adminStatusElement = document.getElementById('admin-status');
+
             if (loginSection) loginSection.style.display = 'none';
             if (adminContent) adminContent.style.display = 'block';
             if (logoutButton) logoutButton.style.display = 'inline-block';
-
-            // --- Updated Greeting Logic ---
-            const displayName = user.displayName;
-            const email = user.email;
-            let greetingText = '';
-            if (displayName) {
-                greetingText = `Logged in as: ${displayName} (${email})`;
-            } else {
-                greetingText = `Logged in as: ${email}`;
-            }
             if (adminGreeting) {
-                adminGreeting.textContent = greetingText;
+                adminGreeting.textContent = `Logged in as: ${user.displayName || user.email}`;
             }
-            // --- End Greeting Logic ---
-
-            // Clear any previous login status messages
-            if (authStatus) { authStatus.textContent = ''; authStatus.style.display = 'none'; }
-            if (adminStatusElement) { adminStatusElement.textContent = ''; }
-
-            // --- Load all data for the admin panel ---
-            console.log("Loading all admin panel data...");
-            loadProfileData();
-            loadBusinessInfoData();
-            setupBusinessInfoListeners();
-            loadShoutoutsAdmin('tiktok');
-            loadShoutoutsAdmin('instagram');
-            loadShoutoutsAdmin('youtube');
-            loadUsefulLinksAdmin();
-            loadSocialLinksAdmin();
-            loadDisabilitiesAdmin();
-            loadPresidentData();
-            loadFaqsAdmin();
-            loadTechItemsAdmin();
+            if (authStatus) authStatus.textContent = '';
+            if (adminStatusElement) adminStatusElement.textContent = '';
             
-            // Start the inactivity timer
+            // 2. Safely load all data
+            try {
+                console.log("Loading all admin panel data...");
+                loadProfileData();
+                loadBusinessInfoData();
+                setupBusinessInfoListeners();
+                loadShoutoutsAdmin('tiktok');
+                loadShoutoutsAdmin('instagram');
+                loadShoutoutsAdmin('youtube');
+                loadUsefulLinksAdmin();
+                loadSocialLinksAdmin();
+                loadDisabilitiesAdmin();
+                loadPresidentData();
+                loadFaqsAdmin();
+                loadTechItemsAdmin();
+            } catch (error) {
+                // If any data-loading function fails, it will be caught here
+                console.error("❌ CRITICAL ERROR during data loading:", error);
+                showAdminStatus(`Error loading admin data: ${error.message}. Check console.`, true);
+            }
+
+            // 3. Start the inactivity timer
             resetInactivityTimer();
             addActivityListeners();
 
         } else {
-            // --- User is signed in, but NOT an authorized admin ---
+            // --- User is NOT an authorized admin ---
             console.warn(`❌ Access DENIED for user: ${user.email}. Not in the admin list.`);
             alert("Access Denied. This account is not authorized to access the admin panel.");
-            signOut(auth); // Immediately sign out the unauthorized user.
+            signOut(auth);
         }
 
     } else {
-        // --- User is signed out ---
-        console.log("User logged out or not authenticated.");
-        
-        // Show the login form and hide the admin content
+        // --- User is signed OUT ---
+        console.log("User is signed out. Displaying login screen.");
+        const loginSection = document.getElementById('login-section');
+        const adminContent = document.getElementById('admin-content');
         if (loginSection) loginSection.style.display = 'block';
         if (adminContent) adminContent.style.display = 'none';
-        if (logoutButton) logoutButton.style.display = 'none';
-        if (adminGreeting) adminGreeting.textContent = '';
-
-        // Close any open modals
-        if (typeof closeEditModal === 'function') closeEditModal();
-        if (typeof closeEditUsefulLinkModal === 'function') closeEditUsefulLinkModal();
-        if (typeof closeEditSocialLinkModal === 'function') closeEditSocialLinkModal();
-        if (typeof closeEditDisabilityModal === 'function') closeEditDisabilityModal();
-        if (typeof closeEditFaqModal === 'function') closeEditFaqModal();
-
-        // Reset the manual login form to its initial state
-        if (emailGroup) emailGroup.style.display = 'block';
-        if (passwordGroup) passwordGroup.style.display = 'none';
-        if (nextButton) nextButton.style.display = 'inline-block';
-        if (loginButton) loginButton.style.display = 'none';
-        if (authStatus) { authStatus.textContent = ''; authStatus.style.display = 'none'; }
-        if (loginForm) loginForm.reset();
-
-        // Stop the inactivity timer
+        
         removeActivityListeners();
     }
 });
