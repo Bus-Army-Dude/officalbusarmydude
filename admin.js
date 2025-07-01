@@ -1940,7 +1940,7 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
 onAuthStateChanged(auth, user => {
     // --- User is signed IN ---
     if (user) {
-        const adminEmails = ["ckritzar53@busarmydude.org"]; // Your authorized email
+        const adminEmails = ["ckritzar53@busarmydude.org, rkritzar53@gmail.com"]; // Your authorized email
 
         // Check if the signed-in user is on the admin list
         if (adminEmails.includes(user.email)) {
