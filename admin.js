@@ -7,8 +7,14 @@ import { db, auth } from './firebase-init.js'; // Ensure path is correct
 import {
     getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp, getDoc, query, orderBy, where, limit, Timestamp, deleteField // <<< MAKE SURE Timestamp IS HERE
 } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithCredential
+} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 // *** Global Variable for Client-Side Filtering ***
 let allShoutouts = { tiktok: [], instagram: [], youtube: [] }; // Stores the full lists for filtering
 
@@ -808,7 +814,35 @@ function renderYouTubeCard(account) {
         console.log("Global modal click listener attached.");
     }
 
+ // --- Google Sign-In Handler ---
+    async function handleGoogleSignIn(response) {
+        console.log("Received response from Google Sign-In...");
+        const authStatus = document.getElementById('auth-status');
+        
+        if (authStatus) {
+            authStatus.textContent = 'Verifying with Google...';
+            authStatus.className = 'status-message';
+            authStatus.style.display = 'block';
+        }
 
+        // Get the ID token from the Google response
+        const idToken = response.credential;
+        // Create a Google Auth provider credential
+        const credential = GoogleAuthProvider.credential(idToken);
+
+        try {
+            // Sign in to Firebase with the credential
+            const result = await signInWithCredential(auth, credential);
+            console.log("Successfully signed in with Google:", result.user.displayName);
+            // The `onAuthStateChanged` listener will automatically handle showing the admin panel.
+        } catch (error) {
+            console.error("Firebase Google Sign-In Error:", error);
+            if (authStatus) {
+                authStatus.textContent = `Login Failed: ${error.message}`;
+                authStatus.className = 'status-message error';
+            }
+        }
+    }
 
 // ======================================================
 // ===== START: ALL BUSINESS INFO CODE FOR admin.js (v15 - Syntax Fixed & Double Add Fix + Logging) =====
@@ -4117,118 +4151,172 @@ async function loadDisabilitiesAdmin() {
             showAdminStatus(`Error updating disability link: ${error.message}`, true);
         }
     }
+// --- Attach Event Listeners for Section Forms & Modals ---
 
-       // --- Attach Event Listeners for Section Forms & Modals ---
+    // Profile Save Form
+    if (profileForm) { profileForm.addEventListener('submit', saveProfileData); }
 
-    // Profile Save Form
-    if (profileForm) { profileForm.addEventListener('submit', saveProfileData); }
+    // Maintenance Mode Toggle
+    if (maintenanceModeToggle) { maintenanceModeToggle.addEventListener('change', (e) => { saveMaintenanceModeStatus(e.target.checked); }); }
 
-    // Maintenance Mode Toggle
-    if (maintenanceModeToggle) { maintenanceModeToggle.addEventListener('change', (e) => { saveMaintenanceModeStatus(e.target.checked); }); }
+    // Hide TikTok Toggle
+    if (hideTikTokSectionToggle) { hideTikTokSectionToggle.addEventListener('change', (e) => { saveHideTikTokSectionStatus(e.target.checked); }); }
+    
+    // President Form & Preview (Added)
+    if (presidentForm) {
+        const presidentPreviewInputs = [ presidentNameInput, presidentBornInput, presidentHeightInput, presidentPartyInput, presidentTermInput, presidentVpInput, presidentImageUrlInput ];
+        // Add listeners to update preview on input
+        presidentPreviewInputs.forEach(inputElement => {
+            if (inputElement) {
+                inputElement.addEventListener('input', () => {
+                    if (typeof updatePresidentPreview === 'function') {
+                        updatePresidentPreview();
+                    } else { console.error("updatePresidentPreview function missing!"); }
+                });
+            }
+        });
+        // Add listener for form submission (Save)
+        presidentForm.addEventListener('submit', savePresidentData);
+    }
 
-    // Hide TikTok Toggle
-    if (hideTikTokSectionToggle) { hideTikTokSectionToggle.addEventListener('change', (e) => { saveHideTikTokSectionStatus(e.target.checked); }); }
-    
-    // President Form & Preview (Added)
-    if (presidentForm) {
-        const presidentPreviewInputs = [ presidentNameInput, presidentBornInput, presidentHeightInput, presidentPartyInput, presidentTermInput, presidentVpInput, presidentImageUrlInput ];
-        // Add listeners to update preview on input
-        presidentPreviewInputs.forEach(inputElement => {
-            if (inputElement) {
-                inputElement.addEventListener('input', () => {
-                    if (typeof updatePresidentPreview === 'function') {
-                        updatePresidentPreview();
-                    } else { console.error("updatePresidentPreview function missing!"); }
-                });
-            }
+    // Add Shoutout Forms
+    if (addShoutoutTiktokForm) { addShoutoutTiktokForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('tiktok', addShoutoutTiktokForm); }); }
+    if (addShoutoutInstagramForm) { addShoutoutInstagramForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('instagram', addShoutoutInstagramForm); }); }
+    if (addShoutoutYoutubeForm) { addShoutoutYoutubeForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('youtube', addShoutoutYoutubeForm); }); }
+
+    // Edit Shoutout Form (in modal) & Close Button
+    if (editForm) { editForm.addEventListener('submit', handleUpdateShoutout); }
+    if (cancelEditButton) { cancelEditButton.addEventListener('click', closeEditModal); }
+
+    // --- Tech Management Listeners ---
+     if (addTechItemForm) {
+        addTechItemForm.addEventListener('submit', handleAddTechItem);
+        // Attach preview listeners for the add form on initial load
+        attachTechPreviewListeners(addTechItemForm, 'add');
+     }
+     if (editTechItemForm) {
+        editTechItemForm.addEventListener('submit', handleUpdateTechItem);
+        // Note: Preview listeners for edit form are attached in openEditTechItemModal
+     }
+      if (cancelEditTechButton) {
+        cancelEditTechButton.addEventListener('click', closeEditTechItemModal);
+     }
+     if (cancelEditTechButtonSecondary) {
+        cancelEditTechButtonSecondary.addEventListener('click', closeEditTechItemModal);
+     }
+     if (searchTechItemsInput) {
+        searchTechItemsInput.addEventListener('input', displayFilteredTechItems);
+     }
+
+    // --- Activity Log Listeners ---
+    const clearLogBtn = document.getElementById('clear-log-button');
+    if (clearLogBtn) {
+        clearLogBtn.addEventListener('click', () => { 
+            // In a real app, you would have a function here like handleClearActivityLog()
+            console.warn("Clear activity log functionality not yet implemented.");
         });
-        // Add listener for form submission (Save)
-        presidentForm.addEventListener('submit', savePresidentData);
+    } else {
+        console.warn("Clear log button not found.");
+    }
+
+    // Useful Links Forms & Modals
+    if (addUsefulLinkForm) { addUsefulLinkForm.addEventListener('submit', handleAddUsefulLink); }
+    if (editUsefulLinkForm) { editUsefulLinkForm.addEventListener('submit', handleUpdateUsefulLink); }
+    if (cancelEditLinkButton) { cancelEditLinkButton.addEventListener('click', closeEditUsefulLinkModal); }
+    if (cancelEditLinkButtonSecondary) { cancelEditLinkButtonSecondary.addEventListener('click', closeEditUsefulLinkModal); }
+
+    // Social Links Forms & Modals
+    if (addSocialLinkForm) { addSocialLinkForm.addEventListener('submit', handleAddSocialLink); }
+    if (editSocialLinkForm) { editSocialLinkForm.addEventListener('submit', handleUpdateSocialLink); }
+    if (cancelEditSocialLinkButton) { cancelEditSocialLinkButton.addEventListener('click', closeEditSocialLinkModal); }
+    if (cancelEditSocialLinkButtonSecondary) { cancelEditSocialLinkButtonSecondary.addEventListener('click', closeEditSocialLinkModal); }
+
+    // Disabilities Forms & Modals (Added)
+    if (addDisabilityForm) { addDisabilityForm.addEventListener('submit', handleAddDisability); }
+    if (editDisabilityForm) { editDisabilityForm.addEventListener('submit', handleUpdateDisability); }
+    if (cancelEditDisabilityButton) { cancelEditDisabilityButton.addEventListener('click', closeEditDisabilityModal); }
+    if (cancelEditDisabilityButtonSecondary) { cancelEditDisabilityButtonSecondary.addEventListener('click', closeEditDisabilityModal); }
+
+
+    // --- Attach Event Listeners for Search & Previews ---
+
+    // Search Input Listeners
+    if (searchInputTiktok) { searchInputTiktok.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('tiktok'); } }); }
+    if (searchInputInstagram) { searchInputInstagram.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('instagram'); } }); }
+    if (searchInputYoutube) { searchInputYoutube.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('youtube'); } }); }
+
+    // Helper function to attach preview listeners (Shoutouts)
+    function attachPreviewListeners(formElement, platform, formType) { if (!formElement) return; const previewInputs = [ 'username', 'nickname', 'bio', 'profilePic', 'isVerified', 'followers', 'subscribers', 'coverPhoto' ]; previewInputs.forEach(name => { const inputElement = formElement.querySelector(`[name="${name}"]`); if (inputElement) { const eventType = (inputElement.type === 'checkbox') ? 'change' : 'input'; inputElement.addEventListener(eventType, () => { if (typeof updateShoutoutPreview === 'function') { updateShoutoutPreview(formType, platform); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
+    // Attach shoutout preview listeners
+    if (addShoutoutTiktokForm) attachPreviewListeners(addShoutoutTiktokForm, 'tiktok', 'add');
+    if (addShoutoutInstagramForm) attachPreviewListeners(addShoutoutInstagramForm, 'instagram', 'add');
+    if (addShoutoutYoutubeForm) attachPreviewListeners(addShoutoutYoutubeForm, 'youtube', 'add');
+    if (editForm) { const editPreviewInputs = [ editUsernameInput, editNicknameInput, editBioInput, editProfilePicInput, editIsVerifiedInput, editFollowersInput, editSubscribersInput, editCoverPhotoInput ]; editPreviewInputs.forEach(el => { if (el) { const eventType = (el.type === 'checkbox') ? 'change' : 'input'; el.addEventListener(eventType, () => { const currentPlatform = editForm.getAttribute('data-platform'); if (currentPlatform && typeof updateShoutoutPreview === 'function') { updateShoutoutPreview('edit', currentPlatform); } else if (!currentPlatform) { console.warn("Edit form platform not set."); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
+
+    // Profile Pic URL Preview Listener
+    if (profilePicUrlInput && adminPfpPreview) { profilePicUrlInput.addEventListener('input', () => { const url = profilePicUrlInput.value.trim(); if (url) { adminPfpPreview.src = url; adminPfpPreview.style.display = 'inline-block'; } else { adminPfpPreview.style.display = 'none'; } }); adminPfpPreview.onerror = () => { console.warn("Preview image load failed:", adminPfpPreview.src); adminPfpPreview.style.display = 'none'; profilePicUrlInput.classList.add('input-error'); }; profilePicUrlInput.addEventListener('focus', () => { profilePicUrlInput.classList.remove('input-error'); }); }
+
+    // --- Google Sign-In Handler ---
+    /**
+     * Takes the credential response from Google, creates a Firebase credential,
+     * and signs the user in.
+     * @param {object} response The credential response object from Google.
+     */
+    async function handleGoogleSignIn(response) {
+        console.log("Received response from Google Sign-In...");
+        const authStatus = document.getElementById('auth-status');
+        
+        if (authStatus) {
+            authStatus.textContent = 'Verifying with Google...';
+            authStatus.className = 'status-message';
+            authStatus.style.display = 'block';
+        }
+
+        // Get the ID token from the Google response
+        const idToken = response.credential;
+        // Create a Google Auth provider credential using the ID token
+        const credential = GoogleAuthProvider.credential(idToken);
+
+        try {
+            // Sign in to Firebase with the Google credential
+            await signInWithCredential(auth, credential);
+            console.log("Successfully signed in with Google.");
+            // The `onAuthStateChanged` listener will now handle showing the admin panel.
+        } catch (error) {
+            console.error("Firebase Google Sign-In Error:", error);
+            if (authStatus) {
+                authStatus.textContent = `Google Login Failed: ${error.message}`;
+                authStatus.className = 'status-message error';
+            }
+        }
     }
 
-    // Add Shoutout Forms
-    if (addShoutoutTiktokForm) { addShoutoutTiktokForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('tiktok', addShoutoutTiktokForm); }); }
-    if (addShoutoutInstagramForm) { addShoutoutInstagramForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('instagram', addShoutoutInstagramForm); }); }
-    if (addShoutoutYoutubeForm) { addShoutoutYoutubeForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('youtube', addShoutoutYoutubeForm); }); }
+    // --- Make the Google Sign-In handler accessible from the HTML ---
+    // Since this script is a module, we attach our handler to the window object
+    // so the global `handleCredentialResponse` function can call it.
+    window.handleGoogleSignIn = handleGoogleSignIn;
 
-    // Edit Shoutout Form (in modal) & Close Button
-    if (editForm) { editForm.addEventListener('submit', handleUpdateShoutout); }
-    if (cancelEditButton) { cancelEditButton.addEventListener('click', closeEditModal); }
+    // Combined Window Click Listener for Closing Modals
+    window.addEventListener('click', (event) => {
+        if (event.target === editModal) { closeEditModal(); }
+        if (event.target === editUsefulLinkModal) { closeEditUsefulLinkModal(); }
+        if (event.target === editSocialLinkModal) { closeEditSocialLinkModal(); }
+        if (event.target === editDisabilityModal) { closeEditDisabilityModal(); } // Handles Disability Modal
+        if (event.target === editTechItemModal) { closeEditTechItemModal(); } // Tech modal close
+        if (event.target === editFaqModal) { closeEditFaqModal(); } 
+    });
 
-    // --- Tech Management Listeners --- <<< PASTE HERE >>> ---
-     if (addTechItemForm) {
-        addTechItemForm.addEventListener('submit', handleAddTechItem);
-        // Attach preview listeners for the add form on initial load
-        attachTechPreviewListeners(addTechItemForm, 'add');
-     }
-     if (editTechItemForm) {
-        editTechItemForm.addEventListener('submit', handleUpdateTechItem);
-        // Note: Preview listeners for edit form are attached in openEditTechItemModal
-     }
-      if (cancelEditTechButton) {
-        cancelEditTechButton.addEventListener('click', closeEditTechItemModal);
-     }
-     if (cancelEditTechButtonSecondary) {
-        cancelEditTechButtonSecondary.addEventListener('click', closeEditTechItemModal);
-     }
-     if (searchTechItemsInput) {
-        searchTechItemsInput.addEventListener('input', displayFilteredTechItems);
-     }
-
-    // --- Activity Log Listeners (Add this one) ---
-    const clearLogBtn = document.getElementById('clear-log-button');
-    if (clearLogBtn) {
-        clearLogBtn.addEventListener('click', handleClearActivityLog);
-    } else {
-        console.warn("Clear log button not found.");
-    }
-
-    // Useful Links Forms & Modals
-    if (addUsefulLinkForm) { addUsefulLinkForm.addEventListener('submit', handleAddUsefulLink); }
-    if (editUsefulLinkForm) { editUsefulLinkForm.addEventListener('submit', handleUpdateUsefulLink); }
-    if (cancelEditLinkButton) { cancelEditLinkButton.addEventListener('click', closeEditUsefulLinkModal); }
-    if (cancelEditLinkButtonSecondary) { cancelEditLinkButtonSecondary.addEventListener('click', closeEditUsefulLinkModal); }
-
-    // Social Links Forms & Modals
-    if (addSocialLinkForm) { addSocialLinkForm.addEventListener('submit', handleAddSocialLink); }
-    if (editSocialLinkForm) { editSocialLinkForm.addEventListener('submit', handleUpdateSocialLink); }
-    if (cancelEditSocialLinkButton) { cancelEditSocialLinkButton.addEventListener('click', closeEditSocialLinkModal); }
-    if (cancelEditSocialLinkButtonSecondary) { cancelEditSocialLinkButtonSecondary.addEventListener('click', closeEditSocialLinkModal); }
-
-    // Disabilities Forms & Modals (Added)
-    if (addDisabilityForm) { addDisabilityForm.addEventListener('submit', handleAddDisability); }
-    if (editDisabilityForm) { editDisabilityForm.addEventListener('submit', handleUpdateDisability); }
-    if (cancelEditDisabilityButton) { cancelEditDisabilityButton.addEventListener('click', closeEditDisabilityModal); }
-    if (cancelEditDisabilityButtonSecondary) { cancelEditDisabilityButtonSecondary.addEventListener('click', closeEditDisabilityModal); }
-
-
-    // --- Attach Event Listeners for Search & Previews ---
-
-    // Search Input Listeners
-    if (searchInputTiktok) { searchInputTiktok.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('tiktok'); } }); }
-    if (searchInputInstagram) { searchInputInstagram.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('instagram'); } }); }
-    if (searchInputYoutube) { searchInputYoutube.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('youtube'); } }); }
-
-    // Helper function to attach preview listeners (Shoutouts)
-    function attachPreviewListeners(formElement, platform, formType) { if (!formElement) return; const previewInputs = [ 'username', 'nickname', 'bio', 'profilePic', 'isVerified', 'followers', 'subscribers', 'coverPhoto' ]; previewInputs.forEach(name => { const inputElement = formElement.querySelector(`[name="${name}"]`); if (inputElement) { const eventType = (inputElement.type === 'checkbox') ? 'change' : 'input'; inputElement.addEventListener(eventType, () => { if (typeof updateShoutoutPreview === 'function') { updateShoutoutPreview(formType, platform); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
-    // Attach shoutout preview listeners
-    if (addShoutoutTiktokForm) attachPreviewListeners(addShoutoutTiktokForm, 'tiktok', 'add');
-    if (addShoutoutInstagramForm) attachPreviewListeners(addShoutoutInstagramForm, 'instagram', 'add');
-    if (addShoutoutYoutubeForm) attachPreviewListeners(addShoutoutYoutubeForm, 'youtube', 'add');
-    if (editForm) { const editPreviewInputs = [ editUsernameInput, editNicknameInput, editBioInput, editProfilePicInput, editIsVerifiedInput, editFollowersInput, editSubscribersInput, editCoverPhotoInput ]; editPreviewInputs.forEach(el => { if (el) { const eventType = (el.type === 'checkbox') ? 'change' : 'input'; el.addEventListener(eventType, () => { const currentPlatform = editForm.getAttribute('data-platform'); if (currentPlatform && typeof updateShoutoutPreview === 'function') { updateShoutoutPreview('edit', currentPlatform); } else if (!currentPlatform) { console.warn("Edit form platform not set."); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
-
-    // Profile Pic URL Preview Listener
-    if (profilePicUrlInput && adminPfpPreview) { profilePicUrlInput.addEventListener('input', () => { const url = profilePicUrlInput.value.trim(); if (url) { adminPfpPreview.src = url; adminPfpPreview.style.display = 'inline-block'; } else { adminPfpPreview.style.display = 'none'; } }); adminPfpPreview.onerror = () => { console.warn("Preview image load failed:", adminPfpPreview.src); adminPfpPreview.style.display = 'none'; profilePicUrlInput.classList.add('input-error'); }; profilePicUrlInput.addEventListener('focus', () => { profilePicUrlInput.classList.remove('input-error'); }); }
-
-    // Combined Window Click Listener for Closing Modals
-    window.addEventListener('click', (event) => {
-        if (event.target === editModal) { closeEditModal(); }
-        if (event.target === editUsefulLinkModal) { closeEditUsefulLinkModal(); }
-        if (event.target === editSocialLinkModal) { closeEditSocialLinkModal(); }
-        if (event.target === editDisabilityModal) { closeEditDisabilityModal(); } // Handles Disability Modal
-        if (event.target === editTechItemModal) { closeEditTechItemModal(); } // Tech modal close
-        if (event.target === editFaqModal) { closeEditFaqModal(); } // <<< ADD THIS LINE
-    });
-
-// --- Ensure this is the closing }); for the main DOMContentLoaded listener ---
 }); // End DOMContentLoaded Event Listener
+
+
+// --- Global Function for Google's Callback ---
+// This function is called by the Google script when a user signs in.
+// It must be outside the DOMContentLoaded listener to be in the global scope.
+function handleCredentialResponse(response) {
+  // Call the function we attached to the window object inside our module.
+  if (window.handleGoogleSignIn) {
+    window.handleGoogleSignIn(response);
+  } else {
+    console.error("Google Sign-In handler (handleGoogleSignIn) is not available on the window object.");
+  }
+}
