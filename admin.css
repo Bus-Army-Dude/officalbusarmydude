@@ -197,6 +197,56 @@ a:hover {
     text-decoration: underline;
 }
 
+/* ======================================= */
+/* Custom Google Sign-In Button Styling  */
+/* ======================================= */
+
+/* --- The Main Button Style --- */
+#custom-google-signin-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; /* Creates space between the icon and the text */
+    
+    /* Uses your theme variables to adapt to light/dark mode */
+    background-color: var(--apple-light-content-bg); /* Always use the light background for high contrast */
+    color: var(--apple-light-text); /* Always use dark text */
+    border: 1px solid var(--border-color); /* Border color will adapt to the theme */
+    
+    font-family: var(--system-font-stack);
+    font-size: var(--base-font-size);
+    font-weight: 500;
+    text-align: center;
+    
+    padding: 10px 20px;
+    border-radius: var(--border-radius-md);
+    width: 100%; /* Make it full-width to match other inputs */
+    max-width: 320px; /* Optional: Prevents it from being too wide on large screens */
+    margin-top: 1rem; /* Add some space above it */
+
+    cursor: pointer;
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+
+/* --- The Google "G" Icon --- */
+#custom-google-signin-button .fa-google {
+    font-size: 18px;
+}
+
+/* --- Hover & Focus States --- */
+#custom-google-signin-button:hover {
+    /* On hover, the border uses your theme's accent color */
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-glow-color); /* Adds the focus glow on hover */
+}
+
+#custom-google-signin-button:focus-visible {
+    /* Makes the focus ring match your other inputs */
+    outline: none;
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-color);
+}
+
 /* ======================== */
 /* Login Section            */
 /* ======================== */
