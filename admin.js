@@ -1940,146 +1940,90 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
 // Listener for changes in authentication state (login/logout)
 onAuthStateChanged(auth, user => {
     if (user) {
-        // User is signed in
-        console.log("User logged in:", user.email, "Name:", user.displayName); // Log name too
-        if (loginSection) loginSection.style.display = 'none'; // Hide login form
-        if (adminContent) adminContent.style.display = 'block'; // Show admin content
-        if (logoutButton) logoutButton.style.display = 'inline-block'; // Show logout button
+        // --- ADMIN CHECK ---
+        // ✅ DEFINE YOUR ADMINS: Add your Google email(s) to this list.
+        const adminEmails = ["ckritzar53@busarmydude.org"];
 
-        // --- Updated Greeting Logic ---
-        const displayName = user.displayName; // Get the display name from the User object
-        const email = user.email;       // Get the email
-        let greetingText = ''; // Initialize empty greeting string
-        if (displayName) {
-            greetingText = `Logged in as: ${displayName}`;
-            if (email) {
-                greetingText += ` (${email})`;
+        // ✅ CHECK IF THE LOGGED-IN USER IS AN ADMIN
+        if (adminEmails.includes(user.email)) {
+            // --- User is an authorized admin ---
+            console.log(`✅ Access GRANTED for admin: ${user.email}`);
+
+            // Hide the login form and show the main admin content
+            if (loginSection) loginSection.style.display = 'none';
+            if (adminContent) adminContent.style.display = 'block';
+            if (logoutButton) logoutButton.style.display = 'inline-block';
+
+            // --- Updated Greeting Logic ---
+            const displayName = user.displayName;
+            const email = user.email;
+            let greetingText = '';
+            if (displayName) {
+                greetingText = `Logged in as: ${displayName} (${email})`;
+            } else {
+                greetingText = `Logged in as: ${email}`;
             }
-        } else if (email) {
-            greetingText = `Logged in as: ${email}`;
-        } else {
-            greetingText = `Logged in`;
-        }
-        if (adminGreeting) {
-            adminGreeting.textContent = greetingText; // Set the text of the greeting element
-        }
-        // --- End Updated Greeting Logic ---
-
-        // *** Load Tech Items (with extra logging) ***
-        console.log("DEBUG: AuthState - Checking if loadTechItemsAdmin should run..."); // <<< ADD LOG
-        if (typeof loadTechItemsAdmin === 'function' && techItemsListAdmin) {
-            console.log("DEBUG: AuthState - Calling loadTechItemsAdmin NOW."); // <<< ADD LOG
-            loadTechItemsAdmin();
-            console.log("DEBUG: AuthState - loadTechItemsAdmin call finished (or is async)."); // <<< ADD LOG
-        } else {
-            // Log specific reasons if check fails
-            if (typeof loadTechItemsAdmin !== 'function') {
-                 console.error("DEBUG: AuthState - Cannot load Tech Items: loadTechItemsAdmin function MISSING!");
+            if (adminGreeting) {
+                adminGreeting.textContent = greetingText;
             }
-             if (!techItemsListAdmin) {
-                 console.error("DEBUG: AuthState - Cannot load Tech Items: techItemsListAdmin element MISSING!");
-            }
-             console.error("Could not load Tech Items - function or list element missing.");
-            if(techItemsListAdmin) techItemsListAdmin.innerHTML = "<p class='error'>Failed to load tech item controller.</p>";
-        }
+            // --- End Greeting Logic ---
 
-         // *** Load FAQs <<< ADD THIS CALL >>> ***
-        if (typeof loadFaqsAdmin === 'function' && faqListAdmin) {
-             loadFaqsAdmin();
-        } else {
-             console.error("Could not load FAQs - function or list element missing.");
-              if(faqListAdmin) faqListAdmin.innerHTML = "<p class='error'>Failed to load FAQ controller.</p>";
-         }
+            // Clear any previous login status messages
+            if (authStatus) { authStatus.textContent = ''; authStatus.style.display = 'none'; }
+            if (adminStatusElement) { adminStatusElement.textContent = ''; }
 
-        // --- FAQ Management Listeners --- <<< ADD THIS BLOCK START >>> ---
-        if (addFaqForm) {
-            addFaqForm.addEventListener('submit', handleAddFaq);
-        }
-        if (editFaqForm) {
-            editFaqForm.addEventListener('submit', handleUpdateFaq);
-        }
-        if (cancelEditFaqButton) { // X close button
-            cancelEditFaqButton.addEventListener('click', closeEditFaqModal);
-        }
-        if (cancelEditFaqButtonSecondary) { // Secondary cancel button
-            cancelEditFaqButtonSecondary.addEventListener('click', closeEditFaqModal);
-        }
-        if (searchFaqInput) { // Search input for FAQs
-            searchFaqInput.addEventListener('input', displayFilteredFaqs);
-        }
-        // <<< ADD THIS BLOCK END >>> ---
-
-        loadBusinessInfoData(); // <<< ADD THIS LINE HERE
-        setupBusinessInfoListeners();
-
-
-        // Clear any previous login status messages
-        if (authStatus) { authStatus.textContent = ''; authStatus.className = 'status-message'; authStatus.style.display = 'none'; }
-        if (adminStatusElement) { adminStatusElement.textContent = ''; adminStatusElement.className = 'status-message'; }
-
-        // Load initial data for the admin panel SECTIONS (Profile, Shoutouts, Links, etc.)
-        loadProfileData(); // Load site profile data (includes maintenance mode state now)
-        // Load shoutout lists for each platform
-        if (typeof loadShoutoutsAdmin === 'function') {
-            if (shoutoutsTiktokListAdmin) loadShoutoutsAdmin('tiktok');
-            if (shoutoutsInstagramListAdmin) loadShoutoutsAdmin('instagram');
-            if (shoutoutsYoutubeListAdmin) loadShoutoutsAdmin('youtube');
-        } else {
-            console.error("loadShoutoutsAdmin function is not defined!");
-            showAdminStatus("Error: Cannot load shoutout data.", true);
-        }
-        // *** Call loadUsefulLinksAdmin ***
-        if (typeof loadUsefulLinksAdmin === 'function' && usefulLinksListAdmin) {
+            // --- Load all data for the admin panel ---
+            console.log("Loading all admin panel data...");
+            loadProfileData();
+            loadBusinessInfoData();
+            setupBusinessInfoListeners();
+            loadShoutoutsAdmin('tiktok');
+            loadShoutoutsAdmin('instagram');
+            loadShoutoutsAdmin('youtube');
             loadUsefulLinksAdmin();
-        }
-        // *** Call loadSocialLinksAdmin ***
-        if (typeof loadSocialLinksAdmin === 'function' && socialLinksListAdmin) {
-             loadSocialLinksAdmin();
-        }
-        // *** Load Disabilities ***
-        if (typeof loadDisabilitiesAdmin === 'function' && disabilitiesListAdmin) {
-            loadDisabilitiesAdmin(); // <<< **** ENSURE THIS LINE IS PRESENT AND CORRECT ****
-        } else {
-            if(!disabilitiesListAdmin) console.warn("Disabilities list container missing during initial load.");
-            if(typeof loadDisabilitiesAdmin !== 'function') console.error("loadDisabilitiesAdmin function missing during initial load!");
-        }
-        // *** Load President Data ***
-        if (typeof loadPresidentData === 'function') {
-            loadPresidentData(); // Load president data on login
-        } else {
-            console.error("loadPresidentData function is missing!");
-            showAdminStatus("Error: Cannot load president data.", true);
-        }
-        // --- End Load Activity Log ---
+            loadSocialLinksAdmin();
+            loadDisabilitiesAdmin();
+            loadPresidentData();
+            loadFaqsAdmin();
+            loadTechItemsAdmin();
+            
+            // Start the inactivity timer
+            resetInactivityTimer();
+            addActivityListeners();
 
-
-        // Start the inactivity timer now that the user is logged in
-        resetInactivityTimer();
-        addActivityListeners();
+        } else {
+            // --- User is signed in, but NOT an authorized admin ---
+            console.warn(`❌ Access DENIED for user: ${user.email}. Not in the admin list.`);
+            alert("Access Denied. This account is not authorized to access the admin panel.");
+            signOut(auth); // Immediately sign out the unauthorized user.
+        }
 
     } else {
-        // User is signed out
-        // (Keep the rest of your logout code here)
-        console.log("User logged out.");
-        if (loginSection) loginSection.style.display = 'block'; // Show login form
-        if (adminContent) adminContent.style.display = 'none'; // Hide admin content
-        if (logoutButton) logoutButton.style.display = 'none'; // Hide logout button
-        if (adminGreeting) adminGreeting.textContent = ''; // Clear greeting
-        if (typeof closeEditModal === 'function') closeEditModal(); // Close edit modal if open
-        if (typeof closeEditUsefulLinkModal === 'function') closeEditUsefulLinkModal(); // Close useful link modal
-        if (typeof closeEditSocialLinkModal === 'function') closeEditSocialLinkModal(); // Close social link modal
-        if (typeof closeEditDisabilityModal === 'function') closeEditDisabilityModal(); // Close disability modal
-        if (typeof closeEditFaqModal === 'function') closeEditFaqModal(); // <<< ADD THIS LINE
+        // --- User is signed out ---
+        console.log("User logged out or not authenticated.");
+        
+        // Show the login form and hide the admin content
+        if (loginSection) loginSection.style.display = 'block';
+        if (adminContent) adminContent.style.display = 'none';
+        if (logoutButton) logoutButton.style.display = 'none';
+        if (adminGreeting) adminGreeting.textContent = '';
 
-        // Reset the login form to its initial state (email input visible)
+        // Close any open modals
+        if (typeof closeEditModal === 'function') closeEditModal();
+        if (typeof closeEditUsefulLinkModal === 'function') closeEditUsefulLinkModal();
+        if (typeof closeEditSocialLinkModal === 'function') closeEditSocialLinkModal();
+        if (typeof closeEditDisabilityModal === 'function') closeEditDisabilityModal();
+        if (typeof closeEditFaqModal === 'function') closeEditFaqModal();
+
+        // Reset the manual login form to its initial state
         if (emailGroup) emailGroup.style.display = 'block';
         if (passwordGroup) passwordGroup.style.display = 'none';
-        if (nextButton) nextButton.style.display = 'inline-block'; // Or 'block'
+        if (nextButton) nextButton.style.display = 'inline-block';
         if (loginButton) loginButton.style.display = 'none';
-        if (authStatus) { authStatus.textContent = ''; authStatus.style.display = 'none'; } // Clear status message
-        if (loginForm) loginForm.reset(); // Clear email/password inputs
+        if (authStatus) { authStatus.textContent = ''; authStatus.style.display = 'none'; }
+        if (loginForm) loginForm.reset();
 
-        // Stop inactivity timer and remove listeners
+        // Stop the inactivity timer
         removeActivityListeners();
     }
 });
