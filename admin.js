@@ -1938,34 +1938,33 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
 
 // Listener for changes in authentication state (login/logout)
 onAuthStateChanged(auth, user => {
-    // --- User is signed IN ---
+    // --- A user is signed IN to Firebase ---
     if (user) {
-        const adminEmails = ["ckritzar53@busarmydude.org", "rkritzar53@gmail.com"]; // Your authorized email
+        // Your list of authorized administrators.
+        const adminEmails = ["ckritzar53@busarmydude.org", "rkritzar53@gmail.com"];
 
-        // Check if the signed-in user is on the admin list
+        // Check if the user's email is on the admin list.
         if (adminEmails.includes(user.email)) {
             console.log(`✅ Access GRANTED for admin: ${user.email}`);
 
-            // 1. Immediately show the admin panel
-            const loginSection = document.getElementById('login-section');
-            const adminContent = document.getElementById('admin-content');
-            const logoutButton = document.getElementById('logout-button');
-            const adminGreeting = document.getElementById('admin-greeting');
-            const authStatus = document.getElementById('auth-status');
-            const adminStatusElement = document.getElementById('admin-status');
-
-            if (loginSection) loginSection.style.display = 'none';
-            if (adminContent) adminContent.style.display = 'block';
-            if (logoutButton) logoutButton.style.display = 'inline-block';
-            if (adminGreeting) {
-                adminGreeting.textContent = `Logged in as: ${user.displayName || user.email}`;
-            }
-            if (authStatus) authStatus.textContent = '';
-            if (adminStatusElement) adminStatusElement.textContent = '';
+            // 1. Update the UI Immediately
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'block';
+            document.getElementById('logout-button').style.display = 'inline-block';
+            document.getElementById('admin-greeting').textContent = `Logged in as: ${user.displayName || user.email}`;
             
-            // 2. Safely load all data
+            // Clear any old status messages
+            const authStatus = document.getElementById('auth-status');
+            if(authStatus) authStatus.textContent = '';
+
+
+            // 2. Safely Load All Admin Data
+            // This 'try...catch' block is a safety net. If any single function fails,
+            // it will log an error in the console without crashing the whole admin panel.
             try {
                 console.log("Loading all admin panel data...");
+                
+                // Call all your data-loading and setup functions here
                 loadProfileData();
                 loadBusinessInfoData();
                 setupBusinessInfoListeners();
@@ -1978,10 +1977,12 @@ onAuthStateChanged(auth, user => {
                 loadPresidentData();
                 loadFaqsAdmin();
                 loadTechItemsAdmin();
+                
+                console.log("✅ All data loading functions called successfully.");
+
             } catch (error) {
-                // If any data-loading function fails, it will be caught here
-                console.error("❌ CRITICAL ERROR during data loading:", error);
-                showAdminStatus(`Error loading admin data: ${error.message}. Check console.`, true);
+                console.error("❌ A CRITICAL ERROR occurred while loading admin data:", error);
+                showAdminStatus(`Error loading panel data: ${error.message}. The panel may be incomplete.`, true);
             }
 
             // 3. Start the inactivity timer
@@ -1989,20 +1990,19 @@ onAuthStateChanged(auth, user => {
             addActivityListeners();
 
         } else {
-            // --- User is NOT an authorized admin ---
+            // --- User is signed in, but IS NOT an authorized admin ---
             console.warn(`❌ Access DENIED for user: ${user.email}. Not in the admin list.`);
             alert("Access Denied. This account is not authorized to access the admin panel.");
-            signOut(auth);
+            signOut(auth); // Immediately sign them out.
         }
 
     } else {
         // --- User is signed OUT ---
         console.log("User is signed out. Displaying login screen.");
-        const loginSection = document.getElementById('login-section');
-        const adminContent = document.getElementById('admin-content');
-        if (loginSection) loginSection.style.display = 'block';
-        if (adminContent) adminContent.style.display = 'none';
+        document.getElementById('login-section').style.display = 'block';
+        document.getElementById('admin-content').style.display = 'none';
         
+        // Stop the inactivity timer
         removeActivityListeners();
     }
 });
