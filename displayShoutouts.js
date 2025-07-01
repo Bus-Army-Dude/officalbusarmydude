@@ -585,7 +585,7 @@ async function loadShoutoutPlatformData(platform, gridElement, timestampElement)
 
     try {
         const shoutoutsCol = collection(db, 'shoutouts');
-        const shoutoutQuery = query(shoutoutsCol, where("platform", "==", platform), orderBy("sortableFollowerCount", "desc"));
+        const shoutoutQuery = query(shoutoutsCol, where("platform", "==", platform), orderBy("order", "asc"));
         const querySnapshot = await getDocs(shoutoutQuery);
 
         if (querySnapshot.empty) {
