@@ -1936,6 +1936,72 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
          console.warn("Could not find all necessary elements for the 'Next' button functionality (Next Button, Email Input, Auth Status, Email Group, Password Group, Login Button)."); //
     }
 
+    // ===================================================================
+//  FINAL, UNIFIED LOGIN HANDLERS
+// ===================================================================
+
+// --- Custom Google Button Listener ---
+const customGoogleButton = document.getElementById('custom-google-signin-button');
+if (customGoogleButton) {
+    customGoogleButton.addEventListener('click', () => {
+        console.log("🖱️ Custom Google button clicked.");
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+            google.accounts.id.prompt();
+        } else {
+            console.error("❌ Google Identity Services library not loaded.");
+            alert("Google Sign-In is not ready. Please refresh the page.");
+        }
+    });
+} else {
+    console.error("❌ Could not find the custom Google button.");
+}
+
+// --- Manual Login Form Listener ---
+if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        if (!email || !password) {
+            authStatus.textContent = 'Please enter both email and password.';
+            authStatus.className = 'status-message error';
+            return;
+        }
+        authStatus.textContent = 'Logging in...';
+        authStatus.className = 'status-message';
+        signInWithEmailAndPassword(auth, email, password)
+            .catch((error) => {
+                console.error("Manual Login Failed:", error);
+                authStatus.textContent = 'Login Failed: Invalid email or password.';
+                authStatus.className = 'status-message error';
+            });
+    });
+}
+
+// --- Google Sign-In Handler (Internal) ---
+// This function is called by the Custom Event listener below.
+async function handleGoogleSignIn(response) {
+    console.log("✅ Google credential received. Signing into Firebase...");
+    authStatus.textContent = 'Verifying with Firebase...';
+    authStatus.className = 'status-message';
+
+    const credential = GoogleAuthProvider.credential(response.credential);
+    try {
+        await signInWithCredential(auth, credential);
+        // Success! onAuthStateChanged will now take over.
+    } catch (error) {
+        console.error("❌ Firebase credential sign-in error:", error);
+        authStatus.textContent = `Firebase Login Failed: ${error.message}`;
+        authStatus.className = 'status-message error';
+    }
+}
+
+// --- Event Bridge from Global to Module ---
+// This listens for the event dispatched by the global function.
+document.addEventListener('google-credential-response', (e) => {
+    handleGoogleSignIn(e.detail);
+});
+
 // Listener for changes in authentication state (login/logout)
 onAuthStateChanged(auth, user => {
     // --- A user is signed IN to Firebase ---
@@ -4214,11 +4280,6 @@ async function loadDisabilitiesAdmin() {
         }
     }
 
-    // --- Make the Google Sign-In handler accessible from the HTML ---
-    // Since this script is a module, we attach our handler to the window object
-    // so the global `handleCredentialResponse` function can call it.
-    window.handleGoogleSignIn = handleGoogleSignIn;
-
     // Combined Window Click Listener for Closing Modals
     window.addEventListener('click', (event) => {
         if (event.target === editModal) { closeEditModal(); }
@@ -4231,7 +4292,12 @@ async function loadDisabilitiesAdmin() {
 
 }); // End DOMContentLoaded Event Listener
 
+// ===================================================================
+//  GLOBAL CALLBACK FOR GOOGLE - ADD TO THE VERY END OF THE FILE
+// ===================================================================
 
-window.handleCredentialResponse = (response) => {
-  handleGoogleSignIn(response);
-};
+function handleCredentialResponse(response) {
+  // Dispatch a custom event with the credential response.
+  // This safely passes the data into our module script.
+  document.dispatchEvent(new CustomEvent('google-credential-response', { detail: response }));
+}
