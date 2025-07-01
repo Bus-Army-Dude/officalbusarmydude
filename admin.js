@@ -1936,15 +1936,15 @@ function formatTimeForPreview(timeString) { // Converts HH:MM to AM/PM format
          console.warn("Could not find all necessary elements for the 'Next' button functionality (Next Button, Email Input, Auth Status, Email Group, Password Group, Login Button)."); //
     }
 
-// --- Authentication Logic ---
 // Listener for changes in authentication state (login/logout)
 onAuthStateChanged(auth, user => {
     if (user) {
+        // ADD THIS LINE TO SEE EXACTLY WHO IS LOGGING IN
+        console.log('Attempting to grant access for user:', user.email);
+
         // --- ADMIN CHECK ---
-        // ✅ DEFINE YOUR ADMINS: Add your Google email(s) to this list.
         const adminEmails = ["ckritzar53@busarmydude.org"];
 
-        // ✅ CHECK IF THE LOGGED-IN USER IS AN ADMIN
         if (adminEmails.includes(user.email)) {
             // --- User is an authorized admin ---
             console.log(`✅ Access GRANTED for admin: ${user.email}`);
