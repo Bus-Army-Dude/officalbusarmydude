@@ -1820,3 +1820,55 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 .preview-contact a:hover {
     color: var(--hover-color);
 }
+
+/* For the custom button itself */
+.custom-google-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    font-family: var(--system-font-stack);
+    font-size: var(--base-font-size);
+    font-weight: 500;
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-speed) var(--transition-timing);
+    cursor: pointer;
+    border: 1px solid var(--input-border-color);
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
+    box-shadow: 0 1px 2px var(--shadow-color);
+}
+
+.custom-google-btn:hover {
+    background-color: var(--content-bg);
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 3px var(--input-focus-shadow-color);
+}
+
+.g-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><path fill="%234285F4" d="M17.64 9.20455c0-.63864-.05727-1.25455-.16364-1.84091H9v3.48182h4.84455c-.20864 1.125-.84455 2.07818-1.77727 2.72182v2.25909h2.90818c1.70273-1.56682 2.68409-3.87409 2.68409-6.62182z"/><path fill="%2334A853" d="M9 18c2.43 0 4.46727-.80545 5.95636-2.18182l-2.90818-2.25909c-.80545.54273-1.84091.86136-3.04818.86136-2.34545 0-4.33364-1.58318-5.05227-3.71045H.957273v2.33182C2.43864 16.09727 5.48182 18 9 18z"/><path fill="%23FBBC05" d="M3.94773 10.8409c-.14-.42-.22-.87-.22-1.34s.08-.92.22-1.34V5.83H.958C.348 6.96 0 8.22 0 9.5s.348 2.54.958 3.67l2.99-2.33z"/><path fill="%23EA4335" d="M9 3.57818c1.32182 0 2.50727.45273 3.44 1.34818l2.58182-2.58182C13.4636.883636 11.43 0 9 0 5.48182 0 2.43864 1.90273.957273 4.63636L3.94773 7.15c.72-2.13 2.71-3.58 5.05-3.58z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* For the "Verifying..." and error messages */
+.status-message {
+    padding: 12px 16px;
+    margin-top: 16px;
+    border-radius: var(--border-radius-md);
+    font-family: var(--system-font-stack);
+    font-size: 15px;
+    text-align: center;
+    background-color: var(--success-bg-color);
+    color: var(--success-text-color);
+}
+
+.status-message.error {
+    background-color: var(--error-bg-color);
+    color: var(--error-text-color);
+}
