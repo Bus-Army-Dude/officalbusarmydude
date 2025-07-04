@@ -37,16 +37,24 @@
                  data-callback="handleCredentialResponse"
                  data-context="signin"
                  data-ux_mode="popup"
-                 data-auto_prompt="false">
+                 data-auto_prompt="false"
+                 style="display: none;">
             </div>
+            
             <div class="g_id_signin"
                  data-type="standard"
                  data-shape="rectangular"
                  data-theme="outline"
                  data-text="signin_with"
                  data-size="large"
-                 data-logo_alignment="left">
+                 data-logo_alignment="left"
+                 style="display: none;">
             </div>
+            
+            <button id="custom-google-signin-button" class="custom-google-btn">
+                <span class="g-icon"></span>
+                <span class="g-text">Sign in with Google</span>
+            </button>
 
             <hr style="border-color: var(--border-color); margin: 1.5rem 0;">
 
