@@ -1830,40 +1830,36 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     display: flex !important;
     justify-content: center !important;
     margin: 20px auto !important;
+    width: fit-content !important;
     padding: 0 20px !important;
 }
 
 /* Button frame styling */
 .g_id_signin > div[role="button"] {
-    background-color: var(--input-bg-color) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: var(--border-radius-md) !important; /* Matches your theme's rounded corners */
-    box-shadow: 0 1px 2px var(--shadow-color) !important;
-    transition: all var(--transition-speed) var(--transition-timing) !important;
+    background-color: #ffffff !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 50px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+    transition: background-color .2s, box-shadow .2s !important;
     height: 44px !important;
-    min-width: 260px !important;
-    max-width: 300px !important;
+    min-width: 240px !important;
+    max-width: 280px !important;
 }
 
 /* Hover state */
 .g_id_signin > div[role="button"]:hover {
-    border-color: var(--input-focus-border-color) !important;
-    box-shadow: 0 0 0 3px var(--input-focus-shadow-color), 
-                0 1px 2px var(--shadow-color) !important;
+    background-color: #f8f9fa !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12) !important;
 }
 
 /* Active/pressed state */
 .g_id_signin > div[role="button"]:active {
-    transform: scale(0.98) !important;
+    background-color: #f1f3f4 !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
 }
 
-/* Dark mode specific styles */
+/* Dark mode adjustments */
 body.dark-mode .g_id_signin > div[role="button"] {
-    background-color: var(--apple-dark-input-bg) !important;
-    border-color: var(--apple-dark-border) !important;
-}
-
-body.dark-mode .g_id_signin > div[role="button"]:hover {
-    border-color: var(--apple-dark-accent) !important;
-    box-shadow: 0 0 0 3px var(--apple-dark-input-focus-shadow) !important;
+    background-color: #ffffff !important;
+    border-color: #dadce0 !important;
 }
