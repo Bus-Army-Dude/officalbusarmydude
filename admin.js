@@ -814,35 +814,48 @@ function renderYouTubeCard(account) {
         console.log("Global modal click listener attached.");
     }
 
- // --- Google Sign-In Handler ---
-    async function handleGoogleSignIn(response) {
-        console.log("Received response from Google Sign-In...");
-        const authStatus = document.getElementById('auth-status');
-        
+ // Explicitly attach the function to the window object
+window.handleGoogleSignIn = async function(response) {
+    console.log("Received response from Google Sign-In...");
+    const authStatus = document.getElementById('auth-status');
+
+    if (authStatus) {
+        authStatus.textContent = 'Verifying with Google...';
+        authStatus.className = 'status-message';
+        authStatus.style.display = 'block';
+    }
+
+    // Get the ID token from the Google response
+    const idToken = response.credential;
+    // Create a Google Auth provider credential (ensure 'GoogleAuthProvider' is available)
+    const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
+
+    try {
+        // Sign in to Firebase with the credential
+        const result = await firebase.auth().signInWithCredential(credential);
+        console.log("Successfully signed in with Google:", result.user.displayName);
+        // The `onAuthStateChanged` listener will automatically handle the rest.
+    } catch (error) {
+        console.error("Firebase Google Sign-In Error:", error);
         if (authStatus) {
-            authStatus.textContent = 'Verifying with Google...';
-            authStatus.className = 'status-message';
-            authStatus.style.display = 'block';
-        }
-
-        // Get the ID token from the Google response
-        const idToken = response.credential;
-        // Create a Google Auth provider credential
-        const credential = GoogleAuthProvider.credential(idToken);
-
-        try {
-            // Sign in to Firebase with the credential
-            const result = await signInWithCredential(auth, credential);
-            console.log("Successfully signed in with Google:", result.user.displayName);
-            // The `onAuthStateChanged` listener will automatically handle showing the admin panel.
-        } catch (error) {
-            console.error("Firebase Google Sign-In Error:", error);
-            if (authStatus) {
-                authStatus.textContent = `Login Failed: ${error.message}`;
-                authStatus.className = 'status-message error';
-            }
+            authStatus.textContent = `Login Failed: ${error.message}`;
+            authStatus.className = 'status-message error';
         }
     }
+}
+
+    // Keep the click listener for your custom button
+document.addEventListener('DOMContentLoaded', () => {
+    const customButton = document.getElementById('custom-google-signin-button');
+    if (customButton) {
+        customButton.addEventListener('click', () => {
+            const googleButton = document.querySelector('.g_id_signin div[role=button]');
+            if (googleButton) {
+                googleButton.click();
+            }
+        });
+    }
+});
 
 // ======================================================
 // ===== START: ALL BUSINESS INFO CODE FOR admin.js (v15 - Syntax Fixed & Double Add Fix + Logging) =====
