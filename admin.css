@@ -1832,13 +1832,12 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     margin: 20px 0 !important;
 }
 
-/* Button frame styling to match secondary button style */
+/* Button frame styling */
 .g_id_signin > div[role="button"] {
-    background-color: var(--color-secondary-action) !important;
-    color: #ffffff !important;
+    background-color: var(--accent-color) !important;
     border: none !important;
     border-radius: var(--border-radius-md) !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    box-shadow: 0 1px 3px var(--shadow-color) !important;
     transition: background-color var(--transition-speed) var(--transition-timing),
                 transform var(--transition-speed) var(--transition-timing),
                 box-shadow var(--transition-speed) var(--transition-timing) !important;
@@ -1849,14 +1848,22 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 
 /* Hover state */
 .g_id_signin > div[role="button"]:hover {
-    background-color: var(--color-secondary-action-hover) !important;
+    background-color: var(--hover-color) !important;
     transform: none !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 2px 5px var(--shadow-color) !important;
 }
 
 /* Active/pressed state */
 .g_id_signin > div[role="button"]:active {
     transform: scale(0.98) !important;
-    background-color: var(--color-secondary-action-hover) !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+    box-shadow: 0 1px 2px var(--shadow-color) !important;
+}
+
+/* Dark mode specific adjustments */
+body.dark-mode .g_id_signin > div[role="button"] {
+    background-color: var(--apple-dark-accent) !important;
+}
+
+body.dark-mode .g_id_signin > div[role="button"]:hover {
+    background-color: var(--apple-dark-accent-hover) !important;
 }
