@@ -1829,41 +1829,48 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 .g_id_signin {
     display: flex !important;
     justify-content: center !important;
-    margin: 20px 0 !important;
+    margin: 20px auto !important;
+    width: fit-content !important;
 }
 
 /* Button frame styling */
 .g_id_signin > div[role="button"] {
-    background-color: var(--accent-color) !important;
-    border: none !important;
-    border-radius: var(--border-radius-md) !important;
-    box-shadow: 0 1px 3px var(--shadow-color) !important;
+    background-color: #ffffff !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
     transition: background-color var(--transition-speed) var(--transition-timing),
-                transform var(--transition-speed) var(--transition-timing),
                 box-shadow var(--transition-speed) var(--transition-timing) !important;
-    height: 44px !important;
-    max-width: 400px !important;
-    width: 100% !important;
+    padding: 0 12px !important;
+    height: 40px !important;
+    min-width: 200px !important;
 }
 
 /* Hover state */
 .g_id_signin > div[role="button"]:hover {
-    background-color: var(--hover-color) !important;
-    transform: none !important;
-    box-shadow: 0 2px 5px var(--shadow-color) !important;
+    background-color: #f8f9fa !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12) !important;
 }
 
 /* Active/pressed state */
 .g_id_signin > div[role="button"]:active {
-    transform: scale(0.98) !important;
-    box-shadow: 0 1px 2px var(--shadow-color) !important;
+    background-color: #f1f3f4 !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06) !important;
 }
 
-/* Dark mode specific adjustments */
+/* Dark mode adjustments */
 body.dark-mode .g_id_signin > div[role="button"] {
-    background-color: var(--apple-dark-accent) !important;
+    background-color: var(--apple-dark-input-bg) !important;
+    border-color: var(--apple-dark-border) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
 }
 
 body.dark-mode .g_id_signin > div[role="button"]:hover {
-    background-color: var(--apple-dark-accent-hover) !important;
+    background-color: var(--apple-dark-content-bg) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25) !important;
+}
+
+body.dark-mode .g_id_signin > div[role="button"]:active {
+    background-color: var(--apple-dark-bg) !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15) !important;
 }
