@@ -1820,3 +1820,50 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 .preview-contact a:hover {
     color: var(--hover-color);
 }
+
+/* ======================== */
+/* Google Sign-In Button    */
+/* ======================== */
+
+/* Container for Google Sign-in */
+#g_id_onload {
+    margin-bottom: 20px;
+}
+
+/* Override Google's default button styles */
+.g_id_signin {
+    display: flex !important;
+    justify-content: center !important;
+    margin: 15px 0 !important;
+}
+
+/* Style the Google Sign-In button frame */
+.g_id_signin > div[role="button"] {
+    background-color: var(--content-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--border-radius-md) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    transition: border-color var(--transition-speed) var(--transition-timing),
+                box-shadow var(--transition-speed) var(--transition-timing) !important;
+}
+
+/* Hover effect */
+.g_id_signin > div[role="button"]:hover {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* Active/pressed state */
+.g_id_signin > div[role="button"]:active {
+    transform: scale(0.98);
+}
+
+/* Dark mode specific adjustments */
+body.dark-mode .g_id_signin > div[role="button"] {
+    background-color: var(--apple-dark-content-bg) !important;
+    border-color: var(--apple-dark-border) !important;
+}
+
+body.dark-mode .g_id_signin > div[role="button"]:hover {
+    border-color: var(--apple-dark-accent) !important;
+}
