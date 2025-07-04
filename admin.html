@@ -34,7 +34,7 @@
 
             <div id="g_id_onload"
                  data-client_id="42980404680-vog8m63e51ud3hvlefpgr5s48ho2vb64.apps.googleusercontent.com"
-                 data-callback="handleCredentialResponse"
+                 data-callback="handleGoogleSignIn"
                  data-context="signin"
                  data-ux_mode="popup"
                  data-auto_prompt="false"
@@ -43,7 +43,6 @@
             
             <div class="g_id_signin"
                  data-type="standard"
-                 data-shape="rectangular"
                  data-theme="outline"
                  data-text="signin_with"
                  data-size="large"
@@ -55,6 +54,8 @@
                 <span class="g-icon"></span>
                 <span class="g-text">Sign in with Google</span>
             </button>
+            
+            <div id="auth-status" style="display: none;"></div>
 
             <hr style="border-color: var(--border-color); margin: 1.5rem 0;">
 
