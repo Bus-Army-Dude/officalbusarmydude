@@ -1665,18 +1665,17 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     position: relative; /* Required for custom icon positioning */
 }
 
-/* Style the calendar picker icon (works in WebKit/Chromium based browsers) */
-/* Since 'appearance: none;' hides the default icon, we add our own. */
 .special-hours-list .hour-entry input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0.6;
     cursor: pointer;
     transition: opacity 0.2s ease;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16"><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-calendar-event" viewBox="0 0 16 16"><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 10px center; /* Adjust position as needed */
-    width: 20px; /* Width of the clickable area for the icon */
-    height: 20px; /* Height of the clickable area for the icon */
-    /* If you want the icon to be part of the input's padding area, adjust padding-right on the input itself */
+    background-position: right 8px center;
+    background-size: 16px 16px; /* Ensure the full icon is shown */
+    width: 20px;
+    height: 20px;
+    padding: 0;
 }
 
 .special-hours-list .hour-entry input[type="date"]::-webkit-calendar-picker-indicator:hover {
