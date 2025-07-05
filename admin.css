@@ -1661,24 +1661,22 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 }
 
 .special-hours-list .hour-entry input[type="date"] {
-    padding-right: 40px; /* Make space for icon */
-    position: relative;
+    padding-right: 30px; /* Ensure there's room for the icon */
 }
 
 .special-hours-list .hour-entry input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 1;
+    opacity: 0.6;
     cursor: pointer;
     transition: opacity 0.2s ease;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 16 16"><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-calendar-event" viewBox="0 0 16 16"><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>');
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    display: block;
-    width: 100%;
-    height: 100%;
+    background-position: right 8px center;
+    background-size: 16px 16px; /* Ensure the full icon is shown */
+    width: 20px;
+    height: 20px;
     padding: 0;
-    border: none;
 }
+
 
 .special-hours-list .hour-entry input[type="date"]::-webkit-calendar-picker-indicator:hover {
     opacity: 1;
