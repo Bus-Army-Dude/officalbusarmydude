@@ -1642,13 +1642,11 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     box-sizing: border-box;
 }
 
-/* FIX: Wrapper for date input to position custom icon reliably */
 .date-input-wrapper {
     position: relative;
-    margin-bottom: 15px;
+    display: inline-block;
 }
 
-/* FIX: Add an icon element using ::after for cross-browser compatibility */
 .date-input-wrapper::after {
     content: '';
     position: absolute;
@@ -1657,9 +1655,9 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23666' viewBox='0 0 24 24'%3E%3Cpath d='M7 10h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zm1-8h-1V0h-2v2H9V0H7v2H6c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 22V9h12v13H6z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 16 16"%3E%3Cpath d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/%3E%3Cpath d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/%3E%3C/svg%3E');
     background-size: contain;
+    background-repeat: no-repeat;
     opacity: 0.6;
     pointer-events: none;
 }
@@ -1668,26 +1666,20 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     opacity: 1;
 }
 
-/* Styling for the date input itself */
 .special-hours-list .hour-entry input[type="date"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border-color, #e0e0e0);
-    border-radius: var(--border-radius-sm, 6px);
-    background-color: var(--bg-color, #fff);
-    font-size: 0.95rem;
-    color: var(--text-color, #333);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    padding-right: 36px; /* Add room for the icon */
+    background-color: #fff; /* Or a light --bg-color */
+    color: var(--text-color);
 }
 
-/* Hide the default calendar icon on WebKit browsers */
 .special-hours-list .hour-entry input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    opacity: 0;
+    opacity: 1; /* Make sure it's fully visible */
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%23007bff" class="bi bi-calendar-event" viewBox="0 0 16 16"><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px 20px;
+    color: transparent; /* Hide the default */
 }
 
 
