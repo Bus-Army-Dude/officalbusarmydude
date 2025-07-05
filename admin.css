@@ -1663,6 +1663,7 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 /* Specific styling for the date input to improve appearance */
 .special-hours-list .hour-entry input[type="date"] {
     position: relative; /* Required for custom icon positioning */
+    padding-right: 40px; /* Crucial: Add space for the icon */
 }
 
 /* Style the calendar picker icon (works in WebKit/Chromium based browsers) */
