@@ -3649,6 +3649,12 @@ function displayFilteredFaqs() {
      if (faqCount) { faqCount.textContent = `(${filteredList.length})`; }
 }
 
+catch (error) {
+    console.error("Error adding FAQ:", error);
+    showAdminStatus(`Error adding FAQ: ${error.message}`, true);
+    alert("FAQ save failed: " + error.message); // <--- Add this
+}
+
 /** Loads FAQs from Firestore */
 async function loadFaqsAdmin() {
      if (!faqListAdmin) { console.error("FAQ list container missing."); return; }
