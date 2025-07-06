@@ -3628,6 +3628,10 @@ function renderFaqAdminListItem(container, docId, faqData, deleteHandler, editHa
     container.appendChild(itemDiv);
 }
 
+if (searchFaqInput) {
+    searchFaqInput.addEventListener('input', displayFilteredFaqs);
+}
+
 /** Filters and displays FAQs based on search */
 function displayFilteredFaqs() {
      if (!faqListAdmin || !searchFaqInput || typeof allFaqs === 'undefined') { return; }
