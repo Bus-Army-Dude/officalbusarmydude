@@ -3649,12 +3649,6 @@ function displayFilteredFaqs() {
      if (faqCount) { faqCount.textContent = `(${filteredList.length})`; }
 }
 
-catch (error) {
-    console.error("Error adding FAQ:", error);
-    showAdminStatus(`Error adding FAQ: ${error.message}`, true);
-    alert("FAQ save failed: " + error.message); // <--- Add this
-}
-
 /** Loads FAQs from Firestore */
 async function loadFaqsAdmin() {
      if (!faqListAdmin) { console.error("FAQ list container missing."); return; }
@@ -3699,6 +3693,10 @@ async function handleAddFaq(event) {
      } catch (error) { console.error("Error adding FAQ:", error); showAdminStatus(`Error adding FAQ: ${error.message}`, true); }
 }
 
+if (addFaqForm) {
+  addFaqForm.addEventListener('submit', handleAddFaq);
+}
+    
 /** Handles deleting an FAQ */
 async function handleDeleteFaq(docId, listItemElement) {
      if (!confirm("Are you sure you want to permanently delete this FAQ?")) return;
