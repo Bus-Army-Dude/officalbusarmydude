@@ -3671,26 +3671,36 @@ async function loadFaqsAdmin() {
 
 /** Handles adding a new FAQ */
 async function handleAddFaq(event) {
-     event.preventDefault();
-     if (!addFaqForm) return;
-     const questionInput = addFaqForm.querySelector('#faq-question');
-     const answerInput = addFaqForm.querySelector('#faq-answer');
-     const orderInput = addFaqForm.querySelector('#faq-order');
-     const question = questionInput?.value.trim();
-     const answer = answerInput?.value.trim();
-     const orderStr = orderInput?.value.trim();
-     const order = parseInt(orderStr);
+  event.preventDefault();
+  if (!addFaqForm) return;
+  const questionInput = addFaqForm.querySelector('#faq-question');
+  const answerInput = addFaqForm.querySelector('#faq-answer');
+  const orderInput = addFaqForm.querySelector('#faq-order');
+  const question = questionInput?.value.trim();
+  const answer = answerInput?.value.trim();
+  const orderStr = orderInput?.value.trim();
+  const order = parseInt(orderStr);
 
-     if (!question || !answer || !orderStr || isNaN(order) || order < 0) { showAdminStatus("Question, Answer, and a valid non-negative Order are required.", true); return; }
-     const faqData = { question, answer, order, createdAt: serverTimestamp() };
-     showAdminStatus("Adding FAQ...");
-     try {
-         const docRef = await addDoc(faqsCollectionRef, faqData);
-         console.log("FAQ added with ID:", docRef.id);
-         showAdminStatus("FAQ added successfully.", false);
-         addFaqForm.reset();
-         loadFaqsAdmin();
-     } catch (error) { console.error("Error adding FAQ:", error); showAdminStatus(`Error adding FAQ: ${error.message}`, true); }
+  console.log("Form values:", {question, answer, order}); // DEBUG
+
+  if (!question || !answer || !orderStr || isNaN(order) || order < 0) {
+    alert("Validation failed: check question, answer, order.");
+    showAdminStatus("Question, Answer, and a valid non-negative Order are required.", true);
+    return;
+  }
+  const faqData = { question, answer, order, createdAt: serverTimestamp() };
+  showAdminStatus("Adding FAQ...");
+  try {
+    const docRef = await addDoc(faqsCollectionRef, faqData);
+    alert("FAQ added!"); // DEBUG
+    showAdminStatus("FAQ added successfully.", false);
+    addFaqForm.reset();
+    loadFaqsAdmin();
+  } catch (error) {
+    alert("FAQ add error: " + error.message); // DEBUG
+    console.error("Error adding FAQ:", error);
+    showAdminStatus(`Error adding FAQ: ${error.message}`, true);
+  }
 }
 
 if (addFaqForm) {
