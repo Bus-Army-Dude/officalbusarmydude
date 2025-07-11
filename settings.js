@@ -1,8 +1,7 @@
 /**
  * settings.js
- * Manages all website settings including appearance (theme), font size, and focus outline.
- * It loads settings from localStorage, applies them to the page,
- * and saves any changes made by the user.
+ * Manages all website settings including appearance, font size, focus outline,
+ * and advanced interactive controls.
  */
 class SettingsManager {
     constructor() {
@@ -24,7 +23,7 @@ class SettingsManager {
             this.applyAllSettings();        // Apply all visual settings (theme, font, focus)
             this.setupEventListeners();     // Add event listeners for user interactions with settings controls
             
-            // ADDED: Initialize the new interactive toggle functionality
+            // Initialize the new interactive toggle functionality
             this.initializeInteractiveToggles();
 
             // Listen for changes in the operating system's theme preference
@@ -188,7 +187,7 @@ class SettingsManager {
     }
 
     /**
-     * NEW: Activates advanced interactive toggles with long-press and drag functionality.
+     * Activates advanced interactive toggles with long-press and drag functionality.
      */
     initializeInteractiveToggles() {
         document.querySelectorAll('.interactive-toggle').forEach(toggleLabel => {
