@@ -588,3 +588,66 @@ body.settings-page .focus-outline-setting-card { /* Ensure you added this class 
         box-shadow: 0 -2px 8px var(--shadow-color); /* Shadow on top */
     }
 }
+
+/* ===================================================== */
+/* == Interactive Toggle Bubble Styles                == */
+/* ===================================================== */
+
+/* This makes sure the bubble is positioned relative to the switch */
+.toggle-switch {
+    position: relative;
+}
+
+/* The main bubble container that appears on long-press */
+.toggle-bubble {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 200px;
+    height: 60px;
+    
+    /* Liquid Glass Effect */
+    background: rgba(200, 200, 200, 0.3); /* A semi-transparent base */
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    border-radius: 30px; /* Fully rounded corners */
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none; /* Not interactive by default */
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+body.dark-mode .toggle-bubble {
+    background: rgba(50, 50, 50, 0.4);
+    border: 1px solid rgba(84, 84, 88, 0.65);
+}
+
+/* The draggable circle inside the bubble */
+.toggle-bubble-thumb {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+    left: 0; /* Position will be controlled by JS */
+}
+
+/* Active state when long-pressing */
+.interactive-toggle.long-press-active .toggle-bubble {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto; /* Make it interactive */
+}
+
+/* Style the thumb when the toggle is on */
+.interactive-toggle.toggled-on .toggle-bubble-thumb {
+    left: calc(100% - 50px); /* Move to the right side */
+    background-color: var(--toggle-on);
+}
