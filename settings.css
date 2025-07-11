@@ -1,67 +1,270 @@
 /* ===================================================== */
-/* == Apple + Material Blended Theme (Scoped to .settings-page) == */
+/* == Liquid Glass Theme for Settings Page            == */
 /* ===================================================== */
 
-/* Global Variables - These remain global */
+/* --- 1. Core Theme Variables --- */
 :root {
-    --font-size-base: 17px;
-    --bg-color: #f5f5f7;
-    --content-bg: #ffffff;
-    --text-color: #1d1d1f;
-    --secondary-text: #86868b;
-    --border-color: #d2d2d7;
-    --accent-color: #0066cc;
-    --hover-color: #0071e3;
-    --toggle-on: #34c759;
-    --toggle-off: #e9e9eb;
-    --red-color: #ff3b30;
-    --shadow-color: rgba(0, 0, 0, 0.12);
-    --slider-thumb-color: #ffffff;
-    --slider-track-color: #e9e9eb;
-    --slider-track-filled-color: #0066cc;
-    --focus-outline-color: #0066cc;
+    --transition-speed: 0.3s;
+    /* Light Mode */
+    --light-bg-image: linear-gradient(120deg, #f2f2f7, #e5e5ea);
+    --light-glass-bg: rgba(255, 255, 255, 0.55);
+    --light-glass-border: rgba(255, 255, 255, 0.9);
+    --light-text-primary: #1d1d1f;
+    --light-text-secondary: #6e6e73;
+    --light-accent: #007aff;
+    --light-toggle-on: #34c759;
+    --light-toggle-off: rgba(120, 120, 128, 0.16);
+    --light-red-color: #ff3b30;
+    --light-bg-secondary: #e5e5ea;
+
+    /* Dark Mode */
+    --dark-bg-image: linear-gradient(120deg, #1c1c1e, #000000);
+    --dark-glass-bg: rgba(44, 44, 46, 0.6);
+    --dark-glass-border: rgba(84, 84, 88, 0.65);
+    --dark-text-primary: #ffffff;
+    --dark-text-secondary: #8d8d92;
+    --dark-accent: #0a84ff;
+    --dark-toggle-on: #30d158;
+    --dark-toggle-off: rgba(120, 120, 128, 0.32);
+    --dark-red-color: #ff453a;
+    --dark-bg-secondary: #1c1c1e;
+
+    /* Aliases */
+    --bg-image: var(--light-bg-image);
+    --glass-bg: var(--light-glass-bg);
+    --glass-border: var(--light-glass-border);
+    --text-color: var(--light-text-primary);
+    --secondary-text: var(--light-text-secondary);
+    --accent-color: var(--light-accent);
+    --toggle-on: var(--light-toggle-on);
+    --toggle-off: var(--light-toggle-off);
+    --red-color: var(--light-red-color);
+    --bg-secondary: var(--light-bg-secondary);
 }
 
 body.dark-mode {
-    --bg-color: #121212;
-    --content-bg: #1e1e1e;
-    --text-color: #e1e1e1;
-    --secondary-text: #a0a0a0;
-    --border-color: #3a3a3c;
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --slider-track-color: #424245;
-    --toggle-off: #636366;
+    --bg-image: var(--dark-bg-image);
+    --glass-bg: var(--dark-glass-bg);
+    --glass-border: var(--dark-glass-border);
+    --text-color: var(--dark-text-primary);
+    --secondary-text: var(--dark-text-secondary);
+    --accent-color: var(--dark-accent);
+    --toggle-on: var(--dark-toggle-on);
+    --toggle-off: var(--dark-toggle-off);
+    --red-color: var(--dark-red-color);
+    --bg-secondary: var(--dark-bg-secondary);
 }
 
-body.light-mode {
-    --bg-color: #f5f5f7;
-    --content-bg: #ffffff;
-    --text-color: #1d1d1f;
-    --secondary-text: #86868b;
-    --border-color: #d2d2d7;
-    --shadow-color: rgba(0, 0, 0, 0.12);
-    --slider-track-color: #e9e9eb;
-    --toggle-off: #e9e9eb;
-}
-
-/* ========== General Styles for Settings Page ========== */
+/* --- 2. General Page & Layout Styles --- */
 body.settings-page {
-    /* Added Roboto to font stack */
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-image: var(--bg-image);
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: var(--font-size-base);
-    line-height: 1.47059;
-    font-weight: 400;
-    letter-spacing: -0.022em;
     margin: 0;
-    padding: 0;
+    transition: background-image var(--transition-speed) ease-in-out;
 }
 
-/* ========== Skip Link (Scoped) ========== */
-body.settings-page .skip-link {
+.container { 
+    max-width: 700px; 
+    margin: 0 auto; 
+    padding: 40px 20px; 
+}
+
+/* --- 3. Glass Card & Section Styles --- */
+.settings-header { 
+    padding: 0 10px 15px; 
+    margin-bottom: 20px; 
+}
+.settings-header h1 { 
+    font-size: 34px; 
+    font-weight: 700; 
+    margin: 0 0 5px 0;
+}
+.version { 
+    font-weight: 500; 
+    color: var(--secondary-text); 
+}
+
+.settings-subsection {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    overflow: hidden;
+    transition: background var(--transition-speed) ease, border var(--transition-speed) ease;
+}
+
+.subsection-title { 
+    font-size: 13px; 
+    font-weight: 400; 
+    text-transform: uppercase; 
+    color: var(--secondary-text); 
+    padding: 20px 20px 8px; 
+    margin: 0; 
+}
+
+.setting-card { 
+    padding: 15px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-top: 0.5px solid var(--glass-border); 
+    transition: border var(--transition-speed) ease;
+}
+
+.subsection-title + .setting-card { 
+    border-top: none; 
+}
+
+.setting-title { 
+    font-size: 17px; 
+    margin: 0 0 3px 0; 
+    font-weight: 500;
+}
+.setting-description { 
+    font-size: 14px; 
+    color: var(--secondary-text); 
+    margin: 0;
+}
+
+/* --- 4. Controls & Inputs --- */
+
+/* Appearance Dropdown */
+#appearanceModeSelect {
+    background: rgba(120, 120, 128, 0.16);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-color);
+    font-size: 16px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236E6E73%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: .65em auto;
+    padding-right: 30px;
+}
+#appearanceModeSelect option { 
+    background-color: var(--bg-secondary); 
+    color: var(--text-color); 
+}
+
+/* Text Size Slider */
+.text-size-control { text-align: right; }
+#text-size-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 150px;
+    height: 8px;
+    background: rgba(120, 120, 128, 0.16);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+#text-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    margin-top: -9px;
+}
+#text-size-slider::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+.size-labels { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-top: 4px; 
+    padding: 0;
+    width: 150px;
+}
+.size-small, .size-medium, .size-large { color: var(--secondary-text); font-weight: 500; }
+.size-small { font-size: 12px; } 
+.size-medium { font-size: 16px; } 
+.size-large { font-size: 20px; }
+
+/* Toggle Switch */
+.toggle-switch { position: relative; display: inline-block; width: 51px; height: 31px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--toggle-off); transition: .4s; border-radius: 34px; }
+.toggle-slider:before { position: absolute; content: ""; height: 27px; width: 27px; left: 2px; bottom: 2px; background-color: white; transition: 0.4s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+input:checked + .toggle-slider { background-color: var(--toggle-on); }
+input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+/* --- 5. Special Sections & Footer --- */
+
+/* Danger Zone */
+.danger-zone .subsection-title {
+    color: var(--red-color);
+}
+.reset-button { 
+    background-color: var(--red-color); 
+    color: white; 
+    padding: 10px 18px; 
+    border-radius: 8px; border: none; 
+    cursor: pointer; 
+    font-weight: 500; 
+    font-size: 16px; 
+    transition: background-color var(--transition-speed) ease; 
+}
+.reset-button:hover { filter: brightness(1.1); }
+
+/* Back Link */
+.back-link { 
+    color: var(--accent-color); 
+    text-decoration: none; 
+    font-size: 17px; 
+    padding: 8px 0; 
+    margin-top: 10px; 
+    display: inline-block; 
+    transition: color var(--transition-speed) ease;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--secondary-text);
+    font-size: 14px;
+}
+.footer-links {
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+.footer-links a {
+    color: var(--secondary-text);
+    text-decoration: none;
+}
+.footer-links a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* --- 6. Accessibility & Media Queries --- */
+
+/* Skip Link */
+.skip-link {
     position: absolute;
     top: -40px;
     left: 0;
@@ -71,520 +274,13 @@ body.settings-page .skip-link {
     z-index: 100;
     transition: top 0.3s;
 }
-
-body.settings-page .skip-link:focus {
+.skip-link:focus {
     top: 0;
 }
 
-/* ========== Container (Scoped) ========== */
-body.settings-page .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-}
-
-/* ========== Settings Section (Scoped) ========== */
-body.settings-page .settings-section {
-    margin-bottom: 40px;
-}
-
-body.settings-page .settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-body.settings-page .settings-header h1 {
-    font-size: 34px;
-    font-weight: 600;
-    margin: 0;
-    letter-spacing: -0.003em;
-    color: var(--text-color);
-}
-
-body.settings-page .version {
-    font-size: 14px;
-    color: var(--secondary-text);
-}
-
-/* ========== Settings Subsection (Scoped) ========== */
-body.settings-page .settings-subsection {
-    background-color: var(--content-bg);
-    border-radius: 10px;
-    margin-bottom: 20px;
-    /* More pronounced shadow for Material elevation */
-    box-shadow: 0 2px 5px 1px var(--shadow-color);
-    overflow: hidden;
-}
-
-body.settings-page .subsection-title {
-    font-size: 20px;
-    /* Bolder weight for Material style */
-    font-weight: 700;
-    padding: 15px 20px;
-    margin: 0;
-    border-bottom: 1px solid var(--border-color);
-    letter-spacing: 0.004em;
-}
-
-/* ========== Setting Card (Scoped) ========== */
-body.settings-page .setting-card {
-    /* Slightly increased padding */
-    padding: 18px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s;
-}
-
-body.settings-page .setting-card:last-child {
-    border-bottom: none;
-}
-
-/* Adjusted hover for light mode (Scoped) */
-body.settings-page .setting-card:hover {
-    background-color: rgba(0, 0, 0, 0.03);
-}
-
-/* Hover for dark mode (Scoped) */
-@media (prefers-color-scheme: dark) {
-    body.settings-page .setting-card:hover {
-        background-color: rgba(255, 255, 255, 0.05);
-    }
-    /* Optional: Dark mode border for subsection if needed */
-    /* body.settings-page .settings-subsection {
-        border: 1px solid rgba(255,255,255,0.1);
-    } */
-}
-
-body.settings-page .setting-label {
-    flex: 1;
-    padding-right: 15px; /* Ensure space between label and control */
-}
-
-body.settings-page .setting-title {
-    font-size: 17px;
-    font-weight: 400;
-    margin: 0 0 5px 0;
-    color: var(--text-color);
-}
-
-body.settings-page .setting-description {
-    font-size: 14px;
-    color: var(--secondary-text);
-    margin: 0;
-    line-height: 1.4;
-}
-
-/* ========== Appearance Mode Select (NEW) ========== */
-body.settings-page .appearance-mode-control {
-    display: flex;
-    align-items: center;
-}
-
-body.settings-page #appearanceModeSelect {
-    font-size: 16px;
-    padding: 7px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background: var(--content-bg);
-    color: var(--text-color);
-    transition: border-color 0.2s;
-    outline: none;
-    margin-left: 10px;
-}
-
-body.settings-page #appearanceModeSelect:focus {
-    border-color: var(--accent-color);
-}
-
-/* ========== Toggle Switch (Keeping Apple Style) (Scoped) ========== */
-body.settings-page .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 51px;
-    height: 31px;
-    flex-shrink: 0; /* Prevent shrinking */
-}
-
-body.settings-page .toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-body.settings-page .toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--toggle-off);
-    transition: 0.2s;
-    border-radius: 34px;
-}
-
-body.settings-page .toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 27px;
-    width: 27px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: 0.2s;
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-body.settings-page input:checked + .toggle-slider {
-    background-color: var(--toggle-on);
-}
-
-body.settings-page input:checked + .toggle-slider:before {
-    transform: translateX(20px);
-}
-
-/* ========== Text Size Control (Keeping Apple Style) (Scoped) ========== */
-body.settings-page .text-size-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 200px;
-    flex-shrink: 0;
-}
-
-body.settings-page .size-value {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--accent-color);
-    margin-bottom: 8px;
-    text-align: center;
-}
-
-body.settings-page .slider-container {
-    width: 100%;
-}
-
-/* ========== Range Slider (Keeping Apple Style) (Scoped) ========== */
-body.settings-page #text-size-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 4px;
-    background: var(--slider-track-color);
-    border-radius: 2px;
-    outline: none;
-    margin: 10px 0;
-    cursor: pointer;
-}
-
-body.settings-page #text-size-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
-    border: 0.5px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-body.settings-page #text-size-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
-    border: 0.5px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-/* Size Labels (Scoped) */
-body.settings-page .size-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
-}
-
-body.settings-page .size-small {
-    font-size: 12px;
-    color: var(--secondary-text);
-}
-
-body.settings-page .size-medium {
-    font-size: 16px;
-    color: var(--secondary-text);
-}
-
-body.settings-page .size-large {
-    font-size: 20px;
-    color: var(--secondary-text);
-}
-
-/* ========== Danger Zone (Scoped) ========== */
-body.settings-page .danger-zone .subsection-title {
-    color: var(--red-color);
-}
-
-/* ========== Buttons (Reset & Cookie) (Scoped) ========== */
-body.settings-page .reset-button,
-body.settings-page #cookie-consent-banner button {
-    color: white;
-    border: none;
-    /* Slightly larger padding */
-    padding: 10px 18px;
-     /* Slightly more rounded corners */
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
-     /* Added transform to transition */
-    transition: background-color 0.2s, transform 0.1s ease-out;
-}
-/* Specific background colors */
-body.settings-page .reset-button {
-    background-color: var(--red-color);
-}
-body.settings-page #cookie-consent-banner button {
-    background-color: var(--accent-color);
-}
-
-
-/* Hover states (Scoped) */
-body.settings-page .reset-button:hover {
-    background-color: #ff2d20; /* Darker red */
-}
-body.settings-page #cookie-consent-banner button:hover {
-    background-color: var(--hover-color);
-}
-
-/* Active states for button press feedback (Scoped) */
-body.settings-page .reset-button:active,
-body.settings-page #cookie-consent-banner button:active {
-    transform: scale(0.97);
-}
-
-
-/* ========== Back Link (Scoped) ========== */
-body.settings-page .back-link {
-    display: inline-flex;
-    align-items: center;
-    color: var(--accent-color);
-    text-decoration: none;
-    font-size: 17px;
-    padding: 8px 0;
-    transition: color 0.2s;
-    margin-top: 20px;
-}
-
-body.settings-page .back-link:hover {
-    color: var(--hover-color);
-}
-
-/* ========== Footer (Scoped) ========== */
-body.settings-page footer {
-    text-align: center;
-    padding: 20px;
-    /* Footer uses body background */
-    background-color: var(--bg-color);
-    color: var(--secondary-text);
-    font-size: 14px;
-    border-top: 1px solid var(--border-color);
-    margin-top: 40px;
-}
-
-body.settings-page footer a {
-    color: var(--accent-color);
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-body.settings-page footer a:hover {
-    text-decoration: underline;
-    color: var(--hover-color);
-}
-
-/* ========== Cookie Consent Banner (Scoped) ========== */
-body.settings-page #cookie-consent-banner {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--content-bg);
-     /* Match subsection rounding */
-    border-radius: 10px;
-    /* Enhanced shadow */
-    box-shadow: 0 4px 12px 2px var(--shadow-color);
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    max-width: 90%;
-    width: 600px;
-    z-index: 1000;
-}
-
-body.settings-page #cookie-consent-banner p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--text-color);
-}
-
-body.settings-page #cookie-consent-banner a {
-    color: var(--accent-color);
-    text-decoration: none;
-}
-
-body.settings-page #cookie-consent-banner a:hover {
-    text-decoration: underline;
-}
-
-
-/* ========== Focus Styles (Scoped) ========== */
-/* Apply focus style to elements within the settings page body */
-body.settings-page :focus-visible {
-    outline: 2px solid var(--focus-outline-color);
-    outline-offset: 2px;
-    border-radius: 4px; /* Standard focus ring rounding */
-}
-
-/* Ensure inputs and buttons show focus */
-body.settings-page input:focus-visible,
-body.settings-page button:focus-visible,
-body.settings-page a:focus-visible,
-body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-    outline: 2px solid var(--focus-outline-color);
-    outline-offset: 2px;
-    border-radius: 4px;
-}
-
-/* --- MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
-/* Target devices where hover is not the primary interaction method
-   AND the primary pointer is coarse (like a finger).
-   This typically covers most touch-screen mobile phones and tablets. */
-@media (hover: none) and (pointer: coarse) {
-    body.settings-page :focus-visible,
-    body.settings-page input:focus-visible,
-    body.settings-page button:focus-visible,
-    body.settings-page a:focus-visible,
-    body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-        outline: none; /* Remove the outline for touch-primary devices */
-        outline-offset: 0; /* Reset the offset */
-    }
-}
-/* --- END MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
-
-/* --- HIDE FOCUS OUTLINE SETTING CARD ON MOBILE/TABLET --- */
-/* Define default display for desktop (using the class you added to the HTML) */
-/* This ensures it shows up on larger screens by default */
-body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
-    display: flex;
-    align-items: center; /* Match general .setting-card behavior */
-    /* Other properties like padding, border-bottom are inherited from .setting-card */
-}
-
-/* Hide the specific "Focus Outline" setting card on screens up to tablet size */
-/* Adjust the max-width value if your definition of "tablet" is different */
-@media (max-width: 1023px) {
-    body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
-        display: none; /* Hide the element completely on smaller screens */
-    }
-}
-/* --- END HIDE FOCUS OUTLINE SETTING CARD --- */
-
-
-/* ========== Media Queries (Scoped) ========== */
+/* Responsive */
 @media (max-width: 768px) {
-    body.settings-page .container {
-        padding: 20px;
-    }
-
-    body.settings-page .settings-header h1 {
-        font-size: 28px;
-    }
-
-    body.settings-page .setting-card {
-        /* Stack elements vertically */
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px; /* Add gap between label and control */
-    }
-    body.settings-page .setting-label {
-        padding-right: 0; /* Remove right padding when stacked */
-    }
-
-    /* If .focus-outline-setting-card was visible at this breakpoint (i.e., 1023px was not used),
-       it would also stack due to the general .setting-card rule above.
-       However, with max-width: 1023px hiding it, this part isn't strictly for it
-       unless you change the 1023px breakpoint. */
-
-    body.settings-page .text-size-control {
-        width: 100%; /* Make slider full width */
-        margin-top: 0; /* Remove margin added by gap */
-    }
-
-    body.settings-page #cookie-consent-banner {
-        flex-direction: column;
-        text-align: center;
-        width: 85%;
-        gap: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    body.settings-page .container {
-        padding: 15px;
-    }
-
-    body.settings-page .settings-header h1 {
-        font-size: 24px;
-    }
-
-    body.settings-page .subsection-title {
-        font-size: 18px;
-    }
-
-    body.settings-page .setting-title {
-        font-size: 16px;
-    }
-
-    body.settings-page .setting-description {
-        font-size: 13px;
-    }
-
-    body.settings-page footer {
-        padding: 15px;
-        /* Footer links stack */
-       display: flex; /* Use flex for gap */
-       flex-direction: column;
-       gap: 10px;
-    }
-
-    body.settings-page footer a {
-        display: block;
-        margin: 0; /* Remove horizontal margin */
-    }
-
-    body.settings-page #cookie-consent-banner {
-        /* Dock banner to bottom */
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-width: 100%;
-        transform: none;
-        border-radius: 10px 10px 0 0; /* Round top corners */
-        padding: 15px;
-        box-shadow: 0 -2px 8px var(--shadow-color); /* Shadow on top */
-    }
+    .setting-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .text-size-control, .appearance-mode-control { width: 100%; text-align: left; }
+    #text-size-slider, .size-labels { width: 100%; max-width: 250px; }
 }
