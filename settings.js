@@ -54,12 +54,26 @@ class SettingsManager {
             const storedSettings = localStorage.getItem('websiteSettings');
             if (storedSettings) {
                 const parsedSettings = JSON.parse(storedSettings);
-                return { ...this.defaultSettings, ...parsedSettings };
+                // Validate and merge with defaults to ensure all keys are present
+                const validatedSettings = {
+                    appearanceMode: ['device', 'dark', 'light'].includes(parsedSettings.appearanceMode) ? parsedSettings.appearanceMode : this.defaultSettings.appearanceMode,
+                    fontSize: this.validateFontSize(parsedSettings.fontSize),
+                    focusOutline: ['enabled', 'disabled'].includes(parsedSettings.focusOutline) ? parsedSettings.focusOutline : this.defaultSettings.focusOutline,
+                };
+                return validatedSettings;
             }
         } catch (error) {
             console.error("SettingsManager: Error loading settings from localStorage. Using defaults.", error);
         }
         return { ...this.defaultSettings };
+    }
+
+    /**
+     * Validates the font size.
+     */
+    validateFontSize(size) {
+        const parsedSize = parseInt(size, 10);
+        return (!isNaN(parsedSize) && parsedSize >= 12 && parsedSize <= 24) ? parsedSize : this.defaultSettings.fontSize;
     }
     
     /**
@@ -78,8 +92,12 @@ class SettingsManager {
      */
     initializeControls() {
         document.getElementById('appearanceModeSelect').value = this.settings.appearanceMode;
-        document.getElementById('text-size-slider').value = this.settings.fontSize;
-        document.getElementById('textSizeValue').textContent = `${this.settings.fontSize}px`;
+        const textSizeSlider = document.getElementById('text-size-slider');
+        if (textSizeSlider) {
+            textSizeSlider.value = this.settings.fontSize;
+            document.getElementById('textSizeValue').textContent = `${this.settings.fontSize}px`;
+            this.updateSliderGradient(textSizeSlider);
+        }
         document.getElementById('focusOutlineToggle').checked = this.settings.focusOutline === 'enabled';
     }
 
@@ -93,12 +111,17 @@ class SettingsManager {
             this.saveSettings();
         });
 
-        document.getElementById('text-size-slider').addEventListener('input', (event) => {
-            this.settings.fontSize = parseInt(event.target.value, 10);
-            document.getElementById('textSizeValue').textContent = `${this.settings.fontSize}px`;
+        const textSizeSlider = document.getElementById('text-size-slider');
+        textSizeSlider.addEventListener('input', (event) => {
+            const newSize = this.validateFontSize(event.target.value);
+            this.settings.fontSize = newSize;
+            document.getElementById('textSizeValue').textContent = `${newSize}px`;
             this.applyFontSize();
-            this.saveSettings();
+            this.updateSliderGradient(textSizeSlider);
         });
+        // Save font size setting only when user stops sliding
+        textSizeSlider.addEventListener('change', () => this.saveSettings());
+
 
         document.getElementById('focusOutlineToggle').addEventListener('change', (event) => {
             this.settings.focusOutline = event.target.checked ? 'enabled' : 'disabled';
@@ -149,13 +172,19 @@ class SettingsManager {
             this.applyAppearanceMode();
         }
     }
-
+    
     handleStorageChange(event) {
         if (event.key === 'websiteSettings') {
             this.settings = this.loadSettings();
             this.initializeControls();
             this.applyAllSettings();
         }
+    }
+
+    updateSliderGradient(slider) {
+        if (!slider) return;
+        const percentage = ((slider.value - slider.min) * 100) / (slider.max - slider.min);
+        slider.style.setProperty('--slider-value-percentage', `${percentage}%`);
     }
 
     /**
