@@ -29,15 +29,12 @@
     --dark-link: var(--dark-accent);
     --dark-shadow: rgba(0, 0, 0, 0.2);
     --dark-icon: #CED4DA;
-    
+
     /* --- LIQUID GLASS THEME (Dark Mode Default) --- */
-    --liquid-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-    --liquid-border-color: rgba(255, 255, 255, 0.25);
-    --liquid-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    --liquid-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-    --liquid-text-color: #f0f0f0;
-    --liquid-secondary-text-color: #b0b0b0;
-    --liquid-accent-color: var(--dark-accent);
+    --liquid-bg-color: rgba(40, 40, 40, 0.65);
+    --liquid-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+    --liquid-border-color: rgba(255, 255, 255, 0.2);
+    --liquid-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     --accent-color-rgb: 37, 99, 235;
 
     /* --- Fallback theme variables (default to dark) --- */
@@ -68,13 +65,10 @@ body.light-e {
     --social-icon-text-color: #FFFFFF; /* White for light mode */
     
     /* --- LIQUID GLASS THEME (Light Mode) --- */
-    --liquid-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4));
-    --liquid-border-color: rgba(255, 255, 255, 0.9);
-    --liquid-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    --liquid-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-    --liquid-text-color: #1a1a1a;
-    --liquid-secondary-text-color: #555555;
-    --liquid-accent-color: var(--light-accent);
+    --liquid-bg-color: rgba(248, 249, 250, 0.8);
+    --liquid-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 60%);
+    --liquid-border-color: rgba(255, 255, 255, 1);
+    --liquid-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 /* Base Styles */
@@ -104,13 +98,14 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 30px;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
-    color: var(--liquid-text-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
+    color: var(--text-color);
 }
 
 /* Profile Pic Wrapper */
@@ -129,7 +124,7 @@ body {
     display: block;
     border: 3px solid var(--liquid-border-color);
     position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px var(--shadow-color);
     object-fit: cover;
 }
 
@@ -141,8 +136,9 @@ body {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: var(--liquid-bg);
-    border: 2px solid var(--liquid-accent-color);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
+    border: 2px solid var(--accent-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -166,7 +162,7 @@ body {
     margin: 0;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 800;
-    background: linear-gradient(120deg, var(--liquid-secondary-text-color), var(--liquid-text-color));
+    background: linear-gradient(120deg, var(--secondary-text), var(--text-color));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -187,18 +183,17 @@ body {
     height: 48px;
     border-radius: 50%;
     background: var(--liquid-bg) url('settings-icon.png') center/22px no-repeat;
-    border: 1.5px solid var(--liquid-border-color);
+    border: 1px solid var(--liquid-border-color);
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: all 0.3s ease;
-    box-shadow: var(--liquid-inset-shadow), 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: var(--liquid-shadow);
 }
 
 .settings-button:hover {
-    transform: translateY(-3px) scale(1.03) rotate(45deg);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px) rotate(45deg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* Merch Button */
@@ -210,18 +205,17 @@ body {
     height: 48px;
     border-radius: 50%;
     background: var(--liquid-bg) url('gift-bag-icon.png') center/22px no-repeat;
-    border: 1.5px solid var(--liquid-border-color);
+    border: 1px solid var(--liquid-border-color);
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: all 0.3s ease;
-    box-shadow: var(--liquid-inset-shadow), 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: var(--liquid-shadow);
 }
 
 .merch-button:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* Media Queries */
@@ -269,18 +263,19 @@ body {
     padding: 30px;
     margin-bottom: 30px;
     text-align: center;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
 }
 
 .current-datetime {
     font-family: monospace;
     font-size: 1.2em;
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
     margin: 0;
 }
 
@@ -288,12 +283,13 @@ body {
 .president-section {
     padding: 30px;
     margin-bottom: 30px;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -324,20 +320,20 @@ body {
 .president-name {
     font-size: 24px;
     font-weight: 700;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     margin: 0;
 }
 
 .president-title {
     font-size: 18px;
-    color: var(--liquid-secondary-text-color);
+    color: var(--accent-color);
     margin: 0;
 }
 
 .president-description {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     opacity: 0.9;
     margin: 10px 0;
 }
@@ -391,15 +387,16 @@ body {
     padding: 30px;
     margin: 30px 0;
     text-align: center;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
 }
 
 .social-links-container {
@@ -416,30 +413,29 @@ body {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
     letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     width: 100%;
     box-sizing: border-box;
-    box-shadow: var(--liquid-inset-shadow), 0 4px 15px rgba(0, 0, 0, 0.2);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    border: 1px solid var(--liquid-border-color);
     position: relative;
     overflow: hidden;
 }
 
 .social-button:hover {
-    transform: translateY(-3px) scale(1.03);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .social-button .social-icon,
 .social-button span {
-    color: var(--liquid-text-color) !important;
+    color: var(--text-color) !important;
     transition: color 0.2s;
 }
 
@@ -487,12 +483,13 @@ body {
     padding: 30px;
     margin: 30px 0;
     text-align: center;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -501,7 +498,7 @@ body {
 .useful-links-section h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
 }
 
 /* Links Container */
@@ -521,24 +518,23 @@ body {
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 30px;
     text-decoration: none;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     font-weight: 600;
     letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-sizing: border-box;
-    box-shadow: var(--liquid-inset-shadow), 0 4px 15px rgba(0, 0, 0, 0.2);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    border: 1px solid var(--liquid-border-color);
 }
 
 /* Button Hover Effects */
 .link-button:hover {
-    transform: translateY(-3px) scale(1.03);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive Design */
@@ -580,12 +576,13 @@ body {
 .tech-section {
     padding: 30px;
     margin-bottom: 30px;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -605,7 +602,7 @@ body {
 
 .tech-item h3 {
     margin: 0 0 15px 0;
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
     font-size: 1.2rem;
     font-weight: 600;
     display: flex;
@@ -615,7 +612,7 @@ body {
 
 .tech-item h3 i {
     font-size: 1.4rem;
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
 }
 
 .tech-detail {
@@ -623,7 +620,7 @@ body {
     align-items: center;
     gap: 10px;
     margin: 10px 0;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
 }
 
 .tech-detail i {
@@ -632,13 +629,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
     font-size: 1rem;
 }
 
 .tech-detail span {
     font-weight: 600;
-    color: var(--liquid-secondary-text-color);
+    color: var(--secondary-text);
     margin-right: 8px;
 }
 
@@ -703,7 +700,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     font-weight: 600;
     font-size: 14px;
     z-index: 1;
@@ -748,22 +745,23 @@ body {
 .disabilities-section {
     padding: 30px;
     margin-bottom: 30px;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
 }
 
 .disabilities-section h2 {
     margin-bottom: 15px;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
 }
 
 .disabilities-section p {
     margin-bottom: 20px;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
 }
 
 .disabilities-section ul {
@@ -782,34 +780,33 @@ body {
 
 .disabilities-section a {
     display: block;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     text-decoration: none;
     padding: 15px;
     transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
     border-radius: 12px;
-    background: var(--liquid-bg);
-    border: 1.5px solid var(--liquid-border-color);
-    box-shadow: var(--liquid-inset-shadow), 0 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .disabilities-section a:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
+    background-color: var(--accent-color);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--shadow-color);
 }
 
 @media (prefers-color-scheme: dark) {
     .disabilities-section a:hover {
-        box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
 }
 
 @media (prefers-color-scheme: light) {
     .disabilities-section a:hover {
-        box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 }
 
@@ -817,12 +814,13 @@ body {
 .shoutouts-section {
     padding: 30px;
     margin-bottom: 30px;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -830,7 +828,7 @@ body {
 
 /* Section Headers and Timestamps */
 .shoutouts-section h2 {
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -844,7 +842,7 @@ body {
     content: '\e07b'; /* Font Awesome TikTok icon */
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
 }
 
 /* Instagram Section Header */
@@ -852,7 +850,7 @@ body {
     content: '\f16d'; /* Font Awesome Instagram icon */
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
 }
 
 /* YouTube Section Header */
@@ -860,14 +858,14 @@ body {
     content: '\f167'; /* Font Awesome YouTube icon */
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
 }
 
 /* This rule styles the timestamp text container itself */
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp, /* UPDATED ID to match HTML */
 #youtube-last-updated-timestamp {  /* UPDATED ID to match HTML */
-    color: var(--liquid-secondary-text-color);
+    color: var(--secondary-text);
     font-size: 0.9em;
     margin-bottom: 20px;
     display: flex;
@@ -902,13 +900,13 @@ body {
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    background: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0,0,0,0.2);
     border-radius: 16px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
     box-shadow: none;
     width: 100%;
     box-sizing: border-box;
@@ -941,7 +939,7 @@ body {
 .instagram-creator-card:hover,
 .youtube-creator-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 /* Common Profile Picture Styles */
@@ -952,7 +950,7 @@ body {
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--liquid-accent-color);
+    border: 3px solid var(--accent-color);
     margin-bottom: 15px;
     position: relative;
     z-index: 1;
@@ -987,7 +985,7 @@ body {
 .creator-username,
 .instagram-creator-username,
 .youtube-creator-username {
-    color: var(--liquid-secondary-text-color);
+    color: var(--secondary-text);
     font-size: max(0.9em, 14px); /* Set minimum font size */
     margin: 0;
     width: auto;
@@ -1013,7 +1011,7 @@ body {
 .creator-bio,
 .instagram-creator-bio,
 .youtube-creator-bio {
-    color: var(--liquid-secondary-text-color);
+    color: var(--secondary-text);
     margin: 10px 0;
     font-size: 0.9em;
     line-height: 1.4;
@@ -1024,7 +1022,7 @@ body {
 .follower-count,
 .instagram-follower-count,
 .youtube-subscriber-count {
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
     font-weight: bold;
     margin: 10px 0;
 }
@@ -1034,31 +1032,29 @@ body {
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background: var(--liquid-bg);
-    color: var(--liquid-text-color);
+    background-color: rgba(var(--accent-color-rgb), 0.2);
+    color: var(--accent-color);
     text-decoration: none;
     padding: 8px 20px;
     border-radius: 25px;
     margin-top: 10px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
-    border: 1.5px solid var(--liquid-border-color);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid var(--accent-color);
+    backdrop-filter: blur(12px);
     position: relative;
     overflow: hidden;
     width: fit-content;
-    box-shadow: var(--liquid-inset-shadow), 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .visit-profile:hover,
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
-    transform: translateY(-3px) scale(1.03);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 0 10px var(--accent-color);
+    transform: translateY(-2px);
 }
 
 /* Creator Name Styles */
@@ -1067,7 +1063,7 @@ body {
 .youtube-creator-header h3 {
     margin: 0;
     font-size: max(1.1em, 16px); /* Set minimum font size */
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     line-height: 1.4;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -1075,11 +1071,11 @@ body {
 
 /* Unavailable Message Styles */
 .unavailable-message {
-    color: var(--liquid-secondary-text-color);
+    color: var(--secondary-text);
     font-size: 18px;
     margin-top: 20px;
     text-align: center;
-    background: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.2);
     padding: 20px;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 16px;
@@ -1090,7 +1086,7 @@ body {
     font-size: 22px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
 }
 
 /* Media queries for mobile responsiveness */
@@ -1202,12 +1198,13 @@ body {
     padding: 30px;
     margin: 30px auto;
     text-align: center;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -1259,7 +1256,7 @@ body {
     background: rgba(0,0,0,0.2);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     box-shadow: none;
 }
 
@@ -1268,7 +1265,7 @@ body {
 }
 
 .countdown-label {
-    color: var(--liquid-accent-color);
+    color: var(--accent-color);
     font-size: 0.9em;
     font-weight: 600;
     text-transform: uppercase;
@@ -1327,19 +1324,19 @@ body {
 /* ======================== */
 
 .scroll-to-top {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 60px;
-    height: 60px;
-    border: none;
-    background: var(--liquid-bg);
-    cursor: pointer;
-    z-index: 9999;
-    display: none;
-    transition: opacity 0.3s ease;
-    border-radius: 50%;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  background: var(--liquid-bg);
+  cursor: pointer;
+  z-index: 9999;
+  display: none;
+  transition: opacity 0.3s ease;
+  border-radius: 50%;
+  box-shadow: var(--liquid-shadow);
 }
 
 .scroll-to-top.visible {
@@ -1363,7 +1360,7 @@ body {
 
 .progress-indicator {
   fill: none;
-  stroke: var(--liquid-accent-color);
+  stroke: var(--accent-color);
   stroke-width: 4;
   stroke-dasharray: 163.36; /* 2πr where r=26 */
   stroke-dashoffset: 163.36;
@@ -1376,7 +1373,7 @@ body {
   left: 50%;
   transform: translate(-50%, -55%);
   font-size: 28px;
-  color: var(--liquid-text-color);
+  color: var(--text-color);
   pointer-events: none;
 }
 
@@ -1384,12 +1381,13 @@ body {
 .version-info-section {
     padding: 30px;
     margin-bottom: 30px;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -1397,7 +1395,7 @@ body {
 
 /* Version Header */
 .version-header {
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     margin-bottom: 15px;
     font-size: 1.2em;
     font-weight: 600;
@@ -1418,7 +1416,7 @@ body {
 .os-info,
 .device-info,
 .update-time {
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     font-size: 1em;
     background: rgba(0,0,0,0.2);
     padding: 12px;
@@ -1444,7 +1442,7 @@ body {
 .os-info::before,
 .device-info::before,
 .update-time::before {
-    color: var(--liquid-secondary-text-color);
+    color: var(--secondary-text);
     font-weight: 500;
 }
 
@@ -1522,12 +1520,13 @@ body {
 .legal-section {
     padding: 30px;
     margin: 30px 0;
-    background: var(--liquid-bg);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--liquid-border-color);
     width: 100%;
     box-sizing: border-box;
     position: relative;
@@ -1535,12 +1534,12 @@ body {
 
 /* Decorative top border */
 .legal-section::before {
-    display: none;
+    display:none;
 }
 
 /* Legal Section Header */
 .legal-header {
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     font-size: 1.3em;
     font-weight: 700;
     margin-bottom: 20px;
@@ -1561,7 +1560,7 @@ body {
 .legal-protection-message,
 .watermark-message {
     background: rgba(0,0,0,0.2);
-    color: var(--liquid-text-color);
+    color: var(--text-color);
     padding: 16px 20px;
     font-size: 0.95em;
     margin: 15px 0;
@@ -1611,7 +1610,7 @@ body {
 
 /* Last Updated Text */
 .last-updated {
-    color: var(--liquid-secondary-text-color);
+    color: var(--secondary-text);
     font-size: 0.85em;
     margin-top: 20px;
     padding-top: 15px;
@@ -1703,11 +1702,12 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-    color: var(--liquid-secondary-text-color);
-    border-top: 1.5px solid var(--liquid-border-color);
-    background: var(--liquid-bg);
+    color: var(--secondary-text);
+    border-top: 1px solid var(--liquid-border-color);
+    background-color: var(--liquid-bg-color);
+    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
+    box-shadow: var(--liquid-shadow);
 }
 
 /* Responsive Design */
