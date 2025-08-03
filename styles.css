@@ -7,15 +7,15 @@
     --line-height-base: 1.65;
 
     /* --- Modern Light Mode Colors --- */
-    --light-bg: #F0F2F5;
+    --light-bg: #F8F9FA;
     --light-content-bg: #FFFFFF;
-    --light-text: #1c1e21;
-    --light-secondary-text: #606770;
+    --light-text: #212529;
+    --light-secondary-text: #6C757D;
     --light-border: #E9ECEF;
     --light-accent: #0D6EFD;
     --light-hover: #0B5ED7;
     --light-link: var(--light-accent);
-    --light-shadow: rgba(0, 0, 0, 0.1);
+    --light-shadow: rgba(33, 37, 41, 0.075);
     --light-icon: #495057;
     
     /* --- Modern Dark Mode Colors --- */
@@ -23,20 +23,21 @@
     --dark-content-bg: #1C1C1C;
     --dark-text: #E9ECEF;
     --dark-secondary-text: #ADB5BD;
-    --dark-border: #3A3B3C;
+    --dark-border: #343A40;
     --dark-accent: #3B82F6;
     --dark-hover: #60A5FA;
     --dark-link: var(--dark-accent);
-    --dark-shadow: rgba(0, 0, 0, 0.3);
+    --dark-shadow: rgba(0, 0, 0, 0.2);
     --dark-icon: #CED4DA;
 
     /* --- LIQUID GLASS THEME (Dark Mode Default) --- */
-    --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    --glass-border-color: rgba(255, 255, 255, 0.2);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    --glass-text-color: var(--dark-text);
-    --glass-secondary-text-color: var(--dark-secondary-text);
-    --glass-accent-color: var(--dark-accent);
+    --liquid-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+    --liquid-border-color: rgba(255, 255, 255, 0.25);
+    --liquid-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --liquid-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+    --liquid-text-color: var(--dark-text);
+    --liquid-secondary-text-color: var(--dark-secondary-text);
+    --liquid-accent-color: var(--dark-accent);
 
     /* --- Fallback theme variables (default to dark) --- */
     --bg-color: var(--dark-bg);
@@ -49,7 +50,7 @@
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
-    --social-icon-text-color: #FFFFFF;
+    --social-icon-text-color: var(--dark-text);
     --accent-color-rgb: 37, 99, 235;
 }
 
@@ -67,12 +68,13 @@ body.light-e {
     --social-icon-text-color: #FFFFFF;
 
     /* --- LIQUID GLASS THEME (Light Mode) --- */
-    --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
-    --glass-border-color: rgba(255, 255, 255, 0.6);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-    --glass-text-color: var(--light-text);
-    --glass-secondary-text-color: var(--light-secondary-text);
-    --glass-accent-color: var(--light-accent);
+    --liquid-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
+    --liquid-border-color: rgba(255, 255, 255, 0.8);
+    --liquid-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    --liquid-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.7), inset 0 -1px 1px rgba(0, 0, 0, 0.05);
+    --liquid-text-color: var(--light-text);
+    --liquid-secondary-text-color: var(--light-secondary-text);
+    --liquid-accent-color: var(--light-accent);
 }
 
 /* Base Styles */
@@ -96,7 +98,7 @@ body {
 }
 
 /* ======================================== */
-/* == Glassmorphism Container Styles     == */
+/* == Liquid Glass Container Styles      == */
 /* ======================================== */
 .profile-section,
 .president-section,
@@ -110,22 +112,22 @@ body {
 .legal-section,
 .business-info-section,
 .datetime-section {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 20px;
-    border: 1.5px solid var(--glass-border-color);
-    box-shadow: var(--glass-shadow);
-    padding: 25px;
+    background: var(--liquid-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 24px;
+    border: 1.5px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-inset-shadow), var(--liquid-shadow);
+    padding: 30px;
     margin-top: 30px;
     margin-bottom: 30px;
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    color: var(--glass-text-color);
+    color: var(--liquid-text-color);
 }
 
-/* Ensure child elements use glass theme colors */
+/* Text color overrides for glass panels */
 .profile-section h1, .profile-section p,
 .president-section h1, .president-section p,
 .social-links-section h2,
@@ -138,11 +140,16 @@ body {
 .legal-section h2, .legal-section p,
 .business-info-section h2,
 .datetime-section .current-datetime {
-    color: var(--glass-text-color);
+    color: var(--liquid-text-color);
 }
-
 .president-title, .countdown-label {
-    color: var(--glass-secondary-text-color);
+    color: var(--liquid-secondary-text-color);
+}
+.username-checkmark h1 {
+    background: linear-gradient(120deg, var(--liquid-secondary-text-color), var(--liquid-text-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 /* Profile Section */
@@ -157,7 +164,7 @@ body {
     border-radius: 50%;
     margin: 0 auto 15px;
     display: block;
-    border: 3px solid var(--glass-border-color);
+    border: 3px solid var(--liquid-border-color);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     object-fit: cover;
 }
@@ -168,18 +175,12 @@ body {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: var(--glass-bg);
-    border: 2px solid var(--glass-accent-color);
+    background: var(--liquid-bg);
+    border: 2px solid var(--liquid-accent-color);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-}
-.username-checkmark h1 {
-    background: linear-gradient(120deg, var(--glass-secondary-text-color), var(--glass-text-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
 }
 .verified {
     width: 20px;
@@ -193,12 +194,12 @@ body {
 .settings-button, .merch-button, .social-button, .link-button, #scrollToTop,
 .visit-profile, .instagram-visit-profile, .youtube-visit-profile,
 .contact-info a, .disabilities-section a {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+    background: var(--liquid-bg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--glass-border-color);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    color: var(--glass-text-color) !important;
+    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--liquid-inset-shadow), 0 4px 15px rgba(0, 0, 0, 0.2);
+    color: var(--liquid-text-color) !important;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -208,12 +209,12 @@ body {
 .visit-profile:hover, .instagram-visit-profile:hover, .youtube-visit-profile:hover,
 .contact-info a:hover, .disabilities-section a:hover {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
-    border-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Specific Button Shapes & Icons */
+/* Button & Link Specifics */
 .settings-button, .merch-button {
     position: absolute;
     top: 20px;
@@ -246,72 +247,52 @@ body {
     align-items: center;
     justify-content: center;
 }
-.social-button .social-icon, .social-button span {
-    color: var(--glass-text-color) !important;
+.social-button .social-icon { color: var(--liquid-text-color) !important; margin-right: 15px; }
+
+#status-widget {
+  width: 100%;
+  max-width: 100%;
 }
-.social-button .social-icon { margin-right: 15px; }
 
 /* President Section */
-.president-photo { border-color: var(--glass-border-color); }
+.president-photo { border: 3px solid var(--liquid-border-color); }
+.president-info { display: flex; align-items: center; gap: 30px; }
+
+/* Links Containers */
+.social-links-container, .links-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
 
 /* Tech Information Section */
-.tech-item {
+.tech-item, .creator-card, .instagram-creator-card, .youtube-creator-card, .version-number, .build-number, .os-info, .device-info, .update-time, .countdown, .flip-clock-front, .flip-clock-back {
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: none;
-    border-radius: 12px;
-}
-.tech-item h3 { color: var(--glass-accent-color); }
-
-/* Creator / Shoutouts Section */
-.creator-card, .instagram-creator-card, .youtube-creator-card {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 20px;
-    box-shadow: none;
+    color: var(--liquid-text-color);
 }
-.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
-    border-color: var(--glass-accent-color);
-}
-.follower-count, .instagram-follower-count, .youtube-subscriber-count {
-    color: var(--glass-accent-color);
-}
+.tech-item h3, .creator-pic, .instagram-creator-pic, .youtube-creator-pic, .follower-count, .instagram-follower-count, .youtube-subscriber-count { color: var(--liquid-accent-color); border-color: var(--liquid-accent-color); }
 
-/* Countdown Section */
-.flip-clock-front, .flip-clock-back {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--glass-text-color);
-}
+/* Disabilities Section */
+.disabilities-section ul { list-style: none; padding: 0; }
+.disabilities-section li { margin-bottom: 10px; }
+.disabilities-section a { border-radius: 12px; }
 
 /* Back to Top Button */
 #scrollToTop {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 60px;
-    height: 60px;
-    border: none;
-    z-index: 9999;
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 50%;
+    position: fixed; bottom: 20px; left: 20px;
+    width: 60px; height: 60px; border: none; z-index: 9999;
+    display: none; opacity: 0; transition: opacity 0.3s ease; border-radius: 50%;
 }
 #scrollToTop.visible { display: block; opacity: 1; }
 .progress-ring { transform: rotate(-90deg); position: absolute; top: 0; left: 0; }
 .progress-bg { fill: none; stroke: rgba(255, 255, 255, 0.2); stroke-width: 4; }
-.progress-indicator { fill: none; stroke: var(--glass-text-color); stroke-width: 4; stroke-dasharray: 163.36; stroke-dashoffset: 163.36; transition: stroke-dashoffset 0.2s ease-out; }
-.arrow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -55%); font-size: 28px; color: var(--glass-text-color); pointer-events: none; }
-
-/* Version Info Section */
-.version-number, .build-number, .os-info, .device-info, .update-time, .countdown {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 12px;
-}
+.progress-indicator { fill: none; stroke: var(--liquid-text-color); stroke-width: 4; stroke-dasharray: 163.36; stroke-dashoffset: 163.36; transition: stroke-dashoffset 0.2s ease-out; }
+.arrow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -55%); font-size: 28px; color: var(--liquid-text-color); pointer-events: none; }
 
 /* Legal & Copyright Section */
 .legal-section::before { display: none; }
@@ -326,10 +307,10 @@ body {
 
 /* Business Info Section */
 .business-info-section h2, .business-info-section .hours-list, .business-info-section .contact-info {
-    border-color: var(--glass-border-color);
+    border-color: var(--liquid-border-color);
 }
 .business-info-section .hours-list li {
-    border-bottom-color: var(--glass-border-color);
+    border-bottom-color: var(--liquid-border-color);
 }
 .business-info-section .hours-list li.current-day {
     background: rgba(var(--accent-color-rgb), 0.3);
@@ -340,8 +321,8 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-    color: var(--glass-secondary-text-color);
-    border-top: 1px solid var(--glass-border-color);
+    color: var(--liquid-secondary-text-color);
+    border-top: 1px solid var(--liquid-border-color);
 }
 
 /* --- Unmodified Original Styles Below --- */
@@ -357,11 +338,6 @@ footer {
     .profile-pic { width: 100px; height: 100px; }
     .settings-button, .merch-button { width: 38px; height: 38px; }
     .username-checkmark h1 { font-size: 1.5rem; }
-}
-
-#status-widget {
-  width: 100%;
-  max-width: 100%;
 }
 
 * { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
