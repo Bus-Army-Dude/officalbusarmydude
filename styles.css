@@ -31,10 +31,10 @@
     --dark-icon: #CED4DA;
 
     /* --- LIQUID GLASS THEME (Dark Mode Default) --- */
-    --liquid-bg-color: rgba(40, 40, 40, 0.65);
-    --liquid-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
-    --liquid-border-color: rgba(255, 255, 255, 0.2);
-    --liquid-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --glass-bg-color: rgba(40, 40, 40, 0.65);
+    --glass-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+    --glass-border-color: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     --accent-color-rgb: 37, 99, 235;
 
     /* --- Fallback theme variables (default to dark) --- */
@@ -63,12 +63,12 @@ body.light-e {
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
     --social-icon-text-color: #FFFFFF; /* White for light mode */
-    
+
     /* --- LIQUID GLASS THEME (Light Mode) --- */
-    --liquid-bg-color: rgba(248, 249, 250, 0.8);
-    --liquid-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 60%);
-    --liquid-border-color: rgba(255, 255, 255, 1);
-    --liquid-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --glass-bg-color: rgba(248, 249, 250, 0.75);
+    --glass-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 60%);
+    --glass-border-color: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
 }
 
 /* Base Styles */
@@ -97,15 +97,14 @@ body {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 30px;
-    padding: 30px;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
+    padding: 25px;
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
-    color: var(--text-color);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border-color);
 }
 
 /* Profile Pic Wrapper */
@@ -137,7 +136,7 @@ body {
     height: 30px;
     border-radius: 50%;
     background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
+    background-image: var(--glass-bg-gradient);
     border: 2px solid var(--accent-color);
     display: flex;
     align-items: center;
@@ -182,18 +181,22 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: var(--liquid-bg) url('settings-icon.png') center/22px no-repeat;
-    border: 1px solid var(--liquid-border-color);
+    background: var(--liquid-bg-gradient), var(--glass-bg-color);
+    background-image: var(--liquid-bg-gradient), url('settings-icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover, 22px;
+    border: 1px solid var(--glass-border-color);
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: var(--liquid-shadow);
+    box-shadow: var(--glass-shadow);
 }
 
 .settings-button:hover {
     transform: translateY(-2px) rotate(45deg);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* Merch Button */
@@ -204,18 +207,22 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: var(--liquid-bg) url('gift-bag-icon.png') center/22px no-repeat;
-    border: 1px solid var(--liquid-border-color);
+    background: var(--liquid-bg-gradient), var(--glass-bg-color);
+    background-image: var(--liquid-bg-gradient), url('gift-bag-icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover, 22px;
+    border: 1px solid var(--glass-border-color);
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: var(--liquid-shadow);
+    box-shadow: var(--glass-shadow);
 }
 
 .merch-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* Media Queries */
@@ -260,16 +267,16 @@ body {
 
 /* Current Date/Time Section */
 .datetime-section {
-    padding: 30px;
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
+    padding: 25px;
+    border-radius: 24px;
     margin-bottom: 30px;
     text-align: center;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
-    border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--glass-shadow);
+    border: 1px solid var(--glass-border-color);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 .current-datetime {
@@ -281,15 +288,15 @@ body {
 
 /* President Section */
 .president-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     padding: 30px;
-    margin-bottom: 30px;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    margin-bottom: 30px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -384,16 +391,16 @@ body {
 
 /* Social Links Section */
 .social-links-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     padding: 30px;
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
     margin: 30px 0;
     text-align: center;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
-    border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
     color: var(--text-color);
@@ -413,8 +420,8 @@ body {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
@@ -422,15 +429,15 @@ body {
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     width: 100%;
     box-sizing: border-box;
-    box-shadow: var(--liquid-shadow);
-    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--glass-shadow);
+    border: 1px solid var(--glass-border-color);
     position: relative;
     overflow: hidden;
 }
 
 .social-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
 }
 
 .social-button .social-icon,
@@ -480,16 +487,16 @@ body {
 
 /* Useful Links Section */
 .useful-links-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     padding: 30px;
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
     margin: 30px 0;
     text-align: center;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
-    border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -518,8 +525,8 @@ body {
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     border-radius: 30px;
     text-decoration: none;
     color: var(--text-color);
@@ -527,14 +534,14 @@ body {
     letter-spacing: 0.5px;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-sizing: border-box;
-    box-shadow: var(--liquid-shadow);
-    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--glass-shadow);
+    border: 1px solid var(--glass-border-color);
 }
 
 /* Button Hover Effects */
 .link-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
 }
 
 /* Responsive Design */
@@ -574,15 +581,15 @@ body {
 
 /* Tech Information Section */
 .tech-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     padding: 30px;
-    margin-bottom: 30px;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    margin-bottom: 30px;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -743,15 +750,15 @@ body {
 
 /* Disabilities Section */
 .disabilities-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
+    border-radius: 24px;
     padding: 30px;
     margin-bottom: 30px;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
-    border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--glass-shadow);
+    border: 1px solid var(--glass-border-color);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 .disabilities-section h2 {
@@ -806,21 +813,21 @@ body {
 
 @media (prefers-color-scheme: light) {
     .disabilities-section a:hover {
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 15px rgba(0,0,0, 0.2);
     }
 }
 
 /* Shoutouts Section */
 .shoutouts-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     padding: 30px;
-    margin-bottom: 30px;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    margin-bottom: 30px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border-color);
+    box-shadow: var(--glass-shadow);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -1198,13 +1205,13 @@ body {
     padding: 30px;
     margin: 30px auto;
     text-align: center;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
 }
@@ -1330,13 +1337,14 @@ body {
   width: 60px;
   height: 60px;
   border: none;
-  background: var(--liquid-bg);
+  background: var(--liquid-bg-gradient), var(--glass-bg-color);
   cursor: pointer;
   z-index: 9999;
   display: none;
   transition: opacity 0.3s ease;
   border-radius: 50%;
-  box-shadow: var(--liquid-shadow);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border-color);
 }
 
 .scroll-to-top.visible {
@@ -1373,24 +1381,24 @@ body {
   left: 50%;
   transform: translate(-50%, -55%);
   font-size: 28px;
-  color: var(--text-color);
+  color: var(--accent-color);
   pointer-events: none;
 }
 
 /* Version Info Section */
 .version-info-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
+    border-radius: 24px;
     padding: 30px;
     margin-bottom: 30px;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
-    border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--glass-shadow);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    border: 1px solid var(--glass-border-color);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 /* Version Header */
@@ -1518,23 +1526,23 @@ body {
 
 /* Copyright and Legal Notices */
 .legal-section {
+    background-color: var(--glass-bg-color);
+    background-image: var(--glass-bg-gradient);
+    border-radius: 24px;
     padding: 30px;
     margin: 30px 0;
-    background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
-    border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--liquid-border-color);
+    box-shadow: var(--glass-shadow);
     width: 100%;
     box-sizing: border-box;
     position: relative;
+    border: 1px solid var(--liquid-border-color);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 /* Decorative top border */
 .legal-section::before {
-    display:none;
+    display: none;
 }
 
 /* Legal Section Header */
@@ -1705,9 +1713,9 @@ footer {
     color: var(--secondary-text);
     border-top: 1px solid var(--liquid-border-color);
     background-color: var(--liquid-bg-color);
-    background-image: var(--liquid-bg-gradient);
+    background-image: var(--glass-bg-gradient);
     border-radius: 24px;
-    box-shadow: var(--liquid-shadow);
+    box-shadow: var(--glass-shadow);
 }
 
 /* Responsive Design */
