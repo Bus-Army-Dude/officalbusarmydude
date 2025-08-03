@@ -30,12 +30,12 @@
     --dark-shadow: rgba(0, 0, 0, 0.2);
     --dark-icon: #CED4DA;
 
-    /* --- LIQUID GLASS THEME (Dark Mode Default) --- */
-    --glass-bg-color: rgba(40, 40, 40, 0.7);
-    --glass-bg-gradient: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 40%);
-    --glass-border-color: rgba(255, 255, 255, 0.2);
-    --glass-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.15), 0 10px 40px rgba(0, 0, 0, 0.4);
-    --glass-text-shadow: 1px 1px 2px rgba(255, 0, 255, 0.3), -1px -1px 2px rgba(0, 255, 255, 0.3);
+    /* --- IOS WIDGET THEME (Dark Mode Default) --- */
+    --glass-bg-color: rgba(28, 28, 30, 0.6);
+    --glass-border-color: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    --glass-text-primary: #ffffff;
+    --glass-text-secondary: rgba(235, 235, 245, 0.6);
     --accent-color-rgb: 37, 99, 235;
 
     /* --- Fallback theme variables (default to dark) --- */
@@ -49,7 +49,7 @@
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
-    --social-icon-text-color: var(--text-color);
+    --social-icon-text-color: var(--glass-text-primary);
 }
 
 body.light-e {
@@ -65,12 +65,12 @@ body.light-e {
     --icon-color: var(--light-icon);
     --social-icon-text-color: #FFFFFF; /* White for light mode */
 
-    /* --- LIQUID GLASS THEME (Light Mode) --- */
-    --glass-bg-color: rgba(255, 255, 255, 0.6);
-    --glass-bg-gradient: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 50%);
-    --glass-border-color: rgba(255, 255, 255, 0.8);
-    --glass-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.7), 0 10px 30px rgba(0, 0, 0, 0.15);
-    --glass-text-shadow: 1px 1px 2px rgba(255, 0, 255, 0.15), -1px -1px 2px rgba(0, 255, 255, 0.15);
+    /* --- IOS WIDGET THEME (Light Mode) --- */
+    --glass-bg-color: rgba(28, 28, 30, 0.75); /* Dark panel for light mode */
+    --glass-border-color: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    --glass-text-primary: #ffffff;
+    --glass-text-secondary: rgba(235, 235, 245, 0.6);
 }
 
 /* Base Styles */
@@ -100,14 +100,13 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 25px;
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     border-radius: 24px;
     box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border-color);
-    transition: all 0.4s ease;
+    color: var(--glass-text-secondary);
 }
 
 /* Profile Pic Wrapper */
@@ -124,7 +123,7 @@ body {
     border-radius: 50%;
     margin: 0 auto;
     display: block;
-    border: 3px solid var(--glass-border-color);
+    border: 3px solid var(--accent-color);
     position: relative;
     box-shadow: 0 4px 15px var(--shadow-color);
     object-fit: cover;
@@ -138,8 +137,8 @@ body {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: var(--glass-bg-color);
-    border: 2px solid var(--accent-color);
+    background: var(--bg-color);
+    border: 3px solid var(--link-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -149,6 +148,7 @@ body {
 
 .profile-status {
     font-size: 16px;
+    color: var(--text-color);
 }
 
 /* Username Checkmark */
@@ -163,11 +163,10 @@ body {
     margin: 0;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 800;
-    background: linear-gradient(120deg, var(--secondary-text), var(--text-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: var(--chromatic-aberration);
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: var(--glass-text-primary);
 }
 
 .verified {
@@ -181,27 +180,21 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--glass-bg-gradient), var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient), url('settings-icon.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover, 22px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--glass-bg-color) url('settings-icon.png') center/18px no-repeat;
     border: 1px solid var(--glass-border-color);
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: all 0.4s ease;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow: var(--glass-shadow);
 }
 
 .settings-button:hover {
-    transform: scale(1.1) rotate(45deg);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 12px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    transform: translateY(-2px) rotate(45deg);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
 }
 
 /* Merch Button */
@@ -209,27 +202,21 @@ body {
     position: absolute;
     top: 20px;
     left: 20px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--glass-bg-gradient), var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient), url('gift-bag-icon.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover, 22px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--glass-bg-color) url('gift-bag-icon.png') center/18px no-repeat;
     border: 1px solid var(--glass-border-color);
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: all 0.4s ease;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow: var(--glass-shadow);
 }
 
 .merch-button:hover {
-    transform: scale(1.1);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 12px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
 }
 
 /* Media Queries */
@@ -241,8 +228,8 @@ body {
 
     .settings-button,
     .merch-button {
-        width: 42px;
-        height: 42px;
+        width: 35px;
+        height: 35px;
     }
 
     .username-checkmark h1 {
@@ -258,8 +245,8 @@ body {
 
     .settings-button,
     .merch-button, {
-        width: 38px;
-        height: 38px;
+        width: 30px;
+        height: 30px;
     }
 
     .username-checkmark h1 {
@@ -275,15 +262,14 @@ body {
 /* Current Date/Time Section */
 .datetime-section {
     background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
-    padding: 25px;
+    padding: 15px;
     border-radius: 24px;
     margin-bottom: 30px;
     text-align: center;
     box-shadow: var(--glass-shadow);
     border: 1px solid var(--glass-border-color);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 .current-datetime {
@@ -295,14 +281,13 @@ body {
 
 /* President Section */
 .president-section {
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     padding: 30px;
     border-radius: 24px;
     margin-bottom: 30px;
     box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
@@ -320,7 +305,7 @@ body {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--glass-border-color);
+    border: 3px solid var(--accent-color);
     box-shadow: 0 4px 15px var(--shadow-color);
 }
 
@@ -334,7 +319,7 @@ body {
 .president-name {
     font-size: 24px;
     font-weight: 700;
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     margin: 0;
 }
 
@@ -347,7 +332,7 @@ body {
 .president-description {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--text-color);
+    color: var(--glass-text-secondary);
     opacity: 0.9;
     margin: 10px 0;
 }
@@ -398,19 +383,21 @@ body {
 
 /* Social Links Section */
 .social-links-section {
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     padding: 30px;
     border-radius: 24px;
     box-shadow: var(--glass-shadow);
     margin: 30px 0;
     text-align: center;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
-    color: var(--text-color);
+    color: var(--glass-text-secondary);
+}
+.social-links-section h2 {
+    color: var(--glass-text-primary);
 }
 
 .social-links-container {
@@ -427,31 +414,28 @@ body {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
-    border-radius: 30px;
+    background: rgba(120,120,120,0.2);
+    border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
     letter-spacing: 0.5px;
-    transition: all 0.4s ease;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     width: 100%;
     box-sizing: border-box;
-    box-shadow: var(--glass-shadow);
-    border: 1px solid var(--glass-border-color);
+    box-shadow: none;
+    border: 1px solid transparent;
     position: relative;
     overflow: hidden;
 }
 
 .social-button:hover {
-    transform: scale(1.05);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 12px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    transform: translateY(-2px);
+    background: rgba(120,120,120,0.3);
 }
 
 .social-button .social-icon,
 .social-button span {
-    color: var(--text-color) !important;
+    color: var(--glass-text-primary) !important;
     transition: color 0.2s;
 }
 
@@ -496,15 +480,14 @@ body {
 
 /* Useful Links Section */
 .useful-links-section {
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     padding: 30px;
     border-radius: 24px;
     box-shadow: var(--glass-shadow);
     margin: 30px 0;
     text-align: center;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
@@ -514,8 +497,7 @@ body {
 .useful-links-section h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    color: var(--text-color);
-    text-shadow: var(--chromatic-aberration);
+    color: var(--glass-text-primary);
 }
 
 /* Links Container */
@@ -535,25 +517,22 @@ body {
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
-    border-radius: 30px;
+    background: rgba(120,120,120,0.2);
+    border-radius: 12px;
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     font-weight: 600;
     letter-spacing: 0.5px;
-    transition: all 0.4s ease;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-sizing: border-box;
-    box-shadow: var(--glass-shadow);
-    border: 1px solid var(--glass-border-color);
+    box-shadow: none;
+    border: 1px solid transparent;
 }
 
 /* Button Hover Effects */
 .link-button:hover {
-    transform: scale(1.05);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 12px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    transform: translateY(-2px);
+    background: rgba(120,120,120,0.3);
 }
 
 /* Responsive Design */
@@ -593,28 +572,28 @@ body {
 
 /* Tech Information Section */
 .tech-section {
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     padding: 30px;
     border-radius: 24px;
     margin-bottom: 30px;
     box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
 }
+
 .tech-section h2 {
-    text-shadow: var(--chromatic-aberration);
+    color: var(--glass-text-primary);
 }
 
 .tech-item {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0,0,0,0.2);
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
     box-shadow: none;
 }
 
@@ -642,7 +621,7 @@ body {
     align-items: center;
     gap: 10px;
     margin: 10px 0;
-    color: var(--text-color);
+    color: var(--glass-text-secondary);
 }
 
 .tech-detail i {
@@ -657,7 +636,7 @@ body {
 
 .tech-detail span {
     font-weight: 600;
-    color: var(--secondary-text);
+    color: var(--glass-text-secondary);
     margin-right: 8px;
 }
 
@@ -673,7 +652,7 @@ body {
     position: relative;
     width: 180px;
     height: 40px;
-    border: 2px solid var(--glass-border-color);
+    border: 1px solid var(--glass-border-color);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -722,7 +701,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     font-weight: 600;
     font-size: 14px;
     z-index: 1;
@@ -766,25 +745,23 @@ body {
 /* Disabilities Section */
 .disabilities-section {
     background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
     border-radius: 24px;
     padding: 30px;
     margin-bottom: 30px;
     box-shadow: var(--glass-shadow);
     border: 1px solid var(--glass-border-color);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 .disabilities-section h2 {
     margin-bottom: 15px;
-    color: var(--text-color);
-    text-shadow: var(--chromatic-aberration);
+    color: var(--glass-text-primary);
 }
 
 .disabilities-section p {
     margin-bottom: 20px;
-    color: var(--text-color);
+    color: var(--glass-text-secondary);
 }
 
 .disabilities-section ul {
@@ -803,48 +780,44 @@ body {
 
 .disabilities-section a {
     display: block;
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     text-decoration: none;
     padding: 15px;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 16px;
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
-    border: 1px solid var(--glass-border-color);
-    box-shadow: var(--glass-shadow);
+    border-radius: 12px;
+    background-color: rgba(120,120,120,0.2);
+    border: 1px solid transparent;
 }
 
 .disabilities-section a:hover {
-    transform: scale(1.05);
-    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 12px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    color: var(--text-color);
+    background-color: rgba(120,120,120,0.3);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--shadow-color);
 }
 
 @media (prefers-color-scheme: dark) {
     .disabilities-section a:hover {
-        box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 12px 40px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
 }
 
 @media (prefers-color-scheme: light) {
     .disabilities-section a:hover {
-        box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.3), 0 12px 40px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 }
 
-/* Shoutouts Section */
+/* Container for each section - matching site style */
 .shoutouts-section {
     background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
     padding: 30px;
     border-radius: 24px;
     margin-bottom: 30px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border-color);
     box-shadow: var(--glass-shadow);
     width: 100%;
@@ -854,14 +827,13 @@ body {
 
 /* Section Headers and Timestamps */
 .shoutouts-section h2 {
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: 'Inter', sans-serif;
     font-size: 1.8em;
-    text-shadow: var(--chromatic-aberration);
 }
 
 /* TikTok Section Header */
@@ -892,7 +864,7 @@ body {
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp, /* UPDATED ID to match HTML */
 #youtube-last-updated-timestamp {  /* UPDATED ID to match HTML */
-    color: var(--secondary-text);
+    color: var(--glass-text-secondary);
     font-size: 0.9em;
     margin-bottom: 20px;
     display: flex;
@@ -927,22 +899,21 @@ body {
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    background-color: rgba(0,0,0,0.2);
-    background-image: var(--glass-bg-gradient);
+    background-color: rgba(120,120,120,0.2);
     border-radius: 16px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid transparent;
+    box-shadow: none;
     width: 100%;
     box-sizing: border-box;
     max-width: 100%;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     min-height: fit-content;
     height: auto;
 }
@@ -968,9 +939,8 @@ body {
 .creator-card:hover,
 .instagram-creator-card:hover,
 .youtube-creator-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 /* Common Profile Picture Styles */
@@ -1016,7 +986,7 @@ body {
 .creator-username,
 .instagram-creator-username,
 .youtube-creator-username {
-    color: var(--secondary-text);
+    color: var(--glass-text-secondary);
     font-size: max(0.9em, 14px); /* Set minimum font size */
     margin: 0;
     width: auto;
@@ -1042,7 +1012,7 @@ body {
 .creator-bio,
 .instagram-creator-bio,
 .youtube-creator-bio {
-    color: var(--secondary-text);
+    color: var(--glass-text-secondary);
     margin: 10px 0;
     font-size: 0.9em;
     line-height: 1.4;
@@ -1063,18 +1033,17 @@ body {
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background-color: var(--glass-bg-color);
-    color: var(--text-color);
+    background-color: rgba(120,120,120,0.2);
+    color: var(--glass-text-primary);
     text-decoration: none;
     padding: 8px 20px;
     border-radius: 25px;
     margin-top: 10px;
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
-    border: 1px solid var(--glass-border-color);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid transparent;
+    backdrop-filter: blur(12px);
     position: relative;
     overflow: hidden;
     width: fit-content;
@@ -1083,6 +1052,8 @@ body {
 .visit-profile:hover,
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
+    background-color: rgba(120,120,120,0.3);
+    color: white;
     box-shadow: 0 0 10px var(--accent-color);
     transform: translateY(-2px);
 }
@@ -1093,7 +1064,7 @@ body {
 .youtube-creator-header h3 {
     margin: 0;
     font-size: max(1.1em, 16px); /* Set minimum font size */
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     line-height: 1.4;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -1101,13 +1072,13 @@ body {
 
 /* Unavailable Message Styles */
 .unavailable-message {
-    color: var(--secondary-text);
+    color: var(--glass-text-secondary);
     font-size: 18px;
     margin-top: 20px;
     text-align: center;
     background-color: rgba(0,0,0,0.2);
     padding: 20px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid transparent;
     border-radius: 16px;
     box-shadow: none;
 }
@@ -1116,7 +1087,7 @@ body {
     font-size: 22px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: var(--text-color);
+    color: var(--glass-text-primary);
 }
 
 /* Media queries for mobile responsiveness */
@@ -1225,18 +1196,21 @@ body {
 
 /* Countdown Styles */
 .countdown-section {
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     padding: 30px;
     border-radius: 24px;
     margin: 30px auto;
     text-align: center;
     box-shadow: var(--glass-shadow);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--glass-border-color);
     width: 100%;
     box-sizing: border-box;
+}
+
+.countdown-section h2 {
+    color: var(--glass-text-primary);
 }
 
 .countdown-container {
@@ -1286,7 +1260,7 @@ body {
     background: rgba(0,0,0,0.2);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     box-shadow: none;
 }
 
@@ -1360,15 +1334,15 @@ body {
   width: 60px;
   height: 60px;
   border: 1px solid var(--glass-border-color);
-  background: var(--liquid-bg-gradient), var(--glass-bg-color);
+  background: var(--glass-bg-color);
   cursor: pointer;
   z-index: 9999;
   display: none;
   transition: all 0.4s ease;
   border-radius: 50%;
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 }
 
 .scroll-to-top:hover {
@@ -1415,8 +1389,7 @@ body {
 
 /* Version Info Section */
 .version-info-section {
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     border-radius: 24px;
     padding: 30px;
     margin-bottom: 30px;
@@ -1425,16 +1398,13 @@ body {
     box-sizing: border-box;
     overflow: hidden;
     border: 1px solid var(--glass-border-color);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-}
-.version-info-section h2 {
-    text-shadow: var(--chromatic-aberration);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 /* Version Header */
 .version-header {
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     margin-bottom: 15px;
     font-size: 1.2em;
     font-weight: 600;
@@ -1455,7 +1425,7 @@ body {
 .os-info,
 .device-info,
 .update-time {
-    color: var(--text-color);
+    color: var(--glass-text-secondary);
     font-size: 1em;
     background: rgba(0,0,0,0.2);
     padding: 12px;
@@ -1481,7 +1451,7 @@ body {
 .os-info::before,
 .device-info::before,
 .update-time::before {
-    color: var(--secondary-text);
+    color: var(--glass-text-secondary);
     font-weight: 500;
 }
 
@@ -1557,8 +1527,7 @@ body {
 
 /* Copyright and Legal Notices */
 .legal-section {
-    background-color: var(--glass-bg-color);
-    background-image: var(--glass-bg-gradient);
+    background: var(--glass-bg-color);
     border-radius: 24px;
     padding: 30px;
     margin: 30px 0;
@@ -1567,8 +1536,8 @@ body {
     box-sizing: border-box;
     position: relative;
     border: 1px solid var(--glass-border-color);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 /* Decorative top border */
@@ -1578,7 +1547,7 @@ body {
 
 /* Legal Section Header */
 .legal-header {
-    color: var(--text-color);
+    color: var(--glass-text-primary);
     font-size: 1.3em;
     font-weight: 700;
     margin-bottom: 20px;
@@ -1599,7 +1568,7 @@ body {
 .legal-protection-message,
 .watermark-message {
     background: rgba(0,0,0,0.2);
-    color: var(--text-color);
+    color: var(--glass-text-secondary);
     padding: 16px 20px;
     font-size: 0.95em;
     margin: 15px 0;
@@ -1649,7 +1618,7 @@ body {
 
 /* Last Updated Text */
 .last-updated {
-    color: var(--secondary-text);
+    color: var(--glass-text-secondary);
     font-size: 0.85em;
     margin-top: 20px;
     padding-top: 15px;
