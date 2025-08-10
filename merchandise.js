@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
             price: 26.00,
             originalPrice: 26.00, // Same as price, for non-sale
             discount: 0, // No discount
-            stock: "out of stock",
+            stock: "out-of-stock",
             sale: false, // No sale
             image: "product_images/adhdtiedye.webp",
             link: "https://riverkritzar-shop.fourthwall.com/en-usd/products/adhd-awareness-tie-dye-dad-hat",
