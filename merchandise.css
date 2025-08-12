@@ -20,7 +20,7 @@
     --dark-accent: #007bff;
     --dark-hover: #0056b3;
     --dark-link: #bb86fc;
-    --dark-shadow: rgba(0, 0, 0, 0.3);
+    --dark-shadow: rgba(0, 0, 0, 0.2);
 
     /* Default Theme (Dark) */
     --bg-color: var(--dark-bg);
@@ -73,15 +73,18 @@ body {
 
 /* Header Styling - Modern & Spaced */
 header {
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid color-mix(in srgb, var(--text-color) 15%, transparent);
+    background: linear-gradient(145deg, 
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg)
+    );
     color: var(--text-color);
     padding: 25px;
     border-radius: 16px;
     margin: 20px 0 30px 0;
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    box-shadow: 
+        0 8px 32px -8px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -147,15 +150,18 @@ header {
 
 /* Modern Category Dropdown */
 .category-dropdown {
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid color-mix(in srgb, var(--text-color) 15%, transparent);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg)
+    );
     padding: 20px;
     border-radius: 16px;
     margin-bottom: 30px;
     position: relative;
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    box-shadow: 
+        0 8px 32px -8px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
+    backdrop-filter: blur(10px);
 }
 
 .category-dropdown label {
@@ -259,10 +265,10 @@ header {
 
 /* Product Cards - Enhanced Design */
 .product-item {
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid color-mix(in srgb, var(--text-color) 15%, transparent);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg)
+    );
     padding: 20px;
     border-radius: 16px;
     display: flex;
@@ -270,7 +276,10 @@ header {
     position: relative;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 8px 32px -8px var(--shadow-color);
+    box-shadow: 
+        0 8px 32px -8px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
+    backdrop-filter: blur(10px);
 }
 
 .product-item:hover {
