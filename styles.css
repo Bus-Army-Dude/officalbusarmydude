@@ -58,6 +58,27 @@ body.light-e {
     --social-icon-text-color: #FFFFFF; /* White for light mode */
 }
 
+/* --- Glassmorphism Effect for Sections --- */
+.profile-section,
+.datetime-section,
+.president-section,
+.social-links-section,
+.useful-links-section,
+.tech-section,
+.disabilities-section,
+.shoutouts-section,
+.countdown-section,
+.version-info-section,
+.legal-section,
+.business-info-section {
+    background: color-mix(in srgb, var(--content-bg) 65%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    border-radius: 16px;
+}
+
 /* Base Styles */
 body {
     background-color: var(--bg-color);
@@ -78,27 +99,6 @@ body {
     margin: 0 auto;
     /* Change: Sizing reverted from 1.5rem to 24px */
     padding: 0 24px;
-}
-
-/* --- Glassmorphism Effect for Sections --- */
-.profile-section,
-.datetime-section,
-.president-section,
-.social-links-section,
-.useful-links-section,
-.tech-section,
-.disabilities-section,
-.shoutouts-section,
-.countdown-section,
-.version-info-section,
-.legal-section,
-.business-info-section {
-    background: color-mix(in srgb, var(--content-bg) 65%, transparent);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
-    border-radius: 16px;
 }
 
 /* Profile Section */
