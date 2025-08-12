@@ -15,7 +15,7 @@
     --light-accent: #0D6EFD;
     --light-hover: #0B5ED7;
     --light-link: var(--light-accent);
-    --light-shadow: rgba(0, 0, 0, 0.25);
+    --light-shadow: rgba(33, 37, 41, 0.075);
     --light-icon: #495057;
     
     /* --- Modern Dark Mode Colors --- */
@@ -27,7 +27,7 @@
     --dark-accent: #3B82F6;
     --dark-hover: #60A5FA;
     --dark-link: var(--dark-accent);
-    --dark-shadow: rgba(0, 0, 0, 0.37);
+    --dark-shadow: rgba(0, 0, 0, 0.2);
     --dark-icon: #CED4DA;
 
     /* --- Fallback theme variables (default to dark) --- */
@@ -59,26 +59,8 @@ body.light-e {
 }
 
 /* Base Styles */
-@keyframes gradient-animation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradient-animation 25s ease infinite;
-    z-index: -1; /* Place it behind all content */
-}
-
 body {
-    background-color: transparent;
+    background-color: var(--bg-color);
     color: var(--text-color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
@@ -118,7 +100,6 @@ body {
     box-shadow: 0 8px 32px 0 var(--shadow-color);
     border-radius: 16px;
 }
-
 
 /* Profile Section */
 .profile-section {
@@ -283,6 +264,7 @@ body {
 /* Current Date/Time Section */
 .datetime-section {
     padding: 15px;
+    border-radius: 10px;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -416,10 +398,10 @@ body {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background: color-mix(in srgb, var(--accent-color) 50%, transparent);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid color-mix(in srgb, var(--accent-color) 60%, transparent);
+    background: linear-gradient(145deg,
+        var(--accent-color),
+        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
+    );
     border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
@@ -428,21 +410,26 @@ body {
     width: 100%;
     box-sizing: border-box;
     box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent);
+        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
     position: relative;
     overflow: hidden;
 }
 
 .social-button:hover {
     transform: translateY(-2px);
-    background: color-mix(in srgb, var(--accent-color) 60%, transparent);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
+        var(--accent-color)
+    );
     box-shadow: 
-        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent);
+        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
+        0 0 0 1px var(--accent-color);
 }
 
 .social-button .social-icon,
 .social-button span {
-    color: var(--text-color) !important;
+    color: var(--social-icon-text-color) !important;
     transition: color 0.2s;
 }
 
@@ -518,10 +505,10 @@ body {
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    background: color-mix(in srgb, var(--accent-color) 50%, transparent);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid color-mix(in srgb, var(--accent-color) 60%, transparent);
+    background: linear-gradient(145deg,
+        var(--accent-color),
+        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
+    );
     border-radius: 25px;
     text-decoration: none;
     color: white;
@@ -530,15 +517,20 @@ body {
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-sizing: border-box;
     box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent);
+        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
 /* Button Hover Effects */
 .link-button:hover {
     transform: translateY(-2px);
-    background: color-mix(in srgb, var(--accent-color) 60%, transparent);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
+        var(--accent-color)
+    );
     box-shadow: 
-        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent);
+        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
+        0 0 0 1px var(--accent-color);
 }
 
 /* Responsive Design */
@@ -744,6 +736,7 @@ body {
 
 /* Disabilities Section */
 .disabilities-section {
+    border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
 }
