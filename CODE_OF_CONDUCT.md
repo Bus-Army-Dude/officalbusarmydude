@@ -111,5 +111,5 @@ Community leaders will follow these guidelines to address violations:
 
 ## 7. **Attribution**
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.1.
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.2.
 
