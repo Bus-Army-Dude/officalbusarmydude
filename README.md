@@ -1,4 +1,3 @@
-[![pages-build-deployment](https://github.com/Bus-Army-Dude/officalbusarmydude/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Bus-Army-Dude/officalbusarmydude/actions/workflows/pages/pages-build-deployment)
 
 # Link in Bio Website
 
