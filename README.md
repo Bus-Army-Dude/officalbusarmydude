@@ -77,21 +77,21 @@ The **Home Page** contains the following sections:
         - Date released
         - Date Bought
         - OS Version
-        - Battery Health (If applicaple)
-        - Battery Charge Cyles (If applicaple)
+        - Battery Health (If applicable)
+        - Battery Charge Cycles (If applicable)
     
 #### 11. **Disabilities**
    - Displays the disabilities the owner has.
-        - Each disability also is a button that takes the user to the offical website to tell them about the            disability
-        - and when the user hover's over the button it has a hover animation.
+        - Each disability is also a button that takes the user to the official website to tell them about the            disability
+        - and when the user hovers over the button, it has a hover animation.
 
 #### 12. **Version Information**
    - Displays the version info of the website as follows:
         - Version Number
         - Build Number
-        - The users current Date and Time
-        - The users operating system
-        - The users device
+        - The user's current Date and Time
+        - The users' operating system
+        - The user's device
         - then when the page will refresh (every 5 minutes)
 
 #### 13. **Notice Information**
@@ -136,7 +136,7 @@ This website is built using a combination of **JavaScript**, **CSS**, and **HTML
    JavaScript powers the interactive elements of the website, such as settings management, dynamic weather updates, and user interface interactions.
 
 - **CSS**: 24.9%  
-   CSS controls the visual styling and ensures the website is fully responsive, including support for both light and dark themes and device-specific layouts.
+   CSS controls the visual styling and ensures the website is fully responsive, including support for both light and dark themes, as well as device-specific layouts.
 
 - **HTML**: 14.2%  
    HTML provides the basic structure and content of the site, serving as the backbone of the Home Page, Weather Page, and Settings Page.
@@ -145,16 +145,16 @@ This website is built using a combination of **JavaScript**, **CSS**, and **HTML
 
 ## Version History
 
-- **v1.18.0**: Introduced the option in the settings for the appearance to allow users to match there device appearance or to manually change it between light and dark mode.
+- **v1.18.0**: Introduced the option in the settings for the appearance to allow users to match their device appearance or to manually change it between light and dark mode.
 - **v1.17.0**: Bug Fixes.
 - **v1.16.0**: Introduced the **Admin Portal**, used to manage all the content on the website that only the owner can access
 - **v1.15.0**: Bug Fixes.
 - **v1.14.0**: Theme Consistency and performance optimization.
 - **v1.13.0**: added the toggle button focus outline, also enhancements.
 - **v1.12.0**: added a merch store page.
-- **v1.11.0**: added a settings page for dark mode and light modem, font adjustments, and reset to factory settings.
-- **v1.10.1**: added a current day highlighted and also enhanced the event module and enhanced the theme.
-- **v1.10.0**: added a faq section, added a event calendar, and bug fixes.
+- **v1.11.0**: added a settings page for dark mode and light mode, font adjustments, and reset to factory settings.
+- **v1.10.1**: added a current day highlight and also enhanced the event module and enhanced the theme.
+- **v1.10.0**: added a faq section, added an event calendar, and bug fixes.
 - **v1.9.0**: added tiktok creator shoutouts, added a tech information section, added disabilites, version information, and legal and copyright notice.
 - **v1.8.0**: added rednote same format as youtube and instagram, and General Enhancements.
 - **v1.7.0**: Security enhancements such as preventing media saving and also text copying.
