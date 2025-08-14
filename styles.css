@@ -253,7 +253,10 @@ body.light-mode .profile-pic {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background: var(--accent-color);
+    background: color-mix(in srgb, var(--accent-color) 50%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 60%, transparent);
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
@@ -261,26 +264,28 @@ body.light-mode .profile-pic {
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     width: 100%;
     box-sizing: border-box;
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    color: white;
+    box-shadow: 
+        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    position: relative;
+    overflow: hidden;
+    color: var(--text-color);
 }
 
 .social-button:hover, .link-button:hover {
     transform: translateY(-2px);
-    background: var(--hover-color);
+    background: color-mix(in srgb, var(--accent-color) 60%, transparent);
+    box-shadow: 
+        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent);
 }
 
 .social-button .social-icon {
     font-size: 20px;
     margin-right: 15px;
     flex-shrink: 0;
-    color: white !important;
+    color: var(--text-color) !important;
 }
 .social-button span {
-    color: white !important;
+    color: var(--text-color) !important;
 }
 
 /* President Section */
