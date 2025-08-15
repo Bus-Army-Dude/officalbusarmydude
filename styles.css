@@ -2,67 +2,48 @@
     --font-size-base: 16px;
     --line-height-base: 1.65;
 
-    /* Glass variables */
-    --glass-blur: 24px;
+    /* Apple Glass Variables */
+    --glass-blur: 32px;
     --glass-saturation: 180%;
-    --glass-bg-dark: rgba(30, 30, 30, 0.40);
-    --glass-bg-light: rgba(255, 255, 255, 0.50);
-    --glass-border-dark: rgba(255, 255, 255, 0.10);
-    --glass-border-light: rgba(255, 255, 255, 0.35);
+    --glass-bg-light: linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.10) 100%);
+    --glass-bg-dark: linear-gradient(135deg, rgba(44,62,80,0.19) 0%, rgba(22,31,51,0.16) 100%);
+    --glass-border-light: rgba(255,255,255,0.65);
+    --glass-border-dark: rgba(255,255,255,0.19);
 
     /* Light theme */
     --light-bg: #F8F9FA;
-    --light-content-bg: #FFFFFF;
     --light-text: #1B1B1F;
     --light-secondary-text: #5A6372;
-    --light-border: #E5E7EB;
-    --light-accent: #007AFF;
-    --light-hover: #0051A8;
-    --light-link: var(--light-accent);
-    --light-shadow: 0 8px 32px 0 rgba(60, 60, 60, 0.08);
+    --light-shadow: 0 12px 32px 0 rgba(60, 60, 60, 0.08);
     --light-icon: #495057;
 
     /* Dark theme */
     --dark-bg: #121213;
-    --dark-content-bg: #23232A;
     --dark-text: #F4F5F7;
     --dark-secondary-text: #B6B7BD;
-    --dark-border: #2C2C32;
-    --dark-accent: #0A84FF;
-    --dark-hover: #0051A8;
-    --dark-link: var(--dark-accent);
-    --dark-shadow: 0 8px 32px 0 rgba(0,0,0,0.32);
+    --dark-shadow: 0 12px 32px 0 rgba(16, 20, 32, 0.28);
     --dark-icon: #B6B7BD;
 
-    /* Defaults (dark mode) */
+    /* Defaults (dark) */
     --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
     --secondary-text: var(--dark-secondary-text);
-    --border-color: var(--dark-border);
-    --accent-color: var(--dark-accent);
-    --hover-color: var(--dark-hover);
-    --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
 }
 
 body.light-mode {
     --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
     --secondary-text: var(--light-secondary-text);
-    --border-color: var(--light-border);
-    --accent-color: var(--light-accent);
-    --hover-color: var(--light-hover);
-    --link-color: var(--light-link);
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
 }
 
-/* Base Styles */
+/* Apple-style morphic gradient background */
 body {
-    background: var(--bg-color);
+    background: linear-gradient(120deg, #76b2fe 0%, #b69efe 60%, #ffb5f6 100%);
+    min-height: 100vh;
     color: var(--text-color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     margin: 0;
@@ -71,18 +52,20 @@ body {
     line-height: var(--line-height-base);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s;
+}
+body.dark-mode {
+    background: linear-gradient(120deg, #232946 0%, #1c1b23 100%);
 }
 
+/* Container */
 .container {
     max-width: 1140px;
     margin: 0 auto;
     padding: 0 24px;
 }
 
-/* =================== */
-/* Glassmorphism Card  */
-/* =================== */
+/* Glassmorphism Core Card */
 .profile-section,
 .datetime-section,
 .president-section,
@@ -97,15 +80,17 @@ body {
 .business-info-section {
     position: relative;
     background: var(--glass-bg-dark);
-    border-radius: 28px;
+    border-radius: 32px;
     border: 1.5px solid var(--glass-border-dark);
     box-shadow: var(--dark-shadow);
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
     backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
     overflow: hidden;
     padding: 30px;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
+/* Light mode glass effect */
 body.light-mode .profile-section,
 body.light-mode .datetime-section,
 body.light-mode .president-section,
@@ -123,7 +108,7 @@ body.light-mode .business-info-section {
     box-shadow: var(--light-shadow);
 }
 
-/* Subtle Shine */
+/* Soft glow/highlight at top for extra depth */
 .profile-section::before,
 .datetime-section::before,
 .president-section::before,
@@ -136,18 +121,48 @@ body.light-mode .business-info-section {
 .version-info-section::before,
 .legal-section::before,
 .business-info-section::before {
-    content: '';
+    content: "";
     position: absolute;
-    left: 0; top: 0; right: 0; height: 45%;
-    border-radius: 28px 28px 0 0;
-    pointer-events: none;
-    background: linear-gradient(180deg,rgba(255,255,255,0.18) 0%,rgba(255,255,255,0.03) 100%);
     z-index: 1;
+    left: 0; right: 0; top: 0; height: 50%;
+    border-radius: 32px 32px 0 0;
+    pointer-events: none;
+    background: linear-gradient(180deg,rgba(255,255,255,0.33) 0%,rgba(255,255,255,0.07) 100%);
 }
 
-/* =================== */
-/* Elements & Layout   */
-/* =================== */
+/* Card text */
+.profile-section,
+.datetime-section,
+.president-section,
+.social-links-section,
+.useful-links-section,
+.tech-section,
+.disabilities-section,
+.shoutouts-section,
+.countdown-section,
+.version-info-section,
+.legal-section,
+.business-info-section {
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.11);
+}
+body.light-mode .profile-section,
+body.light-mode .datetime-section,
+body.light-mode .president-section,
+body.light-mode .social-links-section,
+body.light-mode .useful-links-section,
+body.light-mode .tech-section,
+body.light-mode .disabilities-section,
+body.light-mode .shoutouts-section,
+body.light-mode .countdown-section,
+body.light-mode .version-info-section,
+body.light-mode .legal-section,
+body.light-mode .business-info-section {
+    color: #212529;
+    text-shadow: 0 1px 8px rgba(255,255,255,0.08);
+}
+
+/* Profile Section */
 .profile-section { text-align: center; margin-top: 20px; margin-bottom: 30px; }
 .profile-pic-wrapper { position: relative; width: 150px; margin: 0 auto; }
 .profile-pic {
@@ -164,20 +179,22 @@ body.light-mode .profile-pic { border: 2px solid var(--glass-border-light); }
     position: absolute; bottom: 10px; right: 5px;
     width: 32px; height: 32px; border-radius: 50%;
     background: rgba(255,255,255,0.25);
-    border: 3px solid var(--accent-color);
+    border: 3px solid #fff;
     display: flex; align-items: center; justify-content: center;
     z-index: 3;
     box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
 
+/* Username/Checkmark */
 .username-checkmark { display: flex; align-items: center; justify-content: center; margin: 15px 0;}
 .username-checkmark h1 {
     margin: 0; font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800;
-    color: var(--text-color);
+    color: inherit;
     background: none;
 }
 .verified { width: 20px; height: 20px; margin-left: 5px; }
 
+/* Settings & Merch Buttons */
 .settings-button, .merch-button {
     position: absolute; top: 20px;
     width: 40px; height: 40px; border-radius: 50%;
@@ -191,12 +208,11 @@ body.light-mode .profile-pic { border: 2px solid var(--glass-border-light); }
 body.light-mode .settings-button,
 body.light-mode .merch-button { border: 1px solid var(--glass-border-light); }
 .settings-button:hover, .merch-button:hover { transform: translateY(-2px); background: rgba(255,255,255,0.30); }
-
 .settings-button { right: 20px; }
 .merch-button { left: 20px; }
 
 /* Social Links */
-.social-links-section { margin: 20px 0; text-align: center; width: 100%; color: var(--text-color);}
+.social-links-section { margin: 20px 0; text-align: center; width: 100%; color: inherit;}
 .social-links-container {
     display: grid; grid-template-columns: repeat(2, 1fr);
     gap: 18px; margin-top: 20px; width: 100%;
@@ -208,7 +224,7 @@ body.light-mode .merch-button { border: 1px solid var(--glass-border-light); }
     border: 1px solid var(--glass-border-dark);
     border-radius: 50px;
     font-weight: 600;
-    color: var(--text-color);
+    color: inherit;
     letter-spacing: 0.5px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.09);
     text-decoration: none;
@@ -218,7 +234,7 @@ body.light-mode .social-button, body.light-mode .link-button { border: 1px solid
 .social-button:hover, .link-button:hover {
     background: rgba(255,255,255,0.25);
     box-shadow: 0 8px 24px rgba(0,0,0,0.14);
-    color: var(--accent-color);
+    color: #007AFF;
 }
 .social-button .social-icon { font-size: 20px; margin-right: 15px; flex-shrink: 0;}
 .social-button span { color: inherit; }
@@ -233,16 +249,17 @@ body.light-mode .social-button, body.light-mode .link-button { border: 1px solid
 }
 body.light-mode .president-photo { border-color: var(--glass-border-light); }
 .president-details { flex: 1; display: flex; flex-direction: column; gap: 10px;}
-.president-name { font-size: 24px; font-weight: 700; color: var(--text-color); margin: 0;}
-.president-details p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--text-color); }
+.president-name { font-size: 24px; font-weight: 700; color: inherit; margin: 0;}
+.president-details p { margin: 0; font-size: 16px; line-height: 1.6; color: inherit; }
 
-/* DateTime Section */
+/* DateTime */
 .datetime-section { text-align: center; margin-bottom: 20px;}
-.current-datetime { font-family: monospace; font-size: 1.2em; color: var(--accent-color); margin: 0; }
+.current-datetime { font-family: monospace; font-size: 1.2em; color: #fff; margin: 0; }
+body.light-mode .current-datetime { color: #007AFF; }
 
 /* Useful Links */
 .useful-links-section { text-align: center; width: 100%; }
-.useful-links-section h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-color);}
+.useful-links-section h2 { font-size: 1.8rem; margin-bottom: 20px; }
 .links-container {
     display: grid; grid-template-columns: repeat(2, 1fr);
     gap: 18px; margin-top: 20px; width: 100%;
@@ -251,22 +268,24 @@ body.light-mode .president-photo { border-color: var(--glass-border-light); }
 /* Tech Section */
 .tech-section { width: 100%; }
 .tech-item {
-    background: var(--glass-bg-dark);
+    background: rgba(255,255,255,0.10);
     border-radius: 16px;
     border: 1px solid var(--glass-border-dark);
     padding: 20px;
     margin-bottom: 20px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    color: inherit;
 }
 body.light-mode .tech-item {
-    background: var(--glass-bg-light);
+    background: rgba(255,255,255,0.40);
     border-color: var(--glass-border-light);
 }
-.tech-item h3 { margin: 0 0 15px 0; color: var(--accent-color); font-size: 1.2rem;
+.tech-item h3 { margin: 0 0 15px 0; color: #fff; font-size: 1.2rem;
     font-weight: 600; display: flex; align-items: center; gap: 10px;}
-.tech-item h3 i { font-size: 1.4rem; color: var(--accent-color);}
-.tech-detail { display: flex; align-items: center; gap: 10px; margin: 10px 0; color: var(--text-color); }
+body.light-mode .tech-item h3 { color: #007AFF; }
+.tech-item h3 i { font-size: 1.4rem; color: #fff;}
+.tech-detail { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
 
 /* Battery Display */
 .battery-container { display: flex; align-items: center; gap: 15px; margin-top: 15px; }
@@ -274,15 +293,16 @@ body.light-mode .tech-item {
     position: relative; width: 180px; height: 40px;
     border: 2px solid var(--glass-border-dark); border-radius: 10px;
     display: flex; align-items: center;
+    background: rgba(255,255,255,0.10);
 }
 body.light-mode .battery-icon { border-color: var(--glass-border-light);}
-.battery-level { height: 100%; background: linear-gradient(145deg, #32CD32, color-mix(in srgb, #32CD32 80%, #ffffff)); transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);}
-.low-power .battery-level { background: linear-gradient(145deg, #FFCC00, color-mix(in srgb, #FFCC00 80%, #ffffff)); }
-.critical .battery-level { background: linear-gradient(145deg, #FF3B30, color-mix(in srgb, #FF3B30 80%, #ffffff)); }
+.battery-level { height: 100%; background: linear-gradient(145deg, #32CD32, #b4ffc0); transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);}
+.low-power .battery-level { background: linear-gradient(145deg, #FFCC00, #fff8b4); }
+.critical .battery-level { background: linear-gradient(145deg, #FF3B30, #ffd0cb); }
 
 /* Disabilities Section */
 .disabilities-section { width: 100%; }
-.disabilities-section h2 { margin-bottom: 15px; color: var(--text-color);}
+.disabilities-section h2 { margin-bottom: 15px; }
 .disabilities-section ul { list-style: none; padding: 0; margin: 0;}
 .disabilities-section li { margin-bottom: 10px; }
 
@@ -293,30 +313,30 @@ body.light-mode .battery-icon { border-color: var(--glass-border-light);}
     gap: 20px; width: 100%; margin: 0;
 }
 .creator-card, .instagram-creator-card, .youtube-creator-card {
-    background: var(--glass-bg-dark);
+    background: rgba(255,255,255,0.10);
     border-radius: 20px;
     padding: 20px;
     transition: transform 0.3s, box-shadow 0.3s;
     border: 1px solid var(--glass-border-dark);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    color: inherit;
 }
 body.light-mode .creator-card,
 body.light-mode .instagram-creator-card,
 body.light-mode .youtube-creator-card {
-    background: var(--glass-bg-light);
+    background: rgba(255,255,255,0.40);
     border-color: var(--glass-border-light);
 }
 
 /* Version Info Section */
 .version-info-section { width: 100%; }
 .version-header {
-    color: var(--text-color);
     margin-bottom: 15px;
     font-size: 1.2em;
     font-weight: 600;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid rgba(255,255,255,0.11);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -325,7 +345,6 @@ body.light-mode .youtube-creator-card {
 /* Legal Section */
 .legal-section { width: 100%; position: relative; }
 .legal-header {
-    color: var(--text-color);
     font-size: 1.3em;
     font-weight: 700;
     margin-bottom: 20px;
@@ -336,7 +355,6 @@ body.light-mode .youtube-creator-card {
     gap: 10px;
 }
 
-/* Business Info Section */
 .business-info-section { width: 100%;}
 
 /* Responsive */
