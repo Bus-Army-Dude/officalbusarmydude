@@ -1,4 +1,3 @@
-
 /* ======================== */
 /* Theme Variables          */
 /* ======================== */
@@ -1732,7 +1731,7 @@ body {
   fill: none;
   stroke: var(--accent-color);
   stroke-width: 4;
-  stroke-dasharray: 163.36; /* 2\u03c0r where r=26 */
+  stroke-dasharray: 163.36; /* 2πr where r=26 */
   stroke-dashoffset: 163.36;
   transition: stroke-dashoffset 0.2s ease-out;
 }
@@ -1797,7 +1796,7 @@ body {
 }
 
 .version-header::before {
-    content: "\ud83d\udcca";
+    content: "📊";
 }
 
 /* Common Info Box Styles */
@@ -1846,11 +1845,11 @@ body {
 }
 
 /* Label Content with Icons */
-.version-number::before { content: "\ud83d\udd22 Version:"; }
-.build-number::before { content: "\ud83c\udfd7\ufe0f Build:"; }
-.os-info::before { content: "\ud83d\udcbb Operating System:"; }
-.device-info::before { content: "\ud83d\udcf1 Device Model:"; }
-.update-time::before { content: "\ud83d\udd52 Current Date & Time:"; }
+.version-number::before { content: "🔢 Version:"; }
+.build-number::before { content: "🏗️ Build:"; }
+.os-info::before { content: "💻 Operating System:"; }
+.device-info::before { content: "📱 Device Model:"; }
+.update-time::before { content: "🕒 Current Date & Time:"; }
 
 /* Label Styling */
 .version-number::before,
@@ -1903,7 +1902,7 @@ body {
 }
 
 .countdown::before {
-    content: "\u23f1\ufe0f";
+    content: "⏱️";
 }
 
 /* Media queries */
@@ -2005,7 +2004,7 @@ body {
 }
 
 .legal-header::before {
-    content: '\u2696\ufe0f';
+    content: '⚖️';
     font-size: 1.2em;
 }
 
@@ -2057,7 +2056,7 @@ body {
 .copy-protection-message::before,
 .legal-protection-message::before,
 .watermark-message::before {
-    content: '\u26a0\ufe0f';
+    content: '⚠️';
     font-size: 1.2em;
     min-width: 24px;
     display: flex;
@@ -2105,7 +2104,7 @@ body {
 }
 
 .last-updated::before {
-    content: '\ud83d\udd52';
+    content: '🕒';
     font-size: 1.1em;
 }
 
