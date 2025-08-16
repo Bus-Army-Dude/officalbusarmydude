@@ -1,331 +1,411 @@
-/* ===================================================== */
-/* == iOS-like Apple Theme (inspired by iOS design language) ==
-   Scoped to .settings-page
-   - Rounded pill controls
-   - Subtle translucency / backdrop blur
-   - Apple's system font stack & spacing
-   - Light + Dark mode variables tuned for iOS
+/* 
+  iOS 26 (future Apple) Settings Theme
+  - Ultra-modern "Apple Glass" look: vibrant, glassy, soft, and accessible
+  - Drop this on .settings-page
 */
-/* ===================================================== */
 
-/* Global theme variables (Apple-inspired) */
-:root{
-  --font-size-base: 17px;
-  --system-font: -apple-system, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --line-height: 1.47059;
+:root {
+  --font-size-base: 18px;
+  --sf-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ios-radius: 18px;
+  --ios-section-radius: 22px;
+  --ios-shadow-light: 0 4px 32px 0 rgba(0,40,120,0.10), 0 1.5px 8px rgba(0,0,0,0.10);
+  --ios-shadow-dark: 0 8px 40px 0 rgba(0,200,255,0.09), 0 1.5px 12px rgba(0,0,0,0.6);
 
-  /* Light mode colors (iOS-like) */
-  --apple-light-bg: #f5f5f7;           /* window background */
-  --apple-light-surface: #ffffff;      /* cards, sheets */
-  --apple-light-text: #1d1d1f;         /* primary text */
-  --apple-light-secondary: #6e6e73;    /* secondary text */
-  --apple-light-border: #d2d2d7;       /* separators */
-  --apple-accent: #007aff;             /* iOS blue */
-  --apple-accent-hover: #005ecf;
-  --apple-success: #34c759;
-  --apple-danger: #ff3b30;
-  --apple-shadow: rgba(0,0,0,0.08);
-  --glass-blur: 18px;
+  /* Futuristic Light */
+  --ios-bg: linear-gradient(135deg, #faffff 0%, #f5f7fa 100%);
+  --ios-card: rgba(255,255,255,0.80);
+  --ios-border: rgba(0,120,255,0.10);
+  --ios-primary: #00b2ff; /* even more vibrant blue */
+  --ios-primary-hover: #0080dd;
+  --ios-text: #17181b;
+  --ios-secondary: #69707c;
+  --ios-toggle-off: #e0e3ef;
+  --ios-toggle-on: #30ff94;
+  --ios-danger: #ff3366;
+  --ios-danger-hover: #ee1155;
+  --ios-link: #00b2ff;
+  --ios-accent-bg: rgba(0,178,255,0.08);
+  --ios-focus: #00b2ff33;
+  --ios-card-blur: 36px;
+  --ios-card-glow: 0 0 0 3px #00b2ff33;
 
-  /* Dark mode colors (iOS-like) */
-  --apple-dark-bg: #0b0b0c;
-  --apple-dark-surface: #1c1c1e;
-  --apple-dark-text: #f2f2f3;
-  --apple-dark-secondary: #929297;
-  --apple-dark-border: #2c2c2e;
-  --apple-dark-shadow: rgba(0,0,0,0.6);
+  /* Futuristic Dark */
+  --ios-bg-dark: linear-gradient(135deg, #181c28 0%, #10141a 100%);
+  --ios-card-dark: rgba(30,36,52, 0.82);
+  --ios-border-dark: rgba(0,200,255,0.14);
+  --ios-primary-dark: #00ffe3;
+  --ios-primary-dark-hover: #00c6b6;
+  --ios-text-dark: #f5f9fa;
+  --ios-secondary-dark: #a3b3c4;
+  --ios-toggle-off-dark: #3a3e4b;
+  --ios-toggle-on-dark: #00ffbb;
+  --ios-danger-dark: #ff3366;
+  --ios-danger-dark-hover: #ee1155;
+  --ios-link-dark: #00ffe3;
+  --ios-accent-bg-dark: rgba(0,255,227,0.10);
+  --ios-focus-dark: #00ffe333;
+  --ios-card-blur-dark: 36px;
+  --ios-card-glow-dark: 0 0 0 3px #00ffe333;
 }
 
-/* Mode classes - apply body.light-mode or body.dark-mode for explicit mode */
-body.light-mode {
-  --bg-color: var(--apple-light-bg);
-  --content-bg: var(--apple-light-surface);
-  --text-color: var(--apple-light-text);
-  --secondary-text: var(--apple-light-secondary);
-  --border-color: var(--apple-light-border);
-  --accent-color: var(--apple-accent);
-  --hover-color: var(--apple-accent-hover);
-  --shadow-color: var(--apple-shadow);
-  --glass-bg: rgba(255,255,255,0.6);
-  --glass-border: rgba(0,0,0,0.04);
+/* Theme mode bindings */
+body.settings-page {
+  --bg: var(--ios-bg);
+  --card: var(--ios-card);
+  --card-blur: var(--ios-card-blur);
+  --card-glow: var(--ios-card-glow);
+  --border: var(--ios-border);
+  --primary: var(--ios-primary);
+  --primary-hover: var(--ios-primary-hover);
+  --text: var(--ios-text);
+  --secondary: var(--ios-secondary);
+  --toggle-off: var(--ios-toggle-off);
+  --toggle-on: var(--ios-toggle-on);
+  --danger: var(--ios-danger);
+  --danger-hover: var(--ios-danger-hover);
+  --link: var(--ios-link);
+  --accent-bg: var(--ios-accent-bg);
+  --focus: var(--ios-focus);
+  --shadow: var(--ios-shadow-light);
+}
+body.settings-page.dark-mode {
+  --bg: var(--ios-bg-dark);
+  --card: var(--ios-card-dark);
+  --card-blur: var(--ios-card-blur-dark);
+  --card-glow: var(--ios-card-glow-dark);
+  --border: var(--ios-border-dark);
+  --primary: var(--ios-primary-dark);
+  --primary-hover: var(--ios-primary-dark-hover);
+  --text: var(--ios-text-dark);
+  --secondary: var(--ios-secondary-dark);
+  --toggle-off: var(--ios-toggle-off-dark);
+  --toggle-on: var(--ios-toggle-on-dark);
+  --danger: var(--ios-danger-dark);
+  --danger-hover: var(--ios-danger-dark-hover);
+  --link: var(--ios-link-dark);
+  --accent-bg: var(--ios-accent-bg-dark);
+  --focus: var(--ios-focus-dark);
+  --shadow: var(--ios-shadow-dark);
 }
 
-body.dark-mode {
-  --bg-color: var(--apple-dark-bg);
-  --content-bg: var(--apple-dark-surface);
-  --text-color: var(--apple-dark-text);
-  --secondary-text: var(--apple-dark-secondary);
-  --border-color: var(--apple-dark-border);
-  --accent-color: var(--apple-accent);
-  --hover-color: var(--apple-accent-hover);
-  --shadow-color: var(--apple-dark-shadow);
-  --glass-bg: rgba(28,28,30,0.5);
-  --glass-border: rgba(255,255,255,0.04);
-}
-
-/* ========== Page base (scoped) ========== */
-body.settings-page{
-  font-family: var(--system-font);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-color);
-  color: var(--text-color);
+/* Base layout */
+body.settings-page {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sf-font);
   font-size: var(--font-size-base);
-  line-height: var(--line-height);
+  min-height: 100vh;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
+  transition: background 0.4s cubic-bezier(.4,0,.2,1);
 }
 
 /* Container */
-body.settings-page .container{
-  max-width: 820px;
+body.settings-page .container {
+  max-width: 900px;
   margin: 0 auto;
-  padding: 34px 20px;
+  padding: 44px 20px;
 }
 
 /* Header */
-body.settings-page .settings-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-  padding-bottom: 12px;
-  margin-bottom: 26px;
-  border-bottom: 1px solid var(--border-color);
-}
-body.settings-page .settings-header h1{
-  font-size: 28px;
-  font-weight: 600;
-  margin:0;
-  color: var(--text-color);
-  letter-spacing: -0.01em;
-}
-body.settings-page .version{
-  color: var(--secondary-text);
-  font-size: 14px;
-}
-
-/* Subsections: use grouped iOS-style cards */
-body.settings-page .settings-subsection{
-  background: linear-gradient(180deg, color-mix(in srgb, var(--content-bg) 88%, transparent), var(--content-bg));
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 6px 18px var(--shadow-color);
-  border: 1px solid var(--glass-border, rgba(0,0,0,0.04));
-}
-
-/* Section title */
-body.settings-page .subsection-title{
-  padding: 14px 18px;
-  margin:0;
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--text-color);
-  border-bottom: 1px solid var(--border-color);
-  background: transparent;
-}
-
-/* Setting rows - mimic grouped UITableView */
-body.settings-page .setting-card{
+body.settings-page .settings-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--border-color);
+  gap: 14px;
+  padding-bottom: 20px;
+  margin-bottom: 34px;
+  border-bottom: 1.5px solid var(--border);
   background: transparent;
-  transition: background-color 160ms ease;
 }
-body.settings-page .setting-card:last-child{
+body.settings-page .settings-header h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 6px var(--accent-bg);
+}
+body.settings-page .version {
+  color: var(--secondary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Section/group ("glass card") */
+body.settings-page .settings-subsection {
+  border-radius: var(--ios-section-radius);
+  margin-bottom: 32px;
+  background: var(--card);
+  box-shadow: var(--shadow), var(--card-glow);
+  backdrop-filter: blur(var(--card-blur));
+  -webkit-backdrop-filter: blur(var(--card-blur));
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  transition: box-shadow 0.36s cubic-bezier(.4,0,.2,1);
+}
+
+/* Section title */
+body.settings-page .subsection-title {
+  font-size: 1.25rem;
+  padding: 18px 28px 8px 28px;
+  margin: 0;
+  font-weight: 700;
+  color: var(--primary);
+  background: transparent;
+  letter-spacing: -0.01em;
+}
+
+/* Setting row */
+body.settings-page .setting-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 28px;
+  border-bottom: 1.15px solid var(--border);
+  background: transparent;
+  transition: background 0.22s cubic-bezier(.4,0,.2,1);
+}
+body.settings-page .setting-card:last-child {
   border-bottom: 0;
 }
-body.settings-page .setting-card:hover{
-  background: color-mix(in srgb, var(--content-bg) 92%, var(--accent-color) 1%);
+body.settings-page .setting-card:hover {
+  background: var(--accent-bg);
 }
 
-/* Labels & description */
-body.settings-page .setting-label{ flex: 1; padding-right: 16px; min-width: 0;}
-body.settings-page .setting-title{
-  margin: 0 0 4px 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-color);
+/* Setting label + description */
+body.settings-page .setting-label {
+  flex: 1;
+  padding-right: 18px;
+  min-width: 0;
 }
-body.settings-page .setting-description{
+body.settings-page .setting-title {
+  margin: 0 0 6px 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--text);
+}
+body.settings-page .setting-description {
   margin: 0;
-  font-size: 13px;
-  color: var(--secondary-text);
-  line-height: 1.35;
+  font-size: 1rem;
+  color: var(--secondary);
+  opacity: 0.83;
+  line-height: 1.42;
 }
 
-/* Toggle - Apple style */
-body.settings-page .toggle-switch{
-  width: 52px;
-  height: 32px;
+/* Apple-glass toggle switch */
+body.settings-page .toggle-switch {
+  width: 58px;
+  height: 36px;
   position: relative;
-  flex-shrink:0;
+  flex-shrink: 0;
 }
-body.settings-page .toggle-switch input{ opacity:0; width:0; height:0; position:absolute; }
-body.settings-page .toggle-slider{
+body.settings-page .toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
   position: absolute;
-  inset:0;
-  border-radius: 999px;
-  background: var(--toggle-off, rgba(0,0,0,0.08));
-  transition: background 160ms ease, box-shadow 160ms ease;
-  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.03);
 }
-body.settings-page .toggle-slider::before{
+body.settings-page .toggle-slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--toggle-off);
+  box-shadow: 0 1px 7px var(--accent-bg), 0 0 0 2px var(--toggle-off);
+  transition: background 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s cubic-bezier(.4,0,.2,1);
+}
+body.settings-page .toggle-slider::before {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 24px;
-  height: 24px;
+  left: 5px;
+  top: 5px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: var(--content-bg);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
-  transition: transform 160ms cubic-bezier(.2,.9,.3,1);
+  background: linear-gradient(135deg, #fff 56%, #e6eaff 100%);
+  box-shadow: 0 2px 8px 0 var(--card-glow), 0 0 0 2px var(--toggle-off);
+  transition: transform 0.22s cubic-bezier(.4,0,.2,1), background 0.18s;
 }
-body.settings-page input:checked + .toggle-slider{
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 85%, #fff), var(--accent-color));
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-color) 30%, transparent);
+body.settings-page input:checked + .toggle-slider {
+  background: var(--toggle-on);
+  box-shadow: 0 2px 14px var(--toggle-on), 0 0 0 3px var(--toggle-on);
 }
-body.settings-page input:checked + .toggle-slider::before{
-  transform: translateX(20px);
-}
-
-/* Segmented control (iOS style) */
-body.settings-page .segmented-control{
-  display:inline-flex;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--content-bg) 88%, transparent), var(--content-bg));
-  border-radius: 12px;
-  padding: 4px;
-  gap:4px;
-  border:1px solid var(--border-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
-}
-body.settings-page .segmented-control button{
-  background: transparent;
-  border:0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: var(--text-color);
-  font-weight: 600;
-  cursor:pointer;
-}
-body.settings-page .segmented-control button.active{
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 92%, #fff), var(--accent-color));
-  color: white;
-  box-shadow: 0 4px 10px color-mix(in srgb, var(--accent-color) 30%, transparent);
+body.settings-page input:checked + .toggle-slider::before {
+  background: linear-gradient(135deg, #e6fff3 56%, #fff 100%);
+  transform: translateX(22px);
+  box-shadow: 0 2px 12px 0 var(--toggle-on), 0 0 0 2px var(--toggle-on);
 }
 
-/* Range slider (thumb + track) */
-body.settings-page #text-size-slider{
-  -webkit-appearance:none;
-  appearance:none;
-  width: 100%;
-  height: 6px;
-  background: linear-gradient(90deg, var(--slider-track-filled-color, var(--accent-color)) var(--slider-percent, 40%), var(--slider-track-color, rgba(0,0,0,0.08)) 0);
+/* Segmented control */
+body.settings-page .segmented-control {
+  display: inline-flex;
+  background: var(--accent-bg);
   border-radius: 999px;
-  outline:none;
+  padding: 4px;
+  gap: 4px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 2px 8px var(--accent-bg);
 }
-body.settings-page #text-size-slider::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  width: 20px;
-  height: 20px;
-  background: var(--content-bg);
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+body.settings-page .segmented-control button {
+  background: transparent;
+  border: 0;
+  padding: 10px 24px;
+  border-radius: 999px;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1.08rem;
+  transition: background 0.18s, color 0.18s;
+}
+body.settings-page .segmented-control button.active {
+  background: linear-gradient(90deg, var(--primary) 70%, #fff 100%);
+  color: #fff;
+  text-shadow: 0 2px 8px var(--primary);
+  box-shadow: 0 2px 10px var(--primary);
 }
 
-/* Buttons (pill primary) */
+/* Range slider */
+body.settings-page input[type="range"] {
+  width: 100%;
+  margin: 14px 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+body.settings-page input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 56%, #fff 100%);
+  box-shadow: 0 2px 12px var(--primary);
+  border: 3px solid #fff;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+body.settings-page input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px;
+  background: linear-gradient(90deg, var(--primary) 60%, var(--toggle-off) 100%);
+  border-radius: 999px;
+}
+body.settings-page input[type="range"]:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--focus);
+}
+body.settings-page input[type="range"]:active::-webkit-slider-thumb {
+  background: linear-gradient(135deg, #fff 56%, var(--primary) 100%);
+}
+
+/* Buttons (pill, glassy) */
 body.settings-page .reset-button,
-body.settings-page #cookie-consent-banner button{
-  padding: 10px 16px;
-  border-radius: 14px;
+body.settings-page .button-glass,
+body.settings-page #cookie-consent-banner button {
+  padding: 12px 28px;
+  border-radius: 999px;
   border: none;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 1.08rem;
   color: #fff;
   cursor: pointer;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 92%, #fff), var(--accent-color));
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent-color) 28%, transparent);
-  transition: transform 120ms ease, box-shadow 160ms ease;
+  background: linear-gradient(90deg, var(--primary) 80%, #fff 110%);
+  box-shadow: 0 4px 18px var(--primary);
+  transition: background 0.18s, transform 0.1s, box-shadow 0.18s;
 }
 body.settings-page .reset-button:active,
-body.settings-page #cookie-consent-banner button:active{
-  transform: translateY(1px) scale(0.995);
+body.settings-page .button-glass:active,
+body.settings-page #cookie-consent-banner button:active {
+  background: linear-gradient(90deg, #fff 10%, var(--primary) 110%);
+  transform: translateY(1px) scale(0.985);
+  box-shadow: 0 1px 8px var(--primary);
+}
+body.settings-page .reset-button {
+  background: linear-gradient(90deg, var(--danger) 80%, #fff 110%);
+  box-shadow: 0 4px 18px var(--danger);
+}
+body.settings-page .reset-button:active {
+  background: linear-gradient(90deg, #fff 10%, var(--danger) 110%);
+  box-shadow: 0 1px 8px var(--danger);
 }
 
-/* Back link */
-body.settings-page .back-link{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  color: var(--accent-color);
-  text-decoration:none;
+/* Link style */
+body.settings-page a {
+  color: var(--link);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.18s;
+}
+body.settings-page a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
 }
 
-/* Cookie consent banner (floating sheet style) */
-body.settings-page #cookie-consent-banner{
+/* Cookie consent floating card */
+body.settings-page #cookie-consent-banner {
   position: fixed;
-  bottom: 20px;
+  bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(920px, 94%);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--glass-bg) 85%, transparent), var(--content-bg));
-  border-radius: 14px;
-  border: 1px solid var(--glass-border);
-  padding: 16px 18px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  justify-content:space-between;
-  box-shadow: 0 10px 30px var(--shadow-color);
-  z-index: 1100;
+  width: min(700px, 92vw);
+  background: var(--card);
+  border-radius: var(--ios-section-radius);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow), var(--card-glow);
+  backdrop-filter: blur(var(--card-blur));
+  -webkit-backdrop-filter: blur(var(--card-blur));
+  padding: 24px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  z-index: 1200;
+  font-size: 1.05rem;
 }
 
 /* Footer */
-body.settings-page footer{
-  padding: 18px;
-  text-align:center;
-  color: var(--secondary-text);
-  border-top: 1px solid var(--border-color);
-  margin-top: 28px;
+body.settings-page footer {
+  text-align: center;
+  padding: 22px;
+  border-top: 1.5px solid var(--border);
+  color: var(--secondary);
+  background: transparent;
+  font-size: 1rem;
+  margin-top: 44px;
 }
 
-/* Focus-visible (desktop) */
-body.settings-page :focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-color) 18%, transparent);
+/* Focus ring for accessibility */
+body.settings-page :focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 4px var(--focus);
   border-radius: 8px;
+  z-index: 10;
 }
 
-/* Responsive tweaks */
-@media (max-width:768px){
-  body.settings-page .container{ padding: 22px 14px; }
-  body.settings-page .settings-header h1{ font-size: 22px; }
-  body.settings-page .setting-card{ padding: 12px 14px; flex-direction: column; align-items:flex-start; gap:8px; }
-  body.settings-page .text-size-control{ width:100%; }
-  body.settings-page #cookie-consent-banner{ width: 92%; bottom: 12px; padding: 12px; }
-}
-@media (max-width:480px){
-  body.settings-page .container{ padding: 16px; }
-  body.settings-page .settings-header h1{ font-size: 20px; }
-  body.settings-page .subsection-title{ font-size: 15px; padding: 12px 14px; }
-  body.settings-page #cookie-consent-banner{ left: 50%; transform: translateX(-50%); width: calc(100% - 20px); bottom: 10px; border-radius: 12px; }
+/* Responsive */
+@media (max-width: 700px) {
+  body.settings-page .container { padding: 22px 6px; }
+  body.settings-page .settings-header h1 { font-size: 1.25rem; }
+  body.settings-page .subsection-title { font-size: 1.1rem; padding: 14px 16px 8px 16px; }
+  body.settings-page .setting-card { padding: 14px 10px; }
+  body.settings-page #cookie-consent-banner { width: 98vw; padding: 16px 8px; }
 }
 
-/* Utility: grouped list (iOS table look) */
-.body.settings-page .grouped-list{ list-style:none; margin:0; padding:0; }
-body.settings-page .grouped-list .group{
-  margin: 12px 14px;
-  border-radius: 12px;
-  overflow:hidden;
-  background: var(--content-bg);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 6px 18px var(--shadow-color);
+/* Optional: Grouped list utility (iOS style) */
+body.settings-page .grouped-list {
+  margin: 14px 0;
+  padding: 0;
+  list-style: none;
+}
+body.settings-page .grouped-list .group {
+  margin-bottom: 22px;
+  border-radius: var(--ios-radius);
+  background: var(--card);
+  box-shadow: 0 2px 12px var(--primary);
+  border: 1.5px solid var(--border);
+  backdrop-filter: blur(var(--card-blur));
+  -webkit-backdrop-filter: blur(var(--card-blur));
+  overflow: hidden;
 }
