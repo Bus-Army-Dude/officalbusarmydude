@@ -22,7 +22,7 @@
     --light-link: var(--light-accent);
     --light-shadow: rgba(33, 37, 41, 0.1);
     --light-icon: #495057;
-
+    
     /* --- Modern Dark Mode Colors --- */
     --dark-bg: #121212;
     --dark-content-bg: #1C1C1C;
@@ -96,9 +96,9 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 25px;
+    border-radius: 16px;
     /* LIQUID GLASS EFFECT */
     background: var(--glass-bg);
-    border-radius: 16px;
     box-shadow: 0 8px 32px -8px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
@@ -256,12 +256,12 @@ body {
 
 /* Current Date/Time Section */
 .datetime-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
     text-align: center;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
     box-shadow: 0 2px 4px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
@@ -277,17 +277,17 @@ body {
 
 /* President Section */
 .president-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 30px;
     border-radius: 16px;
     margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
     box-shadow: 0 8px 32px -8px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .president-info {
@@ -381,19 +381,19 @@ body {
 
 /* Social Links Section */
 .social-links-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 30px;
     border-radius: 16px;
-    box-shadow: 0 8px 32px -8px var(--shadow-color);
     margin: 20px 0;
     text-align: center;
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
     width: 100%;
     box-sizing: border-box;
     color: var(--text-color);
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
+    box-shadow: 0 8px 32px -8px var(--shadow-color);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
 }
 
 .social-links-container {
@@ -425,7 +425,7 @@ body {
         0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent);
     position: relative;
     overflow: hidden;
-    border: none; /* Buttons are kept solid */
+    border: none;
 }
 
 .social-button:hover {
@@ -485,18 +485,18 @@ body {
 
 /* Useful Links Section */
 .useful-links-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 30px;
     border-radius: 16px;
-    box-shadow: 0 8px 32px -8px var(--shadow-color);
     margin: 25px 0;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
+    box-shadow: 0 8px 32px -8px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
-    width: 100%;
-    box-sizing: border-box;
 }
 
 /* Title Styling */
@@ -536,7 +536,7 @@ body {
     box-sizing: border-box;
     box-shadow:
         0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent);
-    border: none; /* Buttons are kept solid */
+    border: none;
 }
 
 /* Button Hover Effects */
@@ -587,24 +587,25 @@ body {
 
 /* Tech Information Section */
 .tech-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 30px;
     border-radius: 16px;
     margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
     box-shadow: 0 8px 32px -8px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .tech-item {
-    background: color-mix(in srgb, var(--glass-bg) 70%, transparent); /* Nested glass effect */
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 15px;
+    /* LIQUID GLASS EFFECT (Nested) */
+    background: color-mix(in srgb, var(--glass-bg) 70%, transparent);
     border: 1px solid color-mix(in srgb, var(--glass-border) 50%, transparent);
     box-shadow:
         0 4px 15px color-mix(in srgb, var(--shadow-color) 20%, transparent);
@@ -757,11 +758,11 @@ body {
 
 /* Disabilities Section */
 .disabilities-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
     box-shadow: 0 4px 10px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
@@ -826,18 +827,18 @@ body {
 
 /* Shoutouts Section (Consolidated from duplicates) */
 .shoutouts-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 20px;
     border-radius: 16px;
     margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
     box-shadow: 0 8px 32px -8px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
 }
 
 /* Section Headers and Timestamps */
@@ -914,16 +915,11 @@ body {
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    background-color: color-mix(in srgb, var(--glass-bg) 70%, transparent); /* Nested Glass */
     border-radius: 20px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid color-mix(in srgb, var(--glass-border) 50%, transparent);
-    box-shadow: 0 4px 20px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
     max-width: 100%;
@@ -931,6 +927,12 @@ body {
     overflow: visible;
     min-height: fit-content;
     height: auto;
+    /* LIQUID GLASS EFFECT (Nested) */
+    background: color-mix(in srgb, var(--glass-bg) 70%, transparent);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid color-mix(in srgb, var(--glass-border) 50%, transparent);
+    box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 .youtube-cover-photo {
@@ -1206,18 +1208,18 @@ body {
 
 /* Countdown Styles */
 .countdown-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 30px;
     border-radius: 16px;
     margin: 30px auto;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
     box-shadow: 0 8px 32px -8px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .countdown-container {
@@ -1264,10 +1266,11 @@ body {
     justify-content: center;
     font-size: 2em;
     font-weight: bold;
+    color: var(--text-color);
+    /* LIQUID GLASS EFFECT (Nested) */
     background: color-mix(in srgb, var(--glass-bg) 70%, transparent);
     border: 1px solid color-mix(in srgb, var(--glass-border) 50%, transparent);
     border-radius: 12px;
-    color: var(--text-color);
     box-shadow:
         0 4px 15px color-mix(in srgb, var(--shadow-color) 15%, transparent);
 }
@@ -1388,15 +1391,15 @@ body {
 
 /* Version Info Section */
 .version-info-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 4px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
+    box-shadow: 0 2px 4px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
@@ -1527,18 +1530,18 @@ body {
 
 /* Copyright and Legal Notices */
 .legal-section {
+    border-radius: 16px;
+    padding: 25px;
+    margin: 35px 0;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
     /* LIQUID GLASS: Modified to integrate the red tint with the glass effect */
     background: linear-gradient(145deg,
         var(--glass-bg),
         color-mix(in srgb, var(--glass-bg) 80%, #ff4757 30%)
     );
-    border-radius: 16px;
-    padding: 25px;
-    margin: 35px 0;
     box-shadow: 0 10px 30px -10px var(--shadow-color);
-    width: 100%;
-    box-sizing: border-box;
-    position: relative;
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
@@ -1552,7 +1555,7 @@ body {
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg,
+    background: linear-gradient(90deg, 
         #ff4757,
         color-mix(in srgb, #ff4757 70%, white),
         #ff4757
@@ -1733,20 +1736,20 @@ footer {
     .container {
         padding: 0 10px;
     }
-
+    
     .countdown-item {
         min-width: 80px;
     }
-
+    
     .creator-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
-
+    
     .president-info {
         flex-direction: column;
         text-align: center;
     }
-
+    
     .social-links-container {
         gap: 10px;
     }
@@ -1756,35 +1759,30 @@ footer {
     body {
         padding: 10px;
     }
-
+    
     .profile-pic {
         width: 120px;
         height: 120px;
     }
-
+    
     .social-button {
         width: 100%;
         justify-content: center;
     }
-
+    
     .creator-grid {
         grid-template-columns: 1fr;
     }
-
+    
     .countdown-container {
         flex-wrap: wrap;
     }
 }
 
-/* Final Theme Overrides */
 :root {
-    --accent-color-rgb: 37, 99, 235;
+    --accent-color-rgb: 37, 99, 235; /* This should match the RGB of your primary accent color */
     --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-/* Dark and Light mode color variables for the theme are already defined at the top */
-/* This section can be used for any final overrides if needed, but is currently not required. */
-
 
 /* Focus Outline Styles */
 *:focus {
@@ -1793,7 +1791,7 @@ footer {
 
 /* Only show focus outlines when enabled (body doesn't have focus-outline-disabled class) */
 body:not(.focus-outline-disabled) *:focus {
-    outline: 2px solid var(--accent-color); /* Use theme accent color instead of purple */
+    outline: 2px solid var(--accent-color); /* Use theme accent color */
     outline-offset: 2px;
 }
 
@@ -1819,7 +1817,6 @@ body:not(.focus-outline-disabled) textarea:focus {
 
 @media (max-width: 768px) {
     #focus-outline-setting-card {
-        /* Don't hide on mobile, just adjust layout */
         margin-bottom: 1rem;
     }
 }
@@ -1910,7 +1907,6 @@ body.maintenance-active {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
-
 /* --- Updated Socials Section Styling --- */
 .maintenance-socials {
     padding-top: 25px; /* Space above the content inside */
@@ -1950,7 +1946,6 @@ body.maintenance-active {
 /* Style for the icon within the link */
 .maintenance-socials a i {
     font-size: 1.1em; /* Icon size relative to link text */
-    /* No specific color needed, inherits from <a> */
 }
 
 .maintenance-socials a:hover,
@@ -1964,22 +1959,22 @@ body.maintenance-active {
 
 /* --- Responsive Adjustments --- */
 @media screen and (max-width: 480px) {
-    .maintenance-content {
+      .maintenance-content {
         padding: 25px 20px;
     }
-    .maintenance-loader {
+      .maintenance-loader {
         width: 40px;
         height: 40px;
         border-width: 3px;
         margin-bottom: 25px;
     }
-    .maintenance-content h1 {
-        margin-bottom: 20px;
+      .maintenance-content h1 {
+          margin-bottom: 20px;
     }
-    .maintenance-content p { /* Main paragraph */
+      .maintenance-content p { /* Main paragraph */
         margin-bottom: 25px;
     }
-    .maintenance-socials {
+      .maintenance-socials {
         padding-top: 20px;
         gap: 12px;
     }
@@ -1989,12 +1984,11 @@ body.maintenance-active {
 }
 
 @media screen and (max-height: 500px) {
-    /* (Previous height adjustments remain relevant) */
     .maintenance-loader { margin-bottom: 15px; }
-    .maintenance-content h1 { margin-bottom: 15px; }
-    .maintenance-content p { margin-bottom: 20px; } /* Main paragraph */
-    .maintenance-socials { padding-top: 15px; gap: 10px; }
-    .maintenance-content { padding-top: 20px; padding-bottom: 20px; }
+      .maintenance-content h1 { margin-bottom: 15px; }
+      .maintenance-content p { margin-bottom: 20px; } /* Main paragraph */
+      .maintenance-socials { padding-top: 15px; gap: 10px; }
+      .maintenance-content { padding-top: 20px; padding-bottom: 20px; }
 }
 
 /* ======================================== */
@@ -2002,17 +1996,17 @@ body.maintenance-active {
 /* ======================================== */
 /* Main container for business info */
 .business-info-section {
-    /* LIQUID GLASS EFFECT */
-    background: var(--glass-bg);
     padding: 25px;
     border-radius: 16px;
     margin: 30px 0;
+    width: 100%;
+    box-sizing: border-box;
+    /* LIQUID GLASS EFFECT */
+    background: var(--glass-bg);
     box-shadow: 0 3px 12px var(--shadow-color);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .business-info-section h2 {
