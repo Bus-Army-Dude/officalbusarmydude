@@ -17,6 +17,9 @@
     --light-link: var(--light-accent);
     --light-shadow: rgba(33, 37, 41, 0.075);
     --light-icon: #495057;
+    --light-glass-bg: rgba(255, 255, 255, 0.6); /* Light mode glass background */
+    --light-glass-border: rgba(255, 255, 255, 0.3); /* Light mode glass border */
+    --light-glass-section-bg: rgba(255, 255, 255, 0.4); /* Light mode section glass background */
     
     /* --- Modern Dark Mode Colors --- */
     --dark-bg: #121212;
@@ -29,6 +32,9 @@
     --dark-link: var(--dark-accent);
     --dark-shadow: rgba(0, 0, 0, 0.2);
     --dark-icon: #CED4DA;
+    --dark-glass-bg: rgba(28, 28, 28, 0.6); /* Dark mode glass background */
+    --dark-glass-border: rgba(52, 58, 64, 0.3); /* Dark mode glass border */
+    --dark-glass-section-bg: rgba(28, 28, 28, 0.4); /* Dark mode section glass background */
 
     /* --- Fallback theme variables (default to dark) --- */
     --bg-color: var(--dark-bg);
@@ -42,6 +48,9 @@
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
     --social-icon-text-color: var(--dark-text);
+    --glass-bg: var(--dark-glass-bg);
+    --glass-border: var(--dark-glass-border);
+    --glass-section-bg: var(--dark-glass-section-bg);
 }
 
 body.light-e {
@@ -56,6 +65,9 @@ body.light-e {
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
     --social-icon-text-color: #FFFFFF; /* White for light mode */
+    --glass-bg: var(--light-glass-bg);
+    --glass-border: var(--light-glass-border);
+    --glass-section-bg: var(--light-glass-section-bg);
 }
 
 /* Base Styles */
@@ -64,7 +76,6 @@ body {
     color: var(--text-color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    /* Change: Sizing reverted from 2rem to 32px */
     padding: 32px;
     line-height: var(--line-height-base);
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
@@ -76,7 +87,6 @@ body {
 .container {
     max-width: 1140px;
     margin: 0 auto;
-    /* Change: Sizing reverted from 1.5rem to 24px */
     padding: 0 24px;
 }
 
@@ -87,10 +97,11 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 25px;
-    background: var(--content-bg);
+    background: var(--glass-section-bg); /* Changed to glass variable */
     border-radius: 16px;
-    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--border-color);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(20px); /* Increased blur for more glass effect */
+    -webkit-backdrop-filter: blur(20px);
 }
 
 /* Profile Pic Wrapper */
@@ -110,9 +121,7 @@ body {
     border: 3px solid var(--link-color);
     position: relative;
     box-shadow: 0 4px 15px var(--shadow-color);
-    /* --- ADD THIS LINE --- */
     object-fit: cover;
-    /* --------------------- */
 }
 
 /* Profile Status Container */
@@ -123,13 +132,15 @@ body {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: var(--content-bg);
+    background: var(--glass-bg); /* Changed to glass variable */
     border: 3px solid var(--link-color);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
     box-shadow: 0 2px 8px var(--shadow-color);
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .profile-status {
@@ -168,13 +179,15 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('settings-icon.png') center/18px no-repeat, var(--link-color);
-    border: none;
+    background: url('settings-icon.png') center/18px no-repeat, var(--glass-bg); /* Changed to glass variable */
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--link-color);
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .settings-button:hover {
@@ -190,13 +203,15 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('gift-bag-icon.png') center/18px no-repeat, var(--accent-color);
-    border: none;
+    background: url('gift-bag-icon.png') center/18px no-repeat, var(--glass-bg); /* Changed to glass variable */
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .merch-button:hover {
@@ -246,12 +261,15 @@ body {
 
 /* Current Date/Time Section */
 .datetime-section {
-    background-color: var(--content-bg);
+    background-color: var(--glass-section-bg); /* Changed to glass variable */
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
     text-align: center;
     box-shadow: 0 2px 4px var(--shadow-color);
+    backdrop-filter: blur(15px); /* Added blur */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border); /* Added glass border */
 }
 
 .current-datetime {
@@ -263,17 +281,15 @@ body {
 
 /* President Section */
 .president-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg)
-    );
+    background: var(--glass-section-bg); /* Changed to glass variable */
     padding: 30px;
     border-radius: 16px;
     margin-bottom: 30px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
-    backdrop-filter: blur(10px);
+        0 0 0 1px var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(20px); /* Increased blur */
+    -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
 }
@@ -370,18 +386,16 @@ body {
 
 /* Social Links Section */
 .social-links-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg)
-    );
+    background: var(--glass-section-bg); /* Changed to glass variable */
     padding: 30px;
     border-radius: 16px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
+        0 0 0 1px var(--glass-border); /* Changed to glass border */
     margin: 20px 0;
     text-align: center;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px); /* Increased blur */
+    -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
     color: var(--text-color);
@@ -401,10 +415,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background: linear-gradient(145deg,
-        var(--accent-color),
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
-    );
+    background: var(--glass-bg); /* Changed to glass variable */
     border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
@@ -414,17 +425,16 @@ body {
     box-sizing: border-box;
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
+        0 0 0 1px var(--glass-border); /* Changed to glass border */
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .social-button:hover {
     transform: translateY(-2px);
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
-        var(--accent-color)
-    );
+    background: var(--accent-color); /* Keep accent color on hover for pop */
     box-shadow: 
         0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
         0 0 0 1px var(--accent-color);
@@ -477,18 +487,16 @@ body {
 
 /* Useful Links Section */
 .useful-links-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg)
-    );
+    background: var(--glass-section-bg); /* Changed to glass variable */
     padding: 30px;
     border-radius: 16px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
+        0 0 0 1px var(--glass-border); /* Changed to glass border */
     margin: 25px 0;
     text-align: center;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px); /* Increased blur */
+    -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
 }
@@ -517,29 +525,26 @@ body {
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    background: linear-gradient(145deg,
-        var(--accent-color),
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
-    );
+    background: var(--glass-bg); /* Changed to glass variable */
     border-radius: 25px;
     text-decoration: none;
-    color: white;
+    color: var(--text-color); /* Changed to text color for glass effect */
     font-weight: 600;
     letter-spacing: 0.5px;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-sizing: border-box;
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
+        0 0 0 1px var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 /* Button Hover Effects */
 .link-button:hover {
     transform: translateY(-2px);
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
-        var(--accent-color)
-    );
+    background: var(--accent-color); /* Keep accent color on hover for pop */
+    color: white; /* Text color white on hover */
     box-shadow: 
         0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
         0 0 0 1px var(--accent-color);
@@ -582,33 +587,30 @@ body {
 
 /* Tech Information Section */
 .tech-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg)
-    );
+    background: var(--glass-section-bg); /* Changed to glass variable */
     padding: 30px;
     border-radius: 16px;
     margin-bottom: 30px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
-    backdrop-filter: blur(10px);
+        0 0 0 1px var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(20px); /* Increased blur */
+    -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
 }
 
 .tech-item {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 95%, white),
-        var(--content-bg)
-    );
+    background: var(--glass-bg); /* Changed to glass variable */
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 15px;
-    border: 1px solid color-mix(in srgb, var(--border-color) 15%, transparent);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 15%, transparent),
         0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent);
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .tech-item:last-child {
@@ -666,17 +668,16 @@ body {
     position: relative;
     width: 180px;
     height: 40px;
-    border: 2px solid color-mix(in srgb, var(--text-color) 50%, transparent);
+    border: 2px solid var(--glass-border); /* Changed to glass border */
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 95%, white),
-        var(--content-bg)
-    );
+    background: var(--glass-bg); /* Changed to glass variable */
     box-shadow: inset 0 0 5px color-mix(in srgb, var(--shadow-color) 30%, transparent);
     overflow: hidden;
+    backdrop-filter: blur(8px); /* Added blur */
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .battery-icon::after {
@@ -761,11 +762,14 @@ body {
 
 /* Disabilities Section */
 .disabilities-section {
-    background-color: var(--content-bg);
+    background-color: var(--glass-section-bg); /* Changed to glass variable */
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 4px 10px var(--shadow-color);
+    backdrop-filter: blur(20px); /* Added blur */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); /* Added glass border */
 }
 
 .disabilities-section h2 {
@@ -801,8 +805,10 @@ body {
     width: 100%;
     box-sizing: border-box;
     border-radius: 8px;
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--glass-bg); /* Changed to glass variable */
+    border: 1px solid var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .disabilities-section a:hover {
@@ -826,26 +832,14 @@ body {
 
 /* Container for each section - matching site style */
 .shoutouts-section {
-    background-color: var(--glass-section-bg);
+    background-color: var(--glass-section-bg); /* Changed to glass variable */
     padding: 20px;
     border-radius: 20px;
     margin-bottom: 30px;
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px); /* Increased blur */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     box-shadow: 0 2px 10px var(--shadow-color);
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-/* Container for each section - matching site style */
-.shoutouts-section {
-    background-color: var(--content-bg);
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 4px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -888,8 +882,8 @@ body {
 
 /* This rule styles the timestamp text container itself */
 #tiktok-last-updated-timestamp,
-#instagram-last-updated-timestamp, /* UPDATED ID to match HTML */
-#youtube-last-updated-timestamp {  /* UPDATED ID to match HTML */
+#instagram-last-updated-timestamp,
+#youtube-last-updated-timestamp {
     color: var(--secondary-text);
     font-size: 0.9em;
     margin-bottom: 20px;
@@ -900,8 +894,8 @@ body {
 
 /* This rule ADDS THE ICON before each timestamp */
 #tiktok-last-updated-timestamp::before,
-#instagram-last-updated-timestamp::before, /* UPDATED ID to match HTML */
-#youtube-last-updated-timestamp::before {  /* UPDATED ID to match HTML */
+#instagram-last-updated-timestamp::before,
+#youtube-last-updated-timestamp::before {
     content: '\f073'; /* Font Awesome calendar icon unicode */
     font-family: 'Font Awesome 6 Free'; /* For Font Awesome 6 */
     font-weight: 900; /* For the solid style */
@@ -912,7 +906,7 @@ body {
 .instagram-creator-grid,
 .youtube-creator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Increased minimum width */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
     box-sizing: border-box;
@@ -925,15 +919,15 @@ body {
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    background-color: var(--glass-bg);
+    background-color: var(--glass-bg); /* Changed to glass variable */
     border-radius: 20px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px); /* Increased blur */
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     box-shadow: 0 4px 20px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
@@ -998,14 +992,14 @@ body {
 .instagram-username-container,
 .youtube-username-container {
     display: flex;
-    align-items: flex-start; /* Changed from center to flex-start */
+    align-items: flex-start;
     gap: 4px;
     margin-bottom: 10px;
     flex-wrap: wrap;
     width: 100%;
     overflow: visible;
     padding-right: 8px;
-    min-height: min-content; /* Added for flexible height */
+    min-height: min-content;
 }
 
 /* Common Username Styles */
@@ -1013,15 +1007,15 @@ body {
 .instagram-creator-username,
 .youtube-creator-username {
     color: var(--secondary-text);
-    font-size: max(0.9em, 14px); /* Set minimum font size */
+    font-size: max(0.9em, 14px);
     margin: 0;
     width: auto;
     max-width: 100%;
     overflow-wrap: break-word;
     word-break: break-all;
     white-space: normal;
-    line-height: 1.5; /* Increased line height */
-    hyphens: auto; /* Added for better word breaks */
+    line-height: 1.5;
+    hyphens: auto;
 }
 
 /* Verification Badge Styles */
@@ -1059,7 +1053,7 @@ body {
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background-color: rgba(var(--accent-rgb), 0.2);
+    background-color: var(--glass-bg); /* Changed to glass variable */
     color: var(--accent-color);
     text-decoration: none;
     padding: 8px 20px;
@@ -1068,7 +1062,7 @@ body {
     transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--glass-border); /* Changed to glass border */
     backdrop-filter: blur(12px);
     position: relative;
     overflow: hidden;
@@ -1089,7 +1083,7 @@ body {
 .instagram-creator-header h3,
 .youtube-creator-header h3 {
     margin: 0;
-    font-size: max(1.1em, 16px); /* Set minimum font size */
+    font-size: max(1.1em, 16px);
     color: var(--text-color);
     line-height: 1.4;
     overflow-wrap: break-word;
@@ -1102,11 +1096,13 @@ body {
     font-size: 18px;
     margin-top: 20px;
     text-align: center;
-    background-color: var(--content-bg);
+    background-color: var(--glass-section-bg); /* Changed to glass variable */
     padding: 20px;
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--glass-border); /* Changed to glass border */
     border-radius: 10px;
     box-shadow: 0 2px 4px var(--shadow-color);
+    backdrop-filter: blur(15px); /* Added blur */
+    -webkit-backdrop-filter: blur(15px);
 }
 
 .unavailable-message-title {
@@ -1222,18 +1218,16 @@ body {
 
 /* Countdown Styles */
 .countdown-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg)
-    );
+    background: var(--glass-section-bg); /* Changed to glass variable */
     padding: 30px;
     border-radius: 16px;
     margin: 30px auto;
     text-align: center;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
-    backdrop-filter: blur(10px);
+        0 0 0 1px var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(20px); /* Increased blur */
+    -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
 }
@@ -1282,16 +1276,15 @@ body {
     justify-content: center;
     font-size: 2em;
     font-weight: bold;
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--accent-color), var(--content-bg) 85%),
-        var(--content-bg)
-    );
-    border: 2px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+    background: var(--glass-bg); /* Changed to glass variable */
+    border: 2px solid var(--glass-border); /* Changed to glass border */
     border-radius: 12px;
     color: var(--text-color);
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 15%, transparent),
         0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent);
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .flip-clock-back {
@@ -1385,7 +1378,7 @@ body {
 
 .progress-bg {
   fill: none;
-  stroke: var(--border-color);
+  stroke: var(--glass-border); /* Changed to glass border */
   stroke-width: 4;
   opacity: 0.3;
 }
@@ -1411,7 +1404,7 @@ body {
 
 /* Version Info Section */
 .version-info-section {
-    background-color: var(--content-bg);
+    background-color: var(--glass-section-bg); /* Changed to glass variable */
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
@@ -1419,7 +1412,9 @@ body {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(20px); /* Added blur */
+    -webkit-backdrop-filter: blur(20px);
 }
 
 /* Version Header */
@@ -1429,7 +1424,7 @@ body {
     font-size: 1.2em;
     font-weight: 600;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1447,7 +1442,7 @@ body {
 .update-time {
     color: var(--text-color);
     font-size: 1em;
-    background: var(--bg-color);
+    background: var(--glass-bg); /* Changed to glass variable */
     padding: 12px;
     border-radius: 10px;
     display: flex;
@@ -1455,7 +1450,9 @@ body {
     gap: 8px;
     margin-bottom: 10px;
     box-shadow: 0 2px 4px var(--shadow-color);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 /* Label Content with Icons */
@@ -1480,17 +1477,19 @@ body {
     color: var(--text-color);
     font-size: 1em;
     font-weight: 600;
-    background: var(--bg-color);
+    background: var(--glass-bg); /* Changed to glass variable */
     padding: 12px;
     border-radius: 10px;
     text-align: center;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     margin-top: 10px;
     box-shadow: 0 2px 4px var(--shadow-color);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .countdown::before {
@@ -1547,10 +1546,7 @@ body {
 
 /* Copyright and Legal Notices */
 .legal-section {
-    background: linear-gradient(145deg, 
-        var(--content-bg),
-        color-mix(in srgb, var(--content-bg) 95%, #ff4757)
-    );
+    background: var(--glass-section-bg); /* Changed to glass variable */
     border-radius: 16px;
     padding: 25px;
     margin: 35px 0;
@@ -1560,7 +1556,9 @@ body {
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    border: 1px solid rgba(255, 71, 87, 0.1);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(20px); /* Added blur */
+    -webkit-backdrop-filter: blur(20px);
 }
 
 /* Decorative top border */
@@ -1585,7 +1583,7 @@ body {
     font-weight: 700;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 71, 87, 0.1);
+    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1600,7 +1598,7 @@ body {
 .copy-protection-message,
 .legal-protection-message,
 .watermark-message {
-    background: color-mix(in srgb, var(--bg-color) 95%, #ff4757);
+    background: var(--glass-bg); /* Changed to glass variable */
     color: var(--text-color);
     padding: 16px 20px;
     font-size: 0.95em;
@@ -1612,8 +1610,10 @@ body {
     align-items: center;
     gap: 15px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 71, 87, 0.1);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     position: relative;
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 /* Message icons */
@@ -1655,7 +1655,7 @@ body {
     font-size: 0.85em;
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid rgba(255, 71, 87, 0.1);
+    border-top: 1px solid var(--glass-border); /* Changed to glass border */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1744,7 +1744,7 @@ footer {
     padding: 20px;
     margin-top: 40px;
     color: var(--secondary-text);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--glass-border); /* Changed to glass border */
 }
 
 /* Responsive Design */
@@ -2036,20 +2036,22 @@ body.maintenance-active {
 
 /* Main container for business info */
 .business-info-section {
-    background: var(--content-bg);
+    background: var(--glass-section-bg); /* Changed to glass variable */
     padding: 25px;
     border-radius: 16px;
     margin: 30px 0;
     box-shadow: 0 3px 12px var(--shadow-color);
-    /* Removed max-width for full width */
     width: 100%;
     box-sizing: border-box;
+    backdrop-filter: blur(20px); /* Added blur */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); /* Added glass border */
 }
 
 .business-info-section h2 {
     margin-top: 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
     padding-bottom: 10px;
     font-size: 1.35em;
     font-weight: 700;
@@ -2108,7 +2110,7 @@ body.maintenance-active {
     justify-content: space-between;
     align-items: center;
     padding: 9px 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
     font-size: 0.95em;
 }
 
@@ -2154,7 +2156,7 @@ body.maintenance-active {
 #holiday-hours-display {
     margin-top: 25px;
     padding-top: 15px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--glass-border); /* Changed to glass border */
 }
 
 .special-hours-list {
@@ -2177,12 +2179,14 @@ body.maintenance-active {
 }
 
 .special-hours-display li {
-    background: rgba(var(--accent-rgb), 0.05);
+    background: var(--glass-bg); /* Changed to glass variable */
     padding: 12px 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     font-size: 0.9em;
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .special-hours-display li .hours-container {
@@ -2225,7 +2229,7 @@ body.maintenance-active {
 .contact-info {
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--glass-border); /* Changed to glass border */
     color: var(--secondary-text);
     font-size: 0.9em;
     text-align: center;
@@ -2268,10 +2272,12 @@ body.maintenance-active {
 }
 
 .day-hours-group {
-    background: var(--bg-color);
+    background: var(--glass-bg); /* Changed to glass variable */
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .day-hours-group label {
@@ -2315,15 +2321,17 @@ body.maintenance-active {
 }
 
 .special-hours-list .hour-entry {
-    background: var(--bg-color);
+    background: var(--glass-bg); /* Changed to glass variable */
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px 20px;
     align-items: center;
+    backdrop-filter: blur(10px); /* Added blur */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .special-hours-list .hour-entry .form-group:has(label[for*="-label-"]) {
@@ -2361,19 +2369,21 @@ body.maintenance-active {
 
 /* --- Admin Preview Styles --- */
 .admin-preview-container {
-    background: var(--bg-color);
+    background: var(--glass-section-bg); /* Changed to glass variable */
     padding: 25px;
     border-radius: 12px;
     margin-top: 30px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--glass-border); /* Changed to glass border */
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    backdrop-filter: blur(20px); /* Added blur */
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .admin-preview-container h3 {
     margin-top: 0;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
     font-size: 1.2em;
     color: var(--accent-color);
 }
