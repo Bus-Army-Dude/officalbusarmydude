@@ -17,9 +17,9 @@
     --light-link: var(--light-accent);
     --light-shadow: rgba(33, 37, 41, 0.075);
     --light-icon: #495057;
-    --light-glass-bg: rgba(255, 255, 255, 0.6); /* Light mode glass background */
-    --light-glass-border: rgba(255, 255, 255, 0.3); /* Light mode glass border */
-    --light-glass-section-bg: rgba(255, 255, 255, 0.4); /* Light mode section glass background */
+    --light-glass-bg: rgba(255, 255, 255, 0.6); /* Semi-transparent white for light mode glass */
+    --light-glass-border: rgba(255, 255, 255, 0.3); /* Lighter, more transparent border for light mode glass */
+    --light-glass-section-bg: rgba(255, 255, 255, 0.4); /* Slightly more transparent for main sections */
     
     /* --- Modern Dark Mode Colors --- */
     --dark-bg: #121212;
@@ -32,9 +32,9 @@
     --dark-link: var(--dark-accent);
     --dark-shadow: rgba(0, 0, 0, 0.2);
     --dark-icon: #CED4DA;
-    --dark-glass-bg: rgba(28, 28, 28, 0.6); /* Dark mode glass background */
-    --dark-glass-border: rgba(52, 58, 64, 0.3); /* Dark mode glass border */
-    --dark-glass-section-bg: rgba(28, 28, 28, 0.4); /* Dark mode section glass background */
+    --dark-glass-bg: rgba(28, 28, 28, 0.6); /* Semi-transparent dark for dark mode glass */
+    --dark-glass-border: rgba(52, 58, 64, 0.3); /* Darker, more transparent border for dark mode glass */
+    --dark-glass-section-bg: rgba(28, 28, 28, 0.4); /* Slightly more transparent for main sections */
 
     /* --- Fallback theme variables (default to dark) --- */
     --bg-color: var(--dark-bg);
@@ -48,6 +48,8 @@
     --shadow-color: var(--dark-shadow);
     --icon-color: var(--dark-icon);
     --social-icon-text-color: var(--dark-text);
+    
+    /* --- Liquid Glass Variables (default to dark mode) --- */
     --glass-bg: var(--dark-glass-bg);
     --glass-border: var(--dark-glass-border);
     --glass-section-bg: var(--dark-glass-section-bg);
@@ -65,6 +67,8 @@ body.light-e {
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
     --social-icon-text-color: #FFFFFF; /* White for light mode */
+    
+    /* --- Liquid Glass Variables (light mode) --- */
     --glass-bg: var(--light-glass-bg);
     --glass-border: var(--light-glass-border);
     --glass-section-bg: var(--light-glass-section-bg);
@@ -97,11 +101,11 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 25px;
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     border-radius: 16px;
-    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(20px); /* Increased blur for more glass effect */
-    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(20px); /* Increased blur for stronger glass effect */
+    -webkit-backdrop-filter: blur(20px); /* For Safari */
 }
 
 /* Profile Pic Wrapper */
@@ -132,14 +136,14 @@ body {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     border: 3px solid var(--link-color);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
     box-shadow: 0 2px 8px var(--shadow-color);
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -179,14 +183,14 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('settings-icon.png') center/18px no-repeat, var(--glass-bg); /* Changed to glass variable */
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    background: url('settings-icon.png') center/18px no-repeat, var(--glass-bg); /* Use glass background variable */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(10px); /* Added blur */
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -203,14 +207,14 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    background: url('gift-bag-icon.png') center/18px no-repeat, var(--glass-bg); /* Changed to glass variable */
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    background: url('gift-bag-icon.png') center/18px no-repeat, var(--glass-bg); /* Use glass background variable */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     cursor: pointer;
     padding: 0;
     z-index: 10;
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(10px); /* Added blur */
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -261,15 +265,15 @@ body {
 
 /* Current Date/Time Section */
 .datetime-section {
-    background-color: var(--glass-section-bg); /* Changed to glass variable */
+    background-color: var(--glass-section-bg); /* Use glass background variable */
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
     text-align: center;
     box-shadow: 0 2px 4px var(--shadow-color);
-    backdrop-filter: blur(15px); /* Added blur */
+    backdrop-filter: blur(15px); /* Apply blur */
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid var(--glass-border); /* Added glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
 }
 
 .current-datetime {
@@ -281,14 +285,14 @@ body {
 
 /* President Section */
 .president-section {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     padding: 30px;
     border-radius: 16px;
     margin-bottom: 30px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(20px); /* Increased blur */
+        0 0 0 1px var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
@@ -386,15 +390,15 @@ body {
 
 /* Social Links Section */
 .social-links-section {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     padding: 30px;
     border-radius: 16px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--glass-border); /* Changed to glass border */
+        0 0 0 1px var(--glass-border); /* Use glass border variable */
     margin: 20px 0;
     text-align: center;
-    backdrop-filter: blur(20px); /* Increased blur */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
@@ -415,7 +419,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
@@ -425,10 +429,10 @@ body {
     box-sizing: border-box;
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px var(--glass-border); /* Changed to glass border */
+        0 0 0 1px var(--glass-border); /* Use glass border variable */
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -487,15 +491,15 @@ body {
 
 /* Useful Links Section */
 .useful-links-section {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     padding: 30px;
     border-radius: 16px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--glass-border); /* Changed to glass border */
+        0 0 0 1px var(--glass-border); /* Use glass border variable */
     margin: 25px 0;
     text-align: center;
-    backdrop-filter: blur(20px); /* Increased blur */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
@@ -525,7 +529,7 @@ body {
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     border-radius: 25px;
     text-decoration: none;
     color: var(--text-color); /* Changed to text color for glass effect */
@@ -535,8 +539,8 @@ body {
     box-sizing: border-box;
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(10px); /* Added blur */
+        0 0 0 1px var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -587,29 +591,29 @@ body {
 
 /* Tech Information Section */
 .tech-section {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     padding: 30px;
     border-radius: 16px;
     margin-bottom: 30px;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(20px); /* Increased blur */
+        0 0 0 1px var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
 }
 
 .tech-item {
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 15px;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 15%, transparent),
         0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent);
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -668,15 +672,15 @@ body {
     position: relative;
     width: 180px;
     height: 40px;
-    border: 2px solid var(--glass-border); /* Changed to glass border */
+    border: 2px solid var(--glass-border); /* Use glass border variable */
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     box-shadow: inset 0 0 5px color-mix(in srgb, var(--shadow-color) 30%, transparent);
     overflow: hidden;
-    backdrop-filter: blur(8px); /* Added blur */
+    backdrop-filter: blur(8px); /* Apply blur */
     -webkit-backdrop-filter: blur(8px);
 }
 
@@ -762,14 +766,14 @@ body {
 
 /* Disabilities Section */
 .disabilities-section {
-    background-color: var(--glass-section-bg); /* Changed to glass variable */
+    background-color: var(--glass-section-bg); /* Use glass background variable */
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 4px 10px var(--shadow-color);
-    backdrop-filter: blur(20px); /* Added blur */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border); /* Added glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
 }
 
 .disabilities-section h2 {
@@ -805,9 +809,9 @@ body {
     width: 100%;
     box-sizing: border-box;
     border-radius: 8px;
-    background-color: var(--glass-bg); /* Changed to glass variable */
-    border: 1px solid var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(10px); /* Added blur */
+    background-color: var(--glass-bg); /* Use glass background variable */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -832,13 +836,13 @@ body {
 
 /* Container for each section - matching site style */
 .shoutouts-section {
-    background-color: var(--glass-section-bg); /* Changed to glass variable */
+    background-color: var(--glass-section-bg); /* Use glass background variable */
     padding: 20px;
     border-radius: 20px;
     margin-bottom: 30px;
-    backdrop-filter: blur(20px); /* Increased blur */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     box-shadow: 0 2px 10px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
@@ -919,15 +923,15 @@ body {
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    background-color: var(--glass-bg); /* Changed to glass variable */
+    background-color: var(--glass-bg); /* Use glass background variable */
     border-radius: 20px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(20px); /* Increased blur */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     box-shadow: 0 4px 20px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
@@ -1053,7 +1057,7 @@ body {
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background-color: var(--glass-bg); /* Changed to glass variable */
+    background-color: var(--glass-bg); /* Use glass background variable */
     color: var(--accent-color);
     text-decoration: none;
     padding: 8px 20px;
@@ -1062,7 +1066,7 @@ body {
     transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
-    border: 2px solid var(--glass-border); /* Changed to glass border */
+    border: 2px solid var(--glass-border); /* Use glass border variable */
     backdrop-filter: blur(12px);
     position: relative;
     overflow: hidden;
@@ -1096,12 +1100,12 @@ body {
     font-size: 18px;
     margin-top: 20px;
     text-align: center;
-    background-color: var(--glass-section-bg); /* Changed to glass variable */
+    background-color: var(--glass-section-bg); /* Use glass background variable */
     padding: 20px;
-    border: 2px solid var(--glass-border); /* Changed to glass border */
+    border: 2px solid var(--glass-border); /* Use glass border variable */
     border-radius: 10px;
     box-shadow: 0 2px 4px var(--shadow-color);
-    backdrop-filter: blur(15px); /* Added blur */
+    backdrop-filter: blur(15px); /* Apply blur */
     -webkit-backdrop-filter: blur(15px);
 }
 
@@ -1218,15 +1222,15 @@ body {
 
 /* Countdown Styles */
 .countdown-section {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     padding: 30px;
     border-radius: 16px;
     margin: 30px auto;
     text-align: center;
     box-shadow: 
         0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(20px); /* Increased blur */
+        0 0 0 1px var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
     width: 100%;
     box-sizing: border-box;
@@ -1276,14 +1280,14 @@ body {
     justify-content: center;
     font-size: 2em;
     font-weight: bold;
-    background: var(--glass-bg); /* Changed to glass variable */
-    border: 2px solid var(--glass-border); /* Changed to glass border */
+    background: var(--glass-bg); /* Use glass background variable */
+    border: 2px solid var(--glass-border); /* Use glass border variable */
     border-radius: 12px;
     color: var(--text-color);
     box-shadow: 
         0 4px 15px color-mix(in srgb, var(--accent-color) 15%, transparent),
         0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent);
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -1378,7 +1382,7 @@ body {
 
 .progress-bg {
   fill: none;
-  stroke: var(--glass-border); /* Changed to glass border */
+  stroke: var(--glass-border); /* Use glass border variable */
   stroke-width: 4;
   opacity: 0.3;
 }
@@ -1404,7 +1408,7 @@ body {
 
 /* Version Info Section */
 .version-info-section {
-    background-color: var(--glass-section-bg); /* Changed to glass variable */
+    background-color: var(--glass-section-bg); /* Use glass background variable */
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
@@ -1412,8 +1416,8 @@ body {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(20px); /* Added blur */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
 }
 
@@ -1424,7 +1428,7 @@ body {
     font-size: 1.2em;
     font-weight: 600;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1442,7 +1446,7 @@ body {
 .update-time {
     color: var(--text-color);
     font-size: 1em;
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     padding: 12px;
     border-radius: 10px;
     display: flex;
@@ -1450,8 +1454,8 @@ body {
     gap: 8px;
     margin-bottom: 10px;
     box-shadow: 0 2px 4px var(--shadow-color);
-    border: 1px solid var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(10px); /* Added blur */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -1477,18 +1481,18 @@ body {
     color: var(--text-color);
     font-size: 1em;
     font-weight: 600;
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     padding: 12px;
     border-radius: 10px;
     text-align: center;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     margin-top: 10px;
     box-shadow: 0 2px 4px var(--shadow-color);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -1511,6 +1515,7 @@ body {
     .build-number,
     .os-info,
     .device-info,
+
     .update-time,
     .countdown {
         font-size: 0.9em;
@@ -1546,7 +1551,7 @@ body {
 
 /* Copyright and Legal Notices */
 .legal-section {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     border-radius: 16px;
     padding: 25px;
     margin: 35px 0;
@@ -1556,8 +1561,8 @@ body {
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(20px); /* Added blur */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
 }
 
@@ -1583,7 +1588,7 @@ body {
     font-weight: 700;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1598,7 +1603,7 @@ body {
 .copy-protection-message,
 .legal-protection-message,
 .watermark-message {
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     color: var(--text-color);
     padding: 16px 20px;
     font-size: 0.95em;
@@ -1610,9 +1615,9 @@ body {
     align-items: center;
     gap: 15px;
     transition: all 0.3s ease;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     position: relative;
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -1655,7 +1660,7 @@ body {
     font-size: 0.85em;
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid var(--glass-border); /* Changed to glass border */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1744,7 +1749,7 @@ footer {
     padding: 20px;
     margin-top: 40px;
     color: var(--secondary-text);
-    border-top: 1px solid var(--glass-border); /* Changed to glass border */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
 }
 
 /* Responsive Design */
@@ -2036,22 +2041,22 @@ body.maintenance-active {
 
 /* Main container for business info */
 .business-info-section {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     padding: 25px;
     border-radius: 16px;
     margin: 30px 0;
     box-shadow: 0 3px 12px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
-    backdrop-filter: blur(20px); /* Added blur */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border); /* Added glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
 }
 
 .business-info-section h2 {
     margin-top: 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     padding-bottom: 10px;
     font-size: 1.35em;
     font-weight: 700;
@@ -2110,7 +2115,7 @@ body.maintenance-active {
     justify-content: space-between;
     align-items: center;
     padding: 9px 0;
-    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     font-size: 0.95em;
 }
 
@@ -2156,7 +2161,7 @@ body.maintenance-active {
 #holiday-hours-display {
     margin-top: 25px;
     padding-top: 15px;
-    border-top: 1px solid var(--glass-border); /* Changed to glass border */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
 }
 
 .special-hours-list {
@@ -2179,13 +2184,13 @@ body.maintenance-active {
 }
 
 .special-hours-display li {
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     padding: 12px 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     font-size: 0.9em;
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -2229,7 +2234,7 @@ body.maintenance-active {
 .contact-info {
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid var(--glass-border); /* Changed to glass border */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
     color: var(--secondary-text);
     font-size: 0.9em;
     text-align: center;
@@ -2272,11 +2277,11 @@ body.maintenance-active {
 }
 
 .day-hours-group {
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
-    backdrop-filter: blur(10px); /* Added blur */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -2321,16 +2326,16 @@ body.maintenance-active {
 }
 
 .special-hours-list .hour-entry {
-    background: var(--glass-bg); /* Changed to glass variable */
+    background: var(--glass-bg); /* Use glass background variable */
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px 20px;
     align-items: center;
-    backdrop-filter: blur(10px); /* Added blur */
+    backdrop-filter: blur(10px); /* Apply blur */
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -2369,13 +2374,13 @@ body.maintenance-active {
 
 /* --- Admin Preview Styles --- */
 .admin-preview-container {
-    background: var(--glass-section-bg); /* Changed to glass variable */
+    background: var(--glass-section-bg); /* Use glass background variable */
     padding: 25px;
     border-radius: 12px;
     margin-top: 30px;
-    border: 1px solid var(--glass-border); /* Changed to glass border */
+    border: 1px solid var(--glass-border); /* Use glass border variable */
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    backdrop-filter: blur(20px); /* Added blur */
+    backdrop-filter: blur(20px); /* Apply blur */
     -webkit-backdrop-filter: blur(20px);
 }
 
@@ -2383,7 +2388,7 @@ body.maintenance-active {
     margin-top: 0;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--glass-border); /* Changed to glass border */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     font-size: 1.2em;
     color: var(--accent-color);
 }
