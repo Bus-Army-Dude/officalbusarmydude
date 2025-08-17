@@ -43,14 +43,14 @@
     --icon-color: var(--dark-icon);
     --social-icon-text-color: var(--dark-text);
 
-    /* --- Liquid Glass Variables (default to dark mode) --- */
+    /* --- LIQUID GLASS Variables (Default to Dark Mode) --- */
     --glass-blur: 20px;
     --glass-saturation: 180%;
     --glass-border-thickness: 1px;
     --glass-highlight-opacity: 0.05; /* For inner shadow highlight */
 
-    --glass-bg: rgba(28, 28, 30, 0.3); /* Dark mode glass background */
-    --glass-border: rgba(44, 44, 46, 0.6); /* Dark mode glass border */
+    --glass-bg: rgba(28, 28, 30, 0.2); /* Dark mode glass background - more transparent */
+    --glass-border: rgba(44, 44, 46, 0.4); /* Dark mode glass border - more transparent */
     --glass-shadow-color: rgba(0, 0, 0, 0.3); /* Dark mode glass shadow */
     --glass-highlight-color: rgba(255, 255, 255, 0.05); /* Dark mode inner highlight */
 }
@@ -68,11 +68,11 @@ body.light-e {
     --icon-color: var(--light-icon);
     --social-icon-text-color: #FFFFFF; /* White for light mode */
 
-    /* --- Liquid Glass Variables (light mode) --- */
-    --glass-bg: rgba(255, 255, 255, 0.25); /* Light mode glass background */
-    --glass-border: rgba(255, 255, 255, 0.4); /* Light mode glass border */
+    /* --- LIQUID GLASS Variables (Light Mode) --- */
+    --glass-bg: rgba(255, 255, 255, 0.4); /* Light mode glass background - more transparent */
+    --glass-border: rgba(255, 255, 255, 0.6); /* Light mode glass border - more visible */
     --glass-shadow-color: rgba(0, 0, 0, 0.1); /* Light mode glass shadow */
-    --glass-highlight-color: rgba(255, 255, 255, 0.1); /* Light mode inner highlight */
+    --glass-highlight-color: rgba(255, 255, 255, 0.2); /* Light mode inner highlight - more pronounced */
 }
 
 /* Base Styles */
@@ -96,32 +96,32 @@ body {
 }
 
 /* ============ LIQUID GLASS CORE STYLES ============ */
-/* Apply to all main sections */
+/* Apply to all main sections and sub-containers */
 .profile-section,
-.datetime-section, /* Added datetime-section */
+.datetime-section,
 .president-section, 
 .social-links-section,
 .useful-links-section,
 .tech-section,
-.disabilities-section, /* Added disabilities-section */
+.disabilities-section,
 .shoutouts-section,
 .countdown-section,
 .legal-section,
 .version-info-section,
 .business-info-section,
-.creator-card, /* For individual cards within shoutouts */
-.tech-item, /* For individual items within tech section */
-.special-hours-display li, /* For special hours entries */
-.day-hours-group, /* For admin panel hours */
-.special-hours-list .hour-entry, /* For admin panel special hours */
-.admin-preview-container, /* For admin panel preview */
-.version-number, /* For version info boxes */
+.creator-card,
+.tech-item,
+.special-hours-display li,
+.day-hours-group,
+.special-hours-list .hour-entry,
+.admin-preview-container,
+.version-number,
 .build-number,
 .os-info,
 .device-info,
 .update-time,
 .countdown,
-.copy-protection-message, /* For legal messages */
+.copy-protection-message,
 .legal-protection-message,
 .watermark-message {
     position: relative; /* Needed for ::after pseudo-element */
@@ -157,6 +157,7 @@ body {
 .disabilities-section,
 .shoutouts-section,
 .version-info-section,
+.unavailable-message, /* Added unavailable message */
 .admin-preview-container {
     --glass-blur: 20px; /* Medium blur for sub-sections */
 }
@@ -179,13 +180,15 @@ body {
     border-radius: 12px; /* Slightly less rounded for smaller items */
 }
 
-/* Glass buttons (social, link, visit profile, settings, merch) */
+/* Glass buttons (social, link, visit profile, settings, merch, contact info) */
 .social-button,
 .link-button,
 .visit-profile,
 .settings-button,
 .merch-button,
-.contact-info a { /* Added contact info button */
+.contact-info a,
+.profile-status-container, /* Profile status container as a small glass element */
+.battery-icon /* Battery icon as a glass element */ {
     background: var(--glass-bg); /* Use glass background variable */
     backdrop-filter: blur(12px) saturate(var(--glass-saturation));
     -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturation));
@@ -195,41 +198,8 @@ body {
     border-radius: 9999px; /* Pill shape for buttons */
 }
 
-/* Hover/active states for all glass elements */
-.profile-section:hover,
-.datetime-section:hover,
-.president-section:hover, 
-.social-links-section:hover,
-.useful-links-section:hover,
-.tech-section:hover,
-.disabilities-section:hover,
-.shoutouts-section:hover,
-.countdown-section:hover,
-.legal-section:hover,
-.version-info-section:hover,
-.business-info-section:hover,
-.creator-card:hover,
-.tech-item:hover,
-.special-hours-display li:hover,
-.day-hours-group:hover,
-.special-hours-list .hour-entry:hover,
-.admin-preview-container:hover,
-.version-number:hover,
-.build-number:hover,
-.os-info:hover,
-.device-info:hover,
-.update-time:hover,
-.countdown:hover,
-.copy-protection-message:hover,
-.legal-protection-message:hover,
-.watermark-message:hover {
-    transform: translateY(-2px); /* Lift effect */
-    box-shadow: 
-        0 8px 40px var(--glass-shadow-color), /* Enhanced shadow on hover */
-        inset 0 2px 2px var(--glass-highlight-color); /* Enhanced inner highlight */
-}
-
-/* Specific hover for buttons (they change background to accent) */
+/* REMOVED HOVER EFFECTS FROM CONTAINERS */
+/* Only apply hover effects to interactive elements (buttons/links) */
 .social-button:hover,
 .link-button:hover,
 .visit-profile:hover,
@@ -240,7 +210,15 @@ body {
     color: white !important; /* Ensure text is white on accent background */
     border-color: var(--accent-color) !important; /* Border matches accent */
     box-shadow: 0 8px 20px rgba(var(--accent-color-rgb), 0.4); /* Accent-colored shadow */
-    transform: translateY(-2px);
+    transform: translateY(-2px); /* Lift effect */
+}
+
+/* Keep original rotation for settings/merch buttons */
+.settings-button:hover {
+    transform: translateY(-2px) rotate(45deg);
+}
+.merch-button:hover {
+    transform: translateY(-2px) rotate(45deg);
 }
 
 /* Pressed effect for buttons */
@@ -254,6 +232,7 @@ body {
 }
 
 /* Subtle inner glow for all glass elements */
+/* This creates the "liquid" feel by adding a subtle light reflection */
 .profile-section::after,
 .datetime-section::after,
 .president-section::after, 
@@ -280,7 +259,15 @@ body {
 .countdown::after,
 .copy-protection-message::after,
 .legal-protection-message::after,
-.watermark-message::after {
+.watermark-message::after,
+.profile-status-container::after,
+.battery-icon::after,
+.social-button::after, /* Added for buttons */
+.link-button::after, /* Added for buttons */
+.visit-profile::after, /* Added for buttons */
+.settings-button::after, /* Added for buttons */
+.merch-button::after, /* Added for buttons */
+.contact-info a::after /* Added for buttons */ {
   content: '';
   position: absolute;
   top: 0;
@@ -289,8 +276,9 @@ body {
   bottom: 0;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.08); /* Subtle white inner glow */
+  box-shadow: inset 0 0 12px var(--glass-highlight-color); /* Use glass highlight variable */
 }
+
 
 /* Profile Section */
 /* Original styles, now inheriting glass properties */
@@ -299,6 +287,7 @@ body {
     margin-top: 20px;
     margin-bottom: 30px;
     padding: 25px;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Profile Pic Wrapper */
@@ -328,16 +317,8 @@ body {
     right: 5px;
     width: 30px;
     height: 30px;
-    border-radius: 50%;
-    background: var(--glass-bg); /* Inherits glass */
-    border: 3px solid var(--link-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 2;
-    box-shadow: 0 2px 8px var(--shadow-color);
-    backdrop-filter: blur(10px); /* Specific blur for this small element */
-    -webkit-backdrop-filter: blur(10px);
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .profile-status {
@@ -375,21 +356,10 @@ body {
     right: 20px;
     width: 40px;
     height: 40px;
-    border-radius: 12px; /* Will be overridden by glass-button's 9999px if applied */
-    background: url('settings-icon.png') center/18px no-repeat, var(--glass-bg); /* Inherits glass */
-    border: 1px solid var(--glass-border); /* Inherits glass */
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Inherits glass */
-    backdrop-filter: blur(10px); /* Specific blur */
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.settings-button:hover {
-    transform: translateY(-2px) rotate(45deg); /* Keep original rotation effect */
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Merch Button */
@@ -399,21 +369,10 @@ body {
     left: 20px;
     width: 40px;
     height: 40px;
-    border-radius: 12px; /* Will be overridden by glass-button's 9999px if applied */
-    background: url('gift-bag-icon.png') center/18px no-repeat, var(--glass-bg); /* Inherits glass */
-    border: 1px solid var(--glass-border); /* Inherits glass */
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--glass-border); /* Inherits glass */
-    backdrop-filter: blur(10px); /* Specific blur */
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.merch-button:hover {
-    transform: translateY(-2px) rotate(45deg); /* Keep original rotation effect */
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Media Queries */
@@ -459,10 +418,9 @@ body {
 /* Current Date/Time Section */
 .datetime-section {
     padding: 15px;
-    border-radius: 10px; /* Will be overridden by glass-panel's 18px */
     margin-bottom: 20px;
     text-align: center;
-    box-shadow: 0 2px 4px var(--shadow-color); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .current-datetime {
@@ -475,11 +433,10 @@ body {
 /* President Section */
 .president-section {
     padding: 30px;
-    border-radius: 16px; /* Will be overridden by glass-panel's 18px */
     margin-bottom: 30px;
-    box-shadow: 
-        0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--border-color); /* Will be overridden by glass-panel */
+    width: 100%;
+    box-sizing: border-box;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .president-info {
@@ -575,13 +532,12 @@ body {
 /* Social Links Section */
 .social-links-section {
     padding: 30px;
-    border-radius: 16px; /* Will be overridden by glass-panel's 18px */
-    box-shadow: 
-        0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--border-color); /* Will be overridden by glass-panel */
     margin: 20px 0;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
     color: var(--text-color);
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .social-links-container {
@@ -598,31 +554,14 @@ body {
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
-    background: linear-gradient(145deg,
-        var(--accent-color),
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
-    ); /* Will be overridden by glass-button */
-    border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
     letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     width: 100%;
     box-sizing: border-box;
-    box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent); /* Will be overridden by glass-button */
     position: relative;
     overflow: hidden;
-}
-
-.social-button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
-        var(--accent-color)
-    ); /* Will be overridden by glass-button */
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .social-button .social-icon,
@@ -673,12 +612,11 @@ body {
 /* Useful Links Section */
 .useful-links-section {
     padding: 30px;
-    border-radius: 16px; /* Will be overridden by glass-panel's 18px */
-    box-shadow: 
-        0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--border-color); /* Will be overridden by glass-panel */
     margin: 25px 0;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Title Styling */
@@ -705,32 +643,12 @@ body {
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    background: linear-gradient(145deg,
-        var(--accent-color),
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
-    ); /* Will be overridden by glass-button */
-    border-radius: 25px;
     text-decoration: none;
-    color: white; /* Will be overridden by glass-button */
+    color: var(--text-color); /* Changed to text color for glass effect */
     font-weight: 600;
     letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-sizing: border-box;
-    box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent); /* Will be overridden by glass-button */
-}
-
-/* Button Hover Effects */
-.link-button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
-        var(--accent-color)
-    ); /* Will be overridden by glass-button */
-    box-shadow: 
-        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
-        0 0 0 1px var(--accent-color);
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Responsive Design */
@@ -771,23 +689,16 @@ body {
 /* Tech Information Section */
 .tech-section {
     padding: 30px;
-    border-radius: 16px; /* Will be overridden by glass-panel's 18px */
     margin-bottom: 30px;
-    box-shadow: 
-        0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--border-color); /* Will be overridden by glass-panel */
     width: 100%;
     box-sizing: border-box;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .tech-item {
-    border-radius: 16px; /* Will be overridden by glass-panel's 12px */
     padding: 20px;
     margin-bottom: 15px;
-    border: 1px solid color-mix(in srgb, var(--border-color) 15%, transparent); /* Will be overridden by glass-panel */
-    box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 15%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .tech-item:last-child {
@@ -845,17 +756,12 @@ body {
     position: relative;
     width: 180px;
     height: 40px;
-    border: 2px solid color-mix(in srgb, var(--text-color) 50%, transparent); /* Will be overridden by glass-panel */
-    border-radius: 10px; /* Will be overridden by glass-panel's 12px */
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 95%, white),
-        var(--content-bg)
-    ); /* Will be overridden by glass-panel */
     box-shadow: inset 0 0 5px color-mix(in srgb, var(--shadow-color) 30%, transparent);
     overflow: hidden;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .battery-icon::after {
@@ -940,10 +846,9 @@ body {
 
 /* Disabilities Section */
 .disabilities-section {
-    border-radius: 12px; /* Will be overridden by glass-panel's 18px */
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 10px var(--shadow-color); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .disabilities-section h2 {
@@ -978,9 +883,7 @@ body {
     transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 8px; /* Will be overridden by glass-button's 9999px if applied */
-    background-color: var(--bg-color); /* Will be overridden by glass-button */
-    border: 1px solid var(--border-color); /* Will be overridden by glass-button */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .disabilities-section a:hover {
@@ -1005,12 +908,11 @@ body {
 /* Container for each section - matching site style */
 .shoutouts-section {
     padding: 20px;
-    border-radius: 20px; /* Will be overridden by glass-panel's 18px */
     margin-bottom: 30px;
-    box-shadow: 0 2px 10px var(--shadow-color); /* Will be overridden by glass-panel */
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Section Headers and Timestamps */
@@ -1087,12 +989,10 @@ body {
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    border-radius: 20px; /* Will be overridden by glass-panel's 18px */
     padding: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 20px var(--shadow-color); /* Will be overridden by glass-panel */
     width: 100%;
     box-sizing: border-box;
     max-width: 100%;
@@ -1100,6 +1000,7 @@ body {
     overflow: visible;
     min-height: fit-content;
     height: auto;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .youtube-cover-photo {
@@ -1123,8 +1024,7 @@ body {
 .creator-card:hover,
 .instagram-creator-card:hover,
 .youtube-creator-card:hover {
-    transform: translateY(-5px); /* Will be overridden by glass-panel hover */
-    box-shadow: 0 4px 12px var(--shadow-color); /* Will be overridden by glass-panel hover */
+    /* Removed hover effects as they are now in the common glass styles */
 }
 
 /* Common Profile Picture Styles */
@@ -1217,29 +1117,22 @@ body {
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background-color: rgba(var(--accent-rgb), 0.2); /* Will be overridden by glass-button */
     color: var(--accent-color);
     text-decoration: none;
     padding: 8px 20px;
-    border-radius: 25px;
     margin-top: 10px;
-    transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
-    border: 2px solid var(--accent-color); /* Will be overridden by glass-button */
-    backdrop-filter: blur(12px); /* Will be overridden by glass-button */
     position: relative;
     overflow: hidden;
     width: fit-content;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .visit-profile:hover,
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
-    background-color: var(--accent-color); /* Will be overridden by glass-button hover */
-    color: white;
-    box-shadow: 0 0 10px var(--accent-color);
-    transform: translateY(-2px);
+    /* Removed hover effects as they are now in the common glass styles */
 }
 
 /* Creator Name Styles */
@@ -1260,11 +1153,8 @@ body {
     font-size: 18px;
     margin-top: 20px;
     text-align: center;
-    background-color: var(--content-bg); /* Will be overridden by glass-panel */
     padding: 20px;
-    border: 2px solid var(--accent-color); /* Will be overridden by glass-panel */
-    border-radius: 10px; /* Will be overridden by glass-panel's 18px */
-    box-shadow: 0 2px 4px var(--shadow-color); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .unavailable-message-title {
@@ -1381,14 +1271,11 @@ body {
 /* Countdown Styles */
 .countdown-section {
     padding: 30px;
-    border-radius: 16px; /* Will be overridden by glass-panel's 18px */
     margin: 30px auto;
     text-align: center;
-    box-shadow: 
-        0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px var(--border-color); /* Will be overridden by glass-panel */
     width: 100%;
     box-sizing: border-box;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .countdown-container {
@@ -1435,16 +1322,8 @@ body {
     justify-content: center;
     font-size: 2em;
     font-weight: bold;
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--accent-color), var(--content-bg) 85%),
-        var(--content-bg)
-    ); /* Will be overridden by glass-panel */
-    border: 2px solid color-mix(in srgb, var(--accent-color) 30%, transparent); /* Will be overridden by glass-panel */
-    border-radius: 12px; /* Will be overridden by glass-panel's 18px */
     color: var(--text-color);
-    box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 15%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .flip-clock-back {
@@ -1564,13 +1443,12 @@ body {
 
 /* Version Info Section */
 .version-info-section {
-    border-radius: 10px; /* Will be overridden by glass-panel's 18px */
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 4px var(--shadow-color); /* Will be overridden by glass-panel */
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Version Header */
@@ -1580,7 +1458,7 @@ body {
     font-size: 1.2em;
     font-weight: 600;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1598,15 +1476,12 @@ body {
 .update-time {
     color: var(--text-color);
     font-size: 1em;
-    background: var(--bg-color); /* Will be overridden by glass-panel */
     padding: 12px;
-    border-radius: 10px; /* Will be overridden by glass-panel's 12px */
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 10px;
-    box-shadow: 0 2px 4px var(--shadow-color); /* Will be overridden by glass-panel */
-    border: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Label Content with Icons */
@@ -1631,17 +1506,14 @@ body {
     color: var(--text-color);
     font-size: 1em;
     font-weight: 600;
-    background: var(--bg-color); /* Will be overridden by glass-panel */
     padding: 12px;
-    border-radius: 10px; /* Will be overridden by glass-panel's 12px */
     text-align: center;
-    border: 1px solid var(--border-color); /* Will be overridden by glass-panel */
     margin-top: 10px;
-    box-shadow: 0 2px 4px var(--shadow-color); /* Will be overridden by glass-panel */
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .countdown::before {
@@ -1699,16 +1571,12 @@ body {
 
 /* Copyright and Legal Notices */
 .legal-section {
-    border-radius: 16px; /* Will be overridden by glass-panel's 18px */
     padding: 25px;
     margin: 35px 0;
-    box-shadow: 
-        0 10px 30px -10px var(--shadow-color),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.05); /* Will be overridden by glass-panel */
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    border: 1px solid rgba(255, 71, 87, 0.1); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Decorative top border */
@@ -1733,7 +1601,7 @@ body {
     font-weight: 700;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 71, 87, 0.1); /* Will be overridden by glass-panel */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1748,20 +1616,17 @@ body {
 .copy-protection-message,
 .legal-protection-message,
 .watermark-message {
-    background: color-mix(in srgb, var(--bg-color) 95%, #ff4757); /* Will be overridden by glass-panel */
     color: var(--text-color);
     padding: 16px 20px;
     font-size: 0.95em;
     margin: 15px 0;
-    border-radius: 12px; /* Will be overridden by glass-panel's 12px */
-    box-shadow: 0 8px 25px -5px rgba(255, 71, 87, 0.15); /* Will be overridden by glass-panel */
     font-weight: 500;
     display: flex;
     align-items: center;
     gap: 15px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 71, 87, 0.1); /* Will be overridden by glass-panel */
     position: relative;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Message icons */
@@ -1803,7 +1668,7 @@ body {
     font-size: 0.85em;
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid rgba(255, 71, 87, 0.1); /* Will be overridden by glass-panel */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1892,7 +1757,7 @@ footer {
     padding: 20px;
     margin-top: 40px;
     color: var(--secondary-text);
-    border-top: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
 }
 
 /* Responsive Design */
@@ -2185,17 +2050,16 @@ body.maintenance-active {
 /* Main container for business info */
 .business-info-section {
     padding: 25px;
-    border-radius: 16px; /* Will be overridden by glass-panel's 18px */
     margin: 30px 0;
-    box-shadow: 0 3px 12px var(--shadow-color); /* Will be overridden by glass-panel */
     width: 100%;
     box-sizing: border-box;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .business-info-section h2 {
     margin-top: 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     padding-bottom: 10px;
     font-size: 1.35em;
     font-weight: 700;
@@ -2254,7 +2118,7 @@ body.maintenance-active {
     justify-content: space-between;
     align-items: center;
     padding: 9px 0;
-    border-bottom: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     font-size: 0.95em;
 }
 
@@ -2300,7 +2164,7 @@ body.maintenance-active {
 #holiday-hours-display {
     margin-top: 25px;
     padding-top: 15px;
-    border-top: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
 }
 
 .special-hours-list {
@@ -2323,12 +2187,10 @@ body.maintenance-active {
 }
 
 .special-hours-display li {
-    background: rgba(var(--accent-rgb), 0.05); /* Will be overridden by glass-panel */
     padding: 12px 15px;
-    border-radius: 8px; /* Will be overridden by glass-panel's 12px */
     margin-bottom: 10px;
-    border: 1px solid var(--border-color); /* Will be overridden by glass-panel */
     font-size: 0.9em;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .special-hours-display li .hours-container {
@@ -2371,7 +2233,7 @@ body.maintenance-active {
 .contact-info {
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    border-top: 1px solid var(--glass-border); /* Use glass border variable */
     color: var(--secondary-text);
     text-align: center;
 }
@@ -2380,24 +2242,18 @@ body.maintenance-active {
 .contact-info a {
     display: inline-block;
     padding: 10px 24px;
-    background-color: var(--accent-color); /* Will be overridden by glass-button */
-    color: var(--bg-color);
-    border-radius: 9999px;
+    color: var(--bg-color); /* Will be overridden by glass-button hover */
     text-decoration: none;
     font-weight: 600;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Will be overridden by glass-button */
     user-select: none;
     cursor: pointer;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 /* Hover/focus for pill button */
 .contact-info a:hover,
 .contact-info a:focus {
-    background-color: var(--accent-hover-color, #1e90ff);
-    color: var(--bg-color);
     outline: none;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     text-decoration: none;
 }
 
@@ -2414,8 +2270,7 @@ body.maintenance-active {
 
 .day-hours-group {
     padding: 20px;
-    border-radius: 12px; /* Will be overridden by glass-panel's 12px */
-    border: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .day-hours-group label {
@@ -2460,13 +2315,12 @@ body.maintenance-active {
 
 .special-hours-list .hour-entry {
     padding: 20px;
-    border-radius: 12px; /* Will be overridden by glass-panel's 12px */
-    border: 1px solid var(--border-color); /* Will be overridden by glass-panel */
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px 20px;
     align-items: center;
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .special-hours-list .hour-entry .form-group:has(label[for*="-label-"]) {
@@ -2505,17 +2359,16 @@ body.maintenance-active {
 /* --- Admin Preview Styles --- */
 .admin-preview-container {
     padding: 25px;
-    border-radius: 12px; /* Will be overridden by glass-panel's 18px */
     margin-top: 30px;
-    border: 1px solid var(--border-color); /* Will be overridden by glass-panel */
     box-shadow: 0 1px 4px rgba(0,0,0,0.05); /* Will be overridden by glass-panel */
+    /* Removed direct background/border/shadow/backdrop-filter as they are now in the common glass styles */
 }
 
 .admin-preview-container h3 {
     margin-top: 0;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color); /* Will be overridden by glass-panel */
+    border-bottom: 1px solid var(--glass-border); /* Use glass border variable */
     font-size: 1.2em;
     color: var(--accent-color);
 }
