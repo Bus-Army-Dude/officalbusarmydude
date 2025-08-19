@@ -210,7 +210,7 @@ body.settings-page #appearanceModeSelect:focus {
     height: 0;
 }
 
-/* The background of the toggle switch */
+/* The background of the toggle switch (the pill shape) */
 .apple-toggle-label {
     --toggle-width: 51px;
     --toggle-height: 31px;
@@ -223,7 +223,7 @@ body.settings-page #appearanceModeSelect:focus {
     cursor: pointer;
     width: var(--toggle-width);
     height: var(--toggle-height);
-    background-color: var(--toggle-off); /* Uses your existing CSS variable for the 'off' color */
+    background-color: var(--toggle-off); /* Uses your existing variable for the 'off' color */
     border-radius: calc(var(--toggle-height) / 2);
     transition: background-color 0.2s ease-in-out;
     vertical-align: middle;
@@ -244,14 +244,14 @@ body.settings-page #appearanceModeSelect:focus {
     transition: transform 0.2s ease-in-out;
 }
 
-/* --- Toggle ON State --- */
+/* --- Toggle 'ON' State --- */
 
-/* Changes the background color when the checkbox is checked */
+/* Changes the background to green when the hidden checkbox is checked */
 .apple-toggle-checkbox:checked + .apple-toggle-label {
-    background-color: var(--toggle-on); /* Uses your existing CSS variable for the 'on' color */
+    background-color: var(--toggle-on); /* Uses your existing variable for the 'on' color */
 }
 
-/* Moves the knob to the right when checked */
+/* Moves the knob to the right when the toggle is on */
 .apple-toggle-checkbox:checked + .apple-toggle-label::after {
     transform: translateX(var(--slider-translate));
 }
