@@ -14,7 +14,7 @@ The current version of the website is **v1.26**
 The **Home Page** contains the following sections:
 
 #### 1. **Profile Section**
-   - Displays my username, including a bio, profile image.
+   - Displays my username, including a bio and profile image.
    - The buttons to take you to all of the other pages of my website (weather, settings, and merch pages)
 
 #### 2. **Connect with Me**
