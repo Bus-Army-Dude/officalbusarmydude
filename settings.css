@@ -199,7 +199,7 @@ body.settings-page #appearanceModeSelect:focus {
 }
 
 /* ================================== */
-/* == Standard iOS Style Toggle Switch == */
+/* == iOS 26 Style Toggle Switch == */
 /* ================================== */
 
 /* Hides the actual checkbox but keeps it functional */
@@ -210,23 +210,28 @@ body.settings-page #appearanceModeSelect:focus {
     height: 0;
 }
 
-/* The background of the toggle switch (the gray/green pill shape) */
+/* The background of the toggle switch (the pill shape) */
 .apple-toggle-label {
     --toggle-width: 51px;
     --toggle-height: 31px;
-    --knob-size: 27px;
-    --knob-margin: 2px;
+    --knob-height: 27px;
+    /* CHANGED: Knob width is now different from its height */
+    --knob-width: 27px;
+    --knob-margin: 1.5px; /* Adjusted for the border */
 
     display: inline-block;
     position: relative;
     cursor: pointer;
     width: var(--toggle-width);
     height: var(--toggle-height);
-    background-color: var(--toggle-off); /* Uses your variable for the gray 'off' color */
     border-radius: calc(var(--toggle-height) / 2);
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
     vertical-align: middle;
     flex-shrink: 0;
+    
+    /* NEW: Outlined 'off' state */
+    background-color: transparent;
+    border: 1.5px solid var(--toggle-off);
 }
 
 /* The white sliding knob */
@@ -235,13 +240,16 @@ body.settings-page #appearanceModeSelect:focus {
     position: absolute;
     top: var(--knob-margin);
     left: var(--knob-margin);
-    width: var(--knob-size);
-    height: var(--knob-size);
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    width: var(--knob-width);
+    height: var(--knob-height);
+    background-color: var(--content-bg);
+    
+    /* CHANGED: Make the knob a pill shape */
+    border-radius: calc(var(--knob-height) / 2);
+    border: 1.5px solid var(--toggle-off);
+
     /* This transition animates the slide */
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
 /* --- Toggle 'ON' State --- */
@@ -249,11 +257,14 @@ body.settings-page #appearanceModeSelect:focus {
 /* Changes the background to green when the hidden checkbox is checked */
 .apple-toggle-checkbox:checked + .apple-toggle-label {
     background-color: var(--toggle-on); /* Uses your variable for the green 'on' color */
+    border-color: var(--toggle-on); /* Hides the border by matching the color */
 }
 
 /* Slides the knob to the right when the toggle is on */
 .apple-toggle-checkbox:checked + .apple-toggle-label::after {
-    transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
+    transform: translateX(calc(var(--toggle-width) - var(--knob-width) - (2 * var(--knob-margin))));
+    background-color: #ffffff; /* Knob is pure white when ON */
+    border-color: transparent; /* Knob border is hidden when ON */
 }
 
 /* --- Accessibility Focus State --- */
