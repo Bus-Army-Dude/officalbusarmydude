@@ -155,10 +155,6 @@ body.settings-page .setting-card:hover {
     body.settings-page .setting-card:hover {
         background-color: rgba(255, 255, 255, 0.05);
     }
-    /* Optional: Dark mode border for subsection if needed */
-    /* body.settings-page .settings-subsection {
-        border: 1px solid rgba(255,255,255,0.1);
-    } */
 }
 
 body.settings-page .setting-label {
@@ -202,53 +198,72 @@ body.settings-page #appearanceModeSelect:focus {
     border-color: var(--accent-color);
 }
 
-/* ========== Toggle Switch (Keeping Apple Style) (Scoped) ========== */
-body.settings-page .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 51px;
-    height: 31px;
-    flex-shrink: 0; /* Prevent shrinking */
-}
+/* ========================== */
+/* == iOS-Style Toggle Switch == */
+/* ========================== */
 
-body.settings-page .toggle-switch input {
+/* Hides the actual checkbox but keeps it functional */
+.apple-toggle-checkbox {
     opacity: 0;
+    position: absolute;
     width: 0;
     height: 0;
 }
 
-body.settings-page .toggle-slider {
-    position: absolute;
+/* The background of the toggle switch */
+.apple-toggle-label {
+    --toggle-width: 51px;
+    --toggle-height: 31px;
+    --slider-size: 27px;
+    --slider-margin: 2px;
+    --slider-translate: calc(var(--toggle-width) - var(--slider-size) - (2 * var(--slider-margin)));
+
+    display: inline-block;
+    position: relative;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--toggle-off);
-    transition: 0.2s;
-    border-radius: 34px;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    background-color: var(--toggle-off); /* Uses your existing CSS variable for the 'off' color */
+    border-radius: calc(var(--toggle-height) / 2);
+    transition: background-color 0.2s ease-in-out;
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
-body.settings-page .toggle-slider:before {
+/* The sliding knob */
+.apple-toggle-label::after {
+    content: '';
     position: absolute;
-    content: "";
-    height: 27px;
-    width: 27px;
-    left: 2px;
-    bottom: 2px;
+    top: var(--slider-margin);
+    left: var(--slider-margin);
+    width: var(--slider-size);
+    height: var(--slider-size);
     background-color: white;
-    transition: 0.2s;
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease-in-out;
 }
 
-body.settings-page input:checked + .toggle-slider {
-    background-color: var(--toggle-on);
+/* --- Toggle ON State --- */
+
+/* Changes the background color when the checkbox is checked */
+.apple-toggle-checkbox:checked + .apple-toggle-label {
+    background-color: var(--toggle-on); /* Uses your existing CSS variable for the 'on' color */
 }
 
-body.settings-page input:checked + .toggle-slider:before {
-    transform: translateX(20px);
+/* Moves the knob to the right when checked */
+.apple-toggle-checkbox:checked + .apple-toggle-label::after {
+    transform: translateX(var(--slider-translate));
 }
+
+/* --- Accessibility Focus State --- */
+
+/* Adds a focus ring around the toggle for keyboard navigation */
+.apple-toggle-checkbox:focus-visible + .apple-toggle-label {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--content-bg), 0 0 0 4px var(--focus-outline-color);
+}
+
 
 /* ========== Text Size Control (Keeping Apple Style) (Scoped) ========== */
 body.settings-page .text-size-control {
@@ -522,11 +537,6 @@ body.settings-page .focus-outline-setting-card { /* Ensure you added this class 
     body.settings-page .setting-label {
         padding-right: 0; /* Remove right padding when stacked */
     }
-
-    /* If .focus-outline-setting-card was visible at this breakpoint (i.e., 1023px was not used),
-       it would also stack due to the general .setting-card rule above.
-       However, with max-width: 1023px hiding it, this part isn't strictly for it
-       unless you change the 1023px breakpoint. */
 
     body.settings-page .text-size-control {
         width: 100%; /* Make slider full width */
