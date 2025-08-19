@@ -198,11 +198,11 @@ body.settings-page #appearanceModeSelect:focus {
     border-color: var(--accent-color);
 }
 
-/* ======================================== */
-/* == iOS 26 Style "Liquid" Toggle Switch == */
-/* ======================================== */
+/* ================================== */
+/* == Standard iOS Style Toggle Switch == */
+/* ================================== */
 
-/* Hide the actual checkbox input */
+/* Hides the actual checkbox but keeps it functional */
 .apple-toggle-checkbox {
     opacity: 0;
     position: absolute;
@@ -210,100 +210,58 @@ body.settings-page #appearanceModeSelect:focus {
     height: 0;
 }
 
-/* The main container for the toggle. This is where the magic starts.
-   The `contrast` filter is essential for the gooey effect. */
+/* The background of the toggle switch (the gray/green pill shape) */
 .apple-toggle-label {
     --toggle-width: 51px;
     --toggle-height: 31px;
     --knob-size: 27px;
     --knob-margin: 2px;
-    --animation-speed: 0.3s;
 
     display: inline-block;
     position: relative;
     cursor: pointer;
     width: var(--toggle-width);
     height: var(--toggle-height);
+    background-color: var(--toggle-off); /* Uses your variable for the gray 'off' color */
     border-radius: calc(var(--toggle-height) / 2);
-    
-    /* This creates the outlined 'off' state */
-    border: 1.5px solid var(--border-color);
-    background-color: transparent; /* Off state has a clear background */
-
-    /* The filter combo that creates the liquid effect */
-    filter: contrast(20);
-    
-    transition: background-color var(--animation-speed) ease, border-color var(--animation-speed) ease;
+    transition: background-color 0.2s ease-in-out;
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
-/* This is the animated green background that "fills" the toggle.
-   It is hidden by default and scales in when the toggle is checked. */
-.apple-toggle-label::before {
+/* The white sliding knob */
+.apple-toggle-label::after {
     content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--toggle-on);
-    border-radius: calc(var(--toggle-height) / 2);
-
-    /* This makes it merge with the knob */
-    filter: blur(4px);
-    
-    /* Start scaled down to nothing */
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--animation-speed) ease;
-}
-
-/* The visual knob that slides */
-.apple-toggle-knob {
     position: absolute;
     top: var(--knob-margin);
     left: var(--knob-margin);
     width: var(--knob-size);
     height: var(--knob-size);
-    background-color: var(--content-bg); /* Use content background to blend in */
-    border: 1.5px solid var(--border-color);
+    background-color: white;
     border-radius: 50%;
-    
-    /* This makes it merge with the background fill */
-    filter: blur(4px);
-    
-    transform: translateX(0);
-    transition: transform var(--animation-speed) cubic-bezier(0.25, 1, 0.5, 1); /* A bouncy transition */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    /* This transition animates the slide */
+    transition: transform 0.2s ease-in-out;
 }
 
+/* --- Toggle 'ON' State --- */
 
-/* --- TOGGLE 'ON' STATE --- */
-
-/* When the hidden checkbox is checked... */
+/* Changes the background to green when the hidden checkbox is checked */
 .apple-toggle-checkbox:checked + .apple-toggle-label {
-    background-color: var(--toggle-on); /* The main container also gets the green background */
-    border-color: var(--toggle-on); /* Border becomes green to blend in */
+    background-color: var(--toggle-on); /* Uses your variable for the green 'on' color */
 }
 
-/* Animate the ::before pseudo-element to fill the background */
-.apple-toggle-checkbox:checked + .apple-toggle-label::before {
-    transform: scaleX(1);
-    transform-origin: right;
-}
-
-/* Slide the knob to the right */
-.apple-toggle-checkbox:checked + .apple-toggle-label .apple-toggle-knob {
+/* Slides the knob to the right when the toggle is on */
+.apple-toggle-checkbox:checked + .apple-toggle-label::after {
     transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
-    border-color: transparent; /* Hide the knob's border in the 'on' state for a cleaner look */
-    background-color: #ffffff; /* Knob is pure white when on */
 }
 
-
-/* --- ACCESSIBILITY FOCUS STATE --- */
+/* --- Accessibility Focus State --- */
 
 /* Adds a focus ring around the toggle for keyboard navigation */
 .apple-toggle-checkbox:focus-visible + .apple-toggle-label {
     outline: none;
-    box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--focus-outline-color);
+    box-shadow: 0 0 0 2px var(--content-bg), 0 0 0 4px var(--focus-outline-color);
 }
 
 /* ========== Range Slider (Keeping Apple Style) (Scoped) ========== */
