@@ -15,7 +15,7 @@ The **Home Page** contains the following sections:
 
 #### 1. **Profile Section**
    - Displays my username, including a bio and profile image.
-   - The buttons to take you to all of the other pages of my website (weather, settings, and merch pages)
+   - The buttons to take you to all of the other pages of my website (settings and merch pages)
 
 #### 2. **Connect with Me**
    - Contains links to various social media platforms.
