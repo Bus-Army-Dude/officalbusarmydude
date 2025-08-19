@@ -199,7 +199,7 @@ body.settings-page #appearanceModeSelect:focus {
 }
 
 /* ================================== */
-/* == iOS 26 Style Toggle Switch (Pill Knob) == */
+/* == Standard iOS Style Toggle Switch == */
 /* ================================== */
 
 /* Hides the actual checkbox but keeps it functional */
@@ -210,28 +210,23 @@ body.settings-page #appearanceModeSelect:focus {
     height: 0;
 }
 
-/* The background of the toggle switch (the track) */
+/* The background of the toggle switch (the gray/green pill shape) */
 .apple-toggle-label {
     --toggle-width: 51px;
     --toggle-height: 31px;
-    --knob-height: 27px;
-    /* THIS IS THE KEY CHANGE: Knob is now wider than it is tall */
-    --knob-width: 35px; 
-    --knob-margin: 1.5px;
+    --knob-size: 27px;
+    --knob-margin: 2px;
 
     display: inline-block;
     position: relative;
     cursor: pointer;
     width: var(--toggle-width);
     height: var(--toggle-height);
+    background-color: var(--toggle-off); /* Uses your variable for the gray 'off' color */
     border-radius: calc(var(--toggle-height) / 2);
-    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
     vertical-align: middle;
     flex-shrink: 0;
-    
-    /* Outlined 'off' state */
-    background-color: transparent;
-    border: 1.5px solid var(--toggle-off);
 }
 
 /* The white sliding knob */
@@ -241,37 +236,32 @@ body.settings-page #appearanceModeSelect:focus {
     top: var(--knob-margin);
     left: var(--knob-margin);
     
-    /* NEW: Use the new width and height to create the pill shape */
-    width: var(--knob-width);
-    height: var(--knob-height);
+    /* This creates the perfect CIRCLE for the knob */
+    width: var(--knob-size);
+    height: var(--knob-size);
+    border-radius: 50%; /* This is the key for the circle shape */
 
-    background-color: var(--content-bg);
-    
-    /* NEW: This border-radius creates the perfect pill ends */
-    border-radius: calc(var(--knob-height) / 2);
-    border: 1.5px solid var(--toggle-off);
-
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     /* This transition animates the slide */
-    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
 }
 
 /* --- Toggle 'ON' State --- */
 
 /* Changes the background to green when the hidden checkbox is checked */
 .apple-toggle-checkbox:checked + .apple-toggle-label {
-    background-color: var(--toggle-on);
-    border-color: var(--toggle-on);
+    background-color: var(--toggle-on); /* Uses your variable for the green 'on' color */
 }
 
-/* Slides the pill-shaped knob to the right when the toggle is on */
+/* Slides the knob to the right when the toggle is on */
 .apple-toggle-checkbox:checked + .apple-toggle-label::after {
-    /* The calculation is updated for the new knob width */
-    transform: translateX(calc(var(--toggle-width) - var(--knob-width) - (2 * var(--knob-margin))));
-    background-color: #ffffff;
-    border-color: transparent;
+    transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
 }
 
 /* --- Accessibility Focus State --- */
+
+/* Adds a focus ring around the toggle for keyboard navigation */
 .apple-toggle-checkbox:focus-visible + .apple-toggle-label {
     outline: none;
     box-shadow: 0 0 0 2px var(--content-bg), 0 0 0 4px var(--focus-outline-color);
