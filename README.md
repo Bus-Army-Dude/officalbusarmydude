@@ -29,12 +29,12 @@ The **Home Page** contains the following sections:
        - **Born:** Shows when the president was born (Month, Day, Year).
        - **Height:** Shows how tall the president is.
        - **Party:** Shows what Political Party the president is (Republican or Democrat)
-       - **Presidential Term:** Shows the term of the president (Start date from when they took office icluding the time, then the last date they will leave office including the time).
-       - **Vice President:** Shows who the presidents Vice President is.
+       - **Presidential Term:** Shows the term of the president (Start date from when they took office, including the time, then the last date they will leave office, including the time).
+       - **Vice President:** Shows who the president's Vice President is.
 
 #### 4. **TikTok, Instagram, YouTube Creator Shoutouts**
-   - Lists creators on TikTok, Instagram, and YouTube who I follow or collaborate with.
-   - Users can visit their profiles but cannot modify the list of creators.
+   - Lists creators on TikTok, Instagram, and YouTube whom I follow or collaborate with.
+   - Users can visit their profile, but cannot modify the list of creators.
 
 #### 5. **Useful Links**
    - Displays important links that I want to share with visitors (e.g., personal websites, resources).
@@ -42,21 +42,21 @@ The **Home Page** contains the following sections:
 
 #### 6. **Countdown**
    - Shows a countdown timer to a specified event (e.g., product launch or personal event).
-      - The countdown is based off the users timezone from there device.
+      - The countdown is based on the user's timezone from their device.
       - Has the following (Year, Month, Day, Hour, Minute, and Second)
 
 #### 7. **Upcoming Events**
    - Displays a list of upcoming events, including details like event names, dates, and locations.
-        - The events times and how long till the event starts shows based off the users timezone of there                 devices.
+        - The event times and how long till the event starts are shown based on the user's timezone on their                 devices.
     
 #### 8. **Business Information**
-   - Displays the owners business information as follows:
+   - Displays the owner's business information as follows:
         - Business Name
-        - Conatact Email
-        - The users current timezone
-        - Then business hours (the times also match the users timezone differences)
+        - Contact Email
+        - The user's current timezone
+        - Then business hours (the times also match the users' timezone differences)
         - then the status (Open/Closed)
-        - Holiday Hours (only shows when there is a holiday also affects normal hours. Shows the open and 
+        - Holiday Hours (only shows when there is a holiday, also affects normal hours. Shows the open and 
         closing times or if the business is closed)
         - Special Hours (only shows when there is a special day also affects normal hours. Shows the open and 
         closing times or if the business is closed)
@@ -66,7 +66,7 @@ The **Home Page** contains the following sections:
    - Only one faq can be open at a time.
 
 #### 10. **Tech Information**
-   - Displays the current tech that the owner has and it displays the following:
+   - Displays the current tech that the owner has, and it displays the following:
         - Model
         - Material
         - Storage
@@ -152,12 +152,12 @@ This website is built using a combination of **JavaScript**, **CSS**, and **HTML
 - **v1.13.0**: added the toggle button focus outline, also enhancements.
 - **v1.12.0**: added a merch store page.
 - **v1.11.0**: added a settings page for dark mode and light mode, font adjustments, and reset to factory settings.
-- **v1.10.1**: added a current day highlight and also enhanced the event module and enhanced the theme.
+- **v1.10.1**: added a current day highlight and also enhanced the event module, and enhanced the theme.
 - **v1.10.0**: added a faq section, added an event calendar, and bug fixes.
-- **v1.9.0**: added tiktok creator shoutouts, added a tech information section, added disabilites, version information, and legal and copyright notice.
-- **v1.8.0**: added rednote same format as youtube and instagram, and General Enhancements.
-- **v1.7.0**: Security enhancements such as preventing media saving and also text copying.
-- **v1.6.0**: Bug fixes and added instagram and youtube creator shoutouts and last updated stamps.
+- **v1.9.0**: added TikTok creator shoutouts, added a tech information section, added disabilities, version information, and legal and copyright notice.
+- **v1.8.0**: added rednote same format as YouTube and Instagram, and General Enhancements.
+- **v1.7.0**: Security enhancements such as preventing media saving and text copying.
+- **v1.6.0**: Bug fixes and added Instagram and YouTube creator shoutouts and last updated stamps.
 - **v1.5.0**: Bug fixes and improvements.
 
 ---
