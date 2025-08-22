@@ -1,294 +1,331 @@
-/* ===================================================== */
-/* iOS 26 "Liquid Glass" Settings Theme - Full CSS File  */
-/* Scoped to .settings-page so it doesn’t bleed globally */
-/* ===================================================== */
+/* ================================
+   iOS 26 Liquid Glass UI - Settings
+   Auto Light/Dark Adaptive
+   ================================ */
 
-/* ----------------- Base Variables ----------------- */
-:root {
-  --font-size-base: 17px;
-  --bg-color: #f2f2f7;
-  --content-bg: rgba(255, 255, 255, 0.65);
-  --text-color: #000;
-  --secondary-text: #6c6c70;
-  --tertiary-text: #a1a1a6;
-  --border-color: rgba(120, 120, 128, 0.16);
-  --separator-color: rgba(60, 60, 67, 0.15);
-  --accent-color: #0a84ff;
-  --hover-color: #0066dd;
-  --toggle-on: #34c759;
-  --toggle-off: rgba(120, 120, 128, 0.2);
-  --red-color: #ff3b30;
-  --orange-color: #ff9500;
-  --shadow-color: rgba(0, 0, 0, 0.15);
-  --card-shadow: rgba(0, 0, 0, 0.1);
-  --slider-thumb-color: #ffffff;
-  --slider-track-color: rgba(120, 120, 128, 0.2);
-  --slider-track-filled-color: #0a84ff;
-  --focus-outline-color: #0a84ff;
-  --grouped-bg: rgba(242, 242, 247, 0.7);
-  --selection-color: rgba(10, 132, 255, 0.18);
-  --footer-bg: rgba(255, 255, 255, 0.5);
+/* -------- Base -------- */
+.settings-page {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Dark mode */
-body.dark-mode {
-  --bg-color: #000;
-  --content-bg: rgba(28, 28, 30, 0.55);
-  --text-color: #fff;
-  --secondary-text: #9e9ea2;
-  --tertiary-text: #636366;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --separator-color: rgba(255, 255, 255, 0.12);
-  --shadow-color: rgba(0, 0, 0, 0.45);
-  --card-shadow: rgba(0, 0, 0, 0.35);
-  --slider-track-color: rgba(120, 120, 128, 0.3);
-  --toggle-off: rgba(120, 120, 128, 0.4);
-  --grouped-bg: rgba(0, 0, 0, 0.7);
-  --selection-color: rgba(10, 132, 255, 0.28);
-  --footer-bg: rgba(0, 0, 0, 0.55);
-}
-
-/* ----------------- Page Layout ----------------- */
-body.settings-page {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
-  font-size: var(--font-size-base);
-  background: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.5;
+/* Reset */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-body.settings-page .container {
-  max-width: 844px;
-  margin: 0 auto;
-  padding: 32px 20px 60px;
-  background: var(--grouped-bg);
-  border-radius: 28px;
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  box-shadow: 0 8px 32px var(--shadow-color);
-  border: 1px solid var(--border-color);
-}
-
-/* ----------------- Skip Link ----------------- */
-body.settings-page .skip-link {
+/* Skip Link */
+.skip-link {
   position: absolute;
-  left: -999px;
+  left: -9999px;
   top: auto;
-  background: var(--content-bg);
-  color: var(--accent-color);
-  padding: 10px 16px;
-  border-radius: 12px;
-  z-index: 1000;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: left 0.3s ease;
-}
-body.settings-page .skip-link:focus {
-  left: 16px;
-  top: 16px;
-  outline: none;
-}
-
-/* ----------------- Headers ----------------- */
-body.settings-page .settings-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  padding: 16px 20px;
-  border-radius: 20px;
-  background: var(--content-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 4px 16px var(--card-shadow);
-  border: 1px solid var(--border-color);
-}
-body.settings-page .settings-header h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-}
-body.settings-page .settings-header .version {
-  font-size: 14px;
-  color: var(--secondary-text);
-}
-
-/* ----------------- Subsections ----------------- */
-body.settings-page .settings-subsection {
-  background: var(--content-bg);
-  border-radius: 20px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 16px var(--card-shadow);
-  border: 1px solid var(--border-color);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  width: 1px;
+  height: 1px;
   overflow: hidden;
 }
-body.settings-page .settings-subsection.danger-zone {
-  border-left: 4px solid var(--red-color);
-}
-body.settings-page .subsection-title {
-  padding: 12px 20px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--secondary-text);
-  background: var(--grouped-bg);
-  border-bottom: 0.5px solid var(--separator-color);
+.skip-link:focus {
+  left: 50%;
+  top: 1rem;
+  transform: translateX(-50%);
+  width: auto;
+  height: auto;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text);
+  text-decoration: none;
+  z-index: 1000;
 }
 
-/* ----------------- Setting Cards ----------------- */
-body.settings-page .setting-card {
-  padding: 18px 22px;
+/* -------- Container -------- */
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+.settings-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* -------- Headers -------- */
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  border-radius: 24px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight),
+              0 4px 20px rgba(0, 0, 0, 0.4);
+}
+.settings-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.settings-header .version {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  color: var(--text-muted);
+}
+
+/* -------- Subsections -------- */
+.settings-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.subsection-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding-left: 0.4rem;
+  opacity: 0.85;
+  color: var(--text);
+}
+
+/* -------- Cards -------- */
+.setting-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 0.5px solid var(--separator-color);
-  transition: background-color 0.25s ease, transform 0.15s ease;
+  padding: 1.4rem 1.6rem;
+  border-radius: 22px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight),
+              0 4px 25px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-body.settings-page .setting-card:last-child {
-  border-bottom: none;
+.setting-card:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 var(--glass-highlight-strong),
+              0 8px 28px rgba(0,0,0,0.45);
 }
-body.settings-page .setting-card:hover {
-  background-color: var(--selection-color);
-  transform: scale(1.01);
+.setting-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text);
 }
-body.settings-page .setting-title {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 600;
-}
-body.settings-page .setting-description {
-  margin: 2px 0 0;
-  font-size: 14px;
-  color: var(--secondary-text);
-}
-
-/* ----------------- Controls ----------------- */
-body.settings-page select,
-body.settings-page input[type="range"],
-body.settings-page button,
-body.settings-page .apple-toggle-label {
-  appearance: none;
-  font-family: inherit;
+.setting-description {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
-body.settings-page select {
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  background: var(--content-bg);
-  color: var(--text-color);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* -------- Controls -------- */
+select, input[type="range"], button, .apple-toggle-label {
+  font: inherit;
+  color: inherit;
 }
 
-/* Slider */
-body.settings-page .slider-container input[type="range"] {
+/* Dropdown */
+.appearance-mode-control select {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* Range Slider */
+.text-size-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+#text-size-slider {
   width: 100%;
-  accent-color: var(--accent-color);
+  accent-color: var(--accent);
 }
-body.settings-page .size-labels {
+.size-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
-  margin-top: 4px;
-  color: var(--secondary-text);
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 /* Toggle */
-body.settings-page .apple-toggle-group {
-  position: relative;
-  width: 51px;
-  height: 31px;
-}
-body.settings-page .apple-toggle-checkbox {
+.apple-toggle-checkbox {
   display: none;
 }
-body.settings-page .apple-toggle-label {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: var(--toggle-off);
-  border-radius: 50px;
+.apple-toggle-label {
+  width: 46px;
+  height: 26px;
+  background: var(--glass-toggle-bg);
+  border-radius: 999px;
   position: relative;
   cursor: pointer;
   transition: background 0.3s ease;
 }
-body.settings-page .apple-toggle-label::after {
+.apple-toggle-label::after {
   content: "";
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 25px;
-  height: 25px;
-  background: #fff;
+  top: 3px; left: 3px;
+  width: 20px; height: 20px;
   border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   transition: transform 0.3s ease;
 }
-body.settings-page .apple-toggle-checkbox:checked + .apple-toggle-label {
-  background: var(--toggle-on);
+.apple-toggle-checkbox:checked + .apple-toggle-label {
+  background: var(--accent);
 }
-body.settings-page .apple-toggle-checkbox:checked + .apple-toggle-label::after {
+.apple-toggle-checkbox:checked + .apple-toggle-label::after {
   transform: translateX(20px);
 }
 
-/* ----------------- Buttons ----------------- */
-body.settings-page .reset-button {
-  background: var(--red-color);
-  color: #fff;
+/* -------- Danger Zone -------- */
+.danger-zone .setting-card {
+  background: linear-gradient(145deg, rgba(255, 100, 100, 0.25), rgba(255, 50, 50, 0.15));
+  border: 1px solid rgba(255, 120, 120, 0.4);
+}
+.reset-button {
+  padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: 14px;
-  padding: 14px 22px;
-  font-weight: 600;
-  letter-spacing: -0.41px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-body.settings-page .reset-button:hover {
-  background: #d32f2f;
-}
-
-/* ----------------- Back Link ----------------- */
-body.settings-page .back-link {
-  display: inline-block;
-  margin-top: 16px;
-  padding: 10px 16px;
   border-radius: 12px;
-  background: var(--content-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  text-decoration: none;
-  color: var(--accent-color);
-  border: 1px solid var(--border-color);
-  transition: background 0.2s ease;
+  background: rgba(255, 80, 80, 0.8);
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
-body.settings-page .back-link:hover {
-  background: var(--selection-color);
+.reset-button:hover {
+  background: rgba(255, 50, 50, 0.95);
+  transform: translateY(-1px);
 }
 
-/* ----------------- Footer ----------------- */
-body.settings-page footer {
-  margin-top: 40px;
-  padding: 20px;
+/* -------- Links -------- */
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  transition: background 0.25s ease;
+}
+.back-link:hover {
+  background: var(--glass-hover);
+}
+
+/* -------- Footer -------- */
+footer {
+  margin-top: auto;
+  padding: 1.5rem;
   text-align: center;
-  font-size: 14px;
-  color: var(--secondary-text);
-  background: var(--footer-bg);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--glass-border);
 }
-body.settings-page footer .footer-links {
-  margin-top: 12px;
+footer p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
-body.settings-page footer a {
-  color: var(--accent-color);
-  margin: 0 8px;
+.footer-links {
+  margin-top: 0.8rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.footer-links a {
+  font-size: 0.85rem;
   text-decoration: none;
+  color: var(--text);
+  transition: color 0.25s ease;
 }
-body.settings-page footer a:hover {
-  text-decoration: underline;
+.footer-links a:hover {
+  color: var(--text-strong);
+}
+
+/* -------- Light Mode -------- */
+@media (prefers-color-scheme: light) {
+  :root {
+    --text: rgba(20,20,25,0.9);
+    --text-strong: #000;
+    --text-muted: rgba(20,20,25,0.55);
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-hover: rgba(255,255,255,0.8);
+    --glass-border: rgba(200,200,200,0.5);
+    --glass-highlight: rgba(255,255,255,0.9);
+    --glass-highlight-strong: rgba(255,255,255,1);
+    --glass-toggle-bg: rgba(0,0,0,0.15);
+    --accent: rgba(0, 120, 255, 0.7);
+  }
+  .settings-page {
+    background: linear-gradient(135deg, #f6f8fa, #e9ecf0);
+    color: var(--text);
+  }
+}
+
+/* -------- Dark Mode -------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: rgba(255,255,255,0.9);
+    --text-strong: #fff;
+    --text-muted: rgba(255,255,255,0.65);
+    --glass-bg: rgba(25,25,30,0.6);
+    --glass-hover: rgba(60,60,70,0.8);
+    --glass-border: rgba(255,255,255,0.25);
+    --glass-highlight: rgba(255,255,255,0.2);
+    --glass-highlight-strong: rgba(255,255,255,0.3);
+    --glass-toggle-bg: rgba(255,255,255,0.2);
+    --accent: rgba(0, 200, 255, 0.6);
+  }
+  .settings-page {
+    background: linear-gradient(135deg, #0e0f12, #1a1c20);
+    color: var(--text);
+  }
+}
+
+/* Smooth theme transitions */
+@media (prefers-reduced-motion: no-preference) {
+  /* Opt-in class we’ll toggle briefly during theme changes */
+  .theme-transition,
+  .theme-transition * {
+    transition:
+      background-color 280ms ease,
+      background 280ms ease,
+      color 280ms ease,
+      border-color 280ms ease,
+      box-shadow 280ms ease,
+      backdrop-filter 280ms ease,
+      -webkit-backdrop-filter 280ms ease;
+  }
+}
+
+/* Optional: subtle crossfade for the page container */
+@media (prefers-reduced-motion: no-preference) {
+  body.settings-page.is-theming .container,
+  body.settings-page.is-theming .settings-header,
+  body.settings-page.is-theming .settings-subsection,
+  body.settings-page.is-theming .setting-card,
+  body.settings-page.is-theming footer {
+    transition-duration: 360ms;
+    filter: saturate(110%);
+  }
 }
