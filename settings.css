@@ -1,275 +1,294 @@
 /* ===================================================== */
-/* == iOS 26 "Liquid Glass" Settings Theme (Scoped) == */
+/* iOS 26 "Liquid Glass" Settings Theme - Full CSS File  */
+/* Scoped to .settings-page so it doesn’t bleed globally */
 /* ===================================================== */
 
-/* Global Variables - iOS 26 Color System */
+/* ----------------- Base Variables ----------------- */
 :root {
-    --font-size-base: 17px;
-    --bg-color: #f2f2f7;
-    --content-bg: rgba(255, 255, 255, 0.65);
-    --text-color: #000000;
-    --secondary-text: #6c6c70;
-    --tertiary-text: #a1a1a6;
-    --border-color: rgba(120,120,128,0.16);
-    --separator-color: rgba(60,60,67,0.15);
-    --accent-color: #0a84ff;
-    --hover-color: #0066dd;
-    --toggle-on: #34c759;
-    --toggle-off: rgba(120,120,128,0.2);
-    --red-color: #ff3b30;
-    --orange-color: #ff9500;
-    --shadow-color: rgba(0, 0, 0, 0.15);
-    --card-shadow: rgba(0, 0, 0, 0.1);
-    --slider-thumb-color: #ffffff;
-    --slider-track-color: rgba(120,120,128,0.2);
-    --slider-track-filled-color: #0a84ff;
-    --focus-outline-color: #0a84ff;
-    --grouped-bg: rgba(242,242,247,0.7);
-    --selection-color: rgba(10, 132, 255, 0.18);
+  --font-size-base: 17px;
+  --bg-color: #f2f2f7;
+  --content-bg: rgba(255, 255, 255, 0.65);
+  --text-color: #000;
+  --secondary-text: #6c6c70;
+  --tertiary-text: #a1a1a6;
+  --border-color: rgba(120, 120, 128, 0.16);
+  --separator-color: rgba(60, 60, 67, 0.15);
+  --accent-color: #0a84ff;
+  --hover-color: #0066dd;
+  --toggle-on: #34c759;
+  --toggle-off: rgba(120, 120, 128, 0.2);
+  --red-color: #ff3b30;
+  --orange-color: #ff9500;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --slider-thumb-color: #ffffff;
+  --slider-track-color: rgba(120, 120, 128, 0.2);
+  --slider-track-filled-color: #0a84ff;
+  --focus-outline-color: #0a84ff;
+  --grouped-bg: rgba(242, 242, 247, 0.7);
+  --selection-color: rgba(10, 132, 255, 0.18);
+  --footer-bg: rgba(255, 255, 255, 0.5);
 }
 
-/* Dark Mode */
+/* Dark mode */
 body.dark-mode {
-    --bg-color: #000000;
-    --content-bg: rgba(28,28,30,0.55);
-    --text-color: #ffffff;
-    --secondary-text: #9e9ea2;
-    --tertiary-text: #636366;
-    --border-color: rgba(255,255,255,0.08);
-    --separator-color: rgba(255,255,255,0.12);
-    --shadow-color: rgba(0, 0, 0, 0.45);
-    --card-shadow: rgba(0, 0, 0, 0.35);
-    --slider-track-color: rgba(120,120,128,0.3);
-    --toggle-off: rgba(120,120,128,0.4);
-    --grouped-bg: rgba(0,0,0,0.7);
-    --selection-color: rgba(10, 132, 255, 0.28);
+  --bg-color: #000;
+  --content-bg: rgba(28, 28, 30, 0.55);
+  --text-color: #fff;
+  --secondary-text: #9e9ea2;
+  --tertiary-text: #636366;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --separator-color: rgba(255, 255, 255, 0.12);
+  --shadow-color: rgba(0, 0, 0, 0.45);
+  --card-shadow: rgba(0, 0, 0, 0.35);
+  --slider-track-color: rgba(120, 120, 128, 0.3);
+  --toggle-off: rgba(120, 120, 128, 0.4);
+  --grouped-bg: rgba(0, 0, 0, 0.7);
+  --selection-color: rgba(10, 132, 255, 0.28);
+  --footer-bg: rgba(0, 0, 0, 0.55);
 }
 
-/* Base Page */
+/* ----------------- Page Layout ----------------- */
 body.settings-page {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(180deg, #f2f2f7 0%, #e5e5ea 100%);
-    color: var(--text-color);
-    font-size: var(--font-size-base);
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    backdrop-filter: blur(36px) saturate(180%);
-    -webkit-backdrop-filter: blur(36px) saturate(180%);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, sans-serif;
+  font-size: var(--font-size-base);
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
 }
 
-/* Skip Link */
-body.settings-page .skip-link {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: var(--accent-color);
-    color: white;
-    padding: 12px 16px;
-    border-radius: 12px;
-    z-index: 100;
-    transition: top 0.3s;
-    font-weight: 600;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-}
-
-body.settings-page .skip-link:focus {
-    top: 16px;
-    left: 16px;
-}
-
-/* Container */
 body.settings-page .container {
-    max-width: 844px;
-    margin: 0 auto;
-    padding: 32px 20px 60px;
-    background: var(--grouped-bg);
-    border-radius: 28px;
-    backdrop-filter: blur(32px) saturate(180%);
-    -webkit-backdrop-filter: blur(32px) saturate(180%);
-    box-shadow: 0 8px 32px var(--shadow-color);
-    border: 1px solid var(--border-color);
+  max-width: 844px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+  background: var(--grouped-bg);
+  border-radius: 28px;
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  box-shadow: 0 8px 32px var(--shadow-color);
+  border: 1px solid var(--border-color);
 }
 
-/* Header */
+/* ----------------- Skip Link ----------------- */
+body.settings-page .skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  background: var(--content-bg);
+  color: var(--accent-color);
+  padding: 10px 16px;
+  border-radius: 12px;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: left 0.3s ease;
+}
+body.settings-page .skip-link:focus {
+  left: 16px;
+  top: 16px;
+  outline: none;
+}
+
+/* ----------------- Headers ----------------- */
 body.settings-page .settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    background: var(--content-bg);
-    border-radius: 20px;
-    padding: 16px 20px;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 4px 16px var(--card-shadow);
-    border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: var(--content-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px var(--card-shadow);
+  border: 1px solid var(--border-color);
 }
-
 body.settings-page .settings-header h1 {
-    font-size: 34px;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: -0.41px;
-    color: var(--text-color);
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+body.settings-page .settings-header .version {
+  font-size: 14px;
+  color: var(--secondary-text);
 }
 
-body.settings-page .version {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--secondary-text);
-    background: var(--content-bg);
-    padding: 6px 12px;
-    border-radius: 16px;
-    border: 1px solid var(--separator-color);
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
-}
-
-/* Subsection */
+/* ----------------- Subsections ----------------- */
 body.settings-page .settings-subsection {
-    background: var(--content-bg);
-    border-radius: 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 16px var(--card-shadow);
-    border: 1px solid var(--border-color);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    overflow: hidden;
+  background: var(--content-bg);
+  border-radius: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px var(--card-shadow);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  overflow: hidden;
 }
-
+body.settings-page .settings-subsection.danger-zone {
+  border-left: 4px solid var(--red-color);
+}
 body.settings-page .subsection-title {
-    font-size: 20px;
-    font-weight: 600;
-    padding: 18px 20px 14px;
-    margin: 0;
-    color: var(--text-color);
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--secondary-text);
+  background: var(--grouped-bg);
+  border-bottom: 0.5px solid var(--separator-color);
 }
 
-/* Setting Card */
+/* ----------------- Setting Cards ----------------- */
 body.settings-page .setting-card {
-    padding: 18px 22px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 0.5px solid var(--separator-color);
-    transition: background-color 0.25s ease, transform 0.15s ease;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid var(--separator-color);
+  transition: background-color 0.25s ease, transform 0.15s ease;
 }
-
 body.settings-page .setting-card:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
-
 body.settings-page .setting-card:hover {
-    background-color: var(--selection-color);
-    transform: scale(1.01);
+  background-color: var(--selection-color);
+  transform: scale(1.01);
+}
+body.settings-page .setting-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+body.settings-page .setting-description {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--secondary-text);
 }
 
-/* Toggle Switch */
-.apple-toggle-label {
-    background-color: var(--toggle-off);
-    border-radius: 16px;
-    border: 0.5px solid var(--separator-color);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
+/* ----------------- Controls ----------------- */
+body.settings-page select,
+body.settings-page input[type="range"],
+body.settings-page button,
+body.settings-page .apple-toggle-label {
+  appearance: none;
+  font-family: inherit;
 }
 
-/* Buttons */
-body.settings-page .reset-button,
-body.settings-page #cookie-consent-banner button {
-    color: white;
-    border: none;
-    padding: 14px 22px;
-    border-radius: 14px;
-    font-size: 17px;
-    font-weight: 600;
-    cursor: pointer;
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px var(--card-shadow);
+body.settings-page select {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--content-bg);
+  color: var(--text-color);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
+/* Slider */
+body.settings-page .slider-container input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent-color);
+}
+body.settings-page .size-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-top: 4px;
+  color: var(--secondary-text);
+}
+
+/* Toggle */
+body.settings-page .apple-toggle-group {
+  position: relative;
+  width: 51px;
+  height: 31px;
+}
+body.settings-page .apple-toggle-checkbox {
+  display: none;
+}
+body.settings-page .apple-toggle-label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--toggle-off);
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+body.settings-page .apple-toggle-label::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 25px;
+  height: 25px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+body.settings-page .apple-toggle-checkbox:checked + .apple-toggle-label {
+  background: var(--toggle-on);
+}
+body.settings-page .apple-toggle-checkbox:checked + .apple-toggle-label::after {
+  transform: translateX(20px);
+}
+
+/* ----------------- Buttons ----------------- */
 body.settings-page .reset-button {
-    background: linear-gradient(135deg, var(--red-color) 0%, #ff2d20 100%);
+  background: var(--red-color);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 22px;
+  font-weight: 600;
+  letter-spacing: -0.41px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+body.settings-page .reset-button:hover {
+  background: #d32f2f;
 }
 
-body.settings-page #cookie-consent-banner button {
-    background: linear-gradient(135deg, var(--accent-color) 0%, #005bb5 100%);
-}
-
-/* Back Link */
+/* ----------------- Back Link ----------------- */
 body.settings-page .back-link {
-    display: inline-flex;
-    align-items: center;
-    color: var(--accent-color);
-    font-size: 17px;
-    padding: 12px 16px;
-    border-radius: 14px;
-    background: var(--content-bg);
-    border: 1px solid var(--border-color);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 2px 8px var(--card-shadow);
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--content-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-decoration: none;
+  color: var(--accent-color);
+  border: 1px solid var(--border-color);
+  transition: background 0.2s ease;
+}
+body.settings-page .back-link:hover {
+  background: var(--selection-color);
 }
 
-/* Footer */
+/* ----------------- Footer ----------------- */
 body.settings-page footer {
-    text-align: center;
-    padding: 32px 20px;
-    background: var(--content-bg);
-    border-radius: 24px;
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 16px var(--card-shadow);
-    font-size: 15px;
-    color: var(--secondary-text);
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--secondary-text);
+  background: var(--footer-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-color);
 }
-
-/* Footer Links */
+body.settings-page footer .footer-links {
+  margin-top: 12px;
+}
 body.settings-page footer a {
-    color: var(--accent-color);
-    padding: 8px 12px;
-    border-radius: 8px;
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
+  color: var(--accent-color);
+  margin: 0 8px;
+  text-decoration: none;
 }
-
-/* Cookie Banner */
-body.settings-page #cookie-consent-banner {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--content-bg);
-    border-radius: 24px;
-    backdrop-filter: blur(32px) saturate(180%);
-    -webkit-backdrop-filter: blur(32px) saturate(180%);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 8px 32px var(--shadow-color);
-    padding: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    max-width: 90%;
-    width: 640px;
-    z-index: 1000;
-}
-
-/* Focus Styles */
-body.settings-page :focus-visible {
-    outline: 2px solid var(--focus-outline-color);
-    outline-offset: 2px;
-    border-radius: 12px;
-}
-
-/* Animations */
-@media (prefers-reduced-motion: no-preference) {
-    body.settings-page * {
-        transition-duration: 0.25s;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
+body.settings-page footer a:hover {
+  text-decoration: underline;
 }
