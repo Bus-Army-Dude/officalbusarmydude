@@ -1,346 +1,249 @@
-/* ================================== */
-/* iOS 26 Liquid Glass Settings Page  */
-/* ================================== */
+/* ===================================================== */
+/* == iOS Liquid Glass Theme (Scoped to .settings-page) == */
+/* ===================================================== */
 
+/* Global Variables - Remain Global */
 :root {
-    --radius: 22px;
-    --blur: 28px;
-    --border-light: rgba(255, 255, 255, 0.35);
-    --border-dark: rgba(255, 255, 255, 0.15);
-
-    /* Light theme */
-    --glass-light: linear-gradient(
-        145deg,
-        rgba(255, 255, 255, 0.75) 0%,
-        rgba(255, 255, 255, 0.55) 100%
-    );
-    --text-light: #1c1c1e;
-    --accent-light: #007aff;
-
-    /* Dark theme */
-    --glass-dark: linear-gradient(
-        145deg,
-        rgba(40, 40, 44, 0.65) 0%,
-        rgba(22, 22, 24, 0.45) 100%
-    );
-    --text-dark: #f5f5f7;
-    --accent-dark: #0a84ff;
+    --font-size-base: 17px;
+    --bg-blur-light: rgba(255, 255, 255, 0.55);
+    --bg-blur-dark: rgba(28, 28, 30, 0.55);
+    --bg-color: #f5f5f7;
+    --content-bg: rgba(255, 255, 255, 0.35);
+    --text-color: #1d1d1f;
+    --secondary-text: #86868b;
+    --border-color: rgba(255, 255, 255, 0.3);
+    --accent-color: #007aff;
+    --hover-color: #0a84ff;
+    --toggle-on: #34c759;
+    --toggle-off: rgba(142, 142, 147, 0.28);
+    --red-color: #ff3b30;
+    --shadow-color: rgba(0, 0, 0, 0.25);
+    --slider-thumb-color: #ffffff;
+    --slider-track-color: rgba(142, 142, 147, 0.3);
+    --slider-track-filled-color: #007aff;
+    --focus-outline-color: #007aff;
 }
 
-/* ============================= */
-/* Base Layout                   */
-/* ============================= */
+/* Dark Mode */
+body.dark-mode {
+    --bg-color: #000000;
+    --content-bg: rgba(28, 28, 30, 0.55);
+    --text-color: #f2f2f7;
+    --secondary-text: #a1a1aa;
+    --border-color: rgba(255, 255, 255, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --slider-track-color: rgba(142, 142, 147, 0.3);
+    --toggle-off: rgba(142, 142, 147, 0.3);
+}
+
+/* Light Mode */
+body.light-mode {
+    --bg-color: #f5f5f7;
+    --content-bg: rgba(255, 255, 255, 0.35);
+    --text-color: #1d1d1f;
+    --secondary-text: #86868b;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --slider-track-color: rgba(142, 142, 147, 0.3);
+    --toggle-off: rgba(142, 142, 147, 0.28);
+}
+
+/* ========== General Page ========== */
 body.settings-page {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size-base);
+    margin: 0;
+    padding: 0;
 }
 
-/* Background auto light/dark */
-@media (prefers-color-scheme: light) {
-    body.settings-page {
-        background: var(--glass-light);
-        color: var(--text-light);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    body.settings-page {
-        background: var(--glass-dark);
-        color: var(--text-dark);
-    }
+/* ========== Container ========== */
+body.settings-page .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
 }
 
-/* ============================= */
-/* Skip Link (Accessibility)     */
-/* ============================= */
-.skip-link {
-    position: absolute;
-    left: -999px;
-    top: auto;
-    width: 1px;
-    height: 1px;
+/* ========== Header ========== */
+body.settings-page .settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    background: var(--content-bg);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+body.settings-page .settings-header h1 {
+    font-size: 34px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-color);
+}
+
+body.settings-page .version {
+    font-size: 14px;
+    color: var(--secondary-text);
+}
+
+/* ========== Subsections ========== */
+body.settings-page .settings-subsection {
+    border-radius: 20px;
+    margin-bottom: 25px;
+    background: var(--content-bg);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 24px var(--shadow-color);
     overflow: hidden;
 }
-.skip-link:focus {
-    left: 10px;
-    top: 10px;
-    width: auto;
-    height: auto;
-    background: var(--accent-light);
-    color: white;
-    padding: 8px 14px;
-    border-radius: var(--radius);
-    z-index: 1000;
-}
 
-/* ============================= */
-/* Liquid Glass Panels           */
-/* ============================= */
-.container {
-    flex: 1;
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-.settings-section,
-.settings-subsection,
-.setting-card,
-footer {
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(var(--blur));
-    -webkit-backdrop-filter: blur(var(--blur));
-}
-
-@media (prefers-color-scheme: light) {
-    .settings-section,
-    .settings-subsection,
-    .setting-card,
-    footer {
-        background: var(--glass-light);
-        border: 1px solid var(--border-light);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    .settings-section,
-    .settings-subsection,
-    .setting-card,
-    footer {
-        background: var(--glass-dark);
-        border: 1px solid var(--border-dark);
-    }
-}
-
-/* ============================= */
-/* Headers                       */
-/* ============================= */
-.settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.settings-header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0;
-}
-.settings-header .version {
-    font-size: 14px;
-    opacity: 0.65;
-}
-
-.subsection-title {
+body.settings-page .subsection-title {
     font-size: 20px;
     font-weight: 600;
-    margin: 15px 0;
+    padding: 15px 20px;
+    margin: 0;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 
-/* ============================= */
-/* Cards                         */
-/* ============================= */
-.setting-card {
+/* ========== Setting Cards ========== */
+body.settings-page .setting-card {
+    padding: 18px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    transition: transform 0.2s ease, background 0.3s ease;
-}
-.setting-card:hover {
-    transform: translateY(-2px);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.25s ease;
 }
 
-/* Labels */
-.setting-title {
-    font-size: 17px;
-    margin: 0 0 4px;
+body.settings-page .setting-card:last-child {
+    border-bottom: none;
 }
-.setting-description {
+
+body.settings-page .setting-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.settings-page .setting-label {
+    flex: 1;
+    padding-right: 15px;
+}
+
+body.settings-page .setting-title {
+    font-size: 17px;
+    margin: 0 0 4px 0;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+body.settings-page .setting-description {
     font-size: 14px;
-    opacity: 0.7;
+    color: var(--secondary-text);
     margin: 0;
 }
 
-/* ============================= */
-/* Buttons & Selects             */
-/* ============================= */
-button,
-select {
-    border: none;
-    border-radius: var(--radius);
-    padding: 10px 16px;
+/* ========== Select (Appearance Mode) ========== */
+body.settings-page #appearanceModeSelect {
     font-size: 16px;
-    cursor: pointer;
-    backdrop-filter: blur(var(--blur));
-    -webkit-backdrop-filter: blur(var(--blur));
-    transition: all 0.25s ease;
-}
-
-@media (prefers-color-scheme: light) {
-    button,
-    select {
-        background: var(--glass-light);
-        border: 1px solid var(--border-light);
-        color: var(--text-light);
-    }
-    button:hover,
-    select:hover {
-        background: rgba(255, 255, 255, 0.85);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    button,
-    select {
-        background: var(--glass-dark);
-        border: 1px solid var(--border-dark);
-        color: var(--text-dark);
-    }
-    button:hover,
-    select:hover {
-        background: rgba(255, 255, 255, 0.1);
-    }
-}
-
-/* Reset button (danger zone) */
-.reset-button {
-    color: #ff3b30;
-    font-weight: 600;
-}
-.reset-button:hover {
-    opacity: 0.8;
-}
-
-/* ============================= */
-/* Accessibility Slider          */
-/* ============================= */
-.slider-container {
-    width: 100%;
-}
-.slider-container input[type="range"] {
-    width: 100%;
-    -webkit-appearance: none;
-    height: 6px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.3);
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--content-bg);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: var(--text-color);
     outline: none;
 }
-.slider-container input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: white;
+
+/* ========== Toggle (iOS Switch) ========== */
+.apple-toggle-label {
+    --toggle-width: 52px;
+    --toggle-height: 32px;
+    --knob-size: 28px;
+
+    display: inline-block;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    background: var(--toggle-off);
+    border-radius: 16px;
+    position: relative;
     cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-.size-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-top: 6px;
+    transition: background 0.3s;
 }
 
-/* ============================= */
-/* iOS Toggle Switch             */
-/* ============================= */
-.apple-toggle-group {
-    position: relative;
-    width: 52px;
-    height: 32px;
-}
-.apple-toggle-checkbox {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-.apple-toggle-label {
-    position: absolute;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 32px;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transition: 0.3s;
-}
-.apple-toggle-label::before {
+.apple-toggle-label::after {
     content: "";
     position: absolute;
-    height: 26px;
-    width: 26px;
-    left: 3px;
-    bottom: 3px;
-    background: white;
+    top: 2px;
+    left: 2px;
+    width: var(--knob-size);
+    height: var(--knob-size);
     border-radius: 50%;
-    transition: 0.3s;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.25s ease;
 }
+
+.apple-toggle-checkbox {
+    display: none;
+}
+
 .apple-toggle-checkbox:checked + .apple-toggle-label {
-    background: var(--accent-light);
+    background: var(--toggle-on);
 }
-@media (prefers-color-scheme: dark) {
-    .apple-toggle-checkbox:checked + .apple-toggle-label {
-        background: var(--accent-dark);
-    }
-}
-.apple-toggle-checkbox:checked + .apple-toggle-label::before {
+
+.apple-toggle-checkbox:checked + .apple-toggle-label::after {
     transform: translateX(20px);
 }
 
-/* ============================= */
-/* Back Link                     */
-/* ============================= */
-.back-link {
-    display: inline-block;
-    margin-top: 10px;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 14px;
-    border-radius: var(--radius);
-    transition: background 0.25s ease;
-}
-@media (prefers-color-scheme: light) {
-    .back-link {
-        color: var(--accent-light);
-    }
-    .back-link:hover {
-        background: rgba(0, 122, 255, 0.1);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    .back-link {
-        color: var(--accent-dark);
-    }
-    .back-link:hover {
-        background: rgba(10, 132, 255, 0.1);
-    }
+/* ========== Slider ========== */
+body.settings-page #text-size-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--slider-track-color);
 }
 
-/* ============================= */
-/* Footer                        */
-/* ============================= */
-footer {
+body.settings-page #text-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ========== Buttons ========== */
+body.settings-page .reset-button {
+    background: var(--red-color);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    transition: transform 0.15s ease;
+}
+
+body.settings-page .reset-button:active {
+    transform: scale(0.97);
+}
+
+/* ========== Footer ========== */
+body.settings-page footer {
+    margin-top: 40px;
+    padding: 20px;
     text-align: center;
     font-size: 14px;
-    padding: 20px;
-}
-.footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 10px;
-}
-.footer-links a {
-    text-decoration: none;
-    transition: opacity 0.25s;
-}
-.footer-links a:hover {
-    opacity: 0.7;
+    color: var(--secondary-text);
 }
