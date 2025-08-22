@@ -339,3 +339,42 @@ if (!window.settingsManagerInstance) {
     window.settingsManagerInstance = new SettingsManager();
     console.log("SettingsManager: Instance created and attached to window.");
 }
+
+// Smoothly animate glass when the theme changes
+(function () {
+  const DOC = document.documentElement;
+  const BODY = document.body;
+  const DURATION = 360; // ms
+
+  function runThemeTransition() {
+    // Add lightweight transition class to animate colors/glass
+    DOC.classList.add('theme-transition');
+    BODY.classList.add('is-theming');
+    window.setTimeout(() => {
+      DOC.classList.remove('theme-transition');
+      BODY.classList.remove('is-theming');
+    }, DURATION);
+  }
+
+  // Animate when system theme flips (auto)
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  if (mq.addEventListener) {
+    mq.addEventListener('change', runThemeTransition);
+  } else if (mq.addListener) {
+    // Safari <14 fallback
+    mq.addListener(runThemeTransition);
+  }
+
+  // Hook into your Appearance Mode <select> if present
+  const select = document.getElementById('appearanceModeSelect');
+  if (select) {
+    select.addEventListener('change', () => {
+      // Your existing logic likely toggles classes or data attributes.
+      // Call the transition wrapper so the glass morphs smoothly.
+      runThemeTransition();
+    });
+  }
+
+  // Optional: expose for manual calls elsewhere
+  window.runThemeTransition = runThemeTransition;
+})();
