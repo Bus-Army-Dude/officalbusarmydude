@@ -59,7 +59,7 @@ body.settings-page {
     padding: 0;
 }
 
-/* ========== Container & Layout ========== */
+/* ========== Container & Layout (Choice 1-A) ========== */
 body.settings-page .container {
     max-width: 840px;
     margin: 0 auto;
@@ -67,11 +67,10 @@ body.settings-page .container {
     padding: 20px 0;
 }
 
-/* ========== Header ========== */
+/* ========== Header & Section Titles (Choice 2-B) ========== */
 body.settings-page .settings-header {
     padding: 20px 25px;
     margin-bottom: 10px;
-    /* Removed border to match modern iOS layout */
     border-bottom: none;
     display: flex;
     justify-content: space-between;
@@ -84,7 +83,11 @@ body.settings-page .settings-header h1 {
     margin: 0;
 }
 
-/* ========== Settings Subsection (Inset Grouped Style) ========== */
+body.settings-page .version {
+    font-size: 14px;
+    color: var(--secondary-text);
+}
+
 /* Title for a group, now sits *above* the card */
 body.settings-page .subsection-title {
     font-size: 13px;
@@ -101,10 +104,9 @@ body.settings-page .subsection-title {
 /* The card that contains the list of settings */
 body.settings-page .settings-subsection {
     background-color: var(--content-bg);
-    /* The key to the modern inset look */
+    /* The key to the inset look */
     margin: 0 20px 25px 20px;
     border-radius: 12px;
-    /* Using your original shadow variable for a subtler effect */
     box-shadow: 0 1px 3px var(--shadow-color);
     overflow: hidden;
 }
@@ -116,8 +118,7 @@ body.settings-page .setting-card {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    /* Replaced with a more controllable pseudo-element */
-    border-bottom: none;
+    border-bottom: none; /* Replaced with pseudo-element */
     transition: background-color 0.2s;
 }
 
@@ -130,6 +131,14 @@ body.settings-page .setting-card:not(:last-child)::after {
     left: 20px; /* Indent the separator */
     height: 0.5px;
     background-color: var(--border-color);
+}
+
+/* Kept your original hover effects */
+body.settings-page .setting-card:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+body.dark-mode.settings-page .setting-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 body.settings-page .setting-label {
@@ -153,21 +162,17 @@ body.settings-page .setting-description {
 
 /* ========== NATIVE IOS-STYLE CONTROLS ========== */
 
-/* --- Segmented Control (Replaces Dropdown) --- */
-/* A more authentic iOS component for this type of choice */
+/* --- Segmented Control (Choice 3-B) --- */
 body.settings-page .appearance-mode-control {
     display: flex;
-    /* Uses your original variable for the track color */
     background-color: var(--slider-track-color);
     border-radius: 8px;
     padding: 2px;
 }
-/* Hide the original dropdown */
 body.settings-page #appearanceModeSelect {
-    display: none;
+    display: none; /* Hide original dropdown */
 }
-/* Style the new button-based options */
-body.settings-page .segment-option {
+body.settings-page .segment-option { /* Add this class to your buttons */
     padding: 5px 15px;
     font-size: 13px;
     font-weight: 500;
@@ -195,21 +200,14 @@ body.settings-page .segment-option.active {
 
 /* --- Range Slider (Updated for a more native look) --- */
 body.settings-page .text-size-control { display: flex; align-items: center; width: 100%; gap: 15px; }
-body.settings-page #text-size-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; /* Thicker track */ background: var(--slider-track-color); border-radius: 4px; outline: none; cursor: pointer; }
-body.settings-page #text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; /* Larger thumb */ border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; border: 0.5px solid rgba(0,0,0,0.04); box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.1); }
+body.settings-page #text-size-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; background: var(--slider-track-color); border-radius: 4px; outline: none; cursor: pointer; margin: 0; }
+body.settings-page #text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; border: 0.5px solid rgba(0,0,0,0.04); box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.1); }
 body.settings-page #text-size-slider::-moz-range-thumb { width: 28px; height: 28px; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; border: 0.5px solid rgba(0,0,0,0.04); box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.1); }
 body.settings-page .size-labels { display: flex; justify-content: space-between; margin-top: 8px; }
 body.settings-page .size-labels > span { color: var(--secondary-text); }
-body.settings-page .size-small { font-size: 14px; }
-body.settings-page .size-large { font-size: 24px; }
 
 
-/* ========== Danger Zone & Actions ========== */
-/* Destructive actions are now red text, not a filled button */
-body.settings-page .danger-zone .subsection-title {
-    /* Title no longer needs to be red */
-    color: var(--secondary-text);
-}
+/* ========== Danger Zone & Actions (Choice 4-B) ========== */
 body.settings-page .danger-zone .setting-card {
     justify-content: center; /* Center the action text */
 }
@@ -222,6 +220,7 @@ body.settings-page .reset-button {
     font-weight: 400;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap; /* Keep original property */
 }
 body.settings-page .reset-button:hover {
     filter: brightness(1.2); /* Brighten the red text on hover */
@@ -229,14 +228,13 @@ body.settings-page .reset-button:hover {
 }
 body.settings-page .reset-button:active {
     transform: none; /* No scale effect needed for text button */
+    filter: brightness(0.9);
 }
 
-
-/* ========== Other Elements (Largely Unchanged) ========== */
+/* ========== Other Elements (Preserved) ========== */
 /* Your original styling for the footer, cookie banner, and focus states
-   was solid and has been preserved to avoid breaking anything. */
-
-body.settings-page footer { text-align: center; padding: 40px 20px 20px 20px; color: var(--secondary-text); font-size: 13px; background-color: transparent; border-top: none; }
+   has been preserved to ensure everything works as before. */
+body.settings-page footer { text-align: center; padding: 40px 20px 20px 20px; color: var(--secondary-text); font-size: 14px; background-color: transparent; border-top: none; }
 body.settings-page footer a { color: var(--accent-color); text-decoration: none; margin: 0 10px; }
 body.settings-page footer a:hover { text-decoration: underline; color: var(--hover-color); }
 body.settings-page #cookie-consent-banner { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--content-bg); border-radius: 10px; box-shadow: 0 4px 12px 2px var(--shadow-color); padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; max-width: 90%; width: 600px; z-index: 1000; }
@@ -247,9 +245,9 @@ body.settings-page #cookie-consent-banner button:active { transform: scale(0.97)
 body.settings-page :focus-visible { outline: 2px solid var(--focus-outline-color); outline-offset: 2px; border-radius: 6px; }
 @media (hover: none) and (pointer: coarse) { body.settings-page :focus-visible { outline: none; } }
 
-/* ========== Media Queries (Mobile Responsiveness) ========== */
+/* ========== Media Queries (Updated for Inset Layout) ========== */
 @media (max-width: 768px) {
-    body.settings-page .container { padding-top: 0; padding-left: 0; padding-right: 0; }
+    body.settings-page .container { padding: 20px 0; }
     /* Make inset sections almost full-width on mobile */
     body.settings-page .settings-subsection { margin-left: 10px; margin-right: 10px; }
     body.settings-page .settings-header h1 { font-size: 28px; }
