@@ -136,7 +136,7 @@ We appreciate the security community's efforts in responsibly disclosing vulnera
 
 ## Version Control
 
-This security policy is version 1.26 and was last updated on 2025-5-8 at 9:40 AM EST.
+This security policy is version 1.26 and was last updated on 2025-22-8 at 9:40 AM EST.
 
 ---
 
