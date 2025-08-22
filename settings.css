@@ -1,56 +1,71 @@
 /* ===================================================== */
-/* == Apple + Material Blended Theme (Scoped to .settings-page) == */
+/* == iOS 19 Modern Settings Theme (Scoped to .settings-page) == */
 /* ===================================================== */
 
-/* Global Variables - These remain global */
+/* Global Variables - iOS 19 Color System */
 :root {
     --font-size-base: 17px;
-    --bg-color: #f5f5f7;
+    --bg-color: #f2f2f7;
     --content-bg: #ffffff;
-    --text-color: #1d1d1f;
-    --secondary-text: #86868b;
-    --border-color: #d2d2d7;
-    --accent-color: #0066cc;
-    --hover-color: #0071e3;
-    --toggle-on: #34c759;
+    --text-color: #000000;
+    --secondary-text: #8e8e93;
+    --tertiary-text: #c7c7cc;
+    --border-color: #c6c6c8;
+    --separator-color: #e5e5ea;
+    --accent-color: #007aff;
+    --hover-color: #0056cc;
+    --toggle-on: #30d158;
     --toggle-off: #e9e9eb;
     --red-color: #ff3b30;
-    --shadow-color: rgba(0, 0, 0, 0.12);
+    --orange-color: #ff9500;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --card-shadow: rgba(0, 0, 0, 0.04);
     --slider-thumb-color: #ffffff;
     --slider-track-color: #e9e9eb;
-    --slider-track-filled-color: #0066cc;
-    --focus-outline-color: #0066cc;
+    --slider-track-filled-color: #007aff;
+    --focus-outline-color: #007aff;
+    --grouped-bg: #f2f2f7;
+    --selection-color: rgba(0, 122, 255, 0.15);
 }
 
 body.dark-mode {
-    --bg-color: #121212;
-    --content-bg: #1e1e1e;
-    --text-color: #e1e1e1;
-    --secondary-text: #a0a0a0;
-    --border-color: #3a3a3c;
-    --shadow-color: rgba(0, 0, 0, 0.5);
+    --bg-color: #000000;
+    --content-bg: #1c1c1e;
+    --text-color: #ffffff;
+    --secondary-text: #8e8e93;
+    --tertiary-text: #636366;
+    --border-color: #38383a;
+    --separator-color: #2c2c2e;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --card-shadow: rgba(0, 0, 0, 0.2);
     --slider-track-color: #424245;
     --toggle-off: #636366;
+    --grouped-bg: #000000;
+    --selection-color: rgba(0, 122, 255, 0.25);
 }
 
 body.light-mode {
-    --bg-color: #f5f5f7;
+    --bg-color: #f2f2f7;
     --content-bg: #ffffff;
-    --text-color: #1d1d1f;
-    --secondary-text: #86868b;
-    --border-color: #d2d2d7;
-    --shadow-color: rgba(0, 0, 0, 0.12);
+    --text-color: #000000;
+    --secondary-text: #8e8e93;
+    --tertiary-text: #c7c7cc;
+    --border-color: #c6c6c8;
+    --separator-color: #e5e5ea;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --card-shadow: rgba(0, 0, 0, 0.04);
     --slider-track-color: #e9e9eb;
     --toggle-off: #e9e9eb;
+    --grouped-bg: #f2f2f7;
+    --selection-color: rgba(0, 122, 255, 0.15);
 }
 
 /* ========== General Styles for Settings Page ========== */
 body.settings-page {
-    /* Added Roboto to font stack */
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--bg-color);
+    background-color: var(--grouped-bg);
     color: var(--text-color);
     font-size: var(--font-size-base);
     line-height: 1.47059;
@@ -58,6 +73,7 @@ body.settings-page {
     letter-spacing: -0.022em;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 /* ========== Skip Link (Scoped) ========== */
@@ -67,113 +83,121 @@ body.settings-page .skip-link {
     left: 0;
     background: var(--accent-color);
     color: white;
-    padding: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
     z-index: 100;
     transition: top 0.3s;
+    font-weight: 600;
 }
 
 body.settings-page .skip-link:focus {
-    top: 0;
+    top: 16px;
+    left: 16px;
 }
 
 /* ========== Container (Scoped) ========== */
 body.settings-page .container {
-    max-width: 800px;
+    max-width: 844px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 32px 20px 60px;
 }
 
 /* ========== Settings Section (Scoped) ========== */
 body.settings-page .settings-section {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 }
 
 body.settings-page .settings-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 24px;
+    padding: 0 4px 16px;
 }
 
 body.settings-page .settings-header h1 {
     font-size: 34px;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
-    letter-spacing: -0.003em;
+    letter-spacing: -0.41px;
     color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
 }
 
 body.settings-page .version {
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
     color: var(--secondary-text);
+    background: var(--content-bg);
+    padding: 6px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--separator-color);
 }
 
 /* ========== Settings Subsection (Scoped) ========== */
 body.settings-page .settings-subsection {
     background-color: var(--content-bg);
-    border-radius: 10px;
-    margin-bottom: 20px;
-    /* More pronounced shadow for Material elevation */
-    box-shadow: 0 2px 5px 1px var(--shadow-color);
+    border-radius: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px var(--card-shadow);
     overflow: hidden;
+    border: 0.5px solid var(--separator-color);
 }
 
 body.settings-page .subsection-title {
     font-size: 20px;
-    /* Bolder weight for Material style */
-    font-weight: 700;
-    padding: 15px 20px;
+    font-weight: 600;
+    padding: 18px 20px 14px;
     margin: 0;
-    border-bottom: 1px solid var(--border-color);
-    letter-spacing: 0.004em;
+    color: var(--text-color);
+    letter-spacing: -0.24px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
 }
 
 /* ========== Setting Card (Scoped) ========== */
 body.settings-page .setting-card {
-    /* Slightly increased padding */
-    padding: 18px 20px;
+    padding: 16px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s;
+    border-bottom: 0.5px solid var(--separator-color);
+    transition: background-color 0.2s ease-out;
+    position: relative;
 }
 
 body.settings-page .setting-card:last-child {
     border-bottom: none;
 }
 
-/* Adjusted hover for light mode (Scoped) */
 body.settings-page .setting-card:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: var(--selection-color);
 }
 
-/* Hover for dark mode (Scoped) */
-@media (prefers-color-scheme: dark) {
-    body.settings-page .setting-card:hover {
-        background-color: rgba(255, 255, 255, 0.05);
-    }
+body.settings-page .setting-card:active {
+    background-color: var(--selection-color);
+    transform: scale(0.995);
+    transition: all 0.1s ease-out;
 }
 
 body.settings-page .setting-label {
     flex: 1;
-    padding-right: 15px; /* Ensure space between label and control */
+    padding-right: 16px;
 }
 
 body.settings-page .setting-title {
     font-size: 17px;
     font-weight: 400;
-    margin: 0 0 5px 0;
+    margin: 0 0 4px 0;
     color: var(--text-color);
+    letter-spacing: -0.41px;
 }
 
 body.settings-page .setting-description {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--secondary-text);
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.33;
+    letter-spacing: -0.24px;
 }
 
 /* ========== Appearance Mode Select (NEW) ========== */
@@ -183,26 +207,32 @@ body.settings-page .appearance-mode-control {
 }
 
 body.settings-page #appearanceModeSelect {
-    font-size: 16px;
-    padding: 7px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+    font-size: 17px;
+    font-weight: 400;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--separator-color);
     background: var(--content-bg);
-    color: var(--text-color);
-    transition: border-color 0.2s;
+    color: var(--accent-color);
+    transition: all 0.2s ease-out;
     outline: none;
-    margin-left: 10px;
+    min-width: 100px;
+    letter-spacing: -0.41px;
 }
 
 body.settings-page #appearanceModeSelect:focus {
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--selection-color);
+}
+
+body.settings-page #appearanceModeSelect:hover {
+    background: var(--selection-color);
 }
 
 /* ================================== */
-/* == Standard iOS Style Toggle Switch == */
+/* == iOS 19 Style Toggle Switch == */
 /* ================================== */
 
-/* Hides the actual checkbox but keeps it functional */
 .apple-toggle-checkbox {
     opacity: 0;
     position: absolute;
@@ -210,11 +240,10 @@ body.settings-page #appearanceModeSelect:focus {
     height: 0;
 }
 
-/* The background of the toggle switch (the gray/green pill shape) */
 .apple-toggle-label {
-    --toggle-width: 51px;
-    --toggle-height: 31px;
-    --knob-size: 27px;
+    --toggle-width: 54px;
+    --toggle-height: 32px;
+    --knob-size: 28px;
     --knob-margin: 2px;
 
     display: inline-block;
@@ -222,106 +251,124 @@ body.settings-page #appearanceModeSelect:focus {
     cursor: pointer;
     width: var(--toggle-width);
     height: var(--toggle-height);
-    background-color: var(--toggle-off); /* Uses your variable for the gray 'off' color */
-    border-radius: calc(var(--toggle-height) / 2);
-    transition: background-color 0.2s ease-in-out;
+    background-color: var(--toggle-off);
+    border-radius: 16px;
+    transition: all 0.25s cubic-bezier(0.4, 0.0, 0.2, 1);
     vertical-align: middle;
     flex-shrink: 0;
+    border: 0.5px solid var(--separator-color);
 }
 
-/* The white sliding knob */
 .apple-toggle-label::after {
     content: '';
     position: absolute;
     top: var(--knob-margin);
     left: var(--knob-margin);
-    
-    /* This creates the perfect CIRCLE for the knob */
     width: var(--knob-size);
     height: var(--knob-size);
-    border-radius: 50%; /* This is the key for the circle shape */
-
+    border-radius: 50%;
     background-color: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    /* This transition animates the slide */
-    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.08);
+    transition: all 0.25s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
-/* --- Toggle 'ON' State --- */
-
-/* Changes the background to green when the hidden checkbox is checked */
+/* Toggle 'ON' State */
 .apple-toggle-checkbox:checked + .apple-toggle-label {
-    background-color: var(--toggle-on); /* Uses your variable for the green 'on' color */
+    background-color: var(--toggle-on);
+    border-color: var(--toggle-on);
 }
 
-/* Slides the knob to the right when the toggle is on */
 .apple-toggle-checkbox:checked + .apple-toggle-label::after {
     transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
 }
 
-/* --- Accessibility Focus State --- */
-
-/* Adds a focus ring around the toggle for keyboard navigation */
+/* Accessibility Focus State */
 .apple-toggle-checkbox:focus-visible + .apple-toggle-label {
     outline: none;
     box-shadow: 0 0 0 2px var(--content-bg), 0 0 0 4px var(--focus-outline-color);
 }
 
-/* ========== Range Slider (Keeping Apple Style) (Scoped) ========== */
+.apple-toggle-label:hover {
+    transform: scale(1.02);
+}
+
+/* ========== Range Slider (iOS 19 Style) (Scoped) ========== */
+body.settings-page .text-size-control {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
 body.settings-page #text-size-slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 4px;
+    height: 6px;
     background: var(--slider-track-color);
-    border-radius: 2px;
+    border-radius: 3px;
     outline: none;
-    margin: 10px 0;
+    margin: 12px 0 8px;
     cursor: pointer;
+    position: relative;
 }
 
 body.settings-page #text-size-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: var(--slider-thumb-color);
     cursor: pointer;
-    border: 0.5px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    border: 0.5px solid var(--separator-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease-out;
+}
+
+body.settings-page #text-size-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16), 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+body.settings-page #text-size-slider::-webkit-slider-thumb:active {
+    transform: scale(1.15);
 }
 
 body.settings-page #text-size-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: var(--slider-thumb-color);
     cursor: pointer;
-    border: 0.5px solid var(--border-color);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    border: 0.5px solid var(--separator-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* Size Labels (Scoped) */
 body.settings-page .size-labels {
     display: flex;
     justify-content: space-between;
-    margin-top: 8px;
+    margin-top: 4px;
+    padding: 0 2px;
 }
 
 body.settings-page .size-small {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--secondary-text);
+    font-weight: 500;
 }
 
 body.settings-page .size-medium {
-    font-size: 16px;
+    font-size: 17px;
     color: var(--secondary-text);
+    font-weight: 500;
 }
 
 body.settings-page .size-large {
-    font-size: 20px;
+    font-size: 22px;
     color: var(--secondary-text);
+    font-weight: 500;
 }
 
 /* ========== Danger Zone (Scoped) ========== */
@@ -329,45 +376,55 @@ body.settings-page .danger-zone .subsection-title {
     color: var(--red-color);
 }
 
+body.settings-page .danger-zone .settings-subsection {
+    border-color: rgba(255, 59, 48, 0.2);
+}
+
 /* ========== Buttons (Reset & Cookie) (Scoped) ========== */
 body.settings-page .reset-button,
 body.settings-page #cookie-consent-banner button {
     color: white;
     border: none;
-    /* Slightly larger padding */
-    padding: 10px 18px;
-     /* Slightly more rounded corners */
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
-     /* Added transform to transition */
-    transition: background-color 0.2s, transform 0.1s ease-out;
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    letter-spacing: -0.41px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-/* Specific background colors */
+
 body.settings-page .reset-button {
-    background-color: var(--red-color);
+    background: linear-gradient(135deg, var(--red-color) 0%, #ff2d20 100%);
+    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.25);
 }
+
 body.settings-page #cookie-consent-banner button {
-    background-color: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-color) 0%, #005bb5 100%);
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.25);
 }
 
-
-/* Hover states (Scoped) */
 body.settings-page .reset-button:hover {
-    background-color: #ff2d20; /* Darker red */
-}
-body.settings-page #cookie-consent-banner button:hover {
-    background-color: var(--hover-color);
+    background: linear-gradient(135deg, #ff2d20 0%, #e60000 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.35);
 }
 
-/* Active states for button press feedback (Scoped) */
+body.settings-page #cookie-consent-banner button:hover {
+    background: linear-gradient(135deg, var(--hover-color) 0%, #004499 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+}
+
 body.settings-page .reset-button:active,
 body.settings-page #cookie-consent-banner button:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
 }
-
 
 /* ========== Back Link (Scoped) ========== */
 body.settings-page .back-link {
@@ -376,36 +433,47 @@ body.settings-page .back-link {
     color: var(--accent-color);
     text-decoration: none;
     font-size: 17px;
-    padding: 8px 0;
-    transition: color 0.2s;
-    margin-top: 20px;
+    font-weight: 400;
+    padding: 12px 16px;
+    border-radius: 12px;
+    transition: all 0.2s ease-out;
+    margin-top: 24px;
+    background: var(--content-bg);
+    border: 0.5px solid var(--separator-color);
+    letter-spacing: -0.41px;
 }
 
 body.settings-page .back-link:hover {
-    color: var(--hover-color);
+    background: var(--selection-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--card-shadow);
 }
 
 /* ========== Footer (Scoped) ========== */
 body.settings-page footer {
     text-align: center;
-    padding: 20px;
-    /* Footer uses body background */
-    background-color: var(--bg-color);
+    padding: 32px 20px;
+    background-color: var(--grouped-bg);
     color: var(--secondary-text);
-    font-size: 14px;
-    border-top: 1px solid var(--border-color);
-    margin-top: 40px;
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 48px;
+    letter-spacing: -0.24px;
 }
 
 body.settings-page footer a {
     color: var(--accent-color);
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 16px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease-out;
 }
 
 body.settings-page footer a:hover {
-    text-decoration: underline;
-    color: var(--hover-color);
+    background: var(--selection-color);
+    transform: translateY(-1px);
 }
 
 /* ========== Cookie Consent Banner (Scoped) ========== */
@@ -415,169 +483,190 @@ body.settings-page #cookie-consent-banner {
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--content-bg);
-     /* Match subsection rounding */
-    border-radius: 10px;
-    /* Enhanced shadow */
-    box-shadow: 0 4px 12px 2px var(--shadow-color);
-    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08);
+    padding: 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 24px;
     max-width: 90%;
-    width: 600px;
+    width: 640px;
     z-index: 1000;
+    border: 0.5px solid var(--separator-color);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 body.settings-page #cookie-consent-banner p {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.33;
     color: var(--text-color);
+    letter-spacing: -0.24px;
 }
 
 body.settings-page #cookie-consent-banner a {
     color: var(--accent-color);
     text-decoration: none;
+    font-weight: 500;
 }
 
 body.settings-page #cookie-consent-banner a:hover {
     text-decoration: underline;
 }
 
-
 /* ========== Focus Styles (Scoped) ========== */
-/* Apply focus style to elements within the settings page body */
 body.settings-page :focus-visible {
     outline: 2px solid var(--focus-outline-color);
     outline-offset: 2px;
-    border-radius: 4px; /* Standard focus ring rounding */
+    border-radius: 8px;
 }
 
-/* Ensure inputs and buttons show focus */
 body.settings-page input:focus-visible,
 body.settings-page button:focus-visible,
 body.settings-page a:focus-visible,
 body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
     outline: 2px solid var(--focus-outline-color);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
-/* --- MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
-/* Target devices where hover is not the primary interaction method
-   AND the primary pointer is coarse (like a finger).
-   This typically covers most touch-screen mobile phones and tablets. */
+/* Desktop-only focus outlines */
 @media (hover: none) and (pointer: coarse) {
     body.settings-page :focus-visible,
     body.settings-page input:focus-visible,
     body.settings-page button:focus-visible,
     body.settings-page a:focus-visible,
     body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-        outline: none; /* Remove the outline for touch-primary devices */
-        outline-offset: 0; /* Reset the offset */
+        outline: none;
+        outline-offset: 0;
     }
 }
-/* --- END MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
 
-/* --- HIDE FOCUS OUTLINE SETTING CARD ON MOBILE/TABLET --- */
-/* Define default display for desktop (using the class you added to the HTML) */
-/* This ensures it shows up on larger screens by default */
-body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
+/* Hide focus outline setting card on mobile/tablet */
+body.settings-page .focus-outline-setting-card {
     display: flex;
-    align-items: center; /* Match general .setting-card behavior */
-    /* Other properties like padding, border-bottom are inherited from .setting-card */
+    align-items: center;
 }
 
-/* Hide the specific "Focus Outline" setting card on screens up to tablet size */
-/* Adjust the max-width value if your definition of "tablet" is different */
 @media (max-width: 1023px) {
-    body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
-        display: none; /* Hide the element completely on smaller screens */
+    body.settings-page .focus-outline-setting-card {
+        display: none;
     }
 }
-/* --- END HIDE FOCUS OUTLINE SETTING CARD --- */
-
 
 /* ========== Media Queries (Scoped) ========== */
 @media (max-width: 768px) {
     body.settings-page .container {
-        padding: 20px;
+        padding: 24px 16px 48px;
     }
 
     body.settings-page .settings-header h1 {
         font-size: 28px;
+        letter-spacing: -0.36px;
     }
 
     body.settings-page .setting-card {
-        /* Stack elements vertically */
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px; /* Add gap between label and control */
+        gap: 16px;
+        padding: 18px 20px;
     }
+    
     body.settings-page .setting-label {
-        padding-right: 0; /* Remove right padding when stacked */
+        padding-right: 0;
     }
 
     body.settings-page .text-size-control {
-        width: 100%; /* Make slider full width */
-        margin-top: 0; /* Remove margin added by gap */
+        width: 100%;
+        margin-top: 0;
     }
 
     body.settings-page #cookie-consent-banner {
         flex-direction: column;
         text-align: center;
-        width: 85%;
-        gap: 15px;
+        width: 90%;
+        gap: 20px;
+        padding: 20px;
     }
 }
 
 @media (max-width: 480px) {
     body.settings-page .container {
-        padding: 15px;
+        padding: 20px 12px 40px;
+    }
+
+    body.settings-page .settings-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
     }
 
     body.settings-page .settings-header h1 {
         font-size: 24px;
+        letter-spacing: -0.32px;
+    }
+
+    body.settings-page .version {
+        align-self: flex-end;
     }
 
     body.settings-page .subsection-title {
         font-size: 18px;
+        padding: 16px 18px 12px;
+        letter-spacing: -0.32px;
+    }
+
+    body.settings-page .setting-card {
+        padding: 16px 18px;
     }
 
     body.settings-page .setting-title {
         font-size: 16px;
+        letter-spacing: -0.32px;
     }
 
     body.settings-page .setting-description {
-        font-size: 13px;
+        font-size: 14px;
+        letter-spacing: -0.16px;
     }
 
     body.settings-page footer {
-        padding: 15px;
-        /* Footer links stack */
-       display: flex; /* Use flex for gap */
-       flex-direction: column;
-       gap: 10px;
+        padding: 24px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
 
     body.settings-page footer a {
         display: block;
-        margin: 0; /* Remove horizontal margin */
+        margin: 0;
     }
 
     body.settings-page #cookie-consent-banner {
-        /* Dock banner to bottom */
         bottom: 0;
         left: 0;
         right: 0;
         width: 100%;
         max-width: 100%;
         transform: none;
-        border-radius: 10px 10px 0 0; /* Round top corners */
-        padding: 15px;
-        box-shadow: 0 -2px 8px var(--shadow-color); /* Shadow on top */
+        border-radius: 20px 20px 0 0;
+        padding: 20px 16px;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
     }
 }
 
+/* ========== Smooth Animations ========== */
+@media (prefers-reduced-motion: no-preference) {
+    body.settings-page * {
+        transition-duration: 0.2s;
+        transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+}
 
+@media (prefers-reduced-motion: reduce) {
+    body.settings-page * {
+        transition-duration: 0.01ms !important;
+    }
+}
