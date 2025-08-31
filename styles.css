@@ -1,3 +1,6 @@
+/* ======================== */
+/* 1. UNIFIED THEME & ROOT  */
+/* ======================== */
 :root {
     /* --- Modern Base Sizing --- */
     --font-size-base: 16px;
@@ -73,13 +76,14 @@ body.light-e {
     --secondary-text-on-glass: var(--light-secondary-text-on-glass);
 }
 
-/* Base Styles */
+/* ======================== */
+/* 2. BASE & GLOBAL STYLES  */
+/* ======================== */
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    /* Change: Sizing reverted from 2rem to 32px */
     padding: 32px;
     line-height: var(--line-height-base);
     transition: background-color 0.2s ease-out, color 0.2s ease-out;
@@ -91,7 +95,6 @@ body {
 .container {
     max-width: 1140px;
     margin: 0 auto;
-    /* Change: Sizing reverted from 1.5rem to 24px */
     padding: 0 24px;
 }
 
@@ -839,9 +842,9 @@ body {
     }
 }
 
-/* ==========================================================================
-   SHOUTOUTS STYLES
-   ========================================================================== */
+/* ======================== */
+/* 3. SHOUTOUTS STYLES      */
+/* ======================== */
 .shoutouts-section {
     background-color: var(--glass-section-bg);
     padding: 20px;
@@ -854,7 +857,7 @@ body {
 }
 
 .shoutouts-section h2 {
-    color: var(--text-on-glass);
+    color: var(--text-on-glass); /* FIX: Readable text */
     margin-bottom: 15px;
     display: flex;
     align-items: center;
@@ -863,9 +866,7 @@ body {
     font-size: 1.8em;
 }
 
-#tiktok-header::before, 
-#instagram-header::before, 
-#youtube-header::before {
+#tiktok-header::before, #instagram-header::before, #youtube-header::before {
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
     color: var(--accent-color);
@@ -874,34 +875,28 @@ body {
 #instagram-header::before { content: '\f16d'; }
 #youtube-header::before { content: '\f167'; }
 
-#tiktok-last-updated-timestamp, 
-#instagram-last-updated-timestamp, 
-#youtube-last-updated-timestamp {
-    color: var(--secondary-text-on-glass);
+#tiktok-last-updated-timestamp, #instagram-last-updated-timestamp, #youtube-last-updated-timestamp {
+    color: var(--secondary-text-on-glass); /* FIX: Readable text */
     font-size: 0.9em;
-    margin-bottom: 25px;
+    margin-bottom: 25px; /* FIX: Spacing */
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-#tiktok-last-updated-timestamp::before, 
-#instagram-last-updated-timestamp::before, 
-#youtube-last-updated-timestamp::before {
+#tiktok-last-updated-timestamp::before, #instagram-last-updated-timestamp::before, #youtube-last-updated-timestamp::before {
     content: '\f073';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    margin-right: 5px;
 }
 
-.creator-grid, 
-.instagram-creator-grid, 
-.youtube-creator-grid {
+.creator-grid, .instagram-creator-grid, .youtube-creator-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
+    gap: 25px; /* FIX: Spacing */
 }
 
-.creator-card, 
-.instagram-creator-card, 
-.youtube-creator-card {
+.creator-card, .instagram-creator-card, .youtube-creator-card {
     background-color: var(--glass-bg);
     border-radius: 20px;
     padding: 20px;
@@ -912,101 +907,81 @@ body {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     box-shadow: 0 4px 20px var(--shadow-color);
-    height: 100%;
+    height: 100%; /* FIX: Uniform card height in a row */
 }
 
-.creator-card:hover, 
-.instagram-creator-card:hover, 
-.youtube-creator-card:hover {
+.creator-card:hover, .instagram-creator-card:hover, .youtube-creator-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .youtube-cover-photo {
   width: calc(100% + 40px);
-  margin: -20px -20px 20px -20px;
+  margin: -20px -20px 20px -20px; /* FIX: Spacing */
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   border-bottom: 1px solid var(--glass-border);
 }
 
-.creator-pic, 
-.instagram-creator-pic, 
-.youtube-creator-pic {
+.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--accent-color);
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* FIX: Spacing */
 }
 
-.creator-header, 
-.instagram-creator-header, 
-.youtube-header {
+.creator-header, .instagram-creator-header, .youtube-creator-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 8px; /* FIX: Spacing */
 }
 
-.creator-header h3, 
-.instagram-creator-header h3, 
-.youtube-creator-header h3 {
+.creator-header h3, .instagram-creator-header h3, .youtube-creator-header h3 {
     margin: 0;
     font-size: 1.2em;
-    color: var(--text-on-glass);
+    color: var(--text-on-glass); /* FIX: Readable text */
     word-break: break-word;
 }
 
-.username-container, 
-.instagram-username-container, 
-.youtube-username-container {
+.username-container, .instagram-username-container, .youtube-username-container {
     display: flex;
     align-items: flex-start;
     gap: 4px;
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* FIX: Spacing */
     flex-wrap: wrap;
 }
 
-.creator-username, 
-.instagram-creator-username, 
-.youtube-creator-username {
-    color: var(--secondary-text-on-glass);
+.creator-username, .instagram-creator-username, .youtube-creator-username {
+    color: var(--secondary-text-on-glass); /* FIX: Readable text */
     font-size: 0.9em;
     word-break: break-all;
 }
 
-.verified-badge, 
-.instagram-verified-badge, 
-.youtube-verified-badge {
+.verified-badge, .instagram-verified-badge, .youtube-verified-badge {
     width: 16px;
     height: 16px;
 }
 
-.creator-bio, 
-.instagram-creator-bio, 
-.youtube-creator-bio {
-    color: var(--secondary-text-on-glass);
-    margin: 0 0 20px 0;
+.creator-bio, .instagram-creator-bio, .youtube-creator-bio {
+    color: var(--secondary-text-on-glass); /* FIX: Readable text */
+    margin: 0 0 20px 0; /* FIX: Spacing */
     font-size: 0.9em;
     line-height: 1.5;
     word-break: break-word;
 }
 
-.follower-count, 
-.instagram-follower-count, 
-.youtube-subscriber-count {
+.follower-count, .instagram-follower-count, .youtube-subscriber-count {
     color: var(--accent-color);
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* FIX: Spacing */
 }
 
-.visit-profile, 
-.instagram-visit-profile, 
-.youtube-visit-profile {
+.visit-profile, .instagram-visit-profile, .youtube-visit-profile {
     display: inline-block;
-    background-color: rgba(var(--accent-rgb), 0.2);
+    background-color: rgba(var(--accent-rgb), 0.2); /* FIX: Uses root var */
     color: var(--accent-color);
     text-decoration: none;
     padding: 10px 25px;
@@ -1015,24 +990,38 @@ body {
     border: 2px solid var(--accent-color);
     backdrop-filter: blur(12px);
     width: fit-content;
-    margin-top: auto; /* Pushes button to the bottom */
+    margin-top: auto; /* FIX: Pushes button to bottom */
     transition: all 0.2s ease;
 }
 
-.visit-profile:hover, 
-.instagram-visit-profile:hover, 
-.youtube-visit-profile:hover {
+.visit-profile:hover, .instagram-visit-profile:hover, .youtube-visit-profile:hover {
     background-color: var(--accent-color);
     color: white;
     box-shadow: 0 0 10px var(--accent-color);
     transform: translateY(-2px);
 }
 
+.unavailable-message {
+    color: var(--secondary-text);
+    font-size: 18px;
+    text-align: center;
+    background-color: var(--content-bg);
+    padding: 20px;
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.unavailable-message-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
 @media screen and (max-width: 768px) {
-    .creator-card, 
-    .instagram-creator-card, 
-    .youtube-creator-card {
-        height: auto;
+    .creator-card, .instagram-creator-card, .youtube-creator-card {
+        height: auto; /* Let cards be their natural height on mobile */
     }
 }
 
