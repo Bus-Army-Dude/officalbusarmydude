@@ -1014,6 +1014,26 @@ body.light-e .youtube-cover-photo {
     box-shadow: none;
 }
 
+/* --- UNAVAILABLE MESSAGE (Unchanged) --- */
+.unavailable-message {
+    color: var(--secondary-text);
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+    background-color: var(--content-bg);
+    padding: 20px;
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.unavailable-message-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
 /* --- RESPONSIVE STYLES --- */
 @media screen and (max-width: 1400px) {
     .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
@@ -1036,6 +1056,28 @@ body.light-e .youtube-cover-photo {
     .youtube-cover-photo {
         width: calc(100% + 24px);
         margin: -12px -12px 15px -12px;
+    }
+    .creator-username, .instagram-creator-username, .youtube-creator-username {
+        font-size: 0.85em;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .shoutouts-section {
+        padding: 10px;
+    }
+    .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
+        gap: 10px;
+    }
+    .creator-card, .instagram-creator-card, .youtube-creator-card {
+        padding: 10px;
+    }
+    .youtube-cover-photo {
+        width: calc(100% + 20px);
+        margin: -10px -10px 15px -10px;
+    }
+    .creator-username, .instagram-creator-username, .youtube-creator-username {
+        font-size: 0.8em;
     }
 }
 
