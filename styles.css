@@ -836,14 +836,13 @@ body {
    1. General Layout & Section Styles
    ========================================================================== */
 
+/* The section is now a clean container using your theme's content background */
 .shoutouts-section {
-    background-color: var(--glass-section-bg);
+    background-color: var(--content-bg);
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 16px; /* Slightly adjusted for a modern look */
     margin-bottom: 30px;
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border-color);
     box-shadow: 0 2px 10px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
@@ -856,6 +855,7 @@ body {
 
 .shoutouts-section h2 {
     color: var(--text-color);
+    margin-top: 0;
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -904,23 +904,21 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
-    width: 100%;
 }
 
+/* Cards are now solid and nested inside the section */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    background-color: var(--glass-bg);
-    border-radius: 20px;
+    background-color: var(--bg-color); /* Use main bg for contrast */
+    border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 20px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .creator-card:hover,
@@ -938,9 +936,10 @@ body {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 16px;
-    object-fit: contain;
+    border-radius: 8px;
+    object-fit: cover;
     margin-bottom: 16px;
+    border: 1px solid var(--border-color);
 }
 
 .youtube-creator-info {
@@ -998,9 +997,7 @@ body {
     word-break: break-all;
 }
 
-.verified-badge,
-.instagram-verified-badge,
-.youtube-verified-badge {
+.verified-badge {
     width: 16px;
     height: 16px;
     display: inline-block;
@@ -1015,6 +1012,8 @@ body {
     font-size: 0.9em;
     line-height: 1.4;
     word-break: break-word;
+    /* Pushes button to the bottom */
+    flex-grow: 1;
 }
 
 .follower-count,
@@ -1039,21 +1038,21 @@ body {
    5. Buttons & Utility
    ========================================================================== */
 
+/* ✨ REDESIGNED BUTTON to match your theme */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background-color: rgba(var(--accent-rgb), 0.2);
+    background-color: transparent;
     color: var(--accent-color);
     text-decoration: none;
     padding: 8px 20px;
     border-radius: 25px;
-    margin-top: 10px;
+    margin-top: auto; /* Aligns button to the bottom */
     transition: all 0.2s ease;
     text-align: center;
     font-weight: 500;
     border: 2px solid var(--accent-color);
-    backdrop-filter: blur(12px);
     width: fit-content;
 }
 
@@ -1061,8 +1060,7 @@ body {
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
     background-color: var(--accent-color);
-    color: white;
-    box-shadow: 0 0 10px var(--accent-color);
+    color: var(--content-bg); /* Text color flips for contrast */
     transform: translateY(-2px);
 }
 
@@ -1096,11 +1094,9 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
 }
-
 @media screen and (max-width: 768px) {
     .shoutouts-section {
         padding: 15px;
-        margin-bottom: 20px;
     }
     .creator-grid,
     .instagram-creator-grid,
@@ -1113,39 +1109,10 @@ body {
     .youtube-creator-card {
         padding: 12px;
     }
-    .youtube-cover-photo {
-        width: calc(100% + 24px);
-        margin: -12px -12px 15px -12px;
-    }
-    .creator-username,
-    .instagram-creator-username,
-    .youtube-creator-username {
-        font-size: 0.85em;
-    }
 }
-
-@media screen and (max-width: 380px) {
+@media screen and (max--width: 380px) {
     .shoutouts-section {
         padding: 10px;
-    }
-    .creator-grid,
-    .instagram-creator-grid,
-    .youtube-creator-grid {
-        gap: 10px;
-    }
-    .creator-card,
-    .instagram-creator-card,
-    .youtube-creator-card {
-        padding: 10px;
-    }
-    .youtube-cover-photo {
-        width: calc(100% + 20px);
-        margin: -10px -10px 15px -10px;
-    }
-    .creator-username,
-    .instagram-creator-username,
-    .youtube-creator-username {
-        font-size: 0.8em;
     }
 }
 
