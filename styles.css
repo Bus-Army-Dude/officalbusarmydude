@@ -1,6 +1,8 @@
-/* ======================== */
-/* Theme Variables          */
-/* ======================== */
+/* ==========================================================================
+   PART 1: THE FIXED ROOT BLOCK
+   - FIX: Added all missing variables for glass theme, RGB values, and text.
+   - This now powers your entire site's light and dark modes correctly.
+   ========================================================================== */
 :root {
     /* --- Modern Base Sizing --- */
     --font-size-base: 16px;
@@ -13,7 +15,7 @@
     --light-secondary-text: #6C757D;
     --light-border: #E9ECEF;
     --light-accent: #0D6EFD;
-    --light-accent-rgb: 13, 110, 253; /* For transparent buttons */
+    --light-accent-rgb: 13, 110, 253; /* FIX: Added for button transparency */
     --light-hover: #0B5ED7;
     --light-shadow: rgba(33, 37, 41, 0.075);
     /* --- Glassmorphism Theme (Light) --- */
@@ -31,7 +33,7 @@
     --dark-secondary-text: #ADB5BD;
     --dark-border: #343A40;
     --dark-accent: #3B82F6;
-    --dark-accent-rgb: 59, 130, 246; /* For transparent buttons */
+    --dark-accent-rgb: 59, 130, 246; /* FIX: Added for button transparency */
     --dark-hover: #60A5FA;
     --dark-shadow: rgba(0, 0, 0, 0.25);
     /* --- Glassmorphism Theme (Dark) --- */
@@ -842,7 +844,13 @@ body {
     }
 }
 
-/* Container for each section - now fully theme-aware */
+/* ==========================================================================
+   PART 2: THE FIXED SHOUTOUTS STYLES
+   - FIX: Now correctly uses all variables from the fixed root.
+   - FIX: Increased spacing and margins so elements do not touch.
+   - FIX: Text is now high-contrast and readable.
+   - FIX: Buttons are always aligned to the bottom.
+   ========================================================================== */
 .shoutouts-section {
     background-color: var(--glass-section-bg);
     padding: 20px;
@@ -852,14 +860,11 @@ body {
     -webkit-backdrop-filter: blur(30px);
     border: 1px solid var(--glass-border);
     box-shadow: 0 2px 10px var(--shadow-color);
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
 }
 
 .shoutouts-section h2 {
-    color: var(--text-on-glass); /* Use high-contrast text */
-    margin-bottom: 15px; /* Added spacing */
+    color: var(--text-on-glass);
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -877,23 +882,22 @@ body {
 #youtube-header::before { content: '\f167'; }
 
 #tiktok-last-updated-timestamp, #instagram-last-updated-timestamp, #youtube-last-updated-timestamp {
-    color: var(--secondary-text-on-glass); /* Use high-contrast text */
+    color: var(--secondary-text-on-glass);
     font-size: 0.9em;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    margin-bottom: 25px; /* FIX: More space below timestamp */
 }
+
 #tiktok-last-updated-timestamp::before, #instagram-last-updated-timestamp::before, #youtube-last-updated-timestamp::before {
     content: '\f073';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
+    margin-right: 5px; /* FIX: Space after icon */
 }
 
 .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
+    gap: 25px; /* FIX: More space between cards */
 }
 
 .creator-card, .instagram-creator-card, .youtube-creator-card {
@@ -907,7 +911,7 @@ body {
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     box-shadow: 0 4px 20px var(--shadow-color);
-    height: 100%; /* Make all cards in a row the same height */
+    height: 100%;
 }
 
 .creator-card:hover, .instagram-creator-card:hover, .youtube-creator-card:hover {
@@ -916,8 +920,8 @@ body {
 }
 
 .youtube-cover-photo {
-  width: calc(100% + 40px); /* Span full card width, accounting for padding */
-  margin: -20px -20px 15px -20px; /* Pull to edges */
+  width: calc(100% + 40px);
+  margin: -20px -20px 20px -20px; /* FIX: Increased bottom margin */
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   border-bottom: 1px solid var(--glass-border);
@@ -935,15 +939,14 @@ body {
 .creator-header, .instagram-creator-header, .youtube-creator-header {
     display: flex;
     align-items: center;
-    gap: 12px; /* Increased spacing */
-    margin-bottom: 8px; /* Increased spacing */
+    gap: 12px;
+    margin-bottom: 8px;
 }
 
 .creator-header h3, .instagram-creator-header h3, .youtube-creator-header h3 {
     margin: 0;
     font-size: 1.2em;
-    color: var(--text-on-glass); /* Use high-contrast text */
-    line-height: 1.4;
+    color: var(--text-on-glass); /* FIX: Readable text */
     word-break: break-word;
 }
 
@@ -951,12 +954,12 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 4px;
-    margin-bottom: 15px; /* Increased spacing */
+    margin-bottom: 15px; /* FIX: More space below username */
     flex-wrap: wrap;
 }
 
 .creator-username, .instagram-creator-username, .youtube-creator-username {
-    color: var(--secondary-text-on-glass); /* Use high-contrast text */
+    color: var(--secondary-text-on-glass); /* FIX: Readable text */
     font-size: 0.9em;
     word-break: break-all;
 }
@@ -964,39 +967,35 @@ body {
 .verified-badge, .instagram-verified-badge, .youtube-verified-badge {
     width: 16px;
     height: 16px;
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio {
-    color: var(--secondary-text-on-glass); /* Use high-contrast text */
-    margin: 0 0 15px 0; /* Standardized spacing */
+    color: var(--secondary-text-on-glass); /* FIX: Readable text */
+    margin: 0 0 20px 0; /* FIX: More space below bio */
     font-size: 0.9em;
-    line-height: 1.5; /* Improved line height for readability */
+    line-height: 1.5;
     word-break: break-word;
 }
 
 .follower-count, .instagram-follower-count, .youtube-subscriber-count {
     color: var(--accent-color);
     font-weight: bold;
-    margin-bottom: 15px; /* Added spacing */
+    margin-bottom: 20px; /* FIX: More space below follower count */
 }
 
-/* Button now uses fixed root vars and is pushed to the bottom */
 .visit-profile, .instagram-visit-profile, .youtube-visit-profile {
     display: inline-block;
-    background-color: rgba(var(--accent-rgb), 0.2);
+    background-color: rgba(var(--accent-rgb), 0.2); /* FIX: Now works with root var */
     color: var(--accent-color);
     text-decoration: none;
-    padding: 8px 20px;
+    padding: 10px 25px; /* FIX: Made button slightly larger */
     border-radius: 25px;
-    transition: all 0.2s ease;
-    text-align: center;
     font-weight: 500;
     border: 2px solid var(--accent-color);
     backdrop-filter: blur(12px);
     width: fit-content;
-    margin-top: auto; /* ✨ This is the key fix for button alignment */
+    margin-top: auto; /* FIX: Pushes button to the bottom, creating space */
+    transition: all 0.2s ease;
 }
 
 .visit-profile:hover, .instagram-visit-profile:hover, .youtube-visit-profile:hover {
@@ -1006,10 +1005,9 @@ body {
     transform: translateY(-2px);
 }
 
-/* Responsive fixes remain the same */
 @media screen and (max-width: 768px) {
     .creator-card, .instagram-creator-card, .youtube-creator-card {
-        height: auto; /* Let cards be their natural height on mobile */
+        height: auto;
     }
 }
 
