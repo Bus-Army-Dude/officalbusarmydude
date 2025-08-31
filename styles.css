@@ -846,10 +846,6 @@ body {
 
 /* ==========================================================================
    PART 2: THE FIXED SHOUTOUTS STYLES
-   - FIX: Now correctly uses all variables from the fixed root.
-   - FIX: Increased spacing and margins so elements do not touch.
-   - FIX: Text is now high-contrast and readable.
-   - FIX: Buttons are always aligned to the bottom.
    ========================================================================== */
 .shoutouts-section {
     background-color: var(--glass-section-bg);
@@ -884,20 +880,20 @@ body {
 #tiktok-last-updated-timestamp, #instagram-last-updated-timestamp, #youtube-last-updated-timestamp {
     color: var(--secondary-text-on-glass);
     font-size: 0.9em;
-    margin-bottom: 25px; /* FIX: More space below timestamp */
+    margin-bottom: 25px;
 }
 
 #tiktok-last-updated-timestamp::before, #instagram-last-updated-timestamp::before, #youtube-last-updated-timestamp::before {
     content: '\f073';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    margin-right: 5px; /* FIX: Space after icon */
+    margin-right: 5px;
 }
 
 .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px; /* FIX: More space between cards */
+    gap: 25px;
 }
 
 .creator-card, .instagram-creator-card, .youtube-creator-card {
@@ -921,7 +917,7 @@ body {
 
 .youtube-cover-photo {
   width: calc(100% + 40px);
-  margin: -20px -20px 20px -20px; /* FIX: Increased bottom margin */
+  margin: -20px -20px 20px -20px;
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   border-bottom: 1px solid var(--glass-border);
@@ -936,7 +932,7 @@ body {
     margin-bottom: 15px;
 }
 
-.creator-header, .instagram-creator-header, .youtube-creator-header {
+.creator-header, .instagram-creator-header, .youtube-header {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -946,7 +942,7 @@ body {
 .creator-header h3, .instagram-creator-header h3, .youtube-creator-header h3 {
     margin: 0;
     font-size: 1.2em;
-    color: var(--text-on-glass); /* FIX: Readable text */
+    color: var(--text-on-glass);
     word-break: break-word;
 }
 
@@ -954,12 +950,12 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 4px;
-    margin-bottom: 15px; /* FIX: More space below username */
+    margin-bottom: 15px;
     flex-wrap: wrap;
 }
 
 .creator-username, .instagram-creator-username, .youtube-creator-username {
-    color: var(--secondary-text-on-glass); /* FIX: Readable text */
+    color: var(--secondary-text-on-glass);
     font-size: 0.9em;
     word-break: break-all;
 }
@@ -970,8 +966,8 @@ body {
 }
 
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio {
-    color: var(--secondary-text-on-glass); /* FIX: Readable text */
-    margin: 0 0 20px 0; /* FIX: More space below bio */
+    color: var(--secondary-text-on-glass);
+    margin: 0 0 20px 0;
     font-size: 0.9em;
     line-height: 1.5;
     word-break: break-word;
@@ -980,21 +976,21 @@ body {
 .follower-count, .instagram-follower-count, .youtube-subscriber-count {
     color: var(--accent-color);
     font-weight: bold;
-    margin-bottom: 20px; /* FIX: More space below follower count */
+    margin-bottom: 20px;
 }
 
 .visit-profile, .instagram-visit-profile, .youtube-visit-profile {
     display: inline-block;
-    background-color: rgba(var(--accent-rgb), 0.2); /* FIX: Now works with root var */
+    background-color: rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
     text-decoration: none;
-    padding: 10px 25px; /* FIX: Made button slightly larger */
+    padding: 10px 25px;
     border-radius: 25px;
     font-weight: 500;
     border: 2px solid var(--accent-color);
     backdrop-filter: blur(12px);
     width: fit-content;
-    margin-top: auto; /* FIX: Pushes button to the bottom, creating space */
+    margin-top: auto; /* Pushes button to the bottom */
     transition: all 0.2s ease;
 }
 
