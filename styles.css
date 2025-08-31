@@ -890,20 +890,18 @@ body {
     font-weight: 900;
 }
 
-/* Grid Layout - Matching the compact card style from images */
+/* Grid Layout */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 24px;
     width: 100%;
 }
 
-/* Card Design - Exactly like the images */
-.creator-card,
-.instagram-creator-card,
-.youtube-creator-card {
+/* === TIKTOK CARDS - Centered Layout === */
+.creator-card {
     background-color: var(--content-bg);
     border: 2px solid var(--border-color);
     border-radius: 20px;
@@ -919,101 +917,69 @@ body {
     margin: 0 auto;
 }
 
-.creator-card:hover,
-.instagram-creator-card:hover,
-.youtube-creator-card:hover {
+.creator-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px var(--shadow-color);
     border-color: var(--accent-color);
 }
 
-/* YouTube Cover Photo - Top banner style */
-.youtube-cover-photo {
-    width: calc(100% + 48px);
-    height: 100px;
-    object-fit: cover;
-    border-radius: 18px 18px 0 0;
-    margin: -24px -24px 20px -24px;
-    display: block;
-}
-
-.youtube-creator-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-/* Profile Picture - Centered and prominent */
-.creator-pic,
-.instagram-creator-pic,
-.youtube-creator-pic {
-    width: 70px;
-    height: 70px;
+/* TikTok Profile Picture - Centered at top */
+.creator-pic {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--accent-color);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     display: block;
 }
 
-/* Creator Name - Large and centered */
-.creator-header,
-.instagram-creator-header,
-.youtube-creator-header {
+/* TikTok Name - Centered */
+.creator-header {
     width: 100%;
     text-align: center;
     margin-bottom: 8px;
 }
 
-.creator-header h3,
-.instagram-creator-header h3,
-.youtube-creator-header h3 {
+.creator-header h3 {
     margin: 0;
-    font-size: 1.25em;
+    font-size: 1.3em;
     font-weight: 600;
     color: var(--text-color);
     line-height: 1.3;
-    word-break: break-word;
 }
 
-/* Username with verification badge - Centered */
-.username-container,
-.instagram-username-container,
-.youtube-username-container {
+/* TikTok Username - Centered with @ symbol */
+.username-container {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
     margin-bottom: 12px;
-    flex-wrap: wrap;
     width: 100%;
 }
 
-.creator-username,
-.instagram-creator-username,
-.youtube-creator-username {
+.creator-username {
     color: var(--secondary-text);
-    font-size: 0.9em;
+    font-size: 0.95em;
     font-weight: 400;
     margin: 0;
-    text-align: center;
 }
 
-/* Verification Badge */
-.verified-badge,
-.instagram-verified-badge,
-.youtube-verified-badge {
-    width: 16px;
-    height: 16px;
+.creator-username::before {
+    content: '@';
+    color: var(--secondary-text);
+}
+
+/* TikTok Verification Badge */
+.verified-badge {
+    width: 18px;
+    height: 18px;
     display: inline-block;
-    flex-shrink: 0;
 }
 
-/* Follower/Subscriber count - Highlighted */
-.follower-count,
-.instagram-follower-count,
-.youtube-subscriber-count {
+/* TikTok Follower Count - Centered */
+.follower-count {
     color: var(--accent-color);
     font-weight: 700;
     font-size: 1.1em;
@@ -1021,21 +987,265 @@ body {
     text-align: center;
 }
 
-/* Bio text - Clean and readable */
-.creator-bio,
-.instagram-creator-bio,
+/* TikTok Bio - Centered */
+.creator-bio {
+    color: var(--secondary-text);
+    margin: 0 0 24px 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* TikTok Visit Button */
+.visit-profile {
+    display: inline-block;
+    background-color: var(--content-bg);
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 12px 32px;
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.visit-profile:hover {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+/* === INSTAGRAM CARDS - Username at top, side-by-side layout === */
+.instagram-creator-card {
+    background-color: var(--content-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.instagram-creator-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow-color);
+    border-color: var(--accent-color);
+}
+
+/* Instagram Username at very top */
+.instagram-username-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.instagram-creator-username {
+    color: var(--text-color);
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.instagram-verified-badge {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+}
+
+/* Instagram Main Content - Side by side */
+.instagram-main-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* Instagram Profile Picture - Left side */
+.instagram-creator-pic {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-color);
+    flex-shrink: 0;
+}
+
+/* Instagram Info - Right side */
+.instagram-creator-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.instagram-creator-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--text-color);
+    line-height: 1.3;
+}
+
+.instagram-follower-count {
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 1.05em;
+    margin: 0;
+}
+
+/* Instagram Bio */
+.instagram-creator-bio {
+    color: var(--secondary-text);
+    margin: 0 0 20px 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* Instagram Visit Button */
+.instagram-visit-profile {
+    display: inline-block;
+    background-color: var(--content-bg);
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 12px 32px;
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    text-align: center;
+    box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.instagram-visit-profile:hover {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+/* === YOUTUBE CARDS - Banner + side-by-side layout === */
+.youtube-creator-card {
+    background-color: var(--content-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.youtube-creator-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow-color);
+    border-color: var(--accent-color);
+}
+
+/* YouTube Cover Photo - Top banner */
+.youtube-cover-photo {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    border-radius: 18px 18px 0 0;
+}
+
+/* YouTube Content Area */
+.youtube-creator-info {
+    padding: 20px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* YouTube Main Content - Side by side */
+.youtube-main-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* YouTube Profile Picture - Left side */
+.youtube-creator-pic {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-color);
+    flex-shrink: 0;
+}
+
+/* YouTube Info - Right side */
+.youtube-info-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.youtube-creator-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.youtube-creator-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--text-color);
+    line-height: 1.3;
+}
+
+.youtube-verified-badge {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+}
+
+.youtube-username-container {
+    margin-bottom: 6px;
+}
+
+.youtube-creator-username {
+    color: var(--secondary-text);
+    font-size: 0.9em;
+    font-weight: 400;
+    margin: 0;
+}
+
+.youtube-subscriber-count {
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 1.05em;
+    margin: 0;
+}
+
+/* YouTube Bio */
 .youtube-creator-bio {
     color: var(--secondary-text);
     margin: 0 0 20px 0;
-    font-size: 0.875em;
+    font-size: 0.9em;
     line-height: 1.5;
-    text-align: center;
-    word-break: break-word;
 }
 
-/* Visit Button - Matching the rounded style from images */
-.visit-profile,
-.instagram-visit-profile,
+/* YouTube Visit Button */
 .youtube-visit-profile {
     display: inline-block;
     background-color: var(--content-bg);
@@ -1048,18 +1258,14 @@ body {
     font-size: 0.9em;
     transition: all 0.2s ease;
     text-align: center;
-    min-width: 140px;
     box-shadow: 0 2px 6px var(--shadow-color);
 }
 
-.visit-profile:hover,
-.instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
     background-color: var(--accent-color);
     color: white;
     border-color: var(--accent-color);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 /* Unavailable Message */
@@ -1087,7 +1293,7 @@ body {
     .creator-grid,
     .instagram-creator-grid,
     .youtube-creator-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 }
 
@@ -1107,14 +1313,22 @@ body {
     .creator-card,
     .instagram-creator-card,
     .youtube-creator-card {
-        padding: 20px;
         max-width: 100%;
     }
 
-    .youtube-cover-photo {
-        width: calc(100% + 40px);
-        margin: -20px -20px 16px -20px;
-        height: 80px;
+    /* Mobile adjustments for side-by-side layouts */
+    .instagram-main-content,
+    .youtube-main-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .instagram-creator-info,
+    .youtube-info-right {
+        text-align: center;
+        align-items: center;
     }
 }
 
@@ -1124,15 +1338,16 @@ body {
     }
 
     .creator-card,
-    .instagram-creator-card,
-    .youtube-creator-card {
-        padding: 16px;
+    .instagram-creator-card {
+        padding: 20px;
+    }
+
+    .youtube-creator-info {
+        padding: 16px 20px 20px 20px;
     }
 
     .youtube-cover-photo {
-        width: calc(100% + 32px);
-        margin: -16px -16px 12px -16px;
-        height: 70px;
+        height: 80px;
     }
 
     .creator-pic,
@@ -1140,13 +1355,6 @@ body {
     .youtube-creator-pic {
         width: 60px;
         height: 60px;
-    }
-
-    .visit-profile,
-    .instagram-visit-profile,
-    .youtube-visit-profile {
-        padding: 10px 24px;
-        font-size: 0.875em;
     }
 }
 
