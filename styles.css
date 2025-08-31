@@ -3,7 +3,7 @@
 /* ======================== */
 :root {
     /* --- Modern Base Sizing (using pixels) --- */
-    --font-size-base: 16px; /* Reverted from rem to px */
+    --font-size-base: 16px;
     --line-height-base: 1.65;
 
     /* --- Modern Light Mode Colors --- */
@@ -13,11 +13,14 @@
     --light-secondary-text: #6C757D;
     --light-border: #E9ECEF;
     --light-accent: #0D6EFD;
+    --light-accent-rgb: 13, 110, 253; /* ✨ ADDED for transparent button */
     --light-hover: #0B5ED7;
-    --light-link: var(--light-accent);
     --light-shadow: rgba(33, 37, 41, 0.075);
-    --light-icon: #495057;
-    
+    /* ✨ ADDED glassmorphism colors for light mode */
+    --light-glass-section-bg: rgba(255, 255, 255, 0.6);
+    --light-glass-bg: rgba(255, 255, 255, 0.4);
+    --light-glass-border: rgba(33, 37, 41, 0.1);
+
     /* --- Modern Dark Mode Colors --- */
     --dark-bg: #121212;
     --dark-content-bg: #1C1C1C;
@@ -25,23 +28,27 @@
     --dark-secondary-text: #ADB5BD;
     --dark-border: #343A40;
     --dark-accent: #3B82F6;
+    --dark-accent-rgb: 59, 130, 246; /* ✨ ADDED for transparent button */
     --dark-hover: #60A5FA;
-    --dark-link: var(--dark-accent);
-    --dark-shadow: rgba(0, 0, 0, 0.2);
-    --dark-icon: #CED4DA;
+    --dark-shadow: rgba(0, 0, 0, 0.25);
+    /* ✨ ADDED glassmorphism colors for dark mode */
+    --dark-glass-section-bg: rgba(28, 28, 28, 0.7);
+    --dark-glass-bg: rgba(255, 255, 255, 0.05);
+    --dark-glass-border: rgba(255, 255, 255, 0.1);
 
-    /* --- Fallback theme variables (default to dark) --- */
+    /* --- Theme variables (default to dark) --- */
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
     --secondary-text: var(--dark-secondary-text);
     --border-color: var(--dark-border);
     --accent-color: var(--dark-accent);
+    --accent-rgb: var(--dark-accent-rgb);
     --hover-color: var(--dark-hover);
-    --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
-    --icon-color: var(--dark-icon);
-    --social-icon-text-color: var(--dark-text);
+    --glass-section-bg: var(--dark-glass-section-bg);
+    --glass-bg: var(--dark-glass-bg);
+    --glass-border: var(--dark-glass-border);
 }
 
 body.light-e {
@@ -51,11 +58,12 @@ body.light-e {
     --secondary-text: var(--light-secondary-text);
     --border-color: var(--light-border);
     --accent-color: var(--light-accent);
+    --accent-rgb: var(--light-accent-rgb);
     --hover-color: var(--light-hover);
-    --link-color: var(--light-link);
     --shadow-color: var(--light-shadow);
-    --icon-color: var(--light-icon);
-    --social-icon-text-color: #FFFFFF; /* White for light mode */
+    --glass-section-bg: var(--light-glass-section-bg);
+    --glass-bg: var(--light-glass-bg);
+    --glass-border: var(--light-glass-border);
 }
 
 /* Base Styles */
@@ -828,7 +836,6 @@ body {
    1. General Layout & Section Styles
    ========================================================================== */
 
-/* Container for each section - matching site style */
 .shoutouts-section {
     background-color: var(--glass-section-bg);
     padding: 20px;
@@ -847,7 +854,6 @@ body {
    2. Section Headers & Timestamps
    ========================================================================== */
 
-/* Section Headers and Timestamps */
 .shoutouts-section h2 {
     color: var(--text-color);
     margin-bottom: 10px;
@@ -858,31 +864,17 @@ body {
     font-size: 1.8em;
 }
 
-/* TikTok Section Header */
-#tiktok-header::before {
-    content: '\e07b'; /* Font Awesome TikTok icon */
-    font-family: 'Font Awesome 5 Brands';
-    font-weight: 900;
-    color: var(--accent-color);
-}
-
-/* Instagram Section Header */
-#instagram-header::before {
-    content: '\f16d'; /* Font Awesome Instagram icon */
-    font-family: 'Font Awesome 5 Brands';
-    font-weight: 900;
-    color: var(--accent-color);
-}
-
-/* YouTube Section Header */
+#tiktok-header::before,
+#instagram-header::before,
 #youtube-header::before {
-    content: '\f167'; /* Font Awesome YouTube icon */
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
     color: var(--accent-color);
 }
+#tiktok-header::before { content: '\e07b'; }
+#instagram-header::before { content: '\f16d'; }
+#youtube-header::before { content: '\f167'; }
 
-/* This rule styles the timestamp text container itself */
 #tiktok-last-updated-timestamp,
 #instagram-last-updated-timestamp,
 #youtube-last-updated-timestamp {
@@ -894,20 +886,18 @@ body {
     gap: 4px;
 }
 
-/* This rule ADDS THE ICON before each timestamp */
 #tiktok-last-updated-timestamp::before,
 #instagram-last-updated-timestamp::before,
 #youtube-last-updated-timestamp::before {
-    content: '\f073'; /* Font Awesome calendar icon unicode */
-    font-family: 'Font Awesome 6 Free'; /* For Font Awesome 6 */
-    font-weight: 900; /* For the solid style */
+    content: '\f073';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
 }
 
 /* ==========================================================================
    3. Creator Grid & Card Layout
    ========================================================================== */
 
-/* Common Creator Grid Styles */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
@@ -915,14 +905,8 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    overflow: visible;
 }
 
-/* ✨ PROFESSIONAL CENTERED LAYOUT ✨ */
-/* This makes the card a flex container and centers its direct children */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
@@ -931,19 +915,12 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Horizontally centers all content */
+    align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     box-shadow: 0 4px 20px var(--shadow-color);
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 100%;
-    position: relative;
-    overflow: visible;
-    min-height: fit-content;
-    height: auto;
 }
 
 .creator-card:hover,
@@ -963,20 +940,16 @@ body {
     display: block;
     border-radius: 16px;
     object-fit: contain;
-    background-color: transparent;
-    margin-bottom: 16px; /* creates space below the cover photo */
+    margin-bottom: 16px;
 }
 
-/* YouTube Creator Info Container */
 .youtube-creator-info {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center YouTube info as well */
+    align-items: center;
     width: 100%;
-    padding: 0;
 }
 
-/* Common Profile Picture Styles */
 .creator-pic,
 .instagram-creator-pic,
 .youtube-creator-pic {
@@ -986,40 +959,30 @@ body {
     object-fit: cover;
     border: 3px solid var(--accent-color);
     margin-bottom: 15px;
-    position: relative;
-    z-index: 1;
 }
 
-/* Common Header Styles */
 .creator-header,
 .instagram-creator-header,
 .youtube-creator-header {
     display: flex;
     align-items: center;
-    justify-content: center; /* Center header content */
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 5px;
 }
 
-/* Username Container with Verification Badge */
 .username-container,
 .instagram-username-container,
 .youtube-username-container {
     display: flex;
     align-items: flex-start;
-    justify-content: center; /* Center username and badge */
+    justify-content: center;
     gap: 4px;
     margin-bottom: 10px;
     flex-wrap: wrap;
-    width: 100%;
-    overflow: visible;
-    padding-right: 8px;
-    min-height: min-content;
 }
 
-/* ✨ PROFESSIONAL CENTERED LAYOUT ✨ */
-/* This targets all the text-based elements to center the text inside them */
 .creator-header h3, .instagram-creator-header h3, .youtube-creator-header h3,
 .creator-username, .instagram-creator-username, .youtube-creator-username,
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio,
@@ -1027,23 +990,14 @@ body {
     text-align: center;
 }
 
-/* Common Username Styles */
 .creator-username,
 .instagram-creator-username,
 .youtube-creator-username {
     color: var(--secondary-text);
     font-size: max(0.9em, 14px);
-    margin: 0;
-    width: auto;
-    max-width: 100%;
-    overflow-wrap: break-word;
     word-break: break-all;
-    white-space: normal;
-    line-height: 1.5;
-    hyphens: auto;
 }
 
-/* Verification Badge Styles */
 .verified-badge,
 .instagram-verified-badge,
 .youtube-verified-badge {
@@ -1053,7 +1007,6 @@ body {
     vertical-align: middle;
 }
 
-/* Common Bio Styles */
 .creator-bio,
 .instagram-creator-bio,
 .youtube-creator-bio {
@@ -1064,7 +1017,6 @@ body {
     word-break: break-word;
 }
 
-/* Common Follower/Subscriber Count Styles */
 .follower-count,
 .instagram-follower-count,
 .youtube-subscriber-count {
@@ -1073,7 +1025,6 @@ body {
     margin: 10px 0;
 }
 
-/* Creator Name Styles */
 .creator-header h3,
 .instagram-creator-header h3,
 .youtube-creator-header h3 {
@@ -1081,7 +1032,6 @@ body {
     font-size: max(1.1em, 16px);
     color: var(--text-color);
     line-height: 1.4;
-    overflow-wrap: break-word;
     word-break: break-word;
 }
 
@@ -1089,7 +1039,6 @@ body {
    5. Buttons & Utility
    ========================================================================== */
 
-/* Common Visit Profile Button Styles - Unified Design */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
@@ -1105,8 +1054,6 @@ body {
     font-weight: 500;
     border: 2px solid var(--accent-color);
     backdrop-filter: blur(12px);
-    position: relative;
-    overflow: hidden;
     width: fit-content;
 }
 
@@ -1119,7 +1066,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Unavailable Message Styles */
 .unavailable-message {
     color: var(--secondary-text);
     font-size: 18px;
@@ -1155,44 +1101,22 @@ body {
     .shoutouts-section {
         padding: 15px;
         margin-bottom: 20px;
-        overflow: hidden;
     }
-
     .creator-grid,
     .instagram-creator-grid,
     .youtube-creator-grid {
         grid-template-columns: 1fr;
         gap: 15px;
-        overflow: visible;
     }
-
     .creator-card,
     .instagram-creator-card,
     .youtube-creator-card {
         padding: 12px;
-        overflow: hidden;
-        height: auto;
-        min-height: fit-content;
     }
-
-    .creator-header h3,
-    .instagram-creator-header h3,
-    .youtube-creator-header h3 {
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-
     .youtube-cover-photo {
         width: calc(100% + 24px);
         margin: -12px -12px 15px -12px;
     }
-
-    .username-container,
-    .instagram-username-container,
-    .youtube-username-container {
-        padding-right: 6px;
-    }
-
     .creator-username,
     .instagram-creator-username,
     .youtube-creator-username {
@@ -1200,40 +1124,24 @@ body {
     }
 }
 
-/* Extra small devices */
 @media screen and (max-width: 380px) {
     .shoutouts-section {
         padding: 10px;
-        overflow: hidden;
     }
-
     .creator-grid,
     .instagram-creator-grid,
     .youtube-creator-grid {
         gap: 10px;
-        overflow: visible;
     }
-
     .creator-card,
     .instagram-creator-card,
     .youtube-creator-card {
         padding: 10px;
-        overflow: hidden;
-        height: auto;
-        min-height: fit-content;
     }
-
     .youtube-cover-photo {
         width: calc(100% + 20px);
         margin: -10px -10px 15px -10px;
     }
-
-    .username-container,
-    .instagram-username-container,
-    .youtube-username-container {
-        padding-right: 4px;
-    }
-
     .creator-username,
     .instagram-creator-username,
     .youtube-creator-username {
