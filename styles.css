@@ -826,7 +826,6 @@ body {
 
 /* --- SECTION STYLES --- */
 .shoutouts-section {
-    /* This outer container can be simple */
     background-color: transparent;
     padding: 0;
     border: none;
@@ -836,149 +835,208 @@ body {
 /* --- GRID STYLES --- */
 .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
 }
 
-/* --- COMMON CREATOR CARD --- */
-.creator-card, .instagram-creator-card, .youtube-creator-card {
-    /* Creates the semi-transparent look from the image */
-    background-color: rgba(60, 60, 60, 0.5); /* Dark mode default */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for dark mode */
-    border-radius: 20px;
-    padding: 24px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 4px 20px var(--shadow-color);
+/*
+=======================================================================
+  1. COMMON STYLES FOR ALL CREATOR CARDS
+=======================================================================
+*/
 
-    /* Centers all content vertically and horizontally */
+/* --- Base Neumorphic Card Shell --- */
+.creator-card, .tiktok-creator-card, .instagram-creator-card, .youtube-creator-card {
+    background-color: #212121; /* A neutral dark grey for the card */
+    border-radius: 24px;
+    padding: 24px;
+    
+    /* Neumorphic Shadow for the "pressed in" look in DARK MODE */
+    box-shadow: inset 7px 7px 14px #1a1a1a, 
+                inset -7px -7px 14px #282828;
+
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    min-height: 400px; /* Ensures consistent height */
 }
 
 body.light-e .creator-card,
+body.light-e .tiktok-creator-card,
 body.light-e .instagram-creator-card,
 body.light-e .youtube-creator-card {
-    /* Light mode override for the card background */
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for light mode */
+    background-color: #e0e0e0; /* A neutral light grey */
+    /* Neumorphic Shadow for LIGHT MODE */
+    box-shadow: inset 7px 7px 14px #bebebe, 
+                inset -7px -7px 14px #ffffff;
 }
 
-.creator-card:hover, .instagram-creator-card:hover, .youtube-creator-card:hover {
-    transform: translateY(-5px);
-}
-
-/* --- YOUTUBE CARD SPECIFIC STYLES --- */
-.youtube-cover-photo {
-    width: 100%;
+/* --- Common Profile Picture Style --- */
+.creator-pic {
+    width: 90px;
     height: 90px;
-    display: block;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    /* Uses a light color for the header in both themes, like the image */
-    background-color: var(--light-border);
-}
-
-/* --- PROFILE PICTURE --- */
-.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
-    width: 80px;
-    height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 15px;
-    position: relative;
-    z-index: 1;
-    border: none; /* The image does not have a border on the picture */
+    flex-shrink: 0;
 }
 
-/* This makes the YouTube picture overlap its header */
-.youtube-creator-card .youtube-creator-pic {
-    margin-top: -55px;
-}
-
-/* --- TEXT ELEMENTS --- */
-.creator-header h3, .instagram-creator-header h3, .youtube-creator-header h3 {
-    margin: 0 0 4px 0;
-    font-size: 1.2em;
+/* --- Common Button Style --- */
+.visit-profile, .visit-channel {
+    background: #e0e0e0; /* Light button for both themes */
+    color: #333; /* Dark text */
+    border-radius: 50px;
+    padding: 12px 24px;
+    margin-top: auto; /* Pushes button to the bottom */
+    border: none;
+    font-size: 1em;
     font-weight: 600;
-    color: var(--text-color);
+    text-decoration: none;
+    width: 100%;
+    max-width: 240px;
+    
+    /* Neumorphic Shadow for the "pushed out" look */
+    box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
+    transition: all 0.2s ease-in-out;
 }
 
-.username-container, .instagram-username-container, .youtube-username-container {
+body.dark-mode .visit-profile,
+body.dark-mode .visit-channel {
+    background: #212121;
+    color: #e0e0e0;
+    box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #282828;
+}
+
+.visit-profile:active, .visit-channel:active {
+    box-shadow: inset 6px 6px 12px #bebebe, inset -6px -6px 12px #ffffff;
+}
+
+body.dark-mode .visit-profile:active,
+body.dark-mode .visit-channel:active {
+    box-shadow: inset 6px 6px 12px #1a1a1a, inset -6px -6px 12px #282828;
+}
+
+
+/*
+=======================================================================
+  2. TIKTOK CARD - SPECIFIC LAYOUT
+=======================================================================
+*/
+.tiktok-creator-card {
+    align-items: center; /* Center all content */
+    text-align: center;
+}
+.tiktok-creator-card .creator-pic {
+    margin-bottom: 16px;
+    border: 4px solid #212121;
+    box-shadow: 0px 5px 15px var(--shadow-color);
+}
+body.light-e .tiktok-creator-card .creator-pic {
+    border-color: #e0e0e0;
+}
+.tiktok-creator-card .creator-header h3 { font-size: 1.4em; }
+.tiktok-creator-card .username-container { margin: 4px 0 12px 0; }
+.tiktok-creator-card .follower-count strong { color: var(--accent-color); }
+.tiktok-creator-card .creator-bio { margin-top: 16px; }
+
+
+/*
+=======================================================================
+  3. INSTAGRAM & YOUTUBE - COMMON LAYOUT ELEMENTS
+=======================================================================
+*/
+.instagram-creator-card, .youtube-creator-card {
+    align-items: flex-start; /* Align content blocks to the left */
+    text-align: left;
+}
+.instagram-creator-card .card-header, .youtube-creator-card .card-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 20px;
 }
-
-.creator-username, .instagram-creator-username, .youtube-creator-username {
-    font-size: 0.95em;
-    color: var(--secondary-text);
-}
-
-.follower-count, .instagram-follower-count, .youtube-subscriber-count {
-    font-size: 1em;
-    color: var(--text-color); /* Matches the main text color */
-    font-weight: normal;
-    margin: 0 0 12px 0;
-}
-
-/* Make sure your HTML for the follower count looks like this: */
-/* <p class="follower-count"><strong>108</strong> Followers</p> */
-.follower-count strong, .instagram-follower-count strong, .youtube-subscriber-count strong {
-    font-weight: bold;
-}
-
-.creator-bio, .instagram-creator-bio, .youtube-creator-bio {
-    font-size: 0.9em;
-    line-height: 1.5;
-    color: var(--secondary-text);
-    margin: 0 0 16px 0;
-    flex-grow: 1; /* Helps keep button at the bottom */
-}
-
-/* --- BUTTON --- */
-.visit-profile, .instagram-visit-profile, .youtube-visit-profile {
-    display: inline-block;
-    /* Solid light button for both themes, as seen in the image */
-    background-color: var(--light-border);
-    color: var(--light-text);
-    text-decoration: none;
-    padding: 10px 24px;
-    border-radius: 50px; /* Pill shape */
-    margin-top: auto; /* Pushes button to the bottom */
+.instagram-creator-card .card-header h3, .youtube-creator-card .card-header h3 {
+    font-size: 1.3em;
     font-weight: 600;
-    border: none;
+    margin: 0;
+    color: var(--text-color);
+}
+.instagram-creator-card .card-body, .youtube-creator-card .card-body {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     width: 100%;
-    max-width: 200px;
-    transition: background-color 0.2s ease;
+}
+.instagram-creator-card .info-stack, .youtube-creator-card .info-stack {
+    display: flex;
+    flex-direction: column;
+}
+.instagram-creator-card .info-stack .creator-name, .youtube-creator-card .info-stack .creator-name {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.instagram-creator-card .info-stack .creator-username, .youtube-creator-card .info-stack .creator-username {
+    font-size: 0.9em;
+    color: var(--secondary-text);
+    margin-top: 2px;
+}
+.instagram-creator-card .info-stack .follower-count, 
+.instagram-creator-card .info-stack .subscriber-count,
+.youtube-creator-card .info-stack .follower-count,
+.youtube-creator-card .info-stack .subscriber-count {
+    font-size: 1em;
+    margin-top: 8px;
+    color: var(--text-color);
+    font-weight: normal;
+}
+.instagram-creator-card .info-stack strong, .youtube-creator-card .info-stack strong {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+.instagram-creator-card .creator-bio, .youtube-creator-card .creator-bio {
+    font-size: 0.9em;
+    color: var(--secondary-text);
+    line-height: 1.5;
+    margin-top: 16px;
+    width: 100%;
+}
+.instagram-creator-card .visit-profile, .youtube-creator-card .visit-channel {
+    align-self: center; /* Center the button horizontally */
 }
 
-.visit-profile:hover, .instagram-visit-profile:hover, .youtube-visit-profile:hover {
-    background-color: #FFFFFF; /* Becomes whiter on hover */
+/*
+=======================================================================
+  4. YOUTUBE CARD - UNIQUE ELEMENTS
+=======================================================================
+*/
+.youtube-creator-card {
+    position: relative;
+    overflow: hidden;
+}
+.youtube-cover-photo {
+    width: calc(100% + 48px); /* Span full width including padding */
+    height: 90px;
+    position: absolute;
+    top: 0;
+    left: -24px; /* Offset padding */
+    background: #e0e0e0;
+    border-radius: 24px 24px 12px 12px;
+    box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+}
+body.dark-mode .youtube-cover-photo {
+    background: #212121;
+    box-shadow: inset 4px 4px 8px #1a1a1a, inset -4px -4px 8px #282828;
+}
+.youtube-creator-card .card-body {
+    margin-top: 60px; /* Push content down below the cover photo */
 }
 
 /* --- RESPONSIVE STYLES --- */
-@media screen and (max-width: 1400px) {
-    .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-}
-
 @media screen and (max-width: 768px) {
     .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
         grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .creator-card, .instagram-creator-card, .youtube-creator-card {
-        padding: 16px;
-    }
-    .youtube-cover-photo {
-        width: calc(100% + 32px);
-        margin: -16px -16px 15px -16px;
     }
 }
 
