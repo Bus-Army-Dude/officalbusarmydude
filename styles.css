@@ -824,7 +824,7 @@ body {
     }
 }
 
-/* ===== Base section and headings (keep your theme) ===== */
+/* ===== Sections (keep your theme) ===== */
 .shoutouts-section {
   background-color: var(--content-bg);
   padding: 20px;
@@ -836,6 +836,7 @@ body {
   overflow: hidden;
 }
 
+/* ===== Section headers and timestamps ===== */
 .shoutouts-section h2 {
   color: var(--text-color);
   margin-bottom: 10px;
@@ -885,7 +886,7 @@ body {
   font-weight: 900;
 }
 
-/* ===== Responsive grid for all sections ===== */
+/* ===== Responsive grids ===== */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
@@ -897,7 +898,7 @@ body {
   align-items: stretch;
 }
 
-/* ===== Base card: equal size, clean layout ===== */
+/* ===== Base cards (uniform size, clean layout) ===== */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
@@ -907,10 +908,10 @@ body {
   padding: 24px;
   width: 100%;
   box-sizing: border-box;
-  min-height: 520px;                 /* uniform height across platforms */
+  min-height: 520px; /* uniform across platforms */
 }
 
-/* Profile picture (centered sizing across all) */
+/* Profile pictures */
 .creator-pic,
 .instagram-creator-pic,
 .youtube-creator-pic {
@@ -921,9 +922,11 @@ body {
   border: 3px solid var(--accent-color);
   display: block;
   margin: 4px auto 12px auto;
+  position: relative;
+  z-index: 1;
 }
 
-/* Common text styles */
+/* Shared text styles */
 .creator-header h3,
 .instagram-creator-header h3,
 .youtube-creator-header h3 {
@@ -933,6 +936,7 @@ body {
   line-height: 1.3;
   word-break: break-word;
 }
+
 .creator-username,
 .instagram-creator-username,
 .youtube-creator-username {
@@ -940,18 +944,17 @@ body {
   font-size: max(0.95em, 14px);
   margin: 0;
   line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
+
 .verified-badge,
 .instagram-verified-badge,
 .youtube-verified-badge {
   width: 16px;
   height: 16px;
   display: inline-block;
-  flex: 0 0 16px;
+  vertical-align: middle;
 }
+
 .follower-count,
 .instagram-follower-count,
 .youtube-subscriber-count {
@@ -960,6 +963,7 @@ body {
   margin: 6px 0 2px 0;
   font-size: 0.98em;
 }
+
 .creator-bio,
 .instagram-creator-bio,
 .youtube-creator-bio {
@@ -972,7 +976,7 @@ body {
   text-align: center;
 }
 
-/* Visit button */
+/* Visit buttons */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
@@ -996,7 +1000,8 @@ body {
   transform: translateY(-2px);
 }
 
-/* ===== YouTube card layout (left image): name -> handle -> subscribers -> bio -> button ===== */
+/* ===== YouTube card layout (left image) ===== */
+/* Order: pic -> name -> @handle+badge -> subscribers -> bio -> button at bottom */
 .youtube-creator-card {
   display: flex;
   flex-direction: column;
@@ -1004,16 +1009,29 @@ body {
   text-align: center;
   gap: 10px;
 }
-.youtube-creator-header { order: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
-.youtube-username-container { order: 2; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.youtube-cover-photo { display: none; }
+.youtube-creator-header {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: 0;
+}
+.youtube-username-container {
+  order: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
 .youtube-subscriber-count { order: 3; }
 .youtube-creator-bio { order: 4; }
 .youtube-visit-profile { order: 5; margin-top: auto; }
 
-/* Hide any YouTube cover image element if present for this layout */
-.youtube-cover-photo { display: none; }
-
-/* ===== Instagram card layout (middle image): handle + badge on top, full name below ===== */
+/* ===== Instagram card layout (middle image) ===== */
+/* Order: pic -> @handle+badge -> full name -> followers -> bio -> button */
 .instagram-creator-card {
   display: flex;
   flex-direction: column;
@@ -1021,48 +1039,80 @@ body {
   text-align: center;
   gap: 10px;
 }
-.instagram-username-container { order: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-.instagram-creator-header { order: 2; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
+.instagram-username-container {
+  order: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.instagram-creator-header {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: 0;
+}
 .instagram-follower-count { order: 3; }
 .instagram-creator-bio { order: 4; }
 .instagram-visit-profile { order: 5; margin-top: auto; }
 
-/* ===== TikTok card layout (right image): "Name (@handle)" on one line ===== */
+/* ===== TikTok card layout (right image) ===== */
+/* Top line shows: "Name (@handle)" on same line, then followers -> bio -> button */
 .creator-card {
-  /* TikTok card only (class used for TikTok in your HTML) */
-  display: block;                 /* use normal flow so inline can sit on same line */
+  display: block;
   text-align: center;
   position: relative;
 }
-
-/* Make name and handle appear on the same line */
-.creator-header,
-.username-container {
-  display: inline;                /* inline to sit side-by-side */
-  margin: 0;
-  padding: 0;
-}
-
-/* Fine-tune spacing between name and handle */
-.creator-header h3 {
-  display: inline;
-  margin-right: 6px;
-}
-.username-container .creator-username {
+.creator-card .creator-header,
+.creator-card .username-container {
   display: inline;
 }
+.creator-card .creator-header h3 {
+  display: inline;
+  margin: 0 6px 0 0;
+}
+.creator-card .creator-username {
+  display: inline;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.creator-card .follower-count { display: block; margin: 10px 0 2px 0; }
+.creator-card .creator-bio {
+  display: block;
+  max-width: 48ch;
+  margin: 8px auto 12px auto;
+}
+.creator-card .visit-profile { display: inline-block; margin-top: 16px; }
 
-/* Keep rest of TikTok content below */
-.follower-count { display: block; margin-top: 10px; }
-.creator-bio { display: block; }
-.visit-profile { display: inline-block; margin-top: 16px; }
-
-/* ===== Utility: ensure inner elements don't overflow ===== */
+/* ===== Utility: prevent overflow inside any card ===== */
 .creator-card *,
 .instagram-creator-card *,
 .youtube-creator-card * {
   box-sizing: border-box;
   max-width: 100%;
+}
+
+/* ===== Unavailable message (theme-preserving) ===== */
+.unavailable-message {
+  color: var(--secondary-text);
+  font-size: 18px;
+  margin-top: 20px;
+  text-align: center;
+  background-color: var(--content-bg);
+  padding: 20px;
+  border: 2px solid var(--accent-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+.unavailable-message-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-color);
 }
 
 /* ===== Responsive adjustments ===== */
