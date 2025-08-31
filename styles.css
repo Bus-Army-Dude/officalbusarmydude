@@ -1,8 +1,3 @@
-/* ==========================================================================
-   PART 1: THE FIXED ROOT BLOCK
-   - FIX: Added all missing variables for glass theme, RGB values, and text.
-   - This now powers your entire site's light and dark modes correctly.
-   ========================================================================== */
 :root {
     /* --- Modern Base Sizing --- */
     --font-size-base: 16px;
@@ -845,7 +840,7 @@ body {
 }
 
 /* ==========================================================================
-   PART 2: THE FIXED SHOUTOUTS STYLES
+   SHOUTOUTS STYLES
    ========================================================================== */
 .shoutouts-section {
     background-color: var(--glass-section-bg);
@@ -868,7 +863,9 @@ body {
     font-size: 1.8em;
 }
 
-#tiktok-header::before, #instagram-header::before, #youtube-header::before {
+#tiktok-header::before, 
+#instagram-header::before, 
+#youtube-header::before {
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
     color: var(--accent-color);
@@ -877,26 +874,34 @@ body {
 #instagram-header::before { content: '\f16d'; }
 #youtube-header::before { content: '\f167'; }
 
-#tiktok-last-updated-timestamp, #instagram-last-updated-timestamp, #youtube-last-updated-timestamp {
+#tiktok-last-updated-timestamp, 
+#instagram-last-updated-timestamp, 
+#youtube-last-updated-timestamp {
     color: var(--secondary-text-on-glass);
     font-size: 0.9em;
     margin-bottom: 25px;
 }
 
-#tiktok-last-updated-timestamp::before, #instagram-last-updated-timestamp::before, #youtube-last-updated-timestamp::before {
+#tiktok-last-updated-timestamp::before, 
+#instagram-last-updated-timestamp::before, 
+#youtube-last-updated-timestamp::before {
     content: '\f073';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     margin-right: 5px;
 }
 
-.creator-grid, .instagram-creator-grid, .youtube-creator-grid {
+.creator-grid, 
+.instagram-creator-grid, 
+.youtube-creator-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 25px;
 }
 
-.creator-card, .instagram-creator-card, .youtube-creator-card {
+.creator-card, 
+.instagram-creator-card, 
+.youtube-creator-card {
     background-color: var(--glass-bg);
     border-radius: 20px;
     padding: 20px;
@@ -910,7 +915,9 @@ body {
     height: 100%;
 }
 
-.creator-card:hover, .instagram-creator-card:hover, .youtube-creator-card:hover {
+.creator-card:hover, 
+.instagram-creator-card:hover, 
+.youtube-creator-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 12px var(--shadow-color);
 }
@@ -923,7 +930,9 @@ body {
   border-bottom: 1px solid var(--glass-border);
 }
 
-.creator-pic, .instagram-creator-pic, .youtube-creator-pic {
+.creator-pic, 
+.instagram-creator-pic, 
+.youtube-creator-pic {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -932,21 +941,27 @@ body {
     margin-bottom: 15px;
 }
 
-.creator-header, .instagram-creator-header, .youtube-header {
+.creator-header, 
+.instagram-creator-header, 
+.youtube-header {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-bottom: 8px;
 }
 
-.creator-header h3, .instagram-creator-header h3, .youtube-creator-header h3 {
+.creator-header h3, 
+.instagram-creator-header h3, 
+.youtube-creator-header h3 {
     margin: 0;
     font-size: 1.2em;
     color: var(--text-on-glass);
     word-break: break-word;
 }
 
-.username-container, .instagram-username-container, .youtube-username-container {
+.username-container, 
+.instagram-username-container, 
+.youtube-username-container {
     display: flex;
     align-items: flex-start;
     gap: 4px;
@@ -954,18 +969,24 @@ body {
     flex-wrap: wrap;
 }
 
-.creator-username, .instagram-creator-username, .youtube-creator-username {
+.creator-username, 
+.instagram-creator-username, 
+.youtube-creator-username {
     color: var(--secondary-text-on-glass);
     font-size: 0.9em;
     word-break: break-all;
 }
 
-.verified-badge, .instagram-verified-badge, .youtube-verified-badge {
+.verified-badge, 
+.instagram-verified-badge, 
+.youtube-verified-badge {
     width: 16px;
     height: 16px;
 }
 
-.creator-bio, .instagram-creator-bio, .youtube-creator-bio {
+.creator-bio, 
+.instagram-creator-bio, 
+.youtube-creator-bio {
     color: var(--secondary-text-on-glass);
     margin: 0 0 20px 0;
     font-size: 0.9em;
@@ -973,13 +994,17 @@ body {
     word-break: break-word;
 }
 
-.follower-count, .instagram-follower-count, .youtube-subscriber-count {
+.follower-count, 
+.instagram-follower-count, 
+.youtube-subscriber-count {
     color: var(--accent-color);
     font-weight: bold;
     margin-bottom: 20px;
 }
 
-.visit-profile, .instagram-visit-profile, .youtube-visit-profile {
+.visit-profile, 
+.instagram-visit-profile, 
+.youtube-visit-profile {
     display: inline-block;
     background-color: rgba(var(--accent-rgb), 0.2);
     color: var(--accent-color);
@@ -994,7 +1019,9 @@ body {
     transition: all 0.2s ease;
 }
 
-.visit-profile:hover, .instagram-visit-profile:hover, .youtube-visit-profile:hover {
+.visit-profile:hover, 
+.instagram-visit-profile:hover, 
+.youtube-visit-profile:hover {
     background-color: var(--accent-color);
     color: white;
     box-shadow: 0 0 10px var(--accent-color);
@@ -1002,7 +1029,9 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-    .creator-card, .instagram-creator-card, .youtube-creator-card {
+    .creator-card, 
+    .instagram-creator-card, 
+    .youtube-creator-card {
         height: auto;
     }
 }
