@@ -824,113 +824,64 @@ body {
     }
 }
 
-/* --- SECTION STYLES (Consolidated & Themed) --- */
+/* --- SECTION STYLES --- */
 .shoutouts-section {
-    /* Set a semi-transparent background based on your theme */
-    background-color: rgba(28, 28, 28, 0.75); /* Dark mode default from #1C1C1C */
-    padding: 20px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(52, 58, 64, 0.5); /* Dark mode default from #343A40 */
-    box-shadow: 0 2px 10px var(--shadow-color);
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
+    /* This outer container can be simple */
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: none;
 }
 
-body.light-e .shoutouts-section {
-    /* Light mode override */
-    background-color: rgba(255, 255, 255, 0.6); /* From #FFFFFF */
-    border: 1px solid rgba(233, 236, 239, 0.7); /* From #E9ECEF */
-}
-
-/* --- SECTION HEADERS & TIMESTAMPS --- */
-.shoutouts-section h2 {
-    color: var(--text-color);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 1.8em;
-}
-
-#tiktok-header::before, #instagram-header::before, #youtube-header::before {
-    font-family: 'Font Awesome 5 Brands';
-    font-weight: 900;
-    color: var(--accent-color);
-}
-#tiktok-header::before { content: '\e07b'; }
-#instagram-header::before { content: '\f16d'; }
-#youtube-header::before { content: '\f167'; }
-
-#tiktok-last-updated-timestamp, #instagram-last-updated-timestamp, #youtube-last-updated-timestamp {
-    color: var(--secondary-text);
-    font-size: 0.9em;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-#tiktok-last-updated-timestamp::before, #instagram-last-updated-timestamp::before, #youtube-last-updated-timestamp::before {
-    content: '\f073';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-}
-
-/* --- CREATOR GRID --- */
+/* --- GRID STYLES --- */
 .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
 /* --- COMMON CREATOR CARD --- */
 .creator-card, .instagram-creator-card, .youtube-creator-card {
-    background-color: rgba(28, 28, 28, 0.75); /* Dark mode default */
-    border: 1px solid rgba(52, 58, 64, 0.5); /* Dark mode default */
+    /* Creates the semi-transparent look from the image */
+    background-color: rgba(60, 60, 60, 0.5); /* Dark mode default */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for dark mode */
     border-radius: 20px;
-    padding: 20px;
+    padding: 24px;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 4px 20px var(--shadow-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    /* Key Change: Center all content inside the card */
+
+    /* Centers all content vertically and horizontally */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
 
-body.light-e .creator-card, body.light-e .instagram-creator-card, body.light-e .youtube-creator-card {
-    /* Light mode override */
-    background-color: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(233, 236, 239, 0.7);
+body.light-e .creator-card,
+body.light-e .instagram-creator-card,
+body.light-e .youtube-creator-card {
+    /* Light mode override for the card background */
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border for light mode */
 }
 
 .creator-card:hover, .instagram-creator-card:hover, .youtube-creator-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 25px var(--shadow-color);
 }
 
-/* --- YOUTUBE CARD SPECIFICS --- */
+/* --- YOUTUBE CARD SPECIFIC STYLES --- */
 .youtube-cover-photo {
     width: 100%;
     height: 90px;
     display: block;
     border-radius: 12px;
-    object-fit: cover;
     margin-bottom: 16px;
-    background-color: var(--dark-border);
-}
-body.light-e .youtube-cover-photo {
+    /* Uses a light color for the header in both themes, like the image */
     background-color: var(--light-border);
 }
 
-/* --- PROFILE PICTURE STYLING --- */
+/* --- PROFILE PICTURE --- */
 .creator-pic, .instagram-creator-pic, .youtube-creator-pic {
     width: 80px;
     height: 80px;
@@ -939,20 +890,20 @@ body.light-e .youtube-cover-photo {
     margin-bottom: 15px;
     position: relative;
     z-index: 1;
-    border: none; /* Removed border */
+    border: none; /* The image does not have a border on the picture */
 }
 
-/* Makes the YouTube picture overlap the cover photo */
+/* This makes the YouTube picture overlap its header */
 .youtube-creator-card .youtube-creator-pic {
     margin-top: -55px;
 }
 
-/* --- NAME & USERNAME --- */
+/* --- TEXT ELEMENTS --- */
 .creator-header h3, .instagram-creator-header h3, .youtube-creator-header h3 {
     margin: 0 0 4px 0;
     font-size: 1.2em;
-    color: var(--text-color);
     font-weight: 600;
+    color: var(--text-color);
 }
 
 .username-container, .instagram-username-container, .youtube-username-container {
@@ -960,78 +911,54 @@ body.light-e .youtube-cover-photo {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .creator-username, .instagram-creator-username, .youtube-creator-username {
-    color: var(--secondary-text);
     font-size: 0.95em;
-    margin: 0;
+    color: var(--secondary-text);
 }
 
-/* --- FOLLOWER COUNT & BIO --- */
 .follower-count, .instagram-follower-count, .youtube-subscriber-count {
-    color: var(--text-color); /* Changed from accent color */
+    font-size: 1em;
+    color: var(--text-color); /* Matches the main text color */
     font-weight: normal;
     margin: 0 0 12px 0;
-    font-size: 1em;
 }
 
+/* Make sure your HTML for the follower count looks like this: */
+/* <p class="follower-count"><strong>108</strong> Followers</p> */
 .follower-count strong, .instagram-follower-count strong, .youtube-subscriber-count strong {
     font-weight: bold;
 }
 
 .creator-bio, .instagram-creator-bio, .youtube-creator-bio {
-    color: var(--secondary-text);
-    margin: 0 0 16px 0;
     font-size: 0.9em;
     line-height: 1.5;
-    flex-grow: 1;
+    color: var(--secondary-text);
+    margin: 0 0 16px 0;
+    flex-grow: 1; /* Helps keep button at the bottom */
 }
 
-/* --- BUTTON REDESIGN --- */
+/* --- BUTTON --- */
 .visit-profile, .instagram-visit-profile, .youtube-visit-profile {
     display: inline-block;
-    /* Using light theme variables directly for a consistent light button */
-    background-color: var(--light-content-bg, #FFFFFF);
-    color: var(--light-text, #212529);
+    /* Solid light button for both themes, as seen in the image */
+    background-color: var(--light-border);
+    color: var(--light-text);
     text-decoration: none;
     padding: 10px 24px;
     border-radius: 50px; /* Pill shape */
     margin-top: auto; /* Pushes button to the bottom */
-    transition: all 0.2s ease;
-    text-align: center;
     font-weight: 600;
-    border: none; /* Removed border */
+    border: none;
     width: 100%;
     max-width: 200px;
+    transition: background-color 0.2s ease;
 }
 
 .visit-profile:hover, .instagram-visit-profile:hover, .youtube-visit-profile:hover {
-    background-color: var(--light-border, #E9ECEF);
-    color: var(--light-text, #212529);
-    transform: translateY(-2px);
-    box-shadow: none;
-}
-
-/* --- UNAVAILABLE MESSAGE (Unchanged) --- */
-.unavailable-message {
-    color: var(--secondary-text);
-    font-size: 18px;
-    margin-top: 20px;
-    text-align: center;
-    background-color: var(--content-bg);
-    padding: 20px;
-    border: 2px solid var(--accent-color);
-    border-radius: 10px;
-    box-shadow: 0 2px 4px var(--shadow-color);
-}
-
-.unavailable-message-title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--text-color);
+    background-color: #FFFFFF; /* Becomes whiter on hover */
 }
 
 /* --- RESPONSIVE STYLES --- */
@@ -1042,42 +969,16 @@ body.light-e .youtube-cover-photo {
 }
 
 @media screen and (max-width: 768px) {
-    .shoutouts-section {
-        padding: 15px;
-        margin-bottom: 20px;
-    }
     .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
         grid-template-columns: 1fr;
         gap: 15px;
     }
     .creator-card, .instagram-creator-card, .youtube-creator-card {
-        padding: 12px;
+        padding: 16px;
     }
     .youtube-cover-photo {
-        width: calc(100% + 24px);
-        margin: -12px -12px 15px -12px;
-    }
-    .creator-username, .instagram-creator-username, .youtube-creator-username {
-        font-size: 0.85em;
-    }
-}
-
-@media screen and (max-width: 380px) {
-    .shoutouts-section {
-        padding: 10px;
-    }
-    .creator-grid, .instagram-creator-grid, .youtube-creator-grid {
-        gap: 10px;
-    }
-    .creator-card, .instagram-creator-card, .youtube-creator-card {
-        padding: 10px;
-    }
-    .youtube-cover-photo {
-        width: calc(100% + 20px);
-        margin: -10px -10px 15px -10px;
-    }
-    .creator-username, .instagram-creator-username, .youtube-creator-username {
-        font-size: 0.8em;
+        width: calc(100% + 32px);
+        margin: -16px -16px 15px -16px;
     }
 }
 
