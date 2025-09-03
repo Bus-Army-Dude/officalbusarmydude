@@ -200,96 +200,94 @@ body.settings-page #appearanceModeSelect:focus {
 
 
 /* ===================================================== */
-/* == Liquid Wipe Toggle Switch                       == */
+/* == Liquid Glass Toggle Switch (iOS 26 Inspired)     == */
 /* ===================================================== */
 
-/* --- CSS Variables for easy customization --- */
 .gooey-toggle-label {
-    --toggle-width: 75px;
-    --toggle-height: 38px;
-    --knob-size: 30px;
-    --knob-margin: 4px;
+  --toggle-width: 70px;
+  --toggle-height: 38px;
+  --knob-size: 32px;
+  --knob-margin: 3px;
 
-    /* Colors */
-    --color-off: #e9e9eb;
-    --color-on: #34c759;
-    --knob-color: #ffffff;
-    --shadow-color: rgba(0, 0, 0, 0.15);
-
-    /* Animation */
-    --anim-duration: 0.4s;
+  --color-off: rgba(200, 200, 210, 0.4);
+  --color-on: rgba(52, 199, 89, 0.7); /* iOS green */
+  --knob-color: rgba(255, 255, 255, 0.65);
+  --shadow-color: rgba(0, 0, 0, 0.25);
+  --anim-duration: 0.45s;
 }
 
-/* --- Hide the actual checkbox --- */
+/* Hide native checkbox */
 .gooey-toggle-checkbox {
-    opacity: 0;
-    position: absolute;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 
-/* --- The toggle background --- */
+/* Toggle background */
 .gooey-toggle-label {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    width: var(--toggle-width);
-    height: var(--toggle-height);
-    border-radius: calc(var(--toggle-height) / 2);
-    
-    /* The background is a gradient twice the width of the container */
-    background: linear-gradient(to right, var(--color-on) 50%, var(--color-off) 50%);
-    background-size: 200% 100%;
-    
-    /* By default, show the 'off' color (the right half of the gradient) */
-    background-position: 100% 0;
-    
-    /* Animate the background position on change */
-    transition: background-position var(--anim-duration) ease-in-out;
-    
-    vertical-align: middle;
-    flex-shrink: 0;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  border-radius: calc(var(--toggle-height) / 2);
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    var(--color-off),
+    rgba(240, 240, 245, 0.25)
+  );
+  backdrop-filter: blur(15px) saturate(160%);
+  -webkit-backdrop-filter: blur(15px) saturate(160%);
+
+  transition: background var(--anim-duration) ease-in-out;
 }
 
-/* --- The sliding knob --- */
+/* The knob */
 .gooey-toggle-label::after {
-    content: '';
-    position: absolute;
-    top: var(--knob-margin);
-    left: var(--knob-margin);
+  content: '';
+  position: absolute;
+  top: var(--knob-margin);
+  left: var(--knob-margin);
+  width: var(--knob-size);
+  height: var(--knob-size);
 
-    width: var(--knob-size);
-    height: var(--knob-size);
+  background: var(--knob-color);
+  border-radius: 50%;
 
-    background-color: var(--knob-color);
-    border-radius: 50%; /* The knob is a circle */
-    
-    /* Inset shadow gives it the pressed-in, 3D look */
-    box-shadow: inset 0 0 2px var(--shadow-color), 0 1px 2px var(--shadow-color);
-    
-    /* Animate the knob's position on change */
-    transition: transform var(--anim-duration) ease-in-out;
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+
+  box-shadow: 0 4px 8px var(--shadow-color),
+              inset 0 1px 2px rgba(255,255,255,0.4);
+
+  transition: transform var(--anim-duration) cubic-bezier(0.22, 1, 0.36, 1),
+              background var(--anim-duration) ease-in-out;
 }
 
-/* ===================================================== */
-/* == States                                          == */
-/* ===================================================== */
-
-/* --- 'ON' State --- */
+/* ON state */
 .gooey-toggle-checkbox:checked + .gooey-toggle-label {
-    /* Slide the background to show the 'on' color (the left half) */
-    background-position: 0 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-on),
+    rgba(100, 255, 150, 0.35)
+  );
 }
 
 .gooey-toggle-checkbox:checked + .gooey-toggle-label::after {
-    /* Slide the knob to the right */
-    transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
+  transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 12px rgba(52, 199, 89, 0.6),
+              0 4px 10px var(--shadow-color);
 }
 
-/* --- Accessibility Focus State --- */
+/* Accessibility focus */
 .gooey-toggle-checkbox:focus-visible + .gooey-toggle-label {
-    outline: 2px solid var(--focus-outline-color);
-    outline-offset: 3px;
+  outline: 2px solid var(--focus-outline-color);
+  outline-offset: 3px;
+  border-radius: calc(var(--toggle-height) / 2);
 }
 
 
