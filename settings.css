@@ -200,77 +200,96 @@ body.settings-page #appearanceModeSelect:focus {
 
 
 /* ===================================================== */
-/* == Liquid Glass Toggle Switch                      == */
+/* == Liquid Wipe Toggle Switch                       == */
 /* ===================================================== */
 
 /* --- CSS Variables for easy customization --- */
-.liquid-toggle-label {
-  --toggle-width: 70px;         /* Width of the toggle background */
-  --toggle-height: 40px;        /* Height of the toggle background */
-  --knob-size: 32px;            /* Diameter of the sliding knob */
-  --knob-margin: 4px;           /* Space between knob and edge of the background */
-  
-  /* Colors */
-  --color-off: #e9e9eb;
-  --color-on: linear-gradient(45deg, #0052D4, #4364F7, #6FB1FC);
-  --knob-color: #ffffff;
-  --shadow-color-toggle: rgba(0, 0, 0, 0.2); /* Renamed to avoid conflict */
-  --focus-color: #0066cc;
-  
-  /* Animation Timing */
-  --anim-duration: 0.4s;
-  --anim-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+.gooey-toggle-label {
+    --toggle-width: 75px;
+    --toggle-height: 38px;
+    --knob-size: 30px;
+    --knob-margin: 4px;
+
+    /* Colors */
+    --color-off: #e9e9eb;
+    --color-on: #34c759;
+    --knob-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+
+    /* Animation */
+    --anim-duration: 0.4s;
 }
 
-/* --- Hide the actual checkbox but keep it functional --- */
-.liquid-toggle-checkbox {
-  opacity: 0;
-  position: absolute;
-  width: 0;
-  height: 0;
+/* --- Hide the actual checkbox --- */
+.gooey-toggle-checkbox {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
 }
 
-/* --- The toggle background (the pill shape) --- */
-.liquid-toggle-label {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  width: var(--toggle-width);
-  height: var(--toggle-height);
-  background: var(--color-off);
-  border-radius: calc(var(--toggle-height) / 2);
-  transition: background var(--anim-duration) ease-in-out;
-  vertical-align: middle;
-  flex-shrink: 0;
+/* --- The toggle background --- */
+.gooey-toggle-label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    border-radius: calc(var(--toggle-height) / 2);
+    
+    /* The background is a gradient twice the width of the container */
+    background: linear-gradient(to right, var(--color-on) 50%, var(--color-off) 50%);
+    background-size: 200% 100%;
+    
+    /* By default, show the 'off' color (the right half of the gradient) */
+    background-position: 100% 0;
+    
+    /* Animate the background position on change */
+    transition: background-position var(--anim-duration) ease-in-out;
+    
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
 /* --- The sliding knob --- */
-.liquid-toggle-label::after {
-  content: '';
-  position: absolute;
-  top: var(--knob-margin);
-  left: var(--knob-margin);
-  width: var(--knob-size);
-  height: var(--knob-size);
-  background-color: var(--knob-color);
-  border-radius: 50%;
-  box-shadow: 0 2px 4px var(--shadow-color-toggle);
-  transition: transform var(--anim-duration) var(--anim-timing-function);
+.gooey-toggle-label::after {
+    content: '';
+    position: absolute;
+    top: var(--knob-margin);
+    left: var(--knob-margin);
+
+    width: var(--knob-size);
+    height: var(--knob-size);
+
+    background-color: var(--knob-color);
+    border-radius: 50%; /* The knob is a circle */
+    
+    /* Inset shadow gives it the pressed-in, 3D look */
+    box-shadow: inset 0 0 2px var(--shadow-color), 0 1px 2px var(--shadow-color);
+    
+    /* Animate the knob's position on change */
+    transition: transform var(--anim-duration) ease-in-out;
 }
+
+/* ===================================================== */
+/* == States                                          == */
+/* ===================================================== */
 
 /* --- 'ON' State --- */
-.liquid-toggle-checkbox:checked + .liquid-toggle-label {
-  background: var(--color-on);
+.gooey-toggle-checkbox:checked + .gooey-toggle-label {
+    /* Slide the background to show the 'on' color (the left half) */
+    background-position: 0 0;
 }
 
-.liquid-toggle-checkbox:checked + .liquid-toggle-label::after {
-  transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
+.gooey-toggle-checkbox:checked + .gooey-toggle-label::after {
+    /* Slide the knob to the right */
+    transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
 }
 
 /* --- Accessibility Focus State --- */
-.liquid-toggle-checkbox:focus-visible + .liquid-toggle-label {
-  outline: 2px solid var(--focus-color);
-  outline-offset: 3px;
+.gooey-toggle-checkbox:focus-visible + .gooey-toggle-label {
+    outline: 2px solid var(--focus-outline-color);
+    outline-offset: 3px;
 }
 
 
