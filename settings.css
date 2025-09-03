@@ -200,7 +200,7 @@ body.settings-page #appearanceModeSelect:focus {
 
 
 /* ===================================================== */
-/* == Liquid Glass Toggle Switch (iOS 26 Inspired)     == */
+/* == Liquid Glass Toggle Switch (iOS 26 with Ripple)  == */
 /* ===================================================== */
 
 .gooey-toggle-label {
@@ -210,13 +210,13 @@ body.settings-page #appearanceModeSelect:focus {
   --knob-margin: 3px;
 
   --color-off: rgba(200, 200, 210, 0.4);
-  --color-on: rgba(52, 199, 89, 0.7); /* iOS green */
+  --color-on: rgba(52, 199, 89, 0.7);
   --knob-color: rgba(255, 255, 255, 0.65);
   --shadow-color: rgba(0, 0, 0, 0.25);
   --anim-duration: 0.45s;
 }
 
-/* Hide native checkbox */
+/* Hide checkbox */
 .gooey-toggle-checkbox {
   opacity: 0;
   position: absolute;
@@ -224,7 +224,7 @@ body.settings-page #appearanceModeSelect:focus {
   height: 0;
 }
 
-/* Toggle background */
+/* Background pill */
 .gooey-toggle-label {
   display: inline-block;
   position: relative;
@@ -245,7 +245,7 @@ body.settings-page #appearanceModeSelect:focus {
   transition: background var(--anim-duration) ease-in-out;
 }
 
-/* The knob */
+/* Knob (liquid droplet) */
 .gooey-toggle-label::after {
   content: '';
   position: absolute;
@@ -267,6 +267,15 @@ body.settings-page #appearanceModeSelect:focus {
               background var(--anim-duration) ease-in-out;
 }
 
+/* Ripple/squish animation keyframes */
+@keyframes liquid-bounce {
+  0%   { transform: scale(1,1); }
+  40%  { transform: scale(1.15, 0.85); }
+  60%  { transform: scale(0.9, 1.1); }
+  80%  { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1,1); }
+}
+
 /* ON state */
 .gooey-toggle-checkbox:checked + .gooey-toggle-label {
   background: linear-gradient(
@@ -278,9 +287,16 @@ body.settings-page #appearanceModeSelect:focus {
 
 .gooey-toggle-checkbox:checked + .gooey-toggle-label::after {
   transform: translateX(calc(var(--toggle-width) - var(--knob-size) - (2 * var(--knob-margin))));
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 12px rgba(52, 199, 89, 0.6),
               0 4px 10px var(--shadow-color);
+
+  animation: liquid-bounce 0.5s ease-out;
+}
+
+/* OFF state ripple */
+.gooey-toggle-checkbox:not(:checked) + .gooey-toggle-label::after {
+  animation: liquid-bounce 0.5s ease-out;
 }
 
 /* Accessibility focus */
@@ -289,7 +305,6 @@ body.settings-page #appearanceModeSelect:focus {
   outline-offset: 3px;
   border-radius: calc(var(--toggle-height) / 2);
 }
-
 
 /* ========== Range Slider (Keeping Apple Style) (Scoped) ========== */
 body.settings-page #text-size-slider {
