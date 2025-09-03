@@ -206,7 +206,7 @@ body.settings-page #appearanceModeSelect:focus {
 .ios-toggle {
   --width: 60px;
   --height: 32px;
-  --knob-size: 28px;
+  --knob-size: 45px;
   --off-bg: #e5e5ea;
   --on-bg: #34c759;
   --knob-bg: #fff;
