@@ -1,8 +1,9 @@
-/* ===================================================== */
-/* == Apple + Material Blended Theme (Scoped to .settings-page) == */
-/* ===================================================== */
+/* ========================================================= */
+/* == Apple + Material Blended Theme (2025 Refresh)       == */
+/* == Scoped to .settings-page                            == */
+/* ========================================================= */
 
-/* Global Variables - These remain global */
+/* Global Variables - Core theme variables remain unchanged */
 :root {
   --font-size-base: 17px;
   --bg-color: #f5f5f7;
@@ -11,7 +12,8 @@
   --secondary-text: #86868b;
   --border-color: #d2d2d7;
   --accent-color: #0066cc;
-  --hover-color: #0071e3;
+  /* 2025 Update: Dynamically generate the hover color from the accent color. */
+  --hover-color: color-mix(in srgb, var(--accent-color) 90%, #000);
   --toggle-on: #34c759;
   --toggle-off: #e9e9eb;
   --red-color: #ff3b30;
@@ -20,6 +22,10 @@
   --slider-track-color: #e9e9eb;
   --slider-track-filled-color: #0066cc;
   --focus-outline-color: #0066cc;
+
+  /* 2025 Update: Added global border-radius for consistency. */
+  --border-radius-medium: 12px;
+  --border-radius-large: 16px;
 }
 
 body.dark-mode {
@@ -46,14 +52,15 @@ body.light-mode {
 
 /* ========== General Styles for Settings Page ========== */
 body.settings-page {
-  /* Added Roboto to font stack */
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-size: var(--font-size-base);
-  line-height: 1.47059;
+  /* 2025 Update: Use clamp() for fluid typography that scales with the viewport. */
+  font-size: clamp(16px, 1.1vw, 17px);
+  /* 2025 Update: Unitless line-height is a modern best practice. */
+  line-height: 1.5;
   font-weight: 400;
   letter-spacing: -0.022em;
   margin: 0;
@@ -78,9 +85,10 @@ body.settings-page .skip-link:focus {
 
 /* ========== Container (Scoped) ========== */
 body.settings-page .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  /* 2025 Update: Use min() for responsive max-width and padding in one line. */
+  width: min(100% - 2.5rem, 800px);
+  margin-inline: auto; /* 2025 Update: Logical property for horizontal centering. */
+  padding-block: 40px; /* 2025 Update: Logical property for vertical padding. */
 }
 
 /* ========== Settings Section (Scoped) ========== */
@@ -92,13 +100,15 @@ body.settings-page .settings-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem; /* 2025 Update: Use gap for spacing flex items. */
   margin-bottom: 30px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border-color);
 }
 
 body.settings-page .settings-header h1 {
-  font-size: 34px;
+  /* 2025 Update: Fluid font size for the main header. */
+  font-size: clamp(1.75rem, 5vw, 2.125rem); /* Approx 28px to 34px */
   font-weight: 600;
   margin: 0;
   letter-spacing: -0.003em;
@@ -108,22 +118,25 @@ body.settings-page .settings-header h1 {
 body.settings-page .version {
   font-size: 14px;
   color: var(--secondary-text);
+  white-space: nowrap; /* Prevent version from wrapping on small screens */
 }
 
 /* ========== Settings Subsection (Scoped) ========== */
 body.settings-page .settings-subsection {
   background-color: var(--content-bg);
-  border-radius: 10px;
+  border-radius: var(--border-radius-large); /* 2025 Update: Use CSS variable. */
   margin-bottom: 20px;
-  /* More pronounced shadow for Material elevation */
-  box-shadow: 0 2px 5px 1px var(--shadow-color);
+  /* 2025 Update: A more subtle, layered shadow for depth. */
+  box-shadow: 0 1px 2.2px var(--shadow-color),
+              0 2.5px 5.3px var(--shadow-color),
+              0 5px 10px var(--shadow-color);
   overflow: hidden;
 }
 
 body.settings-page .subsection-title {
   font-size: 20px;
-  /* Bolder weight for Material style */
   font-weight: 700;
+  /* 2025 Update: Logical property for padding. */
   padding: 15px 20px;
   margin: 0;
   border-bottom: 1px solid var(--border-color);
@@ -132,34 +145,36 @@ body.settings-page .subsection-title {
 
 /* ========== Setting Card (Scoped) ========== */
 body.settings-page .setting-card {
-  /* Slightly increased padding */
   padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
   transition: background-color 0.2s;
+  /* 2025 Update: Add a subtle accent border on the left for a modern touch. */
+  border-left: 3px solid transparent;
+  transition: background-color 0.2s, border-left-color 0.3s;
 }
 
 body.settings-page .setting-card:last-child {
   border-bottom: none;
 }
 
-/* Adjusted hover for light mode (Scoped) */
+/* 2025 Update: Use color-mix for a dynamic hover effect that works in both themes. */
 body.settings-page .setting-card:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: color-mix(in srgb, var(--text-color) 4%, transparent);
 }
 
-/* Hover for dark mode (Scoped) */
-@media (prefers-color-scheme: dark) {
-  body.settings-page .setting-card:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
+/* 2025 Update: Using the :has() selector to style the card when its toggle is on.
+   This provides visual feedback at the container level. */
+body.settings-page .setting-card:has(.ios-toggle input:checked) {
+    border-left-color: var(--accent-color);
 }
+
 
 body.settings-page .setting-label {
   flex: 1;
-  padding-right: 15px; /* Ensure space between label and control */
+  padding-inline-end: 15px; /* 2025 Update: Logical property. */
 }
 
 body.settings-page .setting-title {
@@ -176,7 +191,7 @@ body.settings-page .setting-description {
   line-height: 1.4;
 }
 
-/* ========== Appearance Mode Select (NEW) ========== */
+/* ========== Appearance Mode Select ========== */
 body.settings-page .appearance-mode-control {
   display: flex;
   align-items: center;
@@ -191,7 +206,7 @@ body.settings-page #appearanceModeSelect {
   color: var(--text-color);
   transition: border-color 0.2s;
   outline: none;
-  margin-left: 10px;
+  margin-inline-start: 10px; /* 2025 Update: Logical property. */
 }
 
 body.settings-page #appearanceModeSelect:focus {
@@ -199,21 +214,17 @@ body.settings-page #appearanceModeSelect:focus {
 }
 
 
-/* ============================ */
-/* Classic iOS Style Toggle CSS */
-/* ============================ */
-
+/* ========================================================== */
+/* Classic iOS Style Toggle CSS (Refined for Theme Variables) */
+/* ========================================================== */
 .ios-toggle {
-  --width: 60px;
+  --width: 52px;
   --height: 32px;
   --knob-size: 28px;
-  --off-bg: #e5e5ea;
-  --on-bg: #34c759;
-  --knob-bg: #fff;
-  --transition: 0.3s ease;
+  /* 2025 Update: Spring-like easing for a more modern, bouncy feel. */
+  --transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Hide native checkbox */
 .ios-toggle input {
   opacity: 0;
   position: absolute;
@@ -221,19 +232,18 @@ body.settings-page #appearanceModeSelect:focus {
   height: 0;
 }
 
-/* Track */
 .ios-toggle label {
   display: inline-block;
   width: var(--width);
   height: var(--height);
-  background: var(--off-bg);
+  /* 2025 Update: Use theme variables directly. */
+  background: var(--toggle-off);
   border-radius: var(--height);
   position: relative;
   cursor: pointer;
   transition: background var(--transition);
 }
 
-/* Knob */
 .ios-toggle label::after {
   content: '';
   position: absolute;
@@ -241,54 +251,71 @@ body.settings-page #appearanceModeSelect:focus {
   left: 2px;
   width: var(--knob-size);
   height: var(--knob-size);
-  background: var(--knob-bg);
+  background: #fff;
   border-radius: 50%;
   transition: transform var(--transition);
   box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-/* ON state */
 .ios-toggle input:checked + label {
-  background: var(--on-bg);
+  background: var(--toggle-on);
 }
 
 .ios-toggle input:checked + label::after {
   transform: translateX(calc(var(--width) - var(--knob-size) - 4px));
 }
 
-/* ========== Range Slider (Keeping Apple Style) (Scoped) ========== */
-body.settings-page #text-size-slider {
+/* ========== Range Slider (Scoped) ========== */
+body.settings-page input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 4px;
+  height: 6px;
   background: var(--slider-track-color);
-  border-radius: 2px;
+  border-radius: 3px;
   outline: none;
   margin: 10px 0;
   cursor: pointer;
 }
 
-body.settings-page #text-size-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--slider-thumb-color);
-  cursor: pointer;
-  border: 0.5px solid var(--border-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+/* 2025 Update: This pseudo-element is used for styling the track.
+   A gradient background shows the fill progress. */
+body.settings-page input[type="range"] {
+  --range-progress: 50%; /* Default value, updated by JS */
+  background: linear-gradient(to right, var(--slider-track-filled-color) var(--range-progress), var(--slider-track-color) var(--range-progress));
 }
 
-body.settings-page #text-size-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+body.settings-page input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--slider-thumb-color);
   cursor: pointer;
   border: 0.5px solid var(--border-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease-out;
+}
+
+body.settings-page input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--slider-thumb-color);
+  cursor: pointer;
+  border: 0.5px solid var(--border-color);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease-out;
+}
+
+/* 2025 Update: Add a subtle "lift" effect when grabbing the slider thumb. */
+body.settings-page input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+body.settings-page input[type="range"]:active::-moz-range-thumb {
+  transform: scale(1.15);
 }
 
 /* Size Labels (Scoped) */
@@ -297,66 +324,47 @@ body.settings-page .size-labels {
   justify-content: space-between;
   margin-top: 8px;
 }
-
-body.settings-page .size-small {
-  font-size: 12px;
-  color: var(--secondary-text);
-}
-
-body.settings-page .size-medium {
-  font-size: 16px;
-  color: var(--secondary-text);
-}
-
-body.settings-page .size-large {
-  font-size: 20px;
-  color: var(--secondary-text);
-}
+/* Font sizes adjusted for clarity */
+body.settings-page .size-small { font-size: 13px; color: var(--secondary-text); }
+body.settings-page .size-medium { font-size: 16px; color: var(--secondary-text); }
+body.settings-page .size-large { font-size: 19px; color: var(--secondary-text); }
 
 /* ========== Danger Zone (Scoped) ========== */
 body.settings-page .danger-zone .subsection-title {
   color: var(--red-color);
 }
 
-/* ========== Buttons (Reset & Cookie) (Scoped) ========== */
-body.settings-page .reset-button,
-body.settings-page #cookie-consent-banner button {
+/* ========== Buttons (Scoped) ========== */
+body.settings-page .button {
   color: white;
   border: none;
-  /* Slightly larger padding */
-  padding: 10px 18px;
-  /* Slightly more rounded corners */
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: var(--border-radius-medium);
+  font-size: 16px;
+  font-weight: 600; /* Bolder for better readability */
   cursor: pointer;
   white-space: nowrap;
-  /* Added transform to transition */
   transition: background-color 0.2s, transform 0.1s ease-out;
 }
 
 /* Specific background colors */
-body.settings-page .reset-button {
+body.settings-page .button.reset-button {
   background-color: var(--red-color);
 }
-
-body.settings-page #cookie-consent-banner button {
+body.settings-page .button.cookie-button {
   background-color: var(--accent-color);
 }
 
-
-/* Hover states (Scoped) */
-body.settings-page .reset-button:hover {
-  background-color: #ff2d20; /* Darker red */
+/* Hover states with dynamic colors */
+body.settings-page .button.reset-button:hover {
+  background-color: color-mix(in srgb, var(--red-color) 85%, #000);
 }
-
-body.settings-page #cookie-consent-banner button:hover {
+body.settings-page .button.cookie-button:hover {
   background-color: var(--hover-color);
 }
 
-/* Active states for button press feedback (Scoped) */
-body.settings-page .reset-button:active,
-body.settings-page #cookie-consent-banner button:active {
+/* Active states for button press feedback */
+body.settings-page .button:active {
   transform: scale(0.97);
 }
 
@@ -365,6 +373,7 @@ body.settings-page #cookie-consent-banner button:active {
 body.settings-page .back-link {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   color: var(--accent-color);
   text-decoration: none;
   font-size: 17px;
@@ -381,7 +390,6 @@ body.settings-page .back-link:hover {
 body.settings-page footer {
   text-align: center;
   padding: 20px;
-  /* Footer uses body background */
   background-color: var(--bg-color);
   color: var(--secondary-text);
   font-size: 14px;
@@ -392,7 +400,7 @@ body.settings-page footer {
 body.settings-page footer a {
   color: var(--accent-color);
   text-decoration: none;
-  margin: 0 10px;
+  margin-inline: 10px;
 }
 
 body.settings-page footer a:hover {
@@ -406,11 +414,13 @@ body.settings-page #cookie-consent-banner {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--content-bg);
-  /* Match subsection rounding */
-  border-radius: 10px;
-  /* Enhanced shadow */
+  /* 2025 Update: Glassmorphism effect. Mix transparency into the background color. */
+  background-color: color-mix(in srgb, var(--content-bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border-radius: var(--border-radius-large);
   box-shadow: 0 4px 12px 2px var(--shadow-color);
+  border: 1px solid color-mix(in srgb, var(--border-color) 50%, transparent);
   padding: 20px;
   display: flex;
   align-items: center;
@@ -419,7 +429,21 @@ body.settings-page #cookie-consent-banner {
   max-width: 90%;
   width: 600px;
   z-index: 1000;
+  /* 2025 Update: Entrance animation. */
+  animation: slide-up 0.5s ease-out forwards;
 }
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
 
 body.settings-page #cookie-consent-banner p {
   margin: 0;
@@ -437,16 +461,13 @@ body.settings-page #cookie-consent-banner a:hover {
   text-decoration: underline;
 }
 
-
-/* ========== Focus Styles (Scoped) ========== */
-/* Apply focus style to elements within the settings page body */
+/* ========== Focus Styles (Scoped) - Unchanged, already modern ========== */
 body.settings-page :focus-visible {
   outline: 2px solid var(--focus-outline-color);
   outline-offset: 2px;
-  border-radius: 4px; /* Standard focus ring rounding */
+  border-radius: 4px;
 }
 
-/* Ensure inputs and buttons show focus */
 body.settings-page input:focus-visible,
 body.settings-page button:focus-visible,
 body.settings-page a:focus-visible,
@@ -456,64 +477,41 @@ body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
   border-radius: 4px;
 }
 
-/* --- MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
-/* Target devices where hover is not the primary interaction method 
-   AND the primary pointer is coarse (like a finger). 
-   This typically covers most touch-screen mobile phones and tablets. */
 @media (hover: none) and (pointer: coarse) {
   body.settings-page :focus-visible,
   body.settings-page input:focus-visible,
   body.settings-page button:focus-visible,
   body.settings-page a:focus-visible,
   body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-    outline: none; /* Remove the outline for touch-primary devices */
-    outline-offset: 0; /* Reset the offset */
+    outline: none;
+    outline-offset: 0;
   }
 }
-/* --- END MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
 
-/* --- HIDE FOCUS OUTLINE SETTING CARD ON MOBILE/TABLET --- */
-/* Define default display for desktop (using the class you added to the HTML) */
-/* This ensures it shows up on larger screens by default */
-body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
+body.settings-page .focus-outline-setting-card {
   display: flex;
-  align-items: center; /* Match general .setting-card behavior */
-  /* Other properties like padding, border-bottom are inherited from .setting-card */
+  align-items: center;
 }
 
-/* Hide the specific "Focus Outline" setting card on screens up to tablet size */
-/* Adjust the max-width value if your definition of "tablet" is different */
 @media (max-width: 1023px) {
-  body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
-    display: none; /* Hide the element completely on smaller screens */
+  body.settings-page .focus-outline-setting-card {
+    display: none;
   }
 }
-/* --- END HIDE FOCUS OUTLINE SETTING CARD --- */
 
-
-/* ========== Media Queries (Scoped) ========== */
+/* ========== Media Queries (Scoped & Refined) ========== */
 @media (max-width: 768px) {
-  body.settings-page .container {
-    padding: 20px;
-  }
-
-  body.settings-page .settings-header h1 {
-    font-size: 28px;
-  }
-
   body.settings-page .setting-card {
-    /* Stack elements vertically */
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px; /* Add gap between label and control */
+    gap: 15px;
   }
   body.settings-page .setting-label {
-    padding-right: 0; /* Remove right padding when stacked */
+    padding-inline-end: 0; /* 2025 Update: Logical property. */
   }
 
   body.settings-page .text-size-control {
-    width: 100%; /* Make slider full width */
-    margin-top: 0; /* Remove margin added by gap */
+    width: 100%;
   }
 
   body.settings-page #cookie-consent-banner {
@@ -526,48 +524,36 @@ body.settings-page .focus-outline-setting-card { /* Ensure you added this class 
 
 @media (max-width: 480px) {
   body.settings-page .container {
-    padding: 15px;
+    width: min(100% - 2rem, 800px); /* Adjust padding for small screens */
   }
 
-  body.settings-page .settings-header h1 {
-    font-size: 24px;
-  }
-
-  body.settings-page .subsection-title {
-    font-size: 18px;
-  }
-
-  body.settings-page .setting-title {
-    font-size: 16px;
-  }
-
-  body.settings-page .setting-description {
-    font-size: 13px;
+  body.settings-page .settings-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   body.settings-page footer {
     padding: 15px;
-    /* Footer links stack */
-    display: flex; /* Use flex for gap */
+    display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
   body.settings-page footer a {
     display: block;
-    margin: 0; /* Remove horizontal margin */
+    margin-inline: 0; /* 2025 Update: Logical property. */
   }
 
   body.settings-page #cookie-consent-banner {
-    /* Dock banner to bottom */
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
     max-width: 100%;
     transform: none;
-    border-radius: 10px 10px 0 0; /* Round top corners */
+    /* 2025 Update: Use var() and round only top corners. */
+    border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
     padding: 15px;
-    box-shadow: 0 -2px 8px var(--shadow-color); /* Shadow on top */
+    box-shadow: 0 -2px 8px var(--shadow-color);
   }
 }
