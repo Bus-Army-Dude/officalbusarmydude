@@ -1,66 +1,72 @@
-/* ========================================================= */
-/* == Silicon Fusion Theme (Apple + Android Hybrid)       == */
-/* == Scoped to .settings-page                            == */
-/* ========================================================= */
+/* ===================================================== */
+/* == Apple + Material Blended Theme (Scoped to .settings-page) == */
+/* ===================================================== */
 
+/* Global Variables - These remain global */
 :root {
-  /* Font size and base radius */
   --font-size-base: 17px;
-  --border-radius-card: 28px; /* Android's large, organic radius */
-  --border-radius-pill: 999px;  /* For pill-shaped buttons and controls */
-
-  /* Light Theme Color Palette (Material You Inspired) */
-  --primary-color: #4a55b1;
-  --on-primary: #ffffff;
-  --surface-container: #f3f4fa;  /* Main background */
-  --surface-container-high: rgba(230, 230, 240, 0.8); /* Card background */
-  --on-surface: #1b1b21;       /* Main text color */
-  --on-surface-variant: #44464f; /* Secondary text */
-  --outline: #757780;
-  --outline-variant: #c5c6d0;
-  --error-color: #ba1a1a;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --focus-outline-color: var(--primary-color);
+  --bg-color: #f5f5f7;
+  --content-bg: #ffffff;
+  --text-color: #1d1d1f;
+  --secondary-text: #86868b;
+  --border-color: #d2d2d7;
+  --accent-color: #0066cc;
+  --hover-color: #0071e3;
+  --toggle-on: #34c759;
+  --toggle-off: #e9e9eb;
+  --red-color: #ff3b30;
+  --shadow-color: rgba(0, 0, 0, 0.12);
+  --slider-thumb-color: #ffffff;
+  --slider-track-color: #e9e9eb;
+  --slider-track-filled-color: #0066cc;
+  --focus-outline-color: #0066cc;
 }
 
 body.dark-mode {
-  /* Dark Theme Color Palette */
-  --primary-color: #bdc2ff;
-  --on-primary: #192580;
-  --surface-container: #131318;
-  --surface-container-high: rgba(36, 38, 49, 0.7);
-  --on-surface: #e4e1e6;
-  --on-surface-variant: #c5c6d0;
-  --outline: #8e9099;
-  --outline-variant: #44464f;
-  --error-color: #ffb4ab;
-  --shadow-color: rgba(0, 0, 0, 0.4);
+  --bg-color: #121212;
+  --content-bg: #1e1e1e;
+  --text-color: #e1e1e1;
+  --secondary-text: #a0a0a0;
+  --border-color: #3a3a3c;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --slider-track-color: #424245;
+  --toggle-off: #636366;
 }
 
 body.light-mode {
-  /* :root defaults serve as the light mode theme */
+  --bg-color: #f5f5f7;
+  --content-bg: #ffffff;
+  --text-color: #1d1d1f;
+  --secondary-text: #86868b;
+  --border-color: #d2d2d7;
+  --shadow-color: rgba(0, 0, 0, 0.12);
+  --slider-track-color: #e9e9eb;
+  --toggle-off: #e9e9eb;
 }
 
-/* ========== General Styles ========== */
+/* ========== General Styles for Settings Page ========== */
 body.settings-page {
+  /* Added Roboto to font stack */
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--surface-container);
-  color: var(--on-surface);
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-size: var(--font-size-base);
-  line-height: 1.5;
+  line-height: 1.47059;
+  font-weight: 400;
+  letter-spacing: -0.022em;
   margin: 0;
   padding: 0;
 }
 
-/* ========== Skip Link ========== */
+/* ========== Skip Link (Scoped) ========== */
 body.settings-page .skip-link {
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--primary-color);
-  color: var(--on-primary);
+  background: var(--accent-color);
+  color: white;
   padding: 8px;
   z-index: 100;
   transition: top 0.3s;
@@ -70,13 +76,14 @@ body.settings-page .skip-link:focus {
   top: 0;
 }
 
-/* ========== Container & Headers ========== */
+/* ========== Container (Scoped) ========== */
 body.settings-page .container {
-  width: min(100% - 2rem, 800px);
-  margin-inline: auto;
-  padding-block: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
+/* ========== Settings Section (Scoped) ========== */
 body.settings-page .settings-section {
   margin-bottom: 40px;
 }
@@ -87,53 +94,50 @@ body.settings-page .settings-header {
   align-items: center;
   margin-bottom: 30px;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--outline-variant);
+  border-bottom: 1px solid var(--border-color);
 }
 
 body.settings-page .settings-header h1 {
-  font-size: clamp(1.75rem, 5vw, 2.125rem);
-  font-weight: 700; /* Bolder, confident Material-style header */
-  color: var(--on-surface);
+  font-size: 34px;
+  font-weight: 600;
   margin: 0;
+  letter-spacing: -0.003em;
+  color: var(--text-color);
 }
 
 body.settings-page .version {
   font-size: 14px;
-  color: var(--on-surface-variant);
+  color: var(--secondary-text);
 }
 
-/* ========== Settings Subsection (Apple Layout + Android Shape) ========== */
+/* ========== Settings Subsection (Scoped) ========== */
 body.settings-page .settings-subsection {
-  background-color: var(--surface-container-high);
-  /* Apple's frosted glass effect */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  /* Android's large, friendly corner radius */
-  border-radius: var(--border-radius-card);
+  background-color: var(--content-bg);
+  border-radius: 10px;
   margin-bottom: 20px;
-  border: 1px solid var(--outline-variant);
-  box-shadow: 0 4px 12px var(--shadow-color);
+  /* More pronounced shadow for Material elevation */
+  box-shadow: 0 2px 5px 1px var(--shadow-color);
   overflow: hidden;
 }
 
 body.settings-page .subsection-title {
-  font-size: 16px;
-  font-weight: 600;
-  padding: 12px 24px;
-  color: var(--primary-color);
+  font-size: 20px;
+  /* Bolder weight for Material style */
+  font-weight: 700;
+  padding: 15px 20px;
   margin: 0;
-  border-bottom: 1px solid var(--outline-variant);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-color);
+  letter-spacing: 0.004em;
 }
 
-/* ========== Setting Card ========== */
+/* ========== Setting Card (Scoped) ========== */
 body.settings-page .setting-card {
-  padding: 16px 24px;
+  /* Slightly increased padding */
+  padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--outline-variant);
+  border-bottom: 1px solid var(--border-color);
   transition: background-color 0.2s;
 }
 
@@ -141,233 +145,273 @@ body.settings-page .setting-card:last-child {
   border-bottom: none;
 }
 
+/* Adjusted hover for light mode (Scoped) */
 body.settings-page .setting-card:hover {
-  background-color: color-mix(in srgb, var(--primary-color) 8%, transparent);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Hover for dark mode (Scoped) */
+@media (prefers-color-scheme: dark) {
+  body.settings-page .setting-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
 }
 
 body.settings-page .setting-label {
   flex: 1;
-  padding-inline-end: 15px;
+  padding-right: 15px; /* Ensure space between label and control */
 }
 
 body.settings-page .setting-title {
   font-size: 17px;
-  font-weight: 500;
-  margin: 0 0 2px 0;
+  font-weight: 400;
+  margin: 0 0 5px 0;
+  color: var(--text-color);
 }
 
 body.settings-page .setting-description {
   font-size: 14px;
-  color: var(--on-surface-variant);
+  color: var(--secondary-text);
   margin: 0;
+  line-height: 1.4;
 }
 
-/* ========== Appearance Mode Select ========== */
+/* ========== Appearance Mode Select (NEW) ========== */
+body.settings-page .appearance-mode-control {
+  display: flex;
+  align-items: center;
+}
+
 body.settings-page #appearanceModeSelect {
   font-size: 16px;
   padding: 7px 14px;
   border-radius: 8px;
-  border: 1px solid var(--outline);
-  background: transparent;
-  color: var(--on-surface-variant);
+  border: 1px solid var(--border-color);
+  background: var(--content-bg);
+  color: var(--text-color);
   transition: border-color 0.2s;
   outline: none;
+  margin-left: 10px;
 }
 
-/* ========================================= */
-/* == Android Material 3 Style Toggle CSS == */
-/* ========================================= */
-.ui-toggle {
-  --width: 52px;
+body.settings-page #appearanceModeSelect:focus {
+  border-color: var(--accent-color);
+}
+
+
+/* ============================ */
+/* Classic iOS Style Toggle CSS */
+/* ============================ */
+
+.ios-toggle {
+  --width: 60px;
   --height: 32px;
-  --knob-size: 24px;
-  --icon-size: 16px;
-  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --knob-size: 28px;
+  --off-bg: #e5e5ea;
+  --on-bg: #34c759;
+  --knob-bg: #fff;
+  --transition: 0.3s ease;
 }
 
-.ui-toggle input {
-  display: none;
+/* Hide native checkbox */
+.ios-toggle input {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 
-.ui-toggle label {
-  display: flex;
-  align-items: center;
+/* Track */
+.ios-toggle label {
+  display: inline-block;
   width: var(--width);
   height: var(--height);
-  background-color: var(--outline);
-  border-radius: var(--border-radius-pill);
+  background: var(--off-bg);
+  border-radius: var(--height);
   position: relative;
   cursor: pointer;
-  transition: background-color var(--transition);
+  transition: background var(--transition);
 }
 
-.ui-toggle label::after {
+/* Knob */
+.ios-toggle label::after {
   content: '';
   position: absolute;
-  left: 4px;
+  top: 2px;
+  left: 2px;
   width: var(--knob-size);
   height: var(--knob-size);
-  background-color: var(--on-surface);
+  background: var(--knob-bg);
   border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  transition: transform var(--transition), background-color var(--transition);
+  transition: transform var(--transition);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-.ui-toggle input:checked + label {
-  background-color: var(--primary-color);
+/* ON state */
+.ios-toggle input:checked + label {
+  background: var(--on-bg);
 }
 
-.ui-toggle input:checked + label::after {
-  transform: translateX(calc(var(--width) - var(--knob-size) - 8px));
-  background-color: var(--on-primary);
+.ios-toggle input:checked + label::after {
+  transform: translateX(calc(var(--width) - var(--knob-size) - 4px));
 }
 
-.ui-toggle label::before {
-  content: "✔";
-  font-size: var(--icon-size);
-  line-height: var(--knob-size);
-  text-align: center;
-  position: absolute;
-  left: calc(var(--width) - var(--knob-size) - 4px);
-  width: var(--knob-size);
-  height: var(--knob-size);
-  color: var(--primary-color);
-  opacity: 0;
-  transform: scale(0.5);
-  transition: opacity var(--transition), transform var(--transition);
-}
-
-.ui-toggle input:checked + label::before {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* ========== Range Slider ========== */
-body.settings-page input[type="range"] {
+/* ========== Range Slider (Keeping Apple Style) (Scoped) ========== */
+body.settings-page #text-size-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 4px;
-  background: var(--outline-variant);
+  background: var(--slider-track-color);
   border-radius: 2px;
   outline: none;
+  margin: 10px 0;
   cursor: pointer;
 }
 
-body.settings-page input[type="range"]::-webkit-slider-thumb {
+body.settings-page #text-size-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--primary-color);
-  border: 2px solid var(--surface-container-high);
+  background: var(--slider-thumb-color);
+  cursor: pointer;
+  border: 0.5px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-body.settings-page input[type="range"]::-moz-range-thumb {
+body.settings-page #text-size-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--primary-color);
-  border: 2px solid var(--surface-container-high);
+  background: var(--slider-thumb-color);
+  cursor: pointer;
+  border: 0.5px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-/* ========== Danger Zone ========== */
+/* Size Labels (Scoped) */
+body.settings-page .size-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+body.settings-page .size-small {
+  font-size: 12px;
+  color: var(--secondary-text);
+}
+
+body.settings-page .size-medium {
+  font-size: 16px;
+  color: var(--secondary-text);
+}
+
+body.settings-page .size-large {
+  font-size: 20px;
+  color: var(--secondary-text);
+}
+
+/* ========== Danger Zone (Scoped) ========== */
 body.settings-page .danger-zone .subsection-title {
-  color: var(--error-color);
+  color: var(--red-color);
 }
 
-/* ========== Buttons (Android Pill Shape) ========== */
-body.settings-page .button {
-  border: 1px solid transparent;
-  padding: 10px 24px;
-  border-radius: var(--border-radius-pill);
+/* ========== Buttons (Reset & Cookie) (Scoped) ========== */
+body.settings-page .reset-button,
+body.settings-page #cookie-consent-banner button {
+  color: white;
+  border: none;
+  /* Slightly larger padding */
+  padding: 10px 18px;
+  /* Slightly more rounded corners */
+  border-radius: 10px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease-out;
-  position: relative;
-  overflow: hidden;
+  /* Added transform to transition */
+  transition: background-color 0.2s, transform 0.1s ease-out;
 }
 
-body.settings-page .button:hover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: currentColor;
-  opacity: 0.08; /* Material Design hover state opacity */
+/* Specific background colors */
+body.settings-page .reset-button {
+  background-color: var(--red-color);
 }
 
-body.settings-page .button:active {
-  transform: scale(0.98);
+body.settings-page #cookie-consent-banner button {
+  background-color: var(--accent-color);
 }
 
-body.settings-page .button.cookie-button {
-  background-color: var(--primary-color);
-  color: var(--on-primary);
+
+/* Hover states (Scoped) */
+body.settings-page .reset-button:hover {
+  background-color: #ff2d20; /* Darker red */
 }
 
-body.settings-page .button.reset-button {
-  background-color: transparent;
-  border-color: var(--error-color);
-  color: var(--error-color);
+body.settings-page #cookie-consent-banner button:hover {
+  background-color: var(--hover-color);
 }
 
-body.settings-page .button.reset-button:hover {
-  background-color: var(--error-color);
-  color: #fff; /* White text on hover for contrast */
+/* Active states for button press feedback (Scoped) */
+body.settings-page .reset-button:active,
+body.settings-page #cookie-consent-banner button:active {
+  transform: scale(0.97);
 }
 
-/* ========== Back Link ========== */
+
+/* ========== Back Link (Scoped) ========== */
 body.settings-page .back-link {
   display: inline-flex;
   align-items: center;
-  color: var(--primary-color);
+  color: var(--accent-color);
   text-decoration: none;
   font-size: 17px;
   padding: 8px 0;
-  transition: opacity 0.2s;
+  transition: color 0.2s;
   margin-top: 20px;
 }
 
 body.settings-page .back-link:hover {
-  opacity: 0.8;
+  color: var(--hover-color);
 }
 
-/* ========== Footer ========== */
+/* ========== Footer (Scoped) ========== */
 body.settings-page footer {
   text-align: center;
   padding: 20px;
-  background-color: transparent;
-  color: var(--on-surface-variant);
+  /* Footer uses body background */
+  background-color: var(--bg-color);
+  color: var(--secondary-text);
   font-size: 14px;
-  border-top: 1px solid var(--outline-variant);
+  border-top: 1px solid var(--border-color);
   margin-top: 40px;
 }
 
 body.settings-page footer a {
-  color: var(--primary-color);
+  color: var(--accent-color);
   text-decoration: none;
   margin: 0 10px;
 }
 
-/* ========== Cookie Consent Banner ========== */
+body.settings-page footer a:hover {
+  text-decoration: underline;
+  color: var(--hover-color);
+}
+
+/* ========== Cookie Consent Banner (Scoped) ========== */
 body.settings-page #cookie-consent-banner {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--surface-container-high);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: var(--border-radius-card);
-  box-shadow: 0 4px 20px 5px var(--shadow-color);
-  border: 1px solid var(--outline-variant);
-  padding: 24px;
+  background-color: var(--content-bg);
+  /* Match subsection rounding */
+  border-radius: 10px;
+  /* Enhanced shadow */
+  box-shadow: 0 4px 12px 2px var(--shadow-color);
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -381,21 +425,28 @@ body.settings-page #cookie-consent-banner p {
   margin: 0;
   font-size: 14px;
   line-height: 1.4;
-  color: var(--on-surface-variant);
+  color: var(--text-color);
 }
 
 body.settings-page #cookie-consent-banner a {
-  color: var(--primary-color);
+  color: var(--accent-color);
   text-decoration: none;
 }
 
-/* ========== Focus Styles ========== */
+body.settings-page #cookie-consent-banner a:hover {
+  text-decoration: underline;
+}
+
+
+/* ========== Focus Styles (Scoped) ========== */
+/* Apply focus style to elements within the settings page body */
 body.settings-page :focus-visible {
   outline: 2px solid var(--focus-outline-color);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 4px; /* Standard focus ring rounding */
 }
 
+/* Ensure inputs and buttons show focus */
 body.settings-page input:focus-visible,
 body.settings-page button:focus-visible,
 body.settings-page a:focus-visible,
@@ -405,40 +456,66 @@ body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
   border-radius: 4px;
 }
 
+/* --- MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
+/* Target devices where hover is not the primary interaction method 
+   AND the primary pointer is coarse (like a finger). 
+   This typically covers most touch-screen mobile phones and tablets. */
 @media (hover: none) and (pointer: coarse) {
   body.settings-page :focus-visible,
   body.settings-page input:focus-visible,
   body.settings-page button:focus-visible,
   body.settings-page a:focus-visible,
   body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-    outline: none;
+    outline: none; /* Remove the outline for touch-primary devices */
+    outline-offset: 0; /* Reset the offset */
   }
 }
+/* --- END MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
 
-body.settings-page .focus-outline-setting-card {
+/* --- HIDE FOCUS OUTLINE SETTING CARD ON MOBILE/TABLET --- */
+/* Define default display for desktop (using the class you added to the HTML) */
+/* This ensures it shows up on larger screens by default */
+body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
   display: flex;
+  align-items: center; /* Match general .setting-card behavior */
+  /* Other properties like padding, border-bottom are inherited from .setting-card */
 }
 
+/* Hide the specific "Focus Outline" setting card on screens up to tablet size */
+/* Adjust the max-width value if your definition of "tablet" is different */
 @media (max-width: 1023px) {
-  body.settings-page .focus-outline-setting-card {
-    display: none;
+  body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
+    display: none; /* Hide the element completely on smaller screens */
   }
 }
+/* --- END HIDE FOCUS OUTLINE SETTING CARD --- */
 
-/* ========== Media Queries ========== */
+
+/* ========== Media Queries (Scoped) ========== */
 @media (max-width: 768px) {
   body.settings-page .container {
     padding: 20px;
   }
+
+  body.settings-page .settings-header h1 {
+    font-size: 28px;
+  }
+
   body.settings-page .setting-card {
+    /* Stack elements vertically */
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
-    padding: 20px;
+    gap: 15px; /* Add gap between label and control */
   }
   body.settings-page .setting-label {
-    padding-right: 0;
+    padding-right: 0; /* Remove right padding when stacked */
   }
+
+  body.settings-page .text-size-control {
+    width: 100%; /* Make slider full width */
+    margin-top: 0; /* Remove margin added by gap */
+  }
+
   body.settings-page #cookie-consent-banner {
     flex-direction: column;
     text-align: center;
@@ -451,14 +528,46 @@ body.settings-page .focus-outline-setting-card {
   body.settings-page .container {
     padding: 15px;
   }
+
+  body.settings-page .settings-header h1 {
+    font-size: 24px;
+  }
+
+  body.settings-page .subsection-title {
+    font-size: 18px;
+  }
+
+  body.settings-page .setting-title {
+    font-size: 16px;
+  }
+
+  body.settings-page .setting-description {
+    font-size: 13px;
+  }
+
+  body.settings-page footer {
+    padding: 15px;
+    /* Footer links stack */
+    display: flex; /* Use flex for gap */
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  body.settings-page footer a {
+    display: block;
+    margin: 0; /* Remove horizontal margin */
+  }
+
   body.settings-page #cookie-consent-banner {
+    /* Dock banner to bottom */
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
     max-width: 100%;
     transform: none;
-    border-radius: var(--border-radius-card) var(--border-radius-card) 0 0;
-    padding: 20px;
+    border-radius: 10px 10px 0 0; /* Round top corners */
+    padding: 15px;
+    box-shadow: 0 -2px 8px var(--shadow-color); /* Shadow on top */
   }
 }
