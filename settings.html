@@ -21,7 +21,7 @@
     
     <div class="container" role="main" id="main-content">
         <div class="settings-section">
-            <div classs="settings-header">
+            <div class="settings-header">
                 <h1>Settings</h1>
                 <span class="version">v26.0</span>
             </div>
@@ -44,45 +44,37 @@
             </div>
 
             <div class="settings-subsection">
-    <h2 class="subsection-title">Accessibility</h2>
-    <div class="setting-card">
-        <div class="setting-label">
-            <h3 class="setting-title">Text Size</h3>
-            <p class="setting-description">Adjust the text size for better readability</p>
-        </div>
-        <div class="text-size-control">
-            <div class="size-value" id="textSizeValue">16px</div>
-            <div class="slider-container">
-                <input
-                    type="range"
-                    id="text-size-slider"
-                    min="12"
-                    max="24"
-                    value="16"
-                    step="1"
-                    aria-label="Adjust text size"
-                >
-                <div class="size-labels">
-                    <span class="size-small">A</span>
-                    <span class="size-medium">A</span>
-                    <span class="size-large">A</span>
+                <h2 class="subsection-title">Accessibility</h2>
+                <div class="setting-card">
+                    <div class="setting-label">
+                        <h3 class="setting-title">Text Size</h3>
+                        <p class="setting-description">Adjust the text size for better readability</p>
+                    </div>
+                    <div class="text-size-control">
+                        <input
+                            type="range"
+                            id="text-size-slider"
+                            min="12"
+                            max="24"
+                            value="16"
+                            step="1"
+                            aria-label="Adjust text size"
+                        >
+                        </div>
+                </div>
+
+                <div class="setting-card focus-outline-setting-card">
+                    <div class="setting-label">
+                        <h3 class="setting-title">Focus Outline</h3>
+                        <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
+                    </div>
+                    <div class="ui-toggle">
+                        <input type="checkbox" id="focusOutlineToggle">
+                        <label for="focusOutlineToggle"></label>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- ✅ Updated toggle to iOS style -->
-    <div class="setting-card focus-outline-setting-card">
-        <div class="setting-label">
-            <h3 class="setting-title">Focus Outline</h3>
-            <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
-        </div>
-        <div class="ios-toggle">
-            <input type="checkbox" id="focusOutlineToggle">
-            <label for="focusOutlineToggle"></label>
-        </div>
-    </div>
-</div>
             <div class="settings-subsection danger-zone">
                 <h2 class="subsection-title">Danger Zone</h2>
                 <div class="setting-card">
@@ -90,11 +82,11 @@
                         <h3 class="setting-title">Reset to Factory Settings</h3>
                         <p class="setting-description">Restore all settings to their default values</p>
                     </div>
-                    <button id="resetSettings" class="reset-button">Reset</button>
+                    <button id="resetSettings" class="button reset-button">Reset</button>
                 </div>
             </div>
 
-                <a href="/" class="back-link">← Back to Profile</a>
+            <a href="/" class="back-link">← Back to Profile</a>
         </div>
     </div>
 
