@@ -1,193 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <meta name="google-site-verification" content="8Z9aIwfUPs4hH7zGtkp0-jnHUEAQngGhOLfWm1mMEzc" />
     <meta name="msvalidate.01" content="DF604B6A866AD7AE606EBAF19A20D042" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Welcome to my official link-in-bio page. Explore my merch, settings, and policies all in one place.">
     <meta name="keywords" content="bus army dude, merch, link in bio, accessibility, privacy policy">
     <meta name="author" content="River Kritzar">
     <title>Home - Caleb's Profile</title>
     
+    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
     
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
+    <!-- Font Awesome CDN -->
     <script src="https://kit.fontawesome.com/ffa5e5607e.js" crossorigin="anonymous"></script>
+</head>
 
+    
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0RSQS1MS7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+    
       gtag('config', 'G-E0RSQS1MS7');
     </script>
+    
+   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
 </head>
-
 <body class="dark-mode">
+    <div class="container">
 
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/67c601544306a6190e7290e0/1ilenad13';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <div id="maintenanceLoadingOverlay" class="maintenance-overlay" style="display: none;">
-        <div class="maintenance-content">
-            <div class="maintenance-loader"></div>
-            <h1>Site Under Maintenance</h1>
-            <p>We are currently performing scheduled maintenance...</p>
-            <div class="maintenance-socials">
-                <p>Stay Updated:</p>
-                <a href="https://bus-army-dude.instatus.com/" target="_blank" rel="noopener noreferrer"><i class="fas fa-chart-line"></i> Status Page</a>
+
+   <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/67c601544306a6190e7290e0/1ilenad13';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+    
+<div id="maintenanceLoadingOverlay" class="maintenance-overlay" style="display: none;"> <div class="maintenance-content">
+        <div class="maintenance-loader"></div> <h1>Site Under Maintenance</h1>
+        <p>We are currently performing scheduled maintenance...</p> <div class="maintenance-socials">
+            <p>Stay Updated:</p>
+            <a href="https://bus-army-dude.instatus.com/" target="_blank" rel="noopener noreferrer"><i class="fas fa-chart-line"></i> Status Page</a>
             </div>
-        </div>
+    </div>
+</div>
+
+<div id="main-content-wrapper">
+    </div>
+  <div class="profile-section">
+    <button class="merch-button" aria-label="Merch" onclick="window.location.href='/merchandise'"></button>
+    <button class="settings-button" aria-label="Settings" onclick="window.location.href='/settings'"></button>
+
+    <div class="profile-pic-wrapper">
+        <img src="path/to/default-profile.jpg" alt="Profile Picture"
+             class="profile-pic"
+             id="profile-pic-main">
+
+        <div class="profile-status-container">
+            <span class="profile-status" id="profile-status-main"></span> </div>
     </div>
 
-    <div class="container" id="main-content-wrapper">
-        <div class="profile-section">
-            <button class="merch-button" aria-label="Merch" onclick="window.location.href='/merchandise'"></button>
-            <button class="settings-button" aria-label="Settings" onclick="window.location.href='/settings'"></button>
-            <div class="profile-pic-wrapper">
-                <img src="path/to/default-profile.jpg" alt="Profile Picture" class="profile-pic" id="profile-pic-main">
-                <div class="profile-status-container">
-                    <span class="profile-status" id="profile-status-main"></span>
-                </div>
-            </div>
-            <div class="username-checkmark">
-                <h1 id="profile-username-main">Username</h1>
-                <img src="check.png" alt="Verified" class="verified">
-            </div>
-            <p class="profile-bio" id="profile-bio-main">Loading bio...</p>
-        </div>
+    <div class="username-checkmark">
+        <h1 id="profile-username-main">Username</h1> <img src="check.png" alt="Verified" class="verified"> </div>
 
-        <div class="social-links-section">
-            <h2>Follow Me</h2>
-            <div id="social-links-container" class="social-links-container">
-                <p>Loading social links...</p>
-            </div>
-        </div>
+    <p class="profile-bio" id="profile-bio-main">Loading bio...</p>
+</div>
+
+       <div class="social-links-section">
+  <h2>Follow Me</h2>
+  <div id="social-links-container" class="social-links-container">
+    <p>Loading social links...</p>
+  </div>
+</div>
 
         <div id="president-placeholder"></div>
 
-        <div class="shoutouts-section section">
-            <div id="tiktok-shoutouts">
-                <h2>TikTok Creator Shoutouts</h2>
-                <p id="tiktok-last-updated-timestamp">Last Updated: Loading...</p>
-            </div>
-            <div class="creator-grid"></div>
-            <div class="unavailable-message" style="display: none;"></div>
-        </div>
 
-        <div class="shoutouts-section section">
-            <div id="instagram-shoutouts">
-                <h2>Instagram Creator Shoutouts</h2>
-                <p id="instagram-last-updated-timestamp">Last Updated: Loading...</p>
+            <div class="shoutouts-section section">
+                <div id="tiktok-shoutouts">
+                    <h2>TikTok Creator Shoutouts</h2>
+                    <p id="tiktok-last-updated-timestamp">Last Updated: Loading...</p>
+                </div>
+                <div class="creator-grid">
+                    </div>
+                <div class="unavailable-message" style="display: none;"></div>
             </div>
-            <div class="instagram-creator-grid"></div>
-        </div>
 
-        <div class="shoutouts-section section">
-            <div id="youtube-shoutouts">
-                <h2>YouTube Creator Shoutouts</h2>
-                <p id="youtube-last-updated-timestamp">Last Updated: Loading...</p>
+            <div class="shoutouts-section section">
+                <div id="instagram-shoutouts">
+                    <h2>Instagram Creator Shoutouts</h2>
+                    <p id="instagram-last-updated-timestamp">Last Updated: Loading...</p>
+                </div>
+                <div class="instagram-creator-grid">
+                    </div>
             </div>
-            <div class="youtube-creator-grid"></div>
+
+            <div class="shoutouts-section section">
+                <div id="youtube-shoutouts">
+                    <h2>YouTube Creator Shoutouts</h2>
+                    <p id="youtube-last-updated-timestamp">Last Updated: Loading...</p>
+                </div>
+                <div class="youtube-creator-grid">
+            </div>
         </div>
 
         <div class="useful-links-section section">
-            <h2 class="section-title">Useful Links</h2>
-            <div class="links-container"></div>
-        </div>
+             <h2 class="section-title">Useful Links</h2>
+             <div class="links-container">
+         </div>
+     </div>    
 
         <div class="countdown-section">
             <h2>Countdown to Earth Day 2025!</h2>
             <div class="countdown-container">
+                <div class="countdown-block">
+                    <div id="countdown-years" class="flip-clock">
+                        <div class="flip-clock-inner">
+                            <div class="flip-clock-front">00</div>
+                            <div class="flip-clock-back">00</div>
+                        </div>
+                    </div>
+                    <div class="countdown-label">Years</div>
                 </div>
-        </div>
-        
-        <div class="business-info-section">
-            <h2>Business Status & Hours</h2>
-            <div id="business-status-display" class="business-status">
-                <span class="status-main-text">Loading Status...</span>
-                <span class="status-countdown-text"></span>
-                <div class="status-reason-text"></div>
+                <div class="countdown-block">
+                    <div id="countdown-months" class="flip-clock">
+                        <div class="flip-clock-inner">
+                            <div class="flip-clock-front">00</div>
+                            <div class="flip-clock-back">00</div>
+                        </div>
+                    </div>
+                    <div class="countdown-label">Months</div>
+                </div>
+                <div class="countdown-block">
+                    <div id="countdown-days" class="flip-clock">
+                        <div class="flip-clock-inner">
+                            <div class="flip-clock-front">00</div>
+                            <div class="flip-clock-back">00</div>
+                        </div>
+                    </div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-block">
+                    <div id="countdown-hours" class="flip-clock">
+                        <div class="flip-clock-inner">
+                            <div class="flip-clock-front">00</div>
+                            <div class="flip-clock-back">00</div>
+                        </div>
+                    </div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-block">
+                    <div id="countdown-minutes" class="flip-clock">
+                        <div class="flip-clock-inner">
+                            <div class="flip-clock-front">00</div>
+                            <div class="flip-clock-back">00</div>
+                        </div>
+                    </div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-block">
+                    <div id="countdown-seconds" class="flip-clock">
+                        <div class="flip-clock-inner">
+                            <div class="flip-clock-front">00</div>
+                            <div class="flip-clock-back">00</div>
+                        </div>
+                    </div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
             </div>
-            <div id="business-hours-display" class="hours-list"></div>
-            <div id="temporary-hours-display"></div>
-            <div id="holiday-hours-display"></div>
-            <div id="contact-email-display" class="contact-info"></div>
         </div>
 
-        <div class="tech-section section">
-            <h2><i class="fas fa-microchip"></i> Tech Information</h2>
-            <div id="tech-items-list-dynamic">
-                <p>Loading Tech Info...</p>
-            </div>
+        <body class="dark-mode">
+    <div class="business-info-section">
+    <h2>Business Status & Hours</h2>
+
+    <div id="business-status-display" class="business-status">
+        <span class="status-main-text">Loading Status...</span>
+        <span class="status-countdown-text"></span>
+        <div class="status-reason-text"></div>
+    </div>
+
+    <div id="business-hours-display" class="hours-list">
         </div>
 
-        <div class="disabilities-section section">
-            <h2>Disabilities</h2>
-            <p>I have the following disabilities:</p>
-            <ul id="disabilities-list-placeholder">
-                </ul>
-        </div>
-        
-        <div class="version-info-container">
-            <div class="version-info-section">
-                <div class="version-header">Version Information</div>
-                <div class="version-number">v26.0</div>
-                <div class="build-number">2025.6.03</div>
-                <div class="update-time">2025-01-27 21:29:16</div>
-                <div class="os-info" id="os-info">Detecting...</div>
-                <div class="device-info" id="device-info">Detecting...</div>
-            </div>
+    <div id="temporary-hours-display">
         </div>
 
-        <div class="notice-container">
-            <div class="copy-protection-message">
-                A watermark protects this content. Unauthorized use is prohibited.
-            </div>
-            <div class="legal-protection-message">
-                All content and materials on this website are legally protected.
-            </div>
+    <div id="holiday-hours-display">
         </div>
 
-        <div class="watermark">
-            Protected by Watermark
+    <div id="contact-email-display" class="contact-info">
         </div>
-        
-        <footer>
-            <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
-        </footer>
-    </div> <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
-       <svg class="progress-ring" width="60" height="60">
-         <circle class="progress-bg" cx="30" cy="30" r="26" />
-         <circle class="progress-indicator" cx="30" cy="30" r="26" />
-       </svg>
-       <span class="arrow">↑</span>
-    </button>
+</div>
+
+<div class="tech-section section">
+    <h2><i class="fas fa-microchip"></i> Tech Information</h2>
+    <div id="tech-items-list-dynamic">
+        <p>Loading Tech Info...</p>
+    </div>
+</div>
+
+<div class="disabilities-section section">
+    <h2>Disabilities</h2>
+    <p>I have the following disabilities:</p>
+    <ul id="disabilities-list-placeholder">
+        <!-- Items will be populated dynamically -->
+    </ul>
+</div>
+    
+   <div class="version-info-container">
+    <div class="version-info-section">
+        <div class="version-header">Version Information</div>
+        <div class="version-number">v26.0</div>
+        <div class="build-number">2025.6.03</div>
+        <div class="update-time">2025-01-27 21:29:16</div>
+        <div class="os-info" id="os-info">Detecting...</div>
+        <div class="device-info" id="device-info">Detecting...</div>
+    </div>
+</div>
+   </div> <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+     <svg class="progress-ring" width="60" height="60">
+       <circle class="progress-bg" cx="30" cy="30" r="26" />
+       <circle class="progress-indicator" cx="30" cy="30" r="26" />
+     </svg>
+     <span class="arrow">↑</span>
+   </button>
 
     <iframe
-        id="status-widget"
-        src="https://calebs-status-page.instatus.com/embed-status/4e365a41/dark-lg"
-        height="61"
-        frameBorder="0"
-        scrolling="no"
-        style="border: none;">
-    </iframe>
+  id="status-widget"
+  src="https://calebs-status-page.instatus.com/embed-status/4e365a41/dark-lg"
+  height="61"
+  frameBorder="0"
+  scrolling="no"
+  style="border: none;"
+>
+</iframe>
 
+  <div class="notice-container">
+      <div class="copy-protection-message">
+          A watermark protects this content. Unauthorized use is prohibited.
+      </div>
+      <div class="legal-protection-message">
+          All content and materials on this website are legally protected.
+      </div>
+  </div>
+
+  <div class="watermark">
+      Protected by Watermark
+  </div>
+
+  <footer>
+      <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
+  </footer> </div>
+    
+    <!-- Scripts -->
     <script src="script.js"></script>
     <script src="ai-features.js"></script>
     <script src="settings.js"></script>
@@ -199,4 +282,4 @@
     <script type="module" src="displayShoutouts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
 </body>
-</html>
+</html>                
