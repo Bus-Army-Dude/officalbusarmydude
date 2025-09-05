@@ -68,8 +68,10 @@
                         <h3 class="setting-title">Focus Outline</h3>
                         <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
                     </div>
-                    <div class="ui-toggle">
-                        <input type="checkbox" id="focusOutlineToggle">
+                    <!-- class changed to ios-toggle to match settings.css -->
+                    <div class="ios-toggle">
+                        <!-- role and aria-checked added for accessibility; update aria-checked in JS on change -->
+                        <input type="checkbox" id="focusOutlineToggle" role="switch" aria-checked="false" aria-label="Toggle focus outline">
                         <label for="focusOutlineToggle"></label>
                     </div>
                 </div>
