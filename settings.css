@@ -78,7 +78,7 @@ body.settings-page .skip-link:focus {
 
 /* ========== Container (Scoped) ========== */
 body.settings-page .container {
-  max-width: 800px;
+  max-width: 900px; /* slightly wider for Material feel */
   margin: 0 auto;
   padding: 40px 20px;
 }
@@ -99,7 +99,7 @@ body.settings-page .settings-header {
 
 body.settings-page .settings-header h1 {
   font-size: 34px;
-  font-weight: 600;
+  font-weight: 700; /* slightly bolder for combined look */
   margin: 0;
   letter-spacing: -0.003em;
   color: var(--text-color);
@@ -112,33 +112,49 @@ body.settings-page .version {
 
 /* ========== Settings Subsection (Scoped) ========== */
 body.settings-page .settings-subsection {
-  background-color: var(--content-bg);
-  border-radius: 10px;
+  /* Blend iOS translucency with Android elevation */
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.42));
+  background-color: var(--content-bg); /* fallback */
+  border-radius: 14px; /* slightly larger radius like iOS */
   margin-bottom: 20px;
-  /* More pronounced shadow for Material elevation */
-  box-shadow: 0 2px 5px 1px var(--shadow-color);
+  /* Stronger material elevation but softened for iOS */
+  box-shadow: 0 8px 20px -6px var(--shadow-color);
   overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.04);
+  backdrop-filter: blur(6px); /* subtle iOS-like blur */
+}
+
+body.dark-mode .settings-subsection {
+  /* Dark mode tweak: keep translucency subtle */
+  background: linear-gradient(180deg, rgba(30,30,30,0.6), rgba(30,30,30,0.48));
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
 body.settings-page .subsection-title {
-  font-size: 20px;
-  /* Bolder weight for Material style */
-  font-weight: 700;
-  padding: 15px 20px;
+  font-size: 18px;
+  /* Bolder weight for Material style, but compact like iOS */
+  font-weight: 600;
+  padding: 16px 20px;
   margin: 0;
   border-bottom: 1px solid var(--border-color);
-  letter-spacing: 0.004em;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--text-color);
 }
 
 /* ========== Setting Card (Scoped) ========== */
 body.settings-page .setting-card {
-  /* Slightly increased padding */
+  /* Slightly increased padding and taller touch targets */
   padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  transition: background-color 0.2s;
+  min-height: 64px; /* mobile-friendly touch target */
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: background-color 0.18s ease, transform 0.06s ease;
+  position: relative; /* for ripple */
+  overflow: hidden; /* clip ripple */
+  cursor: default;
 }
 
 body.settings-page .setting-card:last-child {
@@ -147,13 +163,14 @@ body.settings-page .setting-card:last-child {
 
 /* Adjusted hover for light mode (Scoped) */
 body.settings-page .setting-card:hover {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(0, 102, 204, 0.03); /* subtle accent wash like Android */
+  transform: translateY(-1px); /* slight lift like Material */
 }
 
 /* Hover for dark mode (Scoped) */
 @media (prefers-color-scheme: dark) {
   body.settings-page .setting-card:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.03);
   }
 }
 
@@ -163,17 +180,47 @@ body.settings-page .setting-label {
 }
 
 body.settings-page .setting-title {
-  font-size: 17px;
-  font-weight: 400;
-  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 600; /* a touch bolder to match Material readability */
+  margin: 0 0 4px 0;
   color: var(--text-color);
 }
 
 body.settings-page .setting-description {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--secondary-text);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.35;
+}
+
+/* Ripple effect pseudo-element (Android material cue) */
+body.settings-page .setting-card::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0,0,0,0.07);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: width 0.35s ease, height 0.35s ease, opacity 0.45s ease;
+  pointer-events: none;
+}
+
+body.settings-page .setting-card:active::after {
+  width: 300px;
+  height: 300px;
+  opacity: 1;
+  transition: width 0s, height 0s; /* immediate expand on press */
+}
+
+/* iOS style subtle accessory chevron for rows (optional) */
+body.settings-page .setting-card .chevron {
+  margin-left: 12px;
+  color: var(--secondary-text);
+  font-size: 18px;
 }
 
 /* ========== Appearance Mode Select (NEW) ========== */
@@ -184,18 +231,24 @@ body.settings-page .appearance-mode-control {
 
 body.settings-page #appearanceModeSelect {
   font-size: 16px;
-  padding: 7px 14px;
-  border-radius: 8px;
+  padding: 8px 14px;
+  border-radius: 12px; /* more rounded like iOS */
   border: 1px solid var(--border-color);
-  background: var(--content-bg);
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.9));
   color: var(--text-color);
-  transition: border-color 0.2s;
+  transition: border-color 0.18s, box-shadow 0.18s;
   outline: none;
   margin-left: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04); /* gentle elevation */
+}
+
+body.dark-mode #appearanceModeSelect {
+  background: linear-gradient(180deg, rgba(30,30,30,0.92), rgba(30,30,30,0.88));
 }
 
 body.settings-page #appearanceModeSelect:focus {
   border-color: var(--accent-color);
+  box-shadow: 0 8px 20px rgba(0,102,204,0.08);
 }
 
 
@@ -204,13 +257,13 @@ body.settings-page #appearanceModeSelect:focus {
 /* ============================ */
 
 .ios-toggle {
-  --width: 60px;
-  --height: 32px;
-  --knob-size: 28px;
-  --off-bg: #e5e5ea;
-  --on-bg: #34c759;
+  --width: 58px;
+  --height: 34px;
+  --knob-size: 30px;
+  --off-bg: var(--toggle-off);
+  --on-bg: var(--toggle-on);
   --knob-bg: #fff;
-  --transition: 0.3s ease;
+  --transition: 0.28s cubic-bezier(.25,.8,.25,1);
 }
 
 /* Hide native checkbox */
@@ -230,7 +283,8 @@ body.settings-page #appearanceModeSelect:focus {
   border-radius: var(--height);
   position: relative;
   cursor: pointer;
-  transition: background var(--transition);
+  transition: background var(--transition), box-shadow 0.12s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
 /* Knob */
@@ -244,12 +298,12 @@ body.settings-page #appearanceModeSelect:focus {
   background: var(--knob-bg);
   border-radius: 50%;
   transition: transform var(--transition);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.12);
 }
 
 /* ON state */
 .ios-toggle input:checked + label {
-  background: var(--on-bg);
+  background: linear-gradient(180deg, var(--on-bg), color-mix(in srgb, var(--on-bg) 80%, black 10%));
 }
 
 .ios-toggle input:checked + label::after {
@@ -261,9 +315,9 @@ body.settings-page #text-size-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 4px;
-  background: var(--slider-track-color);
-  border-radius: 2px;
+  height: 6px; /* a touch thicker like Material sliders */
+  background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) 50%, var(--slider-track-color) 50%);
+  border-radius: 999px;
   outline: none;
   margin: 10px 0;
   cursor: pointer;
@@ -272,23 +326,23 @@ body.settings-page #text-size-slider {
 body.settings-page #text-size-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--slider-thumb-color);
   cursor: pointer;
-  border: 0.5px solid var(--border-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
 
 body.settings-page #text-size-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--slider-thumb-color);
   cursor: pointer;
-  border: 0.5px solid var(--border-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
 
 /* Size Labels (Scoped) */
@@ -326,13 +380,14 @@ body.settings-page #cookie-consent-banner button {
   /* Slightly larger padding */
   padding: 10px 18px;
   /* Slightly more rounded corners */
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   /* Added transform to transition */
-  transition: background-color 0.2s, transform 0.1s ease-out;
+  transition: background-color 0.18s, transform 0.08s ease-out, box-shadow 0.12s;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 /* Specific background colors */
@@ -348,16 +403,19 @@ body.settings-page #cookie-consent-banner button {
 /* Hover states (Scoped) */
 body.settings-page .reset-button:hover {
   background-color: #ff2d20; /* Darker red */
+  transform: translateY(-1px);
 }
 
 body.settings-page #cookie-consent-banner button:hover {
   background-color: var(--hover-color);
+  transform: translateY(-1px);
 }
 
 /* Active states for button press feedback (Scoped) */
 body.settings-page .reset-button:active,
 body.settings-page #cookie-consent-banner button:active {
-  transform: scale(0.97);
+  transform: scale(0.985);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
 }
 
 
@@ -369,12 +427,13 @@ body.settings-page .back-link {
   text-decoration: none;
   font-size: 17px;
   padding: 8px 0;
-  transition: color 0.2s;
+  transition: color 0.18s, transform 0.08s;
   margin-top: 20px;
 }
 
 body.settings-page .back-link:hover {
   color: var(--hover-color);
+  transform: translateX(-2px);
 }
 
 /* ========== Footer (Scoped) ========== */
@@ -408,16 +467,16 @@ body.settings-page #cookie-consent-banner {
   transform: translateX(-50%);
   background-color: var(--content-bg);
   /* Match subsection rounding */
-  border-radius: 10px;
+  border-radius: 12px;
   /* Enhanced shadow */
-  box-shadow: 0 4px 12px 2px var(--shadow-color);
-  padding: 20px;
+  box-shadow: 0 8px 28px -6px var(--shadow-color);
+  padding: 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  max-width: 90%;
-  width: 600px;
+  max-width: 92%;
+  width: 640px;
   z-index: 1000;
 }
 
@@ -441,9 +500,9 @@ body.settings-page #cookie-consent-banner a:hover {
 /* ========== Focus Styles (Scoped) ========== */
 /* Apply focus style to elements within the settings page body */
 body.settings-page :focus-visible {
-  outline: 2px solid var(--focus-outline-color);
+  outline: 3px solid rgba(0,122,255,0.18); /* blended blue halo */
   outline-offset: 2px;
-  border-radius: 4px; /* Standard focus ring rounding */
+  border-radius: 8px; /* Standard focus ring rounding */
 }
 
 /* Ensure inputs and buttons show focus */
@@ -451,9 +510,9 @@ body.settings-page input:focus-visible,
 body.settings-page button:focus-visible,
 body.settings-page a:focus-visible,
 body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-  outline: 2px solid var(--focus-outline-color);
+  outline: 3px solid rgba(0,122,255,0.18);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 /* --- MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
@@ -505,7 +564,8 @@ body.settings-page .focus-outline-setting-card { /* Ensure you added this class 
     /* Stack elements vertically */
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px; /* Add gap between label and control */
+    gap: 12px; /* Add gap between label and control */
+    min-height: unset; /* allow natural height on stacked layout */
   }
   body.settings-page .setting-label {
     padding-right: 0; /* Remove right padding when stacked */
@@ -519,8 +579,8 @@ body.settings-page .focus-outline-setting-card { /* Ensure you added this class 
   body.settings-page #cookie-consent-banner {
     flex-direction: column;
     text-align: center;
-    width: 85%;
-    gap: 15px;
+    width: 90%;
+    gap: 12px;
   }
 }
 
@@ -534,11 +594,11 @@ body.settings-page .focus-outline-setting-card { /* Ensure you added this class 
   }
 
   body.settings-page .subsection-title {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   body.settings-page .setting-title {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   body.settings-page .setting-description {
