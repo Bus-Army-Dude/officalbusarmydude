@@ -1,0 +1,154 @@
+/* Theme overrides to improve readability and card contrast
+   - Add this file and include it after styles.css (and settings.css if used).
+   - It doesn't change layout, only increases contrast / elevation for "cards".
+*/
+
+/* 1) General card mixin (applies to the most common section/card selectors) */
+.card-elevated,
+.profile-section,
+.shoutouts-section,
+.creator-card,
+.instagram-creator-card,
+.youtube-creator-card,
+.useful-links-section,
+.tech-section,
+.disabilities-section,
+.president-section,
+.social-links-section,
+.creator-grid > *,
+.links-container > * {
+  border-radius: 12px;
+  padding: 16px;
+  background-clip: padding-box;
+  transition: background-color 180ms ease, box-shadow 220ms ease, border-color 180ms ease;
+  /* ensure text stays the primary color */
+  color: var(--text-color);
+}
+
+/* 2) Light mode: stronger white surfaces with subtle warm shadow + clear border */
+body:not(.dark-mode):not(.light-e) ,
+body.light-e,
+body.settings-page:not(.dark-mode) {
+  --card-bg: color-mix(in srgb, var(--content-bg) 92%, white 8%); /* subtle lift */
+  --card-border: rgba(16,24,40,0.06);
+  --card-shadow: 0 8px 30px rgba(16,24,40,0.06);
+}
+
+body:not(.dark-mode) .card-elevated,
+body.light-e .card-elevated,
+body.settings-page:not(.dark-mode) .card-elevated,
+body:not(.dark-mode) .profile-section,
+body.light-e .profile-section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+}
+
+/* 3) Dark mode: slightly lighter panels than the page background so they read clearly */
+body.dark-mode,
+body.settings-page.dark-mode {
+  --card-bg-dark: color-mix(in srgb, var(--content-bg) 88%, black 6%); /* lifts slightly from very dark bg */
+  --card-border-dark: rgba(255,255,255,0.04);
+  --card-shadow-dark: 0 8px 30px rgba(0,0,0,0.6);
+}
+
+body.dark-mode .card-elevated,
+body.settings-page.dark-mode .card-elevated,
+body.dark-mode .profile-section {
+  background: var(--card-bg-dark);
+  border: 1px solid var(--card-border-dark);
+  box-shadow: var(--card-shadow-dark);
+}
+
+/* 4) Make sure creator / shoutout cards have clear separation from background */
+.creator-card,
+.instagram-creator-card,
+.youtube-creator-card {
+  padding: 18px;
+  border-radius: 14px;
+  /* stronger border on cards to avoid bleed with both themes */
+  border: 1px solid rgba(0,0,0,0.04);
+}
+body.dark-mode .creator-card,
+body.dark-mode .instagram-creator-card,
+body.dark-mode .youtube-creator-card {
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* 5) Slight accent line for important sections (optional visual anchor) */
+.profile-section,
+.shoutouts-section,
+.useful-links-section,
+.tech-section {
+  position: relative;
+}
+.profile-section::before,
+.shoutouts-section::before,
+.useful-links-section::before,
+.tech-section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 4px;
+  width: 100%;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent-color) 85%, white 15%), color-mix(in srgb, var(--accent-color) 60%, black 40%));
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* 6) Improve text contrast inside cards (in case a section used a lower-opacity text color) */
+.card-elevated,
+.profile-section,
+.shoutouts-section,
+.creator-card,
+.useful-links-section,
+.tech-section,
+.disabilities-section {
+  color: var(--text-color);
+}
+
+/* 7) Ensure images and media inside cards remain contained and readable */
+.profile-pic,
+.creator-pic,
+.youtube-cover-photo,
+.president-photo,
+.youtube-creator-pic,
+.instagram-creator-pic {
+  object-fit: cover;
+  background-color: transparent;
+  display: block;
+}
+
+/* 8) Utility: a single class you can add to any element to force the elevated readable card style */
+.card-elevated {
+  /* default fallback if variables are not available */
+  background: var(--content-bg, #fff);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+}
+
+/* 9) Small responsive tweak - a little more padding on mobile so text doesn't hug edges */
+@media (max-width: 480px) {
+  .card-elevated,
+  .profile-section,
+  .shoutouts-section,
+  .creator-card,
+  .useful-links-section,
+  .tech-section {
+    padding: 14px;
+    border-radius: 10px;
+  }
+}
+
+/* 10) Accessibility: respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .card-elevated,
+  .profile-section,
+  .shoutouts-section,
+  .creator-card {
+    transition: none;
+  }
+}
