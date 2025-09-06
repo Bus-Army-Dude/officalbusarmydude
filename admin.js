@@ -306,59 +306,6 @@ function displayFilteredUsefulLinks() {
     if (countElement) { countElement.textContent = `(${listToRender.length})`; }
 }
 
-// --- REVISED + CORRECTED Filtering Function for Disabilities ---
-function displayFilteredDisabilities() {
-    const listContainer = disabilitiesListAdmin;
-    const countElement = disabilitiesCount;
-    const searchInput = document.getElementById('search-disabilities');
-
-    if (!listContainer || !searchInput || typeof allDisabilities === 'undefined') {
-        console.error("Disabilities Filter Error: Missing elements/data.");
-         if(listContainer) listContainer.innerHTML = `<p class="error">Error displaying list.</p>`;
-        return;
-    }
-
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    // console.log(`Filtering Disabilities: Term = "${searchTerm}"`); // Keep or remove logs
-
-    let listToRender = [];
-
-    if (!searchTerm) {
-        // console.log("Disabilities: Search term is empty, using full list.");
-        listToRender = allDisabilities;
-    } else {
-        // console.log("Disabilities: Search term found, filtering list...");
-        listToRender = allDisabilities.filter(item => {
-            const name = (item.name || '').toLowerCase(); // Use 'name' field
-             // --- Only check the name ---
-            return name.includes(searchTerm);
-        });
-    }
-
-    // console.log(`Rendering ${listToRender.length} disabilities.`);
-
-    listContainer.innerHTML = '';
-
-    if (listToRender.length > 0) {
-        listToRender.forEach(item => {
-            if (typeof renderDisabilityAdminListItem === 'function' && typeof handleDeleteDisability === 'function' && typeof openEditDisabilityModal === 'function') {
-                renderDisabilityAdminListItem(listContainer, item.id, item.name, item.url, item.order, handleDeleteDisability, openEditDisabilityModal);
-            } else {
-                 console.error("Error: renderDisabilityAdminListItem or its handlers are missing!");
-                 listContainer.innerHTML = '<p class="error">Rendering function error.</p>';
-                 return;
-            }
-        });
-    } else {
-         if (searchTerm) {
-            listContainer.innerHTML = `<p>No disabilities found matching "${searchTerm}".</p>`;
-         } else {
-            listContainer.innerHTML = `<p>No disabilities found.</p>`;
-         }
-    }
-    if (countElement) { countElement.textContent = `(${listToRender.length})`; }
-}
-
     // Search Listener for Useful Links (NEW)
 const searchInputUsefulLinks = document.getElementById('search-useful-links');
 if (searchInputUsefulLinks) {
@@ -3607,8 +3554,8 @@ function displayFilteredActivityLog() {
     }
 
 
-    // Function to render a single Disability Link item in the admin list
-    function renderDisabilityAdminListItem(container, docId, name, url, order, deleteHandler, editHandler) {
+      // Function to render a single Disability Link item in the admin list
+    function renderDisabilityAdminListItem(container, docId, name, url, order, iconClass, deleteHandler, editHandler) {
         if (!container) {
              console.warn("Disabilities list container not found during render.");
              return;
@@ -3633,6 +3580,9 @@ function displayFilteredActivityLog() {
         itemDiv.innerHTML = `
             <div class="item-content">
                 <div class="item-details">
+                    <span class="disability-icon">
+                        <i class="fas ${iconClass || 'fa-universal-access'}" aria-hidden="true"></i>
+                    </span>
                     <strong>${name || 'N/A'}</strong>
                     <span>(${displayUrl})</span>
                     <small>Order: ${order ?? 'N/A'}</small>
@@ -3718,11 +3668,13 @@ async function loadDisabilitiesAdmin() {
         const nameInput = addDisabilityForm.querySelector('#disability-name');
         const urlInput = addDisabilityForm.querySelector('#disability-url');
         const orderInput = addDisabilityForm.querySelector('#disability-order');
+        const iconInput = addDisabilityForm.querySelector('#disability-icon');
 
         const name = nameInput?.value.trim();
         const url = urlInput?.value.trim();
         const orderStr = orderInput?.value.trim();
         const order = parseInt(orderStr);
+        const iconClass = iconInput?.value.trim() || 'fa-universal-access'; // Default icon
 
         // Basic validation
         if (!name || !url || !orderStr || isNaN(order) || order < 0) {
@@ -3741,6 +3693,7 @@ async function loadDisabilitiesAdmin() {
             name: name,
             url: url,
             order: order,
+            iconClass: iconClass,
             createdAt: serverTimestamp() // Add a timestamp
         };
 
@@ -3799,6 +3752,13 @@ async function loadDisabilitiesAdmin() {
                 if (editDisabilityNameInput) editDisabilityNameInput.value = data.name || '';
                 if (editDisabilityUrlInput) editDisabilityUrlInput.value = data.url || '';
                 if (editDisabilityOrderInput) editDisabilityOrderInput.value = data.order ?? '';
+                if (editDisabilityIconInput) editDisabilityIconInput.value = data.iconClass || 'fa-universal-access';
+
+                // Update icon preview
+                const previewDiv = document.getElementById('edit-disability-icon-preview');
+                if (previewDiv) {
+                    updateDisabilityIconPreview(editDisabilityIconInput, previewDiv);
+                }
 
                 editDisabilityModal.style.display = 'block'; // Show the modal
                 showEditDisabilityStatus(""); // Clear loading message
@@ -3835,11 +3795,12 @@ async function loadDisabilitiesAdmin() {
         const url = editDisabilityUrlInput?.value.trim();
         const orderStr = editDisabilityOrderInput?.value.trim();
         const order = parseInt(orderStr);
+        const iconClass = editDisabilityIconInput?.value.trim() || 'fa-universal-access';
 
         if (!name || !url || !orderStr || isNaN(order) || order < 0) { showEditDisabilityStatus("Invalid input...", true); return; }
         try { new URL(url); } catch (_) { showEditDisabilityStatus("Invalid URL format.", true); return; }
 
-        const newDataFromForm = { name: name, url: url, order: order };
+        const newDataFromForm = { name: name, url: url, order: order, iconClass: iconClass };
         showEditDisabilityStatus("Saving changes...");
         const docRef = doc(db, 'disabilities', docId); // Define once
 
@@ -3883,6 +3844,122 @@ async function loadDisabilitiesAdmin() {
             showAdminStatus(`Error updating disability link: ${error.message}`, true);
         }
     }
+
+     /**
+     * Updates the icon preview in the add and edit forms
+     */
+    function updateDisabilityIconPreview(inputElement, previewElement) {
+        if (!inputElement || !previewElement) return;
+
+        const iconClass = inputElement.value.trim();
+        const iconElement = previewElement.querySelector('i');
+
+        if (iconElement) {
+            // Remove all fa- classes
+            iconElement.className = '';
+            // Add base FA class and new icon class
+            iconElement.className = `fas ${iconClass || 'fa-universal-access'}`;
+        }
+    }
+
+    /**
+     * Sets up event listeners for the disability icon input and select elements
+     */
+    function setupDisabilityIconListeners(formId) {
+        const iconInput = document.getElementById(`${formId}-disability-icon`);
+        const iconSelect = document.getElementById(`${formId}-disability-icon-select`);
+        const iconPreview = document.getElementById(`${formId}-disability-icon-preview`);
+
+        if (iconInput && iconSelect && iconPreview) {
+            // Update preview when typing in input
+            iconInput.addEventListener('input', () => {
+                updateDisabilityIconPreview(iconInput, iconPreview);
+            });
+
+            // Update preview when selecting from dropdown
+            iconSelect.addEventListener('change', () => {
+                iconInput.value = iconSelect.value;
+                updateDisabilityIconPreview(iconInput, iconPreview);
+            });
+        }
+    }
+
+     // Function to update the global allDisabilities array
+    function updateDisabilityInArray(docId, updatedData) {
+        const index = allDisabilities.findIndex(item => item.id === docId);
+        if (index !== -1) {
+            allDisabilities[index] = { ...allDisabilities[index], ...updatedData };
+        }
+    }
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Add Disability Forms
+    if (addDisabilityForm) {
+        addDisabilityForm.addEventListener('submit', handleAddDisability);
+    }
+
+    // Edit Disability Forms
+    if (editDisabilityForm) {
+        editDisabilityForm.addEventListener('submit', handleUpdateDisability);
+    }
+
+    // Attach event listeners for the disability icon functionality
+    setupDisabilityIconListeners('add');
+    setupDisabilityIconListeners('edit');
+});
+
+function displayFilteredDisabilities() {
+    const listContainer = disabilitiesListAdmin;
+    const countElement = disabilitiesCount;
+    const searchInput = document.getElementById('search-disabilities');
+
+    if (!listContainer || !searchInput || typeof allDisabilities === 'undefined') {
+        console.error("Disabilities Filter Error: Missing elements/data.");
+         if(listContainer) listContainer.innerHTML = `<p class="error">Error displaying list.</p>`;
+        return;
+    }
+
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    // console.log(`Filtering Disabilities: Term = "${searchTerm}"`); // Keep or remove logs
+
+    let listToRender = [];
+
+    if (!searchTerm) {
+        // console.log("Disabilities: Search term is empty, using full list.");
+        listToRender = allDisabilities;
+    } else {
+        // console.log("Disabilities: Search term found, filtering list...");
+        listToRender = allDisabilities.filter(item => {
+            const name = (item.name || '').toLowerCase(); // Use 'name' field
+             // --- Only check the name ---
+            return name.includes(searchTerm);
+        });
+    }
+
+    // console.log(`Rendering ${listToRender.length} disabilities.`);
+
+    listContainer.innerHTML = '';
+
+    if (listToRender.length > 0) {
+        listToRender.forEach(item => {
+            if (typeof renderDisabilityAdminListItem === 'function' && typeof handleDeleteDisability === 'function' && typeof openEditDisabilityModal === 'function') {
+                renderDisabilityAdminListItem(listContainer, item.id, item.name, item.url, item.order, item.iconClass, handleDeleteDisability, openEditDisabilityModal);
+            } else {
+                 console.error("Error: renderDisabilityAdminListItem or its handlers are missing!");
+                 listContainer.innerHTML = '<p class="error">Rendering function error.</p>';
+                 return;
+            }
+        });
+    } else {
+         if (searchTerm) {
+            listContainer.innerHTML = `<p>No disabilities found matching "${searchTerm}".</p>`;
+         } else {
+            listContainer.innerHTML = `<p>No disabilities found.</p>`;
+         }
+    }
+    if (countElement) { countElement.textContent = `(${listToRender.length})`; }
+}
 // --- Attach Event Listeners for Section Forms & Modals ---
 
     // Profile Save Form
