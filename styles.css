@@ -826,7 +826,7 @@ body {
 }
 
 /* ======================== */
-/* Shoutouts Section - Root Themed */
+/* Shoutouts Section - Root Themed (with Accent Hover Glow) */
 /* ======================== */
 
 /* Container for each section */
@@ -939,7 +939,8 @@ body {
 .instagram-creator-card:hover,
 .youtube-creator-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 18px var(--shadow-color);
+    box-shadow: 0 6px 18px var(--shadow-color),
+                0 0 12px var(--accent-color);
 }
 
 /* Cover Photo (YouTube) */
@@ -1071,7 +1072,8 @@ body {
 .youtube-visit-profile:hover {
     background-color: var(--accent-color);
     color: white;
-    box-shadow: 0 0 10px var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color),
+                0 0 20px var(--accent-color);
     transform: translateY(-2px);
 }
 
@@ -1097,7 +1099,8 @@ body {
     padding: 20px;
     border: 2px solid var(--accent-color);
     border-radius: 12px;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow: 0 4px 12px var(--shadow-color),
+                0 0 12px var(--accent-color);
 }
 
 .unavailable-message-title {
