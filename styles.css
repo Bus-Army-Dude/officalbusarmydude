@@ -581,44 +581,92 @@ body {
     }
 }
 
-/* --- Tech Information Section Improvements --- */
+/* --- Keyframes for Animations --- */
 
-/* Keyframe for subtle fade-in on load */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* 1. Animation for the rotating border gradient */
+@keyframes rotate-border-glow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
+/* 2. Animation for the battery fill movement */
+@keyframes battery-fill-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* 3. Pulse animation for critical battery warning */
+@keyframes critical-pulse-glow {
+    0% { box-shadow: 0 0 12px 0px color-mix(in srgb, #FF3B30 70%, transparent); }
+    50% { box-shadow: 0 0 20px 5px color-mix(in srgb, #FF3B30 100%, transparent); }
+    100% { box-shadow: 0 0 12px 0px color-mix(in srgb, #FF3B30 70%, transparent); }
+}
+
+/* --- Tech Information Section Improvements --- */
+
 .tech-section {
-    /* Cleaner background, removing complex gradients */
-    background: var(--content-bg);
-    padding: 24px;
-    border-radius: 16px;
+    /* --- Animated Border Setup --- */
+    position: relative; /* Required for positioning the pseudo-element border */
+    padding: 30px;
+    border-radius: 18px; /* Slightly larger radius works well with a thicker border */
     margin-bottom: 30px;
-    /* Replaced complex shadow with a single, clean border for definition */
-    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
-    box-shadow: 0 4px 16px color-mix(in srgb, var(--shadow-color) 5%, transparent);
     width: 100%;
     box-sizing: border-box;
-    animation: fadeIn 0.5s ease-out; /* Add subtle entry animation */
+    overflow: hidden; /* Keep children contained */
+    
+    /* Solid background color (respecting light/dark mode) */
+    background-color: var(--content-bg);
+    box-shadow: 0 8px 32px -8px var(--shadow-color);
+}
+
+.tech-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    width: 105%; /* Size larger than container to ensure edges are covered during rotation */
+    height: 150%; /* Taller than wide to create speed variance in conic gradient */
+    z-index: 1; /* Place between background and content */
+
+    /* --- Conic Gradient for Rotation --- */
+    background: conic-gradient(
+        transparent,
+        color-mix(in srgb, var(--accent-color) 80%, transparent),
+        transparent 30%
+    );
+    animation: rotate-border-glow 6s linear infinite;
+}
+
+/* Masking element to create the border effect: content area on top of the gradient */
+.tech-section::after {
+    content: '';
+    position: absolute;
+    inset: 2px; /* This creates the border thickness (2px) */
+    background-color: var(--content-bg);
+    border-radius: 16px; /* Must be slightly smaller than parent's radius */
+    z-index: 2; /* Sits above gradient, below content */
 }
 
 .tech-item {
-    /* Start with a neutral background */
-    background: transparent;
+    position: relative;
+    z-index: 3; /* Ensure items are above the border effect elements */
+    
+    /* --- Glassmorphism Effect --- */
+    background: color-mix(in srgb, var(--border-color) 10%, transparent);
+    backdrop-filter: blur(10px);
     border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 10px;
-    /* Use a subtle border for separation */
-    border: 1px solid color-mix(in srgb, var(--border-color) 20%, transparent);
-    /* Transition for border color and background change */
-    transition: background-color 0.25s ease, border-color 0.25s ease;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .tech-item:hover {
-    /* On hover, slightly brighten background and highlight border with accent color */
-    background-color: color-mix(in srgb, var(--accent-color) 5%, transparent);
-    border-color: color-mix(in srgb, var(--accent-color) 40%, transparent);
+    transform: translateY(-4px) scale(1.02);
+    border-color: color-mix(in srgb, var(--accent-color) 60%, transparent);
+    box-shadow: 0 0 25px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
 .tech-item:last-child {
@@ -626,25 +674,35 @@ body {
 }
 
 .tech-item h3 {
-    margin: 0 0 12px 0;
+    margin: 0 0 15px 0;
     color: var(--accent-color);
-    font-size: 1.15rem; /* Slightly reduced size for a tighter look */
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    text-shadow: 0 0 8px color-mix(in srgb, var(--accent-color) 40%, transparent);
 }
 
-.tech-item h3 i {
-    font-size: 1.3rem;
-    color: var(--accent-color);
+/* --- Futuristic Header Detail --- */
+.tech-item h3::before {
+    content: '';
+    flex-shrink: 0; /* Prevent shrinking */
+    width: 10px;
+    height: 24px;
+    background: var(--accent-color);
+    clip-path: polygon(0 0, 100% 25%, 100% 75%, 0% 100%);
+    margin-right: 5px;
+    opacity: 0.8;
 }
 
 .tech-detail {
+    position: relative;
+    z-index: 3;
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 8px 0; /* Reduced margin for tighter spacing */
+    margin: 10px 0;
     color: var(--text-color);
 }
 
@@ -667,6 +725,8 @@ body {
 /* --- Battery Icon Improvements --- */
 
 .battery-container {
+    position: relative;
+    z-index: 3;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -675,47 +735,57 @@ body {
 
 .battery-icon {
     position: relative;
-    width: 160px; /* Adjusted size */
-    height: 38px;
-    /* Sharper border color for better definition */
-    border: 2px solid color-mix(in srgb, var(--text-color) 60%, transparent);
+    width: 180px;
+    height: 40px;
+    border: 2px solid color-mix(in srgb, var(--text-color) 50%, transparent);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    /* Subtle inner shadow for a slight recessed effect */
-    background: color-mix(in srgb, var(--shadow-color) 10%, transparent);
-    box-shadow: inset 0 1px 3px color-mix(in srgb, var(--shadow-color) 20%, transparent);
+    background: color-mix(in srgb, var(--shadow-color) 20%, transparent);
+    box-shadow: inset 0 0 8px color-mix(in srgb, var(--shadow-color) 40%, transparent);
     overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Apply critical pulse animation */
+.critical .battery-icon {
+    animation: critical-pulse-glow 1.5s infinite;
 }
 
 .battery-icon::after {
     content: '';
     position: absolute;
+    right: -10px;
     top: 50%;
     transform: translateY(-50%);
-    right: -9px; /* Position cap precisely */
-    width: 7px;
-    height: 18px; /* Proportional cap size */
-    background-color: color-mix(in srgb, var(--text-color) 60%, transparent);
+    width: 8px;
+    height: 22px;
+    background-color: color-mix(in srgb, var(--text-color) 50%, transparent);
     border-radius: 3px;
 }
 
 .battery-level {
     height: 100%;
-    /* Use solid colors for a cleaner look, removing animations */
-    background: #32CD32; /* Lime Green */
     transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    /* Add inner shadow for depth on the fill level itself */
-    box-shadow: inset 0 0 4px 2px color-mix(in srgb, black 15%, transparent);
+    background-size: 300% 100%;
+    animation: battery-fill-flow 3s linear infinite;
+    box-shadow: 0 0 10px 2px color-mix(in srgb, #32CD32 40%, transparent);
 }
 
 .low-power .battery-level {
-    background: #FFCC00; /* Yellow */
+    background-image: linear-gradient(90deg, #FFCC00, #FFFFAA, #FFCC00);
+    box-shadow: 0 0 10px 2px color-mix(in srgb, #FFCC00 40%, transparent);
 }
 
 .critical .battery-level {
-    background: #FF3B30; /* Red */
+    background-image: linear-gradient(90deg, #FF3B30, #ff8c85, #FF3B30);
+    box-shadow: none; /* Shadow handled by parent pulse animation */
+}
+
+/* Set base green color here, override in low/critical states */
+.battery-level {
+    background-image: linear-gradient(90deg, #32CD32, #adff2f, #32CD32);
 }
 
 .battery-percentage {
@@ -723,46 +793,25 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white; /* Set base color to white */
+    color: #ffffff;
     font-weight: 700;
     font-size: 14px;
-    z-index: 1;
-    /* Text outline effect: ensures readability on all backgrounds */
-    text-shadow:
-        -1px -1px 0 color-mix(in srgb, black 40%, transparent),
-         1px -1px 0 color-mix(in srgb, black 40%, transparent),
-        -1px  1px 0 color-mix(in srgb, black 40%, transparent),
-         1px  1px 0 color-mix(in srgb, black 40%, transparent);
+    z-index: 4;
+    text-shadow: 0 0 2px black, 0 0 6px black; /* Strong outline for readability */
 }
 
 /* Media Queries */
 @media screen and (max-width: 768px) {
-    .tech-section {
-        padding: 20px;
-    }
-    .tech-item {
-        padding: 15px;
-    }
-    .battery-icon {
-        width: 150px;
-        height: 35px;
-    }
+    .tech-section { padding: 20px; }
+    .tech-item { padding: 15px; }
+    .battery-icon { width: 150px; height: 35px; }
 }
 
 @media screen and (max-width: 480px) {
-    .tech-section {
-        padding: 15px;
-    }
-    .tech-item {
-        padding: 12px;
-    }
-    .battery-icon {
-        width: 120px;
-        height: 30px;
-    }
-    .battery-percentage {
-        font-size: 12px;
-    }
+    .tech-section { padding: 15px; }
+    .tech-item { padding: 12px; }
+    .battery-icon { width: 120px; height: 30px; }
+    .battery-percentage { font-size: 12px; }
 }
 
 /* ======================== */
