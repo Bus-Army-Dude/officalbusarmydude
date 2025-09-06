@@ -90,7 +90,6 @@ body {
     padding: 25px;
     background: var(--content-bg);
     border-radius: 16px;
-    /* Standard, clean shadow for good separation */
     box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--border-color);
     backdrop-filter: blur(10px);
 }
@@ -114,32 +113,34 @@ body {
     object-fit: cover;
 }
 
-/* --- Profile Status Container (Facebook Style Refinement) --- */
+/* --- Profile Status Container (Facebook Active Status Applied) --- */
 .profile-status-container {
     position: absolute;
-    /* Adjusted position for a more standard overlap */
-    bottom: 8px;
-    right: 8px;
-    /* Smaller size for a more subtle indicator */
-    width: 28px;
-    height: 28px;
+    /* Adjusted position to match example image overlap */
+    bottom: 0px;
+    right: 0px;
+
+    /* Size based on example image */
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: var(--content-bg);
-    /* Crisp border to separate from profile picture */
-    border: 2px solid var(--content-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 2;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Shadow to lift it off the photo */
+
+    /* 1. Set background color to online green */
+    background-color: #31a24c;
+
+    /* 2. Add subtle shadow for depth, matching example */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+    /* 3. Remove border to match example image */
+    /* border: 2px solid var(--content-bg); */
+    display: block; /* No longer need flex to center hidden content */
 }
 
+/* 4. Hide emoji text to show only the green dot */
 .profile-status {
-    font-size: 14px; /* Adjusted emoji size */
+    display: none;
 }
-/* Note: For a true Facebook "online" dot, remove the emoji span and set:
-   .profile-status-container { background-color: #31a24c; border-color: white; } */
-
 
 /* --- Username Checkmark --- */
 .username-checkmark {
@@ -182,7 +183,6 @@ body {
     box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow-color) 70%, transparent);
 }
 
-/* Restore solid background for high contrast */
 .settings-button {
     right: 20px;
     background: var(--link-color) url('settings-icon.png') center/18px no-repeat;
@@ -193,7 +193,6 @@ body {
     background: var(--accent-color) url('gift-bag-icon.png') center/18px no-repeat;
 }
 
-/* Simple lift hover effect */
 .settings-button:hover,
 .merch-button:hover {
     transform: translateY(-2px);
@@ -207,12 +206,11 @@ body {
         height: 120px;
     }
     .profile-status-container {
-        width: 26px;
-        height: 26px;
-        bottom: 6px;
-        right: 6px;
+        width: 28px; /* Scale status dot down with profile pic */
+        height: 28px;
+        bottom: 0px;
+        right: 0px;
     }
-    .profile-status { font-size: 12px; }
     .settings-button,
     .merch-button {
         width: 35px;
@@ -226,8 +224,10 @@ body {
         height: 100px;
     }
     .profile-status-container {
-        width: 24px;
+        width: 24px; /* Scale status dot down further */
         height: 24px;
+        bottom: 0px;
+        right: 0px;
     }
     .settings-button,
     .merch-button {
