@@ -422,11 +422,10 @@ async function loadAndDisplayDisabilities() {
                     linkElement.href = data.url;
                     linkElement.target = '_blank';
                     linkElement.rel = 'noopener noreferrer';
-                    
-                    // Add icon based on data.iconClass if present, or use default accessibility icon
-                    const iconClass = data.iconClass || 'fa-universal-access';
-                    linkElement.innerHTML = `<i class="fas ${iconClass}"></i> ${data.name}`;
-                    
+            
+                    // Add icon + text
+                    linkElement.innerHTML = `<i class="fas fa-universal-access"></i> ${data.name}`;
+            
                     listItem.appendChild(linkElement);
                     placeholderElement.appendChild(listItem);
                 } else {
