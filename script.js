@@ -67,18 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const formattedDateTime = `${datePart} at ${timePart}`;
 
+        // Update main date/time section
         const dateTimeSectionElement = document.querySelector('.datetime-section .current-datetime');
         if (dateTimeSectionElement) {
             dateTimeSectionElement.textContent = formattedDateTime;
         }
 
+        // Update version info section time
         const versionTimeElement = document.querySelector('.version-info-section .update-time');
         if (versionTimeElement) {
-            // Assuming the value part of .update-time needs updating, not replacing the whole text content.
-            // If you need to replace, use: versionTimeElement.textContent = formattedDateTime;
-            // For key-value pairs, target a specific span:
-            const valueSpan = versionTimeElement.querySelector('.value'); // Example selector
-            if(valueSpan) valueSpan.textContent = formattedDateTime;
+            // Apply fix: Directly update the text content of the selected element.
+            versionTimeElement.textContent = formattedDateTime;
         }
     }
     updateTime();
