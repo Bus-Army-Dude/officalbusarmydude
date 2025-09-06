@@ -3555,7 +3555,19 @@ function displayFilteredActivityLog() {
     }
 
 
-         // Function to render a single Disability Link item in the admin list
+          // Get references to modal elements for disability edits
+    const editDisabilityModal = document.getElementById('edit-disability-modal');
+    const editDisabilityForm = document.getElementById('edit-disability-form');
+    const editDisabilityNameInput = document.getElementById('edit-disability-name');
+    const editDisabilityUrlInput = document.getElementById('edit-disability-url');
+    const editDisabilityOrderInput = document.getElementById('edit-disability-order');
+    const editDisabilityIconInput = document.getElementById('edit-disability-icon');
+    const editDisabilityStatusMessage = document.getElementById('edit-disability-status-message');
+    const disabilitiesListAdmin = document.getElementById('disabilities-list-admin');
+    const disabilitiesCount = document.getElementById('disabilities-count'); // Span to show count
+    const addDisabilityForm = document.getElementById('add-disability-form');
+
+   // Function to render a single Disability Link item in the admin list
     function renderDisabilityAdminListItem(container, docId, name, url, order, iconClass, deleteHandler, editHandler) {
         if (!container) {
              console.warn("Disabilities list container not found during render.");
@@ -3893,34 +3905,6 @@ async function loadDisabilitiesAdmin() {
         }
     }
 
-document.addEventListener('DOMContentLoaded', () => {
-        // Get references to modal elements for disability edits
-    const editDisabilityModal = document.getElementById('edit-disability-modal');
-    const editDisabilityForm = document.getElementById('edit-disability-form');
-    const editDisabilityNameInput = document.getElementById('edit-disability-name');
-    const editDisabilityUrlInput = document.getElementById('edit-disability-url');
-    const editDisabilityOrderInput = document.getElementById('edit-disability-order');
-    const editDisabilityIconInput = document.getElementById('edit-disability-icon');
-    const editDisabilityStatusMessage = document.getElementById('edit-disability-status-message');
-    const disabilitiesListAdmin = document.getElementById('disabilities-list-admin');
-    const disabilitiesCount = document.getElementById('disabilities-count'); // Span to show count
-    const addDisabilityForm = document.getElementById('add-disability-form');
-
-    // Add Disability Forms
-    if (addDisabilityForm) {
-        addDisabilityForm.addEventListener('submit', handleAddDisability);
-    }
-
-    // Edit Disability Forms
-    if (editDisabilityForm) {
-        editDisabilityForm.addEventListener('submit', handleUpdateDisability);
-    }
-
-    // Attach event listeners for the disability icon functionality
-    setupDisabilityIconListeners('add');
-    setupDisabilityIconListeners('edit');
-});
-
 function displayFilteredDisabilities() {
     const listContainer = disabilitiesListAdmin;
     const countElement = disabilitiesCount;
@@ -3972,6 +3956,22 @@ function displayFilteredDisabilities() {
     }
     if (countElement) { countElement.textContent = `(${listToRender.length})`; }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Attach event listeners for the disability icon functionality
+    setupDisabilityIconListeners('add');
+    setupDisabilityIconListeners('edit');
+
+    // Add Disability Forms
+    if (addDisabilityForm) {
+        addDisabilityForm.addEventListener('submit', handleAddDisability);
+    }
+
+    // Edit Disability Forms
+    if (editDisabilityForm) {
+        editDisabilityForm.addEventListener('submit', handleUpdateDisability);
+    }
+});
     
 // --- Attach Event Listeners for Section Forms & Modals ---
 
