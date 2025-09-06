@@ -298,23 +298,14 @@ body {
         color-mix(in srgb, var(--content-bg) 98%, white),
         var(--content-bg));
     padding: 30px;
-    border-radius: 20px; /* Softer radius for consistency */
+    border-radius: 20px;
     margin-bottom: 30px;
-    /* Refined shadow for consistent theme depth */
     box-shadow:
         0 10px 35px -10px var(--shadow-color),
         0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
     backdrop-filter: blur(10px);
     width: 100%;
     box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.president-section:hover {
-    transform: translateY(-5px);
-    box-shadow:
-        0 12px 40px -10px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 15%, transparent);
 }
 
 .president-info {
@@ -329,19 +320,17 @@ body {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--accent-color);
-    flex-shrink: 0; /* Prevent image from shrinking on flex layouts */
-    /* Add inner shadow for depth and outer glow matching border color */
-    box-shadow:
-        inset 0 2px 6px rgba(0, 0, 0, 0.15),
-        0 4px 15px color-mix(in srgb, var(--accent-color) 25%, transparent);
+    flex-shrink: 0;
+    /* Removed colored border for a cleaner look */
+    border: none;
+    /* Refined shadow for depth */
+    box-shadow: 0 5px 25px color-mix(in srgb, var(--shadow-color) 80%, transparent);
 }
 
 .president-details {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Slightly tighter spacing between text elements */
 }
 
 .president-name {
@@ -352,17 +341,20 @@ body {
 }
 
 .president-title {
-    font-size: 18px;
-    color: var(--accent-color);
-    font-weight: 500; /* Adjust weight for clarity */
-    margin: 0;
+    font-size: 17px;
+    /* Changed color from accent to secondary for a more professional hierarchy */
+    color: var(--secondary-text);
+    font-weight: 500;
+    font-style: italic;
+    margin: 4px 0 12px 0; /* Adjusted spacing */
 }
 
 .president-description {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--secondary-text); /* Use secondary text color for better hierarchy */
-    margin: 10px 0 0 0; /* Adjust top margin */
+    color: var(--text-color);
+    opacity: 0.9;
+    margin: 0;
 }
 
 /* Responsive Design */
@@ -391,7 +383,7 @@ body {
 
 @media screen and (max-width: 480px) {
     .president-section {
-        padding: 20px; /* Keep padding slightly larger for touch targets */
+        padding: 20px;
     }
 
     .president-info {
@@ -402,7 +394,7 @@ body {
     .president-photo {
         width: 100px;
         height: 100px;
-        margin-bottom: 10px; /* Add space between photo and text in column layout */
+        margin-bottom: 15px;
     }
 
     .president-description {
