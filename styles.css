@@ -764,6 +764,7 @@ body {
 /* Disabilities Section - Modern Accent Styling */
 /* ======================== */
 
+
 .disabilities-section {
     background-color: var(--content-bg);
     border-radius: 12px;
@@ -773,6 +774,7 @@ body {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+
 .disabilities-section h2 {
     margin-bottom: 15px;
     color: var(--text-color);
@@ -780,12 +782,14 @@ body {
     font-weight: 600;
 }
 
+
 .disabilities-section p {
     margin-bottom: 20px;
     color: var(--secondary-text);
     font-size: 1em;
     line-height: 1.5;
 }
+
 
 .disabilities-section ul {
     list-style: none;
@@ -795,11 +799,12 @@ body {
     gap: 12px;
 }
 
+
 /* Modern Button Links */
 .disabilities-section a {
-    display: flex;
+    display: flex; /* Use flexbox for alignment */
     align-items: center;
-    justify-content: center;
+    justify-content: space-between; /* Space between text and icon */
     color: var(--accent-color);
     font-weight: 500;
     text-decoration: none;
@@ -808,11 +813,23 @@ body {
     background-color: transparent;
     border: 2px solid var(--accent-color);
     transition: all 0.3s ease;
-    text-align: center;
+    text-align: center; /* This will center the text element itself within the link, not necessarily the entire content visually if icon is present */
     box-shadow: 0 2px 6px var(--shadow-color);
     position: relative;
     overflow: hidden;
 }
+
+/* New style for the text wrapper */
+.disabilities-section a span.button-text {
+    flex-grow: 1; /* Allow the text to take up available space */
+    text-align: center; /* Center the text within its flex item */
+}
+
+/* Style for the icon */
+.disabilities-section a i {
+    margin-left: 10px; /* Add some space between text and icon */
+}
+
 
 /* Subtle hover glow */
 .disabilities-section a:hover {
@@ -823,11 +840,13 @@ body {
                 0 0 10px var(--accent-color);
 }
 
+
 /* Focus accessibility */
 .disabilities-section a:focus {
     outline: none;
     box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.35);
 }
+
 
 /* Dark + Light scheme refinements */
 @media (prefers-color-scheme: dark) {
@@ -839,6 +858,7 @@ body {
         border-color: var(--accent-color);
     }
 }
+
 
 @media (prefers-color-scheme: light) {
     .disabilities-section {
