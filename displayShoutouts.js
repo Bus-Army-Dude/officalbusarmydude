@@ -420,12 +420,9 @@ async function loadAndDisplayDisabilities() {
                     const listItem = document.createElement('li');
                     const linkElement = document.createElement('a');
                     linkElement.href = data.url;
+                    linkElement.textContent = data.name;
                     linkElement.target = '_blank';
                     linkElement.rel = 'noopener noreferrer';
-            
-                    // Add icon + text
-                    linkElement.innerHTML = `<i class="fas fa-universal-access"></i> ${data.name}`;
-            
                     listItem.appendChild(linkElement);
                     placeholderElement.appendChild(listItem);
                 } else {
