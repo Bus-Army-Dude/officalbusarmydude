@@ -422,6 +422,45 @@ body.dark-mode .apple-toggle-label {
     line-height: 1.3;
 }
 
+
+/* Disability Icon Styles */
+.disability-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    color: var(--accent-color);
+}
+
+.disability-icon i {
+    font-size: 1.2em;
+}
+
+/* Icon Preview Container */
+.icon-preview {
+    margin-top: 8px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-preview i {
+    font-size: 1.5em;
+    color: var(--accent-color);
+}
+
+/* Icon Select Dropdown */
+select#disability-icon-select,
+select#edit-disability-icon-select {
+    margin-top: 4px;
+    width: 100%;
+}
+
 /* ======================== */
 /* Button Styles            */
 /* ======================== */
