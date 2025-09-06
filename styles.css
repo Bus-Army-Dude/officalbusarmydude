@@ -1312,24 +1312,30 @@ body {
 .countdown-section {
     background: linear-gradient(145deg,
         color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg)
-    );
+        var(--content-bg));
     padding: 30px;
-    border-radius: 16px;
+    border-radius: 20px;
     margin: 30px auto;
     text-align: center;
-    box-shadow: 
-        0 8px 32px -8px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
+    box-shadow:
+        0 10px 35px -10px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
     backdrop-filter: blur(10px);
     width: 100%;
     box-sizing: border-box;
 }
 
+.countdown-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 25px;
+}
+
 .countdown-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
     margin-top: 20px;
     flex-wrap: wrap;
 }
@@ -1346,8 +1352,8 @@ body {
 
 .flip-clock-inner {
     position: relative;
-    width: 60px;
-    height: 80px;
+    width: 70px;
+    height: 90px;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     display: flex;
@@ -1359,6 +1365,7 @@ body {
     transform: rotateX(180deg);
 }
 
+/* --- Refined Flip Card Styling --- */
 .flip-clock-front,
 .flip-clock-back {
     position: absolute;
@@ -1368,18 +1375,31 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2em;
-    font-weight: bold;
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--accent-color), var(--content-bg) 85%),
-        var(--content-bg)
-    );
-    border: 2px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+    overflow: hidden;
     border-radius: 12px;
-    color: var(--text-color);
-    box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 15%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 20%, transparent);
+
+    /* 1. Glassmorphism Background Effect */
+    background: color-mix(in srgb, var(--border-color) 10%, transparent);
+    backdrop-filter: blur(8px);
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+
+    /* 2. Glowing Number Effect */
+    color: var(--accent-color);
+    font-size: 2.2em;
+    font-weight: 700;
+    text-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 50%, transparent);
+}
+
+/* Middle line effect */
+.flip-clock-front::before,
+.flip-clock-back::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--border-color) 50%, transparent);
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .flip-clock-back {
@@ -1387,12 +1407,12 @@ body {
 }
 
 .countdown-label {
-    color: var(--accent-color);
+    color: var(--secondary-text);
     font-size: 0.9em;
     font-weight: 600;
     text-transform: uppercase;
     margin-top: 10px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 
 /* Responsive Design */
@@ -1400,19 +1420,16 @@ body {
     .countdown-section {
         padding: 20px;
     }
-
     .countdown-container {
-        gap: 15px;
+        gap: 20px;
     }
-
     .flip-clock-inner {
-        width: 50px;
-        height: 70px;
+        width: 60px;
+        height: 80px;
     }
-
     .flip-clock-front,
     .flip-clock-back {
-        font-size: 1.8em;
+        font-size: 2em;
     }
 }
 
@@ -1420,22 +1437,18 @@ body {
     .countdown-section {
         padding: 15px;
     }
-
     .countdown-container {
-        gap: 10px;
+        gap: 15px;
     }
-
     .flip-clock-inner {
-        width: 40px;
-        height: 60px;
+        width: 50px;
+        height: 70px;
     }
-
     .flip-clock-front,
     .flip-clock-back {
-        font-size: 1.5em;
+        font-size: 1.8em;
         border-radius: 8px;
     }
-
     .countdown-label {
         font-size: 0.8em;
     }
