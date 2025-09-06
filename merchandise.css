@@ -1,3 +1,7 @@
+/* ======================================== */
+/* == Theme & General Styles == */
+/* ======================================== */
+
 /* Theme Variables */
 :root {
     /* Light Mode Colors */
@@ -10,7 +14,7 @@
     --light-hover: #0056b3;
     --light-link: #007bff;
     --light-shadow: rgba(0, 0, 0, 0.1);
- 
+
     /* Dark Mode Colors */
     --dark-bg: #121212;
     --dark-content-bg: #1f1f1f;
@@ -71,17 +75,19 @@ body {
     min-height: 100vh;
 }
 
-/* Header Styling - Modern & Spaced */
+/* ======================================== */
+/* == Header & Navigation == */
+/* ======================================== */
+
 header {
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid color-mix(in srgb, var(--text-color) 15%, transparent);
+    background: color-mix(in srgb, var(--content-bg) 80%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
     color: var(--text-color);
     padding: 25px;
-    border-radius: 16px;
+    border-radius: 20px; /* Consistent radius */
     margin: 20px 0 30px 0;
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    box-shadow: 0 10px 35px -10px var(--shadow-color);
 }
 
 .header-content {
@@ -94,8 +100,8 @@ header {
 .header-content h1 {
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 800;
-    background: linear-gradient(120deg, 
-        var(--text-color), 
+    background: linear-gradient(120deg,
+        var(--text-color),
         color-mix(in srgb, var(--text-color) 70%, var(--accent-color))
     );
     -webkit-background-clip: text;
@@ -104,58 +110,43 @@ header {
     margin: 0;
 }
 
-/* Modern Home Button */
+/* Adaptive Home Button */
 .home-button {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(
-        145deg,
-        var(--accent-color),
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
-    );
-    color: white;
     padding: 12px 24px;
-    border-radius: 14px;
+    border-radius: 12px;
     font-weight: 600;
     font-size: 1rem;
-    border: none;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
-    backdrop-filter: blur(10px);
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    /* Default State: Outline */
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 
 .home-button:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 
-        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
-        0 0 0 1px var(--accent-color);
-    background: linear-gradient(
-        145deg,
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
-        var(--accent-color)
-    );
-}
-
-.home-button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 10px color-mix(in srgb, var(--accent-color) 20%, transparent);
+    transform: translateY(-2px);
+    /* Hover State: Filled */
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--content-bg); /* Inverted color for contrast */
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
 /* Modern Category Dropdown */
 .category-dropdown {
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid color-mix(in srgb, var(--text-color) 15%, transparent);
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
     padding: 20px;
-    border-radius: 16px;
+    border-radius: 20px;
     margin-bottom: 30px;
     position: relative;
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    box-shadow: 0 10px 35px -10px var(--shadow-color);
 }
 
 .category-dropdown label {
@@ -168,87 +159,43 @@ header {
 
 #categories {
     width: 100%;
-    padding: 16px 20px;
+    padding: 14px 18px;
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-color);
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 95%, transparent),
-        color-mix(in srgb, var(--content-bg) 98%, var(--accent-color))
-    );
-    border: 1px solid color-mix(in srgb, var(--border-color) 50%, transparent);
+    background-color: var(--bg-color); /* Cleaner background */
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     cursor: pointer;
     appearance: none;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 
-        inset 0 2px 4px color-mix(in srgb, var(--shadow-color) 10%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 15%, transparent);
+    transition: all 0.3s ease;
 }
 
 .category-dropdown::after {
     content: '▼';
     position: absolute;
     right: 35px;
-    bottom: 25px;
-    color: var(--accent-color);
+    bottom: 32px;
+    color: var(--secondary-text);
     font-size: 0.8rem;
     pointer-events: none;
-    transition: transform 0.3s ease;
 }
 
 #categories:hover {
     border-color: var(--accent-color);
-    transform: translateY(-2px);
-    box-shadow: 
-        inset 0 2px 4px color-mix(in srgb, var(--shadow-color) 10%, transparent),
-        0 4px 12px color-mix(in srgb, var(--accent-color) 15%, transparent),
-        0 0 0 1px var(--accent-color);
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 90%, var(--accent-color)),
-        var(--content-bg)
-    );
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent-color) 15%, transparent);
 }
 
 #categories:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 
-        inset 0 2px 4px color-mix(in srgb, var(--shadow-color) 10%, transparent),
-        0 4px 12px color-mix(in srgb, var(--accent-color) 20%, transparent),
-        0 0 0 2px color-mix(in srgb, var(--accent-color) 20%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent);
 }
 
-/* Styling for dropdown options */
-#categories option {
-    background: var(--content-bg);
-    color: var(--text-color);
-    padding: 12px;
-    font-weight: 500;
-}
+/* ======================================== */
+/* == Product Grid & Cards == */
+/* ======================================== */
 
-/* Webkit scrollbar customization */
-#categories::-webkit-scrollbar {
-    width: 10px;
-}
-
-#categories::-webkit-scrollbar-track {
-    background: var(--bg-color);
-    border-radius: 10px;
-}
-
-#categories::-webkit-scrollbar-thumb {
-    background: var(--accent-color);
-    border-radius: 10px;
-}
-
-/* Firefox scrollbar customization */
-#categories {
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent-color) var(--bg-color);
-}
-
-/* Product Grid - Modern Layout */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -257,30 +204,26 @@ header {
     padding: 0;
 }
 
-/* Product Cards - Enhanced Design */
 .product-item {
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid color-mix(in srgb, var(--text-color) 15%, transparent);
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 8px 32px -8px var(--shadow-color);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px -12px var(--shadow-color);
 }
 
 .product-item:hover {
     transform: translateY(-8px);
-    box-shadow: 
+    box-shadow:
         0 16px 40px -8px var(--shadow-color),
         0 0 0 1px var(--accent-color);
 }
 
-/* Product Image Container */
 .product-image-container {
     width: 100%;
     aspect-ratio: 1;
@@ -293,7 +236,7 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.4s ease;
 }
 
 .product-item:hover img {
@@ -303,7 +246,7 @@ header {
 .product-item h3 {
     font-size: 1.4rem;
     font-weight: 600;
-    margin: 15px 0;
+    margin: 0 0 10px 0;
     color: var(--text-color);
 }
 
@@ -321,70 +264,59 @@ header {
     font-size: 0.9em;
 }
 
-/* Modern Button Style */
+/* Adaptive Buy Now Button */
 .buy-now {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: linear-gradient(
-        145deg,
-        var(--accent-color),
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff)
-    );
-    color: white;
     padding: 12px 24px;
-    border-radius: 14px;
+    border-radius: 12px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.3s ease;
     margin-top: auto;
-    border: none;
-    box-shadow: 
-        0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    cursor: pointer;
+
+    /* Default State: Outline */
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 
 .buy-now:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 
-        0 8px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
-        0 0 0 1px var(--accent-color);
-    background: linear-gradient(
-        145deg,
-        color-mix(in srgb, var(--accent-color) 80%, #ffffff),
-        var(--accent-color)
-    );
+    transform: translateY(-2px);
+    /* Hover State: Filled */
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--content-bg);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
-/* Enhanced Status Ribbons */
+/* Status Ribbons */
 .stock-ribbon, .sale-ribbon {
     position: absolute;
-    padding: 8px 16px;
-    font-size: 0.9rem;
+    padding: 6px 12px;
+    font-size: 0.85rem;
     font-weight: 600;
     border-radius: 8px;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(5px);
     z-index: 2;
 }
 
-.stock-ribbon {
-    top: 15px;
-    right: 15px;
-}
+.stock-ribbon { top: 15px; right: 15px; }
+.sale-ribbon { top: 15px; left: 15px; }
 
 .sale-ribbon {
-    top: 15px;
-    left: 15px;
-    background: rgba(255, 0, 0, 0.15);
+    background: rgba(220, 53, 69, 0.15);
     color: #ff4444;
-    border: 1px solid rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.2);
 }
 
 .in-stock {
     background: rgba(40, 167, 69, 0.15);
     color: #2ecc71;
-    border: 1px solid rgba(46, 204, 113, 0.2);
+    border: 1px solid rgba(40, 167, 69, 0.2);
 }
 
 .low-stock {
@@ -394,96 +326,30 @@ header {
 }
 
 .out-of-stock {
-    background: rgba(220, 53, 69, 0.15);
-    color: #ff4444;
-    border: 1px solid rgba(220, 53, 69, 0.2);
-}
-
-/* Custom Select Options */
-.category-nav select option {
-    background: var(--bg-color);
-    color: var(--text-color);
-    padding: 12px;
-    font-weight: 500;
+    background: rgba(108, 117, 125, 0.15);
+    color: #adb5bd;
+    border: 1px solid rgba(108, 117, 125, 0.2);
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
-    .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    }
-}
-
 @media (max-width: 768px) {
-    body {
-        padding: 15px;
-    }
-
-    header {
-        padding: 20px;
-        margin: 15px 0 25px 0;
-    }
-
-    .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 20px;
-    }
-
-    .product-item {
-        padding: 15px;
-    }
-
-    .header-content h1 {
-        font-size: 1.8rem;
-    }
-
-    .buy-now {
-        padding: 10px 20px;
-    }
-
-    .category-dropdown {
-        padding: 15px;
-    }
-
-    #categories {
-        padding: 14px 18px;
-    }
-
-    .category-dropdown::after {
-        right: 30px;
-        bottom: 22px;
-    }
+    body { padding: 15px; }
+    header { padding: 20px; margin: 15px 0 25px 0; }
+    .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .product-item { padding: 15px; }
+    .header-content h1 { font-size: 1.8rem; }
+    .buy-now { padding: 10px 20px; }
+    .category-dropdown { padding: 15px; }
+    #categories { padding: 14px 18px; }
+    .category-dropdown::after { right: 30px; bottom: 28px; }
 }
 
 @media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-
-    header {
-        padding: 15px;
-        margin: 10px 0 20px 0;
-    }
-
-    .product-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .product-item {
-        padding: 12px;
-    }
-
-    .category-dropdown {
-        padding: 12px;
-    }
-
-    #categories {
-        padding: 12px 16px;
-        font-size: 0.95rem;
-    }
-
-    .category-dropdown label {
-        font-size: 1rem;
-    }
+    body { padding: 10px; }
+    header { padding: 15px; margin: 10px 0 20px 0; }
+    .product-grid { grid-template-columns: 1fr; gap: 15px; }
+    .product-item { padding: 12px; }
+    .category-dropdown { padding: 12px; }
+    #categories { padding: 12px 16px; font-size: 0.95rem; }
+    .category-dropdown label { font-size: 1rem; }
 }
