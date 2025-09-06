@@ -1451,24 +1451,29 @@ body {
 
 .scroll-to-top {
     position: fixed;
-    bottom: 20px;
-    left: 20px; /* Position a bit further from edge for better aesthetics */
-    width: 50px; /* Adjusted size for a sleeker look */
-    height: 50px;
+    bottom: 25px; /* Slightly higher */
+    right: 25px; /* Moved to the right for common FAB placement */
+    width: 55px; /* Slightly larger for presence */
+    height: 55px;
     border: none;
     cursor: pointer;
     z-index: 9999;
     display: none; /* Hidden by default, made visible by JS */
-    border-radius: 50%;
+    border-radius: 50%; /* Perfect circle */
 
-    /* --- Theme matching additions --- */
-    background-color: var(--content-bg);
-    box-shadow: 0 5px 15px color-mix(in srgb, var(--shadow-color) 70%, transparent);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* --- Glassmorphism Background --- */
+    background: color-mix(in srgb, var(--content-bg) 70%, transparent); /* Semi-transparent background */
+    backdrop-filter: blur(12px); /* Frosted glass effect */
+    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent); /* Subtle border */
+
+    /* --- Enhanced Shadow --- */
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent);
+    transition: all 0.3s ease; /* Smooth transitions for all properties */
 }
 
 .scroll-to-top:hover {
-    transform: scale(1.05);
+    transform: translateY(-3px); /* Gentle lift effect */
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent); /* Increased shadow on hover */
 }
 
 .scroll-to-top.visible {
@@ -1488,30 +1493,77 @@ body {
 
 .progress-bg {
     fill: none;
-    stroke: var(--border-color);
-    stroke-width: 4;
-    opacity: 0.3;
+    stroke: color-mix(in srgb, var(--border-color) 50%, transparent); /* More subtle background progress */
+    stroke-width: 3; /* Slightly thinner */
+    opacity: 0.8;
 }
 
 .progress-indicator {
     fill: none;
-    stroke: var(--accent-color);
-    stroke-width: 4;
-    stroke-linecap: round; /* Smoother line ends */
-    stroke-dasharray: 163.36; /* 2πr where r=26 (for a 60px viewbox a 26 radius fits with 4 stroke) */
-    stroke-dashoffset: 163.36;
+    /* --- Gradient Progress Indicator (for a cooler look) --- */
+    stroke: url(#gradient-accent); /* Reference a gradient ID defined in SVG */
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 157.08; /* 2πr where r=25 for a 55px width/height element */
+    stroke-dashoffset: 157.08;
     transition: stroke-dashoffset 0.2s ease-out;
 }
+
+/* You'll need to define this gradient in your HTML SVG or through JS if dynamic */
+/* Example SVG Gradient definition to add to your HTML where the SVG is:
+<defs>
+    <linearGradient id="gradient-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="var(--accent-color)" />
+        <stop offset="100%" stop-color="color-mix(in srgb, var(--accent-color) 70%, white)" />
+    </linearGradient>
+</defs>
+*/
+
 
 /* --- Arrow Icon --- */
 .arrow {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -55%); /* Fine-tune alignment */
-    font-size: 24px; /* Adjust size relative to new button dimensions */
-    color: var(--accent-color);
-    pointer-events: none;
+    transform: translate(-50%, -50%); /* Center perfectly */
+    font-size: 26px; /* Slightly larger, clearer arrow */
+    color: var(--accent-color); /* Matches the accent color for harmony */
+    pointer-events: none; /* Allows clicks to pass through to the button */
+    font-weight: 800; /* Bolder arrow */
+    text-shadow: 0 0 5px color-mix(in srgb, var(--accent-color) 30%, transparent); /* Subtle glow */
+}
+
+/* Media Queries for smaller sizes */
+@media screen and (max-width: 768px) {
+    .scroll-to-top {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+    .progress-indicator {
+        stroke-dasharray: 144.51; /* 2πr for r=23. Adjust if needed */
+        stroke-dashoffset: 144.51;
+    }
+    .arrow {
+        font-size: 22px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .scroll-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        right: 15px;
+    }
+    .progress-indicator {
+        stroke-dasharray: 131.95; /* 2πr for r=21. Adjust if needed */
+        stroke-dashoffset: 131.95;
+    }
+    .arrow {
+        font-size: 20px;
+    }
 }
 
 /* Version Info Section */
