@@ -1,36 +1,36 @@
 /* ======================== */
-/* Theme Variables (fixed contrast) */
+/* Theme Variables (Fixed Contrast + Accent) */
 /* ======================== */
 :root {
-    /* --- Modern Base Sizing (using pixels) --- */
+    /* --- Modern Base Sizing --- */
     --font-size-base: 16px;
     --line-height-base: 1.65;
 
     /* --- Modern Light Mode Colors --- */
-    --light-bg: #F2F4F7;             /* page background (slightly gray) */
-    --light-content-bg: #FFFFFF;     /* containers bright white */
+    --light-bg: #F2F4F7;             /* page background */
+    --light-content-bg: #FFFFFF;     /* bright cards */
     --light-text: #202124;           /* near black text */
-    --light-secondary-text: #5F6368; /* softer gray text */
-    --light-border: #DADCE0;         /* Google-style border gray */
-    --light-accent: #0D6EFD;
+    --light-secondary-text: #5F6368; /* softer gray */
+    --light-border: #DADCE0;
+    --light-accent: #0D6EFD;         /* blue accent */
     --light-hover: #0B5ED7;
     --light-link: var(--light-accent);
-    --light-shadow: rgba(60, 64, 67, 0.1); /* slightly stronger shadow for contrast */
+    --light-shadow: rgba(60, 64, 67, 0.1);
     --light-icon: #495057;
-    
+
     /* --- Modern Dark Mode Colors --- */
     --dark-bg: #121212;              /* page background true black */
-    --dark-content-bg: #1E1E1E;      /* containers slightly lighter gray for contrast */
+    --dark-content-bg: #1E1E1E;      /* lifted cards for contrast */
     --dark-text: #EDEDED;            /* bright text */
-    --dark-secondary-text: #B0B3B8;  /* softer gray text */
-    --dark-border: #2C2C2C;
-    --dark-accent: #3B82F6;
-    --dark-hover: #60A5FA;
+    --dark-secondary-text: #B0B3B8;  /* softer gray */
+    --dark-border: #2A2A2A;
+    --dark-accent: #4ADE80;          /* brighter green (was duller) */
+    --dark-hover: #34D399;           /* lighter hover green */
     --dark-link: var(--dark-accent);
-    --dark-shadow: rgba(0, 0, 0, 0.4); /* deeper shadows for dark mode */
+    --dark-shadow: rgba(0, 0, 0, 0.5);
     --dark-icon: #CED4DA;
 
-    /* --- Default fallback (dark mode baseline) --- */
+    /* --- Default fallback (dark baseline) --- */
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
