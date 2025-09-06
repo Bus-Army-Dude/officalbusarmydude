@@ -1,61 +1,58 @@
 /* ===================================================== */
-/* == Apple + Material Blended Theme (Scoped to .settings-page) == */
+/* == Android / Material Themed Settings (Scoped to .settings-page) == */
 /* ===================================================== */
 
-/* Global Variables - These remain global */
 :root {
   --font-size-base: 17px;
-  --bg-color: #f5f5f7;
+  --bg-color: #f2f4f7; /* subtle neutral surface */
   --content-bg: #ffffff;
-  --text-color: #1d1d1f;
-  --secondary-text: #86868b;
-  --border-color: #d2d2d7;
-  --accent-color: #0066cc;
-  --hover-color: #0071e3;
-  --toggle-on: #34c759;
-  --toggle-off: #e9e9eb;
-  --red-color: #ff3b30;
-  --shadow-color: rgba(0, 0, 0, 0.12);
+  --text-color: #202124;
+  --secondary-text: #5f6368;
+  --border-color: #e0e0e0;
+  --accent-color: #3ddc84; /* Android green */
+  --hover-color: #35c374;
+  --toggle-on: #3ddc84;
+  --toggle-off: #e6e6e6;
+  --red-color: #d93025;
+  --shadow-elevation-1: 0 1px 3px rgba(60,64,67,0.12);
+  --shadow-elevation-2: 0 4px 12px rgba(60,64,67,0.16);
   --slider-thumb-color: #ffffff;
-  --slider-track-color: #e9e9eb;
-  --slider-track-filled-color: #0066cc;
-  --focus-outline-color: #0066cc;
+  --slider-track-color: #e6e6e6;
+  --slider-track-filled-color: var(--accent-color);
+  --focus-outline-color: rgba(60,64,67,0.12);
+  --surface-radius: 8px; /* squarer than iOS */
 }
 
 body.dark-mode {
   --bg-color: #121212;
-  --content-bg: #1e1e1e;
-  --text-color: #e1e1e1;
-  --secondary-text: #a0a0a0;
-  --border-color: #3a3a3c;
-  --shadow-color: rgba(0, 0, 0, 0.5);
-  --slider-track-color: #424245;
-  --toggle-off: #636366;
+  --content-bg: #1c1c1e;
+  --text-color: #e6e6e6;
+  --secondary-text: #b3b3b3;
+  --border-color: #2c2c2e;
+  --shadow-elevation-1: 0 1px 3px rgba(0,0,0,0.6);
+  --shadow-elevation-2: 0 6px 18px rgba(0,0,0,0.6);
+  --slider-track-color: #2f2f31;
+  --toggle-off: #3a3a3c;
 }
 
 body.light-mode {
-  --bg-color: #f5f5f7;
+  --bg-color: #f2f4f7;
   --content-bg: #ffffff;
-  --text-color: #1d1d1f;
-  --secondary-text: #86868b;
-  --border-color: #d2d2d7;
-  --shadow-color: rgba(0, 0, 0, 0.12);
-  --slider-track-color: #e9e9eb;
-  --toggle-off: #e9e9eb;
+  --text-color: #202124;
+  --secondary-text: #5f6368;
+  --border-color: #e0e0e0;
 }
 
 /* ========== General Styles for Settings Page ========== */
 body.settings-page {
-  /* Added Roboto to font stack */
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-color);
   color: var(--text-color);
   font-size: var(--font-size-base);
-  line-height: 1.47059;
+  line-height: 1.4;
   font-weight: 400;
-  letter-spacing: -0.022em;
   margin: 0;
   padding: 0;
 }
@@ -63,13 +60,13 @@ body.settings-page {
 /* ========== Skip Link (Scoped) ========== */
 body.settings-page .skip-link {
   position: absolute;
-  top: -40px;
   left: 0;
+  top: -40px;
   background: var(--accent-color);
   color: white;
   padding: 8px;
   z-index: 100;
-  transition: top 0.3s;
+  transition: top 0.2s ease;
 }
 
 body.settings-page .skip-link:focus {
@@ -78,110 +75,85 @@ body.settings-page .skip-link:focus {
 
 /* ========== Container (Scoped) ========== */
 body.settings-page .container {
-  max-width: 900px; /* slightly wider for Material feel */
+  max-width: 920px;
   margin: 0 auto;
   padding: 40px 20px;
 }
 
-/* ========== Settings Section (Scoped) ========== */
-body.settings-page .settings-section {
-  margin-bottom: 40px;
-}
-
+/* ========== Settings Header (Scoped) ========== */
 body.settings-page .settings-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 28px;
 }
 
 body.settings-page .settings-header h1 {
-  font-size: 34px;
-  font-weight: 700; /* slightly bolder for combined look */
+  font-size: 30px;
+  font-weight: 500; /* Material weight */
   margin: 0;
-  letter-spacing: -0.003em;
   color: var(--text-color);
 }
 
 body.settings-page .version {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--secondary-text);
 }
 
 /* ========== Settings Subsection (Scoped) ========== */
 body.settings-page .settings-subsection {
-  /* Blend iOS translucency with Android elevation */
-  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.42));
-  background-color: var(--content-bg); /* fallback */
-  border-radius: 14px; /* slightly larger radius like iOS */
+  background: var(--content-bg);
+  border-radius: var(--surface-radius);
   margin-bottom: 20px;
-  /* Stronger material elevation but softened for iOS */
-  box-shadow: 0 8px 20px -6px var(--shadow-color);
+  box-shadow: var(--shadow-elevation-1);
   overflow: hidden;
-  border: 1px solid rgba(0,0,0,0.04);
-  backdrop-filter: blur(6px); /* subtle iOS-like blur */
+  border: 1px solid var(--border-color);
 }
 
 body.dark-mode .settings-subsection {
-  /* Dark mode tweak: keep translucency subtle */
-  background: linear-gradient(180deg, rgba(30,30,30,0.6), rgba(30,30,30,0.48));
+  box-shadow: var(--shadow-elevation-2);
   border: 1px solid rgba(255,255,255,0.03);
 }
 
 body.settings-page .subsection-title {
-  font-size: 18px;
-  /* Bolder weight for Material style, but compact like iOS */
-  font-weight: 600;
-  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 14px 18px;
   margin: 0;
   border-bottom: 1px solid var(--border-color);
-  letter-spacing: 0.02em;
-  text-transform: none;
   color: var(--text-color);
 }
 
 /* ========== Setting Card (Scoped) ========== */
 body.settings-page .setting-card {
-  /* Slightly increased padding and taller touch targets */
-  padding: 18px 20px;
+  padding: 14px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 64px; /* mobile-friendly touch target */
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-  transition: background-color 0.18s ease, transform 0.06s ease;
-  position: relative; /* for ripple */
+  min-height: 56px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
   overflow: hidden; /* clip ripple */
-  cursor: default;
+  background: transparent;
 }
 
 body.settings-page .setting-card:last-child {
   border-bottom: none;
 }
 
-/* Adjusted hover for light mode (Scoped) */
+/* Material hover: elevation instead of transform */
 body.settings-page .setting-card:hover {
-  background-color: rgba(0, 102, 204, 0.03); /* subtle accent wash like Android */
-  transform: translateY(-1px); /* slight lift like Material */
-}
-
-/* Hover for dark mode (Scoped) */
-@media (prefers-color-scheme: dark) {
-  body.settings-page .setting-card:hover {
-    background-color: rgba(255, 255, 255, 0.03);
-  }
+  box-shadow: var(--shadow-elevation-2);
 }
 
 body.settings-page .setting-label {
   flex: 1;
-  padding-right: 15px; /* Ensure space between label and control */
+  padding-right: 12px;
 }
 
 body.settings-page .setting-title {
-  font-size: 16px;
-  font-weight: 600; /* a touch bolder to match Material readability */
+  font-size: 15px;
+  font-weight: 500;
   margin: 0 0 4px 0;
   color: var(--text-color);
 }
@@ -193,7 +165,7 @@ body.settings-page .setting-description {
   line-height: 1.35;
 }
 
-/* Ripple effect pseudo-element (Android material cue) */
+/* Ripple effect tuned to accent color */
 body.settings-page .setting-card::after {
   content: '';
   position: absolute;
@@ -201,7 +173,7 @@ body.settings-page .setting-card::after {
   top: 50%;
   width: 0;
   height: 0;
-  background: rgba(0,0,0,0.07);
+  background: color-mix(in srgb, var(--accent-color) 20%, black 0%);
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
@@ -212,137 +184,118 @@ body.settings-page .setting-card::after {
 body.settings-page .setting-card:active::after {
   width: 300px;
   height: 300px;
-  opacity: 1;
-  transition: width 0s, height 0s; /* immediate expand on press */
+  opacity: 0.14;
+  transition: width 0s, height 0s;
 }
 
-/* iOS style subtle accessory chevron for rows (optional) */
-body.settings-page .setting-card .chevron {
+body.settings-page .chevron {
   margin-left: 12px;
   color: var(--secondary-text);
   font-size: 18px;
 }
 
-/* ========== Appearance Mode Select (NEW) ========== */
+/* ========== Appearance Mode Select (Material) ========== */
 body.settings-page .appearance-mode-control {
   display: flex;
   align-items: center;
 }
 
 body.settings-page #appearanceModeSelect {
-  font-size: 16px;
-  padding: 8px 14px;
-  border-radius: 12px; /* more rounded like iOS */
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 8px;
   border: 1px solid var(--border-color);
-  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.9));
+  background: var(--content-bg);
   color: var(--text-color);
-  transition: border-color 0.18s, box-shadow 0.18s;
-  outline: none;
   margin-left: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04); /* gentle elevation */
+  box-shadow: none;
 }
 
 body.dark-mode #appearanceModeSelect {
-  background: linear-gradient(180deg, rgba(30,30,30,0.92), rgba(30,30,30,0.88));
+  background: var(--content-bg);
 }
 
 body.settings-page #appearanceModeSelect:focus {
+  box-shadow: 0 0 0 6px rgba(60,64,67,0.06);
   border-color: var(--accent-color);
-  box-shadow: 0 8px 20px rgba(0,102,204,0.08);
 }
 
-
-/* ============================ */
-/* Classic iOS Style Toggle CSS */
-/* ============================ */
-
-.ios-toggle {
-  --width: 58px;
-  --height: 34px;
-  --knob-size: 30px;
-  --off-bg: var(--toggle-off);
-  --on-bg: var(--toggle-on);
-  --knob-bg: #fff;
-  --transition: 0.28s cubic-bezier(.25,.8,.25,1);
+/* ========== Material Switch (Scoped) ========== */
+.md-switch {
+  --width: 36px;
+  --height: 20px;
+  --thumb-size: 16px;
 }
 
-/* Hide native checkbox */
-.ios-toggle input {
-  opacity: 0;
+.md-switch input { /* hide native input */
   position: absolute;
+  opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* Track */
-.ios-toggle label {
-  display: inline-block;
+.md-switch .track {
   width: var(--width);
   height: var(--height);
-  background: var(--off-bg);
-  border-radius: var(--height);
+  background: var(--toggle-off);
+  border-radius: 999px;
   position: relative;
-  cursor: pointer;
-  transition: background var(--transition), box-shadow 0.12s;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: background 0.18s ease;
 }
 
-/* Knob */
-.ios-toggle label::after {
-  content: '';
+.md-switch .thumb {
   position: absolute;
-  top: 2px;
+  top: 50%;
   left: 2px;
-  width: var(--knob-size);
-  height: var(--knob-size);
-  background: var(--knob-bg);
+  transform: translateY(-50%);
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  background: var(--slider-thumb-color);
   border-radius: 50%;
-  transition: transform var(--transition);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 4px rgba(60,64,67,0.16);
+  transition: left 0.18s cubic-bezier(.2,.8,.2,1), background 0.18s;
 }
 
-/* ON state */
-.ios-toggle input:checked + label {
-  background: linear-gradient(180deg, var(--on-bg), color-mix(in srgb, var(--on-bg) 80%, black 10%));
+.md-switch input:checked ~ .track {
+  background: linear-gradient(90deg, var(--accent-color), var(--hover-color));
 }
 
-.ios-toggle input:checked + label::after {
-  transform: translateX(calc(var(--width) - var(--knob-size) - 4px));
+.md-switch input:checked ~ .track .thumb {
+  left: calc(var(--width) - var(--thumb-size) - 2px);
 }
 
-/* ========== Range Slider (Keeping Apple Style) (Scoped) ========== */
+/* ========== Range Slider (Material) (Scoped) ========== */
 body.settings-page #text-size-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 6px; /* a touch thicker like Material sliders */
+  height: 4px;
   background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) 50%, var(--slider-track-color) 50%);
   border-radius: 999px;
   outline: none;
   margin: 10px 0;
-  cursor: pointer;
 }
 
 body.settings-page #text-size-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--slider-thumb-color);
   cursor: pointer;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  border: 2px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(60,64,67,0.18);
 }
 
 body.settings-page #text-size-slider::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--slider-thumb-color);
   cursor: pointer;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  border: 2px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(60,64,67,0.18);
 }
 
 /* Size Labels (Scoped) */
@@ -352,18 +305,9 @@ body.settings-page .size-labels {
   margin-top: 8px;
 }
 
-body.settings-page .size-small {
-  font-size: 12px;
-  color: var(--secondary-text);
-}
-
-body.settings-page .size-medium {
-  font-size: 16px;
-  color: var(--secondary-text);
-}
-
+body.settings-page .size-small,
+body.settings-page .size-medium,
 body.settings-page .size-large {
-  font-size: 20px;
   color: var(--secondary-text);
 }
 
@@ -377,20 +321,15 @@ body.settings-page .reset-button,
 body.settings-page #cookie-consent-banner button {
   color: white;
   border: none;
-  /* Slightly larger padding */
   padding: 10px 18px;
-  /* Slightly more rounded corners */
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  white-space: nowrap;
-  /* Added transform to transition */
-  transition: background-color 0.18s, transform 0.08s ease-out, box-shadow 0.12s;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: background-color 0.12s, transform 0.06s ease-out, box-shadow 0.12s;
+  box-shadow: 0 2px 6px rgba(60,64,67,0.14);
 }
 
-/* Specific background colors */
 body.settings-page .reset-button {
   background-color: var(--red-color);
 }
@@ -399,25 +338,14 @@ body.settings-page #cookie-consent-banner button {
   background-color: var(--accent-color);
 }
 
+body.settings-page .reset-button:hover { background-color: #c6281c; }
+body.settings-page #cookie-consent-banner button:hover { background-color: var(--hover-color); }
 
-/* Hover states (Scoped) */
-body.settings-page .reset-button:hover {
-  background-color: #ff2d20; /* Darker red */
-  transform: translateY(-1px);
-}
-
-body.settings-page #cookie-consent-banner button:hover {
-  background-color: var(--hover-color);
-  transform: translateY(-1px);
-}
-
-/* Active states for button press feedback (Scoped) */
 body.settings-page .reset-button:active,
 body.settings-page #cookie-consent-banner button:active {
-  transform: scale(0.985);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(60,64,67,0.12);
 }
-
 
 /* ========== Back Link (Scoped) ========== */
 body.settings-page .back-link {
@@ -425,39 +353,27 @@ body.settings-page .back-link {
   align-items: center;
   color: var(--accent-color);
   text-decoration: none;
-  font-size: 17px;
+  font-size: 16px;
   padding: 8px 0;
-  transition: color 0.18s, transform 0.08s;
-  margin-top: 20px;
 }
 
 body.settings-page .back-link:hover {
   color: var(--hover-color);
-  transform: translateX(-2px);
 }
 
 /* ========== Footer (Scoped) ========== */
 body.settings-page footer {
   text-align: center;
   padding: 20px;
-  /* Footer uses body background */
   background-color: var(--bg-color);
   color: var(--secondary-text);
   font-size: 14px;
   border-top: 1px solid var(--border-color);
-  margin-top: 40px;
+  margin-top: 36px;
 }
 
-body.settings-page footer a {
-  color: var(--accent-color);
-  text-decoration: none;
-  margin: 0 10px;
-}
-
-body.settings-page footer a:hover {
-  text-decoration: underline;
-  color: var(--hover-color);
-}
+body.settings-page footer a { color: var(--accent-color); }
+body.settings-page footer a:hover { color: var(--hover-color); }
 
 /* ========== Cookie Consent Banner (Scoped) ========== */
 body.settings-page #cookie-consent-banner {
@@ -466,168 +382,68 @@ body.settings-page #cookie-consent-banner {
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--content-bg);
-  /* Match subsection rounding */
   border-radius: 12px;
-  /* Enhanced shadow */
-  box-shadow: 0 8px 28px -6px var(--shadow-color);
-  padding: 18px;
+  box-shadow: var(--shadow-elevation-2);
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
   max-width: 92%;
   width: 640px;
   z-index: 1000;
 }
 
-body.settings-page #cookie-consent-banner p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--text-color);
-}
+body.settings-page #cookie-consent-banner p { margin: 0; color: var(--text-color); }
 
-body.settings-page #cookie-consent-banner a {
-  color: var(--accent-color);
-  text-decoration: none;
-}
-
-body.settings-page #cookie-consent-banner a:hover {
-  text-decoration: underline;
-}
-
-
-/* ========== Focus Styles (Scoped) ========== */
-/* Apply focus style to elements within the settings page body */
+/* Focus styles (Material-friendly) */
 body.settings-page :focus-visible {
-  outline: 3px solid rgba(0,122,255,0.18); /* blended blue halo */
-  outline-offset: 2px;
-  border-radius: 8px; /* Standard focus ring rounding */
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(61,220,132,0.12);
+  border-radius: 6px;
 }
 
-/* Ensure inputs and buttons show focus */
 body.settings-page input:focus-visible,
 body.settings-page button:focus-visible,
 body.settings-page a:focus-visible,
 body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-  outline: 3px solid rgba(0,122,255,0.18);
-  outline-offset: 2px;
-  border-radius: 8px;
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(61,220,132,0.12);
+  border-radius: 6px;
 }
 
-/* --- MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
-/* Target devices where hover is not the primary interaction method 
-   AND the primary pointer is coarse (like a finger). 
-   This typically covers most touch-screen mobile phones and tablets. */
+/* Mobile: remove large focus halos for touch devices */
 @media (hover: none) and (pointer: coarse) {
   body.settings-page :focus-visible,
   body.settings-page input:focus-visible,
   body.settings-page button:focus-visible,
   body.settings-page a:focus-visible,
   body.settings-page [tabindex]:not([tabindex="-1"]):focus-visible {
-    outline: none; /* Remove the outline for touch-primary devices */
-    outline-offset: 0; /* Reset the offset */
+    box-shadow: none;
   }
 }
-/* --- END MODIFICATION FOR DESKTOP-ONLY FOCUS OUTLINES --- */
 
-/* --- HIDE FOCUS OUTLINE SETTING CARD ON MOBILE/TABLET --- */
-/* Define default display for desktop (using the class you added to the HTML) */
-/* This ensures it shows up on larger screens by default */
-body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
-  display: flex;
-  align-items: center; /* Match general .setting-card behavior */
-  /* Other properties like padding, border-bottom are inherited from .setting-card */
-}
-
-/* Hide the specific "Focus Outline" setting card on screens up to tablet size */
-/* Adjust the max-width value if your definition of "tablet" is different */
-@media (max-width: 1023px) {
-  body.settings-page .focus-outline-setting-card { /* Ensure you added this class to the HTML card */
-    display: none; /* Hide the element completely on smaller screens */
-  }
-}
-/* --- END HIDE FOCUS OUTLINE SETTING CARD --- */
-
+/* Hide focus-outline setting card on small screens (unchanged logic) */
+body.settings-page .focus-outline-setting-card { display: flex; align-items: center; }
+@media (max-width: 1023px) { body.settings-page .focus-outline-setting-card { display: none; } }
 
 /* ========== Media Queries (Scoped) ========== */
 @media (max-width: 768px) {
-  body.settings-page .container {
-    padding: 20px;
-  }
-
-  body.settings-page .settings-header h1 {
-    font-size: 28px;
-  }
-
-  body.settings-page .setting-card {
-    /* Stack elements vertically */
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px; /* Add gap between label and control */
-    min-height: unset; /* allow natural height on stacked layout */
-  }
-  body.settings-page .setting-label {
-    padding-right: 0; /* Remove right padding when stacked */
-  }
-
-  body.settings-page .text-size-control {
-    width: 100%; /* Make slider full width */
-    margin-top: 0; /* Remove margin added by gap */
-  }
-
-  body.settings-page #cookie-consent-banner {
-    flex-direction: column;
-    text-align: center;
-    width: 90%;
-    gap: 12px;
-  }
+  body.settings-page .container { padding: 20px; }
+  body.settings-page .settings-header h1 { font-size: 26px; }
+  body.settings-page .setting-card { flex-direction: column; align-items: flex-start; gap: 10px; min-height: unset; }
+  body.settings-page .setting-label { padding-right: 0; }
+  body.settings-page .text-size-control { width: 100%; margin-top: 0; }
+  body.settings-page #cookie-consent-banner { flex-direction: column; text-align: center; width: 90%; gap: 12px; }
 }
 
 @media (max-width: 480px) {
-  body.settings-page .container {
-    padding: 15px;
-  }
-
-  body.settings-page .settings-header h1 {
-    font-size: 24px;
-  }
-
-  body.settings-page .subsection-title {
-    font-size: 16px;
-  }
-
-  body.settings-page .setting-title {
-    font-size: 15px;
-  }
-
-  body.settings-page .setting-description {
-    font-size: 13px;
-  }
-
-  body.settings-page footer {
-    padding: 15px;
-    /* Footer links stack */
-    display: flex; /* Use flex for gap */
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  body.settings-page footer a {
-    display: block;
-    margin: 0; /* Remove horizontal margin */
-  }
-
-  body.settings-page #cookie-consent-banner {
-    /* Dock banner to bottom */
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-width: 100%;
-    transform: none;
-    border-radius: 10px 10px 0 0; /* Round top corners */
-    padding: 15px;
-    box-shadow: 0 -2px 8px var(--shadow-color); /* Shadow on top */
-  }
+  body.settings-page .container { padding: 15px; }
+  body.settings-page .settings-header h1 { font-size: 22px; }
+  body.settings-page .subsection-title { font-size: 15px; }
+  body.settings-page .setting-title { font-size: 14px; }
+  body.settings-page .setting-description { font-size: 13px; }
+  body.settings-page footer { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+  body.settings-page footer a { display: block; margin: 0; }
+  body.settings-page #cookie-consent-banner { bottom: 0; left: 0; right: 0; width: 100%; transform: none; border-radius: 10px 10px 0 0; padding: 12px; box-shadow: 0 -2px 8px rgba(0,0,0,0.18); }
 }
