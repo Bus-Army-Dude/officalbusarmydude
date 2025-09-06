@@ -825,31 +825,23 @@ body {
     }
 }
 
-/* Container for each section - matching site style */
-.shoutouts-section {
-    background-color: var(--glass-section-bg);
-    padding: 20px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 2px 10px var(--shadow-color);
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-}
+/* ======================== */
+/* Shoutouts Section - Root Themed */
+/* ======================== */
 
-/* Container for each section - matching site style */
+/* Container for each section */
 .shoutouts-section {
     background-color: var(--content-bg);
+    color: var(--text-color);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 4px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Section Headers and Timestamps */
@@ -865,7 +857,7 @@ body {
 
 /* TikTok Section Header */
 #tiktok-header::before {
-    content: '\e07b'; /* Font Awesome TikTok icon */
+    content: '\e07b';
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
     color: var(--accent-color);
@@ -873,7 +865,7 @@ body {
 
 /* Instagram Section Header */
 #instagram-header::before {
-    content: '\f16d'; /* Font Awesome Instagram icon */
+    content: '\f16d';
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
     color: var(--accent-color);
@@ -881,16 +873,16 @@ body {
 
 /* YouTube Section Header */
 #youtube-header::before {
-    content: '\f167'; /* Font Awesome YouTube icon */
+    content: '\f167';
     font-family: 'Font Awesome 5 Brands';
     font-weight: 900;
     color: var(--accent-color);
 }
 
-/* This rule styles the timestamp text container itself */
+/* Timestamp text */
 #tiktok-last-updated-timestamp,
-#instagram-last-updated-timestamp, /* UPDATED ID to match HTML */
-#youtube-last-updated-timestamp {  /* UPDATED ID to match HTML */
+#instagram-last-updated-timestamp,
+#youtube-last-updated-timestamp {
     color: var(--secondary-text);
     font-size: 0.9em;
     margin-bottom: 20px;
@@ -899,21 +891,21 @@ body {
     gap: 4px;
 }
 
-/* This rule ADDS THE ICON before each timestamp */
+/* Timestamp icon */
 #tiktok-last-updated-timestamp::before,
-#instagram-last-updated-timestamp::before, /* UPDATED ID to match HTML */
-#youtube-last-updated-timestamp::before {  /* UPDATED ID to match HTML */
-    content: '\f073'; /* Font Awesome calendar icon unicode */
-    font-family: 'Font Awesome 6 Free'; /* For Font Awesome 6 */
-    font-weight: 900; /* For the solid style */
+#instagram-last-updated-timestamp::before,
+#youtube-last-updated-timestamp::before {
+    content: '\f073';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
 }
 
-/* Common Creator Grid Styles */
+/* Creator Grids */
 .creator-grid,
 .instagram-creator-grid,
 .youtube-creator-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Increased minimum width */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
     box-sizing: border-box;
@@ -922,20 +914,18 @@ body {
     overflow: visible;
 }
 
-/* Common Creator Card Styles */
+/* Creator Cards */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
-    background-color: var(--glass-bg);
-    border-radius: 20px;
+    background-color: var(--content-bg);
+    border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 20px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
     width: 100%;
     box-sizing: border-box;
     max-width: 100%;
@@ -945,17 +935,25 @@ body {
     height: auto;
 }
 
-.youtube-cover-photo {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 16px;
-  object-fit: contain;
-  background-color: transparent;
-  margin-bottom: 16px; /* creates space below the cover photo */
+.creator-card:hover,
+.instagram-creator-card:hover,
+.youtube-creator-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px var(--shadow-color);
 }
 
-/* YouTube Creator Info Container */
+/* Cover Photo (YouTube) */
+.youtube-cover-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    object-fit: contain;
+    background-color: transparent;
+    margin-bottom: 16px;
+}
+
+/* Creator Info Container */
 .youtube-creator-info {
     display: flex;
     flex-direction: column;
@@ -963,14 +961,7 @@ body {
     padding: 0;
 }
 
-.creator-card:hover,
-.instagram-creator-card:hover,
-.youtube-creator-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px var(--shadow-color);
-}
-
-/* Common Profile Picture Styles */
+/* Profile Pictures */
 .creator-pic,
 .instagram-creator-pic,
 .youtube-creator-pic {
@@ -984,7 +975,7 @@ body {
     z-index: 1;
 }
 
-/* Common Header Styles */
+/* Headers */
 .creator-header,
 .instagram-creator-header,
 .youtube-creator-header {
@@ -994,38 +985,38 @@ body {
     margin-bottom: 5px;
 }
 
-/* Username Container with Verification Badge */
+/* Username Containers */
 .username-container,
 .instagram-username-container,
 .youtube-username-container {
     display: flex;
-    align-items: flex-start; /* Changed from center to flex-start */
+    align-items: flex-start;
     gap: 4px;
     margin-bottom: 10px;
     flex-wrap: wrap;
     width: 100%;
     overflow: visible;
     padding-right: 8px;
-    min-height: min-content; /* Added for flexible height */
+    min-height: min-content;
 }
 
-/* Common Username Styles */
+/* Usernames */
 .creator-username,
 .instagram-creator-username,
 .youtube-creator-username {
     color: var(--secondary-text);
-    font-size: max(0.9em, 14px); /* Set minimum font size */
+    font-size: max(0.9em, 14px);
     margin: 0;
     width: auto;
     max-width: 100%;
     overflow-wrap: break-word;
     word-break: break-all;
     white-space: normal;
-    line-height: 1.5; /* Increased line height */
-    hyphens: auto; /* Added for better word breaks */
+    line-height: 1.5;
+    hyphens: auto;
 }
 
-/* Verification Badge Styles */
+/* Verification Badges */
 .verified-badge,
 .instagram-verified-badge,
 .youtube-verified-badge {
@@ -1035,7 +1026,7 @@ body {
     vertical-align: middle;
 }
 
-/* Common Bio Styles */
+/* Bios */
 .creator-bio,
 .instagram-creator-bio,
 .youtube-creator-bio {
@@ -1046,7 +1037,7 @@ body {
     word-break: break-word;
 }
 
-/* Common Follower/Subscriber Count Styles */
+/* Follower/Subscriber Counts */
 .follower-count,
 .instagram-follower-count,
 .youtube-subscriber-count {
@@ -1055,12 +1046,12 @@ body {
     margin: 10px 0;
 }
 
-/* Common Visit Profile Button Styles - Unified Design */
+/* Visit Profile Buttons */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
     display: inline-block;
-    background-color: rgba(var(--accent-rgb), 0.2);
+    background-color: transparent;
     color: var(--accent-color);
     text-decoration: none;
     padding: 8px 20px;
@@ -1070,7 +1061,6 @@ body {
     text-align: center;
     font-weight: 500;
     border: 2px solid var(--accent-color);
-    backdrop-filter: blur(12px);
     position: relative;
     overflow: hidden;
     width: fit-content;
@@ -1085,19 +1075,19 @@ body {
     transform: translateY(-2px);
 }
 
-/* Creator Name Styles */
+/* Creator Names */
 .creator-header h3,
 .instagram-creator-header h3,
 .youtube-creator-header h3 {
     margin: 0;
-    font-size: max(1.1em, 16px); /* Set minimum font size */
+    font-size: max(1.1em, 16px);
     color: var(--text-color);
     line-height: 1.4;
     overflow-wrap: break-word;
     word-break: break-word;
 }
 
-/* Unavailable Message Styles */
+/* Unavailable Message */
 .unavailable-message {
     color: var(--secondary-text);
     font-size: 18px;
@@ -1106,8 +1096,8 @@ body {
     background-color: var(--content-bg);
     padding: 20px;
     border: 2px solid var(--accent-color);
-    border-radius: 10px;
-    box-shadow: 0 2px 4px var(--shadow-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .unavailable-message-title {
@@ -1117,7 +1107,10 @@ body {
     color: var(--text-color);
 }
 
-/* Media queries for mobile responsiveness */
+/* ======================== */
+/* Responsive Layout */
+/* ======================== */
+
 @media screen and (max-width: 1400px) {
     .creator-grid,
     .instagram-creator-grid,
@@ -1130,7 +1123,6 @@ body {
     .shoutouts-section {
         padding: 15px;
         margin-bottom: 20px;
-        overflow: hidden;
     }
 
     .creator-grid,
@@ -1138,23 +1130,14 @@ body {
     .youtube-creator-grid {
         grid-template-columns: 1fr;
         gap: 15px;
-        overflow: visible;
     }
 
     .creator-card,
     .instagram-creator-card,
     .youtube-creator-card {
         padding: 12px;
-        overflow: hidden;
         height: auto;
         min-height: fit-content;
-    }
-
-    .creator-header h3,
-    .instagram-creator-header h3,
-    .youtube-creator-header h3 {
-        overflow-wrap: break-word;
-        word-break: break-word;
     }
 
     .youtube-cover-photo {
@@ -1175,25 +1158,21 @@ body {
     }
 }
 
-/* Extra small devices */
 @media screen and (max-width: 380px) {
     .shoutouts-section {
         padding: 10px;
-        overflow: hidden;
     }
 
     .creator-grid,
     .instagram-creator-grid,
     .youtube-creator-grid {
         gap: 10px;
-        overflow: visible;
     }
 
     .creator-card,
     .instagram-creator-card,
     .youtube-creator-card {
         padding: 10px;
-        overflow: hidden;
         height: auto;
         min-height: fit-content;
     }
