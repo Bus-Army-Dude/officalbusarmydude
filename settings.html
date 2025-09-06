@@ -1,107 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Customize your experience. Toggle dark mode, accessibility features, and more.">
-    <title>Settings - Caleb's Profile</title>
-    
-    <link rel="stylesheet" href="styles.css"> 
-    <link rel="stylesheet" href="settings.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Customize your experience. Toggle dark mode, accessibility features, and more." />
+  <title>Settings - Caleb's Profile</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="settings.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 </head>
 
 <body class="settings-page">
-    
-    <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
-    
-    <div class="container" role="main" id="main-content">
-        <div class="settings-section">
-            <div class="settings-header">
-                <h1>Settings</h1>
-                <span class="version">v26.0</span>
-            </div>
+  <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
 
-            <div class="settings-subsection">
-                <h2 class="subsection-title">Appearance</h2>
-                <div class="setting-card">
-                    <div class="setting-label">
-                        <h3 class="setting-title">Appearance Mode</h3>
-                        <p class="setting-description">Choose your preferred theme</p>
-                    </div>
-                    <div class="appearance-mode-control">
-                        <select id="appearanceModeSelect" aria-label="Appearance mode">
-                            <option value="device">Match Device</option>
-                            <option value="dark">Dark Mode</option>
-                            <option value="light">Light Mode</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+  <div class="container" role="main" id="main-content">
+    <div class="settings-section">
+      <div class="settings-header">
+        <h1>Settings</h1>
+        <span class="version">v26.0</span>
+      </div>
 
-            <div class="settings-subsection">
-                <h2 class="subsection-title">Accessibility</h2>
-                <div class="setting-card">
-                    <div class="setting-label">
-                        <h3 class="setting-title">Text Size</h3>
-                        <p class="setting-description">Adjust the text size for better readability</p>
-                    </div>
-                    <div class="text-size-control">
-                        <input
-                            type="range"
-                            id="text-size-slider"
-                            min="12"
-                            max="24"
-                            value="16"
-                            step="1"
-                            aria-label="Adjust text size"
-                        >
-                    </div>
-                </div>
-
-                <div class="setting-card focus-outline-setting-card">
-                    <div class="setting-label">
-                        <h3 class="setting-title">Focus Outline</h3>
-                        <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
-                    </div>
-                    <!-- class changed to ios-toggle to match settings.css -->
-                    <div class="ios-toggle">
-                        <!-- role and aria-checked added for accessibility; update aria-checked in JS on change -->
-                        <input type="checkbox" id="focusOutlineToggle" role="switch" aria-checked="false" aria-label="Toggle focus outline">
-                        <label for="focusOutlineToggle"></label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings-subsection danger-zone">
-                <h2 class="subsection-title">Danger Zone</h2>
-                <div class="setting-card">
-                    <div class="setting-label">
-                        <h3 class="setting-title">Reset to Factory Settings</h3>
-                        <p class="setting-description">Restore all settings to their default values</p>
-                    </div>
-                    <button id="resetSettings" class="button reset-button">Reset</button>
-                </div>
-            </div>
-
-            <a href="/" class="back-link">← Back to Profile</a>
+      <div class="settings-subsection">
+        <h2 class="subsection-title">Appearance</h2>
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Appearance Mode</h3>
+            <p class="setting-description">Choose your preferred theme</p>
+          </div>
+          <div class="appearance-mode-control">
+            <select id="appearanceModeSelect" aria-label="Appearance mode">
+              <option value="device">Match Device</option>
+              <option value="dark">Dark Mode</option>
+              <option value="light">Light Mode</option>
+            </select>
+          </div>
         </div>
+      </div>
+
+      <div class="settings-subsection">
+        <h2 class="subsection-title">Accessibility</h2>
+
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Text Size</h3>
+            <p class="setting-description">Adjust the text size for better readability</p>
+          </div>
+          <div class="text-size-control">
+            <input
+              type="range"
+              id="text-size-slider"
+              min="12"
+              max="24"
+              value="16"
+              step="1"
+              aria-label="Adjust text size"
+            />
+          </div>
+        </div>
+
+        <div class="setting-card focus-outline-setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Focus Outline</h3>
+            <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
+          </div>
+
+          <!-- Material-style switch: markup matches settings.css (.md-switch) -->
+          <div class="md-switch" aria-hidden="false">
+            <!-- input should be updated via JS to keep aria-checked in sync -->
+            <input type="checkbox" id="focusOutlineToggle" role="switch" aria-checked="false" aria-label="Toggle focus outline" />
+            <div class="track" aria-hidden="true">
+              <div class="thumb" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-subsection danger-zone">
+        <h2 class="subsection-title">Danger Zone</h2>
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Reset to Factory Settings</h3>
+            <p class="setting-description">Restore all settings to their default values</p>
+          </div>
+          <button id="resetSettings" class="button reset-button">Reset</button>
+        </div>
+      </div>
+
+      <a href="/" class="back-link">← Back to Profile</a>
     </div>
+  </div>
 
-    <footer>
-        <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
-        <div class="footer-links">
-            <a href="privacy-policy.html">Privacy Policy</a>
-            <a href="terms-of-service.html">Terms of Service</a>
-            <a href="accessibility-statement.html">Accessibility Statement</a>
-        </div>
-    </footer>
+  <footer>
+    <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <a href="accessibility-statement.html">Accessibility Statement</a>
+    </div>
+  </footer>
 
-    <script src="settings.js"></script>
-    <script src="script.js"></script>
+  <script src="settings.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
