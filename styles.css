@@ -113,33 +113,23 @@ body {
     object-fit: cover;
 }
 
-/* --- Profile Status Container (Facebook Style Applied) --- */
+/* --- Profile Status Container (Facebook Active Status Style) --- */
 .profile-status-container {
     position: absolute;
-    bottom: 8px; /* Adjusted position for better visual placement */
+    bottom: 8px;
     right: 8px;
-    width: 20px;  /* Reduced size for a more subtle dot look */
+    width: 20px;
     height: 20px;
     border-radius: 50%;
     z-index: 2;
-
-    /* --- Changes to match Facebook style --- */
-    /* 1. Set background color to online green */
-    background: #31a24c;
-
-    /* 2. Set border to match card background for separation effect */
-    border: 2px solid var(--content-bg);
-
-    /* 3. Refined shadow for the smaller element */
+    background: #31a24c; /* Online green color */
+    border: 2px solid var(--content-bg); /* Separation border */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-
-    /* Remove flex properties, content will be hidden */
     display: block;
 }
 
 .profile-status {
-    /* Hide text/emoji content to create solid dot effect */
-    display: none;
+    display: none; /* Hide internal content for solid dot style */
 }
 
 /* --- Username Checkmark --- */
@@ -148,7 +138,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 15px 0;
+    margin: 15px 0 10px 0; /* Adjust bottom margin for bio */
 }
 
 .username-checkmark h1 {
@@ -167,7 +157,16 @@ body {
     margin-left: 5px;
 }
 
-/* --- Corner Action Buttons (High Contrast) --- */
+/* --- NEW: Profile Bio Styling --- */
+.profile-bio {
+    font-size: 1rem;
+    color: var(--secondary-text);
+    line-height: 1.6;
+    max-width: 600px; /* Improve readability on wide screens */
+    margin: 0 auto 20px; /* Spacing below bio */
+}
+
+/* --- Corner Action Buttons --- */
 .settings-button,
 .merch-button {
     position: absolute;
@@ -179,7 +178,7 @@ body {
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--link-color);
 }
 
@@ -204,13 +203,11 @@ body {
     box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
 }
 
-/* Refined hover effect: removed rotation for a cleaner lift */
 .settings-button:hover,
 .merch-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
 }
-/* Ensure merch button hover shadow matches settings button logic */
 .merch-button:hover {
     box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
 }
@@ -221,7 +218,6 @@ body {
         width: 120px;
         height: 120px;
     }
-    /* Adjust status dot size for smaller profile picture */
     .profile-status-container {
         width: 18px;
         height: 18px;
@@ -236,6 +232,9 @@ body {
     .username-checkmark h1 {
         font-size: 1.8rem;
     }
+    .profile-bio {
+        font-size: 0.95rem;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -243,7 +242,6 @@ body {
         width: 100px;
         height: 100px;
     }
-    /* Adjust status dot size for smallest profile picture */
     .profile-status-container {
         width: 16px;
         height: 16px;
