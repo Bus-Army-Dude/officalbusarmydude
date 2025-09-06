@@ -3567,6 +3567,18 @@ function displayFilteredActivityLog() {
     const disabilitiesCount = document.getElementById('disabilities-count'); // Span to show count
     const addDisabilityForm = document.getElementById('add-disability-form');
 
+       // Get references to modal elements for disability edits
+    let editDisabilityModal;
+    let editDisabilityForm;
+    let editDisabilityNameInput;
+    let editDisabilityUrlInput;
+    let editDisabilityOrderInput;
+    let editDisabilityIconInput;
+    let editDisabilityStatusMessage;
+    let disabilitiesListAdmin;
+    let disabilitiesCount; // Span to show count
+    let addDisabilityForm;
+
    // Function to render a single Disability Link item in the admin list
     function renderDisabilityAdminListItem(container, docId, name, url, order, iconClass, deleteHandler, editHandler) {
         if (!container) {
@@ -3958,6 +3970,17 @@ function displayFilteredDisabilities() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+        editDisabilityModal = document.getElementById('edit-disability-modal');
+        editDisabilityForm = document.getElementById('edit-disability-form');
+        editDisabilityNameInput = document.getElementById('edit-disability-name');
+        editDisabilityUrlInput = document.getElementById('edit-disability-url');
+        editDisabilityOrderInput = document.getElementById('edit-disability-order');
+        editDisabilityIconInput = document.getElementById('edit-disability-icon');
+        editDisabilityStatusMessage = document.getElementById('edit-disability-status-message');
+        disabilitiesListAdmin = document.getElementById('disabilities-list-admin');
+        disabilitiesCount = document.getElementById('disabilities-count'); // Span to show count
+        addDisabilityForm = document.getElementById('add-disability-form');
+
     // Attach event listeners for the disability icon functionality
     setupDisabilityIconListeners('add');
     setupDisabilityIconListeners('edit');
