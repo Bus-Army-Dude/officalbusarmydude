@@ -583,47 +583,42 @@ body {
 
 /* --- Tech Information Section Improvements --- */
 
-/* Enhanced .tech-section for better depth and visual appeal */
-.tech-section {
-    /* Subtle radial gradient for a modern lighting effect */
-    background: radial-gradient(circle at 10% 10%,
-            color-mix(in srgb, var(--content-bg) 95%, white),
-            var(--content-bg) 80%);
-    padding: 30px;
-    border-radius: 20px; /* Slightly larger radius for a softer look */
-    margin-bottom: 30px;
-    /* Deeper, layered shadow for more pronounced depth */
-    box-shadow:
-        0 12px 40px -10px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 10%, transparent);
-    backdrop-filter: blur(10px);
-    width: 100%;
-    box-sizing: border-box;
+/* Keyframe for subtle fade-in on load */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Enhanced .tech-item with hover interaction */
-.tech-item {
-    background: linear-gradient(145deg,
-            color-mix(in srgb, var(--content-bg) 95%, white),
-            var(--content-bg));
+.tech-section {
+    /* Cleaner background, removing complex gradients */
+    background: var(--content-bg);
+    padding: 24px;
     border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 15px;
-    border: 1px solid color-mix(in srgb, var(--border-color) 15%, transparent);
-    /* Softer initial shadow */
-    box-shadow:
-        0 4px 15px color-mix(in srgb, var(--shadow-color) 10%, transparent);
-    /* Added transition for smooth hover effect */
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    margin-bottom: 30px;
+    /* Replaced complex shadow with a single, clean border for definition */
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--shadow-color) 5%, transparent);
+    width: 100%;
+    box-sizing: border-box;
+    animation: fadeIn 0.5s ease-out; /* Add subtle entry animation */
+}
+
+.tech-item {
+    /* Start with a neutral background */
+    background: transparent;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 10px;
+    /* Use a subtle border for separation */
+    border: 1px solid color-mix(in srgb, var(--border-color) 20%, transparent);
+    /* Transition for border color and background change */
+    transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .tech-item:hover {
-    /* Add a lift effect on hover */
-    transform: translateY(-5px);
-    /* Enhance shadow on hover for a glowing effect */
-    box-shadow:
-        0 8px 30px color-mix(in srgb, var(--accent-color) 20%, transparent),
-        0 0 0 1px color-mix(in srgb, var(--accent-color) 25%, transparent);
+    /* On hover, slightly brighten background and highlight border with accent color */
+    background-color: color-mix(in srgb, var(--accent-color) 5%, transparent);
+    border-color: color-mix(in srgb, var(--accent-color) 40%, transparent);
 }
 
 .tech-item:last-child {
@@ -631,9 +626,9 @@ body {
 }
 
 .tech-item h3 {
-    margin: 0 0 15px 0;
+    margin: 0 0 12px 0;
     color: var(--accent-color);
-    font-size: 1.2rem;
+    font-size: 1.15rem; /* Slightly reduced size for a tighter look */
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -641,7 +636,7 @@ body {
 }
 
 .tech-item h3 i {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: var(--accent-color);
 }
 
@@ -649,7 +644,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 10px 0;
+    margin: 8px 0; /* Reduced margin for tighter spacing */
     color: var(--text-color);
 }
 
@@ -671,30 +666,6 @@ body {
 
 /* --- Battery Icon Improvements --- */
 
-/* Keyframes for shimmer animation on battery level */
-@keyframes shimmer-animation {
-    0% {
-        background-position: 200% 0;
-    }
-
-    100% {
-        background-position: -200% 0;
-    }
-}
-
-/* Keyframes for pulsing effect when critical */
-@keyframes pulse-critical-glow {
-    0% {
-        box-shadow: 0 0 6px 0 color-mix(in srgb, #FF3B30 50%, transparent);
-    }
-    50% {
-        box-shadow: 0 0 12px 4px color-mix(in srgb, #FF3B30 70%, transparent);
-    }
-    100% {
-        box-shadow: 0 0 6px 0 color-mix(in srgb, #FF3B30 50%, transparent);
-    }
-}
-
 .battery-container {
     display: flex;
     align-items: center;
@@ -704,62 +675,47 @@ body {
 
 .battery-icon {
     position: relative;
-    width: 180px;
-    height: 40px;
-    border: 2px solid color-mix(in srgb, var(--text-color) 50%, transparent);
+    width: 160px; /* Adjusted size */
+    height: 38px;
+    /* Sharper border color for better definition */
+    border: 2px solid color-mix(in srgb, var(--text-color) 60%, transparent);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: linear-gradient(145deg,
-            color-mix(in srgb, var(--content-bg) 95%, white),
-            var(--content-bg));
-    box-shadow: inset 0 0 5px color-mix(in srgb, var(--shadow-color) 30%, transparent);
+    /* Subtle inner shadow for a slight recessed effect */
+    background: color-mix(in srgb, var(--shadow-color) 10%, transparent);
+    box-shadow: inset 0 1px 3px color-mix(in srgb, var(--shadow-color) 20%, transparent);
     overflow: hidden;
-}
-
-/* Apply pulse animation when battery is critical */
-.critical .battery-icon {
-    animation: pulse-critical-glow 2s infinite ease-in-out;
 }
 
 .battery-icon::after {
     content: '';
     position: absolute;
-    /* Refined cap position: centered vertically */
     top: 50%;
     transform: translateY(-50%);
-    right: -10px;
-    width: 8px;
-    height: 22px; /* Slightly smaller than battery height for better proportion */
-    background-color: color-mix(in srgb, var(--text-color) 50%, transparent);
-    border-radius: 3px; /* Softer radius for cap */
+    right: -9px; /* Position cap precisely */
+    width: 7px;
+    height: 18px; /* Proportional cap size */
+    background-color: color-mix(in srgb, var(--text-color) 60%, transparent);
+    border-radius: 3px;
 }
 
 .battery-level {
     height: 100%;
-    /* Added shimmer animation by default */
-    background-size: 300% 100%; /* Make background wider for animation movement */
-    animation: shimmer-animation 3s linear infinite;
-    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    background-image: linear-gradient(90deg,
-            #32CD32 0%,
-            #98FB98 50%,
-            #32CD32 100%);
+    /* Use solid colors for a cleaner look, removing animations */
+    background: #32CD32; /* Lime Green */
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* Add inner shadow for depth on the fill level itself */
+    box-shadow: inset 0 0 4px 2px color-mix(in srgb, black 15%, transparent);
 }
 
 .low-power .battery-level {
-    background-image: linear-gradient(90deg,
-            #FFCC00 0%,
-            #FFEA99 50%,
-            #FFCC00 100%);
+    background: #FFCC00; /* Yellow */
 }
 
 .critical .battery-level {
-    background-image: linear-gradient(90deg,
-            #FF3B30 0%,
-            #FF8780 50%,
-            #FF3B30 100%);
+    background: #FF3B30; /* Red */
 }
 
 .battery-percentage {
@@ -767,24 +723,26 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: var(--text-color);
-    font-weight: 700; /* Increased weight for readability */
+    color: white; /* Set base color to white */
+    font-weight: 700;
     font-size: 14px;
     z-index: 1;
-    /* Add text shadow to ensure contrast against changing fill color */
-    text-shadow: 0 0 6px color-mix(in srgb, var(--content-bg) 80%, black);
+    /* Text outline effect: ensures readability on all backgrounds */
+    text-shadow:
+        -1px -1px 0 color-mix(in srgb, black 40%, transparent),
+         1px -1px 0 color-mix(in srgb, black 40%, transparent),
+        -1px  1px 0 color-mix(in srgb, black 40%, transparent),
+         1px  1px 0 color-mix(in srgb, black 40%, transparent);
 }
 
-/* Media Queries (unchanged from original) */
+/* Media Queries */
 @media screen and (max-width: 768px) {
     .tech-section {
         padding: 20px;
     }
-
     .tech-item {
         padding: 15px;
     }
-
     .battery-icon {
         width: 150px;
         height: 35px;
@@ -795,16 +753,13 @@ body {
     .tech-section {
         padding: 15px;
     }
-
     .tech-item {
         padding: 12px;
     }
-
     .battery-icon {
         width: 120px;
         height: 30px;
     }
-
     .battery-percentage {
         font-size: 12px;
     }
