@@ -112,10 +112,11 @@ document.addEventListener('DOMContentLoaded', () => { //
     const editDisabilityForm = document.getElementById('edit-disability-form');
     const cancelEditDisabilityButton = document.getElementById('cancel-edit-disability-button'); // Close X button
     const cancelEditDisabilityButtonSecondary = document.getElementById('cancel-edit-disability-button-secondary'); // Secondary Cancel Button
-    const editDisabilityNameInput = document.getElementById('edit-disability-name');
+    onst editDisabilityNameInput = document.getElementById('edit-disability-name');
     const editDisabilityUrlInput = document.getElementById('edit-disability-url');
     const editDisabilityOrderInput = document.getElementById('edit-disability-order');
-    const editDisabilityStatusMessage = document.getElementById('edit-disability-status-message'); // Status inside edit modal
+    const editDisabilityIconInput = document.getElementById('edit-disability-icon');
+    const editDisabilityStatusMessage = document.getElementById('edit-disability-status-message');
     
     // Site Settings Elements
     const maintenanceModeToggle = document.getElementById('maintenance-mode-toggle'); //
@@ -3659,23 +3660,23 @@ async function loadDisabilitiesAdmin() {
 }
 
     // Function to Handle Adding a New Disability Link
-    async function handleAddDisability(event) {
+   async function handleAddDisability(event) {
         event.preventDefault(); // Prevent default form submission
         // Use const defined earlier for the add form
         if (!addDisabilityForm) return;
-
+    
         // Get values from the add disability form
         const nameInput = addDisabilityForm.querySelector('#disability-name');
         const urlInput = addDisabilityForm.querySelector('#disability-url');
         const orderInput = addDisabilityForm.querySelector('#disability-order');
         const iconInput = addDisabilityForm.querySelector('#disability-icon');
-
+    
         const name = nameInput?.value.trim();
         const url = urlInput?.value.trim();
         const orderStr = orderInput?.value.trim();
         const order = parseInt(orderStr);
         const iconClass = iconInput?.value.trim() || 'fa-universal-access'; // Default icon
-
+    
         // Basic validation
         if (!name || !url || !orderStr || isNaN(order) || order < 0) {
             showAdminStatus("Invalid input for Disability Link. Check required fields and ensure Order is non-negative.", true);
@@ -3688,7 +3689,7 @@ async function loadDisabilitiesAdmin() {
             showAdminStatus("Invalid URL format. Please enter a valid URL.", true);
             return;
         }
-
+    
         const disabilityData = {
             name: name,
             url: url,
@@ -3696,7 +3697,7 @@ async function loadDisabilitiesAdmin() {
             iconClass: iconClass,
             createdAt: serverTimestamp() // Add a timestamp
         };
-
+    
         showAdminStatus("Adding disability link...");
         try {
             // Use the disabilitiesCollectionRef defined earlier
@@ -3705,13 +3706,12 @@ async function loadDisabilitiesAdmin() {
             showAdminStatus("Disability link added successfully.", false);
             addDisabilityForm.reset(); // Reset the form
             loadDisabilitiesAdmin(); // Reload the list
-
+    
         } catch (error) {
             console.error("Error adding disability link:", error);
             showAdminStatus(`Error adding disability link: ${error.message}`, true);
         }
     }
-
     // Function to Handle Deleting a Disability Link
     async function handleDeleteDisability(docId, listItemElement) {
         if (!confirm("Are you sure you want to permanently delete this disability link?")) {
@@ -3848,6 +3848,9 @@ async function loadDisabilitiesAdmin() {
      /**
      * Updates the icon preview in the add and edit forms
      */
+        /**
+     * Updates the icon preview in the add and edit forms
+     */
     function updateDisabilityIconPreview(inputElement, previewElement) {
         if (!inputElement || !previewElement) return;
 
@@ -3883,7 +3886,7 @@ async function loadDisabilitiesAdmin() {
             });
         }
     }
-
+    
      // Function to update the global allDisabilities array
     function updateDisabilityInArray(docId, updatedData) {
         const index = allDisabilities.findIndex(item => item.id === docId);
