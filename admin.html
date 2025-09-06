@@ -619,20 +619,45 @@
                     <h5 id="add-disability-heading">Add New Disability Link</h5>
                     <div class="form-group">
                         <label for="disability-name">Disability Name (Displayed Text):</label>
-                        <input type="text" id="disability-name" name="name" required placeholder="e.g., Autism Spectrum Disorder (ASD)">
+                        <input type="text" id="disability-name" name="name" required 
+                               placeholder="e.g., Autism Spectrum Disorder (ASD)">
                     </div>
                     <div class="form-group">
                         <label for="disability-url">Information URL:</label>
-                        <input type="url" id="disability-url" name="url" required placeholder="https://..." inputmode="url">
+                        <input type="url" id="disability-url" name="url" required 
+                               placeholder="https://..." inputmode="url">
                     </div>
                     <div class="form-group">
                         <label for="disability-order">Display Order:</label>
-                        <input type="number" id="disability-order" name="order" min="0" step="1" required placeholder="e.g., 1, 2, 3...">
+                        <input type="number" id="disability-order" name="order" min="0" step="1" required 
+                               placeholder="e.g., 1, 2, 3...">
                     </div>
+                
+                    <!-- New: Icon Input + Dropdown -->
+                    <div class="form-group">
+                        <label for="disability-icon">Icon (Font Awesome class):</label>
+                        <input type="text" id="disability-icon" name="icon" 
+                               placeholder="e.g., fa-blind">
+                        <label for="disability-icon-select">Or choose from list:</label>
+                        <select id="disability-icon-select">
+                            <option value="">-- Select an icon --</option>
+                            <option value="fa-universal-access">Universal Access</option>
+                            <option value="fa-blind">Blind</option>
+                            <option value="fa-deaf">Deaf</option>
+                            <option value="fa-wheelchair">Wheelchair</option>
+                            <option value="fa-sign-language">Sign Language</option>
+                            <option value="fa-hand-holding-heart">Assistance</option>
+                        </select>
+                        <div id="disability-icon-preview" class="icon-preview">
+                            <i class="fas fa-universal-access"></i> <span> Preview</span>
+                        </div>
+                    </div>
+                
                     <div class="form-actions">
-                       <button type="submit" class="button-primary">Add Disability Link</button>
+                        <button type="submit" class="button-primary">Add Disability Link</button>
                     </div>
                 </form>
+
 
                 <h5 id="existing-disabilities-heading">
                     Existing Disability Links <span id="disabilities-count" class="list-count"></span>
@@ -663,9 +688,31 @@
                             <label for="edit-disability-order">Display Order:</label>
                             <input type="number" id="edit-disability-order" name="order" min="0" step="1" required>
                         </div>
+                    
+                        <!-- New: Icon Input + Dropdown -->
+                        <div class="form-group">
+                            <label for="edit-disability-icon">Icon (Font Awesome class):</label>
+                            <input type="text" id="edit-disability-icon" name="icon" 
+                                   placeholder="e.g., fa-wheelchair">
+                            <label for="edit-disability-icon-select">Or choose from list:</label>
+                            <select id="edit-disability-icon-select">
+                                <option value="">-- Select an icon --</option>
+                                <option value="fa-universal-access">Universal Access</option>
+                                <option value="fa-blind">Blind</option>
+                                <option value="fa-deaf">Deaf</option>
+                                <option value="fa-wheelchair">Wheelchair</option>
+                                <option value="fa-sign-language">Sign Language</option>
+                                <option value="fa-hand-holding-heart">Assistance</option>
+                            </select>
+                            <div id="edit-disability-icon-preview" class="icon-preview">
+                                <i class="fas fa-universal-access"></i> <span> Preview</span>
+                            </div>
+                        </div>
+                    
                         <div class="form-actions">
-                          <button type="submit" class="button-primary">Save Disability Changes</button>
-                          <button type="button" id="cancel-edit-disability-button-secondary" class="secondary-button">Cancel</button>
+                            <button type="submit" class="button-primary">Save Disability Changes</button>
+                            <button type="button" id="cancel-edit-disability-button-secondary" 
+                                    class="secondary-button">Cancel</button>
                         </div>
                     </form>
                     <div id="edit-disability-status-message" class="status-message" role="status" aria-live="polite"></div>
