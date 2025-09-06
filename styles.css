@@ -1452,7 +1452,7 @@ body {
 .scroll-to-top {
     position: fixed;
     bottom: 25px; /* Slightly higher */
-    right: 25px; /* Moved to the right for common FAB placement */
+    left: 25px; /* Moved to the right for common FAB placement */
     width: 55px; /* Slightly larger for presence */
     height: 55px;
     border: none;
