@@ -79,47 +79,56 @@ document.addEventListener('DOMContentLoaded', () => {
 updateTime();
 setInterval(updateTime, 1000);
 
-    // --- Back to top button ---
-    const scrollBtn = document.getElementById('scrollToTop');
-    const indicator = document.querySelector('.scroll-to-top .progress-indicator');
+    const scrollToTopBtn = document.querySelector(".scroll-to-top");
+    const progressIndicator = document.querySelector(".progress-indicator");
 
-    function updateScrollIndicator() {
-        if (!indicator || !scrollBtn) return;
+    // Ensure elements exist before adding listeners
+    if (!scrollToTopBtn || !progressIndicator) {
+        return;
+    }
 
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
-
-        const radius = indicator.r ? indicator.r.baseVal.value : 0;
-        if (radius > 0) {
-            const circumference = 2 * Math.PI * radius;
-            indicator.style.strokeDasharray = circumference;
-            const offset = circumference * (1 - progress);
-            indicator.style.strokeDashoffset = offset;
-        }
-
-        if (scrollTop > 100) {
-            scrollBtn.classList.add('visible');
+    // --- 1. Show/Hide Button on Scroll ---
+    const showButtonOnScroll = () => {
+        if (window.scrollY > 200) { // Show button after scrolling 200px down
+            scrollToTopBtn.classList.add("visible");
         } else {
-            scrollBtn.classList.remove('visible');
+            scrollToTopBtn.classList.remove("visible");
         }
-    }
+    };
 
-    if (scrollBtn && indicator) {
-        const radius = indicator.r ? indicator.r.baseVal.value : 0;
-        if (radius > 0) {
-            const circumference = 2 * Math.PI * radius;
-            indicator.style.strokeDasharray = circumference;
-            indicator.style.strokeDashoffset = circumference;
-        }
-        updateScrollIndicator();
-        window.addEventListener('scroll', updateScrollIndicator, { passive: true });
+    // --- 2. Update Progress Ring on Scroll ---
+    const updateProgressRing = () => {
+        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercentage = (window.scrollY / totalScrollHeight) * 100;
+        
+        // Get circumference of the circle (2 * PI * radius)
+        // From CSS, r = 25 (for 55px viewbox), so circumference = 2 * Math.PI * 25 ≈ 157.08
+        const circumference = progressIndicator.r.baseVal.value * 2 * Math.PI;
 
-        scrollBtn.addEventListener('click', e => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Calculate dash offset: (100 - percentage) / 100 * circumference
+        const offset = circumference - (scrollPercentage / 100) * circumference;
+        progressIndicator.style.strokeDashoffset = offset;
+    };
+
+    // --- 3. Click Action to Scroll Top ---
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
         });
-    }
+    };
+
+    // --- Attach Event Listeners ---
+    window.addEventListener("scroll", () => {
+        showButtonOnScroll();
+        updateProgressRing();
+    });
+    scrollToTopBtn.addEventListener("click", scrollToTop);
+
+    // Initial calculation in case page loads already scrolled down
+    showButtonOnScroll();
+    updateProgressRing();
+});
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
