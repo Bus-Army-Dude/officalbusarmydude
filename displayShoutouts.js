@@ -233,35 +233,60 @@ function renderFaqItemHomepage(faqData) {
             </div>`;
 }
 
-// --- Data Loading and Display Functions ---
-// (Your existing displayProfileData, displayPresidentData, loadAndDisplayUsefulLinks, 
-//  loadAndDisplaySocialLinks, loadAndDisplayDisabilities, loadAndDisplayTechItems, 
-//  loadAndDisplayFaqs, attachFaqAccordionListeners, loadShoutoutPlatformData functions remain here, unchanged)
-
-async function displayProfileData(profileData) {
+/**
+ * Updates the profile display elements with new data and status classes.
+ * Assumes a parent container for the status dot to apply classes.
+ */
+function displayProfileData(profileData) {
     const profileUsernameElement = document.getElementById('profile-username-main');
     const profilePicElement = document.getElementById('profile-pic-main');
     const profileBioElement = document.getElementById('profile-bio-main');
-    const profileStatusElement = document.getElementById('profile-status-main');
-    const defaultUsername = "Username"; const defaultBio = ""; const defaultProfilePic = "images/default-profile.jpg"; const defaultStatusEmoji = '❓'; const statusEmojis = { online: '🟢', idle: '🟡', offline: '⚪️', dnd: '🔴' };
+    const profileStatusElement = document.getElementById('profile-status-main'); // The span itself
 
-    if (!profileUsernameElement || !profilePicElement || !profileBioElement || !profileStatusElement) { console.warn("Profile display elements missing."); return; }
+    // Default values
+    const defaultUsername = "Username";
+    const defaultBio = "";
+    const defaultProfilePic = "images/default-profile.jpg";
+
+    // Basic element check
+    if (!profileUsernameElement || !profilePicElement || !profileBioElement || !profileStatusElement) {
+        console.warn("Profile display elements missing.");
+        return;
+    }
+
+    // Get the parent container of the status span to apply style classes
+    const profileStatusContainerElement = profileStatusElement.parentElement;
 
     if (!profileData) {
         console.warn("Profile data not provided to displayProfileData. Using defaults.");
         profileUsernameElement.textContent = defaultUsername;
         profilePicElement.src = defaultProfilePic;
         profileBioElement.textContent = defaultBio;
-        profileStatusElement.textContent = statusEmojis['offline'];
+        // Set default offline class on the container
+        if (profileStatusContainerElement) {
+            profileStatusContainerElement.className = "profile-status-container status-offline";
+        }
         return;
     }
 
+    // Update profile content
     profileUsernameElement.textContent = profileData.username || defaultUsername;
     profilePicElement.src = profileData.profilePicUrl || defaultProfilePic;
     profileBioElement.textContent = profileData.bio || defaultBio;
+
+    // --- Status Update Logic ---
     const statusKey = profileData.status || 'offline';
-    profileStatusElement.textContent = statusEmojis[statusKey] || defaultStatusEmoji;
-    console.log("Profile section updated.");
+
+    // Update CSS class on the container based on status_key.
+    // This dynamically changes the dot color via CSS rules.
+    if (profileStatusContainerElement) {
+        // Reset classes first, keeping the base class
+        profileStatusContainerElement.className = 'profile-status-container';
+        // Add new status class
+        profileStatusContainerElement.classList.add(`status-${statusKey}`);
+    }
+
+    console.log("Profile section updated with status:", statusKey);
 }
 
 async function displayPresidentData() {
