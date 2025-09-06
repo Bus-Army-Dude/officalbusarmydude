@@ -113,10 +113,10 @@ body {
     display: block;
     box-shadow: 0 4px 15px var(--shadow-color);
     object-fit: cover;
-    border: none; /* Removed border ("green outline") as requested */
+    border: none; /* Removed profile picture border as requested */
 }
 
-/* --- Profile Status Container (Facebook Active Status Style) --- */
+/* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
     bottom: 10px;
@@ -126,12 +126,28 @@ body {
     border-radius: 50%;
     border: 2px solid var(--content-bg); /* Separation border */
     z-index: 2;
-    background-color: #31a24c; /* Online green color */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    /* Default background color removed from here to allow classes to control it */
 }
 
+/* Hide text/emoji content inside the circle */
 .profile-status {
-    display: none; /* Hide internal text/emoji */
+    display: none;
+}
+
+/* Dynamic Status Colors (Matches displayshoutouts.js logic) */
+.profile-status-container.status-online {
+    background-color: #31a24c; /* Green */
+}
+.profile-status-container.status-idle {
+    background-color: #ffc107; /* Yellow */
+}
+.profile-status-container.status-dnd {
+    background-color: #dc3545; /* Red */
+}
+.profile-status-container.status-offline {
+    background-color: #adb5bd; /* Gray */
 }
 
 /* --- Username Checkmark --- */
@@ -196,6 +212,7 @@ body {
     box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
 }
 
+/* Refined hover effect: removed rotation */
 .settings-button:hover,
 .merch-button:hover {
     transform: translateY(-2px);
