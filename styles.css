@@ -81,7 +81,10 @@ body {
     padding: 0 24px;
 }
 
-/* Profile Section */
+/* ======================================== */
+/* == Profile Section == */
+/* ======================================== */
+
 .profile-section {
     position: relative;
     text-align: center;
@@ -113,23 +116,37 @@ body {
     object-fit: cover;
 }
 
-/* --- Profile Status Container (Facebook Active Status Style) --- */
+/* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 20px;
-    height: 20px;
+    bottom: 10px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
+    border: 2px solid var(--content-bg);
     z-index: 2;
-    background: #31a24c; /* Online green color */
-    border: 2px solid var(--content-bg); /* Separation border */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    display: block;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
 }
 
+/* Hide text/emoji content inside the circle */
 .profile-status {
-    display: none; /* Hide internal content for solid dot style */
+    display: none;
+}
+
+/* Dynamic Status Colors (Applied via JavaScript) */
+.profile-status-container.status-online {
+    background-color: #31a24c; /* Green */
+}
+.profile-status-container.status-idle {
+    background-color: #ffc107; /* Yellow */
+}
+.profile-status-container.status-dnd {
+    background-color: #dc3545; /* Red */
+}
+.profile-status-container.status-offline {
+    background-color: #adb5bd; /* Gray */
 }
 
 /* --- Username Checkmark --- */
@@ -138,7 +155,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 15px 0 10px 0; /* Adjust bottom margin for bio */
+    margin: 15px 0 10px 0;
 }
 
 .username-checkmark h1 {
@@ -157,13 +174,13 @@ body {
     margin-left: 5px;
 }
 
-/* --- NEW: Profile Bio Styling --- */
+/* Profile Bio Styling */
 .profile-bio {
     font-size: 1rem;
     color: var(--secondary-text);
     line-height: 1.6;
-    max-width: 600px; /* Improve readability on wide screens */
-    margin: 0 auto 20px; /* Spacing below bio */
+    max-width: 600px;
+    margin: 0 auto 20px;
 }
 
 /* --- Corner Action Buttons --- */
@@ -188,19 +205,9 @@ body {
 }
 
 .merch-button {
-    position: absolute;
-    top: 20px;
     left: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
     background: url('gift-bag-icon.png') center/18px no-repeat, var(--accent-color);
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 10;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color); /* Corrected shadow var */
 }
 
 .settings-button:hover,
@@ -209,7 +216,7 @@ body {
     box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
 }
 .merch-button:hover {
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color); /* Corrected shadow var */
 }
 
 /* --- Media Queries --- */
@@ -219,10 +226,10 @@ body {
         height: 120px;
     }
     .profile-status-container {
-        width: 18px;
-        height: 18px;
-        bottom: 6px;
-        right: 6px;
+        width: 16px;
+        height: 16px;
+        bottom: 8px;
+        right: 8px;
     }
     .settings-button,
     .merch-button {
@@ -243,7 +250,7 @@ body {
         height: 100px;
     }
     .profile-status-container {
-        width: 16px;
+        width: 16px; /* Keep consistent small size */
         height: 16px;
     }
     .settings-button,
