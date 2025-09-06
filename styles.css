@@ -1,36 +1,36 @@
 /* ======================== */
-/* Theme Variables          */
+/* Theme Variables (fixed contrast) */
 /* ======================== */
 :root {
     /* --- Modern Base Sizing (using pixels) --- */
-    --font-size-base: 16px; /* Reverted from rem to px */
+    --font-size-base: 16px;
     --line-height-base: 1.65;
 
     /* --- Modern Light Mode Colors --- */
-    --light-bg: #F8F9FA;
-    --light-content-bg: #FFFFFF;
-    --light-text: #212529;
-    --light-secondary-text: #6C757D;
-    --light-border: #E9ECEF;
+    --light-bg: #F2F4F7;             /* page background (slightly gray) */
+    --light-content-bg: #FFFFFF;     /* containers bright white */
+    --light-text: #202124;           /* near black text */
+    --light-secondary-text: #5F6368; /* softer gray text */
+    --light-border: #DADCE0;         /* Google-style border gray */
     --light-accent: #0D6EFD;
     --light-hover: #0B5ED7;
     --light-link: var(--light-accent);
-    --light-shadow: rgba(33, 37, 41, 0.075);
+    --light-shadow: rgba(60, 64, 67, 0.1); /* slightly stronger shadow for contrast */
     --light-icon: #495057;
     
     /* --- Modern Dark Mode Colors --- */
-    --dark-bg: #121212;
-    --dark-content-bg: #1C1C1C;
-    --dark-text: #E9ECEF;
-    --dark-secondary-text: #ADB5BD;
-    --dark-border: #343A40;
+    --dark-bg: #121212;              /* page background true black */
+    --dark-content-bg: #1E1E1E;      /* containers slightly lighter gray for contrast */
+    --dark-text: #EDEDED;            /* bright text */
+    --dark-secondary-text: #B0B3B8;  /* softer gray text */
+    --dark-border: #2C2C2C;
     --dark-accent: #3B82F6;
     --dark-hover: #60A5FA;
     --dark-link: var(--dark-accent);
-    --dark-shadow: rgba(0, 0, 0, 0.2);
+    --dark-shadow: rgba(0, 0, 0, 0.4); /* deeper shadows for dark mode */
     --dark-icon: #CED4DA;
 
-    /* --- Fallback theme variables (default to dark) --- */
+    /* --- Default fallback (dark mode baseline) --- */
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
@@ -44,6 +44,7 @@
     --social-icon-text-color: var(--dark-text);
 }
 
+/* Light Mode Override */
 body.light-e {
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
@@ -55,7 +56,7 @@ body.light-e {
     --link-color: var(--light-link);
     --shadow-color: var(--light-shadow);
     --icon-color: var(--light-icon);
-    --social-icon-text-color: #FFFFFF; /* White for light mode */
+    --social-icon-text-color: #FFFFFF;
 }
 
 /* Base Styles */
