@@ -89,12 +89,10 @@ body {
     margin-bottom: 30px;
     padding: 25px;
     background: var(--content-bg);
-    border-radius: 20px;
-    /* --- Neumorphic Shadow Style --- */
-    /* Assumes --content-bg is a light color in light mode and dark in dark mode */
-    box-shadow: 7px 7px 15px color-mix(in srgb, var(--shadow-color) 60%, transparent),
-                -7px -7px 15px color-mix(in srgb, var(--content-bg) 50%, white);
-    /* Remove standard border to enhance soft effect */
+    border-radius: 16px;
+    /* Standard, clean shadow for good separation */
+    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--border-color);
+    backdrop-filter: blur(10px);
 }
 
 /* --- Profile Pic Wrapper --- */
@@ -111,35 +109,37 @@ body {
     height: 100%;
     border-radius: 50%;
     display: block;
-    /* Border in neumorphism should be subtle or non-existent */
-    border: 4px solid var(--content-bg);
+    border: 3px solid var(--link-color);
+    box-shadow: 0 4px 15px var(--shadow-color);
     object-fit: cover;
-    /* Create depth with inner/outer shadows */
-    box-shadow: inset 0 3px 8px color-mix(in srgb, var(--shadow-color) 60%, transparent),
-                0 4px 10px color-mix(in srgb, var(--shadow-color) 40%, transparent);
 }
 
-/* --- Profile Status Container --- */
+/* --- Profile Status Container (Facebook Style Refinement) --- */
 .profile-status-container {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 32px;
-    height: 32px;
+    /* Adjusted position for a more standard overlap */
+    bottom: 8px;
+    right: 8px;
+    /* Smaller size for a more subtle indicator */
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: var(--content-bg);
-    border: 3px solid var(--content-bg);
+    /* Crisp border to separate from profile picture */
+    border: 2px solid var(--content-bg);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-    /* Shadow for status icon itself */
-    box-shadow: 0 2px 5px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Shadow to lift it off the photo */
 }
 
 .profile-status {
-    font-size: 16px;
+    font-size: 14px; /* Adjusted emoji size */
 }
+/* Note: For a true Facebook "online" dot, remove the emoji span and set:
+   .profile-status-container { background-color: #31a24c; border-color: white; } */
+
 
 /* --- Username Checkmark --- */
 .username-checkmark {
@@ -154,7 +154,6 @@ body {
     margin: 0;
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     font-weight: 800;
-    /* Gradient text effect a high-contrast element */
     background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
     -webkit-background-clip: text;
     background-clip: text;
@@ -167,7 +166,7 @@ body {
     flex-shrink: 0;
 }
 
-/* --- Corner Action Buttons (Restored Icon Logic) --- */
+/* --- Corner Action Buttons (High Contrast) --- */
 .settings-button,
 .merch-button {
     position: absolute;
@@ -179,38 +178,26 @@ body {
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    
-    /* Neumorphic button style: match background color */
-    background-color: var(--content-bg);
-    box-shadow: 3px 3px 8px color-mix(in srgb, var(--shadow-color) 60%, transparent),
-                -3px -3px 8px color-mix(in srgb, var(--content-bg) 50%, white);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow-color) 70%, transparent);
 }
 
-/* Restoring background image logic for icons */
+/* Restore solid background for high contrast */
 .settings-button {
     right: 20px;
-    /* Add icon URL here. The icon itself should have contrast (e.g., be dark gray or accent color) */
-    background-image: url('settings-icon.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 18px;
+    background: var(--link-color) url('settings-icon.png') center/18px no-repeat;
 }
 
 .merch-button {
     left: 20px;
-    background-image: url('gift-bag-icon.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 18px;
+    background: var(--accent-color) url('gift-bag-icon.png') center/18px no-repeat;
 }
 
-/* Neumorphic press effect on hover */
+/* Simple lift hover effect */
 .settings-button:hover,
 .merch-button:hover {
-    transform: scale(0.98); /* Slight shrink */
-    box-shadow: inset 2px 2px 5px color-mix(in srgb, var(--shadow-color) 60%, transparent),
-                inset -2px -2px 5px color-mix(in srgb, var(--content-bg) 50%, white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--shadow-color) 90%, transparent);
 }
 
 /* --- Media Queries --- */
@@ -220,9 +207,12 @@ body {
         height: 120px;
     }
     .profile-status-container {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
+        bottom: 6px;
+        right: 6px;
     }
+    .profile-status { font-size: 12px; }
     .settings-button,
     .merch-button {
         width: 35px;
@@ -231,9 +221,6 @@ body {
 }
 
 @media screen and (max-width: 480px) {
-    .profile-section {
-        padding: 20px 15px;
-    }
     .profile-pic-wrapper {
         width: 100px;
         height: 100px;
