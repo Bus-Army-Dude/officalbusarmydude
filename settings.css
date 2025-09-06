@@ -225,6 +225,8 @@ body.settings-page #appearanceModeSelect:focus {
   --width: 36px;
   --height: 20px;
   --thumb-size: 16px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .md-switch input { /* hide native input */
