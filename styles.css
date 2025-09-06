@@ -1446,59 +1446,72 @@ body {
 }
 
 /* ======================== */
-/* Back to Top Button   */
+/* Back to Top Button       */
 /* ======================== */
 
 .scroll-to-top {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 60px;
-  height: 60px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  z-index: 9999;
-  display: none;
-  transition: opacity 0.3s ease;
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* Position a bit further from edge for better aesthetics */
+    width: 50px; /* Adjusted size for a sleeker look */
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    z-index: 9999;
+    display: none; /* Hidden by default, made visible by JS */
+    border-radius: 50%;
+
+    /* --- Theme matching additions --- */
+    background-color: var(--content-bg);
+    box-shadow: 0 5px 15px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-top:hover {
+    transform: scale(1.05);
 }
 
 .scroll-to-top.visible {
-  display: block;
-  opacity: 1;
+    display: block;
+    opacity: 1;
 }
 
+/* --- SVG Progress Ring --- */
 .progress-ring {
-  transform: rotate(-90deg);
-  position: absolute;
-  top: 0;
-  left: 0;
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .progress-bg {
-  fill: none;
-  stroke: var(--border-color);
-  stroke-width: 4;
-  opacity: 0.3;
+    fill: none;
+    stroke: var(--border-color);
+    stroke-width: 4;
+    opacity: 0.3;
 }
 
 .progress-indicator {
-  fill: none;
-  stroke: var(--accent-color);
-  stroke-width: 4;
-  stroke-dasharray: 163.36; /* 2πr where r=26 */
-  stroke-dashoffset: 163.36;
-  transition: stroke-dashoffset 0.2s ease-out;
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 4;
+    stroke-linecap: round; /* Smoother line ends */
+    stroke-dasharray: 163.36; /* 2πr where r=26 (for a 60px viewbox a 26 radius fits with 4 stroke) */
+    stroke-dashoffset: 163.36;
+    transition: stroke-dashoffset 0.2s ease-out;
 }
 
+/* --- Arrow Icon --- */
 .arrow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -55%);
-  font-size: 28px;
-  color: var(--accent-color);
-  pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%); /* Fine-tune alignment */
+    font-size: 24px; /* Adjust size relative to new button dimensions */
+    color: var(--accent-color);
+    pointer-events: none;
 }
 
 /* Version Info Section */
