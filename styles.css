@@ -87,19 +87,22 @@ body {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 30px;
-    padding: 30px; /* Increased padding for more white space */
+    padding: 25px;
     background: var(--content-bg);
     border-radius: 20px;
-    box-shadow: 0 10px 35px -10px var(--shadow-color), 0 0 0 1px var(--border-color);
-    backdrop-filter: blur(10px);
+    /* --- Neumorphic Shadow Style --- */
+    /* Assumes --content-bg is a light color in light mode and dark in dark mode */
+    box-shadow: 7px 7px 15px color-mix(in srgb, var(--shadow-color) 60%, transparent),
+                -7px -7px 15px color-mix(in srgb, var(--content-bg) 50%, white);
+    /* Remove standard border to enhance soft effect */
 }
 
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
     position: relative;
-    width: 140px; /* Adjusted size */
-    height: 140px;
-    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 15px;
 }
 
 /* Profile Picture */
@@ -108,18 +111,21 @@ body {
     height: 100%;
     border-radius: 50%;
     display: block;
-    border: 4px solid var(--link-color);
-    box-shadow: 0 5px 20px var(--shadow-color);
+    /* Border in neumorphism should be subtle or non-existent */
+    border: 4px solid var(--content-bg);
     object-fit: cover;
+    /* Create depth with inner/outer shadows */
+    box-shadow: inset 0 3px 8px color-mix(in srgb, var(--shadow-color) 60%, transparent),
+                0 4px 10px color-mix(in srgb, var(--shadow-color) 40%, transparent);
 }
 
-/* Profile Status Container */
+/* --- Profile Status Container --- */
 .profile-status-container {
     position: absolute;
     bottom: 5px;
     right: 5px;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: var(--content-bg);
     border: 3px solid var(--content-bg);
@@ -127,7 +133,8 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 2;
-    box-shadow: 0 2px 8px var(--shadow-color);
+    /* Shadow for status icon itself */
+    box-shadow: 0 2px 5px color-mix(in srgb, var(--shadow-color) 70%, transparent);
 }
 
 .profile-status {
@@ -140,17 +147,18 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 20px 0; /* Increased margin */
+    margin: 15px 0;
 }
 
 .username-checkmark h1 {
     margin: 0;
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     font-weight: 800;
-    color: transparent;
+    /* Gradient text effect a high-contrast element */
     background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
     -webkit-background-clip: text;
     background-clip: text;
+    color: transparent;
 }
 
 .verified {
@@ -159,50 +167,50 @@ body {
     flex-shrink: 0;
 }
 
-/* --- NEW: Action Button Container --- */
-.profile-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 25px;
-    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
-}
-
-/* --- Redesigned Action Buttons --- */
-/* Removed absolute positioning and converted to full buttons */
+/* --- Corner Action Buttons (Restored Icon Logic) --- */
 .settings-button,
 .merch-button {
-    display: inline-flex; /* Align icon and text */
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px 24px;
-    font-size: 1rem;
-    font-weight: 600;
+    position: absolute;
+    top: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
     border: none;
     cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+    padding: 0;
+    z-index: 10;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
     
-    /* Add text color property here, e.g., white or black based on button bg */
-    color: #ffffff; /* Example: set text color */
+    /* Neumorphic button style: match background color */
+    background-color: var(--content-bg);
+    box-shadow: 3px 3px 8px color-mix(in srgb, var(--shadow-color) 60%, transparent),
+                -3px -3px 8px color-mix(in srgb, var(--content-bg) 50%, white);
 }
 
-/* Style for Settings Button */
+/* Restoring background image logic for icons */
 .settings-button {
-    background-color: var(--link-color);
+    right: 20px;
+    /* Add icon URL here. The icon itself should have contrast (e.g., be dark gray or accent color) */
+    background-image: url('settings-icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 18px;
 }
 
-/* Style for Merch Button */
 .merch-button {
-    background-color: var(--accent-color);
+    left: 20px;
+    background-image: url('gift-bag-icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 18px;
 }
 
+/* Neumorphic press effect on hover */
 .settings-button:hover,
 .merch-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--shadow-color) 90%, transparent);
+    transform: scale(0.98); /* Slight shrink */
+    box-shadow: inset 2px 2px 5px color-mix(in srgb, var(--shadow-color) 60%, transparent),
+                inset -2px -2px 5px color-mix(in srgb, var(--content-bg) 50%, white);
 }
 
 /* --- Media Queries --- */
@@ -215,11 +223,16 @@ body {
         width: 28px;
         height: 28px;
     }
+    .settings-button,
+    .merch-button {
+        width: 35px;
+        height: 35px;
+    }
 }
 
 @media screen and (max-width: 480px) {
     .profile-section {
-        padding: 20px;
+        padding: 20px 15px;
     }
     .profile-pic-wrapper {
         width: 100px;
@@ -229,10 +242,14 @@ body {
         width: 24px;
         height: 24px;
     }
-    .profile-actions {
-        flex-direction: column; /* Stack buttons vertically on very small screens */
-        gap: 12px;
+    .settings-button,
+    .merch-button {
+        width: 30px;
+        height: 30px;
+        top: 15px;
     }
+    .settings-button { right: 15px; }
+    .merch-button { left: 15px; }
 }
 
 #status-widget {
