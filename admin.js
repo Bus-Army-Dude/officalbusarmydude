@@ -43,10 +43,7 @@ document.addEventListener('DOMContentLoaded', () => { //
     const socialLinksCollectionRef = collection(db, "social_links");
     // Reference for President Info
     const presidentDocRef = doc(db, "site_config", "currentPresident"); 
-
-    // Firestore Reference for Disabilities
-    const disabilitiesCollectionRef = collection(db, "disabilities");
-
+    
     // Firestore Reference for Tech
     const techItemsCollectionRef = collection(db, "tech_items"); // Tech collection ref
 
