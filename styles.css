@@ -87,20 +87,19 @@ body {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 30px;
-    padding: 25px;
+    padding: 30px; /* Increased padding for more white space */
     background: var(--content-bg);
     border-radius: 20px;
-    /* Clean shadow for depth */
-    box-shadow: 0 8px 32px -8px var(--shadow-color), 0 0 0 1px var(--border-color);
+    box-shadow: 0 10px 35px -10px var(--shadow-color), 0 0 0 1px var(--border-color);
     backdrop-filter: blur(10px);
 }
 
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
     position: relative;
-    width: 150px;
-    height: 150px;
-    margin: 0 auto 15px;
+    width: 140px; /* Adjusted size */
+    height: 140px;
+    margin: 0 auto;
 }
 
 /* Profile Picture */
@@ -110,22 +109,19 @@ body {
     border-radius: 50%;
     display: block;
     border: 4px solid var(--link-color);
-    position: relative;
+    box-shadow: 0 5px 20px var(--shadow-color);
     object-fit: cover;
-    /* Add inner shadow for depth and outer shadow for lift */
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1), 0 5px 20px var(--shadow-color);
 }
 
-/* --- Profile Status Container --- */
+/* Profile Status Container */
 .profile-status-container {
     position: absolute;
     bottom: 5px;
     right: 5px;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: var(--content-bg);
-    /* Border creates a "cutout" effect from the main profile picture border */
     border: 3px solid var(--content-bg);
     display: flex;
     align-items: center;
@@ -144,7 +140,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 15px 0;
+    margin: 20px 0; /* Increased margin */
 }
 
 .username-checkmark h1 {
@@ -152,7 +148,6 @@ body {
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     font-weight: 800;
     color: transparent;
-    /* Static Gradient Text Effect */
     background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
     -webkit-background-clip: text;
     background-clip: text;
@@ -164,42 +159,49 @@ body {
     flex-shrink: 0;
 }
 
-/* --- Corner Action Buttons --- */
+/* --- NEW: Action Button Container --- */
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+}
+
+/* --- Redesigned Action Buttons --- */
+/* Removed absolute positioning and converted to full buttons */
 .settings-button,
 .merch-button {
-    position: absolute;
-    top: 20px;
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 10;
-    display: flex;
+    display: inline-flex; /* Align icon and text */
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem; /* Controls icon size inside button */
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+    gap: 8px;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+    
+    /* Add text color property here, e.g., white or black based on button bg */
+    color: #ffffff; /* Example: set text color */
 }
 
+/* Style for Settings Button */
 .settings-button {
-    right: 20px;
-    background: var(--link-color);
-    color: var(--content-bg); /* Icon color */
+    background-color: var(--link-color);
 }
 
+/* Style for Merch Button */
 .merch-button {
-    left: 20px;
-    background: var(--accent-color);
-    color: var(--content-bg); /* Icon color */
+    background-color: var(--accent-color);
 }
 
-/* Simplified hover effect: lift and scale */
 .settings-button:hover,
 .merch-button:hover {
-    transform: translateY(-3px) scale(1.05);
+    transform: translateY(-3px);
     box-shadow: 0 8px 20px color-mix(in srgb, var(--shadow-color) 90%, transparent);
 }
 
@@ -212,17 +214,13 @@ body {
     .profile-status-container {
         width: 28px;
         height: 28px;
-        bottom: 3px;
-        right: 3px;
-    }
-    .settings-button,
-    .merch-button {
-        width: 38px;
-        height: 38px;
     }
 }
 
 @media screen and (max-width: 480px) {
+    .profile-section {
+        padding: 20px;
+    }
     .profile-pic-wrapper {
         width: 100px;
         height: 100px;
@@ -231,14 +229,10 @@ body {
         width: 24px;
         height: 24px;
     }
-    .settings-button,
-    .merch-button {
-        width: 34px;
-        height: 34px;
-        top: 15px;
+    .profile-actions {
+        flex-direction: column; /* Stack buttons vertically on very small screens */
+        gap: 12px;
     }
-    .settings-button { right: 15px; }
-    .merch-button { left: 15px; }
 }
 
 #status-widget {
