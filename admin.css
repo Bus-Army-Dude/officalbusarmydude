@@ -197,18 +197,6 @@ a:hover {
     text-decoration: underline;
 }
 
-.icon-preview {
-    display: flex;
-    align-items: center;
-    margin-top: 8px;
-    font-size: 1.1em;
-    color: var(--accent-color);
-}
-.icon-preview i {
-    margin-right: 8px;
-    font-size: 1.5em;
-}
-
 /* ======================== */
 /* Login Section            */
 /* ======================== */
