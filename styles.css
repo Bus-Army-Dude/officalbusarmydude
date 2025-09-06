@@ -111,12 +111,12 @@ body {
     height: 100%;
     border-radius: 50%;
     display: block;
-    border: 3px solid var(--link-color);
     box-shadow: 0 4px 15px var(--shadow-color);
     object-fit: cover;
+    border: none; /* Removed border ("green outline") as requested */
 }
 
-/* --- Profile Status Container Styling --- */
+/* --- Profile Status Container (Facebook Active Status Style) --- */
 .profile-status-container {
     position: absolute;
     bottom: 10px;
@@ -124,29 +124,14 @@ body {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid var(--content-bg);
+    border: 2px solid var(--content-bg); /* Separation border */
     z-index: 2;
+    background-color: #31a24c; /* Online green color */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease;
 }
 
-/* Hide text/emoji content inside the circle */
 .profile-status {
-    display: none;
-}
-
-/* Dynamic Status Colors (Applied via JavaScript) */
-.profile-status-container.status-online {
-    background-color: #31a24c; /* Green */
-}
-.profile-status-container.status-idle {
-    background-color: #ffc107; /* Yellow */
-}
-.profile-status-container.status-dnd {
-    background-color: #dc3545; /* Red */
-}
-.profile-status-container.status-offline {
-    background-color: #adb5bd; /* Gray */
+    display: none; /* Hide internal text/emoji */
 }
 
 /* --- Username Checkmark --- */
@@ -154,7 +139,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px; /* Tightened spacing */
     margin: 15px 0 10px 0;
 }
 
@@ -171,7 +156,8 @@ body {
 .verified {
     width: 20px;
     height: 20px;
-    margin-left: 5px;
+    margin-left: 0; /* Use gap for spacing */
+    flex-shrink: 0;
 }
 
 /* Profile Bio Styling */
@@ -207,7 +193,7 @@ body {
 .merch-button {
     left: 20px;
     background: url('gift-bag-icon.png') center/18px no-repeat, var(--accent-color);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color); /* Corrected shadow var */
+    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
 }
 
 .settings-button:hover,
@@ -216,7 +202,7 @@ body {
     box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
 }
 .merch-button:hover {
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color); /* Corrected shadow var */
+    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
 }
 
 /* --- Media Queries --- */
@@ -250,7 +236,7 @@ body {
         height: 100px;
     }
     .profile-status-container {
-        width: 16px; /* Keep consistent small size */
+        width: 16px;
         height: 16px;
     }
     .settings-button,
