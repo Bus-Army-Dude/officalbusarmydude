@@ -761,7 +761,7 @@ body {
 }
 
 /* ======================== */
-/* Disabilities Section - Modern Accent Styling */
+/* Disabilities Section - Modern Accent Buttons with Icons */
 /* ======================== */
 
 .disabilities-section {
@@ -795,10 +795,11 @@ body {
     gap: 12px;
 }
 
-/* Modern Button Links */
+/* Styled Buttons */
 .disabilities-section a {
     display: flex;
     align-items: center;
+    gap: 10px;
     justify-content: center;
     color: var(--accent-color);
     font-weight: 500;
@@ -812,9 +813,17 @@ body {
     box-shadow: 0 2px 6px var(--shadow-color);
     position: relative;
     overflow: hidden;
+    font-size: 1em;
 }
 
-/* Subtle hover glow */
+/* Font Awesome icon style */
+.disabilities-section a i {
+    font-size: 1.2em;
+    color: var(--accent-color);
+    transition: color 0.3s ease;
+}
+
+/* Hover effect */
 .disabilities-section a:hover {
     background-color: var(--accent-color);
     color: #fff;
@@ -823,32 +832,16 @@ body {
                 0 0 10px var(--accent-color);
 }
 
+.disabilities-section a:hover i {
+    color: #fff;
+}
+
 /* Focus accessibility */
 .disabilities-section a:focus {
     outline: none;
     box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.35);
 }
 
-/* Dark + Light scheme refinements */
-@media (prefers-color-scheme: dark) {
-    .disabilities-section {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-    }
-    .disabilities-section a {
-        color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    .disabilities-section {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-    .disabilities-section a {
-        color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
-}
 
 /* ======================== */
 /* Shoutouts Section - Root Themed (with Accent Hover Glow) */
