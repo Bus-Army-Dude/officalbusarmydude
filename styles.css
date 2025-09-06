@@ -760,68 +760,93 @@ body {
     }
 }
 
-/* Disabilities Section */
+/* ======================== */
+/* Disabilities Section - Modern Accent Styling */
+/* ======================== */
+
 .disabilities-section {
     background-color: var(--content-bg);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 10px var(--shadow-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .disabilities-section h2 {
     margin-bottom: 15px;
     color: var(--text-color);
+    font-size: 1.6em;
+    font-weight: 600;
 }
 
 .disabilities-section p {
     margin-bottom: 20px;
-    color: var(--text-color);
+    color: var(--secondary-text);
+    font-size: 1em;
+    line-height: 1.5;
 }
 
 .disabilities-section ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    gap: 12px;
 }
 
-.disabilities-section li {
-    margin-bottom: 10px;
-}
-
-.disabilities-section li:last-child {
-    margin-bottom: 0;
-}
-
+/* Modern Button Links */
 .disabilities-section a {
-    display: block;
-    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    font-weight: 500;
     text-decoration: none;
-    padding: 15px;
+    padding: 12px 18px;
+    border-radius: 25px;
+    background-color: transparent;
+    border: 2px solid var(--accent-color);
     transition: all 0.3s ease;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 8px;
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
+    text-align: center;
+    box-shadow: 0 2px 6px var(--shadow-color);
+    position: relative;
+    overflow: hidden;
 }
 
+/* Subtle hover glow */
 .disabilities-section a:hover {
     background-color: var(--accent-color);
-    color: var(--bg-color);
+    color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px var(--shadow-color);
+    box-shadow: 0 4px 12px var(--shadow-color),
+                0 0 10px var(--accent-color);
 }
 
+/* Focus accessibility */
+.disabilities-section a:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.35);
+}
+
+/* Dark + Light scheme refinements */
 @media (prefers-color-scheme: dark) {
-    .disabilities-section a:hover {
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    .disabilities-section {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    }
+    .disabilities-section a {
+        color: var(--accent-color);
+        border-color: var(--accent-color);
     }
 }
 
 @media (prefers-color-scheme: light) {
-    .disabilities-section a:hover {
-        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    .disabilities-section {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .disabilities-section a {
+        color: var(--accent-color);
+        border-color: var(--accent-color);
     }
 }
 
