@@ -3567,7 +3567,7 @@ function displayFilteredActivityLog() {
     const disabilitiesCount = document.getElementById('disabilities-count'); // Span to show count
     const addDisabilityForm = document.getElementById('add-disability-form');
 
-       // Get references to modal elements for disability edits
+      // Get references to modal elements for disability edits
     let editDisabilityModal;
     let editDisabilityForm;
     let editDisabilityNameInput;
