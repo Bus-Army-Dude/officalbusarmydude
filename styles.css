@@ -2213,6 +2213,11 @@ body.maintenance-active {
     border-radius: 9999px;
     letter-spacing: 0.3px;
     border: 1px solid transparent;
+
+    /* Restore visible pill background */
+    background-color: color-mix(in srgb, currentColor 10%, transparent);
+    z-index: 0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 /* --- Status Dot --- */
