@@ -564,7 +564,7 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Redesigned Pill Button --- */
+/* --- Pill Button with Green Outline --- */
 .link-button {
     display: flex;
     align-items: center;
@@ -576,30 +576,29 @@ body {
     letter-spacing: 0.5px;
     box-sizing: border-box;
 
-    /* --- Style Changes --- */
     /* 1. Pill shape */
     border-radius: 999px;
 
     /* 2. Transition for smooth animation */
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 
-    /* 3. Default state (transparent background with border) */
+    /* 3. Default state: transparent background with green outline */
     background: transparent;
-    border: 1px solid var(--border-color);
+    border: 1px solid #28a745; /* Green outline */
     color: var(--text-color);
 }
 
-/* --- Redesigned Hover Effect --- */
+/* --- Hover Effect --- */
 .link-button:hover {
-    /* 1. Solid color fill on hover */
+    /* Fills with accent color on hover */
     background: var(--accent-color);
     border-color: var(--accent-color);
 
-    /* 2. Text color adapts to light/dark mode by using page background color */
+    /* Text color adapts to light/dark mode by using page background color */
     color: var(--content-bg);
 }
 
-/* Responsive Design */
+/* --- Responsive Design --- */
 @media screen and (max-width: 768px) {
     .useful-links-section {
         padding: 20px;
