@@ -408,7 +408,7 @@ body {
         color-mix(in srgb, var(--content-bg) 98%, white),
         var(--content-bg));
     padding: 30px;
-    border-radius: 20px; /* Softer, larger radius */
+    border-radius: 20px;
     box-shadow:
         0 10px 35px -10px var(--shadow-color),
         0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
@@ -447,36 +447,36 @@ body {
     overflow: hidden;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 12px; /* Modern rounded rectangle shape */
 
-    /* --- Adaptive Color Strategy (Default State) --- */
-    background: color-mix(in srgb, var(--border-color) 20%, transparent);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
-    box-shadow: 0 2px 5px color-mix(in srgb, var(--shadow-color) 10%, transparent);
+    /* 1. Pill shape applied */
+    border-radius: 999px;
+
+    /* 2. Green outline applied for default state */
+    background: transparent;
+    border: 1px solid #28a745; /* Green outline */
 
     /* Transitions for hover effects */
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* --- Hover State --- */
 .social-button:hover {
-    transform: translateY(-4px);
-    border-color: transparent;
+    /* Fills button with accent color on hover */
     background: var(--accent-color);
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--accent-color) 35%, transparent);
+    border-color: var(--accent-color);
 }
 
 /* --- Text and Icon Color Logic --- */
 .social-button .social-icon,
 .social-button span {
-    /* Default state: Use accent color for text/icon */
-    color: var(--accent-color);
+    /* Default state: Use standard text color */
+    color: var(--text-color);
     transition: color 0.3s ease;
 }
 
 .social-button:hover .social-icon,
 .social-button:hover span {
-    /* Hover state: Invert color. Assumes --content-bg contrasts with --accent-color */
+    /* Hover state: Invert color for light/dark mode compatibility */
     color: var(--content-bg);
 }
 
@@ -484,12 +484,6 @@ body {
     font-size: 20px;
     margin-right: 12px;
     flex-shrink: 0;
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.social-button:hover .social-icon {
-    /* Add a subtle animation to the icon on hover */
-    transform: scale(1.1) rotate(-5deg);
 }
 
 .social-button span {
