@@ -531,7 +531,6 @@ body {
 }
 
 /* --- Useful Links Section --- */
-/* Section container styling from your original code */
 .useful-links-section {
     background: linear-gradient(145deg,
         color-mix(in srgb, var(--content-bg) 98%, white),
@@ -565,39 +564,39 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Link Button (Original Theme Base) --- */
+/* --- Redesigned Pill Button --- */
 .link-button {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 14px 24px;
     width: 100%;
-    border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
     letter-spacing: 0.5px;
     box-sizing: border-box;
 
-    /* Transition for smooth hover effect on all properties */
-    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    /* --- Style Changes --- */
+    /* 1. Pill shape */
+    border-radius: 999px;
 
-    /* Default State: Subtle background and border */
-    background: color-mix(in srgb, var(--border-color) 20%, transparent);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+    /* 2. Transition for smooth animation */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+    /* 3. Default state (transparent background with border) */
+    background: transparent;
+    border: 1px solid var(--border-color);
     color: var(--text-color);
-    box-shadow: 0 2px 5px color-mix(in srgb, var(--shadow-color) 10%, transparent);
 }
 
-/* --- Refined Hover Effect (Theme-Aligned) --- */
-/* This enhances the original hover effect by strengthening the accent color's presence. */
+/* --- Redesigned Hover Effect --- */
 .link-button:hover {
-    transform: translateY(-4px); /* Slightly more lift */
-
-    /* Highlight with accent color, similar to original but ensures strong visibility */
+    /* 1. Solid color fill on hover */
     background: var(--accent-color);
     border-color: var(--accent-color);
-    color: var(--content-bg); /* Inverted color for high contrast on accent background */
-    box-shadow: 0 10px 25px color-mix(in srgb, var(--accent-color) 35%, transparent); /* More prominent glow */
+
+    /* 2. Text color adapts to light/dark mode by using page background color */
+    color: var(--content-bg);
 }
 
 /* Responsive Design */
