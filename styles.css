@@ -927,15 +927,18 @@ body {
 /* Shoutouts Section - Root Themed (with Accent Hover Glow) */
 /* ======================== */
 
-/* Container for each section */
+/* Root Shoutouts Section */
 .shoutouts-section {
-    background-color: var(--content-bg);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg));
     color: var(--text-color);
-    padding: 20px;
-    border-radius: 12px;
+    padding: 30px; /* match president-section */
+    border-radius: 20px; /* match president-section */
     margin-bottom: 30px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow:
+        0 10px 35px -10px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
