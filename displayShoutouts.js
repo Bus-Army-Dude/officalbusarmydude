@@ -1329,14 +1329,41 @@ function startEventCountdown(targetTimestamp, countdownTitle, expiredMessageOver
     if (titleElement) titleElement.textContent = displayTitle;
     console.log(`Initializing countdown timer for: "${displayTitle}" to target:`, targetDateObj);
 
+    function animateFlip(element, newValue) {
+    if (!element) return;
+
+    const front = element.querySelector('.flip-clock-front');
+    const back = element.querySelector('.flip-clock-back');
+
+    if (!front || !back) return;
+
+    const paddedValue = String(newValue).padStart(2, '0');
+
+    // Only animate if the value changed
+    if (front.textContent === paddedValue) return;
+
+    back.textContent = paddedValue;
+
+    // Trigger the flip
+    front.classList.add('flip');
+    back.classList.add('flip');
+
+    setTimeout(() => {
+        front.textContent = paddedValue;
+        front.classList.remove('flip');
+        back.classList.remove('flip');
+    }, 600); // matches your CSS transition duration
+}
+    
     function updateDisplay(y, mo, d, h, m, s) {
-        if(yearsFront) yearsFront.textContent = String(y).padStart(2, '0');
-        if(monthsFront) monthsFront.textContent = String(mo).padStart(2, '0');
-        if(daysFront) daysFront.textContent = String(d).padStart(2, '0');
-        if(hoursFront) hoursFront.textContent = String(h).padStart(2, '0');
-        if(minutesFront) minutesFront.textContent = String(m).padStart(2, '0');
-        if(secondsFront) secondsFront.textContent = String(s).padStart(2, '0');
+        animateFlip(document.getElementById('countdown-years'), y);
+        animateFlip(document.getElementById('countdown-months'), mo);
+        animateFlip(document.getElementById('countdown-days'), d);
+        animateFlip(document.getElementById('countdown-hours'), h);
+        animateFlip(document.getElementById('countdown-minutes'), m);
+        animateFlip(document.getElementById('countdown-seconds'), s);
     }
+
 
     let intervalId = null; // Store interval ID to clear it
 
