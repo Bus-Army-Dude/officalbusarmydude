@@ -421,6 +421,15 @@ body.settings-page :focus-visible {
     body.settings-page #cookie-consent-banner { flex-direction: column; text-align: center; width: 90%; gap: 12px; }
 }
 
+/* ===================================================== */
+/* == HIDE FOCUS OUTLINE CARD ON TABLETS & PHONES      == */
+/* ===================================================== */
+@media (max-width: 1024px) {
+    body.settings-page .focus-outline-setting-card {
+        display: none !important;
+    }
+}
+
 @media (max-width: 480px) {
     body.settings-page .container { padding: 15px 10px; }
     body.settings-page .settings-header h1 { font-size: 22px; }
