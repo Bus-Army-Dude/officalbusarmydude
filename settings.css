@@ -242,6 +242,12 @@ body.settings-page #appearanceModeSelect {
     body.settings-page .setting-card { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
     body.settings-page .setting-label { width: 100%; }
     body.settings-page #cookie-consent-banner { flex-direction: column; text-align: center; width: 90%; gap: 12px; }
+
+    /* hide focus outlines on tablets and phones */
+    body.settings-page :focus-visible {
+        outline: none !important;
+        outline-offset: 0 !important;
+    }
 }
 @media (max-width: 480px) {
     body.settings-page .container { padding: 15px 10px; }
@@ -317,18 +323,9 @@ body.dark-mode #cookie-consent-banner {
     border: 1px solid var(--glass-border-dark);
 }
 
-/* Focus styles */
+/* Focus styles (desktop only by default) */
 body.settings-page :focus-visible {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
     border-radius: 6px;
 }
-
-/* Hide focus outline on smaller screens */
-@media (max-width: 768px) {
-  body.settings-page :focus-visible {
-    outline: none !important;
-    outline-offset: 0 !important;
-  }
-}
-
