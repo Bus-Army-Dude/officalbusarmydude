@@ -2177,18 +2177,16 @@ body.maintenance-active {
 /* == Business Info Section Styles (Premium Upgrade) == */
 /* ======================================== */
 
-/* --- Main Section Container --- */
 .business-info-section {
-    background: linear-gradient(160deg,
-        color-mix(in srgb, var(--content-bg) 95%, white),
-        var(--content-bg) 70%);
-    padding: clamp(20px, 4vw, 35px);
-    border-radius: 24px;
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg)); /* match president-section */
+    padding: clamp(20px, 4vw, 30px); /* consistent padding */
+    border-radius: 20px; /* match president-section */
     margin: 30px 0;
     box-shadow:
-        0 16px 40px -12px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent),
-        0 0 25px rgba(0,0,0,0.05);
+        0 10px 35px -10px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
     width: 100%;
     box-sizing: border-box;
     position: relative;
