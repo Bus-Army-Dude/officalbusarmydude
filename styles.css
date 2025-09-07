@@ -530,70 +530,58 @@ body {
     }
 }
 
-/* Useful Links Section */
-.useful-links-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg));
-    padding: 30px;
-    border-radius: 20px; /* Softer, consistent radius */
-    box-shadow:
-        0 10px 35px -10px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
-    margin: 25px 0;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    width: 100%;
-    box-sizing: border-box;
-}
+/* --- Useful Links Section Redesign --- */
 
 /* Title Styling */
 .useful-links-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 25px; /* Increased margin for spacing */
+    font-size: 1.6rem; /* Slightly smaller for tighter design */
+    margin-bottom: 20px;
     color: var(--text-color);
+    text-align: left;
+    font-weight: 700; /* Bolder title */
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Links Container */
 .links-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns for desktop */
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; /* Increased gap */
     margin-top: 20px;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* Link Button (Adaptive Style) */
+/* --- Redesigned Link Button (Neo-Brutalist Style) --- */
 .link-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 14px 24px;
+    padding: 16px 20px; /* Uniform padding */
     width: 100%;
-    border-radius: 12px; /* Modern rounded rectangle shape */
+    border-radius: 6px; /* Sharper edges */
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700; /* Bold text */
     letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease;
     box-sizing: border-box;
 
-    /* --- Adaptive Color (Default State) --- */
-    /* Use neutral background and standard text color by default */
-    background: color-mix(in srgb, var(--border-color) 20%, transparent);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
-    color: var(--text-color);
-    box-shadow: 0 2px 5px color-mix(in srgb, var(--shadow-color) 10%, transparent);
+    /* --- New Default State --- */
+    background: #ffffff; /* Solid white background */
+    border: 2px solid #000000; /* Strong black border */
+    color: #000000; /* Black text */
+    box-shadow: 4px 4px 0px #000000; /* Hard offset shadow */
 }
 
-/* Button Hover Effects */
+/* --- New Button Hover Effects --- */
 .link-button:hover {
-    transform: translateY(-3px);
-    /* --- Adaptive Color (Hover State) --- */
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--content-bg); /* Inverted color for contrast */
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    /* "Press down" effect by moving into shadow space */
+    transform: translate(4px, 4px);
+    background: var(--accent-color, #efefef); /* Change background color on press */
+    border-color: #000000;
+    color: #000000; /* Keep text color consistent or change to contrast with accent */
+    box-shadow: none; /* Remove shadow on press */
 }
 
 /* Responsive Design */
@@ -606,23 +594,16 @@ body {
         gap: 15px;
     }
     .link-button {
-        padding: 12px 20px;
-        font-size: 0.95em;
+        padding: 14px 20px;
     }
     .useful-links-section h2 {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
     }
 }
 
 @media screen and (max-width: 480px) {
     .useful-links-section {
         padding: 15px;
-    }
-    .link-button {
-        padding: 12px 16px;
-    }
-    .useful-links-section h2 {
-        font-size: 1.4rem;
     }
 }
 
