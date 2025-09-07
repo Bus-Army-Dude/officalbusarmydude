@@ -2170,19 +2170,20 @@ body.maintenance-active {
 
 /* --- Main Section Container --- */
 .business-info-section {
-    /* Subtle gradient for a premium background texture */
     background: linear-gradient(160deg,
         color-mix(in srgb, var(--content-bg) 95%, white),
         var(--content-bg) 70%);
-    padding: clamp(20px, 4vw, 35px); /* Responsive padding */
-    border-radius: 24px; /* Softer, larger radius */
+    padding: clamp(20px, 4vw, 35px);
+    border-radius: 24px;
     margin: 30px 0;
-    /* Deeper, more complex shadow for a "floating" effect */
     box-shadow:
         0 16px 40px -12px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
+        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent),
+        0 0 25px rgba(0,0,0,0.05);
     width: 100%;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
 .business-info-section h2 {
@@ -2201,7 +2202,8 @@ body.maintenance-active {
 }
 
 .status-main-text {
-    display: inline-flex; /* Use flex for icon alignment */
+    position: relative; /* for pseudo-elements */
+    display: inline-flex;
     align-items: center;
     gap: 10px;
     font-weight: 700;
@@ -2210,55 +2212,91 @@ body.maintenance-active {
     padding: 10px 22px;
     border-radius: 9999px;
     letter-spacing: 0.3px;
-    border: 1px solid transparent; /* Base border */
+    border: 1px solid transparent;
 }
 
-/* Status Icon (using CSS pseudo-elements) */
+/* --- Status Dot --- */
 .status-main-text::before {
     content: '';
     display: block;
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    background-color: currentColor;
+    box-shadow: 0 0 6px currentColor;
     animation: pulse-status 2s infinite;
 }
 
-.status-main-text.status-open {
-    background-color: color-mix(in srgb, #34c759 10%, transparent);
-    color: #28a745;
-    border-color: color-mix(in srgb, #34c759 30%, transparent);
-}
-.status-main-text.status-open::before {
-    background-color: #34c759;
-    box-shadow: 0 0 6px #34c759;
-}
-
-.status-main-text.status-closed {
-    background-color: color-mix(in srgb, #ff3b30 10%, transparent);
-    color: #dc3545;
-    border-color: color-mix(in srgb, #ff3b30 30%, transparent);
-}
-.status-main-text.status-closed::before {
-    background-color: #ff3b30;
-    animation: none; /* No pulse when closed */
+/* --- Gradient Glow Behind Dot --- */
+.status-main-text::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, currentColor 0%, transparent 60%);
+    opacity: 0.3;
+    z-index: 1;
+    animation: glow-status 3s infinite alternate;
 }
 
-.status-main-text.status-unavailable {
-    background-color: color-mix(in srgb, #ff9500 10%, transparent);
-    color: #fd7e14;
-    border-color: color-mix(in srgb, #ff9500 30%, transparent);
-}
-.status-main-text.status-unavailable::before {
-    background-color: #ff9500;
-    animation: none; /* No pulse for unavailable */
+/* --- Pulse Intensity on Hover --- */
+.status-main-text:hover::before {
+    animation: pulse-hover 1.5s infinite;
 }
 
+.status-main-text:hover::after {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* --- Pulse Keyframes --- */
 @keyframes pulse-status {
     0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.2); opacity: 0.7; }
+    50% { transform: scale(1.25); opacity: 0.6; }
     100% { transform: scale(1); opacity: 1; }
 }
 
+@keyframes pulse-hover {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes glow-status {
+    0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.35; transform: translate(-50%, -50%) scale(1.1); }
+    100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* --- Status Colors --- */
+.status-main-text.status-open { color: #28a745; }
+.status-main-text.status-open::before {
+    background-color: #34c759;
+    box-shadow: 0 0 8px #34c759;
+    animation: pulse-status 2s infinite;
+}
+
+.status-main-text.status-closed { color: #dc3545; }
+.status-main-text.status-closed::before {
+    background-color: #ff3b30;
+    box-shadow: 0 0 8px #ff3b30;
+    animation: pulse-status 2.2s infinite;
+}
+
+.status-main-text.status-unavailable { color: #fd7e14; }
+.status-main-text.status-unavailable::before {
+    background-color: #ff9500;
+    box-shadow: 0 0 8px #ff9500;
+    animation: pulse-status 1.8s infinite;
+}
+
+/* --- Countdown & Reason --- */
 .status-countdown-text {
     display: block;
     font-size: 0.95em;
@@ -2275,57 +2313,28 @@ body.maintenance-active {
 }
 
 /* --- Regular Hours List --- */
-.hours-list {
-    margin: 25px 0;
-}
-
-.hours-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
+.hours-list { margin: 25px 0; }
+.hours-list ul { list-style: none; padding: 0; margin: 0; }
 .hours-list li {
-    display: grid; /* Use grid for better alignment control */
+    display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
     padding: 14px 10px;
     border-bottom: 1px solid var(--border-color);
     font-size: 1em;
     transition: background-color 0.2s ease;
-    border-radius: 8px; /* Add radius for hover effect */
+    border-radius: 8px;
 }
-.hours-list li:hover {
-    background-color: color-mix(in srgb, var(--border-color) 30%, transparent);
-}
-
-.hours-list li:last-child {
-    border-bottom: none;
-}
-
-.hours-list li strong {
-    font-weight: 600;
-    color: var(--text-color);
-}
-
-.hours-list li span {
-    color: var(--secondary-text);
-    font-weight: 500;
-    letter-spacing: 0.2px;
-}
-
-/* Enhanced current day highlight */
+.hours-list li:hover { background-color: color-mix(in srgb, var(--border-color) 30%, transparent); }
+.hours-list li:last-child { border-bottom: none; }
+.hours-list li strong { font-weight: 600; color: var(--text-color); }
+.hours-list li span { color: var(--secondary-text); font-weight: 500; letter-spacing: 0.2px; }
 .hours-list li.current-day {
     background: color-mix(in srgb, var(--accent-color) 12%, transparent);
     border-color: color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
-
 .hours-list li.current-day strong,
-.hours-list li.current-day span {
-    color: var(--accent-color);
-    font-weight: 700;
-}
-
+.hours-list li.current-day span { color: var(--accent-color); font-weight: 700; }
 .hours-timezone-note {
     margin-top: 15px;
     font-size: 0.85em;
@@ -2374,24 +2383,14 @@ body.maintenance-active {
     margin-bottom: 5px;
 }
 
-.special-hours-display li strong {
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 1.05em;
-}
-
-.special-hours-display li .hours {
-    font-weight: 600;
-    color: var(--text-color);
-}
-
+.special-hours-display li strong { font-weight: 600; color: var(--text-color); font-size: 1.05em; }
+.special-hours-display li .hours { font-weight: 600; color: var(--text-color); }
 .special-hours-display li .dates {
     display: block;
     font-size: 0.9em;
     color: var(--secondary-text);
     margin-bottom: 8px;
 }
-
 .special-hours-display li .temp-status-countdown-text,
 .special-hours-display li .holiday-status-countdown-text {
     display: block;
@@ -2414,7 +2413,7 @@ body.maintenance-active {
     display: inline-block;
     padding: 14px 32px;
     background-image: linear-gradient(140deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 80%, black));
-    color: white; /* Assuming accent color contrasts with white */
+    color: white;
     border-radius: 9999px;
     text-decoration: none;
     font-weight: 700;
@@ -2436,7 +2435,7 @@ body.maintenance-active {
 /* == Admin Panel Styles (Clean & Modern Upgrade) == */
 /* ======================================== */
 
-/* --- Helper: Reusable form input style --- */
+/* --- Form Inputs --- */
 .admin-form-input,
 .day-hours-group input[type="time"],
 .special-hours-list input[type="time"],
@@ -2461,7 +2460,7 @@ body.maintenance-active {
     box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
 }
 
-/* --- Sectioning for Admin Panel --- */
+/* --- Admin Section Cards --- */
 .admin-section-card {
     background: color-mix(in srgb, var(--border-color) 15%, transparent);
     padding: 20px 25px;
@@ -2479,7 +2478,7 @@ body.maintenance-active {
     color: var(--text-color);
 }
 
-/* --- Regular Hours Grid --- */
+/* --- Hours Grid --- */
 .hours-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -2496,7 +2495,6 @@ body.maintenance-active {
 .day-hours-group:focus-within {
     box-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 10%, transparent);
 }
-
 .day-hours-group > label {
     display: block;
     margin-bottom: 15px;
@@ -2504,14 +2502,12 @@ body.maintenance-active {
     font-size: 1.1em;
     color: var(--text-color);
 }
-
 .day-hours-group .time-inputs {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
 }
-
 .day-hours-group .form-group.checkbox-group {
     display: flex;
     align-items: center;
@@ -2539,13 +2535,11 @@ body.maintenance-active {
     gap: 15px 20px;
     align-items: flex-start;
 }
-
 .special-hours-list .hour-entry .form-group:has(label[for*="-label-"]),
 .special-hours-list .hour-entry .time-inputs,
 .special-hours-list .hour-entry .checkbox-group {
     grid-column: 1 / -1;
 }
-
 .special-hours-list .hour-entry .remove-hour-button {
     position: absolute;
     top: 12px;
@@ -2574,7 +2568,6 @@ body.maintenance-active {
     border-radius: 16px;
     margin-top: 30px;
 }
-
 .admin-preview-container h3 {
     margin-top: 0;
     margin-bottom: 20px;
