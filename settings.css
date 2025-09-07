@@ -262,20 +262,50 @@ body.settings-page #appearanceModeSelect {
     background: var(--slider-thumb-color); /* Ensure thumb color remains consistent */
 }
 
+/* =================================================================== */
+/* 1. NEW: Layout for the Title and Font Size Value Badge              */
+/* =================================================================== */
+
+/* This flex container aligns the "Text Size" title to the left
+   and the value badge to the right on the same line. */
+body.settings-page .setting-title-group {
+    display: flex;
+    justify-content: space-between; /* Pushes items to opposite ends */
+    align-items: center;          /* Vertically aligns them */
+    margin-bottom: 4px;           /* Adds a small space below the title line */
+}
+
+/* This styles the <span> with id="textSizeValue" to look like a badge.
+   Customize the colors to match your website's theme. */
+body.settings-page .font-size-badge {
+    padding: 3px 10px;
+    background-color: var(--primary-color, #007bff); /* A primary or accent color */
+    color: var(--on-primary-color, #ffffff);      /* A contrasting text color */
+    border-radius: 12px;                          /* Creates a pill shape */
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 40px;                              /* Ensures a consistent minimum size */
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);    /* A subtle shadow for depth */
+}
+
+/* =================================================================== */
+/* 2. YOUR EXISTING: Slider Styles (with fixes)                      */
+/* =================================================================== */
+
 /* Corrected rule using the dynamic CSS variable */
 body.settings-page #text-size-slider {
     -webkit-appearance: none; appearance: none;
     width: 100%; height: 4px;
-    /* This line is changed to use the variable for the split point */
+    /* This line uses the variable for the track's fill level */
     background: linear-gradient(90deg,
         var(--slider-track-filled-color) 0%,
-        var(--slider-track-filled-color) var(--slider-value-percentage, 50%), /* Use variable, fallback to 50% */
-        var(--slider-track-color) var(--slider-value-percentage, 50%),       /* Use variable, fallback to 50% */
+        var(--slider-track-filled-color) var(--slider-value-percentage, 50%),
+        var(--slider-track-color) var(--slider-value-percentage, 50%),
         var(--slider-track-color) 100%
     );
     border-radius: 999px; outline: none; margin: 10px 0;
-    /* Ensure a default value for the variable in case JS hasn't run yet */
-    --slider-value-percentage: 50%;
+    --slider-value-percentage: 50%; /* Default fallback value */
 }
 
 /* --- Keep existing thumb styles --- */
@@ -293,6 +323,10 @@ body.settings-page #text-size-slider::-moz-range-thumb {
     cursor: pointer; border: none;
     box-shadow: 0 2px 6px rgba(60,64,67,0.18);
 }
+
+/* =================================================================== */
+/* 3. OPTIONAL: Labels Below Slider (from your original CSS)           */
+/* =================================================================== */
 
 body.settings-page .size-labels {
     display: flex; justify-content: space-between; margin-top: 8px;
