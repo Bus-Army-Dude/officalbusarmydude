@@ -1295,7 +1295,9 @@ body {
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Countdown Styles */
+/* ============================= */
+/* == Countdown Section Styles == */
+/* ============================= */
 .countdown-section {
     background: linear-gradient(145deg,
         color-mix(in srgb, var(--content-bg) 98%, white),
@@ -1312,7 +1314,7 @@ body {
     box-sizing: border-box;
 }
 
-.countdown-title {
+.countdown-section h2 {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-color);
@@ -1331,28 +1333,37 @@ body {
     text-align: center;
 }
 
+.countdown-label {
+    color: var(--secondary-text);
+    font-size: 0.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 10px;
+    letter-spacing: 0.8px;
+}
+
+/* ============================= */
+/* == Flip Clock Styles == */
+/* ============================= */
 .flip-clock {
     perspective: 400px;
     margin-bottom: 10px;
     display: inline-block;
+    width: 70px;
+    height: 90px;
 }
 
 .flip-clock-inner {
     position: relative;
-    width: 70px;
-    height: 90px;
+    width: 100%;
+    height: 100%;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.flip-clock-inner.flip {
-    transform: rotateX(180deg);
-}
-
-/* --- Refined Flip Card Styling --- */
+/* Front and back of the flip card */
 .flip-clock-front,
 .flip-clock-back {
     position: absolute;
@@ -1365,19 +1376,19 @@ body {
     overflow: hidden;
     border-radius: 12px;
 
-    /* 1. Glassmorphism Background Effect */
+    /* Glassmorphism Background */
     background: color-mix(in srgb, var(--border-color) 10%, transparent);
     backdrop-filter: blur(8px);
     border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
 
-    /* 2. Glowing Number Effect */
+    /* Glowing Number Effect */
     color: var(--accent-color);
     font-size: 2.2em;
     font-weight: 700;
     text-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 50%, transparent);
 }
 
-/* Middle line effect */
+/* Middle crease line */
 .flip-clock-front::before,
 .flip-clock-back::before {
     content: '';
@@ -1393,53 +1404,57 @@ body {
     transform: rotateX(180deg);
 }
 
-.countdown-label {
-    color: var(--secondary-text);
-    font-size: 0.9em;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-top: 10px;
-    letter-spacing: 0.8px;
+/* ============================= */
+/* == Paper Fold Animation == */
+/* ============================= */
+.flip-clock-front.animate {
+    animation: foldTop 0.6s forwards;
 }
 
-/* Responsive Design */
+.flip-clock-back.animate {
+    animation: foldBottom 0.6s forwards;
+}
+
+@keyframes foldTop {
+    0% {
+        transform: rotateX(0deg);
+        box-shadow: inset 0 -2px 4px rgba(0,0,0,0.2);
+    }
+    100% {
+        transform: rotateX(-90deg);
+        box-shadow: inset 0 -2px 6px rgba(0,0,0,0.4);
+    }
+}
+
+@keyframes foldBottom {
+    0% {
+        transform: rotateX(90deg);
+        box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    }
+    100% {
+        transform: rotateX(0deg);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    }
+}
+
+/* ============================= */
+/* == Responsive Design == */
+/* ============================= */
 @media screen and (max-width: 768px) {
-    .countdown-section {
-        padding: 20px;
-    }
-    .countdown-container {
-        gap: 20px;
-    }
-    .flip-clock-inner {
-        width: 60px;
-        height: 80px;
-    }
-    .flip-clock-front,
-    .flip-clock-back {
-        font-size: 2em;
-    }
+    .countdown-section { padding: 20px; }
+    .countdown-container { gap: 20px; }
+    .flip-clock { width: 60px; height: 80px; }
+    .flip-clock-front, .flip-clock-back { font-size: 2em; }
 }
 
 @media screen and (max-width: 480px) {
-    .countdown-section {
-        padding: 15px;
-    }
-    .countdown-container {
-        gap: 15px;
-    }
-    .flip-clock-inner {
-        width: 50px;
-        height: 70px;
-    }
-    .flip-clock-front,
-    .flip-clock-back {
-        font-size: 1.8em;
-        border-radius: 8px;
-    }
-    .countdown-label {
-        font-size: 0.8em;
-    }
+    .countdown-section { padding: 15px; }
+    .countdown-container { gap: 15px; }
+    .flip-clock { width: 50px; height: 70px; }
+    .flip-clock-front, .flip-clock-back { font-size: 1.8em; border-radius: 8px; }
+    .countdown-label { font-size: 0.8em; }
 }
+
 
 /* ======================== */
 /* Back to Top Button       */
