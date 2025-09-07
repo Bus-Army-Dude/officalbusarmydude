@@ -262,55 +262,89 @@ body.settings-page #appearanceModeSelect {
     background: var(--slider-thumb-color); /* Ensure thumb color remains consistent */
 }
 
-/* 1. NEW: Center content within the control container */
-.text-size-control {
-    width: 100%;
-    text-align: center; /* This centers the badge and slider */
+/* ===================================================== */
+/* == COMPLETE FIXES FOR TEXT SIZE SLIDER SECTION      == */
+/* ===================================================== */
+
+/*
+ * FIX 1: CARD LAYOUT ADJUSTMENT
+ * Stacks the Text Size card vertically to prevent squishing the description text.
+ * The :has() selector ensures this rule ONLY applies to the Text Size card.
+ */
+.setting-card:has(.text-size-control) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px; /* Space between label and control area */
 }
 
-/* 2. Styling for the Badge (adjust margin for spacing) */
+/*
+ * FIX 2: CONTROL CONTAINER STYLING
+ * Prepares the container for the badge and slider.
+ * text-align: center will center the badge and the constrained slider.
+ */
+.text-size-control {
+    width: 100%;
+    text-align: center;
+}
+
+/*
+ * FIX 3: VALUE BADGE STYLING
+ * Styles the value display ("16px") and adds space below it.
+ */
 .font-size-badge {
-    display: inline-block; /* Ensures margin applies correctly */
+    display: inline-block;
     padding: 3px 10px;
-    background-color: var(--primary-color, #007bff);
-    color: var(--on-primary-color, #ffffff);
+    background-color: var(--accent-color, #007bff); /* Or another theme color */
+    color: var(--content-bg, #ffffff);
     border-radius: 12px;
     font-weight: 600;
     font-size: 14px;
-    min-width: 40px;
-    margin-bottom: 12px; /* Add space between badge and slider below it */
+    margin-bottom: 12px; /* Space between badge and slider */
 }
 
-/* 3. Slider styles */
-body.settings-page #text-size-slider {
-    -webkit-appearance: none; appearance: none;
-    width: 100%; /* Keeps it responsive on narrow screens */
-    max-width: 500px; /* ADD THIS: Prevents it from getting too wide */
+/*
+ * FIX 4: SLIDER STYLING AND WIDTH CONSTRAINT
+ * Applies visual style and limits the slider's maximum width.
+ */
+#text-size-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;                  /* Responsive width */
+    max-width: 500px;             /* Width constraint limit */
     height: 4px;
+    border-radius: 999px;
+    outline: none;
+
+    /* Dynamic background gradient for filled track effect */
     background: linear-gradient(90deg,
         var(--slider-track-filled-color) 0%,
         var(--slider-track-filled-color) var(--slider-value-percentage, 50%),
         var(--slider-track-color) var(--slider-value-percentage, 50%),
         var(--slider-track-color) 100%
     );
-    border-radius: 999px; outline: none;
-    --slider-value-percentage: 50%;
 }
 
-/* --- Slider Thumb Styles --- */
-body.settings-page #text-size-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none;
-    width: 18px; height: 18px; border-radius: 50%;
+/* Slider Thumb Styles */
+#text-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
     background: var(--slider-thumb-color);
-    cursor: pointer; border: none;
-    box-shadow: 0 2px 6px rgba(60,64,67,0.18);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(60, 64, 67, 0.18);
 }
 
-body.settings-page #text-size-slider::-moz-range-thumb {
-    width: 18px; height: 18px; border-radius: 50%;
+#text-size-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
     background: var(--slider-thumb-color);
-    cursor: pointer; border: none;
-    box-shadow: 0 2px 6px rgba(60,64,67,0.18);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(60, 64, 67, 0.18);
 }
 
 /* ========== Danger Zone ========== */
