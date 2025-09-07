@@ -323,3 +323,12 @@ body.settings-page :focus-visible {
     outline-offset: 2px;
     border-radius: 6px;
 }
+
+/* Hide focus outline on smaller screens */
+@media (max-width: 768px) {
+  body.settings-page :focus-visible {
+    outline: none !important;
+    outline-offset: 0 !important;
+  }
+}
+
