@@ -817,16 +817,18 @@ body {
 /* Disabilities Section - Modern Accent Styling */
 /* ======================== */
 
-
 .disabilities-section {
-    background-color: var(--content-bg);
-    border-radius: 12px;
-    padding: 20px;
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg)); /* match president-section */
+    border-radius: 20px; /* match president-section */
+    padding: 30px; /* unified padding */
     margin-bottom: 30px;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    box-shadow:
+        0 10px 35px -10px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 
 .disabilities-section h2 {
     margin-bottom: 15px;
@@ -835,14 +837,12 @@ body {
     font-weight: 600;
 }
 
-
 .disabilities-section p {
     margin-bottom: 20px;
     color: var(--secondary-text);
     font-size: 1em;
     line-height: 1.5;
 }
-
 
 .disabilities-section ul {
     list-style: none;
@@ -851,7 +851,6 @@ body {
     display: grid;
     gap: 12px;
 }
-
 
 /* Modern Button Links */
 .disabilities-section a {
@@ -883,7 +882,6 @@ body {
     margin-left: 10px; /* Add some space between text and icon */
 }
 
-
 /* Subtle hover glow */
 .disabilities-section a:hover {
     background-color: var(--accent-color);
@@ -893,13 +891,11 @@ body {
                 0 0 10px var(--accent-color);
 }
 
-
 /* Focus accessibility */
 .disabilities-section a:focus {
     outline: none;
     box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.35);
 }
-
 
 /* Dark + Light scheme refinements */
 @media (prefers-color-scheme: dark) {
@@ -911,7 +907,6 @@ body {
         border-color: var(--accent-color);
     }
 }
-
 
 @media (prefers-color-scheme: light) {
     .disabilities-section {
