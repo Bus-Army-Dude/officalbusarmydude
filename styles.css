@@ -530,58 +530,74 @@ body {
     }
 }
 
-/* --- Useful Links Section Redesign --- */
+/* --- Useful Links Section --- */
+/* Section container styling from your original code */
+.useful-links-section {
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg));
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow:
+        0 10px 35px -10px var(--shadow-color),
+        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
+    margin: 25px 0;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    box-sizing: border-box;
+}
 
 /* Title Styling */
 .useful-links-section h2 {
-    font-size: 1.6rem; /* Slightly smaller for tighter design */
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
     color: var(--text-color);
-    text-align: left;
-    font-weight: 700; /* Bolder title */
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    text-align: center;
 }
 
 /* Links Container */
 .links-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px; /* Increased gap */
+    gap: 18px;
     margin-top: 20px;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* --- Redesigned Link Button (Neo-Brutalist Style) --- */
+/* --- Link Button (Original Theme Base) --- */
 .link-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px 20px; /* Uniform padding */
+    padding: 14px 24px;
     width: 100%;
-    border-radius: 6px; /* Sharper edges */
+    border-radius: 12px;
     text-decoration: none;
-    font-weight: 700; /* Bold text */
+    font-weight: 600;
     letter-spacing: 0.5px;
-    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background-color 0.15s ease;
     box-sizing: border-box;
 
-    /* --- New Default State --- */
-    background: #ffffff; /* Solid white background */
-    border: 2px solid #000000; /* Strong black border */
-    color: #000000; /* Black text */
-    box-shadow: 4px 4px 0px #000000; /* Hard offset shadow */
+    /* Transition for smooth hover effect on all properties */
+    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+
+    /* Default State: Subtle background and border */
+    background: color-mix(in srgb, var(--border-color) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+    color: var(--text-color);
+    box-shadow: 0 2px 5px color-mix(in srgb, var(--shadow-color) 10%, transparent);
 }
 
-/* --- New Button Hover Effects --- */
+/* --- Refined Hover Effect (Theme-Aligned) --- */
+/* This enhances the original hover effect by strengthening the accent color's presence. */
 .link-button:hover {
-    /* "Press down" effect by moving into shadow space */
-    transform: translate(4px, 4px);
-    background: var(--accent-color, #efefef); /* Change background color on press */
-    border-color: #000000;
-    color: #000000; /* Keep text color consistent or change to contrast with accent */
-    box-shadow: none; /* Remove shadow on press */
+    transform: translateY(-4px); /* Slightly more lift */
+
+    /* Highlight with accent color, similar to original but ensures strong visibility */
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--content-bg); /* Inverted color for high contrast on accent background */
+    box-shadow: 0 10px 25px color-mix(in srgb, var(--accent-color) 35%, transparent); /* More prominent glow */
 }
 
 /* Responsive Design */
@@ -594,16 +610,23 @@ body {
         gap: 15px;
     }
     .link-button {
-        padding: 14px 20px;
+        padding: 12px 20px;
+        font-size: 0.95em;
     }
     .useful-links-section h2 {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
     }
 }
 
 @media screen and (max-width: 480px) {
     .useful-links-section {
         padding: 15px;
+    }
+    .link-button {
+        padding: 12px 16px;
+    }
+    .useful-links-section h2 {
+        font-size: 1.4rem;
     }
 }
 
