@@ -824,10 +824,8 @@ body {
     border-radius: 20px; /* match president-section */
     padding: 30px; /* unified padding */
     margin-bottom: 30px;
-    box-shadow:
-        0 10px 35px -10px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    /* box-shadow removed */
+    transition: background-color 0.3s ease;
 }
 
 .disabilities-section h2 {
