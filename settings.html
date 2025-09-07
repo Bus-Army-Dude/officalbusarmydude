@@ -40,42 +40,40 @@
         </div>
       </div>
 
-        <div class="setting-card">
-            <div class="setting-label">
-                <h3 class="setting-title">Text Size</h3>
-                <p class="setting-description">Adjust the text size for better readability</p>
-            </div>
-        
-            <div class="text-size-control">
-                <span id="textSizeValue" class="font-size-badge">16px</span>
-                
-                <input
-                    type="range"
-                    id="text-size-slider"
-                    min="12"
-                    max="24"
-                    value="16"
-                    step="1"
-                    aria-label="Adjust text size"
-                />
-            </div>
-        </div>
-
-        <div class="setting-card focus-outline-setting-card">
-          <div class="setting-label">
-            <h3 class="setting-title">Focus Outline</h3>
-            <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
+        <div class="settings-subsection">
+          <h2 class="subsection-title">Accessibility</h2>
+      
+          <div class="setting-card">
+              <div class="setting-label">
+                  <h3 class="setting-title">Text Size</h3>
+                  <p class="setting-description">Adjust the text size for better readability</p>
+              </div>
+              <div class="text-size-control">
+                  <input
+                      type="range"
+                      id="text-size-slider"
+                      min="12"
+                      max="24"
+                      value="16"
+                      step="1"
+                      aria-label="Adjust text size"
+                  />
+              </div>
           </div>
-
-          <!-- Material-style switch: markup matches settings.css (.md-switch) -->
-          <div class="md-switch" aria-hidden="false">
-            <!-- input should be updated via JS to keep aria-checked in sync -->
-            <input type="checkbox" id="focusOutlineToggle" role="switch" aria-checked="false" aria-label="Toggle focus outline" />
-            <div class="track" aria-hidden="true">
-              <div class="thumb" aria-hidden="true"></div>
-            </div>
+      
+          <div class="setting-card focus-outline-setting-card">
+              <div class="setting-label">
+                  <h3 class="setting-title">Focus Outline</h3>
+                  <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
+              </div>
+      
+              <div class="md-switch" aria-hidden="false">
+                  <input type="checkbox" id="focusOutlineToggle" role="switch" aria-checked="false" aria-label="Toggle focus outline" />
+                  <div class="track" aria-hidden="true">
+                      <div class="thumb" aria-hidden="true"></div>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
 
       <div class="settings-subsection danger-zone">
