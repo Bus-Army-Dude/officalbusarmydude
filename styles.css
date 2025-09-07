@@ -1332,7 +1332,7 @@ body {
 }
 
 .flip-clock {
-    perspective: 500px; /* gives more depth for the paper fold effect */
+    perspective: 500px; /* stronger 3D effect */
     margin-bottom: 10px;
     display: inline-block;
 }
@@ -1343,67 +1343,69 @@ body {
     height: 90px;
     transform-style: preserve-3d;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.flip-clock-inner.flip .flip-clock-front {
-    transform: rotateX(-180deg);
-}
-
-.flip-clock-inner.flip .flip-clock-back {
-    transform: rotateX(0deg);
-    z-index: 2;
-}
-
-/* --- Flip Card Styling (Paper Fold Effect) --- */
+/* --- Folded Paper Flip Animations --- */
 .flip-clock-front,
 .flip-clock-back {
     position: absolute;
     width: 100%;
-    height: 50%; /* split top/bottom like a real fold */
-    overflow: hidden;
+    height: 100%;
+    backface-visibility: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    backface-visibility: hidden;
-    font-size: 2.2em;
-    font-weight: 700;
-    color: var(--accent-color);
-    text-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 50%, transparent);
-    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+    overflow: hidden;
+    border-radius: 12px;
+
     background: color-mix(in srgb, var(--border-color) 10%, transparent);
     backdrop-filter: blur(8px);
-}
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
 
-/* Top half (front) */
-.flip-clock-front {
-    top: 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 50%, transparent);
-    transform-origin: bottom;
-    border-radius: 12px 12px 0 0;
-}
+    color: var(--accent-color);
+    font-size: 2.2em;
+    font-weight: 700;
+    text-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 50%, transparent);
 
-/* Bottom half (back) */
-.flip-clock-back {
-    bottom: 0;
-    border-top: 1px solid color-mix(in srgb, var(--border-color) 50%, transparent);
-    transform: rotateX(180deg);
     transform-origin: top;
-    border-radius: 0 0 12px 12px;
 }
 
-/* Crease in the middle */
-.flip-clock-inner::before {
+/* Crease line (middle fold) */
+.flip-clock-front::before,
+.flip-clock-back::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 0;
     width: 100%;
     height: 1px;
     background-color: color-mix(in srgb, var(--border-color) 50%, transparent);
-    z-index: 3;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.flip-clock-back {
+    transform: rotateX(180deg);
+    transform-origin: bottom;
+}
+
+/* Fold animations */
+.flip-clock-front.animate {
+    animation: foldTop 0.6s forwards;
+}
+.flip-clock-back.animate {
+    animation: foldBottom 0.6s forwards;
+}
+
+/* Fold keyframes */
+@keyframes foldTop {
+    0% { transform: rotateX(0deg); box-shadow: inset 0 -2px 4px rgba(0,0,0,0.2); }
+    100% { transform: rotateX(-90deg); box-shadow: inset 0 -4px 6px rgba(0,0,0,0.3); }
+}
+
+@keyframes foldBottom {
+    0% { transform: rotateX(90deg); box-shadow: inset 0 4px 6px rgba(0,0,0,0.3); }
+    100% { transform: rotateX(0deg); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
 }
 
 .countdown-label {
@@ -1417,19 +1419,22 @@ body {
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
-    .flip-clock-inner { width: 60px; height: 80px; }
-    .flip-clock-front, .flip-clock-back { font-size: 2em; }
-    .countdown-container { gap: 20px; }
     .countdown-section { padding: 20px; }
+    .countdown-container { gap: 20px; }
+    .flip-clock-inner { width: 60px; height: 80px; }
+    .flip-clock-front,
+    .flip-clock-back { font-size: 2em; }
 }
 
 @media screen and (max-width: 480px) {
-    .flip-clock-inner { width: 50px; height: 70px; }
-    .flip-clock-front, .flip-clock-back { font-size: 1.8em; border-radius: 8px; }
-    .countdown-label { font-size: 0.8em; }
-    .countdown-container { gap: 15px; }
     .countdown-section { padding: 15px; }
+    .countdown-container { gap: 15px; }
+    .flip-clock-inner { width: 50px; height: 70px; }
+    .flip-clock-front,
+    .flip-clock-back { font-size: 1.8em; border-radius: 8px; }
+    .countdown-label { font-size: 0.8em; }
 }
+
 
 /* ======================== */
 /* Back to Top Button       */
