@@ -1560,7 +1560,7 @@ body {
 }
 
 /* ============================================= */
-/* == Version Info Section (Static Redesign)   == */
+/* == Version Info Section                      == */
 /* ============================================= */
 
 .version-info-section {
@@ -1577,11 +1577,9 @@ body {
         0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent),
         inset 0 1px 0 rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(14px) saturate(120%);
-    position: relative;
-    overflow: hidden;
 }
 
-/* Version Header */
+/* Header */
 .version-header {
     color: var(--text-color);
     margin-bottom: 20px;
@@ -1592,7 +1590,6 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    letter-spacing: 0.3px;
 }
 .version-header::before {
     content: "📊";
@@ -1615,7 +1612,7 @@ body {
 }
 .update-time { border-bottom: none; }
 
-/* Labels with Icons */
+/* Labels */
 .version-number::before { content: "🔢 Version"; }
 .build-number::before { content: "🏗️ Build"; }
 .os-info::before { content: "💻 OS"; }
@@ -1633,28 +1630,64 @@ body {
     text-align: left;
 }
 
-/* Countdown block */
-.countdown {
-    color: var(--text-color);
-    font-size: 1.05em;
-    font-weight: 600;
-    background: color-mix(in srgb, var(--border-color) 15%, transparent);
-    padding: 16px;
-    border-radius: 16px;
-    text-align: center;
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
-    margin-top: 22px;
-    box-shadow: 0 10px 25px -8px var(--shadow-color);
+/* ============================================= */
+/* == Notice / Legal Protection Section         == */
+/* ============================================= */
+
+.notice-container {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.copy-protection-message,
+.legal-protection-message {
+    padding: 16px 20px;
+    border-radius: 14px;
+    font-size: 0.95em;
+    font-weight: 500;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
+    gap: 14px;
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.08);
 }
-.countdown::before { content: "⏱️"; }
+
+/* Types */
+.copy-protection-message {
+    background: color-mix(in srgb, var(--bg-color) 95%, #ff4757);
+    border-left: 4px solid #ff4757;
+}
+.legal-protection-message {
+    background: color-mix(in srgb, var(--bg-color) 95%, #ffa502);
+    border-left: 4px solid #ffa502;
+}
+
+/* Icons */
+.copy-protection-message::before,
+.legal-protection-message::before {
+    content: "⚠️";
+    font-size: 1.2em;
+    min-width: 24px;
+}
 
 /* ============================================= */
-/* == Responsive Refinements                   == */
+/* == Watermark                                == */
 /* ============================================= */
+
+.watermark {
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--secondary-text);
+    margin-top: 25px;
+    padding: 10px;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* ============================================= */
+/* == Responsive                               == */
+/* ============================================= */
+
 @media screen and (max-width: 768px) {
     .version-info-section { padding: 22px; }
     .version-header { font-size: 1.2em; }
@@ -1662,8 +1695,7 @@ body {
     .build-number,
     .os-info,
     .device-info,
-    .update-time,
-    .countdown { font-size: 0.92em; }
+    .update-time { font-size: 0.92em; }
 }
 @media screen and (max-width: 400px) {
     .version-info-section { padding: 16px; }
@@ -1673,7 +1705,6 @@ body {
     .os-info::before,
     .device-info::before,
     .update-time::before { min-width: 70px; font-size: 0.9em; }
-    .countdown { font-size: 0.85em; gap: 8px; }
 }
 
 /* Copy Protection */
