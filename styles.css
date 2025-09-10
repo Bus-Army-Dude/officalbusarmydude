@@ -125,16 +125,15 @@ body {
 /* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 5%;   /* anchor relative to profile-pic-wrapper */
+    right: 5%;    /* anchor relative to profile-pic-wrapper */
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid var(--content-bg); /* Separation border */
+    border: 2px solid var(--content-bg);
     z-index: 2;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
-    /* Default background color removed from here to allow classes to control it */
 }
 
 /* Hide text/emoji content inside the circle */
@@ -237,9 +236,10 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        bottom: 8px;
-        right: 8px;
+        bottom: 6%;
+        right: 6%;
     }
+    
     .settings-button,
     .merch-button {
         width: 35px;
@@ -259,9 +259,12 @@ body {
         height: 100px;
     }
     .profile-status-container {
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
+        bottom: 7%;
+        right: 7%;
     }
+    
     .settings-button,
     .merch-button {
         width: 30px;
