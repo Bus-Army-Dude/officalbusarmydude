@@ -80,14 +80,15 @@ body {
 /* ======================================== */
 
 header {
-    background: color-mix(in srgb, var(--content-bg) 80%, transparent);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg));
     backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
     color: var(--text-color);
     padding: 25px;
-    border-radius: 20px; /* Consistent radius */
+    border-radius: 20px;
     margin: 20px 0 30px 0;
-    box-shadow: 0 10px 35px -10px var(--shadow-color);
 }
 
 .header-content {
@@ -123,7 +124,6 @@ header {
     text-decoration: none;
     transition: all 0.3s ease;
 
-    /* Default State: Outline */
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-color);
@@ -131,22 +131,22 @@ header {
 
 .home-button:hover {
     transform: translateY(-2px);
-    /* Hover State: Filled */
     background: var(--accent-color);
     border-color: var(--accent-color);
-    color: var(--content-bg); /* Inverted color for contrast */
+    color: var(--content-bg);
     box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
 /* Modern Category Dropdown */
 .category-dropdown {
-    background: var(--content-bg);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg));
     border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 20px;
     margin-bottom: 30px;
     position: relative;
-    box-shadow: 0 10px 35px -10px var(--shadow-color);
 }
 
 .category-dropdown label {
@@ -163,7 +163,7 @@ header {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-color);
-    background-color: var(--bg-color); /* Cleaner background */
+    background-color: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     cursor: pointer;
@@ -193,7 +193,7 @@ header {
 }
 
 /* ======================================== */
-/* == Product Grid & Cards == */
+/* == Product Grid & Cards (Unified Style) == */
 /* ======================================== */
 
 .product-grid {
@@ -205,29 +205,30 @@ header {
 }
 
 .product-item {
-    background: var(--content-bg);
+    background: linear-gradient(145deg,
+        color-mix(in srgb, var(--content-bg) 98%, white),
+        var(--content-bg));
     border: 1px solid var(--border-color);
+    border-radius: 20px;
     padding: 20px;
-    border-radius: 16px;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 32px -12px var(--shadow-color);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .product-item:hover {
-    transform: translateY(-8px);
-    box-shadow:
-        0 16px 40px -8px var(--shadow-color),
-        0 0 0 1px var(--accent-color);
+    transform: translateY(-6px);
+    border-color: var(--accent-color);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--accent-color) 20%, transparent);
 }
 
+/* Product Image */
 .product-image-container {
     width: 100%;
     aspect-ratio: 1;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
     margin-bottom: 20px;
 }
@@ -236,13 +237,14 @@ header {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.35s ease;
 }
 
 .product-item:hover img {
     transform: scale(1.05);
 }
 
+/* Product Title */
 .product-item h3 {
     font-size: 1.4rem;
     font-weight: 600;
@@ -250,6 +252,7 @@ header {
     color: var(--text-color);
 }
 
+/* Price Styling */
 .product-item .price {
     font-size: 1.3rem;
     color: var(--accent-color);
@@ -264,7 +267,7 @@ header {
     font-size: 0.9em;
 }
 
-/* Adaptive Buy Now Button */
+/* Buy Now Button */
 .buy-now {
     display: inline-flex;
     align-items: center;
@@ -278,7 +281,6 @@ header {
     margin-top: auto;
     cursor: pointer;
 
-    /* Default State: Outline */
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-color);
@@ -286,7 +288,6 @@ header {
 
 .buy-now:hover {
     transform: translateY(-2px);
-    /* Hover State: Filled */
     background: var(--accent-color);
     border-color: var(--accent-color);
     color: var(--content-bg);
@@ -331,7 +332,10 @@ header {
     border: 1px solid rgba(108, 117, 125, 0.2);
 }
 
-/* Responsive Design */
+/* ======================================== */
+/* == Responsive Design == */
+/* ======================================== */
+
 @media (max-width: 768px) {
     body { padding: 15px; }
     header { padding: 20px; margin: 15px 0 25px 0; }
