@@ -122,19 +122,18 @@ body {
     border: none; /* Removed profile picture border as requested */
 }
 
-/* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 5%;   /* anchor relative to profile-pic-wrapper */
-    right: 5%;    /* anchor relative to profile-pic-wrapper */
+    bottom: 0;
+    right: 0;
+    transform: translate(30%, 30%); /* pushes it outward from the corner */
     width: 18px;
     height: 18px;
     border-radius: 50%;
     border: 2px solid var(--content-bg);
     z-index: 2;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease;
 }
+
 
 /* Hide text/emoji content inside the circle */
 .profile-status {
