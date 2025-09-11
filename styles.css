@@ -237,17 +237,17 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        bottom: 2%;   /* tighter to the edge */
+        bottom: 2%;   /* landscape default */
         right: 2%;
-        border: 1.5px solid var(--content-bg); /* slimmer border */
-        box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.15); /* lighter shadow */
+        border: 1.5px solid var(--content-bg);
+        box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.15);
     }
 
     /* Softer status colors */
-    .profile-status-container.status-online { background-color: #4ccf6d; }  /* softer green */
-    .profile-status-container.status-idle { background-color: #ffd54f; }    /* softer yellow */
-    .profile-status-container.status-dnd { background-color: #e57373; }     /* softer red */
-    .profile-status-container.status-offline { background-color: #c4c4c4; } /* softer gray */
+    .profile-status-container.status-online { background-color: #4ccf6d; }
+    .profile-status-container.status-idle { background-color: #ffd54f; }
+    .profile-status-container.status-dnd { background-color: #e57373; }
+    .profile-status-container.status-offline { background-color: #c4c4c4; }
 
     .settings-button,
     .merch-button {
@@ -270,13 +270,13 @@ body {
     .profile-status-container {
         width: 14px;
         height: 14px;
-        bottom: 1.5%; /* even tighter on very small screens */
+        bottom: 1.5%; /* landscape default */
         right: 1.5%;
-        border: 1.25px solid var(--content-bg); /* thinner border */
-        box-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.15); /* extra light shadow */
+        border: 1.25px solid var(--content-bg);
+        box-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.15);
     }
 
-    /* Even softer status colors for tiny screens */
+    /* Even softer colors */
     .profile-status-container.status-online { background-color: #66e08a; }
     .profile-status-container.status-idle { background-color: #ffe082; }
     .profile-status-container.status-dnd { background-color: #ef9a9a; }
@@ -293,6 +293,21 @@ body {
 
     .username-checkmark h1 {
         font-size: 1.5rem;
+    }
+}
+
+/* Portrait-only overrides */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .profile-status-container {
+        bottom: 8px;  /* fixed px to keep snug in portrait */
+        right: 8px;
+    }
+}
+
+@media screen and (max-width: 480px) and (orientation: portrait) {
+    .profile-status-container {
+        bottom: 6px;
+        right: 6px;
     }
 }
 
