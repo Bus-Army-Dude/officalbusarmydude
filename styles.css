@@ -1649,18 +1649,22 @@ body {
     50% { transform: scale(1.3); opacity: 0.7; }
 }
 
-/* Labels with icons (alternative layout) */
+/* --- START: Version Info Labels --- */
+
+/* This rule styles all the labels */
+.version-list li::before {
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+/* These rules add the specific text content to each label */
 .version-number::before { content: "🔢 Version:"; }
 .build-number::before   { content: "🏗️ Build:"; }
 .update-time::before    { content: "🕒 Synced:"; }
 .os-info::before        { content: "💻 OS:"; }
 .device-info::before    { content: "📱 Device:"; }
 
-/* This adds space and makes the ENTIRE label bold */
-.version-list li::before {
-    margin-right: 8px;
-    font-weight: bold;
-}
+/* --- END: Version Info Labels --- */
 
 /* ============================================= */
 /* == Legal Section (Merged Notices + Watermark) == */
