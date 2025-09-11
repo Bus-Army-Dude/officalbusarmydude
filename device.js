@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         .then(ua => {
                             if (ua.platformVersion) {
                                 const versionParts = ua.platformVersion.split('.');
-                                // Use actual version without restrictions
                                 osVersion = versionParts.slice(0, 2).join('.');
                                 updateOSInfo(os, osVersion);
                             }
@@ -41,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         .then(ua => {
                             if (ua.platformVersion) {
                                 const versionParts = ua.platformVersion.split('.');
-                                // Use actual version without restrictions
                                 osVersion = versionParts.slice(0, 2).join('.');
                                 updateOSInfo(os, osVersion);
                             }
@@ -97,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(ua => {
                         if (ua.platformVersion) {
                             const versionParts = ua.platformVersion.split('.');
-                            // Use actual version without restrictions
                             osVersion = versionParts.slice(0, 2).join('.');
                             updateOSInfo(os, osVersion);
                         }
@@ -126,11 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         if (ua.platformVersion) {
                             const versionParts = ua.platformVersion.split('.');
                             const buildNumber = parseInt(versionParts[2], 10);
-                            if (buildNumber >= 22000) {
-                                osVersion = "11";
-                            } else {
-                                osVersion = "10";
-                            }
+                            osVersion = (buildNumber >= 22000) ? "11" : "10";
                             updateOSInfo(os, osVersion);
                         }
                     })
@@ -144,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // --- Linux ---
         else if (os === "Unknown OS" && /Linux/.test(userAgent)) {
             os = "Linux";
-            // For Linux, we usually can't get a reliable version from the user agent
             updateOSInfo(os, osVersion);
         }
 
@@ -162,43 +154,28 @@ document.addEventListener("DOMContentLoaded", function() {
         if (windowsMatch && windowsMatch[1]) {
             const ntVersion = windowsMatch[1];
             switch (ntVersion) {
-                case "10.0":
-                    osVersion = "10 / 11";
-                    break;
-                case "6.3":
-                    osVersion = "8.1";
-                    break;
-                case "6.2":
-                    osVersion = "8";
-                    break;
-                case "6.1":
-                    osVersion = "7";
-                    break;
-                case "6.0":
-                    osVersion = "Vista";
-                    break;
-                case "5.1":
-                case "5.2":
-                    osVersion = "XP";
-                    break;
-                default:
-                    osVersion = "NT " + ntVersion;
+                case "10.0": osVersion = "10 / 11"; break;
+                case "6.3": osVersion = "8.1"; break;
+                case "6.2": osVersion = "8"; break;
+                case "6.1": osVersion = "7"; break;
+                case "6.0": osVersion = "Vista"; break;
+                case "5.1": case "5.2": osVersion = "XP"; break;
+                default: osVersion = "NT " + ntVersion;
             }
         }
         updateOSInfo("Windows", osVersion);
     }
 
     function updateOSInfo(os, version) {
-        const osInfoElement = document.getElementById("os-info");
+        // FIX: Target the inner span to avoid deleting the label
+        const osInfoElement = document.querySelector("#os-info .version-value");
         if (osInfoElement) {
             osInfoElement.textContent = version ? `${os} ${version}` : os;
         }
     }
 
-    // Function to detect general device type (iPhone, iPad, Android Device, etc.)
     function detectDevice() {
         let userAgent = navigator.userAgent;
-
         if (/iPad/i.test(userAgent)) return "iPad";
         if (/iPhone/i.test(userAgent)) return "iPhone";
         if (/iPod/i.test(userAgent)) return "iPod";
@@ -209,24 +186,26 @@ document.addEventListener("DOMContentLoaded", function() {
         return "Unknown Device";
     }
 
-    // Function to get detailed device model information
     function getDetailedDeviceModel() {
+        const deviceInfoElement = document.querySelector("#device-info .version-value");
+        if (!deviceInfoElement) return; // Exit if element not found
+
         if (navigator.userAgentData) {
             navigator.userAgentData.getHighEntropyValues(["model"])
                 .then(ua => {
                     const model = ua.model;
                     if (model && model !== "Unknown") {
-                        document.getElementById("device-info").textContent = model;
+                        deviceInfoElement.textContent = model;
                     } else {
-                        document.getElementById("device-info").textContent = parseModelFromUserAgent(navigator.userAgent);
+                        deviceInfoElement.textContent = parseModelFromUserAgent(navigator.userAgent);
                     }
                 })
                 .catch(error => {
                     console.warn("Could not retrieve device model via Client Hints:", error);
-                    document.getElementById("device-info").textContent = parseModelFromUserAgent(navigator.userAgent);
+                    deviceInfoElement.textContent = parseModelFromUserAgent(navigator.userAgent);
                 });
         } else {
-            document.getElementById("device-info").textContent = parseModelFromUserAgent(navigator.userAgent);
+            deviceInfoElement.textContent = parseModelFromUserAgent(navigator.userAgent);
         }
     }
 
@@ -248,7 +227,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Initialize everything when the page loads
-    document.getElementById("device-info").textContent = detectDevice();
+    const initialDeviceElement = document.querySelector("#device-info .version-value");
+    if (initialDeviceElement) {
+        initialDeviceElement.textContent = detectDevice();
+    }
     detectOSAndVersion();
     getDetailedDeviceModel();
 });
