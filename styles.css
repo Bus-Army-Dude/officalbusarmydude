@@ -125,16 +125,16 @@ body {
 /* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translate(30%, 30%); /* Always hugs the outer corner */
+    bottom: 10px;
+    right: 10px;
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid var(--content-bg);
+    border: 2px solid var(--content-bg); /* Separation border */
     z-index: 2;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
+    /* Default background color removed from here to allow classes to control it */
 }
 
 /* Hide text/emoji content inside the circle */
@@ -142,11 +142,19 @@ body {
     display: none;
 }
 
-/* Dynamic Status Colors */
-.profile-status-container.status-online  { background-color: #31a24c; } /* Green */
-.profile-status-container.status-idle    { background-color: #ffc107; } /* Yellow */
-.profile-status-container.status-dnd     { background-color: #dc3545; } /* Red */
-.profile-status-container.status-offline { background-color: #adb5bd; } /* Gray */
+/* Dynamic Status Colors (Matches displayshoutouts.js logic) */
+.profile-status-container.status-online {
+    background-color: #31a24c; /* Green */
+}
+.profile-status-container.status-idle {
+    background-color: #ffc107; /* Yellow */
+}
+.profile-status-container.status-dnd {
+    background-color: #dc3545; /* Red */
+}
+.profile-status-container.status-offline {
+    background-color: #adb5bd; /* Gray */
+}
 
 /* --- Username Checkmark --- */
 .username-checkmark {
@@ -229,7 +237,8 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        border-width: 1.5px;
+        bottom: 8px;
+        right: 8px;
     }
     .settings-button,
     .merch-button {
@@ -250,9 +259,8 @@ body {
         height: 100px;
     }
     .profile-status-container {
-        width: 14px;
-        height: 14px;
-        border-width: 1.25px;
+        width: 16px;
+        height: 16px;
     }
     .settings-button,
     .merch-button {
@@ -262,6 +270,7 @@ body {
     }
     .settings-button { right: 15px; }
     .merch-button { left: 15px; }
+
     .username-checkmark h1 {
         font-size: 1.5rem;
     }
