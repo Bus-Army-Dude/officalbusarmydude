@@ -1649,9 +1649,17 @@ body {
     50% { transform: scale(1.3); opacity: 0.7; }
 }
 
-/* ADD THIS to your stylesheet (and remove the old '::before' rules) */
-.version-label {
-    margin-right: 8px; /* Adds space between the label and the value */
+/* Labels with icons (alternative layout) */
+.version-number::before { content: "🔢 Version:"; }
+.build-number::before   { content: "🏗️ Build:"; }
+.update-time::before    { content: "🕒 Synced:"; }
+.os-info::before        { content: "💻 OS:"; }
+.device-info::before    { content: "📱 Device:"; }
+
+/* This adds space and makes the ENTIRE label bold */
+.version-list li::before {
+    margin-right: 8px;
+    font-weight: bold;
 }
 
 /* ============================================= */
