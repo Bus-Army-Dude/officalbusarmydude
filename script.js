@@ -54,34 +54,36 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     enhancedInteractionControl.init();
 
-    // --- Live Date & Time Update ---
-    function updateTime() {
-        const now = new Date();
-        const locale = navigator.language || 'en-US';
+ // --- Live Date & Time Update ---
+function updateTime() {
+    const now = new Date();
+    const locale = navigator.language || 'en-US';
 
-        const datePart = now.toLocaleDateString(locale, {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-        });
-        const timePart = now.toLocaleTimeString(locale, {
-            hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, timeZoneName: 'short'
-        });
-        const formattedDateTime = `${datePart} at ${timePart}`;
+    const datePart = now.toLocaleDateString(locale, {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    const timePart = now.toLocaleTimeString(locale, {
+        hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, timeZoneName: 'short'
+    });
+    const formattedDateTime = `${datePart} at ${timePart}`;
 
-        // Update main date/time section
-        const dateTimeSectionElement = document.querySelector('.datetime-section .current-datetime');
-        if (dateTimeSectionElement) {
-            dateTimeSectionElement.textContent = formattedDateTime;
-        }
-
-        // Update version info section time
-        const versionTimeElement = document.querySelector('.version-info-section .update-time');
-        if (versionTimeElement) {
-            // Apply fix: Directly update the text content of the selected element.
-            versionTimeElement.textContent = formattedDateTime;
-        }
+    // Update main date/time section
+    const dateTimeSectionElement = document.querySelector('.datetime-section .current-datetime');
+    if (dateTimeSectionElement) {
+        dateTimeSectionElement.textContent = formattedDateTime;
     }
-    updateTime();
-    setInterval(updateTime, 1000);
+
+    // Update version info section time
+    // FIX: Target the inner '.version-value' span to avoid deleting the label
+    const versionTimeElement = document.querySelector('.version-info-section .update-time .version-value');
+    if (versionTimeElement) {
+        versionTimeElement.textContent = formattedDateTime;
+    }
+}
+
+// Ensure this part is placed inside your main DOMContentLoaded event listener, or called after it.
+updateTime();
+setInterval(updateTime, 1000);
 
     // --- Scroll to Top Button Logic ---
     const scrollToTopBtn = document.querySelector(".scroll-to-top");
