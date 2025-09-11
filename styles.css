@@ -296,10 +296,10 @@ body {
     }
 }
 
-/* Portrait-only overrides */
+/* --- Portrait-only overrides --- */
 @media screen and (max-width: 768px) and (orientation: portrait) {
     .profile-status-container {
-        bottom: 8px;  /* fixed px to keep snug in portrait */
+        bottom: 8px;
         right: 8px;
     }
 }
@@ -308,6 +308,32 @@ body {
     .profile-status-container {
         bottom: 6px;
         right: 6px;
+    }
+}
+
+/* --- Device-specific portrait fine-tuning --- */
+
+/* Standard Android: 360px × 640px */
+@media screen and (max-width: 360px) and (orientation: portrait) {
+    .profile-status-container {
+        bottom: 5px;
+        right: 5px;
+    }
+}
+
+/* Smaller iPhones: 375px × 812px (iPhone X / 13 Mini) */
+@media screen and (max-width: 375px) and (orientation: portrait) {
+    .profile-status-container {
+        bottom: 6px;
+        right: 6px;
+    }
+}
+
+/* Larger iPhones: 414px × 896px, 430px × 932px */
+@media screen and (max-width: 430px) and (orientation: portrait) {
+    .profile-status-container {
+        bottom: 7px;
+        right: 7px;
     }
 }
 
