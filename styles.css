@@ -125,16 +125,16 @@ body {
 /* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 0;
+    right: 0;
+    transform: translate(30%, 30%); /* Always hugs the outer corner */
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid var(--content-bg); /* Separation border */
+    border: 2px solid var(--content-bg);
     z-index: 2;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
-    /* Default background color removed from here to allow classes to control it */
 }
 
 /* Hide text/emoji content inside the circle */
@@ -142,19 +142,11 @@ body {
     display: none;
 }
 
-/* Dynamic Status Colors (Matches displayshoutouts.js logic) */
-.profile-status-container.status-online {
-    background-color: #31a24c; /* Green */
-}
-.profile-status-container.status-idle {
-    background-color: #ffc107; /* Yellow */
-}
-.profile-status-container.status-dnd {
-    background-color: #dc3545; /* Red */
-}
-.profile-status-container.status-offline {
-    background-color: #adb5bd; /* Gray */
-}
+/* Dynamic Status Colors */
+.profile-status-container.status-online  { background-color: #31a24c; } /* Green */
+.profile-status-container.status-idle    { background-color: #ffc107; } /* Yellow */
+.profile-status-container.status-dnd     { background-color: #dc3545; } /* Red */
+.profile-status-container.status-offline { background-color: #adb5bd; } /* Gray */
 
 /* --- Username Checkmark --- */
 .username-checkmark {
@@ -237,18 +229,8 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        bottom: 2%;   /* landscape default */
-        right: 2%;
-        border: 1.5px solid var(--content-bg);
-        box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.15);
+        border-width: 1.5px;
     }
-
-    /* Softer status colors */
-    .profile-status-container.status-online { background-color: #4ccf6d; }
-    .profile-status-container.status-idle { background-color: #ffd54f; }
-    .profile-status-container.status-dnd { background-color: #e57373; }
-    .profile-status-container.status-offline { background-color: #c4c4c4; }
-
     .settings-button,
     .merch-button {
         width: 35px;
@@ -270,18 +252,8 @@ body {
     .profile-status-container {
         width: 14px;
         height: 14px;
-        bottom: 1.5%; /* landscape default */
-        right: 1.5%;
-        border: 1.25px solid var(--content-bg);
-        box-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.15);
+        border-width: 1.25px;
     }
-
-    /* Even softer colors */
-    .profile-status-container.status-online { background-color: #66e08a; }
-    .profile-status-container.status-idle { background-color: #ffe082; }
-    .profile-status-container.status-dnd { background-color: #ef9a9a; }
-    .profile-status-container.status-offline { background-color: #d6d6d6; }
-
     .settings-button,
     .merch-button {
         width: 30px;
@@ -290,50 +262,8 @@ body {
     }
     .settings-button { right: 15px; }
     .merch-button { left: 15px; }
-
     .username-checkmark h1 {
         font-size: 1.5rem;
-    }
-}
-
-/* --- Portrait-only overrides --- */
-@media screen and (max-width: 768px) and (orientation: portrait) {
-    .profile-status-container {
-        bottom: 8px;
-        right: 8px;
-    }
-}
-
-@media screen and (max-width: 480px) and (orientation: portrait) {
-    .profile-status-container {
-        bottom: 6px;
-        right: 6px;
-    }
-}
-
-/* --- Device-specific portrait fine-tuning --- */
-
-/* Standard Android: 360px × 640px */
-@media screen and (max-width: 360px) and (orientation: portrait) {
-    .profile-status-container {
-        bottom: 5px;
-        right: 5px;
-    }
-}
-
-/* Smaller iPhones: 375px × 812px (iPhone X / 13 Mini) */
-@media screen and (max-width: 375px) and (orientation: portrait) {
-    .profile-status-container {
-        bottom: 6px;
-        right: 6px;
-    }
-}
-
-/* Larger iPhones: 414px × 896px, 430px × 932px */
-@media screen and (max-width: 430px) and (orientation: portrait) {
-    .profile-status-container {
-        bottom: 7px;
-        right: 7px;
     }
 }
 
