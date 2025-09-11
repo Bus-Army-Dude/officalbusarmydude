@@ -125,8 +125,9 @@ body {
 /* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    /* FIX: Set to 0 to align to the absolute corner of the container */
+    bottom: 0;
+    right: 0;
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -134,7 +135,6 @@ body {
     z-index: 2;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
-    /* Default background color removed from here to allow classes to control it */
 }
 
 /* Hide text/emoji content inside the circle */
@@ -237,8 +237,9 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        bottom: 8px;
-        right: 8px;
+        /* FIX: Also set to 0 for mobile to ensure consistent corner alignment */
+        bottom: 0;
+        right: 0;
     }
     .settings-button,
     .merch-button {
