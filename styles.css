@@ -237,8 +237,8 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        bottom: 5%;  /* use percentage instead of px */
-        right: 5%;
+        bottom: 2%;   /* tighter to the edge */
+        right: 2%;
     }
     .settings-button,
     .merch-button {
@@ -261,8 +261,8 @@ body {
     .profile-status-container {
         width: 14px;
         height: 14px;
-        bottom: 4%;  /* tighter for very small screens */
-        right: 4%;
+        bottom: 1.5%; /* even tighter on very small screens */
+        right: 1.5%;
     }
     .settings-button,
     .merch-button {
