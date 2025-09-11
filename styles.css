@@ -239,6 +239,7 @@ body {
         height: 16px;
         bottom: 2%;   /* tighter to the edge */
         right: 2%;
+        border: 1.5px solid var(--content-bg); /* slimmer border */
     }
     .settings-button,
     .merch-button {
@@ -263,6 +264,7 @@ body {
         height: 14px;
         bottom: 1.5%; /* even tighter on very small screens */
         right: 1.5%;
+        border: 1.25px solid var(--content-bg); /* thinner border for tiny screens */
     }
     .settings-button,
     .merch-button {
