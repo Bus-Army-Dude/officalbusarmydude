@@ -240,7 +240,15 @@ body {
         bottom: 2%;   /* tighter to the edge */
         right: 2%;
         border: 1.5px solid var(--content-bg); /* slimmer border */
+        box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.15); /* lighter shadow */
     }
+
+    /* Softer status colors */
+    .profile-status-container.status-online { background-color: #4ccf6d; }  /* softer green */
+    .profile-status-container.status-idle { background-color: #ffd54f; }    /* softer yellow */
+    .profile-status-container.status-dnd { background-color: #e57373; }     /* softer red */
+    .profile-status-container.status-offline { background-color: #c4c4c4; } /* softer gray */
+
     .settings-button,
     .merch-button {
         width: 35px;
@@ -264,8 +272,16 @@ body {
         height: 14px;
         bottom: 1.5%; /* even tighter on very small screens */
         right: 1.5%;
-        border: 1.25px solid var(--content-bg); /* thinner border for tiny screens */
+        border: 1.25px solid var(--content-bg); /* thinner border */
+        box-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.15); /* extra light shadow */
     }
+
+    /* Even softer status colors for tiny screens */
+    .profile-status-container.status-online { background-color: #66e08a; }
+    .profile-status-container.status-idle { background-color: #ffe082; }
+    .profile-status-container.status-dnd { background-color: #ef9a9a; }
+    .profile-status-container.status-offline { background-color: #d6d6d6; }
+
     .settings-button,
     .merch-button {
         width: 30px;
