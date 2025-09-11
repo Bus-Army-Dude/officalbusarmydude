@@ -7,25 +7,25 @@
     --line-height-base: 1.65;
 
     /* --- Modern Light Mode Colors --- */
-    --light-bg: #F2F4F7;             /* page background */
-    --light-content-bg: #FFFFFF;     /* bright cards */
-    --light-text: #202124;           /* near black text */
-    --light-secondary-text: #5F6368; /* softer gray */
+    --light-bg: #F2F4F7;              /* page background */
+    --light-content-bg: #FFFFFF;      /* bright cards */
+    --light-text: #202124;             /* near black text */
+    --light-secondary-text: #5F6368;  /* softer gray */
     --light-border: #DADCE0;
-    --light-accent: #0D6EFD;         /* blue accent */
+    --light-accent: #0D6EFD;           /* blue accent */
     --light-hover: #0B5ED7;
     --light-link: var(--light-accent);
     --light-shadow: rgba(60, 64, 67, 0.1);
     --light-icon: #495057;
 
     /* --- Modern Dark Mode Colors --- */
-    --dark-bg: #121212;              /* page background true black */
-    --dark-content-bg: #1E1E1E;      /* lifted cards for contrast */
-    --dark-text: #EDEDED;            /* bright text */
-    --dark-secondary-text: #B0B3B8;  /* softer gray */
+    --dark-bg: #121212;               /* page background true black */
+    --dark-content-bg: #1E1E1E;        /* lifted cards for contrast */
+    --dark-text: #EDEDED;              /* bright text */
+    --dark-secondary-text: #B0B3B8;   /* softer gray */
     --dark-border: #2A2A2A;
-    --dark-accent: #4ADE80;          /* brighter green (was duller) */
-    --dark-hover: #34D399;           /* lighter hover green */
+    --dark-accent: #4ADE80;            /* brighter green (was duller) */
+    --dark-hover: #34D399;             /* lighter hover green */
     --dark-link: var(--dark-accent);
     --dark-shadow: rgba(0, 0, 0, 0.5);
     --dark-icon: #CED4DA;
@@ -125,8 +125,9 @@ body {
 /* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    /* FIX: Changed from 10px to 5px to move it to the corner */
+    bottom: 5px;
+    right: 5px;
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -230,6 +231,10 @@ body {
 
 /* --- Media Queries --- */
 @media screen and (max-width: 768px) {
+    /* FIX: Added body padding adjustment for tablet/mobile */
+    body {
+        padding: 16px;
+    }
     .profile-pic-wrapper {
         width: 120px;
         height: 120px;
@@ -237,8 +242,9 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        bottom: 8px;
-        right: 8px;
+        /* FIX: Changed from 8px to 3px to keep it on the corner */
+        bottom: 3px;
+        right: 3px;
     }
     .settings-button,
     .merch-button {
@@ -254,6 +260,10 @@ body {
 }
 
 @media screen and (max-width: 480px) {
+    /* FIX: Reduced body padding for small mobile screens */
+    body {
+        padding: 15px;
+    }
     .profile-pic-wrapper {
         width: 100px;
         height: 100px;
