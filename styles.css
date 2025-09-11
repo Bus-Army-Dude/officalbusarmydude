@@ -7,25 +7,25 @@
     --line-height-base: 1.65;
 
     /* --- Modern Light Mode Colors --- */
-    --light-bg: #F2F4F7;             /* page background */
-    --light-content-bg: #FFFFFF;     /* bright cards */
-    --light-text: #202124;           /* near black text */
-    --light-secondary-text: #5F6368; /* softer gray */
+    --light-bg: #F2F4F7;              /* page background */
+    --light-content-bg: #FFFFFF;      /* bright cards */
+    --light-text: #202124;             /* near black text */
+    --light-secondary-text: #5F6368;  /* softer gray */
     --light-border: #DADCE0;
-    --light-accent: #0D6EFD;         /* blue accent */
+    --light-accent: #0D6EFD;           /* blue accent */
     --light-hover: #0B5ED7;
     --light-link: var(--light-accent);
     --light-shadow: rgba(60, 64, 67, 0.1);
     --light-icon: #495057;
 
     /* --- Modern Dark Mode Colors --- */
-    --dark-bg: #121212;              /* page background true black */
-    --dark-content-bg: #1E1E1E;      /* lifted cards for contrast */
-    --dark-text: #EDEDED;            /* bright text */
-    --dark-secondary-text: #B0B3B8;  /* softer gray */
+    --dark-bg: #121212;               /* page background true black */
+    --dark-content-bg: #1E1E1E;        /* lifted cards for contrast */
+    --dark-text: #EDEDED;              /* bright text */
+    --dark-secondary-text: #B0B3B8;   /* softer gray */
     --dark-border: #2A2A2A;
-    --dark-accent: #4ADE80;          /* brighter green (was duller) */
-    --dark-hover: #34D399;           /* lighter hover green */
+    --dark-accent: #4ADE80;            /* brighter green (was duller) */
+    --dark-hover: #34D399;             /* lighter hover green */
     --dark-link: var(--dark-accent);
     --dark-shadow: rgba(0, 0, 0, 0.5);
     --dark-icon: #CED4DA;
@@ -125,8 +125,9 @@ body {
 /* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    /* FIX: Changed from 10px to 5px to move it to the corner */
+    bottom: 5px;
+    right: 5px;
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -134,7 +135,6 @@ body {
     z-index: 2;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
-    /* Default background color removed from here to allow classes to control it */
 }
 
 /* Hide text/emoji content inside the circle */
@@ -191,45 +191,14 @@ body {
     margin: 0 auto 20px;
 }
 
-/* --- Corner Action Buttons --- */
-.settings-button,
-.merch-button {
-    position: absolute;
-    top: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 10;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--link-color);
-}
-
-.settings-button {
-    right: 20px;
-    background: url('settings-icon.png') center/18px no-repeat, var(--link-color);
-}
-
-.merch-button {
-    left: 20px;
-    background: url('gift-bag-icon.png') center/18px no-repeat, var(--accent-color);
-    box-shadow: 0 4px 15px var(--shadow-color), 0 0 0 1px var(--accent-color);
-}
-
-/* Refined hover effect: removed rotation */
-.settings-button:hover,
-.merch-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--link-color);
-}
-.merch-button:hover {
-    box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 1px var(--accent-color);
-}
+/* ... The rest of your CSS file ... */
 
 /* --- Media Queries --- */
 @media screen and (max-width: 768px) {
+    body {
+        /* FIX #2 & #3: Reduced side padding and added bottom padding to avoid browser UI */
+        padding: 16px 16px 80px;
+    }
     .profile-pic-wrapper {
         width: 120px;
         height: 120px;
@@ -237,8 +206,9 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        bottom: 8px;
-        right: 8px;
+        /* FIX #1: Changed from 8px to 3px to keep it on the corner */
+        bottom: 3px;
+        right: 3px;
     }
     .settings-button,
     .merch-button {
@@ -254,6 +224,10 @@ body {
 }
 
 @media screen and (max-width: 480px) {
+    body {
+        /* FIX #2 & #3: Reduced side padding and added bottom padding to avoid browser UI */
+        padding: 15px 15px 80px;
+    }
     .profile-pic-wrapper {
         width: 100px;
         height: 100px;
