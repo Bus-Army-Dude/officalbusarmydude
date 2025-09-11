@@ -125,13 +125,13 @@ body {
 /* --- Profile Status Container Styling --- */
 .profile-status-container {
     position: absolute;
-    /* FIX: Set to 0 to align to the absolute corner of the container */
-    bottom: 0;
-    right: 0;
+    /* FIX: Inset position to match the goal image precisely */
+    bottom: 10px;
+    right: 10px;
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid var(--content-bg); /* Separation border */
+    border: 2px solid var(--content-bg); /* This border provides the separation */
     z-index: 2;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
@@ -237,9 +237,9 @@ body {
     .profile-status-container {
         width: 16px;
         height: 16px;
-        /* FIX: Also set to 0 for mobile to ensure consistent corner alignment */
-        bottom: 0;
-        right: 0;
+        /* FIX: A proportionally smaller inset for the mobile view */
+        bottom: 8px;
+        right: 8px;
     }
     .settings-button,
     .merch-button {
