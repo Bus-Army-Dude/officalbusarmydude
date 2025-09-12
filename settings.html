@@ -26,16 +26,15 @@
       <div class="settings-subsection">
         <h2 class="subsection-title">Appearance</h2>
         <div class="setting-card">
-              <div class="setting-label">
-                  <strong class="setting-title">Appearance</strong>
-                  <p class="setting-description">Customize the look and feel of the interface.</p>
-              </div>
-              <select id="appearanceModeSelect">
-                  <option value="device">Match Device</option>
-                  <option value="light">Light</option>
-                  <option value="dark">Dark</option>
-              </select>
-          </div>
+            <div class="setting-label">
+                <strong class="setting-title">Appearance</strong>
+                <p class="setting-description">Customize the look and feel of the interface.</p>
+            </div>
+            <div class="segmented-control" id="appearanceModeControl">
+                <button type="button" data-value="device" aria-pressed="false">Device</button>
+                <button type="button" data-value="light" aria-pressed="false">Light</button>
+                <button type="button" data-value="dark" aria-pressed="false">Dark</button>
+            </div>
         </div>
       </div>
 
