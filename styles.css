@@ -1,35 +1,35 @@
 /* ======================== */
-/* Theme Variables – iOS 26 Onyx Bubble Glass */
+/* Theme Variables – Onyx Bubble Glass */
 /* ======================== */
 :root {
     /* --- Modern Base Sizing (keep) --- */
     --font-size-base: 16px;
     --line-height-base: 1.65;
 
-    /* --- Light Mode (Bubble Glass) --- */
-    --light-bg: #F2F4F7;                             /* page background */
-    --light-content-bg: rgba(255, 255, 255, 0.6);    /* soft translucent bubble */
-    --light-text: #111111;                           /* near black */
-    --light-secondary-text: #555555;                 /* softer gray */
-    --light-border: rgba(255, 255, 255, 0.45);       /* bright edge highlight */
-    --light-accent: #0A84FF;                         /* iOS blue */
+    /* --- Light Mode (Onyx Bubble Glass) --- */
+    --light-bg: #E0E0E0;                          /* soft gray page background */
+    --light-content-bg: rgba(25, 25, 25, 0.35);   /* dark translucent bubble */
+    --light-text: #111111;
+    --light-secondary-text: #444444;
+    --light-border: rgba(255, 255, 255, 0.25);
+    --light-accent: #0A84FF;
     --light-hover: #0060DF;
     --light-link: var(--light-accent);
-    --light-shadow: rgba(0, 0, 0, 0.08);             /* soft outer shadow */
-    --light-glow: rgba(255, 255, 255, 0.7);          /* inner glow highlight */
-    --light-icon: #444;
+    --light-shadow: rgba(0, 0, 0, 0.12);
+    --light-glow: rgba(255, 255, 255, 0.2);
+    --light-icon: #333;
 
     /* --- Dark Mode (Onyx Bubble Glass) --- */
-    --dark-bg: #000000;                              /* deep black backdrop */
-    --dark-content-bg: rgba(25, 25, 25, 0.65);       /* smoked glass bubble */
-    --dark-text: #F5F5F7;                            /* bright neutral */
-    --dark-secondary-text: rgba(245, 245, 247, 0.65);/* muted Apple-style gray */
-    --dark-border: rgba(255, 255, 255, 0.08);        /* subtle edge line */
-    --dark-accent: #0A84FF;                          /* iOS blue */
+    --dark-bg: #000000;
+    --dark-content-bg: rgba(25, 25, 25, 0.65);
+    --dark-text: #F5F5F7;
+    --dark-secondary-text: rgba(245, 245, 247, 0.65);
+    --dark-border: rgba(255, 255, 255, 0.08);
+    --dark-accent: #0A84FF;
     --dark-hover: #0060DF;
     --dark-link: var(--dark-accent);
-    --dark-shadow: rgba(0, 0, 0, 0.65);              /* deep ambient shadow */
-    --dark-glow: rgba(255, 255, 255, 0.1);           /* faint inner highlight */
+    --dark-shadow: rgba(0, 0, 0, 0.65);
+    --dark-glow: rgba(255, 255, 255, 0.1);
     --dark-icon: #E5E5EA;
 
     /* --- Default fallback (dark baseline) --- */
@@ -59,6 +59,22 @@
     --radius-xl: 28px;
     --radius-lg: 20px;
     --radius-md: 14px;
+}
+
+/* --- Light Mode Override --- */
+body.light-e {
+    --bg-color: var(--light-bg);
+    --content-bg: var(--light-content-bg);
+    --text-color: var(--light-text);
+    --secondary-text: var(--light-secondary-text);
+    --border-color: var(--light-border);
+    --accent-color: var(--light-accent);
+    --hover-color: var(--light-hover);
+    --link-color: var(--light-link);
+    --shadow-color: var(--light-shadow);
+    --glow-color: var(--light-glow);
+    --icon-color: var(--light-icon);
+    --social-icon-text-color: #FFFFFF;
 }
 
 /* ======================== */
@@ -110,7 +126,6 @@ body {
     margin: 0 auto 15px;
 }
 
-/* Profile Picture */
 .profile-pic {
     width: 100%;
     height: 100%;
@@ -121,7 +136,7 @@ body {
     border: none;
 }
 
-/* --- Profile Status Container --- */
+/* --- Profile Status --- */
 .profile-status-container {
     position: absolute;
     bottom: 10px;
@@ -139,9 +154,7 @@ body {
     align-items: center;
     justify-content: center;
 }
-
 .profile-status { display: none; }
-
 .profile-status-container.status-online { background-color: #31a24c; }
 .profile-status-container.status-idle { background-color: #ffc107; }
 .profile-status-container.status-dnd { background-color: #dc3545; }
@@ -155,7 +168,6 @@ body {
     gap: 8px;
     margin: 15px 0 10px 0;
 }
-
 .username-checkmark h1 {
     margin: 0;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
@@ -165,12 +177,7 @@ body {
     background-clip: text;
     color: transparent;
 }
-
-.verified {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-}
+.verified { width: 20px; height: 20px; flex-shrink: 0; }
 
 /* --- Profile Bio --- */
 .profile-bio {
@@ -181,7 +188,7 @@ body {
     margin: 0 auto 20px;
 }
 
-/* --- Corner Action Buttons – Onyx Bubble --- */
+/* --- Corner Buttons – Onyx Bubble + Icons --- */
 .settings-button,
 .merch-button {
     position: absolute;
@@ -203,12 +210,9 @@ body {
     justify-content: center;
     color: var(--icon-color);
 }
-
-/* Positioning */
 .settings-button { right: 20px; }
 .merch-button { left: 20px; }
 
-/* Icon rendering inside buttons */
 .settings-button img,
 .merch-button img,
 .settings-button svg,
@@ -220,12 +224,11 @@ body {
     filter: none;
 }
 
-/* --- Media Queries --- */
+/* --- Responsive --- */
 @media screen and (max-width: 768px) {
     .profile-pic-wrapper { width: 120px; height: 120px; }
     .profile-status-container { width: 18px; height: 18px; bottom: 8px; right: 8px; }
-    .settings-button,
-    .merch-button { width: 38px; height: 38px; }
+    .settings-button, .merch-button { width: 38px; height: 38px; }
     .username-checkmark h1 { font-size: 1.8rem; }
     .profile-bio { font-size: 0.95rem; }
 }
@@ -233,8 +236,7 @@ body {
 @media screen and (max-width: 480px) {
     .profile-pic-wrapper { width: 100px; height: 100px; }
     .profile-status-container { width: 16px; height: 16px; }
-    .settings-button,
-    .merch-button { width: 34px; height: 34px; top: 15px; }
+    .settings-button, .merch-button { width: 34px; height: 34px; top: 15px; }
     .settings-button { right: 15px; }
     .merch-button { left: 15px; }
     .username-checkmark h1 { font-size: 1.5rem; }
