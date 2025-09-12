@@ -188,9 +188,9 @@ class SettingsManager {
     handleStorageChange(event) {
         if (event.key === 'websiteSettings') {
             console.log("SettingsManager: Detected 'websiteSettings' change in localStorage from another tab/window.");
-            this.settings = this.loadSettings();   // Reload settings from the updated localStorage
-            this.initializeControls();           // Update UI controls on the current page
-            this.applyAllSettings();             // Apply the new settings visually
+            this.settings = this.loadSettings();     // Reload settings from the updated localStorage
+            this.initializeControls();               // Update UI controls on the current page
+            this.applyAllSettings();                 // Apply the new settings visually
         }
     }
 
@@ -279,9 +279,9 @@ class SettingsManager {
     resetSettings() {
         if (confirm('Are you sure you want to reset all settings to their defaults? This action cannot be undone.')) {
             this.settings = { ...this.defaultSettings }; // Create a fresh copy of defaults
-            this.initializeControls();                  // Update UI controls
-            this.applyAllSettings();                    // Apply default settings visually
-            this.saveSettings();                        // Save defaults to localStorage
+            this.initializeControls();                   // Update UI controls
+            this.applyAllSettings();                     // Apply default settings visually
+            this.saveSettings();                         // Save defaults to localStorage
             alert('Settings have been reset to their default values.');
             console.log("SettingsManager: All settings have been reset to defaults.");
         }
