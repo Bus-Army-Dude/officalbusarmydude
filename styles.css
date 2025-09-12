@@ -1,5 +1,5 @@
-/* ======================== */
-/* Theme Variables – iOS 26 Onyx Bubble Glass */
+//* ======================== */
+/* Theme Variables – Onyx Bubble Glass (Simple Version) */
 /* ======================== */
 :root {
     /* --- Base Sizing --- */
@@ -7,18 +7,18 @@
     --line-height-base: 1.65;
 
     /* --- Light Mode (Bubble Glass) --- */
-    --light-bg: #E9ECEF;                            /* soft neutral background */
-    --light-content-bg: rgba(255, 255, 255, 0.55);  /* translucent glass bubble */
-    --light-text: #111111;                          /* crisp black */
-    --light-secondary-text: #444444;                /* softer gray */
-    --light-border: rgba(255, 255, 255, 0.4);       /* frosted edge */
-    --light-accent: #0A84FF;                        /* iOS blue */
-    --light-hover: #0060DF;                         /* darker blue */
+    --light-bg: #E9ECEF;                           /* soft neutral background */
+    --light-content-bg: rgba(255, 255, 255, 0.55); /* translucent bubble */
+    --light-text: #111111;                         /* crisp black */
+    --light-secondary-text: #444444;               /* softer gray */
+    --light-border: rgba(255, 255, 255, 0.4);      /* frosted edge */
+    --light-accent: #0A84FF;                       /* iOS blue */
+    --light-hover: #0060DF;                        /* darker blue */
     --light-link: var(--light-accent);
-    --light-shadow: rgba(0, 0, 0, 0.12);            /* floating shadow */
+    --light-shadow: rgba(0, 0, 0, 0.12);           /* floating shadow */
     --light-icon: #333333;
 
-    /* --- Dark Mode (Onyx Bubble Glass) --- */
+    /* --- Dark Mode (Bubble Glass) --- */
     --dark-bg: #000000;                             /* true black */
     --dark-content-bg: rgba(32, 32, 32, 0.55);      /* translucent onyx */
     --dark-text: #F5F5F7;                           /* bright neutral */
@@ -27,7 +27,7 @@
     --dark-accent: #32D74B;                         /* iOS green */
     --dark-hover: #28B745;                          /* lighter green */
     --dark-link: var(--dark-accent);
-    --dark-shadow: rgba(0, 0, 0, 0.6);              /* deeper glass shadow */
+    --dark-shadow: rgba(0, 0, 0, 0.6);              /* deeper shadow */
     --dark-icon: #E5E5EA;
 
     /* --- Defaults (Dark Baseline) --- */
@@ -43,16 +43,14 @@
     --icon-color: var(--dark-icon);
     --social-icon-text-color: var(--dark-text);
 
-    /* --- Glass Effect System --- */
+    /* --- Glass & Rounded System --- */
     --backdrop-blur: blur(20px);
     --radius-xl: 24px;
     --radius-lg: 16px;
     --radius-md: 12px;
-    --inner-glow-light: inset 0 0 30px rgba(255, 255, 255, 0.25); /* light mode glow */
-    --inner-glow-dark: inset 0 0 30px rgba(255, 255, 255, 0.05);  /* dark mode glow */
 }
 
-/* Light Mode Override */
+/* --- Light Mode Override --- */
 body.light-e {
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
@@ -102,21 +100,11 @@ body {
     border-radius: var(--radius-xl);
     box-shadow:
         0 8px 30px var(--shadow-color),
-        0 0 0 1px var(--border-color),
-        var(--inner-glow-dark); /* default dark inner glow */
+        0 0 0 1px var(--border-color);
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
     width: 100%;
     box-sizing: border-box;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Light mode bubble glow override */
-body.light-e .profile-section {
-    box-shadow:
-        0 8px 25px var(--shadow-color),
-        0 0 0 1px var(--border-color),
-        var(--inner-glow-light);
 }
 
 /* --- Profile Pic Wrapper --- */
@@ -243,6 +231,7 @@ body.light-e .profile-section {
     .merch-button { left: 15px; }
     .username-checkmark h1 { font-size: 1.5rem; }
 }
+
 
 #status-widget {
   width: 100%;
