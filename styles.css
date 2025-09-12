@@ -2334,17 +2334,29 @@ body.maintenance-active {
 }
 
 /* ======================================== */
-/* == Accessibility Override Rules       == */
+/* == Accessibility Override Rules (Corrected) == */
 /* ======================================== */
 
-/* Rule to disable all transitions and animations when toggled */
-body.hover-animations-disabled * {
+/* * Rule to disable cosmetic motion and effects.
+ * We use :not() to exclude the settings toggles and segmented controls,
+ * so their functional animations continue to work correctly.
+*/
+body.hover-animations-disabled *:not(.md-switch *):not(.segmented-control *) {
     transition-property: none !important;
     transform: none !important;
     animation: none !important;
 }
 
-/* Rule to hide the scroll-to-top button when toggled */
+/* * Rule to hide the scroll-to-top button when toggled.
+ * Your main script.js file must give the button an id of "scrollTopBtn" for this to work.
+*/
 body.scroll-to-top-disabled #scrollTopBtn {
-    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Rule to hide focus outlines when toggled */
+body.focus-outline-disabled :focus-visible {
+    outline: none !important;
 }
