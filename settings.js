@@ -12,7 +12,6 @@ class SettingsManager {
             fontSize: 16,             // Default font size in pixels
             focusOutline: 'disabled', // Options: 'enabled', 'disabled'
             hoverAnimations: 'enabled', // NEW: 'enabled', 'disabled'
-            scrollToTopButton: 'enabled',// NEW: 'enabled', 'disabled'
         };
 
         // Load current settings from localStorage or use defaults
@@ -99,12 +98,6 @@ class SettingsManager {
         if (hoverAnimationsToggle) {
             hoverAnimationsToggle.checked = this.settings.hoverAnimations === 'enabled';
         }
-        
-        // NEW: Scroll to Top Button Toggle
-        const scrollToTopToggle = document.getElementById('scrollToTopToggle');
-        if (scrollToTopToggle) {
-            scrollToTopToggle.checked = this.settings.scrollToTopButton === 'enabled';
-        }
     }
 
     /**
@@ -156,16 +149,6 @@ class SettingsManager {
             });
         }
 
-        // NEW: Scroll to Top Button Toggle
-        const scrollToTopToggle = document.getElementById('scrollToTopToggle');
-        if (scrollToTopToggle) {
-            scrollToTopToggle.addEventListener('change', (event) => {
-                this.settings.scrollToTopButton = event.target.checked ? 'enabled' : 'disabled';
-                this.applyScrollToTopButton();
-                this.saveSettings();
-            });
-        }
-
         // Reset Settings Button
         const resetButton = document.getElementById('resetSettings');
         if (resetButton) {
@@ -181,7 +164,6 @@ class SettingsManager {
         this.applyFontSize();
         this.applyFocusOutline();
         this.applyHoverAnimations(); // NEW
-        this.applyScrollToTopButton(); // NEW
     }
 
     // --- Individual Apply Methods ---
@@ -203,10 +185,6 @@ class SettingsManager {
 
     applyHoverAnimations() {
         document.body.classList.toggle('hover-animations-disabled', this.settings.hoverAnimations === 'disabled');
-    }
-    
-    applyScrollToTopButton() {
-        document.body.classList.toggle('scroll-to-top-disabled', this.settings.scrollToTopButton === 'disabled');
     }
 
     // --- Event Handlers & Core Methods ---
@@ -251,4 +229,3 @@ class SettingsManager {
 if (!window.settingsManagerInstance) {
     window.settingsManagerInstance = new SettingsManager();
 }
-
