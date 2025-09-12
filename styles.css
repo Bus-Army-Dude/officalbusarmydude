@@ -2243,7 +2243,7 @@ body.maintenance-active {
     }
 }
 
-* ======================================== */
+/* ======================================== */
 /* == Accessibility Override Rules       == */
 /* ======================================== */
 body.hover-animations-disabled *:not(.md-switch *):not(.segmented-control *) {
@@ -2261,6 +2261,10 @@ body.focus-outline-disabled :focus-visible {
 /* == Scroll to Top Button (Corrected)   == */
 /* ======================================== */
 #scrollTopBtn {
+    /* Note: If this button appears in the center of the page instead of the
+     * bottom-left corner, it's likely because a parent element on your page
+     * has a CSS `transform` property, which changes how `position: fixed` behaves.
+     * This CSS is correct for positioning, but may be affected by other styles. */
     position: fixed;
     bottom: 1.5625rem; /* 25px */
     left: 1.5625rem;  /* 25px */
@@ -2271,7 +2275,7 @@ body.focus-outline-disabled :focus-visible {
     z-index: 9999;
     border-radius: 50%;
     
-    /* Flexbox for perfect centering */
+    /* Flexbox for perfect centering of internal elements */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2316,10 +2320,15 @@ body.focus-outline-disabled :focus-visible {
 }
 .progress-indicator {
     fill: none;
-    stroke: url(#gradient-accent); /* Using the gradient from your HTML */
+    stroke: url(#gradient-accent);
     stroke-width: 3;
     stroke-linecap: round;
-    /* The dasharray and offset are now set by JS for accuracy */
+    /* FIX: Set the initial state here to prevent the "flash of a full circle".
+     * The circumference for a radius of 25 is ~157. We set both dasharray
+     * and dashoffset to this value so the circle starts "empty".
+     * The JavaScript will then take over and animate the offset on scroll. */
+    stroke-dasharray: 157;
+    stroke-dashoffset: 157;
     transition: stroke-dashoffset 0.1s linear;
 }
 
@@ -2330,7 +2339,6 @@ body.focus-outline-disabled :focus-visible {
     font-weight: 800;
     text-shadow: 0 0 0.3125rem color-mix(in srgb, var(--accent-color) 30%, transparent);
     transition: transform 0.25s ease;
-    /* The span is already centered by flexbox on the parent button */
 }
 
 /* Responsive */
