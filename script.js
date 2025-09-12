@@ -85,9 +85,23 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-    document.addEventListener("DOMContentLoaded", () => {
-    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-    const progressIndicator = scrollToTopBtn.querySelector(".progress-indicator");
+   // ========================
+// Scroll to Top Logic
+// ========================
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+const progressIndicator = document.querySelector(".progress-indicator");
+
+if (scrollToTopBtn && progressIndicator) {
+    const radius = progressIndicator.r.baseVal.value;
+    const circumference = 2 * Math.PI * radius;
+    progressIndicator.style.strokeDasharray = circumference;
+
+    const updateProgressRing = () => {
+        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
+        const offset = circumference - (scrollPercentage / 100) * circumference;
+        progressIndicator.style.strokeDashoffset = offset;
+    };
 
     const showButtonOnScroll = () => {
         if (window.scrollY > 200) {
@@ -95,30 +109,19 @@ setInterval(updateTime, 1000);
         } else {
             scrollToTopBtn.classList.remove("visible");
         }
-    };
-
-    const updateProgressRing = () => {
-        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
-        const radius = progressIndicator.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (scrollPercentage / 100) * circumference;
-        progressIndicator.style.strokeDashoffset = offset;
-    };
-
-    scrollToTopBtn.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    window.addEventListener("scroll", () => {
-        showButtonOnScroll();
         updateProgressRing();
-    });
+    };
 
-    // Initial call
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    window.addEventListener("scroll", showButtonOnScroll);
+    scrollToTopBtn.addEventListener("click", scrollToTop);
+
+    // Initialize on page load
     showButtonOnScroll();
-    updateProgressRing();
-});
+}
 
 
     // --- Cookie Consent ---
