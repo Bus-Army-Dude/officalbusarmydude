@@ -78,24 +78,37 @@ body.light-e {
 }
 
 /* ======================== */
-/* Base Styles (Onyx Glass) */
+/* Base Styles – Onyx Bubble Glass */
 /* ======================== */
 body {
     background: var(--bg-color);
     color: var(--text-color);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Roboto, sans-serif;
     margin: 0;
-    padding: 32px; /* keep fixed sizing */
+    padding: 32px; /* fixed sizing */
     line-height: var(--line-height-base);
     font-size: var(--font-size-base);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Bubble Glass Enhancement */
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .container {
     max-width: 1140px;
     margin: 0 auto;
-    padding: 0 24px; /* keep fixed sizing */
+    padding: 0 24px; /* fixed sizing */
+    
+    /* Optional subtle bubble effect inside container */
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    border-radius: var(--radius-lg);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 /* ======================================== */
@@ -264,20 +277,21 @@ body {
     margin: 0;
 }
 
-/* President Section */
+/* ======================================== */
+/* == President Section – Onyx Bubble Glass == */
+/* ======================================== */
 .president-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg));
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
     padding: 30px;
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
     margin-bottom: 30px;
-    box-shadow:
-        0 10px 35px -10px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
-    backdrop-filter: blur(10px);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
     width: 100%;
     box-sizing: border-box;
+    color: var(--text-color);
 }
 
 .president-info {
@@ -287,18 +301,18 @@ body {
     padding: 10px;
 }
 
+/* Photo */
 .president-photo {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    /* Removed colored border for a cleaner look */
     border: none;
-    /* Refined shadow for depth */
-    box-shadow: 0 5px 25px color-mix(in srgb, var(--shadow-color) 80%, transparent);
+    box-shadow: var(--bubble-shadow);
 }
 
+/* Details */
 .president-details {
     flex: 1;
     display: flex;
@@ -314,11 +328,10 @@ body {
 
 .president-title {
     font-size: 17px;
-    /* Changed color from accent to secondary for a more professional hierarchy */
     color: var(--secondary-text);
     font-weight: 500;
     font-style: italic;
-    margin: 4px 0 12px 0; /* Adjusted spacing */
+    margin: 4px 0 12px 0;
 }
 
 .president-description {
@@ -374,24 +387,25 @@ body {
     }
 }
 
-/* Social Links Section (Refined) */
+/* ======================================== */
+/* == Social Links Section – Onyx Bubble Glass == */
+/* ======================================== */
 .social-links-section {
-    background: linear-gradient(145deg,
-        color-mix(in srgb, var(--content-bg) 98%, white),
-        var(--content-bg));
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
     padding: 30px;
-    border-radius: 20px;
-    box-shadow:
-        0 10px 35px -10px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
     margin: 20px 0;
     text-align: center;
-    backdrop-filter: blur(10px);
     width: 100%;
     box-sizing: border-box;
     color: var(--text-color);
 }
 
+/* Section Header */
 .social-links-section h3 {
     font-size: 1.5rem;
     font-weight: 700;
@@ -399,6 +413,7 @@ body {
     margin-bottom: 25px;
 }
 
+/* Grid Container */
 .social-links-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -407,7 +422,7 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Refined Social Button --- */
+/* --- Social Buttons – Onyx Bubble --- */
 .social-button {
     display: flex;
     align-items: center;
@@ -420,57 +435,50 @@ body {
     width: 100%;
     box-sizing: border-box;
 
-    /* 1. Pill shape applied */
     border-radius: 999px;
 
-    /* 2. Green outline applied for default state */
-    background: transparent;
-    border: 1px solid #28a745; /* Green outline */
+    /* Onyx Bubble Glass look */
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
 
-    /* Transitions for hover effects */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* --- Hover State --- */
-.social-button:hover {
-    /* Fills button with accent color on hover */
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-}
-
-/* --- Text and Icon Color Logic --- */
-.social-button .social-icon,
-.social-button span {
-    /* Default state: Use standard text color */
     color: var(--text-color);
-    transition: color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.social-button:hover .social-icon,
-.social-button:hover span {
-    /* Hover state: Invert color for light/dark mode compatibility */
-    color: var(--content-bg);
-}
-
+/* Icon & Text */
 .social-button .social-icon {
     font-size: 20px;
     margin-right: 12px;
     flex-shrink: 0;
+    color: var(--icon-color);
 }
 
 .social-button span {
     flex-grow: 1;
-    text-align: left; /* Aligns text better in a two-column layout */
+    text-align: left;
+    color: var(--text-color);
 }
 
-/* Responsive Design */
+/* Hover / Active State */
+.social-button:hover {
+    background: var(--accent-color);
+}
+
+.social-button:hover .social-icon,
+.social-button:hover span {
+    color: var(--content-bg);
+}
+
+/* Responsive */
 @media screen and (max-width: 768px) {
     .social-links-section {
         padding: 20px;
-        border-radius: 16px;
+        border-radius: var(--radius-lg);
     }
     .social-links-container {
-        /* Stack to single column on smaller screens */
         grid-template-columns: 1fr;
         gap: 15px;
     }
@@ -479,7 +487,7 @@ body {
         font-size: 0.95em;
     }
     .social-button span {
-        text-align: center; /* Center text when in single column */
+        text-align: center;
     }
 }
 
