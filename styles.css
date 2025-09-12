@@ -60,20 +60,20 @@
     --transition-slow: 0.5s ease;
 }
 
-/* --- Light Mode Override via class --- */
+/* --- Light Mode Override (Onyx Bubble Glass for Light Mode) --- */
 body.light-e {
-    --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
-    --text-color: var(--light-text);
-    --secondary-text: var(--light-secondary-text);
-    --border-color: var(--light-border);
-    --accent-color: var(--light-accent);
-    --hover-color: var(--light-hover);
-    --link-color: var(--light-link);
-    --shadow-color: var(--light-shadow);
-    --glow-color: var(--light-glow);
-    --icon-color: var(--light-icon);
-    --social-icon-text-color: var(--light-text);
+    --bg-color: #E3E3E3;                          /* light page background */
+    --content-bg: rgba(255, 255, 255, 0.35);      /* translucent frosted bubble */
+    --text-color: #111111;
+    --secondary-text: #444444;
+    --border-color: rgba(0, 0, 0, 0.1);           /* subtle border for light glass */
+    --accent-color: #0A84FF;
+    --hover-color: #0060DF;
+    --link-color: var(--accent-color);
+    --shadow-color: rgba(0, 0, 0, 0.15);          /* subtle shadow for light mode */
+    --glow-color: rgba(255, 255, 255, 0.2);
+    --icon-color: #333333;
+    --social-icon-text-color: #111111;
 }
 
 /* ======================== */
