@@ -85,43 +85,37 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-   // ========================
-// Scroll to Top Logic
-// ========================
-const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-const progressIndicator = document.querySelector(".progress-indicator");
+ document.addEventListener("DOMContentLoaded", () => {
+    const scrollBtn = document.getElementById("scrollToTopBtn");
+    const progress = document.querySelector(".progress-indicator");
 
-if (scrollToTopBtn && progressIndicator) {
-    const radius = progressIndicator.r.baseVal.value;
+    if (!scrollBtn || !progress) return;
+
+    const radius = progress.r.baseVal.value;
     const circumference = 2 * Math.PI * radius;
-    progressIndicator.style.strokeDasharray = circumference;
+    progress.style.strokeDasharray = circumference;
 
-    const updateProgressRing = () => {
-        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
-        const offset = circumference - (scrollPercentage / 100) * circumference;
-        progressIndicator.style.strokeDashoffset = offset;
+    const updateProgress = () => {
+        const scrollTop = window.scrollY;
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = totalHeight > 0 ? (scrollTop / totalHeight) * 100 : 0;
+        const offset = circumference - (scrollPercent / 100) * circumference;
+        progress.style.strokeDashoffset = offset;
     };
 
-    const showButtonOnScroll = () => {
-        if (window.scrollY > 200) {
-            scrollToTopBtn.classList.add("visible");
-        } else {
-            scrollToTopBtn.classList.remove("visible");
-        }
-        updateProgressRing();
+    const toggleButton = () => {
+        if (window.scrollY > 100) scrollBtn.classList.add("visible");
+        else scrollBtn.classList.remove("visible");
+        updateProgress();
     };
 
-    const scrollToTop = () => {
+    scrollBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    });
 
-    window.addEventListener("scroll", showButtonOnScroll);
-    scrollToTopBtn.addEventListener("click", scrollToTop);
-
-    // Initialize on page load
-    showButtonOnScroll();
-}
+    window.addEventListener("scroll", toggleButton);
+    toggleButton(); // initial check
+});
 
 
     // --- Cookie Consent ---
