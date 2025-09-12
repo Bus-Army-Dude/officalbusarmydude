@@ -1,27 +1,14 @@
 /* ======================== */
-/* Theme Variables – Onyx Bubble Glass */
+/* Theme Variables – Onyx Bubble / Liquid Glass */
 /* ======================== */
 :root {
-    /* --- Modern Base Sizing (keep) --- */
+    /* --- Modern Base Sizing --- */
     --font-size-base: 16px;
     --line-height-base: 1.65;
 
-    /* --- Light Mode (Onyx Bubble Glass) --- */
-    --light-bg: #E0E0E0;                          /* soft gray page background */
-    --light-content-bg: rgba(25, 25, 25, 0.35);   /* dark translucent bubble */
-    --light-text: #111111;
-    --light-secondary-text: #444444;
-    --light-border: rgba(255, 255, 255, 0.25);
-    --light-accent: #0A84FF;
-    --light-hover: #0060DF;
-    --light-link: var(--light-accent);
-    --light-shadow: rgba(0, 0, 0, 0.12);
-    --light-glow: rgba(255, 255, 255, 0.2);
-    --light-icon: #333;
-
-    /* --- Dark Mode (Onyx Bubble Glass) --- */
-    --dark-bg: #000000;
-    --dark-content-bg: rgba(25, 25, 25, 0.65);
+    /* --- Dark Mode (default baseline) --- */
+    --dark-bg: #0A0A0F;                       /* true onyx page background */
+    --dark-content-bg: rgba(25, 25, 30, 0.75);/* frosted dark glass panels */
     --dark-text: #F5F5F7;
     --dark-secondary-text: rgba(245, 245, 247, 0.65);
     --dark-border: rgba(255, 255, 255, 0.08);
@@ -29,10 +16,23 @@
     --dark-hover: #0060DF;
     --dark-link: var(--dark-accent);
     --dark-shadow: rgba(0, 0, 0, 0.65);
-    --dark-glow: rgba(255, 255, 255, 0.1);
+    --dark-glow: rgba(255, 255, 255, 0.12);
     --dark-icon: #E5E5EA;
 
-    /* --- Default fallback (dark baseline) --- */
+    /* --- Light Mode Variables (overrides via class) --- */
+    --light-bg: #F2F4F7;
+    --light-content-bg: rgba(245, 245, 250, 0.8);
+    --light-text: #111827;
+    --light-secondary-text: #4B5563;
+    --light-border: rgba(0,0,0,0.1);
+    --light-accent: #0A84FF;
+    --light-hover: #0060DF;
+    --light-link: var(--light-accent);
+    --light-shadow: rgba(0,0,0,0.15);
+    --light-glow: rgba(255,255,255,0.1);
+    --light-icon: #1F2937;
+
+    /* --- Default active theme (dark) --- */
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
@@ -46,22 +46,26 @@
     --icon-color: var(--dark-icon);
     --social-icon-text-color: var(--dark-text);
 
-    /* --- Glass Effect (Bubble) --- */
+    /* --- Glass / Bubble Effects --- */
     --backdrop-blur: saturate(180%) blur(20px);
-    --bubble-gradient: radial-gradient(
-        circle at top left,
-        rgba(255, 255, 255, 0.2),
-        transparent 70%
-    );
-    --bubble-highlight: inset 1px 1px 2px rgba(255, 255, 255, 0.25);
-    --bubble-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    --bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.2), transparent 70%);
+    --bubble-highlight: inset 1px 1px 2px rgba(255,255,255,0.25);
+    --bubble-shadow: 0 8px 25px rgba(0,0,0,0.4);
 
+    /* --- Border Radii --- */
     --radius-xl: 28px;
     --radius-lg: 20px;
     --radius-md: 14px;
+
+    /* --- Transition / Animation Defaults --- */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s ease;
+    --transition-slow: 0.5s ease;
 }
 
-/* --- Light Mode Override --- */
+/* ======================== */
+/* Light Mode Overrides via class */
+/* ======================== */
 body.light-e {
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
@@ -74,7 +78,7 @@ body.light-e {
     --shadow-color: var(--light-shadow);
     --glow-color: var(--light-glow);
     --icon-color: var(--light-icon);
-    --social-icon-text-color: #FFFFFF;
+    --social-icon-text-color: var(--light-text);
 }
 
 /* ======================== */
