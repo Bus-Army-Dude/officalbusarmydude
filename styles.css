@@ -127,9 +127,9 @@ body {
 .profile-section {
     position: relative;
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 30px;
-    padding: 30px;
+    margin-top: 1.25rem; /* 20px / 16 */
+    margin-bottom: 1.875rem; /* 30px / 16 */
+    padding: 1.875rem; /* 30px / 16 */
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
     border-radius: var(--radius-xl);
@@ -143,9 +143,9 @@ body {
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
     position: relative;
-    width: 150px;
-    height: 150px;
-    margin: 0 auto 15px;
+    width: 9.375rem; /* 150px / 16 */
+    height: 9.375rem; /* 150px / 16 */
+    margin: 0 auto 0.9375rem; /* 15px / 16 */
 }
 
 .profile-pic {
@@ -161,12 +161,12 @@ body {
 /* --- Profile Status --- */
 .profile-status-container {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
+    bottom: 0.625rem; /* 10px / 16 */
+    right: 0.625rem; /* 10px / 16 */
+    width: 1.25rem; /* 20px / 16 */
+    height: 1.25rem; /* 20px / 16 */
     border-radius: 50%;
-    border: 2px solid var(--content-bg);
+    border: 0.125rem solid var(--content-bg); /* 2px / 16 */
     z-index: 2;
     box-shadow: var(--bubble-shadow);
     background: var(--content-bg);
@@ -187,36 +187,40 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin: 15px 0 10px 0;
+    gap: 0.5rem; /* 8px / 16 */
+    margin: 0.9375rem 0 0.625rem 0; /* 15px & 10px / 16 */
 }
 .username-checkmark h1 {
     margin: 0;
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(1.5rem, 3vw, 2.5rem); /* This was already correct */
     font-weight: 800;
     background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
-.verified { width: 20px; height: 20px; flex-shrink: 0; }
+.verified { 
+    width: 1.25rem; /* 20px / 16 */
+    height: 1.25rem; /* 20px / 16 */
+    flex-shrink: 0; 
+}
 
 /* --- Profile Bio --- */
 .profile-bio {
-    font-size: 1rem;
+    font-size: 1rem; /* This was already correct */
     color: var(--secondary-text);
     line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto 20px;
+    max-width: 37.5rem; /* 600px / 16 */
+    margin: 0 auto 1.25rem; /* 20px / 16 */
 }
 
 /* --- Corner Buttons – Onyx Bubble + Icons --- */
 .settings-button,
 .merch-button {
     position: absolute;
-    top: 20px;
-    width: 44px;
-    height: 44px;
+    top: 1.25rem; /* 20px / 16 */
+    width: 2.75rem; /* 44px / 16 */
+    height: 2.75rem; /* 44px / 16 */
     border-radius: var(--radius-lg);
     border: none;
     cursor: pointer;
@@ -232,15 +236,15 @@ body {
     justify-content: center;
     color: var(--icon-color);
 }
-.settings-button { right: 20px; }
-.merch-button { left: 20px; }
+.settings-button { right: 1.25rem; /* 20px / 16 */ }
+.merch-button { left: 1.25rem; /* 20px / 16 */ }
 
 .settings-button img,
 .merch-button img,
 .settings-button svg,
 .merch-button svg {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem; /* 20px / 16 */
+    height: 1.25rem; /* 20px / 16 */
     object-fit: contain;
     display: block;
     filter: none;
@@ -248,19 +252,23 @@ body {
 
 /* --- Responsive --- */
 @media screen and (max-width: 768px) {
-    .profile-pic-wrapper { width: 120px; height: 120px; }
-    .profile-status-container { width: 18px; height: 18px; bottom: 8px; right: 8px; }
-    .settings-button, .merch-button { width: 38px; height: 38px; }
+    .profile-pic-wrapper { width: 7.5rem; height: 7.5rem; } /* 120px */
+    .profile-status-container { width: 1.125rem; height: 1.125rem; bottom: 0.5rem; right: 0.5rem; } /* 18px, 8px */
+    .settings-button, .merch-button { width: 2.375rem; height: 2.375rem; } /* 38px */
     .username-checkmark h1 { font-size: 1.8rem; }
     .profile-bio { font-size: 0.95rem; }
 }
 
 @media screen and (max-width: 480px) {
-    .profile-pic-wrapper { width: 100px; height: 100px; }
-    .profile-status-container { width: 16px; height: 16px; }
-    .settings-button, .merch-button { width: 34px; height: 34px; top: 15px; }
-    .settings-button { right: 15px; }
-    .merch-button { left: 15px; }
+    .profile-pic-wrapper { width: 6.25rem; height: 6.25rem; } /* 100px */
+    .profile-status-container { width: 1rem; height: 1rem; } /* 16px */
+    .settings-button, .merch-button { 
+        width: 2.125rem; /* 34px */
+        height: 2.125rem; /* 34px */
+        top: 0.9375rem; /* 15px */
+    }
+    .settings-button { right: 0.9375rem; /* 15px */ }
+    .merch-button { left: 0.9375rem; /* 15px */ }
     .username-checkmark h1 { font-size: 1.5rem; }
 }
 
