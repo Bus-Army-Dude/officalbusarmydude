@@ -231,6 +231,3 @@ try {
     console.error("Failed to initialize GlobalSettings:", e);
     // Fallback or alert user?
 }
-
-// --- Optional: Export if needed by other modules ---
-// export default globalSettings; // If you use ES modules elsewhere and need access
