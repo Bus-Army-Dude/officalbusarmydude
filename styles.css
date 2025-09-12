@@ -1378,96 +1378,6 @@ body {
     .countdown-label { font-size: 0.8em; }
 }
 
-/* ======================== */
-/* Scroll to Top – Onyx Glass */
-/* ======================== */
-.scroll-to-top {
-    position: fixed;
-    bottom: 25px;
-    left: 25px; /* left side */
-    width: 55px;
-    height: 55px;
-    border: none;
-    cursor: pointer;
-    z-index: 9999;
-    display: none;
-    border-radius: 50%;
-
-    /* Glass effect */
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(12px) saturate(120%);
-    -webkit-backdrop-filter: blur(12px) saturate(120%);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
-
-    /* Shadow & transition */
-    box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent);
-    transition: all 0.3s ease;
-}
-
-.scroll-to-top:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent);
-}
-
-.scroll-to-top.visible {
-    display: block;
-    opacity: 1;
-}
-
-/* Progress ring */
-.progress-ring {
-    transform: rotate(-90deg);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.progress-bg {
-    fill: none;
-    stroke: color-mix(in srgb, var(--border-color) 50%, transparent);
-    stroke-width: 3;
-    opacity: 0.8;
-}
-
-.progress-indicator {
-    fill: none;
-    stroke: url(#gradient-accent);
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-dasharray: 157.08;
-    stroke-dashoffset: 157.08;
-    transition: stroke-dashoffset 0.2s ease-out;
-}
-
-/* Arrow */
-.arrow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 26px;
-    color: var(--accent-color);
-    pointer-events: none;
-    font-weight: 800;
-    text-shadow: 0 0 5px color-mix(in srgb, var(--accent-color) 30%, transparent);
-    transition: transform 0.25s ease;
-}
-
-/* Responsive */
-@media screen and (max-width: 768px) {
-    .scroll-to-top { width: 50px; height: 50px; bottom: 20px; left: 20px; }
-    .arrow { font-size: 22px; }
-    .progress-indicator { stroke-dasharray: 144.51; stroke-dashoffset: 144.51; }
-}
-
-@media screen and (max-width: 480px) {
-    .scroll-to-top { width: 45px; height: 45px; bottom: 15px; left: 15px; }
-    .arrow { font-size: 20px; }
-    .progress-indicator { stroke-dasharray: 131.95; stroke-dashoffset: 131.95; }
-}
-
 
 /* ============================================= */
 /* == Version Info Section – Onyx Bubble Glass == */
@@ -2334,29 +2244,107 @@ body.maintenance-active {
 }
 
 /* ======================================== */
-/* == Accessibility Override Rules (Corrected) == */
+/* == Accessibility Override Rules       == */
 /* ======================================== */
 
-/* * Rule to disable cosmetic motion and effects.
- * We use :not() to exclude the settings toggles and segmented controls,
- * so their functional animations continue to work correctly.
-*/
+/* Rule to disable cosmetic motion while protecting functional UI like toggles */
 body.hover-animations-disabled *:not(.md-switch *):not(.segmented-control *) {
-    transition-property: none !important;
-    transform: none !important;
-    animation: none !important;
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-delay: 0s !important;
 }
 
-/* * Rule to hide the scroll-to-top button when toggled.
- * Your main script.js file must give the button an id of "scrollTopBtn" for this to work.
-*/
+/* Rule to completely hide the scroll-to-top button when toggled off */
 body.scroll-to-top-disabled #scrollTopBtn {
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+    display: none !important;
 }
 
-/* Rule to hide focus outlines when toggled */
+/* Rule to hide focus outlines when toggled off */
 body.focus-outline-disabled :focus-visible {
     outline: none !important;
+}
+
+/* ======================================== */
+/* == Scroll to Top Button – Onyx Glass  == */
+/* ======================================== */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 1.5625rem; /* 25px */
+    left: 1.5625rem;  /* 25px */
+    width: 3.4375rem; /* 55px */
+    height: 3.4375rem;/* 55px */
+    border: none;
+    cursor: pointer;
+    z-index: 9999;
+    opacity: 0; /* Hidden by default, made visible by JS */
+    visibility: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Glass effect */
+    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
+    backdrop-filter: blur(0.75rem) saturate(120%); /* 12px */
+    -webkit-backdrop-filter: blur(0.75rem) saturate(120%);
+    border: 0.0625rem solid color-mix(in srgb, var(--border-color) 30%, transparent); /* 1px */
+
+    /* Shadow & transition */
+    box-shadow: 0 0.5rem 1.5625rem color-mix(in srgb, var(--shadow-color) 60%, transparent); /* 8px 25px */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#scrollTopBtn:hover {
+    transform: translateY(-0.1875rem); /* -3px */
+    box-shadow: 0 0.75rem 1.875rem color-mix(in srgb, var(--shadow-color) 70%, transparent); /* 12px 30px */
+}
+
+#scrollTopBtn.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Progress ring SVG */
+.progress-ring {
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.progress-bg {
+    fill: none;
+    stroke: color-mix(in srgb, var(--border-color) 50%, transparent);
+    stroke-width: 3;
+}
+
+.progress-indicator {
+    fill: none;
+    stroke: var(--accent-color); /* Using a variable is better for themes */
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.2s ease-out;
+}
+
+/* Arrow inside the button */
+.arrow {
+    font-size: 1.625rem; /* 26px */
+    color: var(--accent-color);
+    font-weight: 800;
+    text-shadow: 0 0 0.3125rem color-mix(in srgb, var(--accent-color) 30%, transparent); /* 5px */
+    transition: transform 0.25s ease;
+}
+
+/* Responsive adjustments for the button */
+@media screen and (max-width: 768px) {
+    #scrollTopBtn { width: 3.125rem; height: 3.125rem; bottom: 1.25rem; left: 1.25rem; } /* 50px, 20px */
+    .arrow { font-size: 1.375rem; } /* 22px */
+}
+
+@media screen and (max-width: 480px) {
+    #scrollTopBtn { width: 2.8125rem; height: 2.8125rem; bottom: 0.9375rem; left: 0.9375rem; } /* 45px, 15px */
+    .arrow { font-size: 1.25rem; } /* 20px */
 }
