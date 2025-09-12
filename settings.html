@@ -40,16 +40,16 @@
 
         <div class="settings-subsection">
           <h2 class="subsection-title">Accessibility</h2>
-      
+        
           <div class="setting-card">
               <div class="setting-label">
                   <h3 class="setting-title">Text Size</h3>
                   <p class="setting-description">Adjust the text size for better readability</p>
               </div>
-              
+            
               <div class="text-size-control">
                   <span id="textSizeValue" class="font-size-badge">16px</span>
-                  
+                
                   <input
                       type="range"
                       id="text-size-slider"
@@ -61,15 +61,41 @@
                   />
               </div>
           </div>
-      
+        
           <div class="setting-card focus-outline-setting-card">
               <div class="setting-label">
                   <h3 class="setting-title">Focus Outline</h3>
                   <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
               </div>
-      
+            
               <div class="md-switch" aria-hidden="false">
                   <input type="checkbox" id="focusOutlineToggle" role="switch" aria-checked="false" aria-label="Toggle focus outline" />
+                  <div class="track" aria-hidden="true">
+                      <div class="thumb" aria-hidden="true"></div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="setting-card">
+              <div class="setting-label">
+                  <h3 class="setting-title">Motion & Effects</h3>
+                  <p class="setting-description">Disable hover animations and other motion effects.</p>
+              </div>
+              <div class="md-switch" aria-hidden="false">
+                  <input type="checkbox" id="hoverAnimationsToggle" role="switch" aria-checked="false" aria-label="Toggle motion & effects" />
+                  <div class="track" aria-hidden="true">
+                      <div class="thumb" aria-hidden="true"></div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="setting-card">
+              <div class="setting-label">
+                  <h3 class="setting-title">Scroll to Top Button</h3>
+                  <p class="setting-description">Show or hide the floating button that returns to the top of the page.</p>
+              </div>
+              <div class="md-switch" aria-hidden="false">
+                  <input type="checkbox" id="scrollToTopToggle" role="switch" aria-checked="false" aria-label="Toggle scroll to top button" />
                   <div class="track" aria-hidden="true">
                       <div class="thumb" aria-hidden="true"></div>
                   </div>
@@ -105,3 +131,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
