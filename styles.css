@@ -81,7 +81,7 @@ body.light-e {
 /* Base Styles – Onyx Bubble Glass */
 /* ======================== */
 body {
-    background: var(--bg-color);
+    background: var(--bg-color); /* solid background only */
     color: var(--text-color);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Roboto, sans-serif;
     margin: 0;
@@ -91,9 +91,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /* Bubble Glass Enhancement */
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
+    /* Optional smooth transition for light/dark mode */
     transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -102,13 +100,7 @@ body {
     margin: 0 auto;
     padding: 0 24px; /* fixed sizing */
     
-    /* Optional subtle bubble effect inside container */
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
-    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-    border-radius: var(--radius-lg);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
+    /* No extra background here, leave bubble glass for sections only */
 }
 
 /* ======================================== */
