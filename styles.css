@@ -1365,37 +1365,28 @@ body {
     border: none;
     cursor: pointer;
     z-index: 9999;
-    display: none; /* initially hidden */
+    display: none; /* hidden initially */
     border-radius: 50%;
-
-    /* Bubble Glass effect */
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
-    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
-    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-    backdrop-filter: var(--backdrop-blur) saturate(120%);
-    -webkit-backdrop-filter: var(--backdrop-blur) saturate(120%);
+    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent);
     transition: all 0.3s ease;
 }
 
-.scroll-to-top:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px color-mix(in srgb, var(--shadow-color) 50%, transparent),
-                0 0 12px var(--accent-color);
-}
-
-/* Visible state */
 .scroll-to-top.visible {
     display: block;
     opacity: 1;
 }
 
-/* SVG Progress Ring */
+.scroll-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+}
+
 .progress-ring {
     transform: rotate(-90deg);
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
 }
@@ -1409,15 +1400,14 @@ body {
 
 .progress-indicator {
     fill: none;
-    stroke: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 70%, white));
+    stroke: url(#gradient-accent);
     stroke-width: 3;
     stroke-linecap: round;
-    stroke-dasharray: 157.08; /* for r=25 */
+    stroke-dasharray: 157.08;
     stroke-dashoffset: 157.08;
     transition: stroke-dashoffset 0.2s ease-out;
 }
 
-/* Arrow Icon */
 .arrow {
     position: absolute;
     top: 50%;
@@ -1427,42 +1417,17 @@ body {
     color: var(--accent-color);
     pointer-events: none;
     font-weight: 800;
-    text-shadow: 0 0 6px color-mix(in srgb, var(--accent-color) 40%, transparent);
+    text-shadow: 0 0 5px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
-/* ======================== */
-/* Responsive Adjustments */
-/* ======================== */
-@media screen and (max-width: 768px) {
-    .scroll-to-top {
-        width: 50px;
-        height: 50px;
-        bottom: 20px;
-        right: 20px;
-    }
-    .progress-indicator {
-        stroke-dasharray: 144.51;
-        stroke-dashoffset: 144.51;
-    }
-    .arrow {
-        font-size: 22px;
-    }
+/* Responsive */
+@media (max-width: 768px) {
+    .scroll-to-top { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+    .arrow { font-size: 22px; }
 }
-
-@media screen and (max-width: 480px) {
-    .scroll-to-top {
-        width: 45px;
-        height: 45px;
-        bottom: 15px;
-        right: 15px;
-    }
-    .progress-indicator {
-        stroke-dasharray: 131.95;
-        stroke-dashoffset: 131.95;
-    }
-    .arrow {
-        font-size: 20px;
-    }
+@media (max-width: 480px) {
+    .scroll-to-top { width: 45px; height: 45px; bottom: 15px; right: 15px; }
+    .arrow { font-size: 20px; }
 }
 
 /* ============================================= */
