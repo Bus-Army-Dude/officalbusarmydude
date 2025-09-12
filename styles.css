@@ -1354,34 +1354,29 @@ body {
 }
 
 /* ======================== */
-/* Scroll to Top Button – Onyx / Liquid Glass (Left Side) */
+/* Scroll to Top – Onyx Glass */
 /* ======================== */
 .scroll-to-top {
     position: fixed;
     bottom: 25px;
-    left: 25px; /* Left side position */
+    left: 25px; /* left side */
     width: 55px;
     height: 55px;
     border: none;
     cursor: pointer;
     z-index: 9999;
-    display: none; /* initially hidden */
+    display: none;
     border-radius: 50%;
 
-    /* Glassmorphism / Liquid Glass */
+    /* Glass effect */
     background: color-mix(in srgb, var(--content-bg) 70%, transparent);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
     border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
 
-    /* Shadow and smooth transitions */
+    /* Shadow & transition */
     box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent);
-    transition: all 0.3s ease, transform 0.2s ease;
-}
-
-.scroll-to-top.visible {
-    display: block;
-    opacity: 1;
+    transition: all 0.3s ease;
 }
 
 .scroll-to-top:hover {
@@ -1389,7 +1384,12 @@ body {
     box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent);
 }
 
-/* SVG Progress Ring */
+.scroll-to-top.visible {
+    display: block;
+    opacity: 1;
+}
+
+/* Progress ring */
 .progress-ring {
     transform: rotate(-90deg);
     position: absolute;
@@ -1411,17 +1411,17 @@ body {
     stroke: url(#gradient-accent);
     stroke-width: 3;
     stroke-linecap: round;
-    stroke-dasharray: 157.08; /* for r=25 */
+    stroke-dasharray: 157.08;
     stroke-dashoffset: 157.08;
     transition: stroke-dashoffset 0.2s ease-out;
 }
 
-/* Arrow Icon */
+/* Arrow */
 .arrow {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%);
     font-size: 26px;
     color: var(--accent-color);
     pointer-events: none;
@@ -1430,35 +1430,19 @@ body {
     transition: transform 0.25s ease;
 }
 
-/* ======================== */
-/* Responsive Adjustments */
+/* Responsive */
 @media screen and (max-width: 768px) {
-    .scroll-to-top {
-        width: 50px;
-        height: 50px;
-        bottom: 20px;
-        left: 20px;
-    }
-    .progress-indicator {
-        stroke-dasharray: 144.51;
-        stroke-dashoffset: 144.51;
-    }
+    .scroll-to-top { width: 50px; height: 50px; bottom: 20px; left: 20px; }
     .arrow { font-size: 22px; }
+    .progress-indicator { stroke-dasharray: 144.51; stroke-dashoffset: 144.51; }
 }
 
 @media screen and (max-width: 480px) {
-    .scroll-to-top {
-        width: 45px;
-        height: 45px;
-        bottom: 15px;
-        left: 15px;
-    }
-    .progress-indicator {
-        stroke-dasharray: 131.95;
-        stroke-dashoffset: 131.95;
-    }
+    .scroll-to-top { width: 45px; height: 45px; bottom: 15px; left: 15px; }
     .arrow { font-size: 20px; }
+    .progress-indicator { stroke-dasharray: 131.95; stroke-dashoffset: 131.95; }
 }
+
 
 /* ============================================= */
 /* == Version Info Section – Onyx Bubble Glass == */
