@@ -1354,41 +1354,39 @@ body {
 }
 
 /* ======================== */
-/* Scroll to Top Button – Onyx / Liquid Glass */
+/* Scroll to Top Button – Onyx / Liquid Glass (Left Side) */
 /* ======================== */
-
 .scroll-to-top {
     position: fixed;
     bottom: 25px;
-    left: 25px; /* bottom-left corner */
+    left: 25px; /* Left side position */
     width: 55px;
     height: 55px;
     border: none;
     cursor: pointer;
     z-index: 9999;
-    display: none; /* hidden by default */
+    display: none; /* initially hidden */
     border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    display: flex;
 
-    /* Onyx / Liquid Glass effect */
+    /* Glassmorphism / Liquid Glass */
     background: color-mix(in srgb, var(--content-bg) 70%, transparent);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
     border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+
+    /* Shadow and smooth transitions */
     box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent);
-    transition: all 0.3s ease;
+    transition: all 0.3s ease, transform 0.2s ease;
+}
+
+.scroll-to-top.visible {
+    display: block;
+    opacity: 1;
 }
 
 .scroll-to-top:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent);
-}
-
-.scroll-to-top.visible {
-    display: flex;
-    opacity: 1;
 }
 
 /* SVG Progress Ring */
@@ -1423,25 +1421,42 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg); /* rotation controlled via JS */
+    transform: translate(-50%, -50%) rotate(0deg);
     font-size: 26px;
     color: var(--accent-color);
     pointer-events: none;
     font-weight: 800;
     text-shadow: 0 0 5px color-mix(in srgb, var(--accent-color) 30%, transparent);
-    transition: transform 0.2s ease;
+    transition: transform 0.25s ease;
 }
 
+/* ======================== */
 /* Responsive Adjustments */
 @media screen and (max-width: 768px) {
-    .scroll-to-top { width: 50px; height: 50px; bottom: 20px; left: 20px; }
-    .progress-indicator { stroke-dasharray: 144.51; stroke-dashoffset: 144.51; }
+    .scroll-to-top {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        left: 20px;
+    }
+    .progress-indicator {
+        stroke-dasharray: 144.51;
+        stroke-dashoffset: 144.51;
+    }
     .arrow { font-size: 22px; }
 }
 
 @media screen and (max-width: 480px) {
-    .scroll-to-top { width: 45px; height: 45px; bottom: 15px; left: 15px; }
-    .progress-indicator { stroke-dasharray: 131.95; stroke-dashoffset: 131.95; }
+    .scroll-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        left: 15px;
+    }
+    .progress-indicator {
+        stroke-dasharray: 131.95;
+        stroke-dashoffset: 131.95;
+    }
     .arrow { font-size: 20px; }
 }
 
