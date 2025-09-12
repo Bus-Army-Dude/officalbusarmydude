@@ -85,40 +85,40 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
+    document.addEventListener("DOMContentLoaded", () => {
     const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-const progressIndicator = scrollToTopBtn.querySelector(".progress-indicator");
+    const progressIndicator = scrollToTopBtn.querySelector(".progress-indicator");
 
-const showButtonOnScroll = () => {
-    if (window.scrollY > 200) {
-        scrollToTopBtn.classList.add("visible");
-    } else {
-        scrollToTopBtn.classList.remove("visible");
-    }
-};
+    const showButtonOnScroll = () => {
+        if (window.scrollY > 200) {
+            scrollToTopBtn.classList.add("visible");
+        } else {
+            scrollToTopBtn.classList.remove("visible");
+        }
+    };
 
-const updateProgressRing = () => {
-    const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
+    const updateProgressRing = () => {
+        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
+        const radius = progressIndicator.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (scrollPercentage / 100) * circumference;
+        progressIndicator.style.strokeDashoffset = offset;
+    };
 
-    const radius = progressIndicator.r.baseVal.value;
-    const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (scrollPercentage / 100) * circumference;
+    scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
 
-    progressIndicator.style.strokeDashoffset = offset;
-};
+    window.addEventListener("scroll", () => {
+        showButtonOnScroll();
+        updateProgressRing();
+    });
 
-scrollToTopBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-window.addEventListener("scroll", () => {
+    // Initial call
     showButtonOnScroll();
     updateProgressRing();
 });
-
-// Initial call
-showButtonOnScroll();
-updateProgressRing();
 
 
     // --- Cookie Consent ---
