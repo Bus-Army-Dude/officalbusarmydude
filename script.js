@@ -97,8 +97,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let lastScroll = window.scrollY;
+    
+    // --- Correct Circumference Calculation for a CIRCLE ---
+    const radius = progressIndicator.r.baseVal.value;
+    const circumference = 2 * Math.PI * radius;
 
-    // --- Original Functions from your code ---
+    // Set the initial dash array and offset in JS to ensure it matches the calculation
+    progressIndicator.style.strokeDasharray = `${circumference} ${circumference}`;
+    progressIndicator.style.strokeDashoffset = circumference;
+
+
+    // --- Core Functions ---
     const showButtonOnScroll = () => {
         if (window.scrollY > 200) {
             scrollToTopBtn.classList.add("visible");
@@ -109,10 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const updateProgressRing = () => {
         const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
-        const radius = progressIndicator.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (scrollPercentage / 100) * circumference;
+        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) : 0;
+        const offset = circumference - scrollPercentage * circumference;
         progressIndicator.style.strokeDashoffset = offset;
     };
 
@@ -130,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         arrow.textContent = "↑";
     };
 
-    // --- NEW Function to handle settings ---
+    // --- Main Handler that checks the setting ---
     const handleScrollAndSettings = () => {
         // FIRST, check if the setting is disabled.
         if (document.body.classList.contains('scroll-to-top-disabled')) {
