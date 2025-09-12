@@ -1354,7 +1354,7 @@ body {
 }
 
 /* ======================== */
-/* Scroll to Top – Onyx Bubble Glass */
+/* Scroll to Top – Onyx Glass */
 /* ======================== */
 .scroll-to-top {
     position: fixed;
@@ -1363,10 +1363,12 @@ body {
     width: 55px;
     height: 55px;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
     z-index: 9999;
-    display: none; /* hidden initially */
-    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
     background: color-mix(in srgb, var(--content-bg) 70%, transparent);
     backdrop-filter: blur(12px) saturate(120%);
     -webkit-backdrop-filter: blur(12px) saturate(120%);
@@ -1375,38 +1377,16 @@ body {
     transition: all 0.3s ease;
 }
 
-.scroll-to-top.visible {
-    display: block;
-    opacity: 1;
-}
+.scroll-to-top.visible { display: flex; opacity: 1; }
 
 .scroll-to-top:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent);
 }
 
-.progress-ring {
-    transform: rotate(-90deg);
-    width: 100%;
-    height: 100%;
-}
-
-.progress-bg {
-    fill: none;
-    stroke: color-mix(in srgb, var(--border-color) 50%, transparent);
-    stroke-width: 3;
-    opacity: 0.8;
-}
-
-.progress-indicator {
-    fill: none;
-    stroke: url(#gradient-accent);
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-dasharray: 157.08;
-    stroke-dashoffset: 157.08;
-    transition: stroke-dashoffset 0.2s ease-out;
-}
+.progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+.progress-bg { fill: none; stroke: color-mix(in srgb, var(--border-color) 50%, transparent); stroke-width: 3; opacity: 0.8; }
+.progress-indicator { fill: none; stroke: url(#gradient-accent); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 157.08; stroke-dashoffset: 157.08; transition: stroke-dashoffset 0.2s ease-out; }
 
 .arrow {
     position: absolute;
@@ -1421,12 +1401,14 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .scroll-to-top { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+    .progress-indicator { stroke-dasharray: 144.51; stroke-dashoffset: 144.51; }
     .arrow { font-size: 22px; }
 }
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
     .scroll-to-top { width: 45px; height: 45px; bottom: 15px; right: 15px; }
+    .progress-indicator { stroke-dasharray: 131.95; stroke-dashoffset: 131.95; }
     .arrow { font-size: 20px; }
 }
 
