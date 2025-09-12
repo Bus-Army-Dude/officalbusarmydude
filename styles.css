@@ -1354,13 +1354,12 @@ body {
 }
 
 /* ======================== */
-/* Back to Top Button – Onyx Glass */
+/* Scroll to Top – Onyx Bubble Glass */
 /* ======================== */
-
 .scroll-to-top {
     position: fixed;
     bottom: 25px;
-    right: 25px; /* standard FAB position */
+    right: 25px;
     width: 55px;
     height: 55px;
     border: none;
@@ -1369,22 +1368,23 @@ body {
     display: none; /* initially hidden */
     border-radius: 50%;
 
-    /* Glassmorphism effect */
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
-
-    /* Shadow and transition */
-    box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent);
+    /* Bubble Glass effect */
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur) saturate(120%);
+    -webkit-backdrop-filter: var(--backdrop-blur) saturate(120%);
     transition: all 0.3s ease;
 }
 
 .scroll-to-top:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--shadow-color) 50%, transparent),
+                0 0 12px var(--accent-color);
 }
 
+/* Visible state */
 .scroll-to-top.visible {
     display: block;
     opacity: 1;
@@ -1409,7 +1409,7 @@ body {
 
 .progress-indicator {
     fill: none;
-    stroke: url(#gradient-accent);
+    stroke: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 70%, white));
     stroke-width: 3;
     stroke-linecap: round;
     stroke-dasharray: 157.08; /* for r=25 */
@@ -1427,7 +1427,7 @@ body {
     color: var(--accent-color);
     pointer-events: none;
     font-weight: 800;
-    text-shadow: 0 0 5px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    text-shadow: 0 0 6px color-mix(in srgb, var(--accent-color) 40%, transparent);
 }
 
 /* ======================== */
@@ -1466,22 +1466,19 @@ body {
 }
 
 /* ============================================= */
-/* == Version Info Section (Card Stack + Glow) == */
+/* == Version Info Section – Onyx Bubble Glass == */
 /* ============================================= */
 
 .version-info-section {
-    background: linear-gradient(
-        145deg,
-        color-mix(in srgb, var(--content-bg) 96%, white),
-        var(--content-bg)
-    );
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    border-radius: var(--radius-xl);
     padding: 28px;
-    border-radius: 22px;
     margin-bottom: 40px;
-    box-shadow:
-        0 18px 40px -14px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 25%, transparent);
-    backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur) saturate(120%);
+    -webkit-backdrop-filter: var(--backdrop-blur) saturate(120%);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Header */
@@ -1491,7 +1488,7 @@ body {
     font-size: 1.35em;
     font-weight: 700;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1501,7 +1498,7 @@ body {
     font-size: 1.2em;
 }
 
-/* Version list as stacked cards */
+/* Version list as Bubble Cards */
 .version-list {
     list-style: none;
     padding: 0;
@@ -1512,21 +1509,21 @@ body {
 
 .version-list li {
     position: relative;
-    background: color-mix(in srgb, var(--bg-color) 98%, white);
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
     padding: 14px 18px 14px 36px;
-    border-radius: 14px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     gap: 14px;
     font-size: 1em;
     color: var(--text-color);
     font-weight: 500;
-    box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.12);
-    border: 1px solid color-mix(in srgb, var(--border-color) 40%, transparent);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Glowing dot before each card */
 .version-list li::before {
     content: "";
     position: absolute;
@@ -1539,47 +1536,40 @@ body {
     animation: pulse-dot 2.5s infinite ease-in-out;
 }
 
-/* Hover effect for cards */
 .version-list li:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 40%, transparent);
 }
 .version-list li:hover::before {
     box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.8), 0 0 20px rgba(var(--accent-rgb), 0.5);
     transform: scale(1.2);
 }
 
-/* Pulse keyframes for glowing dots */
 @keyframes pulse-dot {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.3); opacity: 0.7; }
 }
 
 /* Version label spacing */
-.version-label {
-    margin-right: 8px;
-}
+.version-label { margin-right: 8px; }
 
 /* ============================================= */
-/* == Legal Section (Merged Notices + Watermark) == */
+/* == Legal Section – Onyx Bubble Glass == */
 /* ============================================= */
 
 .legal-section {
-    background: linear-gradient(
-        145deg,
-        var(--content-bg),
-        color-mix(in srgb, var(--content-bg) 95%, white)
-    );
-    border-radius: 20px;
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    border-radius: var(--radius-xl);
     padding: 25px;
     margin: 35px 0;
-    box-shadow:
-        0 12px 32px -12px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 20%, transparent);
-    backdrop-filter: blur(12px) saturate(120%);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur) saturate(120%);
+    -webkit-backdrop-filter: var(--backdrop-blur) saturate(120%);
     display: flex;
     flex-direction: column;
     gap: 16px;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Header */
@@ -1588,38 +1578,32 @@ body {
     font-size: 1.3em;
     font-weight: 700;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.legal-header::before {
-    content: "⚖️";
-    font-size: 1.2em;
-}
+.legal-header::before { content: "⚖️"; font-size: 1.2em; }
 
 /* Messages */
 .copy-protection-message,
 .legal-protection-message {
     padding: 16px 20px;
-    border-radius: 14px;
+    border-radius: 16px;
     font-size: 0.95em;
     font-weight: 500;
     display: flex;
     align-items: center;
     gap: 14px;
-    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.05);
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
 }
 
 /* Types */
-.copy-protection-message {
-    background: color-mix(in srgb, var(--bg-color) 95%, #ff4757);
-    border-left: 4px solid #ff4757;
-}
-.legal-protection-message {
-    background: color-mix(in srgb, var(--bg-color) 95%, #ffa502);
-    border-left: 4px solid #ffa502;
-}
+.copy-protection-message { border-left: 4px solid #ff4757; }
+.legal-protection-message { border-left: 4px solid #ffa502; }
 
 /* Icons */
 .copy-protection-message::before,
@@ -1629,7 +1613,7 @@ body {
     min-width: 24px;
 }
 
-/* Watermark Footer (subtle) */
+/* Watermark Footer */
 .watermark-note {
     text-align: center;
     font-size: 0.85em;
@@ -1956,26 +1940,23 @@ body.maintenance-active {
 }
 
 /* ======================================== */
-/* == Business Info Section (Liquid Glass / Onyx Glass) == */
+/* == Business Info Section – Onyx Bubble Glass == */
 /* ======================================== */
 
 .business-info-section {
-    background: linear-gradient(
-        145deg,
-        color-mix(in srgb, var(--content-bg) 96%, white),
-        var(--content-bg)
-    );
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    border-radius: var(--radius-xl);
     padding: clamp(20px, 4vw, 30px);
-    border-radius: 22px;
     margin: 30px 0;
-    box-shadow:
-        0 12px 35px -8px var(--shadow-color),
-        0 0 0 1px color-mix(in srgb, var(--border-color) 25%, transparent);
-    backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur) saturate(120%);
+    -webkit-backdrop-filter: var(--backdrop-blur) saturate(120%);
     width: 100%;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Section Header */
@@ -1987,7 +1968,7 @@ body.maintenance-active {
     color: var(--text-color);
     text-align: center;
     padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
 }
 
 /* --- Status Display --- */
@@ -2014,7 +1995,7 @@ body.maintenance-active {
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* --- Status Dot --- */
+/* Status Dot + Glow */
 .status-main-text::before {
     content: '';
     display: block;
@@ -2028,7 +2009,6 @@ body.maintenance-active {
     animation: pulse-status 2s infinite;
 }
 
-/* --- Gradient Glow Behind Dot --- */
 .status-main-text::after {
     content: '';
     position: absolute;
@@ -2044,7 +2024,6 @@ body.maintenance-active {
     animation: glow-status 3s infinite alternate;
 }
 
-/* --- Hover Pulse Effects --- */
 .status-main-text:hover::before {
     animation: pulse-hover 1.5s infinite;
 }
@@ -2058,12 +2037,10 @@ body.maintenance-active {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.25); opacity: 0.6; }
 }
-
 @keyframes pulse-hover {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.4); opacity: 0.8; }
 }
-
 @keyframes glow-status {
     0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
     50% { opacity: 0.35; transform: translate(-50%, -50%) scale(1.1); }
@@ -2112,8 +2089,6 @@ body.maintenance-active {
 }
 .hours-list li strong { color: var(--text-color); font-weight: 600; }
 .hours-list li span { color: var(--secondary-text); font-weight: 500; }
-
-/* Highlight Current Day */
 .hours-list li.current-day {
     background: color-mix(in srgb, var(--accent-color) 15%, transparent);
     border-color: color-mix(in srgb, var(--accent-color) 35%, transparent);
@@ -2163,19 +2138,21 @@ body.maintenance-active {
 .contact-info a {
     display: inline-block;
     padding: 14px 36px;
-    background: color-mix(in srgb, var(--accent-color) 70%, white);
-    color: var(--content-bg);
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    color: var(--accent-color);
     border-radius: 9999px;
     text-decoration: none;
     font-weight: 700;
-    backdrop-filter: blur(8px);
-    border: 1px solid color-mix(in srgb, var(--accent-color) 50%, transparent);
-    box-shadow: 0 6px 20px color-mix(in srgb, var(--accent-color) 35%, transparent);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
 }
 .contact-info a:hover,
 .contact-info a:focus {
     transform: translateY(-3px);
+    color: #fff;
     box-shadow: 0 10px 28px color-mix(in srgb, var(--accent-color) 50%, transparent);
     outline: none;
 }
