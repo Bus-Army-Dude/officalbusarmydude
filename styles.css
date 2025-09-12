@@ -117,13 +117,11 @@ body {
     border-radius: 50%;
     display: block;
     object-fit: cover;
-
-    /* Bubble shadow around profile image */
     box-shadow: var(--bubble-shadow);
     border: none;
 }
 
-/* --- Profile Status Container Styling --- */
+/* --- Profile Status Container --- */
 .profile-status-container {
     position: absolute;
     bottom: 10px;
@@ -131,7 +129,7 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 2px solid var(--content-bg); /* Separation border */
+    border: 2px solid var(--content-bg);
     z-index: 2;
     box-shadow: var(--bubble-shadow);
     background: var(--content-bg);
@@ -140,21 +138,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease;
 }
 
-/* Hide text/emoji content inside the circle */
-.profile-status {
-    display: none;
-}
+.profile-status { display: none; }
 
-/* Dynamic Status Colors */
 .profile-status-container.status-online { background-color: #31a24c; }
 .profile-status-container.status-idle { background-color: #ffc107; }
 .profile-status-container.status-dnd { background-color: #dc3545; }
 .profile-status-container.status-offline { background-color: #adb5bd; }
 
-/* --- Username Checkmark --- */
+/* --- Username & Checkmark --- */
 .username-checkmark {
     display: flex;
     align-items: center;
@@ -179,7 +172,7 @@ body {
     flex-shrink: 0;
 }
 
-/* Profile Bio Styling */
+/* --- Profile Bio --- */
 .profile-bio {
     font-size: 1rem;
     color: var(--secondary-text);
@@ -200,27 +193,22 @@ body {
     cursor: pointer;
     padding: 0;
     z-index: 10;
-
-    /* Onyx Bubble Glass styling */
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
     box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
-
-    /* Centered icon inside */
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--icon-color);
-    font-size: 18px;
 }
 
 /* Positioning */
 .settings-button { right: 20px; }
 .merch-button { left: 20px; }
 
-/* Icon styling (SVGs or images) */
+/* Icon rendering inside buttons */
 .settings-button img,
 .merch-button img,
 .settings-button svg,
@@ -228,55 +216,28 @@ body {
     width: 20px;
     height: 20px;
     object-fit: contain;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+    display: block;
+    filter: none;
 }
 
 /* --- Media Queries --- */
 @media screen and (max-width: 768px) {
-    .profile-pic-wrapper {
-        width: 120px;
-        height: 120px;
-    }
-    .profile-status-container {
-        width: 18px;
-        height: 18px;
-        bottom: 8px;
-        right: 8px;
-    }
+    .profile-pic-wrapper { width: 120px; height: 120px; }
+    .profile-status-container { width: 18px; height: 18px; bottom: 8px; right: 8px; }
     .settings-button,
-    .merch-button {
-        width: 38px;
-        height: 38px;
-    }
-    .username-checkmark h1 {
-        font-size: 1.8rem;
-    }
-    .profile-bio {
-        font-size: 0.95rem;
-    }
+    .merch-button { width: 38px; height: 38px; }
+    .username-checkmark h1 { font-size: 1.8rem; }
+    .profile-bio { font-size: 0.95rem; }
 }
 
 @media screen and (max-width: 480px) {
-    .profile-pic-wrapper {
-        width: 100px;
-        height: 100px;
-    }
-    .profile-status-container {
-        width: 16px;
-        height: 16px;
-    }
+    .profile-pic-wrapper { width: 100px; height: 100px; }
+    .profile-status-container { width: 16px; height: 16px; }
     .settings-button,
-    .merch-button {
-        width: 34px;
-        height: 34px;
-        top: 15px;
-    }
+    .merch-button { width: 34px; height: 34px; top: 15px; }
     .settings-button { right: 15px; }
     .merch-button { left: 15px; }
-
-    .username-checkmark h1 {
-        font-size: 1.5rem;
-    }
+    .username-checkmark h1 { font-size: 1.5rem; }
 }
 
 #status-widget {
