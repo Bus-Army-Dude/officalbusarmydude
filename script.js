@@ -85,14 +85,20 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
- const scrollToTopBtn = document.querySelector("#scrollToTopBtn");
-const progressIndicator = document.querySelector(".progress-indicator");
-const arrow = document.querySelector(".scroll-to-top .arrow");
+document.addEventListener('DOMContentLoaded', function() {
+    // Selectors for the scroll-to-top button elements
+    const scrollToTopBtn = document.querySelector("#scrollTopBtn");
+    const progressIndicator = document.querySelector(".progress-indicator");
+    const arrow = document.querySelector(".scroll-to-top .arrow");
 
-let lastScroll = window.scrollY;
+    // Exit if the button and its parts aren't found on the page
+    if (!scrollToTopBtn || !progressIndicator || !arrow) {
+        return;
+    }
 
-if (scrollToTopBtn && progressIndicator && arrow) {
+    let lastScroll = window.scrollY;
 
+    // --- Original Functions from your code ---
     const showButtonOnScroll = () => {
         if (window.scrollY > 200) {
             scrollToTopBtn.classList.add("visible");
@@ -112,11 +118,9 @@ if (scrollToTopBtn && progressIndicator && arrow) {
 
     const updateArrowDirection = () => {
         if (window.scrollY > lastScroll) {
-            // scrolling down
-            arrow.textContent = "↓";
+            arrow.textContent = "↓"; // Scrolling down
         } else {
-            // scrolling up
-            arrow.textContent = "↑";
+            arrow.textContent = "↑"; // Scrolling up
         }
         lastScroll = window.scrollY;
     };
@@ -126,18 +130,42 @@ if (scrollToTopBtn && progressIndicator && arrow) {
         arrow.textContent = "↑";
     };
 
-    window.addEventListener("scroll", () => {
+    // --- NEW Function to handle settings ---
+    const handleScrollAndSettings = () => {
+        // FIRST, check if the setting is disabled.
+        if (document.body.classList.contains('scroll-to-top-disabled')) {
+            // If it is disabled, make sure the button is hidden and stop.
+            scrollToTopBtn.classList.remove("visible");
+            return;
+        }
+
+        // If the setting is NOT disabled, run all the normal functions.
         showButtonOnScroll();
         updateProgressRing();
         updateArrowDirection();
-    });
+    };
 
+
+    // --- Event Listeners ---
+    window.addEventListener("scroll", handleScrollAndSettings);
     scrollToTopBtn.addEventListener("click", scrollToTop);
 
-    // initialize
-    showButtonOnScroll();
-    updateProgressRing();
-}
+    // Initial check when the page loads
+    handleScrollAndSettings();
+
+    // Create an observer to watch for class changes on the body element.
+    // This makes the toggle on the settings page work instantly.
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                // Re-run the handler to immediately show or hide the button
+                handleScrollAndSettings();
+            }
+        });
+    });
+
+    observer.observe(document.body, { attributes: true });
+});
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
