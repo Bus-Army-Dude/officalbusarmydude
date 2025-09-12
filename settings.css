@@ -3,10 +3,8 @@
 /* ===================================================== */
 
 /* ======================== */
-/* Theme Variables – Onyx Bubble Glass */
-/* ======================== */
-:root {
-    /* --- Base Sizing --- */
+/* Theme Variables */
+body.settings-page {
     --font-size-base: 16px;
     --line-height-base: 1.65;
 
@@ -60,8 +58,8 @@
     --glass-border-dark: rgba(255,255,255,0.08);
 }
 
-/* === Light Mode Overrides === */
-body.light-e {
+/* Light Mode Override */
+body.settings-page.light-e {
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
@@ -76,8 +74,8 @@ body.light-e {
     --slider-thumb-color: var(--light-slider-thumb);
 }
 
-/* === Dark Mode Overrides === */
-body.dark-mode {
+/* Dark Mode Override */
+body.settings-page.dark-mode {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
@@ -93,18 +91,16 @@ body.dark-mode {
 }
 
 /* ========================== */
-/* Base Page Styles */
-/* ========================== */
+/* Base Styles */
 body.settings-page {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-size: var(--font-size-base);
     line-height: var(--line-height-base);
-    margin: 0;
-    padding: 0;
 }
 
+/* ========================== */
+/* Containers */
 body.settings-page .container {
     max-width: 920px;
     margin: 0 auto;
@@ -112,8 +108,7 @@ body.settings-page .container {
 }
 
 /* ========================== */
-/* Glass Header & Subsection */
-/* ========================== */
+/* Header & Subsections */
 body.settings-page .settings-header,
 body.settings-page .settings-subsection,
 body.settings-page .reset-button,
@@ -127,14 +122,15 @@ body.settings-page footer {
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
-body.dark-mode .settings-header,
-body.dark-mode .settings-subsection,
-body.dark-mode .reset-button,
-body.dark-mode #cookie-consent-banner,
-body.dark-mode footer {
+body.settings-page.dark-mode .settings-header,
+body.settings-page.dark-mode .settings-subsection,
+body.settings-page.dark-mode .reset-button,
+body.settings-page.dark-mode #cookie-consent-banner,
+body.settings-page.dark-mode footer {
     border: 1px solid var(--glass-border-dark);
 }
 
+/* ========================== */
 /* Header */
 body.settings-page .settings-header {
     display: flex;
@@ -143,14 +139,12 @@ body.settings-page .settings-header {
     padding: 16px 20px;
     margin-bottom: 30px;
 }
-
 body.settings-page .settings-header h1 {
     font-size: 28px;
     font-weight: 500;
     margin: 0;
     color: var(--text-color);
 }
-
 body.settings-page .version {
     font-size: 13px;
     color: var(--secondary-text);
@@ -159,7 +153,8 @@ body.settings-page .version {
     border-radius: 6px;
 }
 
-/* Subsection */
+/* ========================== */
+/* Subsections & Cards */
 body.settings-page .settings-subsection {
     border-radius: 12px;
     margin-bottom: 24px;
@@ -176,9 +171,6 @@ body.settings-page .subsection-title {
     color: var(--text-color);
 }
 
-/* ========================== */
-/* Setting Cards */
-/* ========================== */
 body.settings-page .setting-card {
     padding: 16px 20px;
     display: flex;
@@ -190,51 +182,15 @@ body.settings-page .setting-card {
     overflow: hidden;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-
-body.settings-page .setting-card:last-child {
-    border-bottom: none;
-}
-
+body.settings-page .setting-card:last-child { border-bottom: none; }
 body.settings-page .setting-card:hover {
     background-color: color-mix(in srgb, var(--bg-color) 50%, var(--content-bg));
     box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
 
-body.settings-page .setting-label {
-    flex: 1;
-    padding-right: 12px;
-}
-
-body.settings-page .setting-title {
-    font-size: 15px;
-    font-weight: 500;
-    margin: 0 0 4px 0;
-}
-
-body.settings-page .setting-description {
-    font-size: 13px;
-    color: var(--secondary-text);
-    margin: 0;
-}
-
-/* Ripple Effect */
-body.settings-page .setting-card:active::after {
-    width: 300px;
-    height: 300px;
-    opacity: 0.14;
-}
-
 /* ========================== */
 /* Sliders */
-/* ========================== */
-.text-size-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 280px;
-}
-
-#text-size-slider {
+body.settings-page #text-size-slider {
     -webkit-appearance: none;
     width: 100%;
     height: 4px;
@@ -242,19 +198,9 @@ body.settings-page .setting-card:active::after {
     outline: none;
     background: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color) var(--slider-value-percentage,50%), var(--slider-track-color) var(--slider-value-percentage,50%), var(--slider-track-color) 100%);
 }
-
-#text-size-slider::-webkit-slider-thumb {
+body.settings-page #text-size-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
-}
-
-#text-size-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: 18px; height: 18px;
     border-radius: 50%;
     background: var(--slider-thumb-color);
     cursor: pointer;
@@ -262,61 +208,32 @@ body.settings-page .setting-card:active::after {
 
 /* ========================== */
 /* Material Switches */
-/* ========================== */
-.md-switch {
-    --width: 36px; --height: 20px; --thumb-size: 16px;
+body.settings-page .md-switch {
     display: inline-flex;
     align-items: center;
     position: relative;
-    width: var(--width);
-    height: var(--height);
+    width: 36px; height: 20px;
 }
-
-.md-switch input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
+body.settings-page .md-switch input {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 2;
 }
-
-.md-switch .track {
-    width: var(--width);
-    height: var(--height);
-    background: var(--toggle-off);
-    border-radius: 999px;
-    transition: background 0.18s;
+body.settings-page .md-switch .track {
+    width: 36px; height: 20px; background: var(--toggle-off); border-radius: 999px; transition: background 0.18s;
 }
-
-.md-switch .thumb {
-    position: absolute;
-    top: 50%;
-    left: 2px;
-    transform: translateY(-50%);
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    background: var(--slider-thumb-color);
-    border-radius: 50%;
-    transition: left 0.18s;
+body.settings-page .md-switch .thumb {
+    position: absolute; top: 50%; left: 2px; transform: translateY(-50%);
+    width: 16px; height: 16px; border-radius: 50%; background: var(--slider-thumb-color); transition: left 0.18s;
 }
-
-.md-switch input:checked ~ .track {
-    background: var(--toggle-on);
-}
-
-.md-switch input:checked ~ .track .thumb {
-    left: calc(var(--width) - var(--thumb-size) - 2px);
-}
+body.settings-page .md-switch input:checked ~ .track { background: var(--toggle-on); }
+body.settings-page .md-switch input:checked ~ .track .thumb { left: calc(36px - 16px - 2px); }
 
 /* ========================== */
-/* Buttons & Danger Zone */
+/* Buttons */
 body.settings-page .reset-button,
 body.settings-page #cookie-consent-banner button {
     color: var(--text-color);
-    border: 1px solid var(--glass-border-light);
     border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 14px; font-weight: 500;
     cursor: pointer;
     padding: 10px 18px;
     backdrop-filter: var(--glass-blur);
@@ -324,15 +241,12 @@ body.settings-page #cookie-consent-banner button {
     background: var(--content-bg);
 }
 
-body.settings-page .reset-button:hover,
-body.settings-page #cookie-consent-banner button:hover {
-    background: color-mix(in srgb, var(--accent-color) 25%, var(--content-bg));
-}
-
-/* Danger Zone */
-body.settings-page .danger-zone .settings-subsection {
-    background: color-mix(in srgb, var(--red-color) 15%, var(--content-bg));
-    border: 1px solid color-mix(in srgb, var(--red-color) 50%, transparent);
+/* ========================== */
+/* Focus Outline */
+body.settings-page :focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    border-radius: 6px;
 }
 
 /* ========================== */
@@ -345,57 +259,12 @@ body.settings-page footer {
 }
 
 /* ========================== */
-/* Focus Outline */
-body.settings-page :focus-visible {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
-    border-radius: 6px;
-}
-
-/* ========================== */
-/* Segmented Controls */
-.segmented-control {
-    display: flex;
-    align-items: center;
-    background-color: var(--slider-track-color);
-    border-radius: 10px;
-    padding: 4px;
-    border: 1px solid var(--border-color);
-}
-
-.segmented-control button {
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 16px;
-    border: none;
-    background-color: transparent;
-    color: var(--secondary-text);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.segmented-control button:hover { color: var(--text-color); }
-
-.segmented-control button.active {
-    background-color: var(--content-bg);
-    color: var(--text-color);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-body.dark-mode .segmented-control button.active {
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-/* ========================== */
 /* Responsive */
 @media (max-width: 768px) {
     body.settings-page .container { padding: 20px 15px; }
     body.settings-page .setting-card { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
     body.settings-page .setting-label { width: 100%; }
 }
-
 @media (max-width: 480px) {
     body.settings-page .container { padding: 15px 10px; }
     body.settings-page .settings-header h1 { font-size: 22px; }
