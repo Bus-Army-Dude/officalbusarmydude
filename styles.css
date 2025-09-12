@@ -2333,3 +2333,18 @@ body.maintenance-active {
     }
 }
 
+/* ======================================== */
+/* == Accessibility Override Rules       == */
+/* ======================================== */
+
+/* Rule to disable all transitions and animations when toggled */
+body.hover-animations-disabled * {
+    transition-property: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* Rule to hide the scroll-to-top button when toggled */
+body.scroll-to-top-disabled #scrollTopBtn {
+    display: none !important;
+}
