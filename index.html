@@ -65,21 +65,32 @@ s0.parentNode.insertBefore(s1,s0);
 <div id="main-content-wrapper">
     </div>
   <div class="profile-section">
-    <button class="merch-button" aria-label="Merch" onclick="window.location.href='/merchandise'"></button>
-    <button class="settings-button" aria-label="Settings" onclick="window.location.href='/settings'"></button>
+    <!-- Corner Action Buttons -->
+    <button class="merch-button" aria-label="Merch" onclick="window.location.href='/merchandise'">
+        <img src="gift-bag-icon.png" alt="Merch">
+    </button>
+    <button class="settings-button" aria-label="Settings" onclick="window.location.href='/settings'">
+        <img src="settings-icon.png" alt="Settings">
+    </button>
 
+    <!-- Profile Picture -->
     <div class="profile-pic-wrapper">
         <img src="path/to/default-profile.jpg" alt="Profile Picture"
              class="profile-pic"
              id="profile-pic-main">
 
         <div class="profile-status-container">
-            <span class="profile-status" id="profile-status-main"></span> </div>
+            <span class="profile-status" id="profile-status-main"></span>
+        </div>
     </div>
 
+    <!-- Username and Verification Checkmark -->
     <div class="username-checkmark">
-        <h1 id="profile-username-main">Username</h1> <img src="check.png" alt="Verified" class="verified"> </div>
+        <h1 id="profile-username-main">Username</h1>
+        <img src="check.png" alt="Verified" class="verified">
+    </div>
 
+    <!-- Profile Bio -->
     <p class="profile-bio" id="profile-bio-main">Loading bio...</p>
 </div>
 
