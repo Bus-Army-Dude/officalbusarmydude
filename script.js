@@ -85,38 +85,59 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
- document.addEventListener("DOMContentLoaded", () => {
-    const scrollBtn = document.getElementById("scrollToTopBtn");
-    const progress = document.querySelector(".progress-indicator");
+ const scrollToTopBtn = document.querySelector("#scrollToTopBtn");
+const progressIndicator = document.querySelector(".progress-indicator");
+const arrow = document.querySelector(".scroll-to-top .arrow");
 
-    if (!scrollBtn || !progress) return;
+let lastScroll = window.scrollY;
 
-    const radius = progress.r.baseVal.value;
-    const circumference = 2 * Math.PI * radius;
-    progress.style.strokeDasharray = circumference;
+if (scrollToTopBtn && progressIndicator && arrow) {
 
-    const updateProgress = () => {
-        const scrollTop = window.scrollY;
-        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = totalHeight > 0 ? (scrollTop / totalHeight) * 100 : 0;
-        const offset = circumference - (scrollPercent / 100) * circumference;
-        progress.style.strokeDashoffset = offset;
+    const showButtonOnScroll = () => {
+        if (window.scrollY > 200) {
+            scrollToTopBtn.classList.add("visible");
+        } else {
+            scrollToTopBtn.classList.remove("visible");
+        }
     };
 
-    const toggleButton = () => {
-        if (window.scrollY > 100) scrollBtn.classList.add("visible");
-        else scrollBtn.classList.remove("visible");
-        updateProgress();
+    const updateProgressRing = () => {
+        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
+        const radius = progressIndicator.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (scrollPercentage / 100) * circumference;
+        progressIndicator.style.strokeDashoffset = offset;
     };
 
-    scrollBtn.addEventListener("click", () => {
+    const updateArrowDirection = () => {
+        if (window.scrollY > lastScroll) {
+            // scrolling down
+            arrow.textContent = "↓";
+        } else {
+            // scrolling up
+            arrow.textContent = "↑";
+        }
+        lastScroll = window.scrollY;
+    };
+
+    const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
+        arrow.textContent = "↑";
+    };
+
+    window.addEventListener("scroll", () => {
+        showButtonOnScroll();
+        updateProgressRing();
+        updateArrowDirection();
     });
 
-    window.addEventListener("scroll", toggleButton);
-    toggleButton(); // initial check
-});
+    scrollToTopBtn.addEventListener("click", scrollToTop);
 
+    // initialize
+    showButtonOnScroll();
+    updateProgressRing();
+}
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
