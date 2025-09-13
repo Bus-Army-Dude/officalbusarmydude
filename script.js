@@ -90,49 +90,47 @@ setInterval(updateTime, 1000);
 // ========================
 
 const scrollBtn = document.querySelector('.scroll-to-top');
-const progress = document.querySelector('.progress-indicator');
-const arrow = document.querySelector('.arrow');
+const arrow = scrollBtn.querySelector('.arrow');
+const progressCircle = scrollBtn.querySelector('.progress-indicator');
 
-let lastScrollTop = 0;
+const radius = progressCircle.r.baseVal.value;
+const circumference = 2 * Math.PI * radius;
+progressCircle.style.strokeDasharray = `${circumference}`;
+progressCircle.style.strokeDashoffset = `${circumference}`;
+
+let lastScrollY = window.scrollY;
 
 function updateProgress() {
-    const radius = progress.r.baseVal.value;
-    const circumference = 2 * Math.PI * radius;
-    progress.style.strokeDasharray = circumference;
-
     const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = (scrollTop / docHeight) * 100;
-    progress.style.strokeDashoffset = circumference - (scrollPercent / 100) * circumference;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollHeight ? (scrollTop / scrollHeight) : 0;
+    progressCircle.style.strokeDashoffset = `${circumference * (1 - progress)}`;
 
-    // Show button after scrolling 100px
+    if (scrollTop > lastScrollY) {
+        arrow.classList.remove('up');
+        arrow.classList.add('down');
+    } else if (scrollTop < lastScrollY) {
+        arrow.classList.remove('down');
+        arrow.classList.add('up');
+    }
+
+    lastScrollY = scrollTop;
+
     if (scrollTop > 100) {
         scrollBtn.classList.add('visible');
     } else {
         scrollBtn.classList.remove('visible');
     }
-
-    // Smooth arrow rotation based on scroll direction
-    if (scrollTop > lastScrollTop && !arrow.classList.contains('down')) {
-        arrow.classList.remove('up');
-        arrow.classList.add('down');
-    } else if (scrollTop < lastScrollTop && !arrow.classList.contains('up')) {
-        arrow.classList.remove('down');
-        arrow.classList.add('up');
-    }
-
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 }
 
-// Scroll listener
 window.addEventListener('scroll', updateProgress);
 
-// Click scroll-to-top
 scrollBtn.addEventListener('click', () => {
-    arrow.classList.remove('down');
-    arrow.classList.add('up'); // force up
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    arrow.classList.remove('down');
+    arrow.classList.add('up');
 });
+
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
