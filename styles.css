@@ -1387,17 +1387,16 @@ body {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-
     background: color-mix(in srgb, var(--content-bg) 60%, transparent);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
-
     box-shadow: 0 4px 20px color-mix(in srgb, var(--shadow-color) 50%, transparent);
     transform: scale(0.85);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .scroll-to-top.visible {
@@ -1411,7 +1410,6 @@ body {
     box-shadow: 0 0 20px var(--accent-color), 0 0 35px var(--accent-color);
 }
 
-/* Progress ring wrapper */
 .progress-ring {
     position: absolute;
     top: 50%;
@@ -1420,27 +1418,24 @@ body {
     height: 100%;
     transform: translate(-50%, -50%) rotate(-90deg);
     border-radius: 50%;
-    overflow: visible;
 }
 
-.progress-bg { fill: none; stroke: transparent; }
+.progress-bg {
+    fill: none;
+    stroke: transparent;
+}
 
-/* Dynamic radius and circumference for responsive stroke */
 .progress-indicator {
-    --r: 22; /* radius in px for default orb size */
-    --c: calc(2 * 3.1416 * var(--r)); /* circumference */
     fill: none;
     stroke: var(--accent-color);
     stroke-width: 3;
     stroke-linecap: round;
-    stroke-dasharray: var(--c);
-    stroke-dashoffset: var(--c);
-    filter: drop-shadow(0 0 6px var(--accent-color))
-            drop-shadow(0 0 12px var(--accent-color));
+    stroke-dasharray: 141;
+    stroke-dashoffset: 141;
+    filter: drop-shadow(0 0 6px var(--accent-color)) drop-shadow(0 0 12px var(--accent-color));
     transition: stroke-dashoffset 0.2s ease-out, filter 0.2s ease-out;
 }
 
-/* Arrow inside */
 .arrow {
     position: absolute;
     top: 50%;
@@ -1458,17 +1453,38 @@ body {
 .arrow.up { transform: translate(-50%, -50%) rotate(0deg); }
 .arrow.down { transform: translate(-50%, -50%) rotate(180deg); }
 
-/* Responsive radius scaling */
+/* Spin animation */
+.scroll-to-top.spin-animation {
+    animation: orb-spin 0.6s ease forwards;
+}
+
+@keyframes orb-spin {
+    0%   { transform: scale(1) rotateX(0deg) rotateY(0deg); }
+    50%  { transform: scale(1.05) rotateX(180deg) rotateY(180deg); }
+    100% { transform: scale(1) rotateX(360deg) rotateY(360deg); }
+}
+
+.scroll-to-top.spin-animation .arrow {
+    transition: transform 0.6s ease;
+}
+
+/* Responsive */
 @media screen and (max-width: 768px) {
     .scroll-to-top { width: 50px; height: 50px; bottom: 20px; left: 20px; }
     .arrow { font-size: 20px; }
-    .progress-indicator { --r: 19; }
+    .progress-indicator {
+        stroke-dasharray: 131;
+        stroke-dashoffset: 131;
+    }
 }
 
 @media screen and (max-width: 480px) {
     .scroll-to-top { width: 45px; height: 45px; bottom: 15px; left: 15px; }
     .arrow { font-size: 18px; }
-    .progress-indicator { --r: 17; }
+    .progress-indicator {
+        stroke-dasharray: 118;
+        stroke-dashoffset: 118;
+    }
 }
 
 /* ============================================= */
