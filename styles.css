@@ -4,8 +4,8 @@
     --line-height-base: 1.65;
 
     /* --- Dark Mode (default) --- */
-    --dark-bg: #0A0A0F;                       
-    --dark-content-bg: rgba(25, 25, 30, 0.75); 
+    --dark-bg: #0A0A0F;
+    --dark-content-bg: rgba(25, 25, 30, 0.75);
     --dark-text: #F5F5F7;
     --dark-secondary-text: rgba(245, 245, 247, 0.65);
     --dark-border: rgba(255, 255, 255, 0.08);
@@ -16,17 +16,17 @@
     --dark-glow: rgba(255, 255, 255, 0.12);
     --dark-icon: #E5E5EA;
 
-    /* --- Light Mode (Onyx Frosted White) --- */
+    /* --- Light Mode (Onyx Frosted Glass) --- */
     --light-bg: #E3E3E3;                          
-	--light-content-bg: rgba(255, 255, 255, 0.35);   /* darker bubble glass for light mode */
-	--light-text: #111827;
+    --light-content-bg: rgba(50, 50, 50, 0.18);    /* stronger glass effect for light mode */
+    --light-text: #111827;
     --light-secondary-text: #4B5563;
-    --light-border: rgba(0,0,0,0.15);            /* stronger border for contrast */
+    --light-border: rgba(0,0,0,0.15);             
     --light-accent: #0A84FF;
     --light-hover: #0060DF;
     --light-link: var(--light-accent);
-    --light-shadow: rgba(0,0,0,0.25);            /* stronger shadow to stand out */
-    --light-glow: rgba(255,255,255,0.25);        /* brighter highlight */
+    --light-shadow: rgba(0,0,0,0.35);              /* stronger shadow for pop */
+    --light-glow: rgba(255,255,255,0.35);          /* more visible highlights */
     --light-icon: #1F2937;
 
     /* --- Default theme (dark) --- */
@@ -44,10 +44,10 @@
     --social-icon-text-color: var(--dark-text);
 
     /* --- Glass / Bubble Effects --- */
-    --backdrop-blur: saturate(180%) blur(22px);  /* slightly stronger blur */
-	--bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 65%);
+    --backdrop-blur: saturate(180%) blur(22px);
+    --bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 65%);
     --bubble-highlight: inset 1px 1px 3px rgba(255,255,255,0.35);
-    --bubble-shadow: 0 10px 28px rgba(0,0,0,0.35);  /* stronger shadow for pop */
+    --bubble-shadow: 0 10px 28px rgba(0,0,0,0.35);
 
     /* --- Border Radii --- */
     --radius-xl: 28px;
@@ -60,22 +60,8 @@
     --transition-slow: 0.5s ease;
 }
 
-/* --- Light Mode Override (Onyx Bubble Glass for Light Mode) --- */
-    --light-bg: #E3E3E3;                          
-	--light-content-bg: rgba(25, 25, 25, 0.12);
-    --light-text: #111827;
-    --light-secondary-text: #4B5563;
-    --light-border: rgba(0,0,0,0.15);            
-    --light-accent: #0A84FF;
-    --light-hover: #0060DF;
-    --light-link: var(--light-accent);
-    --light-shadow: rgba(0,0,0,0.25);            
-    --light-glow: rgba(255,255,255,0.25);        
-    --light-icon: #1F2937;
-}
-
 /* ======================== */
-/* Light Mode Overrides via class */
+/* Light Mode Overrides via Class */
 /* ======================== */
 body.light-e {
     --bg-color: var(--light-bg);
@@ -90,7 +76,12 @@ body.light-e {
     --glow-color: var(--light-glow);
     --icon-color: var(--light-icon);
     --social-icon-text-color: var(--light-text);
+
+    /* Slightly stronger gradient for light mode */
+    --bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.3), rgba(255,255,255,0.1) 70%);
+    --backdrop-blur: saturate(180%) blur(26px); /* more blur to pop on light bg */
 }
+
 
 /* ======================== */
 /* Base Styles – Onyx Bubble Glass */
@@ -125,23 +116,23 @@ body {
 .profile-section {
     position: relative;
     text-align: center;
-    margin-top: 1.25rem;
-    margin-bottom: 1.875rem;
+    margin: 1.25rem 0 1.875rem 0;
     padding: 1.875rem;
-    background: var(--content-bg);                 /* main bubble color */
-    background-image: var(--bubble-gradient);      /* frosted highlight */
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
     border-radius: var(--radius-xl);
     box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
     width: 100%;
     box-sizing: border-box;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
     position: relative;
-    width: 9.375rem;
+    width: 9.375rem; /* 150px */
     height: 9.375rem;
     margin: 0 auto 0.9375rem;
 }
@@ -150,10 +141,9 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    display: block;
     object-fit: cover;
     box-shadow: var(--bubble-shadow);
-    border: none;
+    border: 2px solid rgba(255,255,255,0.1);
 }
 
 /* --- Profile Status --- */
@@ -164,7 +154,7 @@ body {
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 50%;
-    border: 0.125rem solid var(--content-bg);  /* blends with bubble */
+    border: 2px solid var(--content-bg);
     z-index: 2;
     box-shadow: var(--bubble-shadow);
     background: var(--content-bg);
@@ -185,9 +175,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem; /* 8px / 16 */
-    margin: 0.9375rem 0 0.625rem 0; /* 15px & 10px / 16 */
+    gap: 0.5rem;
+    margin: 0.9375rem 0 0.625rem;
 }
+
 .username-checkmark h1 {
     margin: 0;
     font-size: clamp(1.5rem, 3vw, 2.5rem);
@@ -197,19 +188,20 @@ body {
     background-clip: text;
     color: transparent;
 }
+
 .verified { 
-    width: 1.25rem; /* 20px / 16 */
-    height: 1.25rem; /* 20px / 16 */
+    width: 1.25rem;
+    height: 1.25rem;
     flex-shrink: 0; 
 }
 
 /* --- Profile Bio --- */
 .profile-bio {
-    font-size: 1rem; /* This was already correct */
+    font-size: 1rem;
     color: var(--secondary-text);
     line-height: 1.6;
-    max-width: 37.5rem; /* 600px / 16 */
-    margin: 0 auto 1.25rem; /* 20px / 16 */
+    max-width: 37.5rem;
+    margin: 0 auto 1.25rem;
 }
 
 /* --- Corner Buttons – Onyx Bubble + Icons --- */
@@ -233,41 +225,42 @@ body {
     align-items: center;
     justify-content: center;
     color: var(--icon-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.settings-button { right: 1.25rem; /* 20px / 16 */ }
-.merch-button { left: 1.25rem; /* 20px / 16 */ }
+.settings-button { right: 1.25rem; }
+.merch-button { left: 1.25rem; }
+
+.settings-button:hover,
+.merch-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color), 0 0 8px var(--glow-color);
+}
 
 .settings-button img,
 .merch-button img,
 .settings-button svg,
 .merch-button svg {
-    width: 1.25rem; /* 20px / 16 */
-    height: 1.25rem; /* 20px / 16 */
+    width: 1.25rem;
+    height: 1.25rem;
     object-fit: contain;
-    display: block;
-    filter: none;
 }
 
 /* --- Responsive --- */
 @media screen and (max-width: 768px) {
-    .profile-pic-wrapper { width: 7.5rem; height: 7.5rem; } /* 120px */
-    .profile-status-container { width: 1.125rem; height: 1.125rem; bottom: 0.5rem; right: 0.5rem; } /* 18px, 8px */
-    .settings-button, .merch-button { width: 2.375rem; height: 2.375rem; } /* 38px */
+    .profile-pic-wrapper { width: 7.5rem; height: 7.5rem; }
+    .profile-status-container { width: 1.125rem; height: 1.125rem; bottom: 0.5rem; right: 0.5rem; }
+    .settings-button, .merch-button { width: 2.375rem; height: 2.375rem; }
     .username-checkmark h1 { font-size: 1.8rem; }
     .profile-bio { font-size: 0.95rem; }
 }
 
 @media screen and (max-width: 480px) {
-    .profile-pic-wrapper { width: 6.25rem; height: 6.25rem; } /* 100px */
-    .profile-status-container { width: 1rem; height: 1rem; } /* 16px */
-    .settings-button, .merch-button { 
-        width: 2.125rem; /* 34px */
-        height: 2.125rem; /* 34px */
-        top: 0.9375rem; /* 15px */
-    }
-    .settings-button { right: 0.9375rem; /* 15px */ }
-    .merch-button { left: 0.9375rem; /* 15px */ }
+    .profile-pic-wrapper { width: 6.25rem; height: 6.25rem; }
+    .profile-status-container { width: 1rem; height: 1rem; }
+    .settings-button, .merch-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
+    .settings-button { right: 0.9375rem; }
+    .merch-button { left: 0.9375rem; }
     .username-checkmark h1 { font-size: 1.5rem; }
 }
 
@@ -297,8 +290,8 @@ body {
 /* == President Section – Onyx Bubble Glass == */
 /* ======================================== */
 .president-section {
-    background: var(--content-bg);                 /* bubble background */
-    background-image: var(--bubble-gradient);      /* frosted highlight */
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
     padding: 30px;
     border-radius: var(--radius-xl);
     margin-bottom: 30px;
@@ -308,8 +301,10 @@ body {
     width: 100%;
     box-sizing: border-box;
     color: var(--text-color);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* President info layout */
 .president-info {
     display: flex;
     align-items: center;
@@ -324,7 +319,7 @@ body {
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    border: none;
+    border: 2px solid rgba(255,255,255,0.08); /* subtle border for contrast */
     box-shadow: var(--bubble-shadow);
 }
 
@@ -335,6 +330,7 @@ body {
     flex-direction: column;
 }
 
+/* Name and Title */
 .president-name {
     font-size: 24px;
     font-weight: 700;
@@ -350,6 +346,7 @@ body {
     margin: 4px 0 12px 0;
 }
 
+/* Description */
 .president-description {
     font-size: 16px;
     line-height: 1.6;
@@ -358,49 +355,25 @@ body {
     margin: 0;
 }
 
+/* ======================== */
 /* Responsive Design */
+/* ======================== */
 @media screen and (max-width: 768px) {
-    .president-section {
-        padding: 20px;
-    }
-
-    .president-info {
-        gap: 20px;
-    }
-
-    .president-photo {
-        width: 120px;
-        height: 120px;
-    }
-
-    .president-name {
-        font-size: 20px;
-    }
-
-    .president-title {
-        font-size: 16px;
-    }
+    .president-section { padding: 20px; }
+    .president-info { gap: 20px; }
+    .president-photo { width: 120px; height: 120px; }
+    .president-name { font-size: 20px; }
+    .president-title { font-size: 16px; }
 }
 
 @media screen and (max-width: 480px) {
-    .president-section {
-        padding: 20px;
-    }
-
+    .president-section { padding: 20px; }
     .president-info {
         flex-direction: column;
         text-align: center;
     }
-
-    .president-photo {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 15px;
-    }
-
-    .president-description {
-        font-size: 14px;
-    }
+    .president-photo { width: 100px; height: 100px; margin-bottom: 15px; }
+    .president-description { font-size: 14px; }
 }
 
 /* ======================================== */
@@ -419,6 +392,7 @@ body {
     width: 100%;
     box-sizing: border-box;
     color: var(--text-color);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Section Header */
@@ -438,10 +412,11 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Social Buttons – Onyx Bubble --- */
+/* --- Social Buttons – Onyx Bubble Glass --- */
 .social-button {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 14px 20px;
     text-decoration: none;
     font-weight: 600;
@@ -450,7 +425,6 @@ body {
     overflow: hidden;
     width: 100%;
     box-sizing: border-box;
-
     border-radius: 999px;
 
     /* Onyx Bubble Glass look */
@@ -461,7 +435,7 @@ body {
     -webkit-backdrop-filter: var(--backdrop-blur);
 
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 /* Icon & Text */
@@ -470,17 +444,22 @@ body {
     margin-right: 12px;
     flex-shrink: 0;
     color: var(--icon-color);
+    transition: color 0.3s ease;
 }
 
 .social-button span {
     flex-grow: 1;
     text-align: left;
     color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 /* Hover / Active State */
 .social-button:hover {
     background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--shadow-color),
+                0 0 12px var(--accent-color);
 }
 
 .social-button:hover .social-icon,
@@ -535,6 +514,7 @@ body {
     width: 100%;
     box-sizing: border-box;
     color: var(--text-color);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Title Styling */
@@ -555,7 +535,7 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Pill Button with Onyx Bubble Glass --- */
+/* --- Pill Buttons with Onyx Bubble Glass --- */
 .link-button {
     display: flex;
     align-items: center;
@@ -566,7 +546,6 @@ body {
     font-weight: 600;
     letter-spacing: 0.5px;
     box-sizing: border-box;
-
     border-radius: 999px;
 
     /* Onyx Bubble Glass styling */
@@ -577,46 +556,34 @@ body {
     -webkit-backdrop-filter: var(--backdrop-blur);
 
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    border: 1px solid #28a745; /* Keep original green outline */
+    border: 1px solid #28a745; /* green outline */
+    transition: all 0.3s ease;
 }
 
-/* Hover Effect */
+/* Hover / Active State */
 .link-button:hover {
     background: var(--accent-color);
     border-color: var(--accent-color);
     color: var(--content-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--shadow-color),
+                0 0 12px var(--accent-color);
 }
 
 /* --- Responsive Design --- */
 @media screen and (max-width: 768px) {
-    .useful-links-section {
-        padding: 20px;
-    }
-    .links-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .link-button {
-        padding: 12px 20px;
-        font-size: 0.95em;
-    }
-    .useful-links-section h2 {
-        font-size: 1.6rem;
-    }
+    .useful-links-section { padding: 20px; }
+    .links-container { grid-template-columns: 1fr; gap: 15px; }
+    .link-button { padding: 12px 20px; font-size: 0.95em; }
+    .useful-links-section h2 { font-size: 1.6rem; }
 }
 
 @media screen and (max-width: 480px) {
-    .useful-links-section {
-        padding: 15px;
-    }
-    .link-button {
-        padding: 12px 16px;
-    }
-    .useful-links-section h2 {
-        font-size: 1.4rem;
-    }
+    .useful-links-section { padding: 15px; }
+    .link-button { padding: 12px 16px; }
+    .useful-links-section h2 { font-size: 1.4rem; }
 }
+
 
 /* ======================================== */
 /* == Tech Information Section – Onyx Bubble Glass == */
@@ -632,6 +599,8 @@ body {
     -webkit-backdrop-filter: var(--backdrop-blur);
     width: 100%;
     box-sizing: border-box;
+    color: var(--text-color);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Tech Items */
@@ -641,15 +610,18 @@ body {
     border-radius: var(--radius-md);
     padding: 20px;
     margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--bubble-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-/* Hover Effect – Keep lift */
+/* Hover Effect – Lift + Highlight */
 .tech-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px var(--shadow-color), 0 0 0 1px var(--accent-color);
+    box-shadow: 0 8px 25px var(--shadow-color),
+                0 0 12px var(--accent-color);
+    background: var(--accent-color);
+    color: var(--content-bg);
 }
 
 /* Tech Item Titles */
@@ -705,13 +677,13 @@ body {
     position: relative;
     width: 180px;
     height: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: rgba(32, 32, 32, 0.3); /* subtle glass fill */
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+    background: rgba(32, 32, 32, 0.25); /* Onyx glass fill */
+    box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.25);
     overflow: hidden;
 }
 
@@ -751,7 +723,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: var(--content-bg);
     font-weight: 600;
     font-size: 14px;
     z-index: 1;
@@ -784,7 +756,7 @@ body {
     box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .disabilities-section h2 {
@@ -813,7 +785,7 @@ body {
 .disabilities-section a {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     color: var(--accent-color);
     font-weight: 500;
     text-decoration: none;
@@ -823,7 +795,7 @@ body {
     background-image: var(--bubble-gradient);
     border: 2px solid var(--accent-color);
     box-shadow: var(--bubble-shadow), 0 0 0 1px var(--accent-color);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -840,13 +812,14 @@ body {
 /* Icon styling */
 .disabilities-section a i {
     margin-left: 10px;
+    flex-shrink: 0;
 }
 
 /* Hover effect – Bubble Glass style */
 .disabilities-section a:hover {
-    background-color: var(--accent-color);
-    color: #fff;
-    transform: translateY(-2px);
+    background: var(--accent-color);
+    color: var(--content-bg);
+    transform: translateY(-3px);
     box-shadow: 0 4px 12px var(--shadow-color),
                 0 0 10px var(--accent-color);
 }
@@ -857,19 +830,15 @@ body {
     box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.35);
 }
 
-/* Responsive/Color Scheme refinements */
-@media (prefers-color-scheme: dark) {
-    .disabilities-section a {
-        color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
+/* Responsive / Color scheme refinements */
+@media screen and (max-width: 768px) {
+    .disabilities-section { padding: 20px; }
+    .disabilities-section a { padding: 10px 16px; font-size: 0.95em; }
 }
 
-@media (prefers-color-scheme: light) {
-    .disabilities-section a {
-        color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
+@media screen and (max-width: 480px) {
+    .disabilities-section { padding: 15px; }
+    .disabilities-section a { padding: 8px 14px; font-size: 0.9em; }
 }
 
 /* ======================== */
@@ -889,10 +858,10 @@ body {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Section Headers and Timestamps */
+/* Section Header */
 .shoutouts-section h2 {
     color: var(--text-color);
     margin-bottom: 10px;
@@ -903,32 +872,14 @@ body {
     font-size: 1.8em;
 }
 
-/* Font Awesome Headers */
-#tiktok-header::before,
-#instagram-header::before,
-#youtube-header::before {
-    color: var(--accent-color);
-}
-
 /* Timestamp text */
-#tiktok-last-updated-timestamp,
-#instagram-last-updated-timestamp,
-#youtube-last-updated-timestamp {
+.shoutouts-section .timestamp {
     color: var(--secondary-text);
     font-size: 0.9em;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 4px;
-}
-
-/* Timestamp icon */
-#tiktok-last-updated-timestamp::before,
-#instagram-last-updated-timestamp::before,
-#youtube-last-updated-timestamp::before {
-    content: '\f073';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
 }
 
 /* Creator Grids */
@@ -942,10 +893,9 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    overflow: visible;
 }
 
-/* Creator Cards – Bubble Glass */
+/* Creator Cards */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
@@ -960,11 +910,6 @@ body {
     box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     width: 100%;
     box-sizing: border-box;
-    max-width: 100%;
-    position: relative;
-    overflow: visible;
-    min-height: fit-content;
-    height: auto;
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
 }
@@ -981,19 +926,9 @@ body {
 .youtube-cover-photo {
     width: 100%;
     height: auto;
-    display: block;
     border-radius: 12px;
-    object-fit: contain;
-    background-color: transparent;
+    object-fit: cover;
     margin-bottom: 16px;
-}
-
-/* Creator Info Container */
-.youtube-creator-info {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0;
 }
 
 /* Profile Pictures */
@@ -1006,11 +941,9 @@ body {
     object-fit: cover;
     border: 3px solid var(--accent-color);
     margin-bottom: 15px;
-    position: relative;
-    z-index: 1;
 }
 
-/* Headers */
+/* Creator Names & Headers */
 .creator-header,
 .instagram-creator-header,
 .youtube-creator-header {
@@ -1020,68 +953,16 @@ body {
     margin-bottom: 5px;
 }
 
-/* Username Containers */
-.username-container,
-.instagram-username-container,
-.youtube-username-container {
-    display: flex;
-    align-items: flex-start;
-    gap: 4px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-    width: 100%;
-    overflow: visible;
-    padding-right: 8px;
-    min-height: min-content;
-}
-
-/* Usernames */
-.creator-username,
-.instagram-creator-username,
-.youtube-creator-username {
-    color: var(--secondary-text);
-    font-size: max(0.9em, 14px);
+.creator-header h3,
+.instagram-creator-header h3,
+.youtube-creator-header h3 {
     margin: 0;
-    width: auto;
-    max-width: 100%;
-    overflow-wrap: break-word;
-    word-break: break-all;
-    white-space: normal;
-    line-height: 1.5;
-    hyphens: auto;
-}
-
-/* Verification Badges */
-.verified-badge,
-.instagram-verified-badge,
-.youtube-verified-badge {
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-/* Bios */
-.creator-bio,
-.instagram-creator-bio,
-.youtube-creator-bio {
-    color: var(--secondary-text);
-    margin: 10px 0;
-    font-size: 0.9em;
+    font-size: 1.1em;
+    color: var(--text-color);
     line-height: 1.4;
-    word-break: break-word;
 }
 
-/* Follower/Subscriber Counts */
-.follower-count,
-.instagram-follower-count,
-.youtube-subscriber-count {
-    color: var(--accent-color);
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-/* Visit Profile Buttons – Bubble Glass */
+/* Visit Profile Buttons */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
@@ -1095,8 +976,6 @@ body {
     font-weight: 500;
     transition: all 0.2s ease;
     text-align: center;
-    position: relative;
-    overflow: hidden;
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
 }
@@ -1104,26 +983,14 @@ body {
 .visit-profile:hover,
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
-    background-color: var(--accent-color);
-    color: white;
+    background: var(--accent-color);
+    color: var(--content-bg);
     box-shadow: 0 0 10px var(--accent-color),
                 0 0 20px var(--accent-color);
     transform: translateY(-2px);
 }
 
-/* Creator Names */
-.creator-header h3,
-.instagram-creator-header h3,
-.youtube-creator-header h3 {
-    margin: 0;
-    font-size: max(1.1em, 16px);
-    color: var(--text-color);
-    line-height: 1.4;
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
-/* Unavailable Message – Bubble Glass */
+/* Unavailable Message */
 .unavailable-message {
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
@@ -1142,93 +1009,25 @@ body {
     margin-bottom: 10px;
 }
 
-/* ======================== */
 /* Responsive Layout */
-/* ======================== */
-
-@media screen and (max-width: 1400px) {
-    .creator-grid,
-    .instagram-creator-grid,
-    .youtube-creator-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-}
-
 @media screen and (max-width: 768px) {
-    .shoutouts-section {
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
+    .shoutouts-section { padding: 15px; margin-bottom: 20px; }
     .creator-grid,
     .instagram-creator-grid,
-    .youtube-creator-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
+    .youtube-creator-grid { grid-template-columns: 1fr; gap: 15px; }
     .creator-card,
     .instagram-creator-card,
-    .youtube-creator-card {
-        padding: 12px;
-        height: auto;
-        min-height: fit-content;
-    }
-
-    .youtube-cover-photo {
-        width: calc(100% + 24px);
-        margin: -12px -12px 15px -12px;
-    }
-
-    .username-container,
-    .instagram-username-container,
-    .youtube-username-container {
-        padding-right: 6px;
-    }
-
-    .creator-username,
-    .instagram-creator-username,
-    .youtube-creator-username {
-        font-size: 0.85em;
-    }
+    .youtube-creator-card { padding: 12px; }
 }
 
-@media screen and (max-width: 380px) {
-    .shoutouts-section {
-        padding: 10px;
-    }
-
-    .creator-grid,
-    .instagram-creator-grid,
-    .youtube-creator-grid {
-        gap: 10px;
-    }
-
+@media screen and (max-width: 480px) {
+    .shoutouts-section { padding: 10px; }
     .creator-card,
     .instagram-creator-card,
-    .youtube-creator-card {
-        padding: 10px;
-        height: auto;
-        min-height: fit-content;
-    }
-
-    .youtube-cover-photo {
-        width: calc(100% + 20px);
-        margin: -10px -10px 15px -10px;
-    }
-
-    .username-container,
-    .instagram-username-container,
-    .youtube-username-container {
-        padding-right: 4px;
-    }
-
-    .creator-username,
-    .instagram-creator-username,
-    .youtube-creator-username {
-        font-size: 0.8em;
-    }
+    .youtube-creator-card { padding: 10px; }
+    .youtube-cover-photo { width: calc(100% + 20px); margin: -10px -10px 15px -10px; }
 }
+
 
 :root {
     --accent-color-rgb: 0, 123, 255; /* Match this to your accent color */
@@ -1242,7 +1041,7 @@ body {
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
     padding: 30px;
-    border-radius: 20px;
+    border-radius: var(--radius-lg);
     margin: 30px auto;
     text-align: center;
     box-shadow: var(--bubble-shadow), var(--bubble-highlight);
@@ -1250,7 +1049,7 @@ body {
     -webkit-backdrop-filter: var(--backdrop-blur);
     width: 100%;
     box-sizing: border-box;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .countdown-title {
@@ -1472,10 +1271,9 @@ body {
     .progress-indicator { stroke-dasharray: 95; stroke-dashoffset: 95; stroke-width: 2; }
 }
 
-/* ============================================= */
-/* == Version Info Section – Onyx Bubble Glass == */
-/* ============================================= */
-
+/* ======================== */
+/* Version Info Section – Onyx Bubble Glass */
+/* ======================== */
 .version-info-section {
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
@@ -1547,6 +1345,7 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 40%, transparent);
 }
+
 .version-list li:hover::before {
     box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.8), 0 0 20px rgba(var(--accent-rgb), 0.5);
     transform: scale(1.2);
@@ -1557,13 +1356,11 @@ body {
     50% { transform: scale(1.3); opacity: 0.7; }
 }
 
-/* Version label spacing */
 .version-label { margin-right: 8px; }
 
-/* ============================================= */
-/* == Legal Section – Onyx Bubble Glass == */
-/* ============================================= */
-
+/* ======================== */
+/* Legal Section – Onyx Bubble Glass */
+/* ======================== */
 .legal-section {
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
@@ -1631,9 +1428,8 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* ============================================= */
-/* == Responsive                                == */
-/* ============================================= */
+/* ======================== */
+/* Responsive Layout */
 @media screen and (max-width: 768px) {
     .version-info-section { padding: 22px; }
     .version-header { font-size: 1.2em; }
@@ -1795,23 +1591,21 @@ body:not(.focus-outline-disabled) textarea:focus {
     }
 }
 
-/* ============================================= */
-/* == Maintenance Overlay (Theme-Aligned) ====== */
-/* ============================================= */
+/* ======================== */
+/* Maintenance Overlay – Onyx Bubble Glass */
+/* ======================== */
 
-/* Disable page scroll when maintenance active */
 body.maintenance-active {
-    overflow: hidden;
+    overflow: hidden; /* disable scroll */
 }
 
-/* Full-screen overlay */
 .maintenance-overlay {
     position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
-    background: color-mix(in srgb, var(--bg-color) 90%, transparent); /* semi-transparent themed background */
-    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    backdrop-filter: blur(12px);
     display: none;
     justify-content: center;
     align-items: center;
@@ -1827,17 +1621,21 @@ body.maintenance-active {
     opacity: 1;
 }
 
-/* Maintenance modal content */
+/* Modal content */
 .maintenance-content {
     max-width: min(550px, 90%);
     width: 100%;
     text-align: center;
     background: var(--content-bg);
+    background-image: var(--bubble-gradient);
     padding: clamp(25px, 6vw, 40px);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
     border: 1px solid var(--border-color);
-    box-shadow: 0 10px 40px var(--shadow-color);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
     animation: popInZoom 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Pop-in animation */
@@ -1846,17 +1644,24 @@ body.maintenance-active {
     100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Loader spinner */
+/* Loader with frosted bubble background */
 .maintenance-loader {
+    position: relative;
     width: 50px;
     height: 50px;
+    border-radius: 50%;
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     border: 4px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
     border-top-color: var(--accent-color);
-    border-radius: 50%;
     margin: 0 auto 30px;
     animation: spinLoader 1s linear infinite;
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
+/* Loader rotation */
 @keyframes spinLoader {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -1903,10 +1708,14 @@ body.maintenance-active {
     text-decoration: none;
     font-size: clamp(0.9rem, 2.5vw, 1rem);
     padding: 10px 20px;
-    border-radius: 12px;
-    background-color: color-mix(in srgb, var(--border-color) 20%, transparent);
+    border-radius: 25px;
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
     border: 1px solid var(--border-color);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 .maintenance-socials a i {
@@ -1922,7 +1731,7 @@ body.maintenance-active {
     outline: none;
 }
 
-/* --- Responsive Adjustments --- */
+/* Responsive Adjustments */
 @media screen and (max-width: 480px) {
     .maintenance-content {
         padding: 25px 20px;
@@ -1951,14 +1760,13 @@ body.maintenance-active {
 /* ======================================== */
 
 .business-info-section {
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
+    background: linear-gradient(145deg, rgba(30,30,30,0.9), rgba(50,50,50,0.7));
     border-radius: var(--radius-xl);
     padding: clamp(20px, 4vw, 30px);
     margin: 30px 0;
-    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-    backdrop-filter: var(--backdrop-blur) saturate(120%);
-    -webkit-backdrop-filter: var(--backdrop-blur) saturate(120%);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45), inset 0 1px 2px rgba(255,255,255,0.05);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
     width: 100%;
     box-sizing: border-box;
     position: relative;
@@ -1972,10 +1780,10 @@ body.maintenance-active {
     margin-bottom: 18px;
     font-size: 1.6em;
     font-weight: 700;
-    color: var(--text-color);
+    color: #e0e0e0;
     text-align: center;
     padding-bottom: 12px;
-    border-bottom: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 /* --- Status Display --- */
@@ -1995,9 +1803,10 @@ body.maintenance-active {
     padding: 10px 24px;
     border-radius: 9999px;
     letter-spacing: 0.3px;
-    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
-    background: color-mix(in srgb, currentColor 10%, transparent);
-    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 3px 12px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
     z-index: 0;
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
@@ -2009,11 +1818,10 @@ body.maintenance-active {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    position: relative;
-    z-index: 2;
     background-color: currentColor;
-    box-shadow: 0 0 6px currentColor;
+    box-shadow: 0 0 8px currentColor, 0 0 12px rgba(0,0,0,0.4);
     animation: pulse-status 2s infinite;
+    z-index: 2;
 }
 
 .status-main-text::after {
@@ -2026,7 +1834,7 @@ body.maintenance-active {
     left: 50%;
     transform: translate(-50%, -50%);
     background: radial-gradient(circle, currentColor 0%, transparent 60%);
-    opacity: 0.25;
+    opacity: 0.2;
     z-index: 1;
     animation: glow-status 3s infinite alternate;
 }
@@ -2035,18 +1843,18 @@ body.maintenance-active {
     animation: pulse-hover 1.5s infinite;
 }
 .status-main-text:hover::after {
-    opacity: 0.5;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1.2);
 }
 
 /* --- Keyframes --- */
 @keyframes pulse-status {
     0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.25); opacity: 0.6; }
+    50% { transform: scale(1.3); opacity: 0.6; }
 }
 @keyframes pulse-hover {
     0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4); opacity: 0.8; }
+    50% { transform: scale(1.5); opacity: 0.8; }
 }
 @keyframes glow-status {
     0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
@@ -2055,27 +1863,15 @@ body.maintenance-active {
 }
 
 /* --- Status Colors --- */
-.status-main-text.status-open { color: #28a745; }
-.status-main-text.status-open::before {
-    background-color: #34c759;
-    box-shadow: 0 0 8px #34c759;
-}
-.status-main-text.status-closed { color: #dc3545; }
-.status-main-text.status-closed::before {
-    background-color: #ff3b30;
-    box-shadow: 0 0 8px #ff3b30;
-}
-.status-main-text.status-unavailable { color: #fd7e14; }
-.status-main-text.status-unavailable::before {
-    background-color: #ff9500;
-    box-shadow: 0 0 8px #ff9500;
-}
+.status-main-text.status-open { color: #32CD32; }
+.status-main-text.status-closed { color: #FF3B30; }
+.status-main-text.status-unavailable { color: #FFA500; }
 
 /* --- Regular Hours List --- */
 .hours-list {
     margin: 25px 0;
     border-radius: 20px;
-    backdrop-filter: blur(12px) saturate(120%);
+    backdrop-filter: blur(16px) saturate(140%);
 }
 .hours-list ul { list-style: none; padding: 0; margin: 0; }
 .hours-list li {
@@ -2085,24 +1881,24 @@ body.maintenance-active {
     padding: 14px 16px;
     border-radius: 14px;
     margin-bottom: 10px;
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
-    box-shadow: 0 6px 18px color-mix(in srgb, var(--shadow-color) 30%, transparent);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 6px 18px rgba(0,0,0,0.4);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .hours-list li:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px color-mix(in srgb, var(--shadow-color) 40%, transparent);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 10px 25px rgba(0,0,0,0.5);
 }
-.hours-list li strong { color: var(--text-color); font-weight: 600; }
-.hours-list li span { color: var(--secondary-text); font-weight: 500; }
+.hours-list li strong { color: #e0e0e0; font-weight: 600; }
+.hours-list li span { color: #b0b0b0; font-weight: 500; }
 .hours-list li.current-day {
-    background: color-mix(in srgb, var(--accent-color) 15%, transparent);
-    border-color: color-mix(in srgb, var(--accent-color) 35%, transparent);
+    background: rgba(50,150,255,0.15);
+    border-color: rgba(50,150,255,0.35);
 }
 .hours-list li.current-day strong,
 .hours-list li.current-day span {
-    color: var(--accent-color);
+    color: #32aaff;
     font-weight: 700;
 }
 
@@ -2115,11 +1911,11 @@ body.maintenance-active {
     gap: 14px;
 }
 .special-hours-display li {
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
+    background: rgba(255,255,255,0.05);
     padding: 16px 22px;
     border-radius: 18px;
-    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
-    box-shadow: 0 4px 15px color-mix(in srgb, var(--shadow-color) 25%, transparent);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 4px 15px rgba(0,0,0,0.35);
 }
 .special-hours-display li .hours-container {
     display: flex;
@@ -2127,40 +1923,39 @@ body.maintenance-active {
     align-items: center;
     margin-bottom: 6px;
 }
-.special-hours-display li strong { font-weight: 600; color: var(--text-color); }
-.special-hours-display li .hours { font-weight: 600; color: var(--text-color); }
+.special-hours-display li strong { font-weight: 600; color: #e0e0e0; }
+.special-hours-display li .hours { font-weight: 600; color: #e0e0e0; }
 .special-hours-display li .dates {
     display: block;
     font-size: 0.9em;
-    color: var(--secondary-text);
+    color: #b0b0b0;
 }
 
 /* --- Contact Info Button --- */
 .contact-info {
     margin-top: 30px;
     padding-top: 25px;
-    border-top: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
+    border-top: 1px solid rgba(255,255,255,0.1);
     text-align: center;
 }
 .contact-info a {
     display: inline-block;
     padding: 14px 36px;
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
-    color: var(--accent-color);
+    background: rgba(255,255,255,0.05);
+    color: #32aaff;
     border-radius: 9999px;
     text-decoration: none;
     font-weight: 700;
-    border: 1px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
-    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-    backdrop-filter: var(--backdrop-blur);
+    border: 1px solid rgba(50,150,255,0.4);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 6px 18px rgba(0,0,0,0.45);
+    backdrop-filter: blur(12px);
     transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
 }
 .contact-info a:hover,
 .contact-info a:focus {
     transform: translateY(-3px);
     color: #fff;
-    box-shadow: 0 10px 28px color-mix(in srgb, var(--accent-color) 50%, transparent);
+    box-shadow: 0 10px 28px rgba(50,150,255,0.5);
     outline: none;
 }
 
@@ -2337,38 +2132,38 @@ body.maintenance-active {
 }
 
 /* ======================================== */
-/* == Scroll to Top Button – Onyx Glass  == */
+/* == Scroll to Top Button – Onyx Bubble Glass == */
 /* ======================================== */
 #scrollTopBtn {
     position: fixed;
     bottom: 1.5625rem; /* 25px */
-    left: 1.5625rem;  /* 25px */
-    width: 3.4375rem; /* 55px */
-    height: 3.4375rem;/* 55px */
+    left: 1.5625rem;   /* 25px */
+    width: 3.4375rem;  /* 55px */
+    height: 3.4375rem; /* 55px */
     border: none;
     cursor: pointer;
     z-index: 9999;
-    opacity: 0; /* Hidden by default, made visible by JS */
+    opacity: 0;
     visibility: hidden;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    /* Glass effect */
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(0.75rem) saturate(120%); /* 12px */
-    -webkit-backdrop-filter: blur(0.75rem) saturate(120%);
-    border: 0.0625rem solid color-mix(in srgb, var(--border-color) 30%, transparent); /* 1px */
+    /* Onyx Bubble Glass background */
+    background: linear-gradient(145deg, rgba(25,25,25,0.95), rgba(45,45,45,0.8));
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45), inset 0 1px 2px rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
 
-    /* Shadow & transition */
-    box-shadow: 0 0.5rem 1.5625rem color-mix(in srgb, var(--shadow-color) 60%, transparent); /* 8px 25px */
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    /* Transition */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
 }
 
 #scrollTopBtn:hover {
-    transform: translateY(-0.1875rem); /* -3px */
-    box-shadow: 0 0.75rem 1.875rem color-mix(in srgb, var(--shadow-color) 70%, transparent); /* 12px 30px */
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.55), inset 0 2px 4px rgba(255,255,255,0.08);
 }
 
 #scrollTopBtn.visible {
@@ -2388,13 +2183,13 @@ body.maintenance-active {
 
 .progress-bg {
     fill: none;
-    stroke: color-mix(in srgb, var(--border-color) 50%, transparent);
+    stroke: rgba(255,255,255,0.15);
     stroke-width: 3;
 }
 
 .progress-indicator {
     fill: none;
-    stroke: var(--accent-color); /* Using a variable is better for themes */
+    stroke: var(--accent-color);
     stroke-width: 3;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.2s ease-out;
@@ -2405,19 +2200,23 @@ body.maintenance-active {
     font-size: 1.625rem; /* 26px */
     color: var(--accent-color);
     font-weight: 800;
-    text-shadow: 0 0 0.3125rem color-mix(in srgb, var(--accent-color) 30%, transparent); /* 5px */
-    transition: transform 0.25s ease;
+    text-shadow: 0 0 5px rgba(50,150,255,0.6);
+    transition: transform 0.25s ease, text-shadow 0.25s ease;
 }
 
-/* Responsive adjustments for the button */
+#scrollTopBtn:hover .arrow {
+    text-shadow: 0 0 10px rgba(50,150,255,0.8);
+}
+
+/* Responsive adjustments */
 @media screen and (max-width: 768px) {
-    #scrollTopBtn { width: 3.125rem; height: 3.125rem; bottom: 1.25rem; left: 1.25rem; } /* 50px, 20px */
-    .arrow { font-size: 1.375rem; } /* 22px */
+    #scrollTopBtn { width: 3.125rem; height: 3.125rem; bottom: 1.25rem; left: 1.25rem; }
+    .arrow { font-size: 1.375rem; }
 }
 
 @media screen and (max-width: 480px) {
-    #scrollTopBtn { width: 2.8125rem; height: 2.8125rem; bottom: 0.9375rem; left: 0.9375rem; } /* 45px, 15px */
-    .arrow { font-size: 1.25rem; } /* 20px */
+    #scrollTopBtn { width: 2.8125rem; height: 2.8125rem; bottom: 0.9375rem; left: 0.9375rem; }
+    .arrow { font-size: 1.25rem; }
 }
 
 /* ======================================================= */
