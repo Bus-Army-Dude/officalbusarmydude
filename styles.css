@@ -149,9 +149,8 @@ body {
 /* --- Profile Status --- */
 .profile-status-container {
     position: absolute;
-    bottom: 0; /* aligns with bottom of profile pic */
-    right: 0;  /* aligns with right of profile pic */
-    transform: translate(25%, 25%); /* shift 25% outside the pic like Facebook */
+    bottom: 0; 
+    right: 0; 
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 50%;
@@ -164,7 +163,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* Always anchored relative to profile-pic-wrapper */
+    transform: translate(35%, 35%); /* Pushes status slightly outside */
 }
+
+/* Status colors */
 .profile-status { display: none; }
 .profile-status-container.status-online { background-color: #31a24c; }
 .profile-status-container.status-idle { background-color: #ffc107; }
@@ -258,7 +262,7 @@ body {
 /* --- Responsive --- */
 @media screen and (max-width: 768px) {
     .profile-pic-wrapper { width: 7.5rem; height: 7.5rem; }
-    .profile-status-container { width: 1.125rem; height: 1.125rem; transform: translate(25%,25%); }
+    .profile-status-container { width: 1.125rem; height: 1.125rem; transform: translate(35%,35%); }
     .settings-button, .merch-button { width: 2.375rem; height: 2.375rem; }
     .username-checkmark h1 { font-size: 1.8rem; }
     .profile-bio { font-size: 0.95rem; }
@@ -266,13 +270,12 @@ body {
 
 @media screen and (max-width: 480px) {
     .profile-pic-wrapper { width: 6.25rem; height: 6.25rem; }
-    .profile-status-container { width: 1rem; height: 1rem; transform: translate(25%,25%); }
+    .profile-status-container { width: 1rem; height: 1rem; transform: translate(35%,35%); }
     .settings-button, .merch-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
     .settings-button { right: 0.9375rem; }
     .merch-button { left: 0.9375rem; }
     .username-checkmark h1 { font-size: 1.5rem; }
 }
-
 
 #status-widget {
   width: 100%;
