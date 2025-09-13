@@ -147,19 +147,21 @@ body {
 }
 
 /* --- Profile Status --- */
-/* ✨ POSITIONING CORRECTED TO MATCH IMAGE ✨ */
+/* ✨ FINAL POSITIONING TO PRECISELY MATCH IMAGE ✨ */
 .profile-status-container {
     position: absolute;
-    width: 12.5%; /* Reverted to original proportional size */
+    width: 12.5%; 
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    border: 2px solid var(--content-bg); /* Reverted to original border */
+    border: 2px solid var(--content-bg);
     box-shadow: var(--bubble-shadow);
     z-index: 2;
 
-    /* Asymmetrical values to match the reference image */
-    bottom: 4%;
-    right: 8%;
+    /* * This combination pins the dot to the bottom edge 
+     * and shifts it horizontally to match the reference.
+     */
+    bottom: 0;
+    right: 10%;
 }
 
 .profile-status-container.status-online    { background-color: #31a24c; }
@@ -173,8 +175,8 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    /* ✨ SPACING INCREASED ✨ */
-    margin: 1.875rem 0 0.625rem; /* Increased top margin from 0.9375rem to 1.875rem */
+    /* ✨ UPDATED MARGIN TO PREVENT OVERLAP ✨ */
+    margin: max(1.875rem, 25px) 0 0.625rem;
     flex-wrap: wrap;
 }
 
