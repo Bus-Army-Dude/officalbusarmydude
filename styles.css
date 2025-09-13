@@ -18,8 +18,8 @@
 
     /* --- Light Mode (Onyx Frosted White) --- */
     --light-bg: #E3E3E3;                          
-    --light-content-bg: rgba(255, 255, 255, 0.7);  /* slightly more opaque to pop */
-    --light-text: #111827;
+	--light-content-bg: rgba(255, 255, 255, 0.35);   /* darker bubble glass for light mode */
+	--light-text: #111827;
     --light-secondary-text: #4B5563;
     --light-border: rgba(0,0,0,0.15);            /* stronger border for contrast */
     --light-accent: #0A84FF;
@@ -45,7 +45,7 @@
 
     /* --- Glass / Bubble Effects --- */
     --backdrop-blur: saturate(180%) blur(22px);  /* slightly stronger blur */
-    --bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 65%);
+	--bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 65%);
     --bubble-highlight: inset 1px 1px 3px rgba(255,255,255,0.35);
     --bubble-shadow: 0 10px 28px rgba(0,0,0,0.35);  /* stronger shadow for pop */
 
@@ -61,19 +61,17 @@
 }
 
 /* --- Light Mode Override (Onyx Bubble Glass for Light Mode) --- */
-body.light-e {
-    --bg-color: #E3E3E3;                          /* light page background */
-    --content-bg: rgba(255, 255, 255, 0.35);      /* translucent frosted bubble */
-    --text-color: #111111;
-    --secondary-text: #444444;
-    --border-color: rgba(0, 0, 0, 0.1);           /* subtle border for light glass */
-    --accent-color: #0A84FF;
-    --hover-color: #0060DF;
-    --link-color: var(--accent-color);
-    --shadow-color: rgba(0, 0, 0, 0.15);          /* subtle shadow for light mode */
-    --glow-color: rgba(255, 255, 255, 0.2);
-    --icon-color: #333333;
-    --social-icon-text-color: #111111;
+    --light-bg: #E3E3E3;                          
+	--light-content-bg: rgba(25, 25, 25, 0.12);
+    --light-text: #111827;
+    --light-secondary-text: #4B5563;
+    --light-border: rgba(0,0,0,0.15);            
+    --light-accent: #0A84FF;
+    --light-hover: #0060DF;
+    --light-link: var(--light-accent);
+    --light-shadow: rgba(0,0,0,0.25);            
+    --light-glow: rgba(255,255,255,0.25);        
+    --light-icon: #1F2937;
 }
 
 /* ======================== */
@@ -127,11 +125,11 @@ body {
 .profile-section {
     position: relative;
     text-align: center;
-    margin-top: 1.25rem; /* 20px / 16 */
-    margin-bottom: 1.875rem; /* 30px / 16 */
-    padding: 1.875rem; /* 30px / 16 */
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
+    margin-top: 1.25rem;
+    margin-bottom: 1.875rem;
+    padding: 1.875rem;
+    background: var(--content-bg);                 /* main bubble color */
+    background-image: var(--bubble-gradient);      /* frosted highlight */
     border-radius: var(--radius-xl);
     box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     backdrop-filter: var(--backdrop-blur);
@@ -143,9 +141,9 @@ body {
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
     position: relative;
-    width: 9.375rem; /* 150px / 16 */
-    height: 9.375rem; /* 150px / 16 */
-    margin: 0 auto 0.9375rem; /* 15px / 16 */
+    width: 9.375rem;
+    height: 9.375rem;
+    margin: 0 auto 0.9375rem;
 }
 
 .profile-pic {
@@ -161,12 +159,12 @@ body {
 /* --- Profile Status --- */
 .profile-status-container {
     position: absolute;
-    bottom: 0.625rem; /* 10px / 16 */
-    right: 0.625rem; /* 10px / 16 */
-    width: 1.25rem; /* 20px / 16 */
-    height: 1.25rem; /* 20px / 16 */
+    bottom: 0.625rem;
+    right: 0.625rem;
+    width: 1.25rem;
+    height: 1.25rem;
     border-radius: 50%;
-    border: 0.125rem solid var(--content-bg); /* 2px / 16 */
+    border: 0.125rem solid var(--content-bg);  /* blends with bubble */
     z-index: 2;
     box-shadow: var(--bubble-shadow);
     background: var(--content-bg);
@@ -192,7 +190,7 @@ body {
 }
 .username-checkmark h1 {
     margin: 0;
-    font-size: clamp(1.5rem, 3vw, 2.5rem); /* This was already correct */
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 800;
     background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
     -webkit-background-clip: text;
@@ -218,9 +216,9 @@ body {
 .settings-button,
 .merch-button {
     position: absolute;
-    top: 1.25rem; /* 20px / 16 */
-    width: 2.75rem; /* 44px / 16 */
-    height: 2.75rem; /* 44px / 16 */
+    top: 1.25rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: var(--radius-lg);
     border: none;
     cursor: pointer;
@@ -236,6 +234,7 @@ body {
     justify-content: center;
     color: var(--icon-color);
 }
+
 .settings-button { right: 1.25rem; /* 20px / 16 */ }
 .merch-button { left: 1.25rem; /* 20px / 16 */ }
 
@@ -298,8 +297,8 @@ body {
 /* == President Section – Onyx Bubble Glass == */
 /* ======================================== */
 .president-section {
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
+    background: var(--content-bg);                 /* bubble background */
+    background-image: var(--bubble-gradient);      /* frosted highlight */
     padding: 30px;
     border-radius: var(--radius-xl);
     margin-bottom: 30px;
@@ -1384,21 +1383,16 @@ body {
 .scroll-to-top {
     position: fixed;
     bottom: 25px;
-    left: 25px; /* keep left */
+    left: 25px;
     width: 55px;
     height: 55px;
-    border: none;
-    cursor: pointer;
-    z-index: 9999;
     border-radius: 50%;
 
-    /* Glass orb */
     background: color-mix(in srgb, var(--content-bg) 60%, transparent);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
 
-    /* Animation */
     box-shadow: 0 4px 20px color-mix(in srgb, var(--shadow-color) 50%, transparent);
     transform: scale(0.85);
     opacity: 0;
@@ -1429,20 +1423,18 @@ body {
     overflow: visible;
 }
 
-/* Hide default background ring */
-.progress-bg {
-    fill: none;
-    stroke: transparent;
-}
+.progress-bg { fill: none; stroke: transparent; }
 
-/* Progress indicator (glowing stroke) */
+/* Dynamic radius and circumference for responsive stroke */
 .progress-indicator {
+    --r: 22; /* radius in px for default orb size */
+    --c: calc(2 * 3.1416 * var(--r)); /* circumference */
     fill: none;
     stroke: var(--accent-color);
     stroke-width: 3;
-    stroke-linecap: round; /* rounded ends */
-    stroke-dasharray: 141; /* adjusted to fit inside circle cleanly */
-    stroke-dashoffset: 141;
+    stroke-linecap: round;
+    stroke-dasharray: var(--c);
+    stroke-dashoffset: var(--c);
     filter: drop-shadow(0 0 6px var(--accent-color))
             drop-shadow(0 0 12px var(--accent-color));
     transition: stroke-dashoffset 0.2s ease-out, filter 0.2s ease-out;
@@ -1466,25 +1458,17 @@ body {
 .arrow.up { transform: translate(-50%, -50%) rotate(0deg); }
 .arrow.down { transform: translate(-50%, -50%) rotate(180deg); }
 
-/* ======================== */
-/* Responsive Fixes */
-/* ======================== */
+/* Responsive radius scaling */
 @media screen and (max-width: 768px) {
     .scroll-to-top { width: 50px; height: 50px; bottom: 20px; left: 20px; }
     .arrow { font-size: 20px; }
-    .progress-indicator {
-        stroke-dasharray: 131; 
-        stroke-dashoffset: 131;
-    }
+    .progress-indicator { --r: 19; }
 }
 
 @media screen and (max-width: 480px) {
     .scroll-to-top { width: 45px; height: 45px; bottom: 15px; left: 15px; }
     .arrow { font-size: 18px; }
-    .progress-indicator {
-        stroke-dasharray: 118;
-        stroke-dashoffset: 118;
-    }
+    .progress-indicator { --r: 17; }
 }
 
 /* ============================================= */
