@@ -612,16 +612,15 @@ body {
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
     box-shadow: var(--bubble-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover Effect – Lift + Highlight */
+/* Remove hover lift/highlight */
 .tech-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px var(--shadow-color),
-                0 0 12px var(--accent-color);
-    background: var(--accent-color);
-    color: var(--content-bg);
+    transform: none;
+    box-shadow: var(--bubble-shadow);
+    background: var(--content-bg);
+    color: var(--text-color);
 }
 
 /* Tech Item Titles */
@@ -682,7 +681,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: rgba(32, 32, 32, 0.25); /* Onyx glass fill */
+    background: rgba(32, 32, 32, 0.25);
     box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.25);
     overflow: hidden;
 }
@@ -703,19 +702,14 @@ body {
 /* Battery Fill */
 .battery-level {
     height: 100%;
-    background: #32CD32; /* Lime Green */
+    background: #32CD32;
     border-radius: 1px;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.low-power .battery-level {
-    background: #FFCC00;
-}
-
-.critical .battery-level {
-    background: #FF3B30;
-}
+.low-power .battery-level { background: #FFCC00; }
+.critical .battery-level { background: #FF3B30; }
 
 /* Percentage Display */
 .battery-percentage {
