@@ -85,57 +85,20 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-const scrollToTopBtn = document.querySelector("#scrollTopBtn");
-const arrow = document.querySelector(".scroll-to-top .arrow");
-const progressCircle = document.querySelector(".progress-indicator");
+/* Spin animation for the orb */
+.scroll-to-top.spin-animation {
+    animation: orb-spin 0.6s ease forwards;
+}
 
-if (scrollToTopBtn && arrow && progressCircle) {
-  const radius = progressCircle.r.baseVal.value;
-  const circumference = 2 * Math.PI * radius;
-  progressCircle.style.strokeDasharray = circumference;
-  progressCircle.style.strokeDashoffset = circumference;
+@keyframes orb-spin {
+    0%   { transform: scale(1) rotateX(0deg) rotateY(0deg); }
+    50%  { transform: scale(1.05) rotateX(180deg) rotateY(180deg); }
+    100% { transform: scale(1) rotateX(360deg) rotateY(360deg); }
+}
 
-  let lastScroll = 0;
-
-  const updateProgress = () => {
-    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollY = window.scrollY;
-    const progress = totalHeight > 0 ? (scrollY / totalHeight) * circumference : 0;
-    progressCircle.style.strokeDashoffset = circumference - progress;
-
-    if (scrollY > 200) {
-      scrollToTopBtn.classList.add("visible");
-    } else {
-      scrollToTopBtn.classList.remove("visible");
-    }
-
-    // Neon glow intensity scales with scroll progress
-    const glowIntensity = Math.min(1, scrollY / totalHeight);
-    progressCircle.style.filter = `
-      drop-shadow(0 0 ${6 + 6 * glowIntensity}px var(--accent-color))
-      drop-shadow(0 0 ${12 + 12 * glowIntensity}px var(--accent-color))
-    `;
-
-    // Smooth arrow rotation
-    if (scrollY > lastScroll + 5) {
-      arrow.classList.remove("up");
-      arrow.classList.add("down");
-    } else if (scrollY < lastScroll - 5) {
-      arrow.classList.remove("down");
-      arrow.classList.add("up");
-    }
-
-    lastScroll = scrollY;
-  };
-
-  const scrollToTop = () => {
-    arrow.classList.remove("down");
-    arrow.classList.add("up"); // rotate up when clicked
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  window.addEventListener("scroll", updateProgress);
-  scrollToTopBtn.addEventListener("click", scrollToTop);
+/* Smooth arrow rotation during spin */
+.scroll-to-top.spin-animation .arrow {
+    transition: transform 0.6s ease;
 }
 
     // --- Cookie Consent ---
