@@ -85,53 +85,56 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-const scrollButton = document.querySelector('.scroll-to-top');
-const arrow = scrollButton.querySelector('.arrow');
-const progressCircle = scrollButton.querySelector('.progress-indicator');
+// ========================
+// Scroll to Top Orb Logic
+// ========================
 
-let lastScroll = window.scrollY;
-const radius = 22.5;
-const circumference = 2 * Math.PI * radius;
+const scrollBtn = document.querySelector('.scroll-to-top');
+const arrow = scrollBtn.querySelector('.arrow');
+const progressIndicator = scrollBtn.querySelector('.progress-indicator');
 
-progressCircle.style.strokeDasharray = `${circumference}`;
-progressCircle.style.strokeDashoffset = `${circumference}`;
+let lastScrollY = window.scrollY;
 
-function updateProgress() {
-    const scrollTop = window.scrollY;
+// Update orb visibility and arrow direction
+function updateScrollOrb() {
     const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollFraction = scrollTop / scrollHeight;
-    const offset = circumference - scrollFraction * circumference;
-    progressCircle.style.strokeDashoffset = offset;
+    const scrollFraction = window.scrollY / scrollHeight;
 
-    if (scrollTop > 100) {
-        scrollButton.classList.add('visible');
+    // Show orb after scrolling down a bit
+    if (window.scrollY > 100) {
+        scrollBtn.classList.add('visible');
     } else {
-        scrollButton.classList.remove('visible');
+        scrollBtn.classList.remove('visible');
     }
 
-    if (scrollTop > lastScroll) {
+    // Arrow rotation based on scroll direction
+    if (window.scrollY > lastScrollY) {
         arrow.classList.remove('up');
         arrow.classList.add('down');
-    } else if (scrollTop < lastScroll) {
+    } else {
         arrow.classList.remove('down');
         arrow.classList.add('up');
     }
+    lastScrollY = window.scrollY;
 
-    lastScroll = scrollTop;
+    // Update progress ring
+    const circumference = parseFloat(progressIndicator.getAttribute('stroke-dasharray'));
+    const offset = circumference * (1 - scrollFraction);
+    progressIndicator.style.strokeDashoffset = offset;
 }
 
-window.addEventListener('scroll', updateProgress);
-
-scrollButton.addEventListener('click', () => {
-    scrollButton.classList.add('spin-animation');
+// Scroll to top with spin animation
+function scrollToTop() {
+    arrow.classList.add('spin-animation');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => arrow.classList.remove('spin-animation'), 500); // reset spin
+}
 
-    setTimeout(() => {
-        scrollButton.classList.remove('spin-animation');
-        arrow.classList.remove('down');
-        arrow.classList.add('up');
-    }, 600);
-});
+window.addEventListener('scroll', updateScrollOrb);
+scrollBtn.addEventListener('click', scrollToTop);
+
+// Initial call to set position on page load
+updateScrollOrb();
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
