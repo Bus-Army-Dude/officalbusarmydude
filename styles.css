@@ -2352,23 +2352,6 @@ body.maintenance-active {
 }
 
 /* ======================================== */
-/* == Accessibility Override Rules       == */
-/* ======================================== */
-
-/* Rule to disable cosmetic motion while protecting functional UI like toggles */
-body.hover-animations-disabled *:not(.md-switch *):not(.segmented-control *) {
-    transition-duration: 0s !important;
-    animation-duration: 0s !important;
-    transition-delay: 0s !important;
-    animation-delay: 0s !important;
-}
-
-/* Rule to hide focus outlines when toggled off */
-body.focus-outline-disabled :focus-visible {
-    outline: none !important;
-}
-
-/* ======================================== */
 /* == Scroll to Top Button – Onyx Glass  == */
 /* ======================================== */
 #scrollTopBtn {
@@ -2452,24 +2435,80 @@ body.focus-outline-disabled :focus-visible {
     .arrow { font-size: 1.25rem; } /* 20px */
 }
 
-/* Disable motion and effects */
+/* ======================================== */
+/* == Disable Motion and Effects            == */
+/* ======================================== */
 
-.hover-animations-disabled .social-button:hover,
-.hover-animations-disabled .link-button:hover,
-.hover-animations-disabled .disabilities-section a:hover {
-    background: initial;
-    border-color: initial;
-    color: initial;
-    transform: none;
-    box-shadow: none;
-}
+/*
+ * The .motion-disabled class is added to the body via settings.js
+ * when the user turns off "Motion & Effects". This block of CSS
+ * overrides all motion-related styles across the site.
+ */
 
-.hover-animations-disabled .tech-item:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-.hover-animations-disabled * {
+/*
+ * 1. The universal selector removes all transitions and animations
+ * from every element on the page. The `!important` flag ensures
+ * this rule takes precedence over other styles.
+ */
+.motion-disabled * {
    transition: none !important;
    animation: none !important;
+}
+
+/*
+ * 2. Specifically target elements with hover effects and reset
+ * their properties to prevent any visual change on mouseover.
+ */
+.motion-disabled .social-button:hover,
+.motion-disabled .link-button:hover,
+.motion-disabled .disabilities-section a:hover,
+.motion-disabled .visit-profile:hover,
+.motion-disabled .instagram-visit-profile:hover,
+.motion-disabled .youtube-visit-profile:hover,
+.motion-disabled .contact-info a:hover,
+.motion-disabled .settings-button:hover,
+.motion-disabled .merch-button:hover {
+    transform: none !important;
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight) !important; /* Reset to default bubble shadow */
+    background: var(--content-bg) !important; /* Reset to default background */
+    color: var(--text-color) !important; /* Reset to default text color */
+    border-color: var(--border-color) !important; /* Reset to default border color */
+}
+
+/*
+ * 3. Reset hover effects for creator cards and tech items.
+ */
+.motion-disabled .creator-card:hover,
+.motion-disabled .instagram-creator-card:hover,
+.motion-disabled .youtube-creator-card:hover,
+.motion-disabled .tech-item:hover {
+    transform: none !important;
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight) !important; /* Reset to default bubble shadow */
+}
+
+/*
+ * 4. Reset hover effects for specific interactive elements like
+ * the scroll-to-top button and version list items.
+ */
+.motion-disabled .scroll-to-top:hover {
+    transform: none !important;
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent) !important; /* Reset to default shadow */
+}
+
+.motion-disabled .version-list li:hover {
+    transform: none !important;
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 40%, transparent) !important; /* Reset to default shadow */
+}
+
+.motion-disabled .version-list li:hover::before {
+    box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.6), 0 0 12px rgba(var(--accent-rgb), 0.3) !important; /* Reset to default glow */
+    transform: none !important;
+}
+
+/*
+ * 5. Handle specific button colors on hover for disabilities section.
+ */
+.motion-disabled .disabilities-section a:hover {
+    color: var(--accent-color) !important; /* Keep original color */
+    background-color: var(--content-bg) !important; /* Keep original background */
 }
