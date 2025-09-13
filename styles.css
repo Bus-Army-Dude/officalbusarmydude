@@ -858,10 +858,10 @@ body {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Section Header */
+/* Section Headers and Timestamps */
 .shoutouts-section h2 {
     color: var(--text-color);
     margin-bottom: 10px;
@@ -872,14 +872,32 @@ body {
     font-size: 1.8em;
 }
 
+/* Font Awesome Headers */
+#tiktok-header::before,
+#instagram-header::before,
+#youtube-header::before {
+    color: var(--accent-color);
+}
+
 /* Timestamp text */
-.shoutouts-section .timestamp {
+#tiktok-last-updated-timestamp,
+#instagram-last-updated-timestamp,
+#youtube-last-updated-timestamp {
     color: var(--secondary-text);
     font-size: 0.9em;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 4px;
+}
+
+/* Timestamp icon */
+#tiktok-last-updated-timestamp::before,
+#instagram-last-updated-timestamp::before,
+#youtube-last-updated-timestamp::before {
+    content: '\f073';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
 }
 
 /* Creator Grids */
@@ -895,7 +913,7 @@ body {
     padding: 0;
 }
 
-/* Creator Cards */
+/* Creator Cards – Bubble Glass */
 .creator-card,
 .instagram-creator-card,
 .youtube-creator-card {
@@ -910,6 +928,11 @@ body {
     box-shadow: var(--bubble-shadow), var(--bubble-highlight);
     width: 100%;
     box-sizing: border-box;
+    max-width: 100%;
+    position: relative;
+    overflow: visible;
+    min-height: fit-content;
+    height: auto;
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
 }
@@ -926,9 +949,19 @@ body {
 .youtube-cover-photo {
     width: 100%;
     height: auto;
+    display: block;
     border-radius: 12px;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: transparent;
     margin-bottom: 16px;
+}
+
+/* Creator Info Container */
+.youtube-creator-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
 }
 
 /* Profile Pictures */
@@ -941,9 +974,11 @@ body {
     object-fit: cover;
     border: 3px solid var(--accent-color);
     margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
 }
 
-/* Creator Names & Headers */
+/* Headers */
 .creator-header,
 .instagram-creator-header,
 .youtube-creator-header {
@@ -953,16 +988,68 @@ body {
     margin-bottom: 5px;
 }
 
-.creator-header h3,
-.instagram-creator-header h3,
-.youtube-creator-header h3 {
-    margin: 0;
-    font-size: 1.1em;
-    color: var(--text-color);
-    line-height: 1.4;
+/* Username Containers */
+.username-container,
+.instagram-username-container,
+.youtube-username-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow: visible;
+    padding-right: 8px;
+    min-height: min-content;
 }
 
-/* Visit Profile Buttons */
+/* Usernames */
+.creator-username,
+.instagram-creator-username,
+.youtube-creator-username {
+    color: var(--secondary-text);
+    font-size: max(0.9em, 14px);
+    margin: 0;
+    width: auto;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    line-height: 1.5;
+    hyphens: auto;
+}
+
+/* Verification Badges */
+.verified-badge,
+.instagram-verified-badge,
+.youtube-verified-badge {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Bios */
+.creator-bio,
+.instagram-creator-bio,
+.youtube-creator-bio {
+    color: var(--secondary-text);
+    margin: 10px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+/* Follower/Subscriber Counts */
+.follower-count,
+.instagram-follower-count,
+.youtube-subscriber-count {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Visit Profile Buttons – Bubble Glass */
 .visit-profile,
 .instagram-visit-profile,
 .youtube-visit-profile {
@@ -976,6 +1063,8 @@ body {
     font-weight: 500;
     transition: all 0.2s ease;
     text-align: center;
+    position: relative;
+    overflow: hidden;
     backdrop-filter: var(--backdrop-blur);
     -webkit-backdrop-filter: var(--backdrop-blur);
 }
@@ -983,14 +1072,26 @@ body {
 .visit-profile:hover,
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
-    background: var(--accent-color);
-    color: var(--content-bg);
+    background-color: var(--accent-color);
+    color: white;
     box-shadow: 0 0 10px var(--accent-color),
                 0 0 20px var(--accent-color);
     transform: translateY(-2px);
 }
 
-/* Unavailable Message */
+/* Creator Names */
+.creator-header h3,
+.instagram-creator-header h3,
+.youtube-creator-header h3 {
+    margin: 0;
+    font-size: max(1.1em, 16px);
+    color: var(--text-color);
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Unavailable Message – Bubble Glass */
 .unavailable-message {
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
@@ -1009,23 +1110,53 @@ body {
     margin-bottom: 10px;
 }
 
+/* ======================== */
 /* Responsive Layout */
+/* ======================== */
+
+@media screen and (max-width: 1400px) {
+    .creator-grid,
+    .instagram-creator-grid,
+    .youtube-creator-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
 @media screen and (max-width: 768px) {
     .shoutouts-section { padding: 15px; margin-bottom: 20px; }
     .creator-grid,
     .instagram-creator-grid,
-    .youtube-creator-grid { grid-template-columns: 1fr; gap: 15px; }
+    .youtube-creator-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
     .creator-card,
     .instagram-creator-card,
-    .youtube-creator-card { padding: 12px; }
+    .youtube-creator-card { padding: 12px; min-height: fit-content; }
+    .youtube-cover-photo { width: calc(100% + 24px); margin: -12px -12px 15px -12px; }
+    .username-container,
+    .instagram-username-container,
+    .youtube-username-container { padding-right: 6px; }
+    .creator-username,
+    .instagram-creator-username,
+    .youtube-creator-username { font-size: 0.85em; }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 380px) {
     .shoutouts-section { padding: 10px; }
+    .creator-grid,
+    .instagram-creator-grid,
+    .youtube-creator-grid { gap: 10px; }
     .creator-card,
     .instagram-creator-card,
-    .youtube-creator-card { padding: 10px; }
+    .youtube-creator-card { padding: 10px; min-height: fit-content; }
     .youtube-cover-photo { width: calc(100% + 20px); margin: -10px -10px 15px -10px; }
+    .username-container,
+    .instagram-username-container,
+    .youtube-username-container { padding-right: 4px; }
+    .creator-username,
+    .instagram-creator-username,
+    .youtube-creator-username { font-size: 0.8em; }
 }
 
 
