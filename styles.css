@@ -182,7 +182,7 @@ body {
 
 .username-checkmark h1 {
     margin: 0;
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(calc(var(--font-size-base, 20px) * 1.5), 3vw, calc(var(--font-size-base, 20px) * 2.5));
     font-weight: 800;
     background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
     -webkit-background-clip: text;
@@ -198,7 +198,7 @@ body {
 
 /* --- Profile Bio --- */
 .profile-bio {
-    font-size: 1rem;
+    font-size: var(--font-size-base, 20px);
     color: var(--secondary-text);
     line-height: 1.6;
     max-width: 37.5rem;
@@ -208,25 +208,25 @@ body {
 /* --- Corner Buttons – Onyx Bubble + Icons --- */
 .settings-button,
 .merch-button {
-    position: absolute;
-    top: 1.25rem;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: var(--radius-lg);
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 10;
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
-    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--icon-color);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+	position: absolute;
+	top: 1.25rem;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: var(--radius-lg);
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	z-index: 10;
+	background: var(--content-bg);
+	background-image: var(--bubble-gradient);
+	box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+	backdrop-filter: var(--backdrop-blur);
+	-webkit-backdrop-filter: var(--backdrop-blur);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--icon-color);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .settings-button { right: 1.25rem; }
@@ -234,40 +234,40 @@ body {
 
 .settings-button:hover,
 .merch-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--shadow-color), 0 0 8px var(--glow-color);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px var(--shadow-color), 0 0 8px var(--glow-color);
 }
 
 .settings-button img,
 .merch-button img,
 .settings-button svg,
 .merch-button svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    object-fit: contain;
+	width: 1.25rem;
+	height: 1.25rem;
+	object-fit: contain;
 }
 
 /* --- Responsive --- */
 @media screen and (max-width: 1024px) {
-    .profile-pic-wrapper { width: 8.5rem; height: 8.5rem; }
-    .profile-status-container { width: 12.5%; }
+	.profile-pic-wrapper { width: 8.5rem; height: 8.5rem; }
+	.profile-status-container { width: 12.5%; }
 }
 
 @media screen and (max-width: 768px) {
-    .profile-pic-wrapper { width: 7.5rem; height: 7.5rem; }
-    .profile-status-container { width: 14%; }
-    .settings-button, .merch-button { width: 2.375rem; height: 2.375rem; }
-    .username-checkmark h1 { font-size: 1.8rem; }
-    .profile-bio { font-size: 0.95rem; }
+	.profile-pic-wrapper { width: 7.5rem; height: 7.5rem; }
+	.profile-status-container { width: 14%; }
+	.settings-button, .merch-button { width: 2.375rem; height: 2.375rem; }
+	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.3); } /* Updated */
+	.profile-bio { font-size: calc(var(--font-size-base, 20px) * 0.95); } /* Updated */
 }
 
 @media screen and (max-width: 480px) {
-    .profile-pic-wrapper { width: 6.25rem; height: 6.25rem; }
-    .profile-status-container { width: 16%; }
-    .settings-button, .merch-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
-    .settings-button { right: 0.9375rem; }
-    .merch-button { left: 0.9375rem; }
-    .username-checkmark h1 { font-size: 1.5rem; }
+	.profile-pic-wrapper { width: 6.25rem; height: 6.25rem; }
+	.profile-status-container { width: 16%; }
+	.settings-button, .merch-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
+	.settings-button { right: 0.9375rem; }
+	.merch-button { left: 0.9375rem; }
+	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.2); } /* Updated */
 }
 
 #status-widget {
@@ -296,117 +296,117 @@ body {
 /* == President Section – Onyx Bubble Glass == */
 /* ======================================== */
 .president-section {
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
-    padding: 30px;
-    border-radius: var(--radius-xl);
-    margin-bottom: 30px;
-    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    width: 100%;
-    box-sizing: border-box;
-    color: var(--text-color);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+	background: var(--content-bg);
+	background-image: var(--bubble-gradient);
+	padding: 30px;
+	border-radius: var(--radius-xl);
+	margin-bottom: 30px;
+	box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+	backdrop-filter: var(--backdrop-blur);
+	-webkit-backdrop-filter: var(--backdrop-blur);
+	width: 100%;
+	box-sizing: border-box;
+	color: var(--text-color);
+	transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* President info layout */
 .president-info {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    padding: 10px;
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	padding: 10px;
 }
 
 /* Photo */
 .president-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.08); /* subtle border for contrast */
-    box-shadow: var(--bubble-shadow);
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex-shrink: 0;
+	border: 2px solid rgba(255,255,255,0.08); /* subtle border for contrast */
+	box-shadow: var(--bubble-shadow);
 }
 
 /* Details */
 .president-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 /* Name and Title */
 .president-name {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text-color);
-    margin: 0;
+	font-size: calc(var(--font-size-base, 20px) * 1.2); /* Updated */
+	font-weight: 700;
+	color: var(--text-color);
+	margin: 0;
 }
 
 .president-title {
-    font-size: 17px;
-    color: var(--secondary-text);
-    font-weight: 500;
-    font-style: italic;
-    margin: 4px 0 12px 0;
+	font-size: calc(var(--font-size-base, 20px) * 0.85); /* Updated */
+	color: var(--secondary-text);
+	font-weight: 500;
+	font-style: italic;
+	margin: 4px 0 12px 0;
 }
 
 /* Description */
 .president-description {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--text-color);
-    opacity: 0.9;
-    margin: 0;
+	font-size: calc(var(--font-size-base, 20px) * 0.8); /* Updated */
+	line-height: 1.6;
+	color: var(--text-color);
+	opacity: 0.9;
+	margin: 0;
 }
 
 /* ======================== */
 /* Responsive Design */
 /* ======================== */
 @media screen and (max-width: 768px) {
-    .president-section { padding: 20px; }
-    .president-info { gap: 20px; }
-    .president-photo { width: 120px; height: 120px; }
-    .president-name { font-size: 20px; }
-    .president-title { font-size: 16px; }
+	.president-section { padding: 20px; }
+	.president-info { gap: 20px; }
+	.president-photo { width: 120px; height: 120px; }
+	.president-name { font-size: var(--font-size-base, 20px); } /* Updated */
+	.president-title { font-size: calc(var(--font-size-base, 20px) * 0.8); } /* Updated */
 }
 
 @media screen and (max-width: 480px) {
-    .president-section { padding: 20px; }
-    .president-info {
-        flex-direction: column;
-        text-align: center;
-    }
-    .president-photo { width: 100px; height: 100px; margin-bottom: 15px; }
-    .president-description { font-size: 14px; }
+	.president-section { padding: 20px; }
+	.president-info {
+		flex-direction: column;
+		text-align: center;
+	}
+	.president-photo { width: 100px; height: 100px; margin-bottom: 15px; }
+	.president-description { font-size: calc(var(--font-size-base, 20px) * 0.7); } /* Updated */
 }
 
 /* ======================================== */
 /* == Social Links Section – Onyx Bubble Glass == */
 /* ======================================== */
 .social-links-section {
-    background: var(--content-bg);
-    background-image: var(--bubble-gradient);
-    padding: 30px;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    margin: 20px 0;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
-    color: var(--text-color);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+	background: var(--content-bg);
+	background-image: var(--bubble-gradient);
+	padding: 30px;
+	border-radius: var(--radius-xl);
+	box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+	backdrop-filter: var(--backdrop-blur);
+	-webkit-backdrop-filter: var(--backdrop-blur);
+	margin: 20px 0;
+	text-align: center;
+	width: 100%;
+	box-sizing: border-box;
+	color: var(--text-color);
+	transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Section Header */
 .social-links-section h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 25px;
+	font-size: calc(var(--font-size-base, 20px) * 1.2); /* Updated */
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 25px;
 }
 
 /* Grid Container */
@@ -446,7 +446,7 @@ body {
 
 /* Icon & Text */
 .social-button .social-icon {
-    font-size: 20px;
+    font-size: calc(var(--font-size-base, 20px) * 1.2); /* Updated */
     margin-right: 12px;
     flex-shrink: 0;
     color: var(--icon-color);
@@ -633,7 +633,7 @@ body {
 .tech-item h3 {
     margin: 0 0 15px 0;
     color: var(--accent-color);
-    font-size: 1.2rem;
+    font-size: calc(var(--font-size-base, 20px) * 1.2); /* Updated */
     font-weight: 600;
     display: flex;
     align-items: center;
