@@ -1,6 +1,6 @@
 /**
  * settings.js
- * Manages all website settings including appearance (theme), font size, and focus outline.
+ * Manages all website settings including appearance (theme), font size, focus outline, and motion effects.
  * It loads settings from localStorage, applies them to the page,
  * and saves any changes made by the user.
  */
@@ -11,7 +11,7 @@ class SettingsManager {
             appearanceMode: 'device', // Options: 'device', 'dark', 'light'
             fontSize: 16,             // Default font size in pixels
             focusOutline: 'disabled', // Options: 'enabled', 'disabled'
-            hoverAnimations: 'enabled', // NEW: 'enabled', 'disabled'
+            motionEffects: 'enabled', // ADDED: 'enabled' or 'disabled'
         };
 
         // Load current settings from localStorage or use defaults
@@ -23,23 +23,17 @@ class SettingsManager {
             console.log("SettingsManager: DOMContentLoaded. Initializing UI controls and applying settings.");
             this.initializeControls();      // Set up UI elements based on loaded settings
             this.applyAllSettings();        // Apply all visual settings
-            this.setupEventListeners();     // Add event listeners for user interactions with settings controls
+            this.setupEventListeners();     // Add event listeners for user interactions
 
-            // Listen for changes in the operating system's theme preference
-            // This is relevant when the website's appearanceMode is set to 'device'
             if (window.matchMedia) {
                 this.deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
-                // Store the bound listener function so it can be correctly removed later if needed
                 this._boundDeviceThemeChangeHandler = this.handleDeviceThemeChange.bind(this);
                 this.deviceThemeMedia.addEventListener('change', this._boundDeviceThemeChangeHandler);
             }
 
-            // Listen for settings changes made in other tabs or windows of the same website
-            // This ensures consistency across multiple open instances of the site
             this._boundStorageHandler = this.handleStorageChange.bind(this);
             window.addEventListener('storage', this._boundStorageHandler);
-
-            // Dynamically set the current year in the footer if the element exists
+            
             const yearElement = document.getElementById('year');
             if (yearElement) {
                 yearElement.textContent = new Date().getFullYear();
@@ -47,40 +41,25 @@ class SettingsManager {
         });
     }
 
-    /**
-     * Loads settings from localStorage. If no settings are found or if they are invalid,
-     * it falls back to the default settings.
-     * @returns {object} The loaded or default settings.
-     */
     loadSettings() {
         try {
             const storedSettings = localStorage.getItem('websiteSettings');
             if (storedSettings) {
                 const parsedSettings = JSON.parse(storedSettings);
-                // Merge saved settings with defaults to ensure new settings are added
                 return { ...this.defaultSettings, ...parsedSettings };
             }
         } catch (error) {
             console.error("SettingsManager: Error loading settings from localStorage. Using defaults.", error);
         }
-        return { ...this.defaultSettings }; // Return a copy of defaults
+        return { ...this.defaultSettings };
     }
 
-    /**
-     * Validates the font size to ensure it's within the allowed range.
-     * @param {*} size - The font size to validate.
-     * @returns {number} The validated font size, or the default if invalid.
-     */
     validateFontSize(size) {
         const parsedSize = parseInt(size, 10);
         return (isNaN(parsedSize) || parsedSize < 12 || parsedSize > 24) ? this.defaultSettings.fontSize : parsedSize;
     }
 
-    /**
-     * Initializes the UI controls on the settings page to reflect current settings.
-     */
     initializeControls() {
-        // Appearance Mode Segmented Control
         const appearanceModeControl = document.getElementById('appearanceModeControl');
         if (appearanceModeControl) {
             appearanceModeControl.querySelectorAll('button').forEach(button => button.classList.remove('active'));
@@ -88,7 +67,6 @@ class SettingsManager {
             if (activeButton) activeButton.classList.add('active');
         }
 
-        // Text Size Slider
         const textSizeSlider = document.getElementById('text-size-slider');
         const textSizeValueDisplay = document.getElementById('textSizeValue');
         if (textSizeSlider && textSizeValueDisplay) {
@@ -97,24 +75,18 @@ class SettingsManager {
             this.updateSliderGradient(textSizeSlider);
         }
 
-        // Focus Outline Toggle
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
             focusOutlineToggle.checked = this.settings.focusOutline === 'enabled';
         }
 
-        // NEW: Hover Animations Toggle
-        const hoverAnimationsToggle = document.getElementById('hoverAnimationsToggle');
-        if (hoverAnimationsToggle) {
-            hoverAnimationsToggle.checked = this.settings.hoverAnimations === 'enabled';
+        const motionEffectsToggle = document.getElementById('hoverAnimationsToggle');
+        if (motionEffectsToggle) {
+            motionEffectsToggle.checked = this.settings.motionEffects === 'enabled';
         }
     }
 
-    /**
-     * Sets up event listeners for the UI controls on the settings page.
-     */
     setupEventListeners() {
-        // Appearance Mode Segmented Control
         const appearanceModeControl = document.getElementById('appearanceModeControl');
         if (appearanceModeControl) {
             appearanceModeControl.addEventListener('click', (event) => {
@@ -123,12 +95,11 @@ class SettingsManager {
                     this.settings.appearanceMode = clickedButton.dataset.value;
                     this.applyAppearanceMode();
                     this.saveSettings();
-                    this.initializeControls(); // Re-initialize to update UI state
+                    this.initializeControls();
                 }
             });
         }
 
-        // Text Size Slider
         const textSizeSlider = document.getElementById('text-size-slider');
         if (textSizeSlider) {
             textSizeSlider.addEventListener('input', (event) => {
@@ -139,7 +110,6 @@ class SettingsManager {
             });
         }
 
-        // Focus Outline Toggle
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
             focusOutlineToggle.addEventListener('change', (event) => {
@@ -149,34 +119,27 @@ class SettingsManager {
             });
         }
         
-        // NEW: Hover Animations Toggle
-        const hoverAnimationsToggle = document.getElementById('hoverAnimationsToggle');
-        if (hoverAnimationsToggle) {
-            hoverAnimationsToggle.addEventListener('change', (event) => {
-                this.settings.hoverAnimations = event.target.checked ? 'enabled' : 'disabled';
-                this.applyHoverAnimations();
+        const motionEffectsToggle = document.getElementById('hoverAnimationsToggle');
+        if (motionEffectsToggle) {
+            motionEffectsToggle.addEventListener('change', (event) => {
+                this.settings.motionEffects = event.target.checked ? 'enabled' : 'disabled';
+                this.applyMotionEffects();
                 this.saveSettings();
             });
         }
 
-        // Reset Settings Button
         const resetButton = document.getElementById('resetSettings');
         if (resetButton) {
             resetButton.addEventListener('click', () => this.resetSettings());
         }
     }
 
-    /**
-     * Applies all current settings to the page.
-     */
     applyAllSettings() {
         this.applyAppearanceMode();
         this.applyFontSize();
         this.applyFocusOutline();
-        this.applyHoverAnimations(); // NEW
+        this.applyMotionEffects();
     }
-
-    // --- Individual Apply Methods ---
 
     applyAppearanceMode() {
         const body = document.body;
@@ -193,11 +156,9 @@ class SettingsManager {
         document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline === 'disabled');
     }
 
-    applyHoverAnimations() {
-        document.body.classList.toggle('hover-animations-disabled', this.settings.hoverAnimations === 'disabled');
+    applyMotionEffects() {
+        document.body.classList.toggle('motion-disabled', this.settings.motionEffects === 'disabled');
     }
-
-    // --- Event Handlers & Core Methods ---
 
     handleDeviceThemeChange() {
         if (this.settings.appearanceMode === 'device') {
@@ -235,7 +196,6 @@ class SettingsManager {
     }
 }
 
-// Ensures only one instance of SettingsManager is created.
 if (!window.settingsManagerInstance) {
     window.settingsManagerInstance = new SettingsManager();
 }
