@@ -278,13 +278,22 @@ s0.parentNode.insertBefore(s1,s0);
 </div>
             
    </div> 
-        <button id="scrollTopBtn" class="scroll-to-top">
-          <svg class="progress-ring" width="55" height="55">
-            <circle class="progress-bg" cx="27.5" cy="27.5" r="25"></circle>
-            <circle class="progress-indicator" cx="27.5" cy="27.5" r="25"></circle>
-          </svg>
-          <span class="arrow up">↑</span>
-        </button>
+        <button class="scroll-to-top" aria-label="Scroll to top">
+    <!-- Progress Ring -->
+    <svg class="progress-ring" width="100%" height="100%">
+        <!-- Background ring (invisible) -->
+        <circle class="progress-bg" 
+                cx="50%" cy="50%" 
+                r="var(--r)" />
+        <!-- Progress indicator -->
+        <circle class="progress-indicator" 
+                cx="50%" cy="50%" 
+                r="var(--r)" />
+    </svg>
+
+    <!-- Arrow -->
+    <span class="arrow up">&#9650;</span>
+</button>
 
 
     <iframe
