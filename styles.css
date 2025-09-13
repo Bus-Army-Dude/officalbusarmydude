@@ -147,31 +147,25 @@ body {
 }
 
 /* --- Profile Status --- */
+/* ✨ UPDATED AND CORRECTED ✨ */
 .profile-status-container {
     position: absolute;
-    width: 12.5%;  /* 12.5% of profile pic width, scales dynamically */
+    width: 15%; /* Slightly larger for better visibility */
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    border: 2px solid var(--content-bg);
+    border: 3px solid var(--content-bg); /* A slightly thicker border looks better */
     box-shadow: var(--bubble-shadow);
-    background: var(--content-bg);
-    backdrop-filter: var(--backdrop-blur);
-    -webkit-backdrop-filter: var(--backdrop-blur);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /* Anchor half inside, half outside profile pic */
-    bottom: 0;
-    right: 0;
-    transform: translate(50%, 50%);
     z-index: 2;
+
+    /* Corrected positioning to anchor it to the profile picture */
+    bottom: 2%;
+    right: 2%;
 }
 
-.profile-status-container.status-online   { background-color: #31a24c; }
-.profile-status-container.status-idle     { background-color: #ffc107; }
-.profile-status-container.status-dnd      { background-color: #dc3545; }
-.profile-status-container.status-offline  { background-color: #adb5bd; }
+.profile-status-container.status-online    { background-color: #31a24c; }
+.profile-status-container.status-idle      { background-color: #ffc107; }
+.profile-status-container.status-dnd       { background-color: #dc3545; }
+.profile-status-container.status-offline   { background-color: #adb5bd; }
 
 /* --- Username & Verified --- */
 .username-checkmark {
@@ -253,12 +247,12 @@ body {
 /* --- Responsive --- */
 @media screen and (max-width: 1024px) {
     .profile-pic-wrapper { width: 8.5rem; height: 8.5rem; }
-    .profile-status-container { width: 12.5%; }
+    .profile-status-container { width: 15%; }
 }
 
 @media screen and (max-width: 768px) {
     .profile-pic-wrapper { width: 7.5rem; height: 7.5rem; }
-    .profile-status-container { width: 14%; }
+    .profile-status-container { width: 16%; }
     .settings-button, .merch-button { width: 2.375rem; height: 2.375rem; }
     .username-checkmark h1 { font-size: 1.8rem; }
     .profile-bio { font-size: 0.95rem; }
@@ -266,7 +260,7 @@ body {
 
 @media screen and (max-width: 480px) {
     .profile-pic-wrapper { width: 6.25rem; height: 6.25rem; }
-    .profile-status-container { width: 16%; }
+    .profile-status-container { width: 18%; }
     .settings-button, .merch-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
     .settings-button { right: 0.9375rem; }
     .merch-button { left: 0.9375rem; }
