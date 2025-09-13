@@ -23,23 +23,33 @@ class SettingsManager {
             console.log("SettingsManager: DOMContentLoaded. Initializing UI controls and applying settings.");
             this.initializeControls();      // Set up UI elements based on loaded settings
             this.applyAllSettings();        // Apply all visual settings
-            this.setupEventListeners();     // Add event listeners for user interactions
+            this.setupEventListeners();     // Add event listeners for user interactions with settings controls
 
             // Listen for changes in the operating system's theme preference
+            // This is relevant when the website's appearanceMode is set to 'device'
             if (window.matchMedia) {
                 this.deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+                // Store the bound listener function so it can be correctly removed later if needed
                 this._boundDeviceThemeChangeHandler = this.handleDeviceThemeChange.bind(this);
                 this.deviceThemeMedia.addEventListener('change', this._boundDeviceThemeChangeHandler);
             }
 
-            // Listen for settings changes made in other tabs
+            // Listen for settings changes made in other tabs or windows of the same website
+            // This ensures consistency across multiple open instances of the site
             this._boundStorageHandler = this.handleStorageChange.bind(this);
             window.addEventListener('storage', this._boundStorageHandler);
+
+            // Dynamically set the current year in the footer if the element exists
+            const yearElement = document.getElementById('year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
         });
     }
 
     /**
-     * Loads settings from localStorage, falling back to defaults if invalid.
+     * Loads settings from localStorage. If no settings are found or if they are invalid,
+     * it falls back to the default settings.
      * @returns {object} The loaded or default settings.
      */
     loadSettings() {
