@@ -1379,12 +1379,12 @@ body {
 }
 
 /* ======================== */
-/* Scroll to Top – Neon Onyx Glass */
+/* Scroll to Top – Clean Neon Onyx Glass */
 /* ======================== */
 .scroll-to-top {
     position: fixed;
     bottom: 25px;
-    left: 25px; /* left side */
+    left: 25px; /* keep on left */
     width: 55px;
     height: 55px;
     border: none;
@@ -1393,17 +1393,17 @@ body {
     border-radius: 50%;
 
     /* Glass effect */
-    background: color-mix(in srgb, var(--content-bg) 70%, transparent);
-    backdrop-filter: blur(12px) saturate(120%);
-    -webkit-backdrop-filter: blur(12px) saturate(120%);
-    border: 1px solid color-mix(in srgb, var(--border-color) 30%, transparent);
+    background: color-mix(in srgb, var(--content-bg) 60%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
 
-    /* Animation base */
-    box-shadow: 0 8px 25px color-mix(in srgb, var(--shadow-color) 60%, transparent);
-    transform: scale(0.8);
+    /* Soft glow + animation base */
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--shadow-color) 50%, transparent);
+    transform: scale(0.85);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .scroll-to-top.visible {
@@ -1414,7 +1414,7 @@ body {
 
 .scroll-to-top:hover {
     transform: scale(1.08) translateY(-3px);
-    box-shadow: 0 12px 30px color-mix(in srgb, var(--shadow-color) 70%, transparent);
+    box-shadow: 0 0 20px var(--accent-color), 0 0 35px var(--accent-color);
 }
 
 /* Progress ring */
@@ -1425,13 +1425,13 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+    border-radius: 50%; /* ensure circle crop */
+    overflow: visible;
 }
 
 .progress-bg {
     fill: none;
-    stroke: color-mix(in srgb, var(--border-color) 50%, transparent);
-    stroke-width: 3;
-    opacity: 0.5;
+    stroke: transparent; /* remove ugly gray background ring */
 }
 
 .progress-indicator {
@@ -1452,23 +1452,16 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
-    font-size: 26px;
+    font-size: 24px;
     color: var(--accent-color);
     pointer-events: none;
-    font-weight: 800;
-    text-shadow: 0 0 6px var(--accent-color),
-                 0 0 12px var(--accent-color);
+    font-weight: 700;
+    text-shadow: 0 0 6px var(--accent-color), 0 0 12px var(--accent-color);
     transition: transform 0.5s ease;
 }
 
-/* Arrow states */
-.arrow.up {
-    transform: translate(-50%, -50%) rotate(0deg);
-}
-
-.arrow.down {
-    transform: translate(-50%, -50%) rotate(180deg);
-}
+.arrow.up { transform: translate(-50%, -50%) rotate(0deg); }
+.arrow.down { transform: translate(-50%, -50%) rotate(180deg); }
 
 /* Responsive */
 @media screen and (max-width: 768px) {
