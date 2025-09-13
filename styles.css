@@ -1382,21 +1382,27 @@ body {
 /* ======================== */
 .scroll-to-top {
     position: fixed;
-    bottom: 20px; /* slightly closer on small screens */
+    bottom: 20px;
     left: 20px;
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 9999;
+
+    /* Glass orb style */
     background: color-mix(in srgb, var(--content-bg) 60%, transparent);
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     border: 1px solid color-mix(in srgb, var(--border-color) 25%, transparent);
     box-shadow: 0 4px 20px color-mix(in srgb, var(--shadow-color) 50%, transparent);
+
+    /* Animation */
     transform: scale(0.85);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
 }
 
 .scroll-to-top.visible {
@@ -1406,76 +1412,91 @@ body {
 }
 
 .scroll-to-top:hover {
-    transform: scale(1.08) translateY(-2px);
-    box-shadow: 0 0 18px var(--accent-color), 0 0 28px var(--accent-color);
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 0 20px var(--accent-color), 0 0 35px var(--accent-color);
 }
 
+/* Progress ring wrapper */
 .progress-ring {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 90%; /* slightly smaller ring on mobile */
+    width: 90%; /* scales inside orb */
     height: 90%;
     transform: translate(-50%, -50%) rotate(-90deg);
     border-radius: 50%;
+    overflow: visible;
 }
 
+/* Background ring hidden */
+.progress-bg {
+    fill: none;
+    stroke: transparent;
+}
+
+/* Progress indicator */
 .progress-indicator {
+    fill: none;
     stroke: var(--accent-color);
     stroke-width: 3;
     stroke-linecap: round;
     stroke-dasharray: 141;
     stroke-dashoffset: 141;
-    filter: drop-shadow(0 0 5px var(--accent-color)) drop-shadow(0 0 10px var(--accent-color));
+    filter: drop-shadow(0 0 6px var(--accent-color))
+            drop-shadow(0 0 12px var(--accent-color));
     transition: stroke-dashoffset 0.2s ease-out, filter 0.2s ease-out;
 }
 
+/* Arrow */
 .arrow {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
-    font-size: 18px; /* smaller arrow */
+    font-size: 22px;
     line-height: 1;
     color: var(--accent-color);
     pointer-events: none;
     font-weight: 700;
-    text-shadow: 0 0 4px var(--accent-color), 0 0 8px var(--accent-color);
-    transition: transform 0.4s ease;
+    text-shadow: 0 0 6px var(--accent-color), 0 0 12px var(--accent-color);
+    transition: transform 0.5s ease, font-size 0.3s ease;
 }
 
 .arrow.up { transform: translate(-50%, -50%) rotate(0deg); }
 .arrow.down { transform: translate(-50%, -50%) rotate(180deg); }
 
-.scroll-to-top.spin-animation {
-    animation: orb-spin 0.5s ease forwards;
-}
-
-@keyframes orb-spin {
-    0%   { transform: scale(1) rotateX(0deg) rotateY(0deg); }
-    50%  { transform: scale(1.05) rotateX(180deg) rotateY(180deg); }
-    100% { transform: scale(1) rotateX(360deg) rotateY(360deg); }
-}
-
-/* ======================== */
-/* Responsive Tweaks */
-/* ======================== */
+/* ==================== */
+/* Responsive scaling */
+/* ==================== */
 @media screen and (max-width: 768px) {
-    .scroll-to-top { width: 45px; height: 45px; bottom: 15px; left: 15px; }
-    .arrow { font-size: 16px; }
+    .scroll-to-top {
+        width: 48px;
+        height: 48px;
+        bottom: 18px;
+        left: 18px;
+    }
+    .arrow {
+        font-size: 20px;
+    }
     .progress-indicator {
-        stroke-dasharray: 120;
-        stroke-dashoffset: 120;
+        stroke-dasharray: 125;
+        stroke-dashoffset: 125;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .scroll-to-top { width: 40px; height: 40px; bottom: 12px; left: 12px; }
-    .arrow { font-size: 14px; }
-    .progress-ring { width: 85%; height: 85%; }
+    .scroll-to-top {
+        width: 42px;
+        height: 42px;
+        bottom: 15px;
+        left: 15px;
+    }
+    .arrow {
+        font-size: 18px;
+    }
     .progress-indicator {
-        stroke-dasharray: 105;
-        stroke-dashoffset: 105;
+        stroke-dasharray: 110;
+        stroke-dashoffset: 110;
     }
 }
 
