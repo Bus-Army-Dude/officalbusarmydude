@@ -2451,3 +2451,25 @@ body.focus-outline-disabled :focus-visible {
     #scrollTopBtn { width: 2.8125rem; height: 2.8125rem; bottom: 0.9375rem; left: 0.9375rem; } /* 45px, 15px */
     .arrow { font-size: 1.25rem; } /* 20px */
 }
+
+/* Disable motion and effects */
+
+.hover-animations-disabled .social-button:hover,
+.hover-animations-disabled .link-button:hover,
+.hover-animations-disabled .disabilities-section a:hover {
+    background: initial;
+    border-color: initial;
+    color: initial;
+    transform: none;
+    box-shadow: none;
+}
+
+.hover-animations-disabled .tech-item:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.hover-animations-disabled * {
+   transition: none !important;
+   animation: none !important;
+}
