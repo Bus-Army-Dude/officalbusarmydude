@@ -85,80 +85,59 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-const scrollToTopBtn = document.querySelector("#scrollToTopBtn");
-const progressIndicator = document.querySelector(".progress-indicator");
+const scrollToTopBtn = document.querySelector("#scrollTopBtn");
 const arrow = document.querySelector(".scroll-to-top .arrow");
+const progressCircle = document.querySelector(".progress-indicator");
 
-let lastScroll = window.scrollY;
+if (scrollToTopBtn && arrow && progressCircle) {
+  const radius = progressCircle.r.baseVal.value;
+  const circumference = 2 * Math.PI * radius;
+  progressCircle.style.strokeDasharray = circumference;
+  progressCircle.style.strokeDashoffset = circumference;
 
-if (scrollToTopBtn && progressIndicator && arrow) {
-    // Get radius dynamically from the SVG circle
-    const radius = progressIndicator.r.baseVal.value;
-    const circumference = 2 * Math.PI * radius;
+  let lastScroll = 0;
 
-    // Apply circumference dynamically
-    progressIndicator.style.strokeDasharray = `${circumference}`;
-    progressIndicator.style.strokeDashoffset = `${circumference}`;
+  const updateProgress = () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollY = window.scrollY;
+    const progress = totalHeight > 0 ? (scrollY / totalHeight) * circumference : 0;
+    progressCircle.style.strokeDashoffset = circumference - progress;
 
-    const showButtonOnScroll = () => {
-        if (window.scrollY > 200) {
-            scrollToTopBtn.classList.add("visible");
-        } else {
-            scrollToTopBtn.classList.remove("visible");
-        }
-    };
+    if (scrollY > 200) {
+      scrollToTopBtn.classList.add("visible");
+    } else {
+      scrollToTopBtn.classList.remove("visible");
+    }
 
-    const updateProgressRing = () => {
-        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) : 0;
+    // Neon glow intensity scales with scroll progress
+    const glowIntensity = Math.min(1, scrollY / totalHeight);
+    progressCircle.style.filter = `
+      drop-shadow(0 0 ${6 + 6 * glowIntensity}px var(--accent-color))
+      drop-shadow(0 0 ${12 + 12 * glowIntensity}px var(--accent-color))
+    `;
 
-        // Adjust stroke offset based on scroll
-        const offset = circumference - scrollPercentage * circumference;
-        progressIndicator.style.strokeDashoffset = offset;
+    // Smooth arrow rotation
+    if (scrollY > lastScroll + 5) {
+      arrow.classList.remove("up");
+      arrow.classList.add("down");
+    } else if (scrollY < lastScroll - 5) {
+      arrow.classList.remove("down");
+      arrow.classList.add("up");
+    }
 
-        // Neon glow intensity scales with scroll
-        const glowIntensity = Math.min(1, scrollPercentage);
-        progressIndicator.style.filter = `
-            drop-shadow(0 0 ${6 + 6 * glowIntensity}px var(--accent-color))
-            drop-shadow(0 0 ${12 + 12 * glowIntensity}px var(--accent-color))
-        `;
-    };
+    lastScroll = scrollY;
+  };
 
-    const updateArrowDirection = () => {
-        if (document.body.classList.contains("no-motion")) {
-            arrow.classList.remove("down");
-            arrow.classList.add("up"); // locked up in no-motion mode
-            return;
-        }
+  const scrollToTop = () => {
+    arrow.classList.remove("down");
+    arrow.classList.add("up"); // rotate up when clicked
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-        if (window.scrollY > lastScroll + 5) {
-            arrow.classList.remove("up");
-            arrow.classList.add("down");
-        } else if (window.scrollY < lastScroll - 5) {
-            arrow.classList.remove("down");
-            arrow.classList.add("up");
-        }
-        lastScroll = window.scrollY;
-    };
-
-    const scrollToTop = () => {
-        arrow.classList.remove("down");
-        arrow.classList.add("up");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
-    window.addEventListener("scroll", () => {
-        showButtonOnScroll();
-        updateProgressRing();
-        updateArrowDirection();
-    });
-
-    scrollToTopBtn.addEventListener("click", scrollToTop);
-
-    // Initialize on load
-    showButtonOnScroll();
-    updateProgressRing();
+  window.addEventListener("scroll", updateProgress);
+  scrollToTopBtn.addEventListener("click", scrollToTop);
 }
+
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
     const acceptCookiesBtn = document.getElementById('cookieAccept');
