@@ -85,21 +85,53 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-/* Spin animation for the orb */
-.scroll-to-top.spin-animation {
-    animation: orb-spin 0.6s ease forwards;
+const scrollButton = document.querySelector('.scroll-to-top');
+const arrow = scrollButton.querySelector('.arrow');
+const progressCircle = scrollButton.querySelector('.progress-indicator');
+
+let lastScroll = window.scrollY;
+const radius = 22.5;
+const circumference = 2 * Math.PI * radius;
+
+progressCircle.style.strokeDasharray = `${circumference}`;
+progressCircle.style.strokeDashoffset = `${circumference}`;
+
+function updateProgress() {
+    const scrollTop = window.scrollY;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollFraction = scrollTop / scrollHeight;
+    const offset = circumference - scrollFraction * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+
+    if (scrollTop > 100) {
+        scrollButton.classList.add('visible');
+    } else {
+        scrollButton.classList.remove('visible');
+    }
+
+    if (scrollTop > lastScroll) {
+        arrow.classList.remove('up');
+        arrow.classList.add('down');
+    } else if (scrollTop < lastScroll) {
+        arrow.classList.remove('down');
+        arrow.classList.add('up');
+    }
+
+    lastScroll = scrollTop;
 }
 
-@keyframes orb-spin {
-    0%   { transform: scale(1) rotateX(0deg) rotateY(0deg); }
-    50%  { transform: scale(1.05) rotateX(180deg) rotateY(180deg); }
-    100% { transform: scale(1) rotateX(360deg) rotateY(360deg); }
-}
+window.addEventListener('scroll', updateProgress);
 
-/* Smooth arrow rotation during spin */
-.scroll-to-top.spin-animation .arrow {
-    transition: transform 0.6s ease;
-}
+scrollButton.addEventListener('click', () => {
+    scrollButton.classList.add('spin-animation');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+        scrollButton.classList.remove('spin-animation');
+        arrow.classList.remove('down');
+        arrow.classList.add('up');
+    }, 600);
+});
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
