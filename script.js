@@ -85,87 +85,58 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 1000);
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Selectors for the scroll-to-top button elements
-    const scrollToTopBtn = document.querySelector("#scrollTopBtn");
-    const progressIndicator = document.querySelector(".progress-indicator");
-    const arrow = document.querySelector(".scroll-to-top .arrow");
+const scrollToTopBtn = document.querySelector("#scrollTopBtn");
+const arrow = document.querySelector(".scroll-to-top .arrow");
+const progressCircle = document.querySelector(".progress-indicator");
 
-    // Exit if the button and its parts aren't found on the page
-    if (!scrollToTopBtn || !progressIndicator || !arrow) {
-        return;
+if (scrollToTopBtn && arrow && progressCircle) {
+  const radius = progressCircle.r.baseVal.value;
+  const circumference = 2 * Math.PI * radius;
+  progressCircle.style.strokeDasharray = circumference;
+  progressCircle.style.strokeDashoffset = circumference;
+
+  let lastScroll = 0;
+
+  const updateProgress = () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollY = window.scrollY;
+    const progress = totalHeight > 0 ? (scrollY / totalHeight) * circumference : 0;
+    progressCircle.style.strokeDashoffset = circumference - progress;
+
+    if (scrollY > 200) {
+      scrollToTopBtn.classList.add("visible");
+    } else {
+      scrollToTopBtn.classList.remove("visible");
     }
 
-    let lastScroll = window.scrollY;
+    // Neon glow intensity scales with scroll progress
+    const glowIntensity = Math.min(1, scrollY / totalHeight);
+    progressCircle.style.filter = `
+      drop-shadow(0 0 ${6 + 6 * glowIntensity}px var(--accent-color))
+      drop-shadow(0 0 ${12 + 12 * glowIntensity}px var(--accent-color))
+    `;
 
-    // --- Original Functions from your code ---
-    const showButtonOnScroll = () => {
-        if (window.scrollY > 200) {
-            scrollToTopBtn.classList.add("visible");
-        } else {
-            scrollToTopBtn.classList.remove("visible");
-        }
-    };
+    // Smooth arrow rotation
+    if (scrollY > lastScroll + 5) {
+      arrow.classList.remove("up");
+      arrow.classList.add("down");
+    } else if (scrollY < lastScroll - 5) {
+      arrow.classList.remove("down");
+      arrow.classList.add("up");
+    }
 
-    const updateProgressRing = () => {
-        const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = totalScrollHeight > 0 ? (window.scrollY / totalScrollHeight) * 100 : 0;
-        const radius = progressIndicator.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (scrollPercentage / 100) * circumference;
-        progressIndicator.style.strokeDashoffset = offset;
-    };
+    lastScroll = scrollY;
+  };
 
-    const updateArrowDirection = () => {
-        if (window.scrollY > lastScroll) {
-            arrow.textContent = "↓"; // Scrolling down
-        } else {
-            arrow.textContent = "↑"; // Scrolling up
-        }
-        lastScroll = window.scrollY;
-    };
+  const scrollToTop = () => {
+    arrow.classList.remove("down");
+    arrow.classList.add("up"); // rotate up when clicked
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        arrow.textContent = "↑";
-    };
-
-    // --- NEW Function to handle settings ---
-    const handleScrollAndSettings = () => {
-        // FIRST, check if the setting is disabled.
-        if (document.body.classList.contains('scroll-to-top-disabled')) {
-            // If it is disabled, make sure the button is hidden and stop.
-            scrollToTopBtn.classList.remove("visible");
-            return;
-        }
-
-        // If the setting is NOT disabled, run all the normal functions.
-        showButtonOnScroll();
-        updateProgressRing();
-        updateArrowDirection();
-    };
-
-
-    // --- Event Listeners ---
-    window.addEventListener("scroll", handleScrollAndSettings);
-    scrollToTopBtn.addEventListener("click", scrollToTop);
-
-    // Initial check when the page loads
-    handleScrollAndSettings();
-
-    // Create an observer to watch for class changes on the body element.
-    // This makes the toggle on the settings page work instantly.
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.attributeName === 'class') {
-                // Re-run the handler to immediately show or hide the button
-                handleScrollAndSettings();
-            }
-        });
-    });
-
-    observer.observe(document.body, { attributes: true });
-});
+  window.addEventListener("scroll", updateProgress);
+  scrollToTopBtn.addEventListener("click", scrollToTop);
+}
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
