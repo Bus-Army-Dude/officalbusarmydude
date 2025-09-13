@@ -90,51 +90,45 @@ setInterval(updateTime, 1000);
 // ========================
 
 const scrollBtn = document.querySelector('.scroll-to-top');
-const arrow = scrollBtn.querySelector('.arrow');
-const progressIndicator = scrollBtn.querySelector('.progress-indicator');
+const progress = document.querySelector('.progress-indicator');
+const arrow = document.querySelector('.arrow');
+const radius = progress.r.baseVal.value;
+const circumference = 2 * Math.PI * radius;
 
-let lastScrollY = window.scrollY;
+progress.style.strokeDasharray = `${circumference}`;
+progress.style.strokeDashoffset = `${circumference}`;
 
-// Update orb visibility and arrow direction
-function updateScrollOrb() {
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollFraction = window.scrollY / scrollHeight;
+function setProgress(percent) {
+    const offset = circumference - (percent / 100) * circumference;
+    progress.style.strokeDashoffset = offset;
+}
 
-    // Show orb after scrolling down a bit
-    if (window.scrollY > 100) {
+window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+
+    setProgress(scrollPercent);
+
+    // Show/hide button
+    if (scrollTop > 100) {
         scrollBtn.classList.add('visible');
-    } else {
-        scrollBtn.classList.remove('visible');
-    }
-
-    // Arrow rotation based on scroll direction
-    if (window.scrollY > lastScrollY) {
+        // Arrow points down if scrolling down
         arrow.classList.remove('up');
         arrow.classList.add('down');
     } else {
+        scrollBtn.classList.remove('visible');
         arrow.classList.remove('down');
         arrow.classList.add('up');
     }
-    lastScrollY = window.scrollY;
+});
 
-    // Update progress ring
-    const circumference = parseFloat(progressIndicator.getAttribute('stroke-dasharray'));
-    const offset = circumference * (1 - scrollFraction);
-    progressIndicator.style.strokeDashoffset = offset;
-}
-
-// Scroll to top with spin animation
-function scrollToTop() {
-    arrow.classList.add('spin-animation');
+// Scroll to top on click
+scrollBtn.addEventListener('click', () => {
+    arrow.classList.remove('down');
+    arrow.classList.add('up');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(() => arrow.classList.remove('spin-animation'), 500); // reset spin
-}
-
-window.addEventListener('scroll', updateScrollOrb);
-scrollBtn.addEventListener('click', scrollToTop);
-
-// Initial call to set position on page load
-updateScrollOrb();
+});
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
