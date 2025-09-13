@@ -1,6 +1,6 @@
 :root {
     /* --- Modern Base Sizing --- */
-    font-size: var(--font-size-base, 16px);
+	font-size: 16px;
     --line-height-base: 1.65;
 
     /* --- Dark Mode (default) --- */
