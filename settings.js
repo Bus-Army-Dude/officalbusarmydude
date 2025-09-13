@@ -9,7 +9,7 @@ class SettingsManager {
         // Default settings for the website
         this.defaultSettings = {
             appearanceMode: 'device', // Options: 'device', 'dark', 'light'
-            fontSize: 16,             // Default font size in pixels
+            fontSize: 20,             // Default font size in pixels
             focusOutline: 'disabled', // Options: 'enabled', 'disabled'
             motionEffects: 'enabled', // Correct property for motion
         };
