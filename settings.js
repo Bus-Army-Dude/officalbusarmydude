@@ -11,19 +11,18 @@ class SettingsManager {
             appearanceMode: 'device', // Options: 'device', 'dark', 'light'
             fontSize: 16,             // Default font size in pixels
             focusOutline: 'disabled', // Options: 'enabled', 'disabled'
-            motionEffects: 'enabled', // ADDED: 'enabled' or 'disabled'
+            motionEffects: 'enabled', // Correct property for motion
         };
 
         // Load current settings from localStorage or use defaults
         this.settings = this.loadSettings();
-        this.deviceThemeMedia = null; // To store the media query list for OS theme changes
+        this.deviceThemeMedia = null;
 
-        // Defer DOM-related initialization until the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', () => {
             console.log("SettingsManager: DOMContentLoaded. Initializing UI controls and applying settings.");
-            this.initializeControls();      // Set up UI elements based on loaded settings
-            this.applyAllSettings();        // Apply all visual settings
-            this.setupEventListeners();     // Add event listeners for user interactions
+            this.initializeControls();
+            this.applyAllSettings();
+            this.setupEventListeners();
 
             if (window.matchMedia) {
                 this.deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
@@ -33,11 +32,6 @@ class SettingsManager {
 
             this._boundStorageHandler = this.handleStorageChange.bind(this);
             window.addEventListener('storage', this._boundStorageHandler);
-            
-            const yearElement = document.getElementById('year');
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
-            }
         });
     }
 
@@ -46,6 +40,7 @@ class SettingsManager {
             const storedSettings = localStorage.getItem('websiteSettings');
             if (storedSettings) {
                 const parsedSettings = JSON.parse(storedSettings);
+                // Merge with defaults to ensure all keys are present
                 return { ...this.defaultSettings, ...parsedSettings };
             }
         } catch (error) {
@@ -60,13 +55,18 @@ class SettingsManager {
     }
 
     initializeControls() {
+        // Appearance Mode Control
         const appearanceModeControl = document.getElementById('appearanceModeControl');
         if (appearanceModeControl) {
-            appearanceModeControl.querySelectorAll('button').forEach(button => button.classList.remove('active'));
-            const activeButton = appearanceModeControl.querySelector(`button[data-value="${this.settings.appearanceMode}"]`);
-            if (activeButton) activeButton.classList.add('active');
+            appearanceModeControl.querySelectorAll('button').forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.value === this.settings.appearanceMode) {
+                    button.classList.add('active');
+                }
+            });
         }
 
+        // Text Size Slider
         const textSizeSlider = document.getElementById('text-size-slider');
         const textSizeValueDisplay = document.getElementById('textSizeValue');
         if (textSizeSlider && textSizeValueDisplay) {
@@ -75,11 +75,13 @@ class SettingsManager {
             this.updateSliderGradient(textSizeSlider);
         }
 
+        // Focus Outline Toggle
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
             focusOutlineToggle.checked = this.settings.focusOutline === 'enabled';
         }
 
+        // Motion & Effects Toggle
         const motionEffectsToggle = document.getElementById('hoverAnimationsToggle');
         if (motionEffectsToggle) {
             motionEffectsToggle.checked = this.settings.motionEffects === 'enabled';
@@ -87,6 +89,7 @@ class SettingsManager {
     }
 
     setupEventListeners() {
+        // Appearance Mode Control
         const appearanceModeControl = document.getElementById('appearanceModeControl');
         if (appearanceModeControl) {
             appearanceModeControl.addEventListener('click', (event) => {
@@ -100,6 +103,7 @@ class SettingsManager {
             });
         }
 
+        // Text Size Slider
         const textSizeSlider = document.getElementById('text-size-slider');
         if (textSizeSlider) {
             textSizeSlider.addEventListener('input', (event) => {
@@ -110,6 +114,7 @@ class SettingsManager {
             });
         }
 
+        // Focus Outline Toggle
         const focusOutlineToggle = document.getElementById('focusOutlineToggle');
         if (focusOutlineToggle) {
             focusOutlineToggle.addEventListener('change', (event) => {
@@ -118,7 +123,8 @@ class SettingsManager {
                 this.saveSettings();
             });
         }
-        
+
+        // Motion & Effects Toggle
         const motionEffectsToggle = document.getElementById('hoverAnimationsToggle');
         if (motionEffectsToggle) {
             motionEffectsToggle.addEventListener('change', (event) => {
@@ -128,6 +134,7 @@ class SettingsManager {
             });
         }
 
+        // Reset Settings Button
         const resetButton = document.getElementById('resetSettings');
         if (resetButton) {
             resetButton.addEventListener('click', () => this.resetSettings());
@@ -183,10 +190,13 @@ class SettingsManager {
     }
 
     resetSettings() {
-        this.settings = { ...this.defaultSettings };
-        this.initializeControls();
-        this.applyAllSettings();
-        this.saveSettings();
+        if (confirm('Are you sure you want to reset all settings to their defaults? This action cannot be undone.')) {
+            this.settings = { ...this.defaultSettings };
+            this.initializeControls();
+            this.applyAllSettings();
+            this.saveSettings();
+            alert('Settings have been reset to their default values.');
+        }
     }
 
     updateSliderGradient(slider) {
