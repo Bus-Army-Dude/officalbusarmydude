@@ -191,26 +191,45 @@ body.dark-mode .segmented-control { background: var(--glass-bg-dark); border-col
 
 /* ========== iOS 26 Style Toggle Switch ========== */
 .md-switch {
-    width: 50px; height: 28px;
+    width: 52px; 
+    height: 32px;
     position: relative;
+    display: inline-block;
 }
-.md-switch input { opacity: 0; width:0; height:0; }
+.md-switch input { 
+    opacity: 0; 
+    width: 0; 
+    height: 0; 
+}
 .md-switch .track {
-    width: 100%; height: 100%;
-    border-radius: 14px;
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
     background: var(--toggle-off);
-    transition: background 0.25s;
+    border-radius: 999px;
+    transition: background 0.25s ease;
 }
 .md-switch .thumb {
     position: absolute;
-    top: 2px; left: 2px;
-    width: 24px; height: 24px;
+    top: 2px;
+    left: 2px;
+    width: 28px; 
+    height: 28px;
     border-radius: 50%;
-    background: var(--slider-thumb-color);
-    transition: left 0.25s;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.25s ease, background 0.25s ease;
 }
-.md-switch input:checked ~ .track { background: var(--toggle-on); }
-.md-switch input:checked ~ .track .thumb { left: 24px; }
+.md-switch input:checked ~ .track {
+    background: var(--toggle-on);
+}
+.md-switch input:checked ~ .track .thumb {
+    transform: translateX(20px);
+}
+
+/* Optional: subtle hover effect like iOS */
+.md-switch:hover .track { opacity: 0.85; }
 
 /* ========== Text Size Slider ========== */
 .text-size-control { display: flex; flex-direction: column; align-items: center; width: 100%; }
