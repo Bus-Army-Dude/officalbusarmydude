@@ -377,8 +377,8 @@ if (!window.settingsManagerInstance) {
     window.settingsManagerInstance = new SettingsManager();
 }
 
-// Add this at the end of your scripts.js or main.js
-const yearElement = document.querySelector('#current-year');
-if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
+// Set current year in footer
+const yearSpan = document.getElementById('year');
+if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
 }
