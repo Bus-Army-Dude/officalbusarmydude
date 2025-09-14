@@ -23,74 +23,131 @@
         <span class="version">v26.0</span>
       </div>
 
+      <!-- Appearance Section -->
       <div class="settings-subsection">
         <h2 class="subsection-title">Appearance</h2>
+
+        <!-- Light / Dark / Device -->
         <div class="setting-card">
-            <div class="setting-label">
-                <strong class="setting-title">Appearance</strong>
-                <p class="setting-description">Customize the look and feel of the interface.</p>
-            </div>
-            <div class="segmented-control" id="appearanceModeControl">
-                <button type="button" data-value="device" aria-pressed="false">Device</button>
-                <button type="button" data-value="light" aria-pressed="false">Light</button>
-                <button type="button" data-value="dark" aria-pressed="false">Dark</button>
-            </div>
+          <div class="setting-label">
+            <strong class="setting-title">Appearance Mode</strong>
+            <p class="setting-description">Choose light, dark, or follow your device setting.</p>
+          </div>
+          <div class="segmented-control" id="appearanceModeControl">
+            <button type="button" data-value="device">Device</button>
+            <button type="button" data-value="light">Light</button>
+            <button type="button" data-value="dark">Dark</button>
+          </div>
+        </div>
+
+        <!-- Theme Style -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <strong class="setting-title">Theme Style</strong>
+            <p class="setting-description">Switch between a clear or tinted glass effect.</p>
+          </div>
+          <div class="segmented-control" id="themeStyleControl">
+            <button type="button" data-value="clear">Clear</button>
+            <button type="button" data-value="tinted">Tinted</button>
+          </div>
+        </div>
+
+        <!-- Accent Color -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <strong class="setting-title">Accent Color</strong>
+            <p class="setting-description">Pick a custom highlight color.</p>
+          </div>
+          <input type="color" id="accentColorPicker" value="#3ddc84" aria-label="Choose accent color" />
         </div>
       </div>
 
-        <div class="settings-subsection">
-          <h2 class="subsection-title">Accessibility</h2>
-        
-          <div class="setting-card">
-              <div class="setting-label">
-                  <h3 class="setting-title">Text Size</h3>
-                  <p class="setting-description">Adjust the text size for better readability</p>
-              </div>
-            
-              <div class="text-size-control">
-                  <span id="textSizeValue" class="font-size-badge">16px</span>
-                
-                  <input
-                      type="range"
-                      id="text-size-slider"
-                      min="12"
-                      max="24"
-                      value="16"
-                      step="1"
-                      aria-label="Adjust text size"
-                  />
-              </div>
-          </div>
-        
-          <div class="setting-card focus-outline-setting-card">
-              <div class="setting-label">
-                  <h3 class="setting-title">Focus Outline</h3>
-                  <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
-              </div>
-            
-              <div class="md-switch" aria-hidden="false">
-                  <input type="checkbox" id="focusOutlineToggle" role="switch" aria-checked="false" aria-label="Toggle focus outline" />
-                  <div class="track" aria-hidden="true">
-                      <div class="thumb" aria-hidden="true"></div>
-                  </div>
-              </div>
-          </div>
+      <!-- Accessibility Section -->
+      <div class="settings-subsection">
+        <h2 class="subsection-title">Accessibility</h2>
 
-          <div class="setting-card">
-              <div class="setting-label">
-                  <h3 class="setting-title">Motion & Effects</h3>
-                  <p class="setting-description">Disable hover animations and other motion effects.</p>
-              </div>
-              <div class="md-switch" aria-hidden="false">
-                  <input type="checkbox" id="hoverAnimationsToggle" role="switch" aria-checked="false" aria-label="Toggle motion & effects" />
-                  <div class="track" aria-hidden="true">
-                      <div class="thumb" aria-hidden="true"></div>
-                  </div>
-              </div>
+        <!-- Text Size -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Text Size</h3>
+            <p class="setting-description">Adjust the text size for better readability</p>
           </div>
-          <!-- The "Scroll to Top Button" setting card has been removed -->
+          <div class="text-size-control">
+            <span id="textSizeValue" class="font-size-badge">16px</span>
+            <input
+              type="range"
+              id="text-size-slider"
+              min="12"
+              max="24"
+              value="16"
+              step="1"
+              aria-label="Adjust text size"
+            />
+          </div>
+        </div>
+
+        <!-- Focus Outline -->
+        <div class="setting-card focus-outline-setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Focus Outline</h3>
+            <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
+          </div>
+          <div class="md-switch">
+            <input type="checkbox" id="focusOutlineToggle" role="switch" aria-label="Toggle focus outline" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
+
+        <!-- Motion & Effects -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Motion & Effects</h3>
+            <p class="setting-description">Disable hover animations and other motion effects.</p>
+          </div>
+          <div class="md-switch">
+            <input type="checkbox" id="hoverAnimationsToggle" role="switch" aria-label="Toggle motion & effects" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
+
+        <!-- High Contrast -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">High Contrast Mode</h3>
+            <p class="setting-description">Increase contrast for easier readability.</p>
+          </div>
+          <div class="md-switch">
+            <input type="checkbox" id="highContrastToggle" role="switch" aria-label="Toggle high contrast mode" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
+
+        <!-- Dyslexia-Friendly Font -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Dyslexia-Friendly Font</h3>
+            <p class="setting-description">Enable a more readable font for dyslexic users.</p>
+          </div>
+          <div class="md-switch">
+            <input type="checkbox" id="dyslexiaFontToggle" role="switch" aria-label="Toggle dyslexia-friendly font" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
+
+        <!-- Underline Links -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Underline Links</h3>
+            <p class="setting-description">Always underline links to improve visibility.</p>
+          </div>
+          <div class="md-switch">
+            <input type="checkbox" id="underlineLinksToggle" role="switch" aria-label="Toggle underline links" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
       </div>
 
+      <!-- Danger Zone -->
       <div class="settings-subsection danger-zone">
         <h2 class="subsection-title">Danger Zone</h2>
         <div class="setting-card">
@@ -119,4 +176,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
