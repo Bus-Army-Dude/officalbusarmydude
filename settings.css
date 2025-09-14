@@ -1,306 +1,288 @@
 /* ===================================================== */
-/* == Settings Page – iOS 26 RC Inspired / Liquid Glass == */
+/* == Settings Page – iOS 26 + Liquid Glass Theme == */
 /* ===================================================== */
 
 :root {
-    /* Light Mode Colors */
+    /* Light Colors */
     --light-bg: #f2f4f7;
-    --light-content-bg: #ffffff;
-    --light-text: #212529;
-    --light-secondary-text: #5f6368;
-    --light-border: #e0e0e0;
+    --light-content-bg: rgba(255,255,255,0.65);
+    --light-text: #1c1c1e;
+    --light-secondary: #6e6e73;
+    --light-border: rgba(0,0,0,0.08);
     --light-accent: #3ddc84;
     --light-hover: #35c374;
-    --light-toggle-on: #3ddc84;
-    --light-toggle-off: #e6e6e6;
-    --light-red-color: #d93025;
-    --light-slider-track: #e6e6e6;
-    --light-slider-thumb: #ffffff;
 
-    /* Dark Mode Colors */
+    /* Dark Colors */
     --dark-bg: #121212;
-    --dark-content-bg: #1c1c1e;
-    --dark-text: #e6e6e6;
-    --dark-secondary-text: #b3b3b3;
-    --dark-border: #2c2c2e;
+    --dark-content-bg: rgba(28,28,30,0.55);
+    --dark-text: #f2f2f2;
+    --dark-secondary: #a0a0a0;
+    --dark-border: rgba(255,255,255,0.1);
     --dark-accent: #3ddc84;
     --dark-hover: #45e08f;
-    --dark-toggle-on: #3ddc84;
-    --dark-toggle-off: #3a3a3c;
-    --dark-red-color: #ea6d66;
-    --dark-slider-track: #2f2f31;
-    --dark-slider-thumb: #e6e6e6;
 
-    /* Default Theme (Light) */
+    /* Default Theme */
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
-    --secondary-text: var(--light-secondary-text);
+    --secondary-color: var(--light-secondary);
     --border-color: var(--light-border);
     --accent-color: var(--light-accent);
     --hover-color: var(--light-hover);
-    --toggle-on: var(--light-toggle-on);
-    --toggle-off: var(--light-toggle-off);
-    --red-color: var(--light-red-color);
-    --slider-track-color: var(--light-slider-track);
-    --slider-track-filled-color: var(--accent-color);
-    --slider-thumb-color: var(--light-slider-thumb);
 
-    /* Shadows */
-    --shadow-elevation-1: 0 0.0625rem 0.1875rem rgba(60,64,67,0.12);
-    --shadow-elevation-2: 0 0.25rem 0.75rem rgba(60,64,67,0.16);
-
-    /* Glass variables */
+    /* Glass */
     --glass-blur: blur(1.375rem);
-    --glass-bg-light: rgba(255, 255, 255, 0.65);
-    --glass-border-light: rgba(255, 255, 255, 0.35);
-    --glass-bg-dark: rgba(28, 28, 30, 0.55);
-    --glass-border-dark: rgba(255, 255, 255, 0.1);
+    --shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.12);
 
-    /* Slider progress */
-    --slider-value-percentage: 50%;
+    /* Slider */
+    --slider-value: 50%;
 }
 
-/* Dark Mode Overrides */
 body.dark-mode {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
+    --secondary-color: var(--dark-secondary);
     --border-color: var(--dark-border);
     --accent-color: var(--dark-accent);
     --hover-color: var(--dark-hover);
-    --toggle-on: var(--dark-toggle-on);
-    --toggle-off: var(--dark-toggle-off);
-    --red-color: var(--dark-red-color);
-    --slider-track-color: var(--dark-slider-track);
-    --slider-thumb-color: var(--dark-slider-thumb);
-    --shadow-elevation-1: 0 0.0625rem 0.1875rem rgba(0,0,0,0.6);
-    --shadow-elevation-2: 0 0.375rem 1.125rem rgba(0,0,0,0.6);
 }
 
-/* ================== General ================== */
+/* ================== Body ================== */
 body.settings-page {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
-    background-color: var(--bg-color);
+    font-family: 'SF Pro Text','Roboto',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+    background: var(--bg-color);
     color: var(--text-color);
-    font-size: var(--font-size-base, 1rem);
-    line-height: 1.4;
     margin: 0;
     padding: 0;
+    font-size: var(--font-size-base,16px);
 }
 
-/* ========== Container ========== */
-body.settings-page .container {
-    max-width: 57.5rem;
+/* ================== Container ================== */
+.settings-container {
+    max-width: 960px;
     margin: 0 auto;
-    padding: 1.875rem 1.25rem;
+    padding: 2rem 1rem;
 }
 
-/* ========== Settings Header ========== */
-body.settings-page .settings-header {
+/* ================== Header ================== */
+.settings-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.875rem;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    border-radius: 0.875rem;
-    padding: 1rem 1.25rem;
+    background: var(--content-bg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-elevation-2);
-}
-body.dark-mode .settings-header {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: var(--shadow-elevation-2);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
 }
 
-body.settings-page .settings-header h1 {
+.settings-header h1 {
+    font-weight: 600;
     font-size: 1.75rem;
-    font-weight: 500;
-    margin: 0;
-    color: var(--text-color);
 }
 
-body.settings-page .version {
-    font-size: 0.8125rem;
-    color: var(--secondary-text);
-    background-color: var(--border-color);
-    padding: 0.1875rem 0.5rem;
-    border-radius: 0.375rem;
+.version {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    background: var(--border-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
 }
 
-/* ========== Settings Subsection ========== */
-body.settings-page .settings-subsection {
-    border-radius: 0.75rem;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
+/* ================== Subsection ================== */
+.settings-subsection {
+    background: var(--content-bg);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-elevation-2);
-}
-body.dark-mode .settings-subsection {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: var(--shadow-elevation-2);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
 }
 
-body.settings-page .subsection-title {
+.subsection-title {
     font-size: 1rem;
     font-weight: 500;
     padding: 1rem 1.25rem;
-    margin: 0;
-    border-bottom: 0.0625rem solid var(--border-color);
-    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
-/* ========== Setting Card ========== */
-body.settings-page .setting-card {
-    padding: 1rem 1.25rem;
+/* ================== Setting Card ================== */
+.setting-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 3.5rem;
-    border-bottom: 0.0625rem solid var(--border-color);
-    position: relative;
-    overflow: hidden;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
 }
-body.settings-page .setting-card:last-child { border-bottom: none; }
-body.settings-page .setting-card:hover {
-    background-color: color-mix(in srgb, var(--bg-color) 50%, var(--content-bg));
-    box-shadow: var(--shadow-elevation-2);
+.setting-card:last-child { border-bottom: none; }
+.setting-card:hover {
+    background: color-mix(in srgb,var(--bg-color) 50%, var(--content-bg));
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
 }
-body.settings-page .setting-label { flex: 1; padding-right: 0.75rem; }
-body.settings-page .setting-title { font-size: 0.9375rem; font-weight: 500; margin: 0 0 0.25rem 0; }
-body.settings-page .setting-description { font-size: 0.8125rem; color: var(--secondary-text); margin: 0; }
+.setting-label {
+    flex: 1;
+    margin-right: 1rem;
+}
+.setting-title { font-weight: 500; margin-bottom: 0.25rem; }
+.setting-description { font-size: 0.875rem; color: var(--secondary-color); margin: 0; }
 
-/* ========== Segmented Controls ========== */
+/* ================== Segmented Controls ================== */
 .segmented-control {
     display: flex;
-    border-radius: 0.5rem;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
+    background: var(--content-bg);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
     overflow: hidden;
-    box-shadow: var(--shadow-elevation-1);
-}
-body.dark-mode .segmented-control {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
+    width: fit-content;
 }
 .segmented-control button {
-    flex: 1;
     padding: 0.5rem 1rem;
+    font-size: 0.875rem;
     border: none;
     background: transparent;
-    color: var(--secondary-text);
-    font-weight: 500;
+    color: var(--text-color);
+    flex: 1;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: all 0.2s ease;
 }
 .segmented-control button.active {
     background: var(--accent-color);
     color: #fff;
 }
 
-/* ========== iOS 26 Style Toggle Switch ========== */
-.md-switch {
-    width: 52px; 
-    height: 32px;
+/* ================== iOS-style Toggle ================== */
+.toggle {
     position: relative;
     display: inline-block;
+    width: 46px;
+    height: 28px;
 }
-.md-switch input { 
-    opacity: 0; 
-    width: 0; 
-    height: 0; 
-}
-.md-switch .track {
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
     position: absolute;
     cursor: pointer;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    background: var(--toggle-off);
-    border-radius: 999px;
-    transition: background 0.25s ease;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--toggle-off, #ccc);
+    border-radius: 34px;
+    transition: 0.4s;
 }
-.md-switch .thumb {
+.toggle-slider::before {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 28px; 
-    height: 28px;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
     border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transition: transform 0.25s ease, background 0.25s ease;
 }
-.md-switch input:checked ~ .track {
-    background: var(--toggle-on);
+.toggle input:checked + .toggle-slider {
+    background-color: var(--accent-color);
 }
-.md-switch input:checked ~ .track .thumb {
-    transform: translateX(20px);
+.toggle input:checked + .toggle-slider::before {
+    transform: translateX(18px);
 }
-.md-switch:hover .track { opacity: 0.85; }
 
-/* ========== Text Size Slider ========== */
-.text-size-control { flex-shrink: 0; width: 17.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
-#text-size-slider { -webkit-appearance: none; width: 100%; height: 0.25rem; border-radius: 999px; outline: none;
-    background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) var(--slider-value-percentage), var(--slider-track-color) var(--slider-value-percentage), var(--slider-track-color) 100%); }
-#text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
-#text-size-slider::-moz-range-thumb { width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
-#textSizeValue { font-size: 0.875rem; font-weight: 500; color: var(--text-color); }
+/* ================== Text Size Slider ================== */
+.text-size-control {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+#text-size-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-color) 50%, var(--slider-track-color) 50%);
+    outline: none;
+}
+#text-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px; width: 20px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    border: 2px solid var(--accent-color);
+    cursor: pointer;
+    margin-top: -7px;
+}
+#text-size-slider::-moz-range-thumb {
+    height: 20px; width: 20px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    border: 2px solid var(--accent-color);
+    cursor: pointer;
+}
 
-/* ========== Mouse Trail ========== */
+/* ================== Mouse Trail ================== */
 #mouse-trail { position: fixed; top:0; left:0; pointer-events:none; z-index:9999; }
-.trail { position:absolute; width:12px; height:12px; background:var(--accent-color); border-radius:50%; opacity:0.6; transform:translate(-50%,-50%); pointer-events:none; animation: trail-fade 0.8s forwards; }
+.trail {
+    position:absolute;
+    width:12px; height:12px;
+    background: var(--accent-color);
+    border-radius:50%;
+    opacity:0.6;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    animation: trail-fade 0.8s forwards;
+}
 @keyframes trail-fade { to { opacity:0; transform:translate(-50%,-50%) scale(0.3); } }
 
-/* ========== Loading Screen ========== */
-#loading-screen { position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg-color); z-index:9999; transition:opacity 0.5s ease, visibility 0.5s ease; }
+/* ================== Loading Screen ================== */
+#loading-screen {
+    position: fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: var(--bg-color);
+    z-index:9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
 #loading-screen.loaded { opacity:0; visibility:hidden; }
-#loading-screen .loader { font-size:2rem; font-weight:600; color:var(--accent-color); animation:pulse 1.2s infinite; }
+#loading-screen .loader {
+    font-size:2rem;
+    font-weight:600;
+    color: var(--accent-color);
+    animation:pulse 1.2s infinite;
+}
 @keyframes pulse { 0%,100% { transform:scale(1); opacity:0.7; } 50% { transform:scale(1.1); opacity:1; } }
 
-/* ========== Reset Button ========== */
+/* ================== Reset Button ================== */
 .reset-button {
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
     padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    font-weight: 500;
-    background: var(--glass-bg-light);
-    color: var(--text-color);
-    cursor: pointer;
-    transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    border-radius: 0.75rem;
+    cursor:pointer;
+    font-weight:500;
+    transition: all 0.2s ease;
 }
 .reset-button:hover {
-    background: color-mix(in srgb, var(--red-color) 25%, var(--glass-bg-light));
-    box-shadow: var(--shadow-elevation-2);
-    color: var(--content-bg);
-}
-body.dark-mode .reset-button:hover {
-    background: color-mix(in srgb, var(--red-color) 25%, var(--glass-bg-dark));
+    background: var(--red-color, #ea6d66);
+    color:#fff;
 }
 
-/* ============================== */
-/* Focus outline                  */
-/* ============================== */
-body.settings-page :focus-visible { outline: 0.125rem solid var(--accent-color); outline-offset:0.125rem; border-radius:0.375rem; }
-body.settings-page.focus-outline-disabled :focus-visible { outline:none !important; outline-offset:0 !important; }
+/* ================== Focus Outline ================== */
+:focus-visible { outline: 2px solid var(--accent-color); outline-offset:2px; }
+.focus-outline-disabled :focus-visible { outline:none; }
 
-/* ========== Responsive ========== */
-@media (max-width: 768px) {
-    body.settings-page .container { padding: 20px 15px; }
-    body.settings-page .settings-header h1 { font-size: 26px; }
-    body.settings-page .setting-card { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
-    body.settings-page .setting-label { width: 100%; }
+/* ================== Responsive ================== */
+@media (max-width:768px){
+    .settings-container{padding:1.5rem;}
+    .setting-card{flex-direction:column;align-items:flex-start;gap:0.5rem;}
 }
-@media (max-width: 480px) {
-    body.settings-page .container { padding: 15px 10px; }
-    body.settings-page .settings-header h1 { font-size: 22px; }
-    body.settings-page footer { padding: 15px; flex-direction: column; gap: 10px; }
+@media (max-width:480px){
+    .settings-header h1{font-size:1.5rem;}
+    .settings-container{padding:1rem;}
 }
