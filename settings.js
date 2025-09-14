@@ -1,101 +1,146 @@
 /**
  * settings.js
- * Manages all website settings including appearance (theme), font size, focus outline, and motion effects.
- * It loads settings from localStorage, applies them to the page,
- * and saves any changes made by the user.
+ * Manages all website settings including appearance, theme style,
+ * accent color, accessibility features, and visual flair.
  */
 class SettingsManager {
     constructor() {
-        // Default settings for the website
+        // Default settings
         this.defaultSettings = {
-            appearanceMode: 'device', // Options: 'device', 'dark', 'light'
-            fontSize: 16,             // Default font size in pixels
-            focusOutline: 'disabled', // Options: 'enabled', 'disabled'
-            motionEffects: 'enabled', // Correct property for motion
+            appearanceMode: 'device',   // device | light | dark
+            themeStyle: 'clear',        // clear | tinted
+            accentColor: '#3ddc84',
+            darkModeScheduler: 'off',   // off | sunset | custom
+            darkModeStart: '20:00',
+            darkModeEnd: '06:00',
+
+            fontSize: 16,               // 12–24 px
+            focusOutline: 'disabled',   // enabled | disabled
+            motionEffects: 'enabled',   // enabled | disabled
+            highContrast: 'disabled',
+            dyslexiaFont: 'disabled',
+            underlineLinks: 'disabled',
+
+            loadingScreen: 'disabled',
+            mouseTrail: 'disabled',
+            liveStatus: 'disabled'
         };
 
-        // Load current settings from localStorage or use defaults
         this.settings = this.loadSettings();
         this.deviceThemeMedia = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("SettingsManager: DOMContentLoaded. Initializing UI controls and applying settings.");
             this.initializeControls();
             this.applyAllSettings();
             this.setupEventListeners();
 
+            // Watch for system theme changes
             if (window.matchMedia) {
                 this.deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
                 this._boundDeviceThemeChangeHandler = this.handleDeviceThemeChange.bind(this);
                 this.deviceThemeMedia.addEventListener('change', this._boundDeviceThemeChangeHandler);
             }
 
+            // Watch for localStorage changes across tabs
             this._boundStorageHandler = this.handleStorageChange.bind(this);
             window.addEventListener('storage', this._boundStorageHandler);
         });
     }
 
+    // Load settings from localStorage
     loadSettings() {
         try {
             const storedSettings = localStorage.getItem('websiteSettings');
             if (storedSettings) {
-                const parsedSettings = JSON.parse(storedSettings);
-                // Merge with defaults to ensure all keys are present
-                return { ...this.defaultSettings, ...parsedSettings };
+                return { ...this.defaultSettings, ...JSON.parse(storedSettings) };
             }
-        } catch (error) {
-            console.error("SettingsManager: Error loading settings from localStorage. Using defaults.", error);
+        } catch (err) {
+            console.error("SettingsManager: error loading settings", err);
         }
         return { ...this.defaultSettings };
     }
 
-    validateFontSize(size) {
-        const parsedSize = parseInt(size, 10);
-        return (isNaN(parsedSize) || parsedSize < 12 || parsedSize > 24) ? this.defaultSettings.fontSize : parsedSize;
+    saveSettings() {
+        try {
+            localStorage.setItem('websiteSettings', JSON.stringify(this.settings));
+        } catch (err) {
+            console.error("SettingsManager: error saving settings", err);
+        }
     }
 
+    // ========================
+    // Initialize UI Controls
+    // ========================
     initializeControls() {
-        // Appearance Mode Control
+        // Appearance Mode
         const appearanceModeControl = document.getElementById('appearanceModeControl');
         if (appearanceModeControl) {
-            appearanceModeControl.querySelectorAll('button').forEach(button => {
-                button.classList.remove('active');
-                if (button.dataset.value === this.settings.appearanceMode) {
-                    button.classList.add('active');
-                }
+            appearanceModeControl.querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === this.settings.appearanceMode);
             });
         }
 
-        // Text Size Slider
-        const textSizeSlider = document.getElementById('text-size-slider');
-        const textSizeValueDisplay = document.getElementById('textSizeValue');
-        if (textSizeSlider && textSizeValueDisplay) {
-            textSizeSlider.value = this.settings.fontSize;
-            textSizeValueDisplay.textContent = `${this.settings.fontSize}px`;
-            this.updateSliderGradient(textSizeSlider);
+        // Theme Style
+        const themeStyleControl = document.getElementById('themeStyleControl');
+        if (themeStyleControl) {
+            themeStyleControl.querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === this.settings.themeStyle);
+            });
         }
 
-        // Focus Outline Toggle
-        const focusOutlineToggle = document.getElementById('focusOutlineToggle');
-        if (focusOutlineToggle) {
-            focusOutlineToggle.checked = this.settings.focusOutline === 'enabled';
+        // Accent Color
+        const accentPicker = document.getElementById('accentColorPicker');
+        if (accentPicker) {
+            accentPicker.value = this.settings.accentColor;
         }
 
-        // Motion & Effects Toggle
-        const motionEffectsToggle = document.getElementById('hoverAnimationsToggle');
-        if (motionEffectsToggle) {
-            motionEffectsToggle.checked = this.settings.motionEffects === 'enabled';
+        // Dark Mode Scheduler
+        const schedulerSelect = document.getElementById('darkModeScheduler');
+        if (schedulerSelect) {
+            schedulerSelect.value = this.settings.darkModeScheduler;
         }
+        const customInputs = document.getElementById('customTimeInputs');
+        if (customInputs) {
+            customInputs.style.display = (this.settings.darkModeScheduler === 'custom') ? 'block' : 'none';
+            document.getElementById('darkModeStart').value = this.settings.darkModeStart;
+            document.getElementById('darkModeEnd').value = this.settings.darkModeEnd;
+        }
+
+        // Text Size
+        const slider = document.getElementById('text-size-slider');
+        const badge = document.getElementById('textSizeValue');
+        if (slider && badge) {
+            slider.value = this.settings.fontSize;
+            badge.textContent = `${this.settings.fontSize}px`;
+        }
+
+        // Toggles
+        this.setToggle('focusOutlineToggle', this.settings.focusOutline);
+        this.setToggle('hoverAnimationsToggle', this.settings.motionEffects);
+        this.setToggle('highContrastToggle', this.settings.highContrast);
+        this.setToggle('dyslexiaFontToggle', this.settings.dyslexiaFont);
+        this.setToggle('underlineLinksToggle', this.settings.underlineLinks);
+        this.setToggle('loadingScreenToggle', this.settings.loadingScreen);
+        this.setToggle('mouseTrailToggle', this.settings.mouseTrail);
+        this.setToggle('liveStatusToggle', this.settings.liveStatus);
     }
 
+    setToggle(id, state) {
+        const el = document.getElementById(id);
+        if (el) el.checked = (state === 'enabled');
+    }
+
+    // ========================
+    // Event Listeners
+    // ========================
     setupEventListeners() {
-        // Appearance Mode Control
+        // Appearance Mode
         const appearanceModeControl = document.getElementById('appearanceModeControl');
         if (appearanceModeControl) {
-            appearanceModeControl.addEventListener('click', (event) => {
-                const clickedButton = event.target.closest('button');
-                if (clickedButton && !clickedButton.classList.contains('active')) {
-                    this.settings.appearanceMode = clickedButton.dataset.value;
+            appearanceModeControl.addEventListener('click', e => {
+                const btn = e.target.closest('button');
+                if (btn) {
+                    this.settings.appearanceMode = btn.dataset.value;
                     this.applyAppearanceMode();
                     this.saveSettings();
                     this.initializeControls();
@@ -103,56 +148,161 @@ class SettingsManager {
             });
         }
 
-        // Text Size Slider
-        const textSizeSlider = document.getElementById('text-size-slider');
-        if (textSizeSlider) {
-            textSizeSlider.addEventListener('input', (event) => {
-                this.settings.fontSize = this.validateFontSize(event.target.value);
+        // Theme Style
+        const themeStyleControl = document.getElementById('themeStyleControl');
+        if (themeStyleControl) {
+            themeStyleControl.addEventListener('click', e => {
+                const btn = e.target.closest('button');
+                if (btn) {
+                    this.settings.themeStyle = btn.dataset.value;
+                    this.applyThemeStyle();
+                    this.saveSettings();
+                    this.initializeControls();
+                }
+            });
+        }
+
+        // Accent Color
+        const accentPicker = document.getElementById('accentColorPicker');
+        if (accentPicker) {
+            accentPicker.addEventListener('input', e => {
+                this.settings.accentColor = e.target.value;
+                this.applyAccentColor();
+                this.saveSettings();
+            });
+        }
+
+        // Dark Mode Scheduler
+        const schedulerSelect = document.getElementById('darkModeScheduler');
+        if (schedulerSelect) {
+            schedulerSelect.addEventListener('change', e => {
+                this.settings.darkModeScheduler = e.target.value;
+                this.applyAppearanceMode();
+                this.saveSettings();
+                this.initializeControls();
+            });
+        }
+        const darkStart = document.getElementById('darkModeStart');
+        const darkEnd = document.getElementById('darkModeEnd');
+        if (darkStart && darkEnd) {
+            darkStart.addEventListener('change', e => {
+                this.settings.darkModeStart = e.target.value;
+                this.saveSettings();
+            });
+            darkEnd.addEventListener('change', e => {
+                this.settings.darkModeEnd = e.target.value;
+                this.saveSettings();
+            });
+        }
+
+        // Text Size
+        const slider = document.getElementById('text-size-slider');
+        if (slider) {
+            slider.addEventListener('input', e => {
+                this.settings.fontSize = parseInt(e.target.value, 10);
                 this.applyFontSize();
                 this.saveSettings();
                 this.initializeControls();
             });
         }
 
-        // Focus Outline Toggle
-        const focusOutlineToggle = document.getElementById('focusOutlineToggle');
-        if (focusOutlineToggle) {
-            focusOutlineToggle.addEventListener('change', (event) => {
-                this.settings.focusOutline = event.target.checked ? 'enabled' : 'disabled';
-                this.applyFocusOutline();
-                this.saveSettings();
-            });
-        }
+        // Generic toggles
+        this.bindToggle('focusOutlineToggle', 'focusOutline', this.applyFocusOutline.bind(this));
+        this.bindToggle('hoverAnimationsToggle', 'motionEffects', this.applyMotionEffects.bind(this));
+        this.bindToggle('highContrastToggle', 'highContrast', this.applyHighContrast.bind(this));
+        this.bindToggle('dyslexiaFontToggle', 'dyslexiaFont', this.applyDyslexiaFont.bind(this));
+        this.bindToggle('underlineLinksToggle', 'underlineLinks', this.applyUnderlineLinks.bind(this));
+        this.bindToggle('loadingScreenToggle', 'loadingScreen', this.applyLoadingScreen.bind(this));
+        this.bindToggle('mouseTrailToggle', 'mouseTrail', this.applyMouseTrail.bind(this));
+        this.bindToggle('liveStatusToggle', 'liveStatus', this.applyLiveStatus.bind(this));
 
-        // Motion & Effects Toggle
-        const motionEffectsToggle = document.getElementById('hoverAnimationsToggle');
-        if (motionEffectsToggle) {
-            motionEffectsToggle.addEventListener('change', (event) => {
-                this.settings.motionEffects = event.target.checked ? 'enabled' : 'disabled';
-                this.applyMotionEffects();
-                this.saveSettings();
-            });
-        }
-
-        // Reset Settings Button
-        const resetButton = document.getElementById('resetSettings');
-        if (resetButton) {
-            resetButton.addEventListener('click', () => this.resetSettings());
+        // Reset Button
+        const resetBtn = document.getElementById('resetSettings');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => this.resetSettings());
         }
     }
 
+    bindToggle(id, key, applyFn) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('change', e => {
+                this.settings[key] = e.target.checked ? 'enabled' : 'disabled';
+                applyFn();
+                this.saveSettings();
+            });
+        }
+    }
+
+    // ========================
+    // Apply Settings
+    // ========================
     applyAllSettings() {
         this.applyAppearanceMode();
+        this.applyThemeStyle();
+        this.applyAccentColor();
         this.applyFontSize();
         this.applyFocusOutline();
         this.applyMotionEffects();
+        this.applyHighContrast();
+        this.applyDyslexiaFont();
+        this.applyUnderlineLinks();
+        this.applyLoadingScreen();
+        this.applyMouseTrail();
+        this.applyLiveStatus();
     }
 
     applyAppearanceMode() {
         const body = document.body;
-        let isDarkMode = this.settings.appearanceMode === 'dark' || (this.settings.appearanceMode === 'device' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        body.classList.toggle('dark-mode', isDarkMode);
-        body.classList.toggle('light-mode', !isDarkMode);
+        let isDark = false;
+
+        if (this.settings.appearanceMode === 'dark') {
+            isDark = true;
+        } else if (this.settings.appearanceMode === 'light') {
+            isDark = false;
+        } else if (this.settings.appearanceMode === 'device') {
+            isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } else if (this.settings.appearanceMode === 'device' && this.settings.darkModeScheduler !== 'off') {
+            // Scheduler override
+            isDark = this.checkScheduler();
+        }
+
+        body.classList.toggle('dark-mode', isDark);
+        body.classList.toggle('light-mode', !isDark);
+    }
+
+    checkScheduler() {
+        const now = new Date();
+        const start = this.parseTime(this.settings.darkModeStart);
+        const end = this.parseTime(this.settings.darkModeEnd);
+        const current = now.getHours() * 60 + now.getMinutes();
+
+        if (this.settings.darkModeScheduler === 'sunset') {
+            return (now.getHours() >= 18 || now.getHours() < 6);
+        }
+
+        if (this.settings.darkModeScheduler === 'custom') {
+            if (start < end) {
+                return current >= start && current < end;
+            } else {
+                return current >= start || current < end;
+            }
+        }
+
+        return false;
+    }
+
+    parseTime(str) {
+        const [h, m] = str.split(':').map(Number);
+        return h * 60 + m;
+    }
+
+    applyThemeStyle() {
+        document.body.classList.toggle('theme-tinted', this.settings.themeStyle === 'tinted');
+    }
+
+    applyAccentColor() {
+        document.documentElement.style.setProperty('--accent-color', this.settings.accentColor);
     }
 
     applyFontSize() {
@@ -167,45 +317,62 @@ class SettingsManager {
         document.body.classList.toggle('motion-disabled', this.settings.motionEffects === 'disabled');
     }
 
+    applyHighContrast() {
+        document.body.classList.toggle('high-contrast', this.settings.highContrast === 'enabled');
+    }
+
+    applyDyslexiaFont() {
+        document.body.classList.toggle('dyslexia-font', this.settings.dyslexiaFont === 'enabled');
+    }
+
+    applyUnderlineLinks() {
+        document.body.classList.toggle('underline-links', this.settings.underlineLinks === 'enabled');
+    }
+
+    applyLoadingScreen() {
+        document.body.classList.toggle('loading-screen-enabled', this.settings.loadingScreen === 'enabled');
+    }
+
+    applyMouseTrail() {
+        document.body.classList.toggle('mouse-trail-enabled', this.settings.mouseTrail === 'enabled');
+    }
+
+    applyLiveStatus() {
+        document.body.classList.toggle('live-status-enabled', this.settings.liveStatus === 'enabled');
+    }
+
+    // ========================
+    // System + Storage Sync
+    // ========================
     handleDeviceThemeChange() {
         if (this.settings.appearanceMode === 'device') {
             this.applyAppearanceMode();
         }
     }
 
-    handleStorageChange(event) {
-        if (event.key === 'websiteSettings') {
+    handleStorageChange(e) {
+        if (e.key === 'websiteSettings') {
             this.settings = this.loadSettings();
             this.initializeControls();
             this.applyAllSettings();
         }
     }
 
-    saveSettings() {
-        try {
-            localStorage.setItem('websiteSettings', JSON.stringify(this.settings));
-        } catch (error) {
-            console.error("Error saving settings to localStorage:", error);
-        }
-    }
-
+    // ========================
+    // Reset
+    // ========================
     resetSettings() {
-        if (confirm('Are you sure you want to reset all settings to their defaults? This action cannot be undone.')) {
+        if (confirm('Reset all settings to default values?')) {
             this.settings = { ...this.defaultSettings };
+            this.saveSettings();
             this.initializeControls();
             this.applyAllSettings();
-            this.saveSettings();
-            alert('Settings have been reset to their default values.');
+            alert('Settings reset to defaults.');
         }
-    }
-
-    updateSliderGradient(slider) {
-        if (!slider) return;
-        const percentage = ((slider.value - slider.min) * 100) / (slider.max - slider.min);
-        slider.style.setProperty('--slider-value-percentage', `${percentage}%`);
     }
 }
 
+// Init
 if (!window.settingsManagerInstance) {
     window.settingsManagerInstance = new SettingsManager();
 }
