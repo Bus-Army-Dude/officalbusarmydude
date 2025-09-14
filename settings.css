@@ -1,320 +1,300 @@
 /* ===================================================== */
-/* == Settings Page - Liquid Glass + iOS 26 Style == */
+/* == Settings Page Styles + Liquid Glass + iOS 26 UI == */
 /* ===================================================== */
 
-/* ========== Root Variables ========== */
 :root {
-  /* Light Mode Colors */
-  --light-bg: #f2f4f7;
-  --light-content-bg: #ffffff;
-  --light-text: #212529;
-  --light-secondary-text: #5f6368;
-  --light-border: #e0e0e0;
-  --light-accent: #3ddc84;
-  --light-hover: #35c374;
-  --light-toggle-on: #3ddc84;
-  --light-toggle-off: #e6e6e6;
-  --light-red-color: #d93025;
-  --light-slider-track: #e6e6e6;
-  --light-slider-thumb: #ffffff;
+    --light-bg: #f2f4f7;
+    --light-content-bg: #ffffff;
+    --light-text: #212529;
+    --light-secondary-text: #5f6368;
+    --light-border: #e0e0e0;
+    --light-accent: #3ddc84;
+    --light-hover: #35c374;
+    --light-toggle-on: #3ddc84;
+    --light-toggle-off: #e6e6e6;
+    --light-red-color: #d93025;
+    --light-slider-track: #e6e6e6;
+    --light-slider-thumb: #ffffff;
 
-  /* Dark Mode Colors */
-  --dark-bg: #121212;
-  --dark-content-bg: #1c1c1e;
-  --dark-text: #e6e6e6;
-  --dark-secondary-text: #b3b3b3;
-  --dark-border: #2c2c2e;
-  --dark-accent: #3ddc84;
-  --dark-hover: #45e08f;
-  --dark-toggle-on: #3ddc84;
-  --dark-toggle-off: #3a3a3c;
-  --dark-red-color: #ea6d66;
-  --dark-slider-track: #2f2f31;
-  --dark-slider-thumb: #e6e6e6;
+    --dark-bg: #121212;
+    --dark-content-bg: #1c1c1e;
+    --dark-text: #e6e6e6;
+    --dark-secondary-text: #b3b3b3;
+    --dark-border: #2c2c2e;
+    --dark-accent: #3ddc84;
+    --dark-hover: #45e08f;
+    --dark-toggle-on: #3ddc84;
+    --dark-toggle-off: #3a3a3c;
+    --dark-red-color: #ea6d66;
+    --dark-slider-track: #2f2f31;
+    --dark-slider-thumb: #e6e6e6;
 
-  /* Default Theme (Light) */
-  --bg-color: var(--light-bg);
-  --content-bg: var(--light-content-bg);
-  --text-color: var(--light-text);
-  --secondary-text: var(--light-secondary-text);
-  --border-color: var(--light-border);
-  --accent-color: var(--light-accent);
-  --hover-color: var(--light-hover);
-  --toggle-on: var(--light-toggle-on);
-  --toggle-off: var(--light-toggle-off);
-  --red-color: var(--light-red-color);
-  --slider-track-color: var(--light-slider-track);
-  --slider-track-filled-color: var(--accent-color);
-  --slider-thumb-color: var(--light-slider-thumb);
-  --shadow-elevation-1: 0 0.0625rem 0.1875rem rgba(60,64,67,0.12);
-  --shadow-elevation-2: 0 0.25rem 0.75rem rgba(60,64,67,0.16);
+    /* Default Theme */
+    --bg-color: var(--light-bg);
+    --content-bg: var(--light-content-bg);
+    --text-color: var(--light-text);
+    --secondary-text: var(--light-secondary-text);
+    --border-color: var(--light-border);
+    --accent-color: var(--light-accent);
+    --hover-color: var(--light-hover);
+    --toggle-on: var(--light-toggle-on);
+    --toggle-off: var(--light-toggle-off);
+    --red-color: var(--light-red-color);
+    --slider-track-color: var(--light-slider-track);
+    --slider-track-filled-color: var(--accent-color);
+    --slider-thumb-color: var(--light-slider-thumb);
+    --shadow-elevation-1: 0 0.0625rem 0.1875rem rgba(60,64,67,0.12);
+    --shadow-elevation-2: 0 0.25rem 0.75rem rgba(60,64,67,0.16);
 
-  /* Glass variables */
-  --glass-blur: blur(1.375rem);
-  --glass-bg-light: rgba(255, 255, 255, 0.65);
-  --glass-border-light: rgba(255, 255, 255, 0.35);
-  --glass-bg-dark: rgba(28, 28, 30, 0.55);
-  --glass-border-dark: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(1.375rem);
+    --glass-bg-light: rgba(255,255,255,0.65);
+    --glass-border-light: rgba(255,255,255,0.35);
+    --glass-bg-dark: rgba(28,28,30,0.55);
+    --glass-border-dark: rgba(255,255,255,0.1);
 
-  /* Slider progress */
-  --slider-value-percentage: 50%;
-
-  /* High contrast */
-  --high-contrast-bg: #000000;
-  --high-contrast-text: #ffffff;
-  --high-contrast-accent: #ffff00;
+    --slider-value-percentage: 50%;
 }
 
-/* ========== Dark Mode Override ========== */
 body.dark-mode {
-  --bg-color: var(--dark-bg);
-  --content-bg: var(--dark-content-bg);
-  --text-color: var(--dark-text);
-  --secondary-text: var(--dark-secondary-text);
-  --border-color: var(--dark-border);
-  --accent-color: var(--dark-accent);
-  --hover-color: var(--dark-hover);
-  --toggle-on: var(--dark-toggle-on);
-  --toggle-off: var(--dark-toggle-off);
-  --red-color: var(--dark-red-color);
-  --slider-track-color: var(--dark-slider-track);
-  --slider-thumb-color: var(--dark-slider-thumb);
-  --shadow-elevation-1: 0 0.0625rem 0.1875rem rgba(0,0,0,0.6);
-  --shadow-elevation-2: 0 0.375rem 1.125rem rgba(0,0,0,0.6);
-}
-
-/* ========== High Contrast Mode ========== */
-body.high-contrast {
-  --bg-color: var(--high-contrast-bg);
-  --content-bg: var(--high-contrast-bg);
-  --text-color: var(--high-contrast-text);
-  --secondary-text: var(--high-contrast-text);
-  --accent-color: var(--high-contrast-accent);
+    --bg-color: var(--dark-bg);
+    --content-bg: var(--dark-content-bg);
+    --text-color: var(--dark-text);
+    --secondary-text: var(--dark-secondary-text);
+    --border-color: var(--dark-border);
+    --accent-color: var(--dark-accent);
+    --hover-color: var(--dark-hover);
+    --toggle-on: var(--dark-toggle-on);
+    --toggle-off: var(--dark-toggle-off);
+    --red-color: var(--dark-red-color);
+    --slider-track-color: var(--dark-slider-track);
+    --slider-thumb-color: var(--dark-slider-thumb);
+    --shadow-elevation-1: 0 0.0625rem 0.1875rem rgba(0,0,0,0.6);
+    --shadow-elevation-2: 0 0.375rem 1.125rem rgba(0,0,0,0.6);
 }
 
 /* ================== General ================== */
 body.settings-page {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-size: var(--font-size-base, 1rem);
-  line-height: 1.4;
-  margin: 0;
-  padding: 0;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size-base, 1rem);
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
 }
 
 /* ========== Container ========== */
 body.settings-page .container {
-  max-width: 57.5rem;
-  margin: 0 auto;
-  padding: 1.875rem 1.25rem;
+    max-width: 57.5rem;
+    margin: 0 auto;
+    padding: 1.875rem 1.25rem;
 }
 
 /* ========== Settings Header ========== */
 body.settings-page .settings-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.875rem;
-  background: var(--glass-bg-light);
-  border: 0.0625rem solid var(--glass-border-light);
-  border-radius: 0.875rem;
-  padding: 1rem 1.25rem;
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: 0 0.375rem 1.5rem rgba(0,0,0,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.875rem;
+    background: var(--glass-bg-light);
+    border: 0.0625rem solid var(--glass-border-light);
+    border-radius: 0.875rem;
+    padding: 1rem 1.25rem;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    box-shadow: var(--shadow-elevation-2);
 }
 body.dark-mode .settings-header {
-  background: var(--glass-bg-dark);
-  border: 0.0625rem solid var(--glass-border-dark);
-  box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
+    background: var(--glass-bg-dark);
+    border: 0.0625rem solid var(--glass-border-dark);
+    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
 }
 
 body.settings-page .settings-header h1 {
-  font-size: 1.75rem;
-  font-weight: 500;
-  margin: 0;
-  color: var(--text-color);
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-color);
 }
 
-body.settings-page .version {
-  font-size: 0.8125rem;
-  color: var(--secondary-text);
-  background-color: var(--border-color);
-  padding: 0.1875rem 0.5rem;
-  border-radius: 0.375rem;
-}
-
-/* ================== Segmented Controls (iOS 26) ================== */
+/* ================== Segmented Controls ================== */
 .segmented-control {
-  display: flex;
-  background: var(--glass-bg-light);
-  border: 0.0625rem solid var(--glass-border-light);
-  border-radius: 0.875rem;
-  overflow: hidden;
-  width: max-content;
-  box-shadow: var(--shadow-elevation-1);
+    display: flex;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    gap: 0.25rem;
 }
-body.dark-mode .segmented-control {
-  background: var(--glass-bg-dark);
-  border: 0.0625rem solid var(--glass-border-dark);
-  box-shadow: var(--shadow-elevation-1);
-}
+
 .segmented-control button {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: none;
-  color: var(--secondary-text);
-  font-weight: 500;
-  cursor: pointer;
-  flex: 1;
-  transition: background 0.2s, color 0.2s;
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--secondary-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 0.625rem;
 }
+
 .segmented-control button.active {
-  background: var(--accent-color);
-  color: var(--content-bg);
+    background: var(--accent-color);
+    color: var(--content-bg);
 }
-.segmented-control button:not(.active):hover {
-  background: color-mix(in srgb, var(--accent-color) 15%, var(--glass-bg-light));
-}
-
-/* ================== Settings Subsection ================== */
-body.settings-page .settings-subsection {
-  border-radius: 0.75rem;
-  margin-bottom: 1.5rem;
-  overflow: hidden;
-  background: var(--glass-bg-light);
-  border: 0.0625rem solid var(--glass-border-light);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: var(--shadow-elevation-1);
-}
-body.dark-mode .settings-subsection {
-  background: var(--glass-bg-dark);
-  border: 0.0625rem solid var(--glass-border-dark);
-  box-shadow: var(--shadow-elevation-2);
-}
-
-body.settings-page .subsection-title {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 1rem 1.25rem;
-  margin: 0;
-  border-bottom: 0.0625rem solid var(--border-color);
-  color: var(--text-color);
-}
-
-/* ================== Setting Card ================== */
-body.settings-page .setting-card {
-  padding: 1rem 1.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 3.5rem;
-  border-bottom: 0.0625rem solid var(--border-color);
-  position: relative;
-  overflow: hidden;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-body.settings-page .setting-card:last-child { border-bottom: none; }
-body.settings-page .setting-card:hover {
-  background-color: color-mix(in srgb, var(--bg-color) 50%, var(--content-bg));
-  box-shadow: var(--shadow-elevation-2);
-}
-body.settings-page .setting-label { flex: 1; padding-right: 0.75rem; }
-body.settings-page .setting-title { font-size: 0.9375rem; font-weight: 500; margin: 0 0 0.25rem 0; }
-body.settings-page .setting-description { font-size: 0.8125rem; color: var(--secondary-text); margin: 0; }
 
 /* ================== iOS 26 Style Toggle ================== */
 .toggle-ios {
-  width: 2.5rem;
-  height: 1.25rem;
-  border-radius: 999px;
-  background: var(--toggle-off);
-  position: relative;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.2s;
+    position: relative;
+    width: 2.25rem;
+    height: 1.25rem;
 }
-.toggle-ios::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0.125rem;
-  width: 1rem;
-  height: 1rem;
-  background: var(--slider-thumb-color);
-  border-radius: 50%;
-  transform: translateY(-50%);
-  transition: left 0.2s;
+.toggle-ios input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 0;
+    cursor: pointer;
+    z-index: 2;
 }
-.toggle-ios.active {
-  background: var(--toggle-on);
+.toggle-ios .slider {
+    position: absolute;
+    inset: 0;
+    background: var(--toggle-off);
+    border-radius: 999px;
+    transition: background 0.2s ease;
 }
-.toggle-ios.active::before {
-  left: calc(100% - 1rem - 0.125rem);
+.toggle-ios .slider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0.125rem;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    background: var(--slider-thumb-color);
+    border-radius: 50%;
+    transition: left 0.2s ease;
+}
+.toggle-ios input:checked + .slider {
+    background: var(--toggle-on);
+}
+.toggle-ios input:checked + .slider::before {
+    left: calc(100% - 1rem - 0.125rem);
 }
 
 /* ================== Text Size Slider ================== */
-.text-size-control { flex-shrink: 0; width: 17.5rem; display: flex; flex-direction: column; align-items: center; }
-#text-size-slider { -webkit-appearance: none; width: 100%; height: 0.25rem; border-radius: 999px; outline: none;
-  background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) var(--slider-value-percentage), var(--slider-track-color) var(--slider-value-percentage), var(--slider-track-color) 100%); }
-#text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
-#text-size-slider::-moz-range-thumb { width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
+.text-size-control {
+    flex-shrink: 0;
+    width: 17.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+#text-size-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 0.25rem;
+    border-radius: 999px;
+    outline: none;
+    background: linear-gradient(
+        90deg,
+        var(--slider-track-filled-color) 0%,
+        var(--slider-track-filled-color) var(--slider-value-percentage),
+        var(--slider-track-color) var(--slider-value-percentage),
+        var(--slider-track-color) 100%
+    );
+}
+#text-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: background 0.2s ease;
+}
+#text-size-slider::-moz-range-thumb {
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+}
 
 /* ================== Mouse Trail ================== */
-#mouse-trail { position: fixed; top:0; left:0; pointer-events:none; z-index:9999; }
-.trail { position:absolute; width:12px; height:12px; background:var(--accent-color); border-radius:50%; opacity:0.6; transform:translate(-50%,-50%); pointer-events:none; animation: trail-fade 0.8s forwards; }
-@keyframes trail-fade { to { opacity:0; transform:translate(-50%,-50%) scale(0.3); } }
+#mouse-trail {
+    position: fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+    z-index:9999;
+}
+.trail {
+    position:absolute;
+    width:12px;
+    height:12px;
+    background: var(--accent-color);
+    border-radius:50%;
+    opacity:0.6;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    animation: trail-fade 0.8s forwards;
+}
+@keyframes trail-fade {
+    to { opacity:0; transform:translate(-50%,-50%) scale(0.3);}
+}
 
 /* ================== Loading Screen ================== */
-#loading-screen { position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--bg-color); z-index:9999; transition:opacity 0.5s ease, visibility 0.5s ease; }
-#loading-screen.loaded { opacity:0; visibility:hidden; }
-#loading-screen .loader { font-size:2rem; font-weight:600; color:var(--accent-color); animation:pulse 1.2s infinite; }
+#loading-screen {
+    position: fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg-color);
+    z-index:9999;
+    transition:opacity 0.5s ease, visibility 0.5s ease;
+}
+#loading-screen.loaded {
+    opacity:0;
+    visibility:hidden;
+}
+#loading-screen .loader {
+    font-size:2rem;
+    font-weight:600;
+    color:var(--accent-color);
+    animation:pulse 1.2s infinite;
+}
 @keyframes pulse { 0%,100% { transform:scale(1); opacity:0.7; } 50% { transform:scale(1.1); opacity:1; } }
 
 /* ================== Reset Button ================== */
 .reset-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
-  font-weight: 500;
-  border: none;
-  background: var(--red-color);
-  color: var(--content-bg);
-  cursor: pointer;
-  transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    background: var(--red-color);
+    color: var(--content-bg);
+    padding: 0.5rem 1rem;
+    border-radius: 0.625rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 .reset-button:hover {
-  background: color-mix(in srgb, var(--red-color) 25%, var(--glass-bg-light));
-  box-shadow: var(--shadow-elevation-2);
-  color: var(--content-bg);
-}
-body.dark-mode .reset-button:hover {
-  background: color-mix(in srgb, var(--red-color) 25%, var(--glass-bg-dark));
-}
-
-/* ================== Focus Outline ================== */
-body.settings-page :focus-visible { outline: 0.125rem solid var(--accent-color); outline-offset:0.125rem; border-radius:0.375rem; }
-body.settings-page.focus-outline-disabled :focus-visible { outline:none !important; outline-offset:0 !important; }
-
-/* ================== Underline Links ================== */
-body.underline-links a { text-decoration: underline !important; }
-
-/* ================== Motion Disabled ================== */
-body.motion-disabled *, body.motion-disabled *::before, body.motion-disabled *::after {
-  transition: none !important;
-  animation: none !important;
+    box-shadow: var(--shadow-elevation-2);
 }
 
 /* ================== Responsive ================== */
 @media (max-width: 768px) {
-  body.settings-page .container { padding: 20px 15px; }
-  body.settings-page .settings-header h1 { font-size: 26px; }
-  body.settings-page .setting-card { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px; }
-  body.settings-page .setting-label { width: 100%; }
+    body.settings-page .container { padding: 20px 15px; }
+    body.settings-page .settings-header h1 { font-size: 26px; }
 }
 @media (max-width: 480px) {
-  body.settings-page .container { padding: 15px 10px; }
-  body.settings-page .settings-header h1 { font-size: 22px; }
-  body.settings-page footer { padding: 15px; flex-direction: column; gap: 10px; }
+    body.settings-page .container { padding: 15px 10px; }
+    body.settings-page .settings-header h1 { font-size: 22px; }
 }
