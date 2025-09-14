@@ -376,3 +376,9 @@ class SettingsManager {
 if (!window.settingsManagerInstance) {
     window.settingsManagerInstance = new SettingsManager();
 }
+
+// Add this at the end of your scripts.js or main.js
+const yearElement = document.querySelector('#current-year');
+if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
+}
