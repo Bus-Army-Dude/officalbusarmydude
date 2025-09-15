@@ -62,14 +62,19 @@
             <strong class="setting-title">Dark Mode Scheduler</strong>
             <p class="setting-description">Automatically switch between light and dark mode.</p>
           </div>
-          <select id="darkModeScheduler">
-            <option value="off">Off</option>
-            <option value="sunset">Sunset to Sunrise</option>
-            <option value="custom">Custom Time</option>
-          </select>
-          <div class="custom-time-inputs" id="customTimeInputs" style="display: none;">
+          <div class="segmented-control" id="darkModeSchedulerControl">
+            <button type="button" data-value="off">Off</button>
+            <button type="button" data-value="sunset">Sunset → Sunrise</button>
+            <button type="button" data-value="custom">Custom</button>
+          </div>
+        </div>
+
+        <div class="setting-card custom-time-inputs" id="customTimeInputs" style="display: none;">
+          <div class="time-picker">
             <label for="darkModeStart">Start:</label>
             <input type="time" id="darkModeStart" />
+          </div>
+          <div class="time-picker">
             <label for="darkModeEnd">End:</label>
             <input type="time" id="darkModeEnd" />
           </div>
