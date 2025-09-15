@@ -1,6 +1,6 @@
 /**
  * settings.js
- * Fully functional settings manager for live updates
+ * Fully functional settings manager for live updates with live dark mode scheduler
  */
 class SettingsManager {
     constructor() {
@@ -33,6 +33,7 @@ class SettingsManager {
             this.setupEventListeners();
             this.initMouseTrail();
             this.initLoadingScreen();
+            this.startSchedulerTimer();
 
             // Watch for system theme changes
             if (window.matchMedia) {
@@ -228,11 +229,6 @@ class SettingsManager {
         const endDisplay = document.getElementById('darkModeEnd');
         if(startDisplay) startDisplay.textContent = this.formatTime12h(this.settings.darkModeStart);
         if(endDisplay) endDisplay.textContent = this.formatTime12h(this.settings.darkModeEnd);
-
-        const startInput = document.getElementById('darkModeStart');
-        const endInput = document.getElementById('darkModeEnd');
-        if(startInput) startInput.value = this.settings.darkModeStart;
-        if(endInput) endInput.value = this.settings.darkModeEnd;
     }
 
     formatTime12h(time24) {
@@ -281,6 +277,14 @@ class SettingsManager {
 
         body.classList.toggle('dark-mode', isDark);
         body.classList.toggle('light-mode', !isDark);
+    }
+
+    startSchedulerTimer() {
+        setInterval(() => {
+            if(this.settings.appearanceMode==='device' && this.settings.darkModeScheduler!=='off') {
+                this.applyAppearanceMode();
+            }
+        }, 60000); // check every minute
     }
 
     checkScheduler() {
