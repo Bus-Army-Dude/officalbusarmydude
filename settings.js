@@ -8,7 +8,6 @@ class SettingsManager {
   constructor() {
     this.defaultSettings = {
       appearanceMode: "device", // device | light | dark
-      themeStyle: "clear", // clear | tinted
       accentColor: "#3ddc84",
       darkModeScheduler: "off", // off | sunset | custom
       darkModeStart: "20:00",
@@ -34,7 +33,6 @@ class SettingsManager {
 
   cacheElements() {
     this.appearanceModeControl = document.getElementById("appearanceModeControl");
-    this.themeStyleControl = document.getElementById("themeStyleControl");
     this.accentColorPicker = document.getElementById("accentColorPicker");
     this.darkModeSchedulerControl = document.getElementById("darkModeSchedulerControl");
     this.darkModeStart = document.getElementById("darkModeStart");
@@ -274,3 +272,10 @@ class SettingsManager {
 
 // Initialize
 new SettingsManager();
+
+document.addEventListener('DOMContentLoaded', function() {
+    const yearSpan = document.getElementById('year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+});
