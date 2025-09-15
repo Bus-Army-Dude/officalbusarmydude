@@ -6,6 +6,7 @@
   <meta name="description" content="Customize your experience. Toggle dark mode, accessibility features, and more." />
   <title>Settings - Caleb's Profile</title>
 
+  <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="settings.css" />
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -21,12 +22,12 @@
         <h1>Settings</h1>
         <span class="version">v26.0</span>
       </div>
-<div id="settings-page-identifier" style="display: none;"></div>
 
       <!-- Appearance Section -->
       <div class="settings-subsection">
         <h2 class="subsection-title">Appearance</h2>
 
+        <!-- Light / Dark / Device -->
         <div class="setting-card">
           <div class="setting-label">
             <strong class="setting-title">Appearance Mode</strong>
@@ -39,6 +40,19 @@
           </div>
         </div>
 
+        <!-- Theme Style -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <strong class="setting-title">Theme Style</strong>
+            <p class="setting-description">Switch between a clear or tinted glass effect.</p>
+          </div>
+          <div class="segmented-control" id="themeStyleControl">
+            <button type="button" data-value="clear">Clear</button>
+            <button type="button" data-value="tinted">Tinted</button>
+          </div>
+        </div>
+
+        <!-- Accent Color -->
         <div class="setting-card">
           <div class="setting-label">
             <strong class="setting-title">Accent Color</strong>
@@ -47,24 +61,20 @@
           <input type="color" id="accentColorPicker" value="#3ddc84" aria-label="Choose accent color" />
         </div>
 
+        <!-- Dark Mode Scheduler -->
         <div class="setting-card">
           <div class="setting-label">
             <strong class="setting-title">Dark Mode Scheduler</strong>
             <p class="setting-description">Automatically switch between light and dark mode.</p>
           </div>
-          <div class="segmented-control" id="darkModeSchedulerControl">
-            <button type="button" data-value="off">Off</button>
-            <button type="button" data-value="sunset">Sunset → Sunrise</button>
-            <button type="button" data-value="custom">Custom</button>
-          </div>
-        </div>
-
-        <div class="setting-card custom-time-inputs" id="customTimeInputs" style="display: none;">
-          <div class="time-picker">
+          <select id="darkModeScheduler">
+            <option value="off">Off</option>
+            <option value="sunset">Sunset to Sunrise</option>
+            <option value="custom">Custom Time</option>
+          </select>
+          <div class="custom-time-inputs" id="customTimeInputs" style="display: none;">
             <label for="darkModeStart">Start:</label>
             <input type="time" id="darkModeStart" />
-          </div>
-          <div class="time-picker">
             <label for="darkModeEnd">End:</label>
             <input type="time" id="darkModeEnd" />
           </div>
@@ -75,6 +85,7 @@
       <div class="settings-subsection">
         <h2 class="subsection-title">Accessibility</h2>
 
+        <!-- Text Size -->
         <div class="setting-card">
           <div class="setting-label">
             <h3 class="setting-title">Text Size</h3>
@@ -94,8 +105,8 @@
           </div>
         </div>
 
-        <!-- Toggles -->
-        <div class="setting-card">
+        <!-- Focus Outline -->
+        <div class="setting-card focus-outline-setting-card">
           <div class="setting-label">
             <h3 class="setting-title">Focus Outline</h3>
             <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
@@ -106,6 +117,7 @@
           </div>
         </div>
 
+        <!-- Motion & Effects -->
         <div class="setting-card">
           <div class="setting-label">
             <h3 class="setting-title">Motion & Effects</h3>
@@ -117,6 +129,7 @@
           </div>
         </div>
 
+        <!-- High Contrast -->
         <div class="setting-card">
           <div class="setting-label">
             <h3 class="setting-title">High Contrast Mode</h3>
@@ -128,6 +141,7 @@
           </div>
         </div>
 
+        <!-- Dyslexia-Friendly Font -->
         <div class="setting-card">
           <div class="setting-label">
             <h3 class="setting-title">Dyslexia-Friendly Font</h3>
@@ -139,6 +153,7 @@
           </div>
         </div>
 
+        <!-- Underline Links -->
         <div class="setting-card">
           <div class="setting-label">
             <h3 class="setting-title">Underline Links</h3>
@@ -155,6 +170,19 @@
       <div class="settings-subsection">
         <h2 class="subsection-title">Visual Flair</h2>
 
+        <!-- Loading Screen -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Loading Screen Animation</h3>
+            <p class="setting-description">Enable a branded intro animation before content loads.</p>
+          </div>
+          <div class="md-switch">
+            <input type="checkbox" id="loadingScreenToggle" role="switch" aria-label="Toggle loading screen animation" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
+
+        <!-- Mouse Trail -->
         <div class="setting-card">
           <div class="setting-label">
             <h3 class="setting-title">Mouse Trail Effect</h3>
@@ -162,6 +190,23 @@
           </div>
           <div class="md-switch">
             <input type="checkbox" id="mouseTrailToggle" role="switch" aria-label="Toggle mouse trail effect" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Integrations -->
+      <div class="settings-subsection">
+        <h2 class="subsection-title">Integrations</h2>
+
+        <!-- Live Status -->
+        <div class="setting-card">
+          <div class="setting-label">
+            <h3 class="setting-title">Live Status</h3>
+            <p class="setting-description">Show what you’re currently doing (Spotify, GitHub, etc.).</p>
+          </div>
+          <div class="md-switch">
+            <input type="checkbox" id="liveStatusToggle" role="switch" aria-label="Toggle live status integration" />
             <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
