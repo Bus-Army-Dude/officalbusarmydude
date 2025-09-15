@@ -2367,16 +2367,28 @@ body.maintenance-active {
 	#scrollTopBtn .arrow { font-size: var(--font-size-base, 20px); } /* ✨ Updated for text scaling ✨ */
 }
 
-/* When motion is disabled */
-.motion-disabled * {
-  transition: none !important;
+/* ===================== */
+/* Motion & Effects OFF  */
+/* ===================== */
+body.motion-disabled *,
+body.motion-disabled *::before,
+body.motion-disabled *::after {
+  /* Kill all animations and transitions */
   animation: none !important;
+  transition: none !important;
 }
 
-/* Optional: also disable hover effects */
-.motion-disabled a:hover,
-.motion-disabled button:hover,
-.motion-disabled .hover-effect {
+/* Disable hover styles (buttons, links, cards, etc.) */
+body.motion-disabled a:hover,
+body.motion-disabled button:hover,
+body.motion-disabled [class*="hover"]:hover,
+body.motion-disabled .hover-effect:hover {
   transform: none !important;
   box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Disable smooth scrolling if enabled */
+body.motion-disabled {
+  scroll-behavior: auto !important;
 }
