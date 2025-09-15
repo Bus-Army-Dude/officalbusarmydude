@@ -346,5 +346,16 @@ document.addEventListener('mousemove', (e) => {
   }, 500); // matches CSS fade duration
 });
 
+const darkModeScheduler = document.getElementById('darkModeScheduler');
+const customTimeInputs = document.getElementById('customTimeInputs');
+
+darkModeScheduler.addEventListener('change', () => {
+  if (darkModeScheduler.value === 'custom') {
+    customTimeInputs.style.display = 'flex';
+  } else {
+    customTimeInputs.style.display = 'none';
+  }
+});
+
 // Initialize singleton
 if(!window.settingsManagerInstance) window.settingsManagerInstance = new SettingsManager();
