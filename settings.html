@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Customize your experience. Toggle dark mode, accessibility features, and more." />
   <title>Settings - Caleb's Profile</title>
 
@@ -16,18 +16,16 @@
 </head>
 
 <body class="settings-page">
-  <div class="container" role="main" id="main-content">
+  <main class="container" id="main-content">
     <div class="settings-section">
       <div class="settings-header">
         <h1>Settings</h1>
         <span class="version">v26.0</span>
       </div>
 
-      <!-- Appearance Section -->
       <div class="settings-subsection">
         <h2 class="subsection-title">Appearance</h2>
 
-        <!-- Light / Dark / Device -->
         <div class="setting-card">
           <div class="setting-label">
             <strong class="setting-title">Appearance Mode</strong>
@@ -40,64 +38,61 @@
           </div>
         </div>
 
-        <!-- Accent Color -->
-<div class="setting-card">
-  <div class="setting-label">
-    <strong class="setting-title">Accent Color</strong>
-    <p class="setting-description">Pick a custom highlight color.</p>
-  </div>
-  <div class="accent-picker-container">
-    <input 
-      type="color" 
-      id="accentColorPicker" 
-      value="#3ddc84" 
-      aria-label="Choose accent color" 
-    />
-    <div id="accentColorPreview" class="accent-color-preview"></div>
-  </div>
-</div>
+        <div class="setting-card">
+          <label for="accentColorPicker" class="setting-label">
+            <strong class="setting-title">Accent Color</strong>
+            <p class="setting-description">Pick a custom highlight color.</p>
+          </label>
+          <div class="accent-picker-container">
+            <input
+              type="color"
+              id="accentColorPicker"
+              value="#3ddc84"
+              aria-label="Choose accent color"
+            />
+            <div id="accentColorPreview" class="accent-color-preview"></div>
+          </div>
+        </div>
 
-<!-- Dark Mode Scheduler -->
-<div class="setting-card">
-  <div class="setting-label">
-    <strong class="setting-title">Dark Mode Scheduler</strong>
-    <p class="setting-description">Automatically switch between light and dark mode.</p>
-  </div>
-  <select id="darkModeScheduler">
-    <option value="off">Off</option>
-    <option value="sunset">Sunset to Sunrise</option>
-    <option value="custom">Custom Time</option>
-  </select>
+        <div class="setting-card">
+          <label for="darkModeScheduler" class="setting-label">
+            <strong class="setting-title">Dark Mode Scheduler</strong>
+            <p class="setting-description">Automatically switch between light and dark mode.</p>
+          </label>
+          <select id="darkModeScheduler">
+            <option value="off">Off</option>
+            <option value="sunset">Sunset to Sunrise</option>
+            <option value="custom">Custom Time</option>
+          </select>
 
-  <div class="custom-time-inputs" id="customTimeInputs" style="display: none;">
-    <div class="scheduler-container">
-      <div>
-        <div class="scheduler-label">Start</div>
-        <div id="darkModeStart" class="scheduler-time">7:00 AM</div>
+          <div class="custom-time-inputs" id="customTimeInputs" style="display: none;">
+            <div class="scheduler-container">
+              <label for="darkModeStartInput">
+                <div class="scheduler-label">Start</div>
+                <div id="darkModeStart" class="scheduler-time">7:00 AM</div>
+              </label>
+              <input type="time" id="darkModeStartInput" class="scheduler-input" />
+            </div>
+
+            <div class="scheduler-container">
+              <label for="darkModeEndInput">
+                <div class="scheduler-label">End</div>
+                <div id="darkModeEnd" class="scheduler-time">7:30 PM</div>
+              </label>
+              <input type="time" id="darkModeEndInput" class="scheduler-input" />
+            </div>
+          </div>
+        </div>
       </div>
-      <input type="time" id="darkModeStartInput" class="scheduler-input" />
-    </div>
 
-    <div class="scheduler-container">
-      <div>
-        <div class="scheduler-label">End</div>
-        <div id="darkModeEnd" class="scheduler-time">7:30 PM</div>
-      </div>
-      <input type="time" id="darkModeEndInput" class="scheduler-input" />
-    </div>
-  </div>
-</div>
-
-      <!-- Accessibility Section -->
       <div class="settings-subsection">
         <h2 class="subsection-title">Accessibility</h2>
 
-        <!-- Text Size -->
         <div class="setting-card">
-          <div class="setting-label">
-            <h3 class="setting-title">Text Size</h3>
+          <label for="text-size-slider" class="setting-label">
+            <strong class="setting-title">Text Size</strong>
             <p class="setting-description">Adjust the text size for better readability</p>
-          </div>
+          </label>
           <div class="text-size-control">
             <span id="textSizeValue" class="font-size-badge">16px</span>
             <input
@@ -112,48 +107,44 @@
           </div>
         </div>
 
-        <!-- Focus Outline -->
         <div class="setting-card focus-outline-setting-card">
-          <div class="setting-label">
-            <h3 class="setting-title">Focus Outline</h3>
+          <label for="focusOutlineToggle" class="setting-label">
+            <strong class="setting-title">Focus Outline</strong>
             <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
-          </div>
+          </label>
           <div class="md-switch">
             <input type="checkbox" id="focusOutlineToggle" role="switch" aria-label="Toggle focus outline" />
             <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
 
-        <!-- High Contrast -->
         <div class="setting-card">
-          <div class="setting-label">
-            <h3 class="setting-title">High Contrast Mode</h3>
+          <label for="highContrastToggle" class="setting-label">
+            <strong class="setting-title">High Contrast Mode</strong>
             <p class="setting-description">Increase contrast for easier readability.</p>
-          </div>
+          </label>
           <div class="md-switch">
             <input type="checkbox" id="highContrastToggle" role="switch" aria-label="Toggle high contrast mode" />
             <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
 
-        <!-- Dyslexia-Friendly Font -->
         <div class="setting-card">
-          <div class="setting-label">
-            <h3 class="setting-title">Dyslexia-Friendly Font</h3>
+          <label for="dyslexiaFontToggle" class="setting-label">
+            <strong class="setting-title">Dyslexia-Friendly Font</strong>
             <p class="setting-description">Enable a more readable font for dyslexic users.</p>
-          </div>
+          </label>
           <div class="md-switch">
             <input type="checkbox" id="dyslexiaFontToggle" role="switch" aria-label="Toggle dyslexia-friendly font" />
             <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
 
-        <!-- Underline Links -->
         <div class="setting-card">
-          <div class="setting-label">
-            <h3 class="setting-title">Underline Links</h3>
+          <label for="underlineLinksToggle" class="setting-label">
+            <strong class="setting-title">Underline Links</strong>
             <p class="setting-description">Always underline links to improve visibility.</p>
-          </div>
+          </label>
           <div class="md-switch">
             <input type="checkbox" id="underlineLinksToggle" role="switch" aria-label="Toggle underline links" />
             <div class="track"><div class="thumb"></div></div>
@@ -161,16 +152,14 @@
         </div>
       </div>
 
-      <!-- Visual Flair Section -->
       <div class="settings-subsection">
         <h2 class="subsection-title">Visual Flair</h2>
 
-        <!-- Mouse Trail -->
         <div class="setting-card">
-          <div class="setting-label">
-            <h3 class="setting-title">Mouse Trail Effect</h3>
+          <label for="mouseTrailToggle" class="setting-label">
+            <strong class="setting-title">Mouse Trail Effect</strong>
             <p class="setting-description">Add a subtle glowing ripple that follows your cursor.</p>
-          </div>
+          </label>
           <div class="md-switch">
             <input type="checkbox" id="mouseTrailToggle" role="switch" aria-label="Toggle mouse trail effect" />
             <div class="track"><div class="thumb"></div></div>
@@ -178,12 +167,11 @@
         </div>
       </div>
 
-      <!-- Danger Zone -->
       <div class="settings-subsection danger-zone">
         <h2 class="subsection-title">Danger Zone</h2>
         <div class="setting-card">
           <div class="setting-label">
-            <h3 class="setting-title">Reset to Factory Settings</h3>
+            <strong class="setting-title">Reset to Factory Settings</strong>
             <p class="setting-description">Restore all settings to their default values</p>
           </div>
           <button id="resetSettings" class="button reset-button">Reset</button>
@@ -192,7 +180,7 @@
 
       <a href="/" class="back-link">← Back to Profile</a>
     </div>
-  </div>
+  </main>
 
   <footer>
     <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
