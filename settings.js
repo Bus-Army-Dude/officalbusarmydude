@@ -73,6 +73,16 @@ class SettingsManager {
         btn.classList.toggle("active", btn.dataset.value === this.settings.appearanceMode);
       });
       document.body.setAttribute("data-appearance", this.settings.appearanceMode);
+
+      // Add this logic to handle the "device" mode
+      if (this.settings.appearanceMode === 'device') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.body.classList.toggle('dark-mode', prefersDark);
+        document.body.classList.toggle('light-mode', !prefersDark);
+      } else {
+        document.body.classList.toggle('dark-mode', this.settings.appearanceMode === 'dark');
+        document.body.classList.toggle('light-mode', this.settings.appearanceMode === 'light');
+      }
     }
 
     // Theme Style
