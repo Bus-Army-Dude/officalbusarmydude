@@ -2367,28 +2367,22 @@ body.maintenance-active {
 	#scrollTopBtn .arrow { font-size: var(--font-size-base, 20px); } /* ✨ Updated for text scaling ✨ */
 }
 
-/* ===================== */
-/* Motion & Effects OFF  */
-/* ===================== */
-body.motion-disabled *,
-body.motion-disabled *::before,
-body.motion-disabled *::after {
-  /* Kill all animations and transitions */
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
   animation: none !important;
   transition: none !important;
 }
 
-/* Disable hover styles (buttons, links, cards, etc.) */
-body.motion-disabled a:hover,
-body.motion-disabled button:hover,
-body.motion-disabled [class*="hover"]:hover,
-body.motion-disabled .hover-effect:hover {
+body.reduce-motion a:hover,
+body.reduce-motion button:hover,
+body.reduce-motion [class*="hover"]:hover,
+body.reduce-motion .hover-effect:hover {
   transform: none !important;
   box-shadow: none !important;
   filter: none !important;
 }
 
-/* Disable smooth scrolling if enabled */
-body.motion-disabled {
+body.reduce-motion {
   scroll-behavior: auto !important;
 }
