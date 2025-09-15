@@ -1,334 +1,209 @@
-/* ===================================================== */
-/* == iOS 26 Styled Settings Page == */
-/* ===================================================== */
+/* ============================= */
+/* Modern iOS 26 Style Settings  */
+/* ============================= */
 
 :root {
-    /* Light Mode Colors */
-    --light-bg: #f2f4f7;
-    --light-content-bg: #ffffff;
-    --light-text: #212529;
-    --light-secondary-text: #5f6368;
-    --light-border: #e0e0e0;
-    --light-accent: #3ddc84;
-    --light-hover: #35c374;
-    --light-toggle-on: #3ddc84;
-    --light-toggle-off: #e6e6e6;
-    --light-red-color: #d93025;
-    --light-slider-track: #e6e6e6;
-    --light-slider-thumb: #ffffff;
-
-    /* Dark Mode Colors */
-    --dark-bg: #121212;
-    --dark-content-bg: #1c1c1e;
-    --dark-text: #e6e6e6;
-    --dark-secondary-text: #b3b3b3;
-    --dark-border: #2c2c2e;
-    --dark-accent: #3ddc84;
-    --dark-hover: #45e08f;
-    --dark-toggle-on: #3ddc84;
-    --dark-toggle-off: #3a3a3c;
-    --dark-red-color: #ea6d66;
-    --dark-slider-track: #2f2f31;
-    --dark-slider-thumb: #e6e6e6;
-
-    /* Default Theme (Light) */
-    --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
-    --text-color: var(--light-text);
-    --secondary-text: var(--light-secondary-text);
-    --border-color: var(--light-border);
-    --accent-color: var(--light-accent);
-    --hover-color: var(--light-hover);
-    --toggle-on: var(--light-toggle-on);
-    --toggle-off: var(--light-toggle-off);
-    --red-color: var(--light-red-color);
-    --slider-track-color: var(--light-slider-track);
-    --slider-track-filled-color: var(--accent-color);
-    --slider-thumb-color: var(--light-slider-thumb);
-
-    /* Glass / Blur */
-    --glass-blur: blur(1.25rem);
-    --glass-bg-light: rgba(255,255,255,0.65);
-    --glass-bg-dark: rgba(28,28,30,0.55);
-    --glass-border-light: rgba(255,255,255,0.35);
-    --glass-border-dark: rgba(255,255,255,0.1);
-
-    /* Slider value */
-    --slider-value-percentage: 50%;
+  --accent-color: #3ddc84;
+  --bg-light: #f2f4f7;
+  --bg-dark: #1c1c1e;
+  --card-bg-light: rgba(255, 255, 255, 0.6);
+  --card-bg-dark: rgba(28, 28, 30, 0.6);
+  --tinted-overlay: rgba(0, 0, 0, 0.15);
+  --text-light: #212529;
+  --text-dark: #f5f5f7;
 }
 
-/* ================= Dark Mode ================= */
-body.dark-mode {
-    --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
-    --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
-    --border-color: var(--dark-border);
-    --accent-color: var(--dark-accent);
-    --hover-color: var(--dark-hover);
-    --toggle-on: var(--dark-toggle-on);
-    --toggle-off: var(--dark-toggle-off);
-    --red-color: var(--dark-red-color);
-    --slider-track-color: var(--dark-slider-track);
-    --slider-thumb-color: var(--dark-slider-thumb);
-}
-
-/* ================= General ================= */
+/* Base */
 body.settings-page {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: var(--font-size-base, 16px);
-    line-height: 1.4;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg-light);
+  color: var(--text-light);
+  transition: background 0.3s, color 0.3s;
 }
 
-body.settings-page .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 1.5rem 1rem;
+body.dark-mode {
+  background: var(--bg-dark);
+  color: var(--text-dark);
 }
 
-/* ================= Header ================= */
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Headers */
 .settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding: 1rem 1.25rem;
-    border-radius: 1rem;
-    background: var(--glass-bg-light);
-    border: 1px solid var(--glass-border-light);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
-body.dark-mode .settings-header {
-    background: var(--glass-bg-dark);
-    border: 1px solid var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.5);
-}
+
 .settings-header h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin: 0;
-}
-.settings-header .version {
-    font-size: 0.875rem;
-    color: var(--secondary-text);
+  font-size: 28px;
+  font-weight: 600;
 }
 
-/* ================= Subsection ================= */
+.version {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* Subsections */
 .settings-subsection {
-    background: var(--glass-bg-light);
-    border: 1px solid var(--glass-border-light);
-    border-radius: 1rem;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: 0 0.5rem 1.25rem rgba(0,0,0,0.08);
+  margin-bottom: 30px;
 }
-body.dark-mode .settings-subsection {
-    background: var(--glass-bg-dark);
-    border: 1px solid var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.5);
-}
+
 .subsection-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    color: var(--text-color);
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
-/* ================= Setting Card ================= */
+/* Cards */
 .setting-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--border-color);
-    min-height: 3.5rem;
-}
-.setting-card:last-child { border-bottom: none; }
-.setting-card:hover {
-    background-color: color-mix(in srgb, var(--bg-color) 50%, var(--content-bg));
+  background: var(--card-bg-light);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: background 0.3s;
 }
 
-/* ================= Segmented Controls ================= */
+body.dark-mode .setting-card {
+  background: var(--card-bg-dark);
+}
+
+/* Segmented Control */
 .segmented-control {
-    display: inline-flex;
-    border-radius: 0.75rem;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
+  display: inline-flex;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--accent-color);
 }
+
 .segmented-control button {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border: none;
-    background: var(--content-bg);
-    color: var(--text-color);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex: 1;
+  flex: 1;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
 }
+
 .segmented-control button.active {
-    background: var(--accent-color);
-    color: #fff;
-}
-.segmented-control button:not(:last-child) {
-    border-right: 1px solid var(--border-color);
+  background: var(--accent-color);
+  color: #fff;
 }
 
-/* ================= iOS 26 Toggles ================= */
+/* iOS Toggle Switch */
 .md-switch {
-    --width: 2.5rem;
-    --height: 1.25rem;
-    --thumb-size: 1.125rem;
-    position: relative;
-    display: inline-block;
-    width: var(--width);
-    height: var(--height);
+  position: relative;
+  width: 52px;
+  height: 32px;
 }
+
 .md-switch input {
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    position: absolute;
-    z-index: 2;
-    cursor: pointer;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
+
 .md-switch .track {
-    background: var(--toggle-off);
-    width: 100%;
-    height: 100%;
-    border-radius: 999px;
-    position: relative;
-    transition: background 0.2s ease;
-}
-.md-switch .track .thumb {
-    background: var(--slider-thumb-color);
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 2px;
-    transform: translateY(-50%);
-    transition: left 0.2s ease, background 0.2s ease;
-}
-.md-switch input:checked ~ .track {
-    background: var(--toggle-on);
-}
-.md-switch input:checked ~ .track .thumb {
-    left: calc(100% - var(--thumb-size) - 2px);
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: background-color 0.3s;
 }
 
-/* ================= Text Size Slider ================= */
+.md-switch .thumb {
+  position: absolute;
+  height: 28px;
+  width: 28px;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.3s;
+}
+
+.md-switch input:checked + .track {
+  background-color: var(--accent-color);
+}
+
+.md-switch input:checked + .track .thumb {
+  transform: translateX(20px);
+}
+
+/* Accent Color Picker */
+#accentColorPicker {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 0;
+  cursor: pointer;
+  background: var(--accent-color);
+}
+
+#accentColorPicker::-webkit-color-swatch {
+  border-radius: 10px;
+  border: none;
+}
+
+#accentColorPicker::-moz-color-swatch {
+  border-radius: 10px;
+  border: none;
+}
+
+/* Dark Mode Scheduler Custom Times */
+.custom-time-inputs {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Text Size Control */
 .text-size-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 16rem;
-    gap: 0.25rem;
-}
-#text-size-slider {
-    width: 100%;
-    height: 0.25rem;
-    border-radius: 999px;
-    -webkit-appearance: none;
-    background: linear-gradient(
-        90deg,
-        var(--slider-track-filled-color) 0%,
-        var(--slider-track-filled-color) var(--slider-value-percentage),
-        var(--slider-track-color) var(--slider-value-percentage),
-        var(--slider-track-color) 100%
-    );
-}
-#text-size-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 1.125rem;
-    height: 1.125rem;
-    border-radius: 50%;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
-}
-#text-size-slider::-moz-range-thumb {
-    width: 1.125rem;
-    height: 1.125rem;
-    border-radius: 50%;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* ================= Mouse Trail ================= */
-#mouse-trail {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
-}
-.trail {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: var(--accent-color);
-    border-radius: 50%;
-    opacity: 0.6;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    animation: trail-fade 0.8s forwards;
-}
-@keyframes trail-fade {
-    to {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.3);
-    }
+.font-size-badge {
+  background: var(--accent-color);
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 13px;
 }
 
-/* ================= Loading Screen ================= */
-#loading-screen {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--bg-color);
-    z-index: 9999;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-#loading-screen.loaded {
-    opacity: 0;
-    visibility: hidden;
-}
-#loading-screen .loader {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--accent-color);
-    animation: pulse 1.2s infinite;
-}
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.1); opacity: 1; }
+/* Danger Zone */
+.danger-zone .setting-card {
+  border: 1px solid red;
 }
 
-/* ================= Reset Button ================= */
 .reset-button {
-    padding: 0.5rem 1rem;
-    border-radius: 0.75rem;
-    background: var(--red-color);
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-.reset-button:hover {
-    background: color-mix(in srgb, var(--red-color) 25%, var(--content-bg));
+  background: red;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 /* ================= Accessibility ================= */
