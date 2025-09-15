@@ -2367,82 +2367,16 @@ body.maintenance-active {
 	#scrollTopBtn .arrow { font-size: var(--font-size-base, 20px); } /* ✨ Updated for text scaling ✨ */
 }
 
-/* ======================================================= */
-/* == Disable ALL Motion & Animations (Theme-Safe)      == */
-/* ======================================================= */
-
-/*
- * When the .motion-disabled class is on the body, these rules will
- * override all motion-related styles without affecting theme colors.
- */
-
-/*
- * 1. UNIVERSAL OVERRIDE: This is the most critical rule. It finds
- * every single element (*) and its pseudo-elements (::before, ::after)
- * and forcefully removes all transitions and animations.
- */
-.motion-disabled *,
-.motion-disabled *::before,
-.motion-disabled *::after {
-   transition: none !important;
-   animation: none !important;
+/* When motion is disabled */
+.motion-disabled * {
+  transition: none !important;
+  animation: none !important;
 }
 
-/*
- * 2. TRANSFORM OVERRIDE: Specifically targets elements that move,
- * scale, or lift on hover and resets their `transform` property.
- */
-.motion-disabled .tech-item:hover,
-.motion-disabled .creator-card:hover,
-.motion-disabled .instagram-creator-card:hover,
-.motion-disabled .youtube-creator-card:hover,
-.motion-disabled .product-item:hover,
-.motion-disabled .product-item:hover img,
-.motion-disabled .buy-now:hover,
-.motion-disabled .home-button:hover,
-.motion-disabled .visit-profile:hover,
-.motion-disabled .instagram-visit-profile:hover,
-.motion-disabled .youtube-visit-profile:hover,
-.motion-disabled .contact-info a:hover,
-.motion-disabled .scroll-to-top:hover,
-.motion-disabled .version-list li:hover,
-.motion-disabled .version-list li:hover::before,
-.motion-disabled .disabilities-section a:hover {
-	transform: none !important;
-}
-
-/*
- * 3. BOX-SHADOW OVERRIDE: This rule targets elements that have
- * a glow or shadow effect on hover. Setting it to 'none'
- * prevents the shadow from changing or appearing on hover.
- */
-.motion-disabled .tech-item:hover,
-.motion-disabled .creator-card:hover,
-.motion-disabled .instagram-creator-card:hover,
-.motion-disabled .youtube-creator-card:hover,
-.motion-disabled .product-item:hover,
-.motion-disabled .buy-now:hover,
-.motion-disabled .home-button:hover,
-.motion-disabled .visit-profile:hover,
-.motion-disabled .instagram-visit-profile:hover,
-.motion-disabled .youtube-visit-profile:hover,
-.motion-disabled .contact-info a:hover,
-.motion-disabled .scroll-to-top:hover,
-.motion-disabled .version-list li:hover,
-.motion-disabled .disabilities-section a:hover {
-	box-shadow: none !important;
-}
-
-/*
- * 4. RESTORE DEFAULT SHADOWS: Some elements have a default shadow
- * that should remain on hover to avoid looking flat. This rule
- * overrides the `box-shadow: none` from above for specific cards,
- * restoring their initial, non-animated shadow.
- */
-.motion-disabled .creator-card:hover,
-.motion-disabled .instagram-creator-card:hover,
-.motion-disabled .youtube-creator-card:hover,
-.motion-disabled .version-list li:hover,
-.motion-disabled .product-item:hover {
-	box-shadow: var(--bubble-shadow), var(--bubble-highlight) !important;
+/* Optional: also disable hover effects */
+.motion-disabled a:hover,
+.motion-disabled button:hover,
+.motion-disabled .hover-effect {
+  transform: none !important;
+  box-shadow: none !important;
 }
