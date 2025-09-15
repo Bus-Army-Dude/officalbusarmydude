@@ -1,284 +1,266 @@
 /**
  * settings.js
- * Handles settings logic: appearance, accessibility, flair, and persistence.
+ * Manages website appearance, accessibility, and visual flair settings.
+ * Settings persist in localStorage and apply immediately without refresh.
  */
+
 class SettingsManager {
   constructor() {
     this.defaultSettings = {
-      appearanceMode: "device", // "device" | "light" | "dark"
-      themeStyle: "clear",      // "clear" | "tinted"
+      appearanceMode: "device", // device | light | dark
+      themeStyle: "clear", // clear | tinted
       accentColor: "#3ddc84",
-      darkModeScheduler: "off", // "off" | "sunset" | "custom"
+      darkModeScheduler: "off", // off | sunset | custom
       darkModeStart: "20:00",
-      darkModeEnd: "07:00",
-      textSize: 16,
+      darkModeEnd: "06:00",
+      fontSize: 16,
       focusOutline: false,
-      motionEffects: true,
+      hoverAnimations: true,
       highContrast: false,
       dyslexiaFont: false,
       underlineLinks: false,
-      mouseTrail: false,
+      mouseTrail: false
     };
 
-    this.settings = { ...this.defaultSettings };
-    this.loadSettings();
-    this.applySettings();
-    this.bindEvents();
+    this.settings = { ...this.defaultSettings, ...this.loadSettings() };
+
+    // Initialize when DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+      this.cacheElements();
+      this.applySettings();
+      this.bindEvents();
+    });
   }
 
-  // Load saved settings
+  cacheElements() {
+    this.appearanceModeControl = document.getElementById("appearanceModeControl");
+    this.themeStyleControl = document.getElementById("themeStyleControl");
+    this.accentColorPicker = document.getElementById("accentColorPicker");
+    this.darkModeSchedulerControl = document.getElementById("darkModeSchedulerControl");
+    this.darkModeStart = document.getElementById("darkModeStart");
+    this.darkModeEnd = document.getElementById("darkModeEnd");
+    this.customTimeInputs = document.getElementById("customTimeInputs");
+
+    this.textSizeSlider = document.getElementById("text-size-slider");
+    this.textSizeValue = document.getElementById("textSizeValue");
+
+    this.focusOutlineToggle = document.getElementById("focusOutlineToggle");
+    this.hoverAnimationsToggle = document.getElementById("hoverAnimationsToggle");
+    this.highContrastToggle = document.getElementById("highContrastToggle");
+    this.dyslexiaFontToggle = document.getElementById("dyslexiaFontToggle");
+    this.underlineLinksToggle = document.getElementById("underlineLinksToggle");
+    this.mouseTrailToggle = document.getElementById("mouseTrailToggle");
+
+    this.resetButton = document.getElementById("resetSettings");
+  }
+
   loadSettings() {
-    const saved = localStorage.getItem("settings");
-    if (saved) {
-      this.settings = { ...this.defaultSettings, ...JSON.parse(saved) };
+    try {
+      return JSON.parse(localStorage.getItem("settings")) || {};
+    } catch {
+      return {};
     }
   }
 
-  // Save settings
   saveSettings() {
     localStorage.setItem("settings", JSON.stringify(this.settings));
   }
 
-  // Apply settings visually
   applySettings() {
-    const body = document.body;
-
     // Appearance Mode
-    body.classList.remove("light-mode", "dark-mode");
-    if (this.settings.appearanceMode === "light") {
-      body.classList.add("light-mode");
-    } else if (this.settings.appearanceMode === "dark") {
-      body.classList.add("dark-mode");
-    } else {
-      // follow device
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        body.classList.add("dark-mode");
-      } else {
-        body.classList.add("light-mode");
-      }
+    if (this.appearanceModeControl) {
+      [...this.appearanceModeControl.querySelectorAll("button")].forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.value === this.settings.appearanceMode);
+      });
+      document.body.setAttribute("data-appearance", this.settings.appearanceMode);
     }
 
     // Theme Style
-    body.classList.remove("clear-mode", "tinted-mode");
-    body.classList.add(
-      this.settings.themeStyle === "tinted" ? "tinted-mode" : "clear-mode"
-    );
+    if (this.themeStyleControl) {
+      [...this.themeStyleControl.querySelectorAll("button")].forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.value === this.settings.themeStyle);
+      });
+      document.body.setAttribute("data-theme-style", this.settings.themeStyle);
+    }
 
     // Accent Color
-    document.documentElement.style.setProperty(
-      "--accent-color",
-      this.settings.accentColor
-    );
-    document.getElementById("accentColorPicker").value =
-      this.settings.accentColor;
+    if (this.accentColorPicker) {
+      this.accentColorPicker.value = this.settings.accentColor;
+      document.documentElement.style.setProperty("--accent-color", this.settings.accentColor);
+    }
 
-    // Dark Mode Scheduler UI
-    document.getElementById("darkModeScheduler").value =
-      this.settings.darkModeScheduler;
-    document.getElementById("darkModeStart").value =
-      this.settings.darkModeStart;
-    document.getElementById("darkModeEnd").value = this.settings.darkModeEnd;
+    // Dark Mode Scheduler
+    if (this.darkModeSchedulerControl) {
+      [...this.darkModeSchedulerControl.querySelectorAll("button")].forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.value === this.settings.darkModeScheduler);
+      });
+    }
 
-    // Show/hide custom time inputs
-    document.getElementById("customTimeInputs").style.display =
-      this.settings.darkModeScheduler === "custom" ? "flex" : "none";
+    if (this.customTimeInputs) {
+      this.customTimeInputs.style.display = this.settings.darkModeScheduler === "custom" ? "block" : "none";
+    }
+
+    if (this.darkModeStart) this.darkModeStart.value = this.settings.darkModeStart;
+    if (this.darkModeEnd) this.darkModeEnd.value = this.settings.darkModeEnd;
 
     // Text Size
-    document.getElementById("textSizeValue").textContent =
-      this.settings.textSize + "px";
-    document.getElementById("text-size-slider").value =
-      this.settings.textSize;
-    document.documentElement.style.setProperty(
-      "--base-font-size",
-      this.settings.textSize + "px"
-    );
+    if (this.textSizeSlider) {
+      this.textSizeSlider.value = this.settings.fontSize;
+    }
+    if (this.textSizeValue) {
+      this.textSizeValue.textContent = `${this.settings.fontSize}px`;
+    }
+    document.documentElement.style.fontSize = `${this.settings.fontSize}px`;
 
-    // Toggles
-    document.getElementById("focusOutlineToggle").checked =
-      this.settings.focusOutline;
-    document.getElementById("hoverAnimationsToggle").checked =
-      this.settings.motionEffects;
-    document.getElementById("highContrastToggle").checked =
-      this.settings.highContrast;
-    document.getElementById("dyslexiaFontToggle").checked =
-      this.settings.dyslexiaFont;
-    document.getElementById("underlineLinksToggle").checked =
-      this.settings.underlineLinks;
-    document.getElementById("mouseTrailToggle").checked =
-      this.settings.mouseTrail;
+    // Accessibility Toggles
+    if (this.focusOutlineToggle) this.focusOutlineToggle.checked = this.settings.focusOutline;
+    document.body.classList.toggle("focus-outline", this.settings.focusOutline);
 
-    // Toggle effects
-    body.classList.toggle("focus-outline", this.settings.focusOutline);
-    body.classList.toggle("reduced-motion", !this.settings.motionEffects);
-    body.classList.toggle("high-contrast", this.settings.highContrast);
-    body.classList.toggle("dyslexia-font", this.settings.dyslexiaFont);
-    body.classList.toggle("underline-links", this.settings.underlineLinks);
+    if (this.hoverAnimationsToggle) this.hoverAnimationsToggle.checked = this.settings.hoverAnimations;
+    document.body.classList.toggle("reduce-motion", !this.settings.hoverAnimations);
 
-    // Mouse Trail
+    if (this.highContrastToggle) this.highContrastToggle.checked = this.settings.highContrast;
+    document.body.classList.toggle("high-contrast", this.settings.highContrast);
+
+    if (this.dyslexiaFontToggle) this.dyslexiaFontToggle.checked = this.settings.dyslexiaFont;
+    document.body.classList.toggle("dyslexia-font", this.settings.dyslexiaFont);
+
+    if (this.underlineLinksToggle) this.underlineLinksToggle.checked = this.settings.underlineLinks;
+    document.body.classList.toggle("underline-links", this.settings.underlineLinks);
+
+    // Visual Flair
+    if (this.mouseTrailToggle) this.mouseTrailToggle.checked = this.settings.mouseTrail;
     if (this.settings.mouseTrail) {
       this.enableMouseTrail();
     } else {
       this.disableMouseTrail();
     }
-
-    // Update segmented controls
-    this.updateSegmentedControls();
-  }
-
-  updateSegmentedControls() {
-    document.querySelectorAll(".segmented-control").forEach((control) => {
-      const value = this.settings[control.id.replace("Control", "")];
-      control.querySelectorAll("button").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.value === value);
-      });
-    });
   }
 
   bindEvents() {
-    // Segmented Controls
-    document.querySelectorAll(".segmented-control button").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const controlId = btn.parentElement.id.replace("Control", "");
-        this.settings[controlId] = btn.dataset.value;
-        this.saveSettings();
-        this.applySettings();
+    // Appearance
+    if (this.appearanceModeControl) {
+      this.appearanceModeControl.addEventListener("click", e => {
+        if (e.target.tagName === "BUTTON") {
+          this.settings.appearanceMode = e.target.dataset.value;
+          this.saveSettings();
+          this.applySettings();
+        }
       });
-    });
+    }
 
-    // Accent Color Picker
-    document
-      .getElementById("accentColorPicker")
-      .addEventListener("input", (e) => {
+    if (this.themeStyleControl) {
+      this.themeStyleControl.addEventListener("click", e => {
+        if (e.target.tagName === "BUTTON") {
+          this.settings.themeStyle = e.target.dataset.value;
+          this.saveSettings();
+          this.applySettings();
+        }
+      });
+    }
+
+    if (this.accentColorPicker) {
+      this.accentColorPicker.addEventListener("input", e => {
         this.settings.accentColor = e.target.value;
         this.saveSettings();
         this.applySettings();
       });
+    }
 
-    // Dark Mode Scheduler
-    document
-      .getElementById("darkModeScheduler")
-      .addEventListener("change", (e) => {
-        this.settings.darkModeScheduler = e.target.value;
-        this.saveSettings();
-        this.applySettings();
+    if (this.darkModeSchedulerControl) {
+      this.darkModeSchedulerControl.addEventListener("click", e => {
+        if (e.target.tagName === "BUTTON") {
+          this.settings.darkModeScheduler = e.target.dataset.value;
+          this.saveSettings();
+          this.applySettings();
+        }
       });
+    }
 
-    document
-      .getElementById("darkModeStart")
-      .addEventListener("input", (e) => {
+    if (this.darkModeStart) {
+      this.darkModeStart.addEventListener("change", e => {
         this.settings.darkModeStart = e.target.value;
         this.saveSettings();
         this.applySettings();
       });
+    }
 
-    document
-      .getElementById("darkModeEnd")
-      .addEventListener("input", (e) => {
+    if (this.darkModeEnd) {
+      this.darkModeEnd.addEventListener("change", e => {
         this.settings.darkModeEnd = e.target.value;
         this.saveSettings();
         this.applySettings();
       });
+    }
 
-    // Text Size Slider
-    document
-      .getElementById("text-size-slider")
-      .addEventListener("input", (e) => {
-        this.settings.textSize = parseInt(e.target.value, 10);
+    // Text size
+    if (this.textSizeSlider) {
+      this.textSizeSlider.addEventListener("input", e => {
+        this.settings.fontSize = parseInt(e.target.value, 10);
         this.saveSettings();
         this.applySettings();
       });
+    }
 
     // Toggles
-    [
-      "focusOutlineToggle",
-      "hoverAnimationsToggle",
-      "highContrastToggle",
-      "dyslexiaFontToggle",
-      "underlineLinksToggle",
-      "mouseTrailToggle",
-    ].forEach((id) => {
-      document.getElementById(id).addEventListener("change", (e) => {
-        const key = id.replace("Toggle", "");
-        if (key === "hoverAnimations") {
-          this.settings.motionEffects = e.target.checked;
-        } else if (key === "mouseTrail") {
-          this.settings.mouseTrail = e.target.checked;
-        } else {
+    const toggleMap = {
+      focusOutlineToggle: "focusOutline",
+      hoverAnimationsToggle: "hoverAnimations",
+      highContrastToggle: "highContrast",
+      dyslexiaFontToggle: "dyslexiaFont",
+      underlineLinksToggle: "underlineLinks",
+      mouseTrailToggle: "mouseTrail"
+    };
+
+    Object.entries(toggleMap).forEach(([id, key]) => {
+      const el = this[id];
+      if (el) {
+        el.addEventListener("change", e => {
           this.settings[key] = e.target.checked;
-        }
-        this.saveSettings();
-        this.applySettings();
-      });
+          this.saveSettings();
+          this.applySettings();
+        });
+      }
     });
 
     // Reset button
-    document
-      .getElementById("resetSettings")
-      .addEventListener("click", () => {
+    if (this.resetButton) {
+      this.resetButton.addEventListener("click", () => {
         if (confirm("Reset all settings to factory defaults?")) {
           this.settings = { ...this.defaultSettings };
           this.saveSettings();
           this.applySettings();
         }
       });
-
-    // Live scheduler check
-    setInterval(() => this.checkScheduler(), 60000);
-    this.checkScheduler();
-  }
-
-  checkScheduler() {
-    if (this.settings.darkModeScheduler === "off") return;
-
-    const now = new Date();
-    const [startHour, startMinute] = this.settings.darkModeStart.split(":").map(Number);
-    const [endHour, endMinute] = this.settings.darkModeEnd.split(":").map(Number);
-    const start = new Date(); start.setHours(startHour, startMinute, 0, 0);
-    const end = new Date(); end.setHours(endHour, endMinute, 0, 0);
-
-    let darkActive;
-    if (this.settings.darkModeScheduler === "sunset") {
-      // Simple heuristic (sunset 7pm, sunrise 7am)
-      darkActive = now.getHours() >= 19 || now.getHours() < 7;
-    } else {
-      if (start < end) {
-        darkActive = now >= start && now < end;
-      } else {
-        darkActive = now >= start || now < end;
-      }
     }
-
-    document.body.classList.toggle("dark-mode", darkActive);
-    document.body.classList.toggle("light-mode", !darkActive);
   }
 
-  // Mouse Trail Effect
+  // ===== Mouse Trail Effect =====
   enableMouseTrail() {
-    if (this.mouseTrailHandler) return;
+    if (this.mouseTrailEnabled) return;
+    this.mouseTrailEnabled = true;
 
-    this.mouseTrailHandler = (e) => {
-      const trail = document.createElement("div");
-      trail.className = "mouse-trail";
-      trail.style.left = e.pageX + "px";
-      trail.style.top = e.pageY + "px";
-      document.body.appendChild(trail);
-      setTimeout(() => trail.remove(), 1000);
+    this.mouseMoveHandler = e => {
+      const dot = document.createElement("div");
+      dot.className = "mouse-trail-dot";
+      dot.style.left = `${e.pageX}px`;
+      dot.style.top = `${e.pageY}px`;
+      document.body.appendChild(dot);
+
+      setTimeout(() => dot.remove(), 500);
     };
 
-    document.addEventListener("mousemove", this.mouseTrailHandler);
+    document.addEventListener("mousemove", this.mouseMoveHandler);
   }
 
   disableMouseTrail() {
-    if (this.mouseTrailHandler) {
-      document.removeEventListener("mousemove", this.mouseTrailHandler);
-      this.mouseTrailHandler = null;
-    }
-    document.querySelectorAll(".mouse-trail").forEach((el) => el.remove());
+    if (!this.mouseTrailEnabled) return;
+    this.mouseTrailEnabled = false;
+
+    document.removeEventListener("mousemove", this.mouseMoveHandler);
+    document.querySelectorAll(".mouse-trail-dot").forEach(dot => dot.remove());
   }
 }
 
-// Init
-document.addEventListener("DOMContentLoaded", () => {
-  new SettingsManager();
-  document.getElementById("year").textContent = new Date().getFullYear();
-});
+// Initialize
+new SettingsManager();
