@@ -327,5 +327,24 @@ class SettingsManager {
     }
 }
 
+const mouseTrailToggle = document.getElementById('mouseTrailToggle');
+const trailContainer = document.createElement('div');
+trailContainer.id = 'mouse-trail';
+document.body.appendChild(trailContainer);
+
+document.addEventListener('mousemove', (e) => {
+  if (!mouseTrailToggle.checked) return;
+
+  const dot = document.createElement('div');
+  dot.classList.add('mouse-trail-dot');
+  dot.style.left = `${e.clientX}px`;
+  dot.style.top = `${e.clientY}px`;
+  trailContainer.appendChild(dot);
+
+  setTimeout(() => {
+    dot.remove();
+  }, 500); // matches CSS fade duration
+});
+
 // Initialize singleton
 if(!window.settingsManagerInstance) window.settingsManagerInstance = new SettingsManager();
