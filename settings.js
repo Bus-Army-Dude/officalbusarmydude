@@ -13,7 +13,7 @@ class SettingsManager {
             darkModeEnd: '06:00',
 
             fontSize: 16,               // 12–24 px
-            focusOutline: 'enabled',    // enabled | disabled
+            focusOutline: 'disabled',    // enabled | disabled
             motionEffects: 'enabled',   // enabled | disabled
             highContrast: 'disabled',
             dyslexiaFont: 'disabled',
