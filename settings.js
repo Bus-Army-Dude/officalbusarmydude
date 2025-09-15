@@ -42,6 +42,20 @@ class SettingsManager {
                 });
             }
 
+            // Watch for system reduced motion preference
+if (window.matchMedia) {
+  const motionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+  motionMedia.addEventListener('change', (e) => {
+    // Only auto-sync if user hasn’t explicitly set it
+    if (!localStorage.getItem('websiteSettings')) {
+      this.settings.motionEffects = e.matches ? 'disabled' : 'enabled';
+      this.applyMotionEffects();
+      this.saveSettings();
+      this.setToggle('motionEffects');
+    }
+  });
+}
+
             // Watch for localStorage changes
             window.addEventListener('storage', (e) => {
                 if (e.key === 'websiteSettings') {
@@ -265,7 +279,10 @@ class SettingsManager {
     applyAccentColor() { document.documentElement.style.setProperty('--accent-color',this.settings.accentColor); }
     applyFontSize() { document.documentElement.style.setProperty('--font-size-base', `${this.settings.fontSize}px`); }
     applyFocusOutline() { document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline==='disabled'); }
-    applyMotionEffects() { document.body.classList.toggle('motion-disabled', this.settings.motionEffects==='disabled'); }
+applyMotionEffects() {
+  const reduce = this.settings.motionEffects === 'disabled';
+  document.body.classList.toggle('reduce-motion', reduce);
+}
     applyHighContrast() { document.body.classList.toggle('high-contrast', this.settings.highContrast==='enabled'); }
     applyDyslexiaFont() { document.body.classList.toggle('dyslexia-font', this.settings.dyslexiaFont==='enabled'); }
     applyUnderlineLinks() { document.body.classList.toggle('underline-links', this.settings.underlineLinks==='enabled'); }
