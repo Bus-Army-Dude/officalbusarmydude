@@ -2366,9 +2366,3 @@ body.maintenance-active {
 	#scrollTopBtn { width: 2.8125rem; height: 2.8125rem; bottom: 0.9375rem; left: 0.9375rem; }
 	#scrollTopBtn .arrow { font-size: var(--font-size-base, 20px); } /* ✨ Updated for text scaling ✨ */
 }
-
-body.reduce-motion * {
-  transition: none !important;
-  animation: none !important;
-  scroll-behavior: auto !important;
-}
