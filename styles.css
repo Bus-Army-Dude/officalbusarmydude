@@ -2367,13 +2367,35 @@ body.maintenance-active {
 	#scrollTopBtn .arrow { font-size: var(--font-size-base, 20px); } /* ✨ Updated for text scaling ✨ */
 }
 
-body.reduce-motion *,
+/* ================================================== */
+/* == Reduced Motion & Effects (Accessibility) ====== */
+/* ================================================== */
+
+/* Apply globally when user sets toggle OR system prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  body * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body.reduce-motion,
+body.reduce-motion * {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Kill pseudo-element effects too */
 body.reduce-motion *::before,
 body.reduce-motion *::after {
   animation: none !important;
   transition: none !important;
 }
 
+/* Disable common hover / motion effects */
 body.reduce-motion a:hover,
 body.reduce-motion button:hover,
 body.reduce-motion [class*="hover"]:hover,
@@ -2381,8 +2403,26 @@ body.reduce-motion .hover-effect:hover {
   transform: none !important;
   box-shadow: none !important;
   filter: none !important;
+  opacity: 1 !important;
 }
 
+/* Disable parallax / scroll effects */
+body.reduce-motion [class*="parallax"],
+body.reduce-motion .parallax {
+  background-attachment: initial !important;
+  transform: none !important;
+}
+
+/* Disable marquee-like animations */
+body.reduce-motion .marquee,
+body.reduce-motion [class*="scrolling"] {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Disable smooth scrolling globally */
+html.reduce-motion,
 body.reduce-motion {
   scroll-behavior: auto !important;
 }
+
