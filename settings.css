@@ -240,6 +240,12 @@ body.settings-page .chevron { margin-left: 0.75rem; color: var(--secondary-text)
     transition: background 0.2s ease, box-shadow 0.2s ease;
     position: relative;
 }
+#darkModeScheduler option {
+    font-size: 0.875rem;
+    color: var(--text-color);
+    background: var(--content-bg);
+}
+/* Hover & Dark adjustments */
 #darkModeScheduler:hover {
     background: color-mix(in srgb, var(--accent-color) 15%, var(--glass-bg-light));
     box-shadow: var(--shadow-elevation-2);
@@ -270,6 +276,7 @@ body.dark-mode #darkModeScheduler {
     border: 0.125rem solid var(--border-color);
     background: transparent;
     padding: 0;
+    position: relative;
 }
 #accentColorPicker::-webkit-color-swatch {
     border-radius: 50%;
@@ -280,6 +287,22 @@ body.dark-mode #darkModeScheduler {
     border-radius: 50%;
     border: none;
     padding: 0;
+}
+#accentColorPicker::after {
+    content: '';
+    position: absolute;
+    top: -0.25rem;
+    left: -0.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 0.125rem solid var(--accent-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+#accentColorPicker.selected::after {
+    opacity: 1;
 }
 #accentColorPicker:hover {
     transform: scale(1.1);
