@@ -1,6 +1,6 @@
 /**
  * settings.js
- * Fully functional settings manager for live updates with live dark mode scheduler
+ * Fully functional settings manager with live previews and real-time scheduler
  */
 class SettingsManager {
     constructor() {
@@ -26,6 +26,7 @@ class SettingsManager {
 
         this.settings = this.loadSettings();
         this.deviceThemeMedia = null;
+        this.schedulerInterval = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             this.initializeControls();
@@ -33,7 +34,7 @@ class SettingsManager {
             this.setupEventListeners();
             this.initMouseTrail();
             this.initLoadingScreen();
-            this.startSchedulerTimer();
+            this.initSchedulerInterval();
 
             // Watch for system theme changes
             if (window.matchMedia) {
@@ -95,7 +96,6 @@ class SettingsManager {
         // Accent color picker
         const accentPicker = document.getElementById('accentColorPicker');
         if (accentPicker) accentPicker.value = this.settings.accentColor;
-        this.updateAccentPreview();
 
         // Dark Mode Scheduler
         const schedulerSelect = document.getElementById('darkModeScheduler');
@@ -104,7 +104,8 @@ class SettingsManager {
         const customInputs = document.getElementById('customTimeInputs');
         if (customInputs) {
             customInputs.style.display = this.settings.darkModeScheduler === 'custom' ? 'flex' : 'none';
-            this.updateSchedulerDisplays();
+            this.updateSchedulerPreview('darkModeStartInput', 'darkModeStart');
+            this.updateSchedulerPreview('darkModeEndInput', 'darkModeEnd');
         }
 
         // Text size slider
@@ -155,38 +156,42 @@ class SettingsManager {
             });
         });
 
-        // Accent picker
         const accentPicker = document.getElementById('accentColorPicker');
         if (accentPicker) {
             accentPicker.addEventListener('input', e => {
                 this.settings.accentColor = e.target.value;
-                this.applySetting('accentColor');
+                this.applyAccentColor();
                 this.saveSettings();
             });
         }
 
-        // Dark Mode Scheduler
         const schedulerSelect = document.getElementById('darkModeScheduler');
         if (schedulerSelect) {
             schedulerSelect.addEventListener('change', e => {
                 this.settings.darkModeScheduler = e.target.value;
-                document.getElementById('customTimeInputs').style.display = this.settings.darkModeScheduler === 'custom' ? 'flex' : 'none';
                 this.applyAppearanceMode();
                 this.saveSettings();
+                document.getElementById('customTimeInputs').style.display = this.settings.darkModeScheduler === 'custom' ? 'flex' : 'none';
             });
         }
 
-        ['darkModeStart','darkModeEnd'].forEach(id => {
+        // Custom scheduler inputs with live preview
+        ['darkModeStartInput','darkModeEndInput'].forEach(id => {
             const input = document.getElementById(id);
-            if (input) input.addEventListener('input', e => {
-                this.settings[id] = e.target.value;
-                this.updateSchedulerDisplays();
-                this.applyAppearanceMode();
+            const display = document.getElementById(id.replace('Input',''));
+            if (!input || !display) return;
+
+            input.value = this.settings[id.replace('Input','')];
+            this.updateSchedulerPreview(id, id.replace('Input',''));
+
+            input.addEventListener('input', e => {
+                this.settings[id.replace('Input','')] = e.target.value;
                 this.saveSettings();
+                this.applyAppearanceMode();
+                this.updateSchedulerPreview(id, id.replace('Input',''));
             });
         });
 
-        // Text Size Slider
         const slider = document.getElementById('text-size-slider');
         const badge = document.getElementById('textSizeValue');
         if (slider && badge) {
@@ -199,7 +204,6 @@ class SettingsManager {
             });
         }
 
-        // iOS style toggles
         ['focusOutline', 'motionEffects', 'highContrast', 'dyslexiaFont',
          'underlineLinks', 'loadingScreen', 'mouseTrail', 'liveStatus'].forEach(key => {
             const el = document.getElementById(`${key}Toggle`);
@@ -211,31 +215,26 @@ class SettingsManager {
             });
         });
 
-        // Reset Button
         const resetBtn = document.getElementById('resetSettings');
         if (resetBtn) resetBtn.addEventListener('click', () => this.resetSettings());
+    }
+
+    // Live preview for custom scheduler
+    updateSchedulerPreview(inputId, displayId) {
+        const input = document.getElementById(inputId);
+        const display = document.getElementById(displayId);
+        if (!input || !display) return;
+        const [h, m] = input.value.split(':').map(Number);
+        let hour = h, period = 'AM';
+        if(h === 0) hour = 12;
+        else if(h === 12) period = 'PM';
+        else if(h > 12) { hour = h-12; period = 'PM'; }
+        display.textContent = `${hour}:${String(m).padStart(2,'0')} ${period}`;
     }
 
     updateSliderFill(slider) {
         const pct = ((slider.value - slider.min)/(slider.max - slider.min))*100;
         slider.style.background = `linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color) ${pct}%, var(--slider-track-color) ${pct}%, var(--slider-track-color) 100%)`;
-    }
-
-    // ========================
-    // Scheduler Display
-    // ========================
-    updateSchedulerDisplays() {
-        const startDisplay = document.getElementById('darkModeStart');
-        const endDisplay = document.getElementById('darkModeEnd');
-        if(startDisplay) startDisplay.textContent = this.formatTime12h(this.settings.darkModeStart);
-        if(endDisplay) endDisplay.textContent = this.formatTime12h(this.settings.darkModeEnd);
-    }
-
-    formatTime12h(time24) {
-        const [h,m] = time24.split(':').map(Number);
-        const ampm = h>=12?'PM':'AM';
-        const hour12 = h%12||12;
-        return `${hour12}:${m.toString().padStart(2,'0')} ${ampm}`;
     }
 
     // ========================
@@ -279,28 +278,22 @@ class SettingsManager {
         body.classList.toggle('light-mode', !isDark);
     }
 
-    startSchedulerTimer() {
-        setInterval(() => {
-            if(this.settings.appearanceMode==='device' && this.settings.darkModeScheduler!=='off') {
-                this.applyAppearanceMode();
-            }
-        }, 60000); // check every minute
-    }
-
     checkScheduler() {
         const now = new Date();
         const start = this.parseTime(this.settings.darkModeStart);
         const end = this.parseTime(this.settings.darkModeEnd);
-        const current = now.getHours()*60+now.getMinutes();
-        if(this.settings.darkModeScheduler==='sunset') return now.getHours()>=18||now.getHours()<6;
-        if(this.settings.darkModeScheduler==='custom') return start<end? current>=start&&current<end : current>=start||current<end;
+        const current = now.getHours()*60 + now.getMinutes();
+
+        if(this.settings.darkModeScheduler==='sunset') return now.getHours()>=18 || now.getHours()<6;
+        if(this.settings.darkModeScheduler==='custom') return start<end ? current>=start && current<end : current>=start || current<end;
+
         return false;
     }
 
     parseTime(str){ const [h,m]=str.split(':').map(Number); return h*60+m; }
 
     applyThemeStyle() { document.body.classList.toggle('theme-tinted', this.settings.themeStyle==='tinted'); }
-    applyAccentColor() { document.documentElement.style.setProperty('--accent-color',this.settings.accentColor); this.updateAccentPreview(); }
+    applyAccentColor() { document.documentElement.style.setProperty('--accent-color',this.settings.accentColor); }
     applyFontSize() { document.documentElement.style.setProperty('--font-size-base', `${this.settings.fontSize}px`); }
     applyFocusOutline() { document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline==='disabled'); }
     applyMotionEffects() { document.body.classList.toggle('reduce-motion', this.settings.motionEffects==='disabled'); }
@@ -316,21 +309,13 @@ class SettingsManager {
     applyMouseTrail() { document.body.classList.toggle('mouse-trail-enabled', this.settings.mouseTrail==='enabled'); }
     applyLiveStatus() { document.body.classList.toggle('live-status-enabled', this.settings.liveStatus==='enabled'); }
 
-    updateAccentPreview() {
-        const preview = document.getElementById('accentColorPreview');
-        if(preview) preview.style.backgroundColor = this.settings.accentColor;
-    }
-
     // ========================
     // Mouse Trail
     // ========================
     initMouseTrail() {
-        let trailContainer = document.getElementById('mouse-trail');
-        if(!trailContainer){
-            trailContainer = document.createElement('div');
-            trailContainer.id = 'mouse-trail';
-            document.body.appendChild(trailContainer);
-        }
+        const trailContainer = document.createElement('div');
+        trailContainer.id = 'mouse-trail';
+        document.body.appendChild(trailContainer);
 
         document.addEventListener('mousemove', e => {
             if(this.settings.mouseTrail!=='enabled') return;
@@ -355,6 +340,18 @@ class SettingsManager {
                 setTimeout(()=>{ ls.style.display='none'; },600);
             }
         });
+    }
+
+    // ========================
+    // Scheduler Auto Update
+    // ========================
+    initSchedulerInterval() {
+        if(this.schedulerInterval) clearInterval(this.schedulerInterval);
+        this.schedulerInterval = setInterval(() => {
+            if(this.settings.appearanceMode==='device' && this.settings.darkModeScheduler!=='off'){
+                this.applyAppearanceMode();
+            }
+        }, 30000); // check every 30s
     }
 
     // ========================
