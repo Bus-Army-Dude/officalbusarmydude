@@ -13,8 +13,8 @@ class SettingsManager {
             darkModeEnd: '06:00',
 
             fontSize: 16,               // 12–24 px
-            focusOutline: 'disabled',    // enabled | disabled
-            motionEffects: 'enabled',   // enabled | disabled
+            focusOutline: 'disabled',   // enabled | disabled
+            motionEffects: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'disabled' : 'enabled',
             highContrast: 'disabled',
             dyslexiaFont: 'disabled',
             underlineLinks: 'disabled',
@@ -43,18 +43,18 @@ class SettingsManager {
             }
 
             // Watch for system reduced motion preference
-if (window.matchMedia) {
-  const motionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
-  motionMedia.addEventListener('change', (e) => {
-    // Only auto-sync if user hasn’t explicitly set it
-    if (!localStorage.getItem('websiteSettings')) {
-      this.settings.motionEffects = e.matches ? 'disabled' : 'enabled';
-      this.applyMotionEffects();
-      this.saveSettings();
-      this.setToggle('motionEffects');
-    }
-  });
-}
+            if (window.matchMedia) {
+                const motionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+                motionMedia.addEventListener('change', (e) => {
+                    // Only auto-sync if user hasn’t overridden manually
+                    if (!localStorage.getItem('websiteSettings')) {
+                        this.settings.motionEffects = e.matches ? 'disabled' : 'enabled';
+                        this.applyMotionEffects();
+                        this.saveSettings();
+                        this.setToggle('motionEffects');
+                    }
+                });
+            }
 
             // Watch for localStorage changes
             window.addEventListener('storage', (e) => {
@@ -187,15 +187,13 @@ if (window.matchMedia) {
             });
         });
 
-        // Text Size Slider (✅ fixed live badge update)
+        // Text Size Slider
         const slider = document.getElementById('text-size-slider');
-        const badge = document.getElementById('textSizeValue');
-        if (slider && badge) {
+        if (slider) {
             slider.addEventListener('input', e => {
                 this.settings.fontSize = parseInt(e.target.value,10);
                 this.applyFontSize();
                 this.updateSliderFill(slider);
-                badge.textContent = `${this.settings.fontSize}px`;
                 this.saveSettings();
             });
         }
@@ -279,10 +277,10 @@ if (window.matchMedia) {
     applyAccentColor() { document.documentElement.style.setProperty('--accent-color',this.settings.accentColor); }
     applyFontSize() { document.documentElement.style.setProperty('--font-size-base', `${this.settings.fontSize}px`); }
     applyFocusOutline() { document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline==='disabled'); }
-applyMotionEffects() {
-  const reduce = this.settings.motionEffects === 'disabled';
-  document.body.classList.toggle('reduce-motion', reduce);
-}
+    applyMotionEffects() { 
+        const reduce = this.settings.motionEffects === 'disabled';
+        document.body.classList.toggle('reduce-motion', reduce);
+    }
     applyHighContrast() { document.body.classList.toggle('high-contrast', this.settings.highContrast==='enabled'); }
     applyDyslexiaFont() { document.body.classList.toggle('dyslexia-font', this.settings.dyslexiaFont==='enabled'); }
     applyUnderlineLinks() { document.body.classList.toggle('underline-links', this.settings.underlineLinks==='enabled'); }
@@ -307,9 +305,8 @@ applyMotionEffects() {
             if(this.settings.mouseTrail!=='enabled') return;
             const dot = document.createElement('div');
             dot.className='trail';
-            // ✅ Fix alignment to cursor center
-            dot.style.left=`${e.clientX - 5}px`;
-            dot.style.top=`${e.clientY - 5}px`;
+            dot.style.left=`${e.clientX}px`;
+            dot.style.top=`${e.clientY}px`;
             trailContainer.appendChild(dot);
             setTimeout(()=>dot.remove(),800);
         });
