@@ -1,96 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel - Caleb's Profile</title>
-  <link rel="stylesheet" href="admin.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Caleb's Profile</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0RSQS1MS7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-E0RSQS1MS7');
-  </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0RSQS1MS7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  <!-- Google Identity -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+      gtag('config', 'G-E0RSQS1MS7');
+    </script>
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <meta name="browserconfig" content="/browserconfig.xml" />
-</head>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+<meta name="browserconfig" content="/browserconfig.xml">
+    </head>
 <body class="dark-mode">
-  <div class="admin-layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2>Admin Panel</h2>
-      </div>
-      <nav class="sidebar-nav">
-        <button data-section="profile-management"><i class="fas fa-user"></i> Profile</button>
-        <button data-section="site-settings"><i class="fas fa-cogs"></i> Site Settings</button>
-        <button data-section="president-management"><i class="fas fa-flag-usa"></i> President</button>
-        <button data-section="social-links-management"><i class="fas fa-link"></i> Social Links</button>
-        <button data-section="creator-shoutouts"><i class="fas fa-bullhorn"></i> Shoutouts</button>
-        <button data-section="useful-links-management"><i class="fas fa-bookmark"></i> Useful Links</button>
-        <button data-section="business-info-management"><i class="fas fa-briefcase"></i> Business Info</button>
-        <button data-section="tech-management"><i class="fas fa-microchip"></i> Tech</button>
-        <button data-section="disabilities-management"><i class="fas fa-universal-access"></i> Disabilities</button>
-      </nav>
-    </aside>
+    <div class="container">
+        <h1>Admin Panel</h1>
 
-    <!-- Main Panel -->
-    <div class="main-panel">
-      <!-- Topbar -->
-      <header class="topbar">
-        <span id="admin-greeting"></span>
-        <span id="inactivity-timer-display" class="timer-display"></span>
-        <button type="button" id="logout-button" class="logout-btn">Logout</button>
-      </header>
+        <section id="login-section" aria-labelledby="login-heading">
+            <h2 id="login-heading">Admin Login</h2>
 
-      <!-- Main Content -->
-      <main id="main-content">
-        <!-- ======================= -->
-        <!-- LOGIN SECTION -->
-        <!-- ======================= -->
-        <section id="login-section" class="admin-section">
-          <h2>Admin Login</h2>
-          <div id="g_id_onload"
-            data-client_id="42980404680-vog8m63e51ud3hvlefpgr5s48ho2vb64.apps.googleusercontent.com"
-            data-callback="handleCredentialResponse"
-            data-context="signin"
-            data-ux_mode="popup"
-            data-auto_prompt="false"></div>
-          <div class="g_id_signin"
-            data-type="standard"
-            data-shape="pill"
-            data-theme="outline"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left"
-            data-width="260"></div>
+            <div id="g_id_onload"
+                 data-client_id="42980404680-vog8m63e51ud3hvlefpgr5s48ho2vb64.apps.googleusercontent.com"
+                 data-callback="handleCredentialResponse"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="pill"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left"
+                 data-width="260">
+            </div>
+            <hr style="border-color: var(--border-color); margin: 1.5rem 0;">
 
-          <form id="login-form">
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" id="email" name="email" required autocomplete="username" />
-            </div>
-            <div class="form-group" id="password-group" style="display: none;">
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password" required autocomplete="current-password" />
-            </div>
-            <div class="form-actions">
-              <button type="button" id="next-button" class="button-primary">Next</button>
-              <button type="submit" id="login-button" class="button-primary" style="display: none;">Login</button>
-            </div>
-          </form>
-          <div id="auth-status" class="status-message" role="alert" aria-live="polite"></div>
+
+            <form id="login-form">
+
+                <div class="form-group" id="email-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required autocomplete="username">
+                </div>
+
+                <div class="form-group" id="password-group" style="display: none;">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="next-button" class="button-primary">Next</button>
+                    <button type="submit" id="login-button" class="button-primary" style="display: none;">Login</button>
+                </div>
+
+            </form>
+            <div id="auth-status" class="status-message" role="alert" aria-live="polite"></div>
         </section>
 
         <main id="admin-content" style="display: none;" tabindex="-1">
