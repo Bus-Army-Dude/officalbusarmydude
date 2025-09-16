@@ -4,17 +4,21 @@
 /* Theme Variables          */
 /* ======================== */
 :root {
-    /* --- Base & Font --- */
+    /* --- Base & Typography --- */
     --system-font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --base-font-size: 16px;
     --line-height: 1.5;
+
+    /* --- Border Radius & Transitions --- */
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
     --border-radius-lg: 12px;
-    --transition-speed: 0.2s; 
+    --transition-speed: 0.2s;
     --transition-timing: ease-in-out;
 
-    /* --- Light Mode Colors (Apple Style) --- */
+    /* ======================== */
+    /* Light Mode Colors (Apple Style) */
+    /* ======================== */
     --apple-light-bg: #f5f5f7;
     --apple-light-content-bg: #ffffff;
     --apple-light-text: #1d1d1f;
@@ -35,7 +39,9 @@
     --apple-light-select-arrow: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236e6e73' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
     --apple-light-modal-backdrop: rgba(245, 245, 247, 0.7);
 
-    /* --- Dark Mode Colors (Apple Style) --- */
+    /* ======================== */
+    /* Dark Mode Colors (Apple Style) */
+    /* ======================== */
     --apple-dark-bg: #161617;
     --apple-dark-content-bg: #1d1d1f;
     --apple-dark-text: #f5f5f7;
@@ -56,7 +62,9 @@
     --apple-dark-select-arrow: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2386868b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
     --apple-dark-modal-backdrop: rgba(22, 22, 23, 0.7);
 
-    /* --- Alert/Action Colors --- */
+    /* ======================== */
+    /* Alert & Action Colors */
+    /* ======================== */
     --color-danger: #ff3b30;
     --color-danger-hover: #d1302f;
     --color-danger-glow: rgba(255, 59, 48, 0.25);
@@ -68,7 +76,9 @@
     --color-secondary-action-glow: rgba(142, 142, 147, 0.25);
     --color-danger-disabled: #7a7a7a;
 
-    /* --- Fallback variables (default dark) --- */
+    /* ======================== */
+    /* Fallback / Default Colors (Dark Mode) */
+    /* ======================== */
     --bg-color: var(--apple-dark-bg);
     --content-bg: var(--apple-dark-content-bg);
     --text-color: var(--apple-dark-text);
@@ -93,7 +103,9 @@
     --danger-rgb: 255, 59, 48;
 }
 
-/* --- Light Mode Override --- */
+/* ======================== */
+/* Light Mode Overrides */
+/* ======================== */
 body:not(.dark-mode),
 body.light-mode {
     --bg-color: var(--apple-light-bg);
