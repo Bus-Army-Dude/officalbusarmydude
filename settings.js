@@ -176,25 +176,25 @@ class SettingsManager {
         }
 
         // Custom scheduler inputs with live preview and saving
-['darkModeStartInput','darkModeEndInput'].forEach(id => {
-    const input = document.getElementById(id);
-    const display = document.getElementById(id.replace('Input',''));
-    if (!input || !display) return;
+        ['darkModeStartInput','darkModeEndInput'].forEach(id => {
+            const input = document.getElementById(id);
+            const display = document.getElementById(id.replace('Input',''));
+            if (!input || !display) return;
 
-    // Load saved value into input
-    input.value = this.settings[id.replace('Input','')];
+            // Load saved value into input
+            input.value = this.settings[id.replace('Input','')];
 
-    // Update the display immediately
-    this.updateSchedulerPreview(id, id.replace('Input',''));
+            // Update the display immediately
+            this.updateSchedulerPreview(id, id.replace('Input',''));
 
-    input.addEventListener('input', e => {
-        const key = id.replace('Input','');        // "darkModeStart" or "darkModeEnd"
-        this.settings[key] = e.target.value;       // Save to settings
-        this.saveSettings();                        // Persist to localStorage
-        this.updateSchedulerPreview(id, key);      // Update displayed AM/PM
-        this.applyAppearanceMode();                 // Apply dark/light mode based on new times
-    });
-});
+            input.addEventListener('input', e => {
+                const key = id.replace('Input','');        // "darkModeStart" or "darkModeEnd"
+                this.settings[key] = e.target.value;       // Save to settings
+                this.saveSettings();                        // Persist to localStorage
+                this.updateSchedulerPreview(id, key);      // Update displayed AM/PM
+                this.applyAppearanceMode();                 // Apply dark/light mode based on new times
+            });
+        });
 
 
         const slider = document.getElementById('text-size-slider');
