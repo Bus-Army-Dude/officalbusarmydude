@@ -1623,6 +1623,131 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 /* ======================================== */
 /* Business Info Section Styles             */
 /* ======================================== */
+
+/* Grid layout for regular hours */
+.hours-grid {
+    display: grid;
+    /* Adjust columns for different screen sizes if needed */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px; /* Space below the grid */
+    margin-top: 10px;     /* Space above the grid */
+}
+
+/* Styling for each day's hour group */
+.day-hours-group {
+    border: 1px solid var(--border-color);
+    padding: 15px 20px;
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-color); /* Use main background for slight contrast */
+}
+
+/* Style the Day Label (e.g., "Monday") */
+.day-hours-group > label:first-of-type {
+    font-weight: 600; /* Bolder day label */
+    color: var(--text-color);
+    text-transform: capitalize;
+    margin-bottom: 12px;
+    display: block;
+    font-size: 1rem;
+}
+
+/* Container for Open/Close time inputs */
+.day-hours-group .time-inputs,
+.special-hours-list .hour-entry .time-inputs {
+    display: flex;
+    gap: 8px; /* Space between time inputs and hyphen */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Adjust time input width */
+.day-hours-group input[type="time"],
+.special-hours-list .hour-entry input[type="time"] {
+    width: auto; /* Don't force full width */
+    flex-grow: 1; /* Allow shrinking/growing */
+    min-width: 100px; /* Ensure minimum width */
+}
+
+/* Hide screen-reader-only labels visually */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+
+/* --- Special Hours List Admin (Holiday & Temporary) --- */
+.special-hours-list {
+    margin-top: 20px;
+}
+
+.special-hours-list .hour-entry {
+	background: var(--bg-color);
+	padding: 20px;
+	border-radius: var(--border-radius-lg);
+	border: 1px solid var(--border-color);
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 15px 20px;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.special-hours-list .hour-entry .form-group:has(label[for*="-label-"]),
+.special-hours-list .hour-entry .time-inputs,
+.special-hours-list .hour-entry .checkbox-group {
+	grid-column: 1 / -1;
+}
+
+.special-hours-list .hour-entry .form-group:has(input[type="date"]) {
+    grid-column: span 1;
+}
+
+.special-hours-list .hour-entry .form-group label {
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.special-hours-list .hour-entry .remove-hour-button {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	background: transparent;
+	border: none;
+	color: var(--secondary-text);
+	cursor: pointer;
+	padding: 5px;
+	font-size: 1.5rem;
+	line-height: 1;
+	opacity: 0.7;
+	transition: opacity 0.2s, color 0.2s, transform 0.2s ease;
+}
+
+.special-hours-list .hour-entry .remove-hour-button:hover {
+	opacity: 1;
+	color: var(--color-danger);
+	transform: scale(1.1);
+}
+
+/* Note styling (the small italic text) */
+#business-info-management p > small > i {
+    color: var(--secondary-text);
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+
+/* ======================================== */
+/* Business Info Preview Styles             */
+/* ======================================== */
 :root {
 	--status-open-color: #28a745;
 	--status-closed-color: #dc3545;
@@ -1644,6 +1769,7 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 	-webkit-backdrop-filter: blur(22px) saturate(120%);
 	border: 1px solid var(--border-color);
 	color: var(--text-color);
+    margin-top: 30px;
 }
 body.light-mode .admin-preview-container.business-preview {
 	--bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.3), rgba(255,255,255,0.1) 70%);
@@ -1796,7 +1922,6 @@ body.light-mode .admin-preview-container.business-preview {
 	color: #fff;
 	box-shadow: 0 10px 28px color-mix(in srgb, var(--accent-color) 50%, transparent);
 }
-
 
 /* ======================================== */
 /* Google Sign-In Button    */
