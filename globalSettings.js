@@ -1,4 +1,4 @@
-// globalSettings.js (Corrected Version with Accent Color)
+// globalSettings.js (Complete Version)
 
 class GlobalSettings {
     constructor() {
@@ -25,16 +25,16 @@ class GlobalSettings {
         const defaultSettings = {
             darkMode: true,
             fontSize: 14,
-            accentColor: '#007bff', // ✨ ADDED: Default accent color
+            accentColor: '#007bff', // Default accent color
             lastUpdate: Date.now()
         };
         const savedSettings = localStorage.getItem('websiteSettings');
         try {
             const settings = savedSettings ? JSON.parse(savedSettings) : defaultSettings;
-            // Basic validation
+            // Basic validation for each setting
             settings.darkMode = typeof settings.darkMode === 'boolean' ? settings.darkMode : defaultSettings.darkMode;
             settings.fontSize = typeof settings.fontSize === 'number' && settings.fontSize >= 12 && settings.fontSize <= 24 ? settings.fontSize : defaultSettings.fontSize;
-            settings.accentColor = typeof settings.accentColor === 'string' ? settings.accentColor : defaultSettings.accentColor; // ✨ ADDED: Validation
+            settings.accentColor = typeof settings.accentColor === 'string' ? settings.accentColor : defaultSettings.accentColor;
             return settings;
         } catch (e) {
             console.error("Error parsing settings from localStorage, using defaults.", e);
@@ -46,10 +46,8 @@ class GlobalSettings {
      * Initializes DOM-related settings application *after* DOM is loaded.
      */
     initDOMRelated() {
-        // Apply settings now that elements exist
-        this.applyDarkMode(this.settings.darkMode);
-        this.applyFontSize(this.settings.fontSize);
-        this.applyAccentColor(this.settings.accentColor); // ✨ ADDED
+        // Apply all settings now that elements exist
+        this.applyAllSettings();
     }
 
     /**
@@ -64,7 +62,7 @@ class GlobalSettings {
                     if (newSettings) {
                         this.settings = newSettings; // Update internal settings
                         this.applyAllSettings();     // Apply changes visually
-                        this.updateFontSizeSliderDisplay(); // Update slider if controls exist
+                        this.updateFontSizeSliderDisplay(); // Update slider if controls exist on the page
                     }
                 } catch (err) {
                     console.error("Error parsing settings from storage event:", err);
@@ -73,18 +71,22 @@ class GlobalSettings {
         });
     }
 
-    // ... (Your other methods like initFontSizeControls, updateFontSizeSliderDisplay, updateSliderGradient are perfect as they are)
+    /**
+     * Initializes the font size slider controls if they exist on the page.
+     */
     initFontSizeControls() {
         const textSizeSlider = document.getElementById('text-size-slider');
         const textSizeValue = document.getElementById('textSizeValue');
+
         if (textSizeSlider && textSizeValue) {
             console.log("Font size controls found, initializing.");
-            this.updateFontSizeSliderDisplay();
+            this.updateFontSizeSliderDisplay(); // Set initial slider/label value
+
             textSizeSlider.addEventListener('input', (e) => {
                 const size = parseInt(e.target.value, 10);
                 if (!isNaN(size)) {
-                    this.applyFontSize(size);
-                    if(textSizeValue) textSizeValue.textContent = `${size}px`;
+                    this.applyFontSize(size); // Apply change visually and save
+                    if (textSizeValue) textSizeValue.textContent = `${size}px`; // Update label immediately
                     this.updateSliderGradient(textSizeSlider);
                 }
             });
@@ -92,39 +94,46 @@ class GlobalSettings {
             console.log("Font size slider controls not found on this page.");
         }
     }
+
+    /**
+     * Updates the font size slider's visual state (value, label, gradient).
+     */
     updateFontSizeSliderDisplay() {
         const textSizeSlider = document.getElementById('text-size-slider');
         const textSizeValue = document.getElementById('textSizeValue');
         if (textSizeSlider && textSizeValue) {
-            try{
+            try {
                 textSizeSlider.value = this.settings.fontSize;
                 textSizeValue.textContent = `${this.settings.fontSize}px`;
                 this.updateSliderGradient(textSizeSlider);
-            } catch(e){
+            } catch (e) {
                 console.error("Error updating font size slider display:", e);
             }
         }
     }
+
+    /**
+     * Updates the background gradient for the slider track.
+     * @param {HTMLInputElement} slider - The slider element.
+     */
     updateSliderGradient(slider) {
         if (!slider || typeof slider.min === 'undefined' || typeof slider.max === 'undefined') return;
-        try{
+        try {
             const min = parseFloat(slider.min);
             const max = parseFloat(slider.max);
             const val = parseFloat(slider.value);
-            if(isNaN(min) || isNaN(max) || isNaN(val) || max <= min) return;
+            if (isNaN(min) || isNaN(max) || isNaN(val) || max <= min) return; // Basic validation
             const percentage = ((val - min) * 100) / (max - min);
             slider.style.setProperty('--slider-value', `${percentage}%`);
-        } catch(e) {
+        } catch (e) {
             console.error("Error updating slider gradient:", e);
         }
     }
-
-
+    
     /**
      * Applies the specified accent color by setting a CSS custom property.
      * @param {string} color - The color code (e.g., '#RRGGBB').
      */
-    // ✨ ADDED: New method for accent color
     applyAccentColor(color) {
         if (typeof color !== 'string' || !color.startsWith('#')) return; // Basic validation
         document.documentElement.style.setProperty('--accent-color', color);
@@ -144,7 +153,6 @@ class GlobalSettings {
     applyFontSize(size) {
         const cleanSize = Math.min(Math.max(parseInt(size, 10) || 16, 12), 24);
         document.documentElement.style.setProperty('--font-size-base', `${cleanSize}px`);
-        // console.log(`GlobalSettings: Applied font size: ${cleanSize}px`); // Log is good for debugging
         if (this.settings.fontSize !== cleanSize) {
             this.settings.fontSize = cleanSize;
             this.settings.lastUpdate = Date.now();
@@ -153,13 +161,13 @@ class GlobalSettings {
     }
 
     /**
-     * Toggles dark mode on/off.
+     * Toggles dark mode on/off by adding/removing a class on the body.
      * @param {boolean} isDark - True to enable dark mode, false for light mode.
      */
     applyDarkMode(isDark) {
         if (typeof isDark !== 'boolean') return;
         document.body.classList.toggle('dark-mode', isDark);
-        document.body.classList.toggle('light-mode', !isDark);
+        document.body.classList.toggle('light-mode', !isDark); // Ensure the opposite class is also handled
         if (this.settings.darkMode !== isDark) {
             this.settings.darkMode = isDark;
             this.settings.lastUpdate = Date.now();
@@ -174,7 +182,7 @@ class GlobalSettings {
         console.log("Applying all settings from GlobalSettings...");
         this.applyDarkMode(this.settings.darkMode);
         this.applyFontSize(this.settings.fontSize);
-        this.applyAccentColor(this.settings.accentColor); // ✨ ADDED
+        this.applyAccentColor(this.settings.accentColor);
     }
 
     /**
@@ -188,7 +196,9 @@ class GlobalSettings {
         }
     }
 
-    // ... (Your startObserver method is also perfect as is)
+    /**
+     * Initializes and starts the MutationObserver to reapply font size on DOM changes.
+     */
     startObserver() {
         console.log("Starting MutationObserver for font size adjustments.");
         try {
@@ -199,24 +209,28 @@ class GlobalSettings {
                         nodesAdded = true;
                     }
                 });
-                if(nodesAdded) {
+
+                if (nodesAdded) {
+                    // Re-apply font size to ensure new elements are styled correctly.
+                    // This method already prevents unnecessary saves.
                     this.applyFontSize(this.settings.fontSize);
                 }
             });
+            // Start observing the document body for additions/removals in the subtree
             observer.observe(document.body, { childList: true, subtree: true });
             console.log("MutationObserver started.");
         } catch (e) {
             console.error("Failed to start MutationObserver:", e);
         }
     }
-
 } // End of GlobalSettings class
 
+
 // --- Initialize the Global Settings ---
+// We declare it with 'var' so it has a global scope and can be accessed from other scripts.
 try {
-    // This instance will be accessible globally, so other scripts can use it.
     var globalSettings = new GlobalSettings();
     console.log("GlobalSettings instance created.");
-} catch(e) {
+} catch (e) {
     console.error("Failed to initialize GlobalSettings:", e);
 }
