@@ -1621,93 +1621,117 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 }
 
 /* ======================================== */
-/* Business Info Section Styles             */
+/* Business Info Section Styles (Modern)    */
 /* ======================================== */
 
-/* Grid layout for regular hours */
-.hours-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    margin-bottom: 25px;
-    margin-top: 10px;
+#business-info-management {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
 }
 
-/* Styling for each day's hour group */
-.day-hours-group {
-    border: 1px solid var(--border-color);
-    padding: 15px 20px;
-    border-radius: var(--border-radius-md);
-    background-color: var(--bg-color);
+#business-info-management h3 {
+    margin-bottom: 30px;
 }
 
-/* Style the Day Label (e.g., "Monday") */
-.day-hours-group > label:first-of-type {
+/* Card styling for each major group */
+.admin-section-card {
+	background: var(--content-bg);
+	padding: 25px 30px;
+	border-radius: var(--border-radius-lg);
+	margin-bottom: 30px;
+	border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.admin-section-card h4 {
+	margin-top: 0;
+	margin-bottom: 8px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--border-color);
+	font-size: 1.3em;
+	color: var(--text-color);
     font-weight: 600;
-    color: var(--text-color);
-    text-transform: capitalize;
-    margin-bottom: 12px;
+}
+
+.admin-section-card p > small > i {
+    color: var(--secondary-text);
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin-bottom: 20px;
     display: block;
-    font-size: 1rem;
 }
 
-/* Container for Open/Close time inputs */
-.day-hours-group .time-inputs,
-.special-hours-list .hour-entry .time-inputs {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 10px;
+
+/* --- Regular Hours Grid --- */
+.hours-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 20px;
 }
 
-/* Adjust time input width */
-.day-hours-group input[type="time"],
-.special-hours-list .hour-entry input[type="time"] {
-    width: auto;
-    flex-grow: 1;
-    min-width: 100px;
+.day-hours-group {
+	background: var(--bg-color);
+	padding: 20px;
+	border-radius: var(--border-radius-md);
+	border: 1px solid var(--border-color);
+	transition: box-shadow 0.2s ease;
 }
-
-/* Hide screen-reader-only labels visually */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+.day-hours-group:focus-within {
+	box-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 10%, transparent);
 }
-
+.day-hours-group > label {
+	display: block;
+	margin-bottom: 15px;
+	font-weight: 600;
+	font-size: 1.1em;
+	color: var(--text-color);
+}
+.day-hours-group .time-inputs {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 15px;
+}
+.day-hours-group .form-group.checkbox-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px;
+	border-radius: var(--border-radius-sm);
+	background-color: color-mix(in srgb, var(--border-color) 30%, transparent);
+}
+.day-hours-group .form-group.checkbox-group label {
+	margin-bottom: 0;
+	font-weight: 500;
+	color: var(--secondary-text);
+	cursor: pointer;
+}
 
 /* --- Special Hours List Admin (Holiday & Temporary) --- */
 .special-hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     margin-top: 20px;
 }
-
 .special-hours-list .hour-entry {
 	background: var(--bg-color);
 	padding: 20px;
-	border-radius: var(--border-radius-lg);
+	border-radius: var(--border-radius-md);
 	border: 1px solid var(--border-color);
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	gap: 15px 20px;
 	align-items: center;
-	margin-bottom: 20px;
 }
 
 .special-hours-list .hour-entry .form-group:has(label[for*="-label-"]),
 .special-hours-list .hour-entry .time-inputs,
 .special-hours-list .hour-entry .checkbox-group {
 	grid-column: 1 / -1;
-}
-
-.special-hours-list .hour-entry .form-group:has(input[type="date"]) {
-    grid-column: span 1;
 }
 
 .special-hours-list .hour-entry .form-group label {
@@ -1736,14 +1760,10 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 	transform: scale(1.1);
 }
 
-/* Note styling (the small italic text) */
-#business-info-management p > small > i,
-.admin-preview-container.business-preview p > small > i {
-    color: var(--secondary-text);
-    font-size: 0.9em;
-    line-height: 1.4;
+/* --- Add Button Styling --- */
+#add-holiday-button, #add-temporary-button {
+    margin-top: 20px;
 }
-
 
 /* ======================================== */
 /* Business Info PREVIEW Styles             */
@@ -1763,7 +1783,7 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 
 	background: var(--content-bg);
 	background-image: var(--bubble-gradient);
-	border-radius: 28px; /* --radius-xl */
+	border-radius: 28px;
 	padding: clamp(20px, 4vw, 30px);
 	box-shadow: var(--bubble-shadow), var(--bubble-highlight);
 	backdrop-filter: var(--backdrop-blur) saturate(120%);
