@@ -1627,11 +1627,10 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 /* Grid layout for regular hours */
 .hours-grid {
     display: grid;
-    /* Adjust columns for different screen sizes if needed */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
-    margin-bottom: 25px; /* Space below the grid */
-    margin-top: 10px;     /* Space above the grid */
+    margin-bottom: 25px;
+    margin-top: 10px;
 }
 
 /* Styling for each day's hour group */
@@ -1639,12 +1638,12 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     border: 1px solid var(--border-color);
     padding: 15px 20px;
     border-radius: var(--border-radius-md);
-    background-color: var(--bg-color); /* Use main background for slight contrast */
+    background-color: var(--bg-color);
 }
 
 /* Style the Day Label (e.g., "Monday") */
 .day-hours-group > label:first-of-type {
-    font-weight: 600; /* Bolder day label */
+    font-weight: 600;
     color: var(--text-color);
     text-transform: capitalize;
     margin-bottom: 12px;
@@ -1656,7 +1655,7 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 .day-hours-group .time-inputs,
 .special-hours-list .hour-entry .time-inputs {
     display: flex;
-    gap: 8px; /* Space between time inputs and hyphen */
+    gap: 8px;
     align-items: center;
     margin-bottom: 10px;
 }
@@ -1664,9 +1663,9 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 /* Adjust time input width */
 .day-hours-group input[type="time"],
 .special-hours-list .hour-entry input[type="time"] {
-    width: auto; /* Don't force full width */
-    flex-grow: 1; /* Allow shrinking/growing */
-    min-width: 100px; /* Ensure minimum width */
+    width: auto;
+    flex-grow: 1;
+    min-width: 100px;
 }
 
 /* Hide screen-reader-only labels visually */
@@ -1738,7 +1737,8 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 }
 
 /* Note styling (the small italic text) */
-#business-info-management p > small > i {
+#business-info-management p > small > i,
+.admin-preview-container.business-preview p > small > i {
     color: var(--secondary-text);
     font-size: 0.9em;
     line-height: 1.4;
@@ -1746,7 +1746,7 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 
 
 /* ======================================== */
-/* Business Info Preview Styles             */
+/* Business Info PREVIEW Styles             */
 /* ======================================== */
 :root {
 	--status-open-color: #28a745;
@@ -1759,14 +1759,15 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
 	--bubble-gradient: radial-gradient(circle at top left, rgba(255,255,255,0.1), transparent 65%);
 	--bubble-highlight: inset 1px 1px 2px rgba(255,255,255,0.15);
 	--bubble-shadow: 0 8px 25px rgba(0,0,0,0.3);
+	--backdrop-blur: blur(22px);
 
 	background: var(--content-bg);
 	background-image: var(--bubble-gradient);
 	border-radius: 28px; /* --radius-xl */
 	padding: clamp(20px, 4vw, 30px);
 	box-shadow: var(--bubble-shadow), var(--bubble-highlight);
-	backdrop-filter: blur(22px) saturate(120%);
-	-webkit-backdrop-filter: blur(22px) saturate(120%);
+	backdrop-filter: var(--backdrop-blur) saturate(120%);
+	-webkit-backdrop-filter: var(--backdrop-blur) saturate(120%);
 	border: 1px solid var(--border-color);
 	color: var(--text-color);
     margin-top: 30px;
@@ -1877,7 +1878,7 @@ body.light-mode .admin-preview-container.business-preview {
 
 /* --- Special Hours in Preview --- */
 .preview-hours ul.special-hours-preview li {
-	grid-template-columns: 1fr; /* Stack content */
+	grid-template-columns: 1fr;
 }
 .preview-hours ul.special-hours-preview li .special-hours-details {
 	display: flex;
