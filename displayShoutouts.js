@@ -121,8 +121,8 @@ function renderInstagramCard(account) {
     return `<div class="instagram-creator-card">
               <img src="${profilePic}" alt="${nickname}" class="instagram-creator-pic" onerror="this.src='images/default-profile.jpg'">
               <div class="instagram-creator-info">
-                <div class="instagram-creator-header"><h3>${nickname} ${verifiedBadge}</h3></div>
-                <p class="instagram-creator-username">@${username}</p>
+                <div class="instagram-creator-header"><h3>${nickname}</h3></div>
+                <p class="instagram-creator-username">@${username} ${verifiedBadge}</p>
                 <p class="instagram-creator-bio">${bio}</p>
                 <p class="instagram-follower-count">${followers} Followers</p>
                 <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="instagram-visit-profile"> Visit Profile </a>
