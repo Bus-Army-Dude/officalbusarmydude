@@ -187,7 +187,7 @@ body {
 	/* ✨ Updated for text scaling ✨ */
 	font-size: clamp(calc(var(--font-size-base, 20px) * 1.5), 3vw, calc(var(--font-size-base, 20px) * 2.5));
 	font-weight: 800;
-	background: linear-gradient(120deg, var(--secondary-text), var(--link-color));
+	background: linear-gradient(120deg, var(--secondary-text), var(--accent-color));
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
