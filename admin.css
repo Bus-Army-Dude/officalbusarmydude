@@ -1716,29 +1716,49 @@ body:not(.dark-mode) .shoutout-preview-area .youtube-visit-profile {
     gap: 15px;
     margin-top: 20px;
 }
+
 .special-hours-list .hour-entry {
 	background: var(--bg-color);
 	padding: 20px;
 	border-radius: var(--border-radius-md);
 	border: 1px solid var(--border-color);
 	position: relative;
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	display: flex; /* Use Flexbox for layout */
+	flex-wrap: wrap; /* Allow items to wrap on smaller screens */
 	gap: 15px 20px;
+	align-items: flex-end; /* Align items to the bottom */
+}
+
+/* Date and Label fields */
+.special-hours-list .hour-entry .form-group {
+    flex: 1 1 200px; /* Allow growing and shrinking, with a base width */
+    min-width: 180px;
+}
+.special-hours-list .hour-entry .form-group:has(label[for*="-label-"]) {
+    flex-basis: 100%; /* Make label field take full width */
+}
+
+/* Container for the time inputs */
+.special-hours-list .hour-entry .time-inputs {
+	display: flex;
 	align-items: center;
+	gap: 10px;
+    flex: 2 1 250px; /* Allow it to take more space */
 }
 
-.special-hours-list .hour-entry .form-group:has(label[for*="-label-"]),
-.special-hours-list .hour-entry .time-inputs,
-.special-hours-list .hour-entry .checkbox-group {
-	grid-column: 1 / -1;
+/* Correctly size the time inputs within the flex container */
+.special-hours-list .hour-entry .time-inputs input[type="time"] {
+    width: auto; /* Let the input determine its own width */
+    flex-grow: 1; /* Allow it to grow to fill the container */
 }
 
-.special-hours-list .hour-entry .form-group label {
-    font-weight: 500;
-    margin-bottom: 6px;
+/* Styling for the checkbox group */
+.special-hours-list .hour-entry .form-group.checkbox-group {
+    flex: 1 1 auto; /* Grow but don't shrink too much */
+    padding-bottom: 10px; /* Align checkbox with the bottom of the inputs */
 }
 
+/* Remove Button remains the same */
 .special-hours-list .hour-entry .remove-hour-button {
 	position: absolute;
 	top: 15px;
