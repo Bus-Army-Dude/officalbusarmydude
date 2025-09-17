@@ -21,7 +21,7 @@
     --dark-text: #e0e0e0;
     --dark-secondary-text: #a0a0a0;
     --dark-border: #333333;
-    --dark-accent: #007bff;
+    /* ✨ REMOVED: --dark-accent is no longer needed here as it's controlled by JS */
     --dark-hover: #0056b3;
     --dark-link: #bb86fc;
     --dark-shadow: rgba(0, 0, 0, 0.3);
@@ -32,7 +32,8 @@
     --text-color: var(--dark-text);
     --secondary-text: var(--dark-secondary-text);
     --border-color: var(--dark-border);
-    --accent-color: var(--dark-accent);
+    /* ✨ UPDATED: --accent-color is now set by the settings.js script, but we can keep a fallback */
+    --accent-color: #3ddc84; 
     --hover-color: var(--dark-hover);
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
@@ -45,7 +46,7 @@
     --text-color: var(--light-text);
     --secondary-text: var(--light-secondary-text);
     --border-color: var(--light-border);
-    --accent-color: var(--light-accent);
+    /* ✨ REMOVED: --accent-color from here to ensure global override works */
     --hover-color: var(--light-hover);
     --link-color: var(--light-link);
     --shadow-color: var(--light-shadow);
@@ -57,7 +58,7 @@
     --text-color: var(--dark-text);
     --secondary-text: var(--dark-secondary-text);
     --border-color: var(--dark-border);
-    --accent-color: var(--dark-accent);
+    /* ✨ REMOVED: --accent-color from here to ensure global override works */
     --hover-color: var(--dark-hover);
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
@@ -101,6 +102,7 @@ header {
 .header-content h1 {
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 800;
+    /* ✨ UPDATED: The gradient now uses the accent color */
     background: linear-gradient(120deg,
         var(--text-color),
         color-mix(in srgb, var(--text-color) 70%, var(--accent-color))
@@ -255,6 +257,7 @@ header {
 /* Price Styling */
 .product-item .price {
     font-size: 1.3rem;
+    /* ✨ UPDATED: Price now uses the accent color */
     color: var(--accent-color);
     font-weight: 700;
     margin: 10px 0;
@@ -288,6 +291,7 @@ header {
 
 .buy-now:hover {
     transform: translateY(-2px);
+    /* ✨ UPDATED: Hover effect now uses the accent color */
     background: var(--accent-color);
     border-color: var(--accent-color);
     color: var(--content-bg);
