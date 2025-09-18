@@ -1,122 +1,134 @@
-// status.js (Quantum)
+// status.js (Aura)
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ApexCharts Global Options ---
-    const chartOptions = {
-        chart: { type: 'area', sparkline: { enabled: true } },
-        stroke: { curve: 'straight', width: 2 },
-        fill: { opacity: 0.3 },
-        yaxis: { min: 0 },
-        colors: [getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()]
+    const elements = {
+        categoriesContainer: document.getElementById('service-categories-container'),
+        timeline: document.getElementById('incidents-timeline'),
+        overallStatusText: document.getElementById('overall-status-text'),
+        overallStatusCard: document.getElementById('overall-status-card'),
+        lastUpdated: document.getElementById('last-updated')
     };
 
-    // --- Main Logic ---
     const fetchData = () => {
         fetch('status-data.json?cachebust=' + new Date().getTime())
-            .then(res => res.json())
-            .then(data => {
-                updatePage(data);
-                initGlobe(data.globalNetwork);
-            });
+            .then(res => res.ok ? res.json() : Promise.reject(res.status))
+            .then(updatePage)
+            .catch(console.error);
     };
 
     const updatePage = (data) => {
-        document.getElementById('overall-status-text').textContent = data.overallStatus;
-        document.getElementById('last-updated').textContent = `Last Sync: ${new Date(data.lastUpdated).toLocaleString()}`;
-        
-        const categoriesContainer = document.getElementById('service-categories-container');
-        categoriesContainer.innerHTML = '';
-        data.serviceCategories.forEach(cat => {
-            const catDiv = document.createElement('div');
-            catDiv.className = 'service-category';
-            const servicesHTML = cat.services.map(s => `
-                <div class="status-item status-${s.status}">
-                    <div class="status-item-info">
-                        <strong>${s.name}</strong>
-                    </div>
-                    <div class="status-metric">
-                        <div class="value">${s.latency > 0 ? s.latency + 'ms' : '--'}</div>
-                        <div class="label">Latency</div>
-                    </div>
-                    <div class="status-metric">
-                        <div class="value">${s.uptime_90_days}</div>
-                        <div class="label">90d Uptime</div>
-                    </div>
-                    <div id="chart-${s.name.replace(/\s/g, '')}" class="sparkline"></div>
-                </div>
-            `).join('');
-            catDiv.innerHTML = `<h3>[${cat.categoryName}]</h3>${servicesHTML}`;
-            categoriesContainer.appendChild(catDiv);
-            
-            // Render charts after elements are in the DOM
-            cat.services.forEach(s => {
-                new ApexCharts(document.querySelector(`#chart-${s.name.replace(/\s/g, '')}`), {
-                    ...chartOptions,
-                    series: [{ data: s.performance_history }]
-                }).render();
-            });
-        });
-        
-        const incidentsContainer = document.getElementById('incidents-timeline');
-        incidentsContainer.innerHTML = data.incidents.map((inc, i) => `
-            <div class="incident-item">
-                <div class="incident-header">
-                    <h4 class="incident-title">${inc.title}</h4>
-                    <span>${inc.date}</span>
-                </div>
-                <div class="incident-body ${i === 0 ? 'expanded' : ''}">
-                    ${inc.updates.map(upd => `
-                        <div class="update-item">
-                            <div class="update-meta"><strong>${upd.status}</strong> - <span>${upd.timestamp}</span></div>
-                            <p>${upd.description}</p>
-                        </div>`).join('')}
-                </div>
-            </div>
-        `).join('');
+        const allStatuses = data.serviceCategories.flatMap(c => c.services.map(s => s.status));
+        const overallStatus = getOverallStatus(allStatuses);
 
-        document.querySelectorAll('.incident-header').forEach(h => h.addEventListener('click', () => h.nextElementSibling.classList.toggle('expanded')));
+        elements.overallStatusText.textContent = data.overallStatus;
+        elements.overallStatusCard.className = `overall-status-card glass status-${overallStatus}`;
+        elements.lastUpdated.textContent = `Last Updated: ${formatTimestamp(data.lastUpdated)}`;
+
+        renderServiceCategories(data.serviceCategories);
+        renderIncidents(data.incidents);
     };
 
-    // --- Globe Visualization ---
-    const initGlobe = (networkData) => {
-        const canvas = document.getElementById('globe-canvas');
-        if (!canvas) return;
+    const getOverallStatus = (statuses) => {
+        if (statuses.includes('outage')) return 'outage';
+        if (statuses.includes('degraded')) return 'degraded';
+        if (statuses.includes('maintenance')) return 'maintenance';
+        return 'operational';
+    };
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    const renderServiceCategories = (categories) => {
+        elements.categoriesContainer.innerHTML = '';
+        categories.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'service-category';
+            const servicesHTML = category.services.map(service => `
+                <div class="status-item glass">
+                    <div class="status-item-header">
+                        <div class="status-item-title status-${service.status}">
+                            <svg class="status-svg-indicator" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45"/></svg>
+                            ${service.name}
+                        </div>
+                        <div class="response-time">${service.averageResponseTime > 0 ? service.averageResponseTime + 'ms' : '--'} <span>avg</span></div>
+                        <div class="status-tag status-${service.status}">${service.status}</div>
+                    </div>
+                    <div class="performance-chart" id="chart-${service.name.replace(/\s/g, '')}"></div>
+                    ${service.subcomponents ? `
+                        <button class="subcomponents-toggle">Show Subcomponents ▼</button>
+                        <div class="subcomponents-list">
+                            ${service.subcomponents.map(sub => `
+                                <div class="subcomponent-item">
+                                    <span>${sub.name}</span>
+                                    <span class="status-tag status-${sub.status}">${sub.status}</span>
+                                </div>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>`).join('');
+            
+            categoryDiv.innerHTML = `<h2>${category.categoryName}</h2><div class="status-grid">${servicesHTML}</div>`;
+            elements.categoriesContainer.appendChild(categoryDiv);
 
-        const geometry = new THREE.SphereGeometry(1, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ffc3, wireframe: true });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-        
-        networkData.forEach(node => {
-            const dotGeometry = new THREE.SphereGeometry(0.02, 16, 16);
-            const color = node.status === 'operational' ? 0x2ecc71 : node.status === 'degraded' ? 0xffd700 : 0xff4444;
-            const dotMaterial = new THREE.MeshBasicMaterial({ color });
-            const dot = new THREE.Mesh(dotGeometry, dotMaterial);
-
-            const [lat, lon] = node.coords;
-            const phi = (90 - lat) * (Math.PI / 180);
-            const theta = (lon + 180) * (Math.PI / 180);
-            dot.position.set(
-                -(Math.sin(phi) * Math.cos(theta)),
-                Math.cos(phi),
-                Math.sin(phi) * Math.sin(theta)
-            );
-            sphere.add(dot);
+            category.services.forEach(service => renderChart(service));
         });
 
-        camera.position.z = 2;
+        document.querySelectorAll('.subcomponents-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const list = toggle.nextElementSibling;
+                list.classList.toggle('expanded');
+                toggle.textContent = list.classList.contains('expanded') ? 'Hide Subcomponents ▲' : 'Show Subcomponents ▼';
+            });
+        });
+    };
 
-        const animate = () => {
-            requestAnimationFrame(animate);
-            sphere.rotation.y += 0.002;
-            renderer.render(scene, camera);
+    const renderChart = (service) => {
+        const options = {
+            chart: { type: 'area', height: 100, sparkline: { enabled: true } },
+            stroke: { curve: 'smooth', width: 2 },
+            fill: { type: 'gradient', gradient: { opacityFrom: 0.6, opacityTo: 0.1 } },
+            series: [{ name: 'Response Time', data: service.performance_history }],
+            tooltip: { enabled: false },
+            colors: [getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim()]
         };
-        animate();
+        const chartId = `#chart-${service.name.replace(/\s/g, '')}`;
+        if(document.querySelector(chartId)) {
+            new ApexCharts(document.querySelector(chartId), options).render();
+        }
+    };
+
+    const renderIncidents = (incidents) => {
+        elements.timeline.innerHTML = '';
+        const groupedIncidents = incidents.reduce((acc, incident) => {
+            const date = new Date(incident.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            if (!acc[date]) acc[date] = [];
+            acc[date].push(incident);
+            return acc;
+        }, {});
+
+        for (const date in groupedIncidents) {
+            const dayGroup = document.createElement('div');
+            dayGroup.className = 'incident-day-group';
+            const incidentsHTML = groupedIncidents[date].map(incident => `
+                <div class="incident-item glass severity-${incident.severity || 'info'}">
+                    <div class="incident-header">
+                        <span class="incident-title">${incident.title}</span>
+                        <span class="incident-severity">${incident.severity || 'Update'}</span>
+                    </div>
+                    <div class="incident-updates">
+                        ${incident.updates.map(upd => `<p><strong>${upd.timestamp}:</strong> ${upd.description}</p>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+            dayGroup.innerHTML = `<h3 class="incident-date">${date}</h3>${incidentsHTML}`;
+            elements.timeline.appendChild(dayGroup);
+        }
+    };
+
+    const formatTimestamp = (isoString) => {
+        const date = new Date(isoString);
+        const now = new Date();
+        const diffSeconds = Math.round((now - date) / 1000);
+        if (diffSeconds < 60) return `a few seconds ago`;
+        const diffMinutes = Math.round(diffSeconds / 60);
+        if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+        return date.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit' });
     };
 
     fetchData();
