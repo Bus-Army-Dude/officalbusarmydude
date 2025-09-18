@@ -1,12 +1,6 @@
 {
   "lastUpdated": "2025-09-17T22:30:00Z",
-  "overallStatus": "Degraded Performance",
-  "globalNetwork": [
-    { "name": "US-East (Ohio)", "status": "operational", "coords": [39.8, -82.9] },
-    { "name": "US-West (Oregon)", "status": "operational", "coords": [43.8, -120.5] },
-    { "name": "EU-Central (Frankfurt)", "status": "degraded", "coords": [50.1, 8.6] },
-    { "name": "Asia-Pacific (Tokyo)", "status": "outage", "coords": [35.6, 139.6] }
-  ],
+  "overallStatus": "All Systems Operational",
   "serviceCategories": [
     {
       "categoryName": "User-Facing Services",
@@ -14,23 +8,24 @@
         {
           "name": "Home Page & Shoutouts",
           "status": "operational",
-          "latency": 15,
-          "uptime_90_days": "100%",
-          "performance_history": [30, 25, 28, 22, 18, 15, 17, 14, 15]
+          "description": "Profile, links, and creator shoutout feeds.",
+          "averageResponseTime": 15,
+          "performance_history": [30, 25, 28, 22, 18, 15, 17, 14, 15, 18, 20, 16],
+          "subcomponents": [
+            { "name": "Profile Loading", "status": "operational" },
+            { "name": "Shoutout Feed API", "status": "operational" }
+          ]
         },
         {
           "name": "Merchandise Store",
           "status": "operational",
-          "latency": 45,
-          "uptime_90_days": "99.98%",
-          "performance_history": [40, 42, 38, 45, 50, 48, 44, 46, 45]
-        },
-        {
-          "name": "User Settings System",
-          "status": "degraded",
-          "latency": 120,
-          "uptime_90_days": "99.95%",
-          "performance_history": [50, 55, 60, 80, 110, 150, 130, 125, 120]
+          "description": "Product listings, filtering, and store interface.",
+          "averageResponseTime": 120,
+          "performance_history": [50, 55, 60, 80, 110, 150, 130, 125, 120, 115, 122, 118],
+          "subcomponents": [
+            { "name": "Product API", "status": "operational" },
+            { "name": "Image Hosting", "status": "operational" }
+          ]
         }
       ]
     },
@@ -38,18 +33,37 @@
       "categoryName": "Core Infrastructure",
       "services": [
         {
+          "name": "User Settings System",
+          "status": "operational",
+          "description": "Appearance, theme, and accessibility settings.",
+          "averageResponseTime": 45,
+          "performance_history": [40, 42, 38, 45, 50, 48, 44, 46, 45, 43, 47, 44],
+           "subcomponents": [
+            { "name": "Settings API", "status": "operational" },
+            { "name": "LocalStorage Sync", "status": "operational" }
+          ]
+        },
+        {
           "name": "Firebase Backend",
           "status": "outage",
-          "latency": 0,
-          "uptime_90_days": "99.91%",
-          "performance_history": [60, 65, 58, 62, 70, 85, 90, 0, 0]
+          "description": "Primary database and authentication services.",
+          "averageResponseTime": 0,
+          "performance_history": [60, 65, 58, 62, 70, 85, 90, 0, 0, 0, 0, 0],
+           "subcomponents": [
+            { "name": "Firestore Database", "status": "operational" },
+            { "name": "Authentication", "status": "operational" }
+          ]
         },
         {
           "name": "Admin Panel",
           "status": "maintenance",
-          "latency": 0,
-          "uptime_90_days": "99.99%",
-          "performance_history": [10, 12, 11, 9, 14, 15, 0, 0, 0]
+          "description": "Internal content management system.",
+          "averageResponseTime": 0,
+          "performance_history": [10, 12, 11, 9, 14, 15, 0, 0, 0, 0, 0, 0],
+           "subcomponents": [
+            { "name": "Admin UI", "status": "operational" },
+            { "name": "Content API", "status": "operational" }
+          ]
         }
       ]
     }
@@ -57,19 +71,20 @@
   "incidents": [
     {
       "date": "2025-09-17",
-      "title": "Major Database Outage",
-      "status": "investigating",
+      "title": "Critical Database Outage",
+      "severity": "critical",
       "updates": [
-        { "timestamp": "22:15 UTC", "status": "investigating", "description": "We are investigating a critical outage affecting the Firebase Backend and dependent services." }
+        { "timestamp": "21:15 EDT", "status": "investigating", "description": "We are investigating a critical outage affecting the Firebase Backend. User-facing services like Shoutouts and Merchandise may fail to load." }
       ]
     },
     {
       "date": "2025-09-16",
-      "title": "Shoutouts Feed Not Loading",
+      "title": "Merchandise Page Slow to Load",
+      "severity": "minor",
       "status": "resolved",
       "updates": [
-        { "timestamp": "15:00 EDT", "status": "resolved", "description": "The database connection has been restored and all shoutouts are loading normally." },
-        { "timestamp": "14:30 EDT", "status": "investigating", "description": "We are investigating an issue where the creator shoutouts feed is not loading for some users." }
+        { "timestamp": "15:00 EDT", "status": "resolved", "description": "The issue has been resolved and the merchandise store is back to normal." },
+        { "timestamp": "14:30 EDT", "status": "investigating", "description": "We have identified an issue with the merchandise page and are investigating." }
       ]
     }
   ]
