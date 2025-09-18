@@ -8,28 +8,48 @@
     <link rel="stylesheet" href="status.css" />
     <script src="settings.js" defer></script>
 </head>
-<body>
+<body class="status-page-body">
+    <div class="scanlines"></div>
     <main class="container">
-        <div class="status-header">
-            <h1>System Status</h1>
-            <div class="overall-status" id="overall-status-badge">
-                <span class="status-indicator"></span>
-                <span id="overall-status-text">Loading status...</span>
+        <header class="status-page-header">
+            <h1 class="glitch" data-text="[System Status]"><span>[System Status]</span></h1>
+            <div class="overall-status-box" id="overall-status-box">
+                <p>Current Status: <span id="overall-status-text">Loading...</span></p>
+                <p id="last-updated">Last Sync: --</p>
             </div>
-            <p class="last-updated" id="last-updated">Last updated: --</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="left-panel">
+                <div id="service-categories-container">
+                    </div>
+            </div>
+            <div class="right-panel">
+                <div class="globe-container">
+                    <canvas id="globe-canvas"></canvas>
+                    <div class="globe-overlay">
+                        <h3>Global Network Health</h3>
+                    </div>
+                </div>
+                <div class="subscribe-module">
+                    <h3>[Subscribe to Updates]</h3>
+                    <form class="subscribe-form">
+                        <input type="email" placeholder="[enter email address]" disabled>
+                        <button type="button">[Subscribe]</button>
+                    </form>
+                </div>
+            </div>
         </div>
         
-        <h2>Current Status</h2>
-        <div class="status-grid" id="status-grid">
-            </div>
-        
-        <h2 class="incidents-title">Past Incidents</h2>
+        <h2 class="incidents-title glitch" data-text="[Incident Log]"><span>[Incident Log]</span></h2>
         <div class="incidents-timeline" id="incidents-timeline">
             </div>
         
-        <a href="/" class="back-link">← Back to Profile</a>
+        <a href="/" class="back-link">[Return to Mainframe]</a>
     </main>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="status.js"></script>
 </body>
 </html>
