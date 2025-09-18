@@ -1,71 +1,75 @@
 {
-  "lastUpdated": "2025-09-17T21:30:00Z",
-  "overallStatus": "All Systems Operational",
-  "services": [
+  "lastUpdated": "2025-09-17T22:30:00Z",
+  "overallStatus": "Degraded Performance",
+  "globalNetwork": [
+    { "name": "US-East (Ohio)", "status": "operational", "coords": [39.8, -82.9] },
+    { "name": "US-West (Oregon)", "status": "operational", "coords": [43.8, -120.5] },
+    { "name": "EU-Central (Frankfurt)", "status": "degraded", "coords": [50.1, 8.6] },
+    { "name": "Asia-Pacific (Tokyo)", "status": "outage", "coords": [35.6, 139.6] }
+  ],
+  "serviceCategories": [
     {
-      "name": "Home Page & Shoutouts",
-      "status": "operational",
-      "description": "Profile, links, and creator shoutout feeds are loading correctly.",
-      "uptime_90_days": "100%"
+      "categoryName": "User-Facing Services",
+      "services": [
+        {
+          "name": "Home Page & Shoutouts",
+          "status": "operational",
+          "latency": 15,
+          "uptime_90_days": "100%",
+          "performance_history": [30, 25, 28, 22, 18, 15, 17, 14, 15]
+        },
+        {
+          "name": "Merchandise Store",
+          "status": "operational",
+          "latency": 45,
+          "uptime_90_days": "99.98%",
+          "performance_history": [40, 42, 38, 45, 50, 48, 44, 46, 45]
+        },
+        {
+          "name": "User Settings System",
+          "status": "degraded",
+          "latency": 120,
+          "uptime_90_days": "99.95%",
+          "performance_history": [50, 55, 60, 80, 110, 150, 130, 125, 120]
+        }
+      ]
     },
     {
-      "name": "Merchandise Store",
-      "status": "operational",
-      "description": "Product listings, filtering, and the store interface are fully functional.",
-      "uptime_90_days": "99.98%"
-    },
-    {
-      "name": "User Settings System",
-      "status": "operational",
-      "description": "Appearance, theme, and accessibility settings are working correctly.",
-      "uptime_90_days": "100%"
-    },
-    {
-      "name": "Firebase Backend",
-      "status": "degraded",
-      "description": "The connection to our database is slow, which may delay loading of dynamic content.",
-      "uptime_90_days": "99.95%"
-    },
-    {
-      "name": "Admin Panel",
-      "status": "maintenance",
-      "description": "The admin panel is currently undergoing scheduled maintenance.",
-      "uptime_90_days": "99.99%"
+      "categoryName": "Core Infrastructure",
+      "services": [
+        {
+          "name": "Firebase Backend",
+          "status": "outage",
+          "latency": 0,
+          "uptime_90_days": "99.91%",
+          "performance_history": [60, 65, 58, 62, 70, 85, 90, 0, 0]
+        },
+        {
+          "name": "Admin Panel",
+          "status": "maintenance",
+          "latency": 0,
+          "uptime_90_days": "99.99%",
+          "performance_history": [10, 12, 11, 9, 14, 15, 0, 0, 0]
+        }
+      ]
     }
   ],
   "incidents": [
+    {
+      "date": "2025-09-17",
+      "title": "Major Database Outage",
+      "status": "investigating",
+      "updates": [
+        { "timestamp": "22:15 UTC", "status": "investigating", "description": "We are investigating a critical outage affecting the Firebase Backend and dependent services." }
+      ]
+    },
     {
       "date": "2025-09-16",
       "title": "Shoutouts Feed Not Loading",
       "status": "resolved",
       "updates": [
-        {
-          "timestamp": "15:00 EDT",
-          "status": "resolved",
-          "description": "The database connection has been restored and all shoutouts are loading normally."
-        },
-        {
-          "timestamp": "14:45 EDT",
-          "status": "monitoring",
-          "description": "A fix has been implemented and we are monitoring the results."
-        },
-        {
-          "timestamp": "14:30 EDT",
-          "status": "investigating",
-          "description": "We are investigating an issue where the creator shoutouts feed is not loading for some users."
-        }
-      ]
-    },
-    {
-      "date": "2025-09-15",
-      "title": "Admin Panel Maintenance",
-      "status": "resolved",
-      "updates": [
-        {
-          "timestamp": "04:00 EDT",
-          "status": "resolved",
-          "description": "Scheduled maintenance on the admin panel is complete."
-        }
+        { "timestamp": "15:00 EDT", "status": "resolved", "description": "The database connection has been restored and all shoutouts are loading normally." },
+        { "timestamp": "14:30 EDT", "status": "investigating", "description": "We are investigating an issue where the creator shoutouts feed is not loading for some users." }
       ]
     }
   ]
