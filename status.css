@@ -1,113 +1,132 @@
-/* status.css (Quantum) */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-
-:root {
-    --glow-color: var(--accent-color, #00ffc3);
-    --terminal-bg: #0d0d1a;
-    --terminal-fg: #e0e0e0;
-    --terminal-border: rgba(0, 255, 195, 0.2);
-    --terminal-scanline: rgba(0, 0, 0, 0.3);
-}
-
+/* status.css (Aura) */
 .status-page-body {
-    background-color: var(--terminal-bg);
-    color: var(--terminal-fg);
-    font-family: 'Roboto Mono', monospace;
-    overflow-x: hidden;
+    background-color: var(--bg-color);
 }
 
-.scanlines {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background: repeating-linear-gradient(0deg, var(--terminal-scanline), var(--terminal-scanline) 1px, transparent 1px, transparent 2px);
-    z-index: 100;
+.glass {
+    background: linear-gradient(145deg, color-mix(in srgb, var(--content-bg) 98%, white), var(--content-bg));
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
 }
 
-.glitch {
-    position: relative;
-    color: var(--glow-color);
-    text-shadow: 0 0 5px var(--glow-color);
-}
-.glitch span { position: relative; z-index: 2; }
-.glitch::before, .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--terminal-bg);
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-}
-.glitch::before { left: -2px; text-shadow: 2px 0 #ff00c1; animation: glitch-anim-1 2s infinite linear alternate-reverse; }
-.glitch::after { left: 2px; text-shadow: -2px 0 #00fff9; animation: glitch-anim-2 2s infinite linear alternate-reverse; }
-
-@keyframes glitch-anim-1 {
-  0%, 100% { clip: rect(42px, 9999px, 44px, 0); }
-  5%, 95% { clip: rect(12px, 9999px, 100px, 0); }
-}
-@keyframes glitch-anim-2 {
-  0%, 100% { clip: rect(2px, 9999px, 98px, 0); }
-  5%, 95% { clip: rect(78px, 9999px, 45px, 0); }
+.status-page-header {
+    margin-bottom: 40px;
 }
 
-.status-page-header { text-align: center; margin-bottom: 40px; }
-.overall-status-box {
-    border: 1px solid var(--terminal-border);
-    padding: 15px;
-    display: inline-block;
-    background: rgba(13, 13, 26, 0.8);
+.status-page-header h1 {
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 30px;
+    background: linear-gradient(120deg, var(--text-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
-.overall-status-box p { margin: 5px 0; }
 
-.main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-.left-panel, .right-panel { display: flex; flex-direction: column; gap: 20px; }
-.service-category, .globe-container, .subscribe-module {
-    border: 1px solid var(--terminal-border);
-    background: rgba(13, 13, 26, 0.8);
-    backdrop-filter: blur(5px);
-    padding: 20px;
-}
-.service-category h3 { margin: 0 0 15px; border-bottom: 1px solid var(--terminal-border); padding-bottom: 10px; color: var(--glow-color); }
-.status-item {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 15px;
+.overall-status-card {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--terminal-border);
+    padding: 20px 25px;
+    border-radius: 16px;
 }
-.status-item:last-child { border-bottom: none; }
-.status-item-info strong { font-size: 1.1em; }
-.status-metric { text-align: right; }
-.status-metric .value { font-size: 1.2em; font-weight: 700; }
-.status-metric .label { font-size: 0.8em; color: #a0a0a0; }
 
-.globe-container { position: relative; height: 300px; padding: 0; }
-#globe-canvas { width: 100% !important; height: 100% !important; }
-.globe-overlay { position: absolute; top: 15px; left: 15px; font-weight: 700; }
+.status-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
 
-.subscribe-module h3 { color: var(--glow-color); }
-.subscribe-form input { background: transparent; border: 1px solid var(--terminal-border); padding: 10px; color: var(--terminal-fg); }
-.subscribe-form button { background: transparent; border: 1px solid var(--glow-color); color: var(--glow-color); padding: 10px; cursor: pointer; }
+.status-svg-indicator {
+    width: 24px;
+    height: 24px;
+    animation: pulse 2s infinite ease-in-out;
+}
+.status-svg-indicator circle {
+    stroke-width: 10;
+    fill: currentColor;
+    stroke: currentColor;
+}
 
-.incidents-title { margin-top: 40px; }
-.incidents-timeline .incident-item { border-left: 2px solid var(--terminal-border); margin-bottom: 20px; padding-left: 15px; }
-.incident-header { cursor: pointer; }
-.incident-title { font-size: 1.2em; color: var(--glow-color); }
-.incident-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding-top 0.3s ease-out; }
-.incident-body.expanded { max-height: 500px; padding-top: 15px; }
-.update-meta { border-bottom: 1px dashed var(--terminal-border); padding-bottom: 5px; margin-bottom: 5px; }
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.last-updated-text {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+}
+
+.service-category h2 {
+    font-size: 1.5rem;
+    margin: 40px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.status-item {
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.status-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.status-item-title { display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 600; }
+.status-item-title .status-svg-indicator { width: 16px; height: 16px; }
+
+.status-tag { font-weight: 600; text-transform: capitalize; }
+.response-time { font-weight: 600; font-size: 1.1rem; }
+.response-time span { font-size: 0.8em; color: var(--secondary-text); }
+
+.performance-chart { margin-top: 20px; }
+.subcomponents-toggle {
+    background: none;
+    border: none;
+    color: var(--secondary-text);
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    display: block;
+}
+
+.subcomponents-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    border-left: 2px solid var(--border-color);
+    margin-left: 8px;
+    padding-left: 20px;
+}
+.subcomponents-list.expanded { max-height: 300px; margin-top: 15px; }
+.subcomponent-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
+.subcomponent-item:last-child { border-bottom: none; }
+
+.incidents-title { text-align: center; margin-top: 60px; font-size: 2rem; }
+.incidents-timeline { margin-top: 30px; }
+.incident-day-group { margin-bottom: 30px; }
+.incident-date { font-size: 1.2rem; font-weight: 600; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+.incident-item { padding: 20px; border-radius: 12px; margin-top: 15px; }
+.incident-header { display: flex; justify-content: space-between; align-items: center; }
+.incident-title { font-size: 1.1rem; font-weight: 600; }
+.incident-severity { font-weight: 600; text-transform: capitalize; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; }
+.incident-updates { margin-top: 15px; }
 
 /* Status Colors */
-.status-operational .value, .status-operational .status-tag { color: #2ecc71; }
-.status-degraded .value, .status-degraded .status-tag { color: #ffd700; }
-.status-maintenance .value, .status-maintenance .status-tag { color: #3498db; }
-.status-outage .value, .status-outage .status-tag { color: #ff4444; }
+.status-operational, .severity-resolved { color: #2ecc71; }
+.status-degraded, .severity-minor { color: #ffd700; }
+.status-maintenance { color: #3498db; }
+.status-outage, .severity-critical { color: #ff4444; }
 
-.back-link { display: block; text-align: center; margin-top: 40px; color: var(--glow-color); }
+.severity-critical { background-color: rgba(255, 68, 68, 0.1); }
+.severity-minor { background-color: rgba(255, 215, 0, 0.1); }
+.severity-resolved { background-color: rgba(46, 204, 113, 0.1); }
