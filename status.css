@@ -1,0 +1,103 @@
+/* status.css (Advanced) */
+.status-header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 25px;
+    background: var(--content-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.status-header h1 {
+    margin: 0 0 15px 0;
+    font-size: 2.5rem;
+}
+
+.overall-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.last-updated {
+    margin: 15px 0 0;
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-color: #6c757d; /* Default gray */
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.status-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.status-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 25px;
+    background: var(--content-bg);
+    border-left: 5px solid; /* This border will get the status color */
+    border-radius: 8px;
+    border-top: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.status-item-info { flex-grow: 1; }
+.status-item-info strong { font-size: 1.2rem; }
+.status-item-info p { margin: 5px 0 0; color: var(--secondary-text); }
+
+.status-item-right { text-align: right; }
+.uptime { font-weight: 600; font-size: 1.1rem; }
+.uptime-label { font-size: 0.8rem; color: var(--secondary-text); display: block; }
+
+/* Incident Timeline */
+.incidents-timeline { display: flex; flex-direction: column; gap: 30px; }
+.incident-day { border-left: 2px solid var(--border-color); padding-left: 25px; position: relative; }
+.incident-day::before { content: ''; width: 12px; height: 12px; background: var(--secondary-text); border-radius: 50%; position: absolute; left: -7px; top: 5px; }
+.incident-date { font-weight: 600; margin-bottom: 10px; }
+.incident-details { background: var(--content-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; }
+.incident-title { font-size: 1.2rem; font-weight: 600; margin: 0 0 15px 0; }
+.incident-update { padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px dashed var(--border-color); }
+.incident-update:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.update-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+.update-status { font-weight: 600; text-transform: capitalize; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; }
+.update-timestamp { color: var(--secondary-text); font-size: 0.9rem; }
+.update-description { margin: 0; }
+
+/* Status Colors */
+.status-operational { border-left-color: #2ecc71; }
+.status-operational .status-indicator, .status-resolved { background-color: #2ecc71; color: #fff; }
+
+.status-degraded { border-left-color: #ffd700; }
+.status-degraded .status-indicator, .status-monitoring { background-color: #ffd700; color: #121212; }
+
+.status-maintenance { border-left-color: #3498db; }
+.status-maintenance .status-indicator { background-color: #3498db; }
+
+.status-outage { border-left-color: #ff4444; }
+.status-outage .status-indicator, .status-investigating { background-color: #ff4444; color: #fff; }
+
+.back-link { display: block; text-align: center; margin-top: 50px; }
