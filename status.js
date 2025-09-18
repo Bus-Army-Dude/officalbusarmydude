@@ -1,18 +1,13 @@
-// status.js (Helios)
+// status.js (Aura)
 
 document.addEventListener('DOMContentLoaded', () => {
     const elements = {
         categoriesContainer: document.getElementById('service-categories-container'),
-        analyticsContainer: document.getElementById('analytics-panel-container'),
         timeline: document.getElementById('incidents-timeline'),
         overallStatusText: document.getElementById('overall-status-text'),
         overallStatusCard: document.getElementById('overall-status-card'),
-        lastUpdated: document.getElementById('last-updated'),
-        heliosSvg: document.getElementById('helios-map-svg')
+        lastUpdated: document.getElementById('last-updated')
     };
-
-    let activeAnalyticsPanel = null;
-    let charts = {};
 
     const fetchData = () => {
         fetch('status-data.json?cachebust=' + new Date().getTime())
@@ -22,13 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updatePage = (data) => {
-        const overallStatus = getOverallStatus(data.services.map(s => s.status));
+        const allStatuses = data.serviceCategories.flatMap(c => c.services.map(s => s.status));
+        const overallStatus = getOverallStatus(allStatuses);
+
         elements.overallStatusText.textContent = data.overallStatus;
         elements.overallStatusCard.className = `overall-status-card glass status-${overallStatus}`;
         elements.lastUpdated.textContent = `Last Updated: ${formatTimestamp(data.lastUpdated)}`;
-        
-        renderHeliosMap(data.services);
-        renderIncidents(data.incidents, data.services);
+
+        renderServiceCategories(data.serviceCategories);
+        renderIncidents(data.incidents);
     };
 
     const getOverallStatus = (statuses) => {
@@ -38,113 +35,82 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'operational';
     };
 
-    const renderHeliosMap = (services) => {
-        const positions = {
-            frontend: { x: 50, y: 50 },
-            shoutouts: { x: 300, y: 50 },
-            merch-api: { x: 300, y: 150 },
-            settings-api: { x: 50, y: 150 },
-            firebase: { x: 550, y: 100 },
-            admin: { x: 300, y: 250 }
-        };
+    const renderServiceCategories = (categories) => {
+        elements.categoriesContainer.innerHTML = '';
+        categories.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'service-category';
+            const servicesHTML = category.services.map(service => `
+                <div class="status-item glass">
+                    <div class="status-item-header">
+                        <div class="status-item-title status-${service.status}">
+                            <svg class="status-svg-indicator" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45"/></svg>
+                            ${service.name}
+                        </div>
+                        <div class="response-time">${service.averageResponseTime > 0 ? service.averageResponseTime + 'ms' : '--'} <span>avg</span></div>
+                        <div class="status-tag status-${service.status}">${service.status}</div>
+                    </div>
+                    <div class="performance-chart" id="chart-${service.name.replace(/\s/g, '')}"></div>
+                    ${service.subcomponents ? `
+                        <button class="subcomponents-toggle">Show Subcomponents ▼</button>
+                        <div class="subcomponents-list">
+                            ${service.subcomponents.map(sub => `
+                                <div class="subcomponent-item">
+                                    <span>${sub.name}</span>
+                                    <span class="status-tag status-${sub.status}">${sub.status}</span>
+                                </div>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>`).join('');
+            
+            categoryDiv.innerHTML = `<h2>${category.categoryName}</h2><div class="status-grid">${servicesHTML}</div>`;
+            elements.categoriesContainer.appendChild(categoryDiv);
 
-        let linksHTML = '';
-        services.forEach(service => {
-            if (service.dependencies) {
-                service.dependencies.forEach(depId => {
-                    const depService = services.find(s => s.id === depId);
-                    if (depService) {
-                        linksHTML += `<path class="service-link status-${service.status} ${service.status === 'operational' ? 'animated' : ''}" d="M ${positions[service.id].x + 100} ${positions[service.id].y + 25} C ${positions[service.id].x + 200} ${positions[service.id].y + 25}, ${positions[depService.id].x - 100} ${positions[depService.id].y + 25}, ${positions[depService.id].x} ${positions[depService.id].y + 25}" />`;
-                    }
-                });
-            }
+            category.services.forEach(service => renderChart(service));
         });
 
-        const nodesHTML = services.map(service => `
-            <g class="service-node status-${service.status}" id="node-${service.id}" transform="translate(${positions[service.id].x}, ${positions[service.id].y})">
-                <rect width="200" height="50" rx="8" ry="8" stroke="currentColor" />
-                <text x="100" y="30" text-anchor="middle">${service.name}</text>
-            </g>
-        `).join('');
-
-        elements.heliosSvg.innerHTML = `<g>${linksHTML}</g><g>${nodesHTML}</g>`;
-        
-        services.forEach(service => {
-            document.getElementById(`node-${service.id}`).addEventListener('click', () => showAnalyticsPanel(service, services));
+        document.querySelectorAll('.subcomponents-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const list = toggle.nextElementSibling;
+                list.classList.toggle('expanded');
+                toggle.textContent = list.classList.contains('expanded') ? 'Hide Subcomponents ▲' : 'Show Subcomponents ▼';
+            });
         });
-    };
-
-    const showAnalyticsPanel = (service, allServices) => {
-        if (activeAnalyticsPanel) activeAnalyticsPanel.style.display = 'none';
-
-        let panel = document.getElementById(`analytics-${service.id}`);
-        if (!panel) {
-            panel = document.createElement('div');
-            panel.id = `analytics-${service.id}`;
-            panel.className = 'analytics-panel glass';
-            elements.analyticsContainer.appendChild(panel);
-        }
-        
-        panel.innerHTML = `
-            <div class="analytics-header">
-                <div class="analytics-title status-${service.status}">${service.name}</div>
-                <div class="response-time">${service.averageResponseTime > 0 ? service.averageResponseTime + 'ms' : '--'} <span>avg</span></div>
-            </div>
-            <div class="performance-chart" id="chart-${service.id}"></div>
-            ${service.subcomponents ? `
-                <h3>Subcomponents</h3>
-                <div class="subcomponents-list expanded">
-                    ${service.subcomponents.map(sub => `
-                        <div class="subcomponent-item">
-                            <span>${sub.name}</span>
-                            <span class="status-tag status-${sub.status}">${sub.status}</span>
-                        </div>`).join('')}
-                </div>
-            ` : ''}
-        `;
-        panel.style.display = 'block';
-        activeAnalyticsPanel = panel;
-        renderChart(service);
     };
 
     const renderChart = (service) => {
-        const chartId = `chart-${service.id}`;
-        if (charts[chartId]) charts[chartId].destroy();
-        
         const options = {
-            chart: { type: 'area', height: 120, sparkline: { enabled: false }, toolbar: { show: false }, background: 'transparent' },
+            chart: { type: 'area', height: 100, sparkline: { enabled: true } },
             stroke: { curve: 'smooth', width: 2 },
             fill: { type: 'gradient', gradient: { opacityFrom: 0.6, opacityTo: 0.1 } },
             series: [{ name: 'Response Time', data: service.performance_history }],
-            tooltip: { theme: 'dark' },
-            colors: [getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim()],
-            xaxis: { labels: { show: false } },
-            yaxis: { labels: { show: false } }
+            tooltip: { enabled: false },
+            colors: [getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim()]
         };
-        
-        charts[chartId] = new ApexCharts(document.querySelector(`#${chartId}`), options);
-        charts[chartId].render();
+        const chartId = `#chart-${service.name.replace(/\s/g, '')}`;
+        if(document.querySelector(chartId)) {
+            new ApexCharts(document.querySelector(chartId), options).render();
+        }
     };
 
-    const renderIncidents = (incidents, services) => {
+    const renderIncidents = (incidents) => {
         elements.timeline.innerHTML = '';
-        const grouped = incidents.reduce((acc, inc) => {
-            const date = new Date(inc.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const groupedIncidents = incidents.reduce((acc, incident) => {
+            const date = new Date(incident.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             if (!acc[date]) acc[date] = [];
-            acc[date].push(inc);
+            acc[date].push(incident);
             return acc;
         }, {});
 
-        for (const date in grouped) {
+        for (const date in groupedIncidents) {
             const dayGroup = document.createElement('div');
             dayGroup.className = 'incident-day-group';
-            const incidentsHTML = grouped[date].map(incident => `
+            const incidentsHTML = groupedIncidents[date].map(incident => `
                 <div class="incident-item glass severity-${incident.severity || 'info'}">
                     <div class="incident-header">
                         <span class="incident-title">${incident.title}</span>
                         <span class="incident-severity">${incident.severity || 'Update'}</span>
                     </div>
-                    ${incident.affected_components ? `<div class="incident-affected">Affected: ${incident.affected_components.map(id => services.find(s => s.id === id).name).join(', ')}</div>` : ''}
                     <div class="incident-updates">
                         ${incident.updates.map(upd => `<p><strong>${upd.timestamp}:</strong> ${upd.description}</p>`).join('')}
                     </div>
@@ -154,9 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.timeline.appendChild(dayGroup);
         }
     };
-    
+
     const formatTimestamp = (isoString) => {
         const date = new Date(isoString);
+        const now = new Date();
+        const diffSeconds = Math.round((now - date) / 1000);
+        if (diffSeconds < 60) return `a few seconds ago`;
+        const diffMinutes = Math.round(diffSeconds / 60);
+        if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
         return date.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit' });
     };
 
