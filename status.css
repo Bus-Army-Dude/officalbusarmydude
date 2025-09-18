@@ -1,112 +1,113 @@
-/* status.css (Advanced) */
-.status-header {
-    text-align: center;
-    margin-bottom: 50px;
-    padding: 25px;
-    background: var(--content-bg);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
+/* status.css (Quantum) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+:root {
+    --glow-color: var(--accent-color, #00ffc3);
+    --terminal-bg: #0d0d1a;
+    --terminal-fg: #e0e0e0;
+    --terminal-border: rgba(0, 255, 195, 0.2);
+    --terminal-scanline: rgba(0, 0, 0, 0.3);
 }
 
-.status-header h1 {
-    margin: 0 0 15px 0;
-    font-size: 2.5rem;
+.status-page-body {
+    background-color: var(--terminal-bg);
+    color: var(--terminal-fg);
+    font-family: 'Roboto Mono', monospace;
+    overflow-x: hidden;
 }
 
-.overall-status {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1.1rem;
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, var(--terminal-scanline), var(--terminal-scanline) 1px, transparent 1px, transparent 2px);
+    z-index: 100;
 }
 
-.last-updated {
-    margin: 15px 0 0;
-    font-size: 0.9rem;
-    color: var(--secondary-text);
+.glitch {
+    position: relative;
+    color: var(--glow-color);
+    text-shadow: 0 0 5px var(--glow-color);
+}
+.glitch span { position: relative; z-index: 2; }
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--terminal-bg);
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+.glitch::before { left: -2px; text-shadow: 2px 0 #ff00c1; animation: glitch-anim-1 2s infinite linear alternate-reverse; }
+.glitch::after { left: 2px; text-shadow: -2px 0 #00fff9; animation: glitch-anim-2 2s infinite linear alternate-reverse; }
+
+@keyframes glitch-anim-1 {
+  0%, 100% { clip: rect(42px, 9999px, 44px, 0); }
+  5%, 95% { clip: rect(12px, 9999px, 100px, 0); }
+}
+@keyframes glitch-anim-2 {
+  0%, 100% { clip: rect(2px, 9999px, 98px, 0); }
+  5%, 95% { clip: rect(78px, 9999px, 45px, 0); }
 }
 
-.status-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 12px;
-    background-color: #6c757d; /* Default gray */
+.status-page-header { text-align: center; margin-bottom: 40px; }
+.overall-status-box {
+    border: 1px solid var(--terminal-border);
+    padding: 15px;
+    display: inline-block;
+    background: rgba(13, 13, 26, 0.8);
 }
+.overall-status-box p { margin: 5px 0; }
 
-h2 {
-    font-size: 1.8rem;
-    margin-top: 50px;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
+.main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+.left-panel, .right-panel { display: flex; flex-direction: column; gap: 20px; }
+.service-category, .globe-container, .subscribe-module {
+    border: 1px solid var(--terminal-border);
+    background: rgba(13, 13, 26, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 20px;
 }
-
-.status-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
+.service-category h3 { margin: 0 0 15px; border-bottom: 1px solid var(--terminal-border); padding-bottom: 10px; color: var(--glow-color); }
 .status-item {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
     gap: 15px;
-    padding: 25px;
-    background: var(--content-bg);
-    border-left: 5px solid; /* This border will get the status color */
-    border-radius: 8px;
-    border-top: 1px solid var(--border-color);
-    border-right: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--terminal-border);
 }
+.status-item:last-child { border-bottom: none; }
+.status-item-info strong { font-size: 1.1em; }
+.status-metric { text-align: right; }
+.status-metric .value { font-size: 1.2em; font-weight: 700; }
+.status-metric .label { font-size: 0.8em; color: #a0a0a0; }
 
-.status-item-info { flex-grow: 1; }
-.status-item-info strong { font-size: 1.2rem; }
-.status-item-info p { margin: 5px 0 0; color: var(--secondary-text); }
+.globe-container { position: relative; height: 300px; padding: 0; }
+#globe-canvas { width: 100% !important; height: 100% !important; }
+.globe-overlay { position: absolute; top: 15px; left: 15px; font-weight: 700; }
 
-.status-item-right { text-align: right; }
-.uptime { font-weight: 600; font-size: 1.1rem; }
-.uptime-label { font-size: 0.8rem; color: var(--secondary-text); display: block; }
+.subscribe-module h3 { color: var(--glow-color); }
+.subscribe-form input { background: transparent; border: 1px solid var(--terminal-border); padding: 10px; color: var(--terminal-fg); }
+.subscribe-form button { background: transparent; border: 1px solid var(--glow-color); color: var(--glow-color); padding: 10px; cursor: pointer; }
 
-/* Incident Timeline */
-.incidents-timeline { display: flex; flex-direction: column; gap: 30px; }
-.incident-day { border-left: 2px solid var(--border-color); padding-left: 25px; position: relative; }
-.incident-day::before { content: ''; width: 12px; height: 12px; background: var(--secondary-text); border-radius: 50%; position: absolute; left: -7px; top: 5px; }
-.incident-date { font-weight: 600; margin-bottom: 10px; }
-.incident-details { background: var(--content-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; }
-.incident-title { font-size: 1.2rem; font-weight: 600; margin: 0 0 15px 0; }
-.incident-update { padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px dashed var(--border-color); }
-.incident-update:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-.update-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
-.update-status { font-weight: 600; text-transform: capitalize; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; }
-.update-timestamp { color: var(--secondary-text); font-size: 0.9rem; }
-.update-description { margin: 0; }
+.incidents-title { margin-top: 40px; }
+.incidents-timeline .incident-item { border-left: 2px solid var(--terminal-border); margin-bottom: 20px; padding-left: 15px; }
+.incident-header { cursor: pointer; }
+.incident-title { font-size: 1.2em; color: var(--glow-color); }
+.incident-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding-top 0.3s ease-out; }
+.incident-body.expanded { max-height: 500px; padding-top: 15px; }
+.update-meta { border-bottom: 1px dashed var(--terminal-border); padding-bottom: 5px; margin-bottom: 5px; }
 
-/* For Indicator Dots (like in the header) */
-.status-operational .status-indicator { background-color: #2ecc71; }
-.status-degraded .status-indicator    { background-color: #ffd700; }
-.status-maintenance .status-indicator { background-color: #3498db; }
-.status-outage .status-indicator      { background-color: #ff4444; }
+/* Status Colors */
+.status-operational .value, .status-operational .status-tag { color: #2ecc71; }
+.status-degraded .value, .status-degraded .status-tag { color: #ffd700; }
+.status-maintenance .value, .status-maintenance .status-tag { color: #3498db; }
+.status-outage .value, .status-outage .status-tag { color: #ff4444; }
 
-/* For Service Item Borders */
-.status-item.status-operational { border-left-color: #2ecc71; }
-.status-item.status-degraded    { border-left-color: #ffd700; }
-.status-item.status-maintenance { border-left-color: #3498db; }
-.status-item.status-outage      { border-left-color: #ff4444; }
-
-/* For Incident Timeline Tags (text-based) */
-.update-status.status-resolved      { background-color: #2ecc71;  color: #fff; }
-.update-status.status-monitoring    { background-color: #ffd700;  color: #121212; }
-.update-status.status-investigating { background-color: #ff4444;  color: #fff; }
-
-
-.back-link { 
-    display: block; 
-    text-align: center; 
-    margin-top: 50px; 
-}
+.back-link { display: block; text-align: center; margin-top: 40px; color: var(--glow-color); }
