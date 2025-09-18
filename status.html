@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Status - Caleb's Website</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="status.css" />
+    <script src="settings.js" defer></script>
+</head>
+<body>
+    <main class="container">
+        <div class="status-header">
+            <h1>System Status</h1>
+            <div class="overall-status" id="overall-status-badge">
+                <span class="status-indicator"></span>
+                <span id="overall-status-text">Loading status...</span>
+            </div>
+            <p class="last-updated" id="last-updated">Last updated: --</p>
+        </div>
+        
+        <h2>Current Status</h2>
+        <div class="status-grid" id="status-grid">
+            </div>
+        
+        <h2 class="incidents-title">Past Incidents</h2>
+        <div class="incidents-timeline" id="incidents-timeline">
+            </div>
+        
+        <a href="/" class="back-link">← Back to Profile</a>
+    </main>
+
+    <script src="status.js"></script>
+</body>
+</html>
