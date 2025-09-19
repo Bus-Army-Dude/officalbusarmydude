@@ -1540,6 +1540,29 @@ async function initializeHomepageContent() {
         if (mainContentWrapper) mainContentWrapper.style.display = '';
         if (maintenanceOverlay) maintenanceOverlay.style.display = 'none';
         bodyElement.classList.remove('maintenance-active');
+
+        // ===================================================================
+        // === NEW: APPLY SAVED SECTION ORDER ================================
+        // ===================================================================
+        const savedOrder = JSON.parse(localStorage.getItem('sectionOrder'));
+        const rearrangeableContainer = document.getElementById('rearrangeable-container');
+
+        if (savedOrder && rearrangeableContainer) {
+            console.log("Applying saved section order:", savedOrder);
+            savedOrder.forEach(sectionId => {
+                // Find the section using its data attribute
+                const section = document.querySelector(`[data-section-id="${sectionId}"]`);
+                if (section) {
+                    // Append it to the container, which moves it to the new position
+                    rearrangeableContainer.appendChild(section);
+                } else {
+                    console.warn(`Could not find section with data-section-id: ${sectionId} to reorder.`);
+                }
+            });
+        }
+        // ===================================================================
+        // === END OF NEW CODE ===============================================
+        // ===================================================================
         
         // ** START EVENT COUNTDOWN LOGIC (Main site countdown) **
         if (countdownTargetDate && typeof startEventCountdown === 'function') {
