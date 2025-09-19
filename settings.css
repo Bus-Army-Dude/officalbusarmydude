@@ -1,31 +1,35 @@
 :root {
+    /* ======================================================= */
+    /* === iOS 26 Inspired Theme Defaults ==================== */
+    /* ======================================================= */
+
     /* Base Defaults */
     --text-size: 16px;
-    --accent-color: #3ddc84; /* Default, user can override via JS */
+    --accent-color: #007aff; /* Apple's standard blue, user can override */
 
-    /* Light Mode Colors */
-    --light-bg: #f2f4f7;
+    /* Light Mode Colors (iOS Palette) */
+    --light-bg: #f2f2f7; /* Standard grouped background color */
     --light-content-bg: #ffffff;
-    --light-text: #212529;
-    --light-secondary-text: #5f6368;
-    --light-border: #e0e0e0;
-    --light-hover: #35c374;
-    --light-toggle-on: var(--accent-color);
-    --light-toggle-off: #e6e6e6;
-    --light-red-color: #d93025;
-    --light-slider-track: #e6e6e6;
+    --light-text: #000000;
+    --light-secondary-text: #8a8a8e;
+    --light-border: #c6c6c8; /* Separator color */
+    --light-hover: rgba(0, 0, 0, 0.05); /* Subtle tap/hover highlight */
+    --light-toggle-on: #34c759; /* Standard iOS green */
+    --light-toggle-off: #e9e9eb;
+    --light-red-color: #ff3b30; /* Destructive action red */
+    --light-slider-track: #e9e9eb;
     --light-slider-thumb: #ffffff;
 
-    /* Dark Mode Colors */
-    --dark-bg: #121212;
-    --dark-content-bg: #1c1c1e;
-    --dark-text: #e6e6e6;
-    --dark-secondary-text: #b3b3b3;
-    --dark-border: #2c2c2e;
-    --dark-hover: #45e08f;
-    --dark-toggle-on: var(--accent-color);
-    --dark-toggle-off: #3a3a3c;
-    --dark-red-color: #ea6d66;
+    /* Dark Mode Colors (iOS Palette) */
+    --dark-bg: #000000; /* True black for OLED */
+    --dark-content-bg: #1c1c1e; /* Off-black for content */
+    --dark-text: #ffffff;
+    --dark-secondary-text: #8d8d93;
+    --dark-border: #38383a; /* Separator color */
+    --dark-hover: rgba(255, 255, 255, 0.1); /* Subtle tap/hover highlight */
+    --dark-toggle-on: var(--light-toggle-on); /* Green is the same in dark mode */
+    --dark-toggle-off: #39393d;
+    --dark-red-color: #ff453a;
     --dark-slider-track: #2f2f31;
     --dark-slider-thumb: #e6e6e6;
 
@@ -42,42 +46,55 @@
     --slider-track-color: var(--light-slider-track);
     --slider-track-filled-color: var(--accent-color);
     --slider-thumb-color: var(--light-slider-thumb);
-    --shadow-elevation-1: 0 1px 3px rgba(60,64,67,0.12);
-    --shadow-elevation-2: 0 4px 12px rgba(60,64,67,0.16);
+    --shadow-elevation-1: 0 1px 1px rgba(0,0,0,0.08); /* Softer iOS shadows */
+    --shadow-elevation-2: 0 4px 10px rgba(0,0,0,0.12);
 
-    /* Glass variables */
-    --glass-blur: blur(22px);
-    --glass-bg-light: rgba(255, 255, 255, 0.65);
-    --glass-border-light: rgba(255, 255, 255, 0.35);
-    --glass-bg-dark: rgba(28, 28, 30, 0.55);
-    --glass-border-dark: rgba(255, 255, 255, 0.1);
+    /* Glass / Translucent Material Variables */
+    --glass-blur: blur(20px);
+    --glass-bg-light: rgba(242, 242, 247, 0.80); /* Light Material */
+    --glass-border-light: rgba(0, 0, 0, 0.1);
+    --glass-bg-dark: rgba(28, 28, 30, 0.75);   /* Dark Material */
+    --glass-border-dark: rgba(255, 255, 255, 0.15);
 }
 
+/* Base body styles for iOS font stack and anti-aliasing */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--bg-color); /* Apply base background */
+    color: var(--text-color); /* Apply base text color */
+}
+
+
 /* ======================================================= */
-/* === NEW: FLICKER-PREVENTION STYLES ==================== */
+/* === FLICKER-PREVENTION STYLES ========================= */
 /* ======================================================= */
-/* These rules apply instantly when the <html> tag gets the .dark-mode class,
-   preventing a flash of the light theme on page load. */
-html.dark-mode body.settings-page {
+/* Apply dark theme instantly to prevent flash of light theme on reload */
+html.dark-mode body {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
     --secondary-text: var(--dark-secondary-text);
     --border-color: var(--dark-border);
 }
+/* Apply glass effect instantly to relevant sections */
 html.dark-mode .settings-header,
 html.dark-mode .settings-subsection,
 html.dark-mode footer {
     background: var(--glass-bg-dark);
     border-color: var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
+    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
-/* ======================================================= */
-/* === END OF NEW STYLES ================================= */
-/* ======================================================= */
 
 
-/* Dark Mode Override (This remains for when JS loads fully) */
+/* ======================================================= */
+/* === THEME OVERRIDES =================================== */
+/* ======================================================= */
+
+/* Dark Mode Override (Applied via JS) */
 body.dark-mode {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
@@ -90,28 +107,32 @@ body.dark-mode {
     --red-color: var(--dark-red-color);
     --slider-track-color: var(--dark-slider-track);
     --slider-thumb-color: var(--dark-slider-thumb);
-    --shadow-elevation-1: 0 1px 3px rgba(0,0,0,0.6);
-    --shadow-elevation-2: 0 6px 18px rgba(0,0,0,0.6);
+    --shadow-elevation-1: 0 1px 1px rgba(0,0,0,0.3);
+    --shadow-elevation-2: 0 6px 18px rgba(0,0,0,0.4);
 }
 
 /* ===== Theme Style Variants (Clear & Tinted) ===== */
+/* 'Clear' reduces material opacity for a more transparent look */
 body.clear-mode {
-    --glass-bg-light: rgba(255, 255, 255, 0.35);
-    --glass-bg-dark: rgba(28, 28, 30, 0.35);
+    --glass-bg-light: rgba(255, 255, 255, 0.45);
+    --glass-bg-dark: rgba(28, 28, 30, 0.45);
 }
+/* 'Tinted' mixes the accent color into the translucent material */
 body.tinted-mode {
-    --glass-bg-light: color-mix(in srgb, var(--accent-color) 20%, #ffffff 80%);
-    --glass-bg-dark: color-mix(in srgb, var(--accent-color) 20%, #000000 80%);
+    --glass-bg-light: color-mix(in srgb, var(--accent-color) 15%, var(--glass-bg-light));
+    --glass-bg-dark: color-mix(in srgb, var(--accent-color) 20%, var(--glass-bg-dark));
 }
 
-/* High Contrast Mode */
+/* High Contrast Mode (Accessibility) */
 body.high-contrast {
     --bg-color: #000;
     --content-bg: #000;
     --text-color: #fff;
     --secondary-text: #fff;
     --border-color: #fff;
-    --accent-color: yellow;
+    --accent-color: #ffff00; /* Yellow for high visibility */
+    --toggle-on: #ffff00;
+    --red-color: #ff8080;
 }
 
 /* ===================== */
