@@ -83,6 +83,10 @@ body.light-e {
 	--backdrop-blur: saturate(180%) blur(26px); /* more blur to pop on light bg */
 }
 
+html.dark-mode body {
+  background-color: var(--dark-bg-color, #121212);
+  color: var(--dark-text-color, #e0e0e0);
+}
 
 /* ======================== */
 /* Base Styles – Onyx Bubble Glass */
