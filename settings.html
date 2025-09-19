@@ -10,32 +10,27 @@
   <link rel="stylesheet" href="settings.css" />
 
   <script>
-      // This self-executing function runs instantly to prevent a theme flicker.
-      (function() {
-        try {
-          const storedSettings = localStorage.getItem('websiteSettings');
-          if (!storedSettings) return; // Exit if no settings are saved
+  // This script runs instantly to apply a user's specific theme choice,
+  // overriding the CSS default if necessary.
+  (function() {
+    try {
+      const storedSettings = localStorage.getItem('websiteSettings');
+      if (!storedSettings) return;
 
-          const settings = JSON.parse(storedSettings);
-          
-          // Determine if dark mode should be active based on saved settings
-          let isDark = false;
-          if (settings.appearanceMode === 'dark') {
-            isDark = true;
-          } else if (settings.appearanceMode === 'device') {
-            isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          }
-
-          // If dark mode is determined to be active, add the class to the <html> tag
-          if (isDark) {
-            document.documentElement.classList.add('dark-mode');
-          }
-        } catch (e) {
-          // If any error occurs, do nothing to avoid breaking the page.
-          console.error("Flicker-prevention script error:", e);
-        }
-      })();
-    </script>
+      const settings = JSON.parse(storedSettings);
+      
+      // If the user has explicitly chosen "dark" or "light", we apply that class.
+      // If they chose "device", we do nothing and let the CSS media query handle it.
+      if (settings.appearanceMode === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      } else if (settings.appearanceMode === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {
+      console.error("Flicker-prevention script error:", e);
+    }
+  })();
+</script>
   
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
