@@ -1,9 +1,12 @@
+/* ===============================
+   iOS 26 Style Settings Page
+   =============================== */
 :root {
     /* Base Defaults */
     --text-size: 16px;
-    --accent-color: #0a84ff; /* iOS/macOS system blue by default */
+    --accent-color: #0a84ff; /* iOS default blue */
 
-    /* Light Mode Colors */
+    /* Light Mode */
     --light-bg: #f5f5f7;
     --light-content-bg: rgba(255,255,255,0.72);
     --light-text: #1d1d1f;
@@ -16,7 +19,7 @@
     --light-slider-track: #e5e5ea;
     --light-slider-thumb: #ffffff;
 
-    /* Dark Mode Colors */
+    /* Dark Mode */
     --dark-bg: #000000;
     --dark-content-bg: rgba(28,28,30,0.72);
     --dark-text: #f5f5f7;
@@ -29,7 +32,7 @@
     --dark-slider-track: #2c2c2e;
     --dark-slider-thumb: #f5f5f7;
 
-    /* Default Theme */
+    /* Defaults (start with light) */
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
@@ -42,10 +45,12 @@
     --slider-track-color: var(--light-slider-track);
     --slider-track-filled-color: var(--accent-color);
     --slider-thumb-color: var(--light-slider-thumb);
+
+    /* Shadows */
     --shadow-elevation-1: 0 2px 6px rgba(0,0,0,0.08);
     --shadow-elevation-2: 0 8px 24px rgba(0,0,0,0.16);
 
-    /* Glass variables */
+    /* Glass Effect */
     --glass-blur: blur(24px);
     --glass-bg-light: rgba(255, 255, 255, 0.65);
     --glass-border-light: rgba(255, 255, 255, 0.28);
@@ -53,23 +58,7 @@
     --glass-border-dark: rgba(255, 255, 255, 0.12);
 }
 
-/* Prevent flicker on load */
-html.dark-mode body.settings-page {
-    --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
-    --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
-    --border-color: var(--dark-border);
-}
-html.dark-mode .settings-header,
-html.dark-mode .settings-subsection,
-html.dark-mode footer {
-    background: var(--glass-bg-dark);
-    border-color: var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.6);
-}
-
-/* Dark Mode Override */
+/* Dark Mode */
 body.dark-mode {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
@@ -86,11 +75,13 @@ body.dark-mode {
     --shadow-elevation-2: 0 10px 28px rgba(0,0,0,0.65);
 }
 
-/* Clear & Tinted */
+/* Clear Mode */
 body.clear-mode {
     --glass-bg-light: rgba(255, 255, 255, 0.35);
     --glass-bg-dark: rgba(28, 28, 30, 0.35);
 }
+
+/* Tinted Mode */
 body.tinted-mode {
     --glass-bg-light: color-mix(in srgb, var(--accent-color) 18%, #ffffff 82%);
     --glass-bg-dark: color-mix(in srgb, var(--accent-color) 18%, #000000 82%);
@@ -106,7 +97,7 @@ body.high-contrast {
     --accent-color: #ffd60a;
 }
 
-/* Motion toggle (new) */
+/* Motion toggle */
 .motion-disabled * {
   transition: none !important;
   animation: none !important;
@@ -120,7 +111,7 @@ body.high-contrast {
   background: inherit !important;
 }
 
-/* Accessibility features */
+/* Accessibility */
 body.dyslexia-font { font-family: "OpenDyslexic", "Arial", sans-serif !important; }
 body.underline-links a { text-decoration: underline !important; }
 
@@ -129,7 +120,7 @@ body.settings-page {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-size: var(--font-size-base, 1rem);
+    font-size: var(--text-size);
     line-height: 1.5;
     margin: 0;
 }
@@ -305,7 +296,7 @@ body.settings-page footer {
     -webkit-backdrop-filter: var(--glass-blur);
 }
 
-/* Focus outline */
+/* Focus */
 body.settings-page :focus-visible {
   outline: 0.125rem solid var(--accent-color);
   outline-offset: 0.125rem;
