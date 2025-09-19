@@ -10,17 +10,15 @@
     <meta name="author" content="Caleb Kritzar">
     <title>Home - Caleb's Profile</title>
     
-    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="settings.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
     
-    <!-- Font Awesome CDN -->
     <script src="https://kit.fontawesome.com/ffa5e5607e.js" crossorigin="anonymous"></script>
-</head>
-
     
-    <!-- Google tag (gtag.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+</head>
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0RSQS1MS7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -39,8 +37,7 @@
     <div class="container">
 
 
-   <!--Start of Tawk.to Script-->
-<script type="text/javascript">
+    <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -51,8 +48,6 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
-<!--End of Tawk.to Script-->
-    
 <div id="maintenanceLoadingOverlay" class="maintenance-overlay" style="display: none;"> <div class="maintenance-content">
         <div class="maintenance-loader"></div> <h1>Site Under Maintenance</h1>
         <p>We are currently performing scheduled maintenance...</p> <div class="maintenance-socials">
@@ -65,7 +60,6 @@ s0.parentNode.insertBefore(s1,s0);
 <div id="main-content-wrapper">
     </div>
   <div class="profile-section">
-    <!-- Corner Action Buttons -->
     <button class="merch-button" aria-label="Merch" onclick="window.location.href='/merchandise'">
         <img src="gift-bag-icon.png" alt="Merch">
     </button>
@@ -73,7 +67,6 @@ s0.parentNode.insertBefore(s1,s0);
         <img src="settings-icon.png" alt="Settings">
     </button>
 
-    <!-- Profile Picture -->
     <div class="profile-pic-wrapper">
         <img src="path/to/default-profile.jpg" alt="Profile Picture"
              class="profile-pic"
@@ -84,162 +77,158 @@ s0.parentNode.insertBefore(s1,s0);
         </div>
     </div>
 
-    <!-- Username and Verification Checkmark -->
     <div class="username-checkmark">
         <h1 id="profile-username-main">Username</h1>
         <img src="check.png" alt="Verified" class="verified">
     </div>
 
-    <!-- Profile Bio -->
     <p class="profile-bio" id="profile-bio-main">Loading bio...</p>
 </div>
 
-       <div class="social-links-section">
-  <h2>Follow Me</h2>
-  <div id="social-links-container" class="social-links-container">
-    <p>Loading social links...</p>
-  </div>
-</div>
-
-        <div id="president-placeholder"></div>
-
-
-            <div class="shoutouts-section section">
-                <div id="tiktok-shoutouts">
-                    <h2>TikTok Creator Shoutouts</h2>
-                    <p id="tiktok-last-updated-timestamp">Last Updated: Loading...</p>
-                </div>
-                <div class="creator-grid">
-                    </div>
-                <div class="unavailable-message" style="display: none;"></div>
-            </div>
-
-            <div class="shoutouts-section section">
-                <div id="instagram-shoutouts">
-                    <h2>Instagram Creator Shoutouts</h2>
-                    <p id="instagram-last-updated-timestamp">Last Updated: Loading...</p>
-                </div>
-                <div class="instagram-creator-grid">
-                    </div>
-            </div>
-
-            <div class="shoutouts-section section">
-                <div id="youtube-shoutouts">
-                    <h2>YouTube Creator Shoutouts</h2>
-                    <p id="youtube-last-updated-timestamp">Last Updated: Loading...</p>
-                </div>
-                <div class="youtube-creator-grid">
-            </div>
+<div id="rearrangeable-container">
+    <div class="social-links-section" data-section-id="social-links">
+        <h2>Follow Me</h2>
+        <div id="social-links-container" class="social-links-container">
+            <p>Loading social links...</p>
         </div>
-
-        <div class="useful-links-section section">
-             <h2 class="section-title">Useful Links</h2>
-             <div class="links-container">
-         </div>
-     </div>    
-
-        <div class="countdown-section">
-            <h2>Countdown to Earth Day 2025!</h2>
-            <div class="countdown-container">
-                <div class="countdown-block">
-                    <div id="countdown-years" class="flip-clock">
-                        <div class="flip-clock-inner">
-                            <div class="flip-clock-front">00</div>
-                            <div class="flip-clock-back">00</div>
-                        </div>
-                    </div>
-                    <div class="countdown-label">Years</div>
-                </div>
-                <div class="countdown-block">
-                    <div id="countdown-months" class="flip-clock">
-                        <div class="flip-clock-inner">
-                            <div class="flip-clock-front">00</div>
-                            <div class="flip-clock-back">00</div>
-                        </div>
-                    </div>
-                    <div class="countdown-label">Months</div>
-                </div>
-                <div class="countdown-block">
-                    <div id="countdown-days" class="flip-clock">
-                        <div class="flip-clock-inner">
-                            <div class="flip-clock-front">00</div>
-                            <div class="flip-clock-back">00</div>
-                        </div>
-                    </div>
-                    <div class="countdown-label">Days</div>
-                </div>
-                <div class="countdown-block">
-                    <div id="countdown-hours" class="flip-clock">
-                        <div class="flip-clock-inner">
-                            <div class="flip-clock-front">00</div>
-                            <div class="flip-clock-back">00</div>
-                        </div>
-                    </div>
-                    <div class="countdown-label">Hours</div>
-                </div>
-                <div class="countdown-block">
-                    <div id="countdown-minutes" class="flip-clock">
-                        <div class="flip-clock-inner">
-                            <div class="flip-clock-front">00</div>
-                            <div class="flip-clock-back">00</div>
-                        </div>
-                    </div>
-                    <div class="countdown-label">Minutes</div>
-                </div>
-                <div class="countdown-block">
-                    <div id="countdown-seconds" class="flip-clock">
-                        <div class="flip-clock-inner">
-                            <div class="flip-clock-front">00</div>
-                            <div class="flip-clock-back">00</div>
-                        </div>
-                    </div>
-                    <div class="countdown-label">Seconds</div>
-                </div>
-            </div>
-        </div>
-
-        <body class="dark-mode">
-    <div class="business-info-section">
-    <h2>Business Status & Hours</h2>
-
-    <div id="business-status-display" class="business-status">
-        <span class="status-main-text">Loading Status...</span>
-        <span class="status-countdown-text"></span>
-        <div class="status-reason-text"></div>
     </div>
 
-    <div id="business-hours-display" class="hours-list">
+    <div id="president-placeholder" data-section-id="president"></div>
+
+    <div class="shoutouts-section section" data-section-id="tiktok-shoutouts">
+        <div id="tiktok-shoutouts">
+            <h2>TikTok Creator Shoutouts</h2>
+            <p id="tiktok-last-updated-timestamp">Last Updated: Loading...</p>
+        </div>
+        <div class="creator-grid">
+        </div>
+        <div class="unavailable-message" style="display: none;"></div>
+    </div>
+
+    <div class="shoutouts-section section" data-section-id="instagram-shoutouts">
+        <div id="instagram-shoutouts">
+            <h2>Instagram Creator Shoutouts</h2>
+            <p id="instagram-last-updated-timestamp">Last Updated: Loading...</p>
+        </div>
+        <div class="instagram-creator-grid">
+        </div>
+    </div>
+
+    <div class="shoutouts-section section" data-section-id="youtube-shoutouts">
+        <div id="youtube-shoutouts">
+            <h2>YouTube Creator Shoutouts</h2>
+            <p id="youtube-last-updated-timestamp">Last Updated: Loading...</p>
+        </div>
+        <div class="youtube-creator-grid">
+        </div>
+    </div>
+
+    <div class="useful-links-section section" data-section-id="useful-links">
+         <h2 class="section-title">Useful Links</h2>
+         <div class="links-container">
+       </div>
+   </div>    
+
+    <div class="countdown-section" data-section-id="countdown">
+        <h2>Countdown to Earth Day 2025!</h2>
+        <div class="countdown-container">
+            <div class="countdown-block">
+                <div id="countdown-years" class="flip-clock">
+                    <div class="flip-clock-inner">
+                        <div class="flip-clock-front">00</div>
+                        <div class="flip-clock-back">00</div>
+                    </div>
+                </div>
+                <div class="countdown-label">Years</div>
+            </div>
+            <div class="countdown-block">
+                <div id="countdown-months" class="flip-clock">
+                    <div class="flip-clock-inner">
+                        <div class="flip-clock-front">00</div>
+                        <div class="flip-clock-back">00</div>
+                    </div>
+                </div>
+                <div class="countdown-label">Months</div>
+            </div>
+            <div class="countdown-block">
+                <div id="countdown-days" class="flip-clock">
+                    <div class="flip-clock-inner">
+                        <div class="flip-clock-front">00</div>
+                        <div class="flip-clock-back">00</div>
+                    </div>
+                </div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-block">
+                <div id="countdown-hours" class="flip-clock">
+                    <div class="flip-clock-inner">
+                        <div class="flip-clock-front">00</div>
+                        <div class="flip-clock-back">00</div>
+                    </div>
+                </div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-block">
+                <div id="countdown-minutes" class="flip-clock">
+                    <div class="flip-clock-inner">
+                        <div class="flip-clock-front">00</div>
+                        <div class="flip-clock-back">00</div>
+                    </div>
+                </div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-block">
+                <div id="countdown-seconds" class="flip-clock">
+                    <div class="flip-clock-inner">
+                        <div class="flip-clock-front">00</div>
+                        <div class="flip-clock-back">00</div>
+                    </div>
+                </div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="business-info-section" data-section-id="business-info">
+        <h2>Business Status & Hours</h2>
+
+        <div id="business-status-display" class="business-status">
+            <span class="status-main-text">Loading Status...</span>
+            <span class="status-countdown-text"></span>
+            <div class="status-reason-text"></div>
         </div>
 
-    <div id="temporary-hours-display">
-        </div>
+        <div id="business-hours-display" class="hours-list">
+            </div>
 
-    <div id="holiday-hours-display">
-        </div>
+        <div id="temporary-hours-display">
+            </div>
 
-    <div id="contact-email-display" class="contact-info">
-        </div>
-</div>
+        <div id="holiday-hours-display">
+            </div>
 
-<div class="tech-section section">
-    <h2><i class="fas fa-microchip"></i> Tech Information</h2>
-    <div id="tech-items-list-dynamic">
-        <p>Loading Tech Info...</p>
+        <div id="contact-email-display" class="contact-info">
+            </div>
+    </div>
+
+    <div class="tech-section section" data-section-id="tech-info">
+        <h2><i class="fas fa-microchip"></i> Tech Information</h2>
+        <div id="tech-items-list-dynamic">
+            <p>Loading Tech Info...</p>
+        </div>
+    </div>
+
+    <div class="disabilities-section section" data-section-id="disabilities">
+        <h2>Disabilities</h2>
+        <p>I have the following disabilities:</p>
+        <ul id="disabilities-list-placeholder">
+            </ul>
     </div>
 </div>
-
-<div class="disabilities-section section">
-    <h2>Disabilities</h2>
-    <p>I have the following disabilities:</p>
-    <ul id="disabilities-list-placeholder">
-        <!-- Items will be populated dynamically -->
-    </ul>
-</div>
-    
-   <div class="version-info-container">
-  <div class="version-info-section">
-      <div class="version-header">Version Information</div>
-      <ul class="version-list">
+<div class="version-info-container">
+    <div class="version-info-section">
+        <div class="version-header">Version Information</div>
+        <ul class="version-list">
             <li>
                 <span class="version-label">🔢 <strong>Version:</strong></span>
                 <span class="version-value">v26.0</span>
@@ -261,7 +250,7 @@ s0.parentNode.insertBefore(s1,s0);
                 <span class="version-value">Detecting...</span>
             </li>
         </ul>
-  </div>
+    </div>
 </div>
 
 <div class="legal-section">
@@ -276,7 +265,7 @@ s0.parentNode.insertBefore(s1,s0);
         Protected by Watermark
     </div>
 </div>
-            
+           
    </div> 
     <button class="scroll-to-top">
     <svg class="progress-ring" width="100%" height="100%">
@@ -300,10 +289,9 @@ s0.parentNode.insertBefore(s1,s0);
 </iframe>
 
   <footer>
-      <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
+        <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
   </footer> </div>
     
-    <!-- Scripts -->
     <script src="script.js"></script>
     <script src="ai-features.js"></script>
     <script src="settings.js"></script>
@@ -314,5 +302,7 @@ s0.parentNode.insertBefore(s1,s0);
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script type="module" src="displayShoutouts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    
+    <script src="rearrange.js"></script>
 </body>
-</html>                
+</html>
