@@ -53,7 +53,31 @@
     --glass-border-dark: rgba(255, 255, 255, 0.1);
 }
 
-/* Dark Mode Override */
+/* ======================================================= */
+/* === NEW: FLICKER-PREVENTION STYLES ==================== */
+/* ======================================================= */
+/* These rules apply instantly when the <html> tag gets the .dark-mode class,
+   preventing a flash of the light theme on page load. */
+html.dark-mode body.settings-page {
+    --bg-color: var(--dark-bg);
+    --content-bg: var(--dark-content-bg);
+    --text-color: var(--dark-text);
+    --secondary-text: var(--dark-secondary-text);
+    --border-color: var(--dark-border);
+}
+html.dark-mode .settings-header,
+html.dark-mode .settings-subsection,
+html.dark-mode footer {
+    background: var(--glass-bg-dark);
+    border-color: var(--glass-border-dark);
+    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
+}
+/* ======================================================= */
+/* === END OF NEW STYLES ================================= */
+/* ======================================================= */
+
+
+/* Dark Mode Override (This remains for when JS loads fully) */
 body.dark-mode {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
