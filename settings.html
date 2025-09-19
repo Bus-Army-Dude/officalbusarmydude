@@ -53,21 +53,29 @@
             <div id="accentColorPreview" class="accent-color-preview"></div>
           </div>
         </div>
-        </div>
       </div>
 
       <div class="settings-subsection">
         <h2 class="subsection-title">General</h2>
         <div class="setting-card">
-          <label for="rearrange-toggle" class="setting-label">
+          <label for="rearrangingEnabledToggle" class="setting-label">
             <strong class="setting-title">Enable Section Rearranging</strong>
             <p class="setting-description">Allow drag-and-drop to reorder sections on the homepage.</p>
           </label>
           <div class="md-switch">
-           <input type="checkbox" id="rearrangingEnabledToggle" role="switch" aria-label="Toggle section rearranging" />                    <div class="track"><div class="thumb"></div></div>
+            <input type="checkbox" id="rearrangingEnabledToggle" role="switch" aria-label="Toggle section rearranging" />
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
+        <div class="setting-card">
+            <div class="setting-label">
+                <strong class="setting-title">Reset Section Layout</strong>
+                <p class="setting-description">Revert the homepage section order to the default layout.</p>
+            </div>
+            <button id="resetLayoutBtn" class="button reset-button">Reset</button>
+        </div>
       </div>
+
       <div class="settings-subsection">
         <h2 class="subsection-title">Accessibility</h2>
 
