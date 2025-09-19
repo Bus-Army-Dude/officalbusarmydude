@@ -1,42 +1,51 @@
-/* ===============================
-   iOS 26 Style Settings Page
-   =============================== */
 :root {
     /* Base Defaults */
-    --text-size: 16px;
-    --accent-color: #0a84ff; /* iOS default blue */
+    --text-size: 17px; /* iOS default */
+    --accent-color: #007AFF; /* iOS blue */
 
-    /* Light Mode */
-    --light-bg: #f5f5f7;
-    --light-content-bg: rgba(255,255,255,0.72);
-    --light-text: #1d1d1f;
-    --light-secondary-text: #6e6e73;
-    --light-border: rgba(60,60,67,0.29);
-    --light-hover: color-mix(in srgb, var(--accent-color) 20%, white);
-    --light-toggle-on: var(--accent-color);
-    --light-toggle-off: #e5e5ea;
-    --light-red-color: #ff3b30;
-    --light-slider-track: #e5e5ea;
-    --light-slider-thumb: #ffffff;
+    /* iOS 26 Light Mode Colors */
+    --light-bg: #F2F2F7;
+    --light-content-bg: rgba(255, 255, 255, 0.98);
+    --light-text: #000000;
+    --light-secondary-text: #3C3C43;
+    --light-tertiary-text: #48484A;
+    --light-quaternary-text: #8E8E93;
+    --light-border: rgba(60, 60, 67, 0.12);
+    --light-hover: #0051D5;
+    --light-toggle-on: #34C759;
+    --light-toggle-off: #E9E9EA;
+    --light-red-color: #FF3B30;
+    --light-slider-track: #E5E5E7;
+    --light-slider-thumb: #FFFFFF;
+    --light-separator: rgba(60, 60, 67, 0.29);
+    --light-grouped-bg: rgba(255, 255, 255, 1);
+    --light-grouped-secondary: #F2F2F7;
 
-    /* Dark Mode */
+    /* iOS 26 Dark Mode Colors */
     --dark-bg: #000000;
-    --dark-content-bg: rgba(28,28,30,0.72);
-    --dark-text: #f5f5f7;
-    --dark-secondary-text: #98989d;
-    --dark-border: rgba(255,255,255,0.18);
-    --dark-hover: color-mix(in srgb, var(--accent-color) 25%, black);
-    --dark-toggle-on: var(--accent-color);
-    --dark-toggle-off: #3a3a3c;
-    --dark-red-color: #ff453a;
-    --dark-slider-track: #2c2c2e;
-    --dark-slider-thumb: #f5f5f7;
+    --dark-content-bg: rgba(28, 28, 30, 0.98);
+    --dark-text: #FFFFFF;
+    --dark-secondary-text: #EBEBF5;
+    --dark-tertiary-text: #C7C7CC;
+    --dark-quaternary-text: #8E8E93;
+    --dark-border: rgba(84, 84, 88, 0.65);
+    --dark-hover: #0A84FF;
+    --dark-toggle-on: #32D74B;
+    --dark-toggle-off: #39393D;
+    --dark-red-color: #FF453A;
+    --dark-slider-track: #1C1C1E;
+    --dark-slider-thumb: #FFFFFF;
+    --dark-separator: rgba(84, 84, 88, 0.6);
+    --dark-grouped-bg: rgba(44, 44, 46, 1);
+    --dark-grouped-secondary: #1C1C1E;
 
-    /* Defaults (start with light) */
+    /* Default Theme (Light active by default) */
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
     --secondary-text: var(--light-secondary-text);
+    --tertiary-text: var(--light-tertiary-text);
+    --quaternary-text: var(--light-quaternary-text);
     --border-color: var(--light-border);
     --hover-color: var(--light-hover);
     --toggle-on: var(--light-toggle-on);
@@ -45,25 +54,60 @@
     --slider-track-color: var(--light-slider-track);
     --slider-track-filled-color: var(--accent-color);
     --slider-thumb-color: var(--light-slider-thumb);
+    --separator-color: var(--light-separator);
+    --grouped-bg: var(--light-grouped-bg);
+    --grouped-secondary: var(--light-grouped-secondary);
+    
+    /* iOS 26 Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12);
 
-    /* Shadows */
-    --shadow-elevation-1: 0 2px 6px rgba(0,0,0,0.08);
-    --shadow-elevation-2: 0 8px 24px rgba(0,0,0,0.16);
-
-    /* Glass Effect */
-    --glass-blur: blur(24px);
-    --glass-bg-light: rgba(255, 255, 255, 0.65);
-    --glass-border-light: rgba(255, 255, 255, 0.28);
-    --glass-bg-dark: rgba(28, 28, 30, 0.55);
-    --glass-border-dark: rgba(255, 255, 255, 0.12);
+    /* iOS 26 Glass Effect */
+    --glass-blur: saturate(180%) blur(20px);
+    --glass-bg-light: rgba(242, 242, 247, 0.72);
+    --glass-border-light: rgba(209, 209, 214, 0.3);
+    --glass-bg-dark: rgba(28, 28, 30, 0.72);
+    --glass-border-dark: rgba(84, 84, 88, 0.3);
+    
+    /* iOS 26 Animation Curves */
+    --ease-ios: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-ios-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --ease-ios-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    --spring-ios: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* Dark Mode */
+/* ======================================================= */
+/* === FLICKER-PREVENTION STYLES ======================== */
+/* ======================================================= */
+html.dark-mode body.settings-page {
+    --bg-color: var(--dark-bg);
+    --content-bg: var(--dark-content-bg);
+    --text-color: var(--dark-text);
+    --secondary-text: var(--dark-secondary-text);
+    --tertiary-text: var(--dark-tertiary-text);
+    --quaternary-text: var(--dark-quaternary-text);
+    --border-color: var(--dark-border);
+    --separator-color: var(--dark-separator);
+    --grouped-bg: var(--dark-grouped-bg);
+    --grouped-secondary: var(--dark-grouped-secondary);
+}
+html.dark-mode .settings-header,
+html.dark-mode .settings-subsection,
+html.dark-mode footer {
+    background: var(--glass-bg-dark);
+    border-color: var(--glass-border-dark);
+}
+
+/* Dark Mode Override */
 body.dark-mode {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
     --secondary-text: var(--dark-secondary-text);
+    --tertiary-text: var(--dark-tertiary-text);
+    --quaternary-text: var(--dark-quaternary-text);
     --border-color: var(--dark-border);
     --hover-color: var(--dark-hover);
     --toggle-on: var(--dark-toggle-on);
@@ -71,266 +115,592 @@ body.dark-mode {
     --red-color: var(--dark-red-color);
     --slider-track-color: var(--dark-slider-track);
     --slider-thumb-color: var(--dark-slider-thumb);
-    --shadow-elevation-1: 0 2px 8px rgba(0,0,0,0.7);
-    --shadow-elevation-2: 0 10px 28px rgba(0,0,0,0.65);
+    --separator-color: var(--dark-separator);
+    --grouped-bg: var(--dark-grouped-bg);
+    --grouped-secondary: var(--dark-grouped-secondary);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
-/* Clear Mode */
+/* Theme Style Variants */
 body.clear-mode {
-    --glass-bg-light: rgba(255, 255, 255, 0.35);
-    --glass-bg-dark: rgba(28, 28, 30, 0.35);
+    --glass-bg-light: rgba(242, 242, 247, 0.5);
+    --glass-bg-dark: rgba(28, 28, 30, 0.5);
 }
-
-/* Tinted Mode */
 body.tinted-mode {
-    --glass-bg-light: color-mix(in srgb, var(--accent-color) 18%, #ffffff 82%);
-    --glass-bg-dark: color-mix(in srgb, var(--accent-color) 18%, #000000 82%);
+    --glass-bg-light: color-mix(in srgb, var(--accent-color) 8%, rgba(242, 242, 247, 0.72));
+    --glass-bg-dark: color-mix(in srgb, var(--accent-color) 12%, rgba(28, 28, 30, 0.72));
 }
 
-/* High Contrast */
+/* High Contrast Mode */
 body.high-contrast {
     --bg-color: #000;
     --content-bg: #000;
     --text-color: #fff;
     --secondary-text: #fff;
     --border-color: #fff;
-    --accent-color: #ffd60a;
+    --accent-color: yellow;
 }
 
-/* Motion toggle */
+/* Motion & Effects */
 .motion-disabled * {
-  transition: none !important;
-  animation: none !important;
+    transition: none !important;
+    animation: none !important;
 }
 .motion-disabled a:hover,
 .motion-disabled button:hover,
-.motion-disabled .hover-effect,
-.motion-disabled .setting-card:hover {
-  transform: none !important;
-  box-shadow: none !important;
-  background: inherit !important;
+.motion-disabled .hover-effect {
+    transform: none !important;
+    box-shadow: none !important;
 }
 
-/* Accessibility */
-body.dyslexia-font { font-family: "OpenDyslexic", "Arial", sans-serif !important; }
-body.underline-links a { text-decoration: underline !important; }
+/* Dyslexia-Friendly Font */
+body.dyslexia-font {
+    font-family: "OpenDyslexic", "SF Pro Text", -apple-system, sans-serif !important;
+}
 
-/* Base */
+/* Underline Links */
+body.underline-links a {
+    text-decoration: underline !important;
+}
+
+/* ========== General iOS 26 Styles ========== */
 body.settings-page {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-size: var(--text-size);
-    line-height: 1.5;
+    line-height: 1.4706;
     margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
-/* Container */
+/* ========== Container ========== */
 body.settings-page .container {
-    max-width: 57.5rem;
+    max-width: 744px;
     margin: 0 auto;
-    padding: 2rem 1.25rem;
+    padding: 0;
+    position: relative;
 }
 
-/* Settings Header */
+/* ========== Settings Header (iOS 26 Style) ========== */
 body.settings-page .settings-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    padding: 0 20px;
+    height: 96px;
     background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    border-radius: 1rem;
-    padding: 1.25rem 1.5rem;
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-elevation-1);
+    border-bottom: 0.5px solid var(--separator-color);
+    margin-bottom: 0;
+    border-radius: 0;
+    box-shadow: none;
 }
 body.dark-mode .settings-header {
     background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: var(--shadow-elevation-2);
 }
+
 body.settings-page .settings-header h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
     margin: 0;
-}
-body.settings-page .version {
-    font-size: 0.8125rem;
-    color: var(--secondary-text);
-    background: var(--border-color);
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.375rem;
-}
-
-/* Subsection */
-body.settings-page .settings-subsection {
-    border-radius: 0.875rem;
-    margin-bottom: 1.5rem;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-elevation-1);
-    overflow: hidden;
-}
-body.dark-mode .settings-subsection {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: var(--shadow-elevation-2);
-}
-body.settings-page .subsection-title {
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 1rem 1.25rem;
-    border-bottom: 0.0625rem solid var(--border-color);
-}
-
-/* Setting Card */
-body.settings-page .setting-card {
-    padding: 1rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 3.5rem;
-    border-bottom: 0.0625rem solid var(--border-color);
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-body.settings-page .setting-card:last-child { border-bottom: none; }
-body.settings-page .setting-card:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 12%, var(--content-bg));
-    box-shadow: var(--shadow-elevation-2);
-}
-body.settings-page .setting-title { font-size: 0.95rem; font-weight: 500; }
-body.settings-page .setting-description { font-size: 0.8125rem; color: var(--secondary-text); }
-body.settings-page .chevron { margin-left: 0.75rem; color: var(--secondary-text); font-size: 1.25rem; }
-
-/* Scheduler */
-#darkModeScheduler {
-    appearance: none;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    border-radius: 0.75rem;
-    padding: 0.5rem 2rem 0.5rem 0.75rem;
-    font-size: 0.875rem;
-    cursor: pointer;
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-elevation-1);
-    position: relative;
-}
-#darkModeScheduler option { background: var(--content-bg); }
-#darkModeScheduler:hover { background: color-mix(in srgb, var(--accent-color) 12%, var(--glass-bg-light)); }
-
-/* Accent Picker */
-#accentColorPicker {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 2rem; height: 2rem;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 0.125rem solid var(--border-color);
-    box-shadow: var(--shadow-elevation-1);
-}
-#accentColorPicker:hover { transform: scale(1.1); }
-
-/* Appearance Select */
-#appearanceModeSelect {
-    font-size: 0.9375rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    border: 0.0625rem solid var(--border-color);
-    background: var(--content-bg);
     color: var(--text-color);
 }
 
-/* Switch */
-.md-switch { --width: 2.25rem; --height: 1.25rem; --thumb-size: 1rem; display: inline-flex; align-items: center; position: relative; width: var(--width); height: var(--height); }
-.md-switch input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.md-switch .track { width: var(--width); height: var(--height); background: var(--toggle-off); border-radius: 999px; transition: background 0.25s ease; }
-.md-switch .thumb { position: absolute; top: 50%; left: 0.125rem; transform: translateY(-50%); width: var(--thumb-size); height: var(--thumb-size); background: var(--slider-thumb-color); border-radius: 50%; transition: left 0.25s ease; }
-.md-switch input:checked ~ .track { background: var(--toggle-on); }
-.md-switch input:checked ~ .track .thumb { left: calc(var(--width) - var(--thumb-size) - 0.125rem); }
+body.settings-page .version {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--quaternary-text);
+    background-color: var(--grouped-secondary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
 
-/* Slider */
-#text-size-slider { -webkit-appearance: none; width: 100%; height: 0.25rem; border-radius: 999px; outline: none; background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) var(--slider-value-percentage, 50%), var(--slider-track-color) var(--slider-value-percentage, 50%), var(--slider-track-color) 100%); }
-#text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
+/* ========== iOS 26 Settings Groups ========== */
+body.settings-page .settings-subsection {
+    margin: 35px 20px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--grouped-bg);
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+body.dark-mode .settings-subsection {
+    background: var(--grouped-bg);
+}
 
-/* Danger Zone */
+body.settings-page .subsection-title {
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: -0.08px;
+    padding: 6px 16px;
+    margin: -29px 0 8px 0;
+    border: none;
+    color: var(--quaternary-text);
+    background: transparent;
+}
+
+/* ========== iOS 26 Setting Card ========== */
+body.settings-page .setting-card {
+    padding: 11px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 44px;
+    border-bottom: 0.5px solid var(--separator-color);
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.2s var(--ease-ios);
+    background: var(--grouped-bg);
+}
+body.settings-page .setting-card:last-child { 
+    border-bottom: none; 
+}
+body.settings-page .setting-card:active {
+    background-color: var(--quaternary-text);
+    opacity: 0.3;
+    transition-duration: 0s;
+}
+
+body.settings-page .setting-label { 
+    flex: 1; 
+    padding-right: 12px; 
+}
+body.settings-page .setting-title { 
+    font-size: 17px; 
+    font-weight: 400; 
+    margin: 0;
+    letter-spacing: -0.41px;
+}
+body.settings-page .setting-description { 
+    font-size: 13px; 
+    color: var(--tertiary-text); 
+    margin: 2px 0 0 0;
+    letter-spacing: -0.08px;
+    line-height: 1.38462;
+}
+
+/* Chevron iOS 26 Style */
+body.settings-page .chevron { 
+    margin-left: 8px; 
+    color: var(--quaternary-text); 
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ========== iOS 26 Dark Mode Scheduler ========== */
+#darkModeScheduler {
+    appearance: none;
+    background: var(--grouped-secondary);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 28px 6px 12px;
+    font-size: 15px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background 0.2s var(--ease-ios);
+    position: relative;
+    font-weight: 400;
+    letter-spacing: -0.24px;
+}
+#darkModeScheduler option {
+    font-size: 15px;
+    color: var(--text-color);
+    background: var(--content-bg);
+}
+#darkModeScheduler:hover {
+    background: var(--border-color);
+}
+body.dark-mode #darkModeScheduler {
+    background: var(--grouped-secondary);
+}
+#darkModeScheduler::after {
+    content: "􀆏";
+    font-family: "SF Pro Display";
+    position: absolute;
+    right: 8px;
+    color: var(--quaternary-text);
+    pointer-events: none;
+}
+
+/* ========== iOS 26 Accent Color Picker ========== */
+#accentColorPicker {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.04);
+    background: transparent;
+    padding: 0;
+    position: relative;
+}
+#accentColorPicker::-webkit-color-swatch {
+    border-radius: 14px;
+    border: none;
+    padding: 0;
+}
+#accentColorPicker::-moz-color-swatch {
+    border-radius: 14px;
+    border: none;
+    padding: 0;
+}
+#accentColorPicker:active {
+    transform: scale(0.95);
+    transition: transform 0.1s var(--ease-ios);
+}
+
+/* ========== iOS 26 Toggle Switch ========== */
+.md-switch {
+    --width: 51px; 
+    --height: 31px; 
+    --thumb-size: 27px;
+    display: inline-flex; 
+    align-items: center; 
+    position: relative;
+    width: var(--width); 
+    height: var(--height); 
+    flex-shrink: 0;
+}
+.md-switch input { 
+    position: absolute; 
+    inset: 0; 
+    opacity: 0; 
+    margin: 0; 
+    cursor: pointer; 
+    z-index: 2; 
+}
+.md-switch .track { 
+    width: var(--width); 
+    height: var(--height); 
+    background: var(--toggle-off); 
+    border-radius: 15.5px; 
+    transition: background-color 0.3s var(--ease-ios);
+    position: relative;
+}
+.md-switch .thumb { 
+    position: absolute; 
+    top: 2px; 
+    left: 2px; 
+    width: var(--thumb-size); 
+    height: var(--thumb-size); 
+    background: white; 
+    border-radius: 13.5px; 
+    transition: transform 0.3s var(--ease-ios);
+    box-shadow: 0 3px 8px 0 rgba(0,0,0,0.15), 0 1px 1px 0 rgba(0,0,0,0.16), 0 3px 1px -2px rgba(0,0,0,0.1);
+}
+.md-switch input:checked ~ .track { 
+    background: var(--toggle-on); 
+}
+.md-switch input:checked ~ .track .thumb { 
+    transform: translateX(20px);
+}
+
+/* ========== iOS 26 Text Size Slider ========== */
+.setting-card:has(.text-size-control) { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 20px; 
+    padding: 16px;
+}
+.setting-card:has(.text-size-control) > *:first-child { 
+    flex: 1; 
+    min-width: 200px; 
+}
+.text-size-control { 
+    flex-shrink: 0; 
+    width: 280px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+.font-size-badge { 
+    padding: 4px 10px; 
+    background-color: var(--accent-color); 
+    color: white; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    font-size: 13px; 
+    margin-bottom: 12px;
+    letter-spacing: -0.08px;
+}
+#text-size-slider { 
+    -webkit-appearance: none; 
+    width: 100%; 
+    height: 4px; 
+    border-radius: 2px; 
+    outline: none;
+    background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) var(--slider-value-percentage, 50%), var(--slider-track-color) var(--slider-value-percentage, 50%), var(--slider-track-color) 100%); 
+}
+#text-size-slider::-webkit-slider-thumb { 
+    -webkit-appearance: none; 
+    width: 28px; 
+    height: 28px; 
+    border-radius: 14px; 
+    background: white; 
+    cursor: pointer;
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 1px 8px 0 rgba(0,0,0,0.08), 0 3px 3px -2px rgba(0,0,0,0.04);
+}
+#text-size-slider::-moz-range-thumb { 
+    width: 28px; 
+    height: 28px; 
+    border-radius: 14px; 
+    background: white; 
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 1px 8px 0 rgba(0,0,0,0.08), 0 3px 3px -2px rgba(0,0,0,0.04);
+}
+
+/* ========== iOS 26 Segmented Control ========== */
+.segmented-control {
+    display: flex;
+    align-items: center;
+    background-color: var(--grouped-secondary);
+    border-radius: 9px;
+    padding: 2px;
+    border: none;
+}
+.segmented-control button {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-ios);
+    letter-spacing: -0.08px;
+    line-height: 1.23077;
+}
+.segmented-control button:hover { 
+    background-color: rgba(120, 120, 128, 0.12);
+}
+.segmented-control button.active {
+    background-color: var(--grouped-bg);
+    color: var(--text-color);
+    box-shadow: 0 3px 1px 0 rgba(0,0,0,0.04), 0 3px 8px 0 rgba(0,0,0,0.12);
+}
+body.dark-mode .segmented-control button.active {
+    box-shadow: 0 3px 1px 0 rgba(0,0,0,0.04), 0 3px 8px 0 rgba(0,0,0,0.24);
+}
+
+/* ========== iOS 26 Danger Zone ========== */
 body.settings-page .danger-zone .settings-subsection {
-    background: color-mix(in srgb, var(--red-color) 18%, var(--glass-bg-light));
-    border: 0.0625rem solid color-mix(in srgb, var(--red-color) 40%, transparent);
+    background: var(--grouped-bg);
 }
 body.dark-mode .danger-zone .settings-subsection {
-    background: color-mix(in srgb, var(--red-color) 20%, var(--glass-bg-dark));
+    background: var(--grouped-bg);
+}
+body.settings-page .danger-zone .subsection-title {
+    color: var(--red-color);
 }
 
-/* Buttons */
+/* ========== iOS 26 Buttons ========== */
 body.settings-page .reset-button,
 body.settings-page #cookie-consent-banner button {
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 0.625rem 1.125rem;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    transition: background 0.25s ease;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px; 
+    font-weight: 600; 
+    cursor: pointer;
+    padding: 12px 20px;
+    background: var(--accent-color);
+    transition: all 0.2s var(--ease-ios);
+    letter-spacing: -0.41px;
+    line-height: 1.29412;
+}
+body.settings-page .reset-button {
+    background: var(--red-color);
 }
 body.settings-page .reset-button:hover,
 body.settings-page #cookie-consent-banner button:hover {
-    background: color-mix(in srgb, var(--accent-color) 20%, var(--glass-bg-light));
+    opacity: 0.9;
+}
+body.settings-page .reset-button:active,
+body.settings-page #cookie-consent-banner button:active {
+    transform: scale(0.98);
+    opacity: 0.8;
 }
 
-/* Footer */
+/* ========== iOS 26 Footer & Back Link ========== */
+body.settings-page .back-link { 
+    display: inline-flex; 
+    align-items: center; 
+    color: var(--accent-color); 
+    text-decoration: none; 
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.41px;
+    padding: 12px 20px;
+    margin-top: 20px;
+}
+body.settings-page .back-link:hover { 
+    opacity: 0.7;
+}
+body.settings-page .back-link:active { 
+    opacity: 0.5;
+}
 body.settings-page footer {
-    text-align: center;
-    padding: 1.25rem;
-    font-size: 0.875rem;
-    color: var(--secondary-text);
+    text-align: center; 
+    padding: 40px 20px 80px; 
+    font-size: 13px; 
+    color: var(--quaternary-text);
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    letter-spacing: -0.08px;
+    line-height: 1.38462;
+}
+
+/* ========== iOS 26 Cookie Consent Banner ========== */
+body.settings-page #cookie-consent-banner {
+    position: fixed; 
+    bottom: 34px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 12px;
+    max-width: 90%; 
+    width: 420px; 
+    z-index: 1000;
     background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
+    border: 0.5px solid var(--border-color);
+    box-shadow: var(--shadow-xl);
+}
+body.dark-mode #cookie-consent-banner {
+    background: var(--glass-bg-dark);
 }
 
-/* Focus */
+/* ========== Focus States (iOS 26 Style) ========== */
 body.settings-page :focus-visible {
-  outline: 0.125rem solid var(--accent-color);
-  outline-offset: 0.125rem;
-  border-radius: 0.375rem;
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    border-radius: 8px;
 }
-body.settings-page.focus-outline-disabled :focus-visible { outline: none !important; }
-
-/* Segmented Control */
-.segmented-control {
-    display: flex;
-    background-color: var(--slider-track-color);
-    border-radius: 0.75rem;
-    padding: 0.25rem;
-}
-.segmented-control button {
-    flex: 1;
-    font-size: 0.875rem;
-    padding: 0.5rem 1rem;
-    background: transparent;
-    color: var(--secondary-text);
-    border-radius: 0.5rem;
-    transition: all 0.25s ease;
-}
-.segmented-control button.active {
-    background-color: var(--accent-color);
-    color: var(--content-bg);
-    box-shadow: var(--shadow-elevation-1);
+body.settings-page.focus-outline-disabled :focus-visible {
+    outline: none !important;
+    outline-offset: 0 !important;
 }
 
-/* Mouse Trail */
-#mouse-trail { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; }
-.trail { width: 10px; height: 10px; background: var(--accent-color); border-radius: 50%; position: absolute; opacity: 0.6; animation: fadeOut 0.8s forwards; }
-@keyframes fadeOut { to { opacity: 0; transform: scale(2); } }
+/* ========== Responsive (iOS 26 Optimized) ========== */
+@media (max-width: 744px) {
+    body.settings-page .container {
+        max-width: 100%;
+    }
+    body.settings-page .settings-header {
+        padding: 0 16px;
+        height: 88px;
+    }
+    body.settings-page .settings-subsection {
+        margin: 35px 16px 0;
+        border-radius: 10px;
+    }
+}
 
-/* Responsive */
-@media (max-width: 768px) { body.settings-page .container { padding: 1.25rem; } body.settings-page .settings-header h1 { font-size: 1.5rem; } }
-@media (max-width: 480px) { body.settings-page .settings-header h1 { font-size: 1.25rem; } }
+@media (max-width: 600px) {
+    .setting-card:has(.text-size-control) { 
+        flex-direction: column; 
+        align-items: flex-start; 
+    }
+    .text-size-control { 
+        width: 100%; 
+        align-items: flex-start; 
+    }
+    #text-size-slider { 
+        max-width: 100%; 
+    }
+}
+
+@media (max-width: 414px) {
+    body.settings-page .settings-header h1 { 
+        font-size: 28px; 
+    }
+    body.settings-page .setting-card { 
+        padding: 11px 16px;
+    }
+    body.settings-page #cookie-consent-banner { 
+        flex-direction: column; 
+        text-align: center; 
+        width: calc(100% - 32px); 
+        gap: 12px; 
+    }
+}
+
+/* ========== Mouse Trail Effect ========== */
+#mouse-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+.trail {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    position: absolute;
+    opacity: 0.6;
+    transform: scale(1);
+    animation: fadeOut 0.6s var(--ease-ios-out) forwards;
+}
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: scale(2.5);
+    }
+}
+
+/* ========== Appearance Mode Select ========== */
+body.settings-page #appearanceModeSelect {
+    font-size: 15px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    background: var(--grouped-secondary);
+    color: var(--text-color);
+    margin-left: 10px;
+    font-weight: 400;
+    letter-spacing: -0.24px;
+    transition: background 0.2s var(--ease-ios);
+}
+body.settings-page #appearanceModeSelect:hover {
+    background: var(--border-color);
+}
+
+/* iOS 26 Haptic Feedback Simulation */
+@keyframes haptic {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.98); }
+}
+.haptic-feedback {
+    animation: haptic 0.1s var(--ease-ios);
+}
