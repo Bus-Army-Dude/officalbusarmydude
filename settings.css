@@ -106,16 +106,18 @@ body.high-contrast {
     --accent-color: #ffd60a;
 }
 
-/* Motion toggle */
+/* Motion toggle (new) */
 .motion-disabled * {
   transition: none !important;
   animation: none !important;
 }
 .motion-disabled a:hover,
 .motion-disabled button:hover,
-.motion-disabled .hover-effect {
+.motion-disabled .hover-effect,
+.motion-disabled .setting-card:hover {
   transform: none !important;
   box-shadow: none !important;
+  background: inherit !important;
 }
 
 /* Accessibility features */
