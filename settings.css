@@ -1,101 +1,60 @@
 :root {
     /* =================================================== */
-    /* === Unified Apple Theme (iOS & macOS) =========== */
+    /* === Unified "visionOS 26" Theme =================== */
     /* =================================================== */
 
-    /* Base Defaults - Mapped to Apple's UI Kit */
-    --font-family-apple: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Roboto', Arial, sans-serif;
+    /* Base Typography & Accent */
+    --font-family-apple: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', 'Roboto', Arial, sans-serif;
     --text-size: 16px;
-    --accent-color: #007aff; /* Universal Apple Blue */
+    --accent-color: #0091ff; /* A more vibrant, futuristic blue */
 
-    /* Light Mode Colors (Apple Palette) */
-    --light-bg: #f2f2f7;
-    --light-content-bg: #ffffff;
-    --light-text: #000000;
-    --light-secondary-text: #6e6e73;
-    --light-border: #c6c6c8; /* Separator Color */
-    --light-hover: #0062cc;
-    --light-toggle-on: var(--accent-color);
-    --light-toggle-off: #e9e9eb;
-    --light-red-color: #ff3b30;
-    --light-slider-track: rgba(120, 120, 128, 0.2);
-    --light-slider-thumb: #ffffff;
+    /* Light Mode Palette */
+    --light-bg: #e9e9f0; /* Lighter, softer background */
+    --light-text: #1d1d1f;
+    --light-secondary-text: rgba(60, 60, 67, 0.75);
+    --light-red-color: #ff453a;
 
-    /* Dark Mode Colors (Apple Palette) */
-    --dark-bg: #1e1e1e; /* macOS dark background */
-    --dark-content-bg: #1c1c1e; /* iOS dark group background */
-    --dark-text: rgba(255, 255, 255, 0.9);
-    --dark-secondary-text: #8e8e93;
-    --dark-border: #38383a; /* Separator Color */
-    --dark-hover: #0a84ff;
-    --dark-toggle-on: var(--accent-color);
-    --dark-toggle-off: #39393d;
-    --dark-red-color: #ff453a;
-    --dark-slider-track: rgba(120, 120, 128, 0.4);
-    --dark-slider-thumb: #f2f2f7;
+    /* Dark Mode Palette */
+    --dark-bg: #000000;
+    --dark-text: #f5f5f7;
+    --dark-secondary-text: rgba(235, 235, 245, 0.65);
+    --dark-red-color: #ff4f42;
 
-    /* Glass/Material Variables (for macOS look on desktop) */
-    --glass-blur: blur(20px);
-    --glass-bg-light: rgba(242, 242, 247, 0.8); /* Vibrancy Effect */
-    --glass-border-light: rgba(0, 0, 0, 0.15);
-    --glass-bg-dark: rgba(44, 44, 46, 0.75); /* Dark Vibrancy */
-    --glass-border-dark: rgba(255, 255, 255, 0.15);
+    /* Glass Materials (The Core of the Theme) */
+    --glass-blur: blur(28px);
+    --light-glass-bg: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
+    --light-glass-border: rgba(255, 255, 255, 0.8);
+    --light-glass-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    --light-separator: rgba(60, 60, 67, 0.2);
 
-    /* Default Theme State (Mobile-First/iOS) */
+    --dark-glass-bg: linear-gradient(rgba(40, 40, 40, 0.5), rgba(40, 40, 40, 0.3));
+    --dark-glass-border: rgba(255, 255, 255, 0.15);
+    --dark-glass-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    --dark-separator: rgba(235, 235, 245, 0.15);
+
+    /* Default Theme State */
     --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
     --secondary-text: var(--light-secondary-text);
-    --border-color: var(--light-border);
-    --hover-color: var(--light-hover);
-    --toggle-on: var(--light-toggle-on);
-    --toggle-off: var(--light-toggle-off);
     --red-color: var(--light-red-color);
-    --slider-track-color: var(--light-slider-track);
-    --slider-track-filled-color: var(--accent-color);
-    --slider-thumb-color: var(--light-slider-thumb);
-    --shadow-elevation-1: none;
-    --shadow-elevation-2: none;
+    --glass-background: var(--light-glass-bg);
+    --glass-border-color: var(--light-glass-border);
+    --glass-box-shadow: var(--light-glass-shadow);
+    --separator-color: var(--light-separator);
 }
 
-
 /* ======================================================= */
-/* === FLICKER-PREVENTION STYLES ========================= */
+/* === FLICKER-PREVENTION & DARK MODE OVERRIDE =========== */
 /* ======================================================= */
-html.dark-mode body.settings-page {
+html.dark-mode body.settings-page, body.dark-mode {
     --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
     --secondary-text: var(--dark-secondary-text);
-    --border-color: var(--dark-border);
-    --hover-color: var(--dark-hover);
-    --toggle-on: var(--dark-toggle-on);
-    --toggle-off: var(--dark-toggle-off);
     --red-color: var(--dark-red-color);
-    --slider-track-color: var(--dark-slider-track);
-    --slider-thumb-color: var(--dark-slider-thumb);
-}
-
-/* Instantly apply macOS dark materials if screen is wide */
-@media (min-width: 768px) {
-    html.dark-mode .settings-header,
-    html.dark-mode .settings-subsection,
-    html.dark-mode footer {
-        background: var(--glass-bg-dark);
-        border-color: var(--glass-border-dark);
-        box-shadow: 0 0 0 0.5px var(--glass-border-dark), 0 4px 12px rgba(0,0,0,0.3);
-    }
-}
-
-
-/* ===== Theme Style Variants (Clear & Tinted) ===== */
-body.clear-mode {
-    --glass-bg-light: rgba(255, 255, 255, 0.35);
-    --glass-bg-dark: rgba(28, 28, 30, 0.35);
-}
-body.tinted-mode {
-    --glass-bg-light: color-mix(in srgb, var(--accent-color) 15%, rgba(242, 242, 247, 0.7));
-    --glass-bg-dark: color-mix(in srgb, var(--accent-color) 20%, rgba(44, 44, 46, 0.7));
+    --glass-background: var(--dark-glass-bg);
+    --glass-border-color: var(--dark-glass-border);
+    --glass-box-shadow: var(--dark-glass-shadow);
+    --separator-color: var(--dark-separator);
 }
 
 
@@ -104,7 +63,7 @@ body.settings-page {
     font-family: var(--font-family-apple);
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-size: var(--text-size, 16px);
+    font-size: var(--text-size);
     line-height: 1.5;
     margin: 0;
     padding: 0;
@@ -112,107 +71,112 @@ body.settings-page {
     -moz-osx-font-smoothing: grayscale;
 }
 .motion-disabled * { transition: none !important; animation: none !important; }
-.motion-disabled a:hover, .motion-disabled button:hover { transform: none !important; box-shadow: none !important; }
 body.dyslexia-font { font-family: "OpenDyslexic", var(--font-family-apple) !important; }
 body.underline-links a { text-decoration: underline !important; }
-body.settings-page :focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; border-radius: 4px; }
+body.settings-page :focus-visible { outline: 2px solid var(--accent-color); outline-offset: 3px; border-radius: 8px; }
 body.settings-page.focus-outline-disabled :focus-visible { outline: none !important; }
 
 
 /* ========== LAYOUT & STRUCTURE ========== */
-.container { max-width: 680px; margin: 0 auto; padding: 36px 20px; }
+.container { max-width: 680px; margin: 0 auto; padding: 40px 20px; }
+
+/* All main elements adopt the glass material */
+.settings-header, .settings-subsection, footer, #cookie-consent-banner {
+    background: var(--glass-background);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 16px; /* Softer radius */
+    box-shadow: var(--glass-box-shadow), inset 0 0 0 0.5px var(--glass-border-color);
+    margin-bottom: 24px;
+    border: none; /* Replaced by inset box-shadow */
+}
 
 .settings-header {
-    padding: 10px 0 10px 15px;
-    margin-bottom: 18px;
-    background: transparent; /* Header is part of the main view */
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px;
 }
-.settings-header h1 {
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0;
-    color: var(--text-color);
-}
-.version { display: none; } /* Version info better suited for footer in this layout */
+.settings-header h1 { font-size: 28px; font-weight: 600; margin: 0; }
 
 
-/* ========== SETTINGS GROUPS (iOS Style by Default) ========== */
-.settings-subsection {
-    background-color: var(--content-bg);
-    border-radius: 12px;
-    margin: 18px 0;
-    overflow: hidden;
-    border: none;
-    box-shadow: none;
-    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
-}
+/* ========== SETTINGS GROUPS & CARDS ========== */
+.settings-subsection { overflow: hidden; padding: 8px; }
 .subsection-title {
-    font-size: 13px; font-weight: 400; text-transform: uppercase;
-    color: var(--secondary-text); padding: 24px 15px 6px 15px; margin: 0;
-    border-bottom: none;
+    font-size: 14px; font-weight: 500;
+    color: var(--secondary-text);
+    padding: 12px 12px 4px 12px; margin: 0;
+    text-transform: uppercase; letter-spacing: 0.5px;
 }
-
-/* ========== SETTINGS CARDS (List Items) ========== */
 .setting-card {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 13px 15px; min-height: 46px; position: relative;
-    margin-left: 15px; border-bottom: 0.5px solid var(--border-color);
-    transition: background-color 0.2s;
+    padding: 14px 12px; min-height: 48px;
+    border-bottom: 1px solid var(--separator-color);
+    transition: background-color 0.25s ease;
+    border-radius: 10px;
+    margin: 4px;
 }
 .setting-card:last-child { border-bottom: none; }
-.setting-label { flex: 1; padding-right: 15px; }
-.setting-title { font-size: 16px; font-weight: 400; margin: 0; }
-.setting-description { font-size: 13px; color: var(--secondary-text); margin-top: 3px; }
-.chevron::after { content: '›'; font-size: 24px; font-weight: 300; color: #c6c6c8; margin-left: 8px; }
+.setting-card:hover { background-color: rgba(128, 128, 128, 0.1); }
+.setting-label { flex: 1; padding-right: 16px; }
+.setting-title { font-size: 16px; font-weight: 500; margin: 0 0 2px 0; }
+.setting-description { font-size: 14px; color: var(--secondary-text); margin: 0; }
+.chevron::after { content: '›'; font-size: 24px; font-weight: 300; color: var(--secondary-text); }
 
 
-/* ========== CONTROLS (Apple Native Style) ========== */
+/* ========== visionOS CONTROLS ========== */
+
+/* Toggle Switch */
 .md-switch {
-    --width: 51px; --height: 31px; --thumb-size: 27px;
+    --width: 54px; --height: 32px; --thumb-size: 28px;
     display: inline-flex; position: relative; width: var(--width); height: var(--height); flex-shrink: 0;
 }
 .md-switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.md-switch .track { width: var(--width); height: var(--height); background: var(--toggle-off); border-radius: 999px; transition: background-color 0.2s ease-in-out; }
-.md-switch .thumb { position: absolute; top: 2px; left: 2px; width: var(--thumb-size); height: var(--thumb-size); background: #ffffff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.md-switch input:checked ~ .track { background: var(--toggle-on); }
+.md-switch .track { width: var(--width); height: var(--height); background: rgba(120, 120, 128, 0.36); border-radius: 999px; transition: background-color 0.25s ease; }
+.md-switch .thumb { position: absolute; top: 2px; left: 2px; width: var(--thumb-size); height: var(--thumb-size); background: #ffffff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.md-switch input:checked ~ .track { background: var(--accent-color); }
 .md-switch input:checked ~ .track .thumb { transform: translateX(calc(var(--width) - var(--thumb-size) - 4px)); }
 
+/* Color Picker */
 #accentColorPicker {
-    width: 29px; height: 29px; border-radius: 50%; cursor: pointer;
-    border: 0.5px solid var(--border-color); overflow: hidden; padding: 0;
+    width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+    border: 2px solid rgba(128, 128, 128, 0.2); overflow: hidden; padding: 0;
+    transition: transform 0.2s ease;
 }
+#accentColorPicker:hover { transform: scale(1.1); }
 #accentColorPicker::-webkit-color-swatch, #accentColorPicker::-moz-color-swatch { border-radius: 50%; border: none; }
 
-.segmented-control { display: flex; align-items: center; background-color: var(--toggle-off); border-radius: 8px; padding: 2px; border: none;}
-.segmented-control button { font-family: inherit; font-size: 14px; font-weight: 500; padding: 6px 12px; border: none; background-color: transparent; color: var(--text-color); border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; }
-.segmented-control button.active { background-color: var(--content-bg); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-html.dark-mode .segmented-control button.active { background-color: #636366; color: var(--dark-text); }
-
+/* Segmented Control */
+.segmented-control {
+    display: flex; align-items: center; background-color: rgba(118, 118, 128, 0.24);
+    border-radius: 10px; padding: 4px; border: none;
+}
+.segmented-control button {
+    font-family: inherit; font-size: 14px; font-weight: 500;
+    padding: 6px 14px; border: none; background-color: transparent;
+    color: var(--secondary-text); border-radius: 8px; cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+body.dark-mode .segmented-control button { color: var(--text-color); }
+.segmented-control button:hover:not(.active) { background-color: rgba(128, 128, 128, 0.1); }
+.segmented-control button.active {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+body.dark-mode .segmented-control button.active { background-color: #6e6e73; color: #fff; }
 
 /* ========== DANGER ZONE & FOOTER ========== */
-.danger-zone .setting-title { color: var(--red-color); text-align: center; width: 100%; }
-.danger-zone .setting-card { justify-content: center; cursor: pointer; margin-left: 0; }
-footer { text-align: center; padding: 20px 15px 40px 15px; font-size: 13px; color: var(--secondary-text); background: transparent; border: none; backdrop-filter: none; }
-footer a { color: var(--accent-color); text-decoration: none; }
+.danger-zone .setting-title { color: var(--red-color); text-align: center; width: 100%; font-weight: 500; }
+.danger-zone .setting-card { justify-content: center; cursor: pointer; }
+.danger-zone .setting-card:hover { background-color: rgba(255, 69, 58, 0.1); }
+
+footer {
+    text-align: center; padding: 16px; font-size: 14px; color: var(--secondary-text);
+}
+footer a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
 footer a:hover { text-decoration: underline; }
 
-
-/* ========================================================= */
-/* === DESKTOP / MACOS STYLES (@media min-width: 768px) ==== */
-/* ========================================================= */
-@media (min-width: 768px) {
-    /* Apply macOS Material look to section groups on larger screens */
-    .settings-subsection, footer {
-        background: var(--glass-bg-light);
-        border: 1px solid var(--glass-border-light);
-        backdrop-filter: var(--glass-blur);
-        -webkit-backdrop-filter: var(--glass-blur);
-        box-shadow: 0 0 0 0.5px var(--glass-border-light), 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .setting-card { border-radius: 6px; transition: background-color 0.2s ease-in-out; }
-    .setting-card:hover { background-color: rgba(128, 128, 128, 0.1); }
-    .danger-zone .setting-card:hover { background-color: rgba(255, 59, 48, 0.1); }
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container { padding: 20px 10px; }
+    .settings-header h1 { font-size: 24px; }
 }
