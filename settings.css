@@ -1,539 +1,486 @@
 :root {
-    /* Base Defaults */
-    --text-size: 17px; /* iOS default */
-    --accent-color: #007AFF; /* iOS blue */
+  /* Base Defaults */
+  --text-size: 17px; /* iOS default */
+  --accent-color: #007AFF; /* iOS blue */
 
-    /* iOS 26 Light Mode Colors */
-    --light-bg: #F2F2F7;
-    --light-content-bg: rgba(255, 255, 255, 0.98);
-    --light-text: #000000;
-    --light-secondary-text: #3C3C43;
-    --light-tertiary-text: #48484A;
-    --light-quaternary-text: #8E8E93;
-    --light-border: rgba(60, 60, 67, 0.12);
-    --light-hover: #0051D5;
-    --light-toggle-on: #34C759;
-    --light-toggle-off: #E9E9EA;
-    --light-red-color: #FF3B30;
-    --light-slider-track: #E5E5E7;
-    --light-slider-thumb: #FFFFFF;
-    --light-separator: rgba(60, 60, 67, 0.29);
-    --light-grouped-bg: rgba(255, 255, 255, 1);
-    --light-grouped-secondary: #F2F2F7;
+  /* iOS 26 Light Mode Colors */
+  --light-bg: #F2F2F7;
+  --light-content-bg: rgba(255, 255, 255, 0.98);
+  --light-text: #000000;
+  --light-secondary-text: #3C3C43;
+  --light-tertiary-text: #48484A;
+  --light-quaternary-text: #8E8E93;
+  --light-border: rgba(60, 60, 67, 0.12);
+  --light-hover: #0051D5;
+  --light-toggle-on: #34C759;
+  --light-toggle-off: #E9E9EA;
+  --light-red-color: #FF3B30;
+  --light-slider-track: #E5E5E7;
+  --light-slider-thumb: #FFFFFF;
+  --light-separator: rgba(60, 60, 67, 0.29);
+  --light-grouped-bg: rgba(255, 255, 255, 1);
+  --light-grouped-secondary: #F2F2F7;
 
-    /* iOS 26 Dark Mode Colors */
-    --dark-bg: #000000;
-    --dark-content-bg: rgba(28, 28, 30, 0.98);
-    --dark-text: #FFFFFF;
-    --dark-secondary-text: #EBEBF5;
-    --dark-tertiary-text: #C7C7CC;
-    --dark-quaternary-text: #8E8E93;
-    --dark-border: rgba(84, 84, 88, 0.65);
-    --dark-hover: #0A84FF;
-    --dark-toggle-on: #32D74B;
-    --dark-toggle-off: #39393D;
-    --dark-red-color: #FF453A;
-    --dark-slider-track: #1C1C1E;
-    --dark-slider-thumb: #FFFFFF;
-    --dark-separator: rgba(84, 84, 88, 0.6);
-    --dark-grouped-bg: rgba(44, 44, 46, 1);
-    --dark-grouped-secondary: #1C1C1E;
+  /* iOS 26 Dark Mode Colors */
+  --dark-bg: #000000;
+  --dark-content-bg: rgba(28, 28, 30, 0.98);
+  --dark-text: #FFFFFF;
+  --dark-secondary-text: #EBEBF5;
+  --dark-tertiary-text: #C7C7CC;
+  --dark-quaternary-text: #8E8E93;
+  --dark-border: rgba(84, 84, 88, 0.65);
+  --dark-hover: #0A84FF;
+  --dark-toggle-on: #32D74B;
+  --dark-toggle-off: #39393D;
+  --dark-red-color: #FF453A;
+  --dark-slider-track: #1C1C1E;
+  --dark-slider-thumb: #FFFFFF;
+  --dark-separator: rgba(84, 84, 88, 0.6);
+  --dark-grouped-bg: rgba(44, 44, 46, 1);
+  --dark-grouped-secondary: #1C1C1E;
 
-    /* Default Theme (Light active by default) */
-    --bg-color: var(--light-bg);
-    --content-bg: var(--light-content-bg);
-    --text-color: var(--light-text);
-    --secondary-text: var(--light-secondary-text);
-    --tertiary-text: var(--light-tertiary-text);
-    --quaternary-text: var(--light-quaternary-text);
-    --border-color: var(--light-border);
-    --hover-color: var(--light-hover);
-    --toggle-on: var(--light-toggle-on);
-    --toggle-off: var(--light-toggle-off);
-    --red-color: var(--light-red-color);
-    --slider-track-color: var(--light-slider-track);
-    --slider-track-filled-color: var(--accent-color);
-    --slider-thumb-color: var(--light-slider-thumb);
-    --separator-color: var(--light-separator);
-    --grouped-bg: var(--light-grouped-bg);
-    --grouped-secondary: var(--light-grouped-secondary);
+  /* Default theme (Light active by default) */
+  --bg-color: var(--light-bg);
+  --content-bg: var(--light-content-bg);
+  --text-color: var(--light-text);
+  --secondary-text: var(--light-secondary-text);
+  --tertiary-text: var(--light-tertiary-text);
+  --quaternary-text: var(--light-quaternary-text);
+  --border-color: var(--light-border);
+  --hover-color: var(--light-hover);
+  --toggle-on: var(--light-toggle-on);
+  --toggle-off: var(--light-toggle-off);
+  --red-color: var(--light-red-color);
+  --slider-track-color: var(--light-slider-track);
+  --slider-track-filled-color: var(--accent-color);
+  --slider-thumb-color: var(--light-slider-thumb);
+  --separator-color: var(--light-separator);
+  --grouped-bg: var(--light-grouped-bg);
+  --grouped-secondary: var(--light-grouped-secondary);
 
-    /* iOS 26 Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.08);
-    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12);
+  /* Shadows (iOS 26 style) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12);
 
-    /* iOS 26 Glass Effect */
-    --glass-blur: saturate(180%) blur(20px);
-    --glass-bg-light: rgba(242, 242, 247, 0.72);
-    --glass-border-light: rgba(209, 209, 214, 0.3);
-    --glass-bg-dark: rgba(28, 28, 30, 0.72);
-    --glass-border-dark: rgba(84, 84, 88, 0.3);
+  /* Glass Effect */
+  --glass-blur: saturate(180%) blur(20px);
+  --glass-bg-light: rgba(242, 242, 247, 0.72);
+  --glass-border-light: rgba(209, 209, 214, 0.3);
+  --glass-bg-dark: rgba(28, 28, 30, 0.72);
+  --glass-border-dark: rgba(84, 84, 88, 0.3);
 
-    /* iOS 26 Animation Curves */
-    --ease-ios: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --ease-ios-out: cubic-bezier(0.215, 0.61, 0.355, 1);
-    --ease-ios-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-    --spring-ios: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  /* Animation Curves */
+  --ease-ios: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-ios-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-ios-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --spring-ios: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 /* Dark Mode Flicker Prevention */
 html.dark-mode body.settings-page {
-    --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
-    --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
-    --tertiary-text: var(--dark-tertiary-text);
-    --quaternary-text: var(--dark-quaternary-text);
-    --border-color: var(--dark-border);
-    --separator-color: var(--dark-separator);
-    --grouped-bg: var(--dark-grouped-bg);
-    --grouped-secondary: var(--dark-grouped-secondary);
-}
-html.dark-mode .settings-header,
-html.dark-mode .settings-subsection,
-html.dark-mode footer {
-    background: var(--glass-bg-dark);
-    border-color: var(--glass-border-dark);
+  --bg-color: var(--dark-bg);
+  --content-bg: var(--dark-content-bg);
+  --text-color: var(--dark-text);
+  --secondary-text: var(--dark-secondary-text);
+  --tertiary-text: var(--dark-tertiary-text);
+  --quaternary-text: var(--dark-quaternary-text);
+  --border-color: var(--dark-border);
+  --separator-color: var(--dark-separator);
+  --grouped-bg: var(--dark-grouped-bg);
+  --grouped-secondary: var(--dark-grouped-secondary);
 }
 
-/* Dark Mode Override */
-body.dark-mode {
-    --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
-    --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
-    --tertiary-text: var(--dark-tertiary-text);
-    --quaternary-text: var(--dark-quaternary-text);
-    --border-color: var(--dark-border);
-    --hover-color: var(--dark-hover);
-    --toggle-on: var(--dark-toggle-on);
-    --toggle-off: var(--dark-toggle-off);
-    --red-color: var(--dark-red-color);
-    --slider-track-color: var(--dark-slider-track);
-    --slider-thumb-color: var(--dark-slider-thumb);
-    --separator-color: var(--dark-separator);
-    --grouped-bg: var(--dark-grouped-bg);
-    --grouped-secondary: var(--dark-grouped-secondary);
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 3px 8px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
-}
-
-/* General iOS 26 Styles */
-body.settings-page {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: var(--text-size);
-    line-height: 1.4706;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-}
-
-/* Container */
-body.settings-page .container {
-    max-width: 744px;
-    margin: 0 auto;
-    padding: 0;
-    position: relative;
-}
-
-/* Settings Header */
+/* Header Styles */
 body.settings-page .settings-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    height: 96px;
-    background: var(--glass-bg-light);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border-bottom: 0.5px solid var(--separator-color);
-    margin-bottom: 0;
-    border-radius: 0;
-    box-shadow: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 96px;
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 0.5px solid var(--separator-color);
+  border-radius: 0;
+  box-shadow: none;
 }
-body.dark-mode .settings-header {
-    background: var(--glass-bg-dark);
+html.dark-mode body .settings-header {
+  background: var(--glass-bg-dark);
 }
 
+/* Header Title */
 body.settings-page .settings-header h1 {
-    font-size: 34px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin: 0;
-    color: var(--text-color);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: var(--text-color);
 }
 
+/* Version Label */
 body.settings-page .version {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--quaternary-text);
-    background-color: var(--grouped-secondary);
-    padding: 4px 8px;
-    border-radius: 6px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--quaternary-text);
+  background-color: var(--grouped-secondary);
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-/* Settings Subsection */
+/* Subsection Containers */
 body.settings-page .settings-subsection {
-    margin: 35px 20px 0;
-    border-radius: 10px;
-    overflow: hidden;
-    background: var(--grouped-bg);
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
+  margin: 35px 20px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--grouped-bg);
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
 }
-body.dark-mode .settings-subsection {
-    background: var(--grouped-bg);
+html.dark-mode body .settings-subsection {
+  background: var(--grouped-bg);
 }
 
+/* Subsection Titles */
 body.settings-page .subsection-title {
-    font-size: 13px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: -0.08px;
-    padding: 6px 16px;
-    margin: -29px 0 8px 0;
-    border: none;
-    color: var(--quaternary-text);
-    background: transparent;
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.08px;
+  padding: 6px 16px;
+  margin: -29px 0 8px 0;
+  color: var(--quaternary-text);
+  background: transparent;
 }
 
 /* Setting Card */
 body.settings-page .setting-card {
-    padding: 11px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 44px;
-    border-bottom: 0.5px solid var(--separator-color);
-    position: relative;
-    overflow: hidden;
-    transition: background-color 0.2s var(--ease-ios);
-    background: var(--grouped-bg);
+  padding: 11px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 44px;
+  border-bottom: 0.5px solid var(--separator-color);
+  transition: background-color 0.2s var(--ease-ios);
+  background: var(--grouped-bg);
+  position: relative;
 }
 body.settings-page .setting-card:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 body.settings-page .setting-card:active {
-    background-color: var(--quaternary-text);
-    opacity: 0.3;
-    transition-duration: 0s;
+  background-color: var(--quaternary-text);
+  opacity: 0.3;
+  transition-duration: 0s;
 }
 
+/* Labels & Titles */
 body.settings-page .setting-label {
-    flex: 1;
-    padding-right: 12px;
+  flex: 1;
+  padding-right: 12px;
 }
 body.settings-page .setting-title {
-    font-size: 17px;
-    font-weight: 400;
-    margin: 0;
-    letter-spacing: -0.41px;
+  font-size: 17px;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.41px;
 }
 body.settings-page .setting-description {
-    font-size: 13px;
-    color: var(--tertiary-text);
-    margin: 2px 0 0 0;
-    letter-spacing: -0.08px;
-    line-height: 1.38462;
+  font-size: 13px;
+  color: var(--tertiary-text);
+  margin: 2px 0 0 0;
+  line-height: 1.38462;
+  letter-spacing: -0.08px;
 }
 
-/* Chevron */
+/* Chevron Icon */
 body.settings-page .chevron {
-    margin-left: 8px;
-    color: var(--quaternary-text);
-    font-size: 14px;
-    font-weight: 600;
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--quaternary-text);
 }
 
-/* Toggle Switch Fix */
+/* Toggle Switch */
 .md-switch {
-    --width: 51px;
-    --height: 31px;
-    --thumb-size: 27px;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    width: var(--width);
-    height: var(--height);
-    flex-shrink: 0;
+  --width: 51px;
+  --height: 31px;
+  --thumb-size: 27px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  width: var(--width);
+  height: var(--height);
+  flex-shrink: 0;
 }
 .md-switch input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    margin: 0;
-    cursor: pointer;
-    z-index: 2;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
 }
 .md-switch .track {
-    width: var(--width);
-    height: var(--height);
-    background: var(--toggle-off);
-    border-radius: 15.5px;
-    transition: background-color 0.3s var(--ease-ios);
-    position: relative;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  width: var(--width);
+  height: var(--height);
+  background: var(--toggle-off);
+  border-radius: 15.5px;
+  transition: background-color 0.3s var(--ease-ios);
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 .md-switch .thumb {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    background: var(--slider-thumb-color);
-    border-radius: 13.5px;
-    transition: transform 0.3s var(--ease-ios);
-    box-shadow:
-        0 3px 8px rgba(0,0,0,0.15),
-        0 1px 1px rgba(0,0,0,0.16),
-        0 3px 1px -2px rgba(0,0,0,0.1);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  background: var(--slider-thumb-color);
+  border-radius: 13.5px;
+  transition: transform 0.3s var(--ease-ios);
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.15),
+    0 1px 1px rgba(0,0,0,0.16),
+    0 3px 1px -2px rgba(0,0,0,0.1);
 }
-.md-switch input:checked ~ .track {
-    background: var(--toggle-on);
+input:checked ~ .track {
+  background: var(--toggle-on);
 }
-.md-switch input:checked ~ .track .thumb {
-    transform: translateX(20px);
+input:checked ~ .thumb {
+  transform: translateX(20px);
 }
 
-/* Text Size Slider Fix */
+/* Text Size Control & Slider */
 .setting-card:has(.text-size-control) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px;
 }
 .setting-card:has(.text-size-control) > *:first-child {
-    flex: 1;
-    min-width: 200px;
+  flex: 1;
+  min-width: 200px;
 }
 .text-size-control {
-    flex-shrink: 0;
-    width: 280px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  flex-shrink: 0;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .font-size-badge {
-    padding: 4px 10px;
-    background-color: var(--accent-color);
-    color: white;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 13px;
-    margin-bottom: 12px;
-    letter-spacing: -0.08px;
+  padding: 4px 10px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 12px;
+  letter-spacing: -0.08px;
 }
 #text-size-slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 4px;
-    border-radius: 2px;
-    outline: none;
-    background: linear-gradient(
-        90deg,
-        var(--slider-track-filled-color) 0%,
-        var(--slider-track-filled-color) var(--slider-value-percentage, 50%),
-        var(--slider-track-color) var(--slider-value-percentage, 50%),
-        var(--slider-track-color) 100%
-    );
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--slider-track-filled-color) 0%,
+    var(--slider-track-filled-color) var(--slider-value-percentage, 50%),
+    var(--slider-track-color) var(--slider-value-percentage, 50%),
+    var(--slider-track-color) 100%
+  );
 }
 #text-size-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 14px;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
-    box-shadow:
-        0 3px 4px rgba(0,0,0,0.14),
-        0 1px 8px rgba(0,0,0,0.08),
-        0 3px 3px -2px rgba(0,0,0,0.04);
-    border: none;
-    margin-top: -12px; /* vertically center thumb */
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background: var(--slider-thumb-color);
+  cursor: pointer;
+  box-shadow:
+    0 3px 4px rgba(0,0,0,0.14),
+    0 1px 8px rgba(0,0,0,0.08),
+    0 3px 3px -2px rgba(0,0,0,0.04);
+  border: none;
+  margin-top: -12px; /* vertically center thumb */
 }
 #text-size-slider::-moz-range-thumb {
-    width: 28px;
-    height: 28px;
-    border-radius: 14px;
-    background: var(--slider-thumb-color);
-    cursor: pointer;
-    border: none;
-    box-shadow:
-        0 3px 4px rgba(0,0,0,0.14),
-        0 1px 8px rgba(0,0,0,0.08),
-        0 3px 3px -2px rgba(0,0,0,0.04);
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background: var(--slider-thumb-color);
+  cursor: pointer;
+  border: none;
+  box-shadow:
+    0 3px 4px rgba(0,0,0,0.14),
+    0 1px 8px rgba(0,0,0,0.08),
+    0 3px 3px -2px rgba(0,0,0,0.04);
 }
 
-/* Segmented Control Fix */
+/* Segmented Control */
 .segmented-control {
-    display: flex;
-    align-items: center;
-    background-color: var(--grouped-secondary);
-    border-radius: 9px;
-    padding: 2px;
-    border: none;
+  display: flex;
+  align-items: center;
+  background-color: var(--grouped-secondary);
+  border-radius: 9px;
+  padding: 2px;
+  border: none;
 }
 .segmented-control button {
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 6px 14px;
-    border: none;
-    background-color: transparent;
-    color: var(--text-color);
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all 0.3s var(--ease-ios);
-    letter-spacing: -0.08px;
-    line-height: 1.23077;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border: none;
+  background-color: transparent;
+  color: var(--text-color);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-ios);
+  letter-spacing: -0.08px;
+  line-height: 1.23077;
 }
 .segmented-control button:hover {
-    background-color: rgba(120, 120, 128, 0.12);
+  background-color: rgba(120, 120, 128, 0.12);
 }
 .segmented-control button.active {
-    background-color: var(--grouped-bg);
-    color: var(--text-color);
-    box-shadow:
-        0 3px 1px rgba(0,0,0,0.04),
-        0 3px 8px rgba(0,0,0,0.12);
+  background-color: var(--grouped-bg);
+  color: var(--text-color);
+  box-shadow:
+    0 3px 1px rgba(0,0,0,0.04),
+    0 3px 8px rgba(0,0,0,0.12);
 }
 body.dark-mode .segmented-control button.active {
-    box-shadow:
-        0 3px 1px rgba(0,0,0,0.04),
-        0 3px 8px rgba(0,0,0,0.24);
+  box-shadow:
+    0 3px 1px rgba(0,0,0,0.04),
+    0 3px 8px rgba(0,0,0,0.24);
 }
 
 /* Buttons */
 body.settings-page .reset-button,
 body.settings-page #cookie-consent-banner button {
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 17px;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 12px 20px;
-    background: var(--accent-color);
-    transition: all 0.2s var(--ease-ios);
-    letter-spacing: -0.41px;
-    line-height: 1.29412;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 12px 20px;
+  background: var(--accent-color);
+  transition: all 0.2s var(--ease-ios);
+  letter-spacing: -0.41px;
+  line-height: 1.29412;
 }
 body.settings-page .reset-button {
-    background: var(--red-color);
+  background: var(--red-color);
 }
 body.settings-page .reset-button:hover,
 body.settings-page #cookie-consent-banner button:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 body.settings-page .reset-button:active,
 body.settings-page #cookie-consent-banner button:active {
-    transform: scale(0.98);
-    opacity: 0.8;
+  transform: scale(0.98);
+  opacity: 0.8;
 }
 
 /* Responsive Fixes */
 @media (max-width: 600px) {
-    .setting-card:has(.text-size-control) {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .text-size-control {
-                width: 100%;
-        align-items: flex-start;
-    }
-    #text-size-slider {
-        max-width: 100%;
-    }
+  .setting-card:has(.text-size-control) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .text-size-control {
+    width: 100%;
+    align-items: flex-start;
+  }
+  #text-size-slider {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 414px) {
-    body.settings-page .settings-header h1 {
-        font-size: 28px;
-    }
-    body.settings-page .setting-card {
-        padding: 11px 16px;
-    }
-    body.settings-page #cookie-consent-banner {
-        flex-direction: column;
-        text-align: center;
-        width: calc(100% - 32px);
-        gap: 12px;
-    }
+  body.settings-page .settings-header h1 {
+    font-size: 28px;
+  }
+  body.settings-page .setting-card {
+    padding: 11px 16px;
+  }
+  body.settings-page #cookie-consent-banner {
+    flex-direction: column;
+    text-align: center;
+    width: calc(100% - 32px);
+    gap: 12px;
+  }
 }
 
 /* Mouse Trail Effect */
 #mouse-trail {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
 }
 .trail {
-    width: 8px;
-    height: 8px;
-    background: var(--accent-color);
-    border-radius: 50%;
-    position: absolute;
-    opacity: 0.6;
-    transform: scale(1);
-    animation: fadeOut 0.6s var(--ease-ios-out) forwards;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0.6;
+  transform: scale(1);
+  animation: fadeOut 0.6s var(--ease-ios-out) forwards;
 }
 @keyframes fadeOut {
-    to {
-        opacity: 0;
-        transform: scale(2.5);
-    }
+  to {
+    opacity: 0;
+    transform: scale(2.5);
+  }
 }
 
 /* Appearance Mode Select */
 body.settings-page #appearanceModeSelect {
-    font-size: 15px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: none;
-    background: var(--grouped-secondary);
-    color: var(--text-color);
-    margin-left: 10px;
-    font-weight: 400;
-    letter-spacing: -0.24px;
-    transition: background 0.2s var(--ease-ios);
+  font-size: 15px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--grouped-secondary);
+  color: var(--text-color);
+  margin-left: 10px;
+  font-weight: 400;
+  letter-spacing: -0.24px;
+  transition: background 0.2s var(--ease-ios);
 }
 body.settings-page #appearanceModeSelect:hover {
-    background: var(--border-color);
+  background: var(--border-color);
 }
 
-/* iOS 26 Haptic Feedback Simulation */
+/* Haptic Feedback Animation */
 @keyframes haptic {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(0.98); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.98); }
 }
 .haptic-feedback {
-    animation: haptic 0.1s var(--ease-ios);
+  animation: haptic 0.1s var(--ease-ios);
 }
 
 /* Focus States */
 body.settings-page :focus-visible {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
-    border-radius: 8px;
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
 body.settings-page.focus-outline-disabled :focus-visible {
-    outline: none !important;
-    outline-offset: 0 !important;
+  outline: none !important;
+  outline-offset: 0 !important;
 }
