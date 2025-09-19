@@ -2279,6 +2279,11 @@ body.maintenance-active {
 	}
 }
 
+.sortable-ghost {
+    opacity: 0.4;
+    background-color: #4a4a4a;
+}
+
 /* ======================================== */
 /* == Scroll to Top Button – Onyx Bubble Glass == */
 /* ======================================== */
