@@ -30,7 +30,7 @@
       console.error("Flicker-prevention script error:", e);
     }
   })();
-</script>
+  </script>
   
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -39,6 +39,9 @@
 </head>
 
 <body class="settings-page">
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-indicator" id="scrollIndicator"></div>
+
   <main class="container" id="main-content">
     <div class="settings-section">
       <div class="settings-header">
@@ -46,7 +49,7 @@
         <span class="version">v26.0</span>
       </div>
 
-      <div class="settings-subsection">
+      <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Appearance</h2>
 
         <div class="setting-card">
@@ -70,7 +73,7 @@
             <input
               type="color"
               id="accentColorPicker"
-              value="#3ddc84"
+              value="#007AFF"
               aria-label="Choose accent color"
             />
             <div id="accentColorPreview" class="accent-color-preview"></div>
@@ -78,7 +81,7 @@
         </div>
       </div>
 
-      <div class="settings-subsection">
+      <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">General</h2>
         <div class="setting-card">
           <label for="rearrangingEnabledToggle" class="setting-label">
@@ -99,7 +102,7 @@
         </div>
       </div>
 
-      <div class="settings-subsection">
+      <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Accessibility</h2>
 
         <div class="setting-card">
@@ -108,13 +111,13 @@
             <p class="setting-description">Adjust the text size for better readability</p>
           </label>
           <div class="text-size-control">
-            <span id="textSizeValue" class="font-size-badge">16px</span>
+            <span id="textSizeValue" class="font-size-badge">17px</span>
             <input
               type="range"
               id="text-size-slider"
               min="12"
               max="24"
-              value="16"
+              value="17"
               step="1"
               aria-label="Adjust text size"
             />
@@ -166,7 +169,7 @@
         </div>
       </div>
 
-      <div class="settings-subsection">
+      <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Visual Flair</h2>
 
         <div class="setting-card">
@@ -181,7 +184,7 @@
         </div>
       </div>
 
-      <div class="settings-subsection danger-zone">
+      <div class="settings-subsection danger-zone animate-slide-in">
         <h2 class="subsection-title">Danger Zone</h2>
         <div class="setting-card">
           <div class="setting-label">
@@ -192,20 +195,27 @@
         </div>
       </div>
 
-      <a href="/" class="back-link">← Back to Profile</a>
+      <div class="back-link-container">
+        <a href="/" class="back-link">
+          <span class="back-icon">←</span>
+          <span>Back to Profile</span>
+        </a>
+      </div>
     </div>
   </main>
 
-  <footer>
-    <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
-    <div class="footer-links">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="terms-of-service.html">Terms of Service</a>
-      <a href="accessibility-statement.html">Accessibility Statement</a>
+  <footer class="settings-footer">
+    <div class="footer-content">
+      <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
+      <div class="footer-links">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+        <a href="accessibility-statement.html">Accessibility Statement</a>
+      </div>
     </div>
-
-    <div id="mouse-trail"></div>
   </footer>
+
+  <div id="mouse-trail"></div>
 
   <script src="settings.js"></script>
   <script src="script.js"></script>
