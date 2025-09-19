@@ -1,35 +1,47 @@
 :root {
-    /* Base Defaults */
-    --text-size: 16px;
-    --accent-color: #3ddc84; /* Default, user can override via JS */
+    /* =================================================== */
+    /* === Unified Apple Theme (iOS & macOS) =========== */
+    /* =================================================== */
 
-    /* Light Mode Colors */
-    --light-bg: #f2f4f7;
+    /* Base Defaults - Mapped to Apple's UI Kit */
+    --font-family-apple: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Roboto', Arial, sans-serif;
+    --text-size: 16px;
+    --accent-color: #007aff; /* Universal Apple Blue */
+
+    /* Light Mode Colors (Apple Palette) */
+    --light-bg: #f2f2f7;
     --light-content-bg: #ffffff;
-    --light-text: #212529;
-    --light-secondary-text: #5f6368;
-    --light-border: #e0e0e0;
-    --light-hover: #35c374;
+    --light-text: #000000;
+    --light-secondary-text: #6e6e73;
+    --light-border: #c6c6c8; /* Separator Color */
+    --light-hover: #0062cc;
     --light-toggle-on: var(--accent-color);
-    --light-toggle-off: #e6e6e6;
-    --light-red-color: #d93025;
-    --light-slider-track: #e6e6e6;
+    --light-toggle-off: #e9e9eb;
+    --light-red-color: #ff3b30;
+    --light-slider-track: rgba(120, 120, 128, 0.2);
     --light-slider-thumb: #ffffff;
 
-    /* Dark Mode Colors */
-    --dark-bg: #121212;
-    --dark-content-bg: #1c1c1e;
-    --dark-text: #e6e6e6;
-    --dark-secondary-text: #b3b3b3;
-    --dark-border: #2c2c2e;
-    --dark-hover: #45e08f;
+    /* Dark Mode Colors (Apple Palette) */
+    --dark-bg: #1e1e1e; /* macOS dark background */
+    --dark-content-bg: #1c1c1e; /* iOS dark group background */
+    --dark-text: rgba(255, 255, 255, 0.9);
+    --dark-secondary-text: #8e8e93;
+    --dark-border: #38383a; /* Separator Color */
+    --dark-hover: #0a84ff;
     --dark-toggle-on: var(--accent-color);
-    --dark-toggle-off: #3a3a3c;
-    --dark-red-color: #ea6d66;
-    --dark-slider-track: #2f2f31;
-    --dark-slider-thumb: #e6e6e6;
+    --dark-toggle-off: #39393d;
+    --dark-red-color: #ff453a;
+    --dark-slider-track: rgba(120, 120, 128, 0.4);
+    --dark-slider-thumb: #f2f2f7;
 
-    /* Default Theme (Light active by default) */
+    /* Glass/Material Variables (for macOS look on desktop) */
+    --glass-blur: blur(20px);
+    --glass-bg-light: rgba(242, 242, 247, 0.8); /* Vibrancy Effect */
+    --glass-border-light: rgba(0, 0, 0, 0.15);
+    --glass-bg-dark: rgba(44, 44, 46, 0.75); /* Dark Vibrancy */
+    --glass-border-dark: rgba(255, 255, 255, 0.15);
+
+    /* Default Theme State (Mobile-First/iOS) */
     --bg-color: var(--light-bg);
     --content-bg: var(--light-content-bg);
     --text-color: var(--light-text);
@@ -42,43 +54,15 @@
     --slider-track-color: var(--light-slider-track);
     --slider-track-filled-color: var(--accent-color);
     --slider-thumb-color: var(--light-slider-thumb);
-    --shadow-elevation-1: 0 1px 3px rgba(60,64,67,0.12);
-    --shadow-elevation-2: 0 4px 12px rgba(60,64,67,0.16);
-
-    /* Glass variables */
-    --glass-blur: blur(22px);
-    --glass-bg-light: rgba(255, 255, 255, 0.65);
-    --glass-border-light: rgba(255, 255, 255, 0.35);
-    --glass-bg-dark: rgba(28, 28, 30, 0.55);
-    --glass-border-dark: rgba(255, 255, 255, 0.1);
+    --shadow-elevation-1: none;
+    --shadow-elevation-2: none;
 }
 
+
 /* ======================================================= */
-/* === NEW: FLICKER-PREVENTION STYLES ==================== */
+/* === FLICKER-PREVENTION STYLES ========================= */
 /* ======================================================= */
-/* These rules apply instantly when the <html> tag gets the .dark-mode class,
-   preventing a flash of the light theme on page load. */
 html.dark-mode body.settings-page {
-    --bg-color: var(--dark-bg);
-    --content-bg: var(--dark-content-bg);
-    --text-color: var(--dark-text);
-    --secondary-text: var(--dark-secondary-text);
-    --border-color: var(--dark-border);
-}
-html.dark-mode .settings-header,
-html.dark-mode .settings-subsection,
-html.dark-mode footer {
-    background: var(--glass-bg-dark);
-    border-color: var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
-}
-/* ======================================================= */
-/* === END OF NEW STYLES ================================= */
-/* ======================================================= */
-
-
-/* Dark Mode Override (This remains for when JS loads fully) */
-body.dark-mode {
     --bg-color: var(--dark-bg);
     --content-bg: var(--dark-content-bg);
     --text-color: var(--dark-text);
@@ -90,9 +74,19 @@ body.dark-mode {
     --red-color: var(--dark-red-color);
     --slider-track-color: var(--dark-slider-track);
     --slider-thumb-color: var(--dark-slider-thumb);
-    --shadow-elevation-1: 0 1px 3px rgba(0,0,0,0.6);
-    --shadow-elevation-2: 0 6px 18px rgba(0,0,0,0.6);
 }
+
+/* Instantly apply macOS dark materials if screen is wide */
+@media (min-width: 768px) {
+    html.dark-mode .settings-header,
+    html.dark-mode .settings-subsection,
+    html.dark-mode footer {
+        background: var(--glass-bg-dark);
+        border-color: var(--glass-border-dark);
+        box-shadow: 0 0 0 0.5px var(--glass-border-dark), 0 4px 12px rgba(0,0,0,0.3);
+    }
+}
+
 
 /* ===== Theme Style Variants (Clear & Tinted) ===== */
 body.clear-mode {
@@ -100,438 +94,125 @@ body.clear-mode {
     --glass-bg-dark: rgba(28, 28, 30, 0.35);
 }
 body.tinted-mode {
-    --glass-bg-light: color-mix(in srgb, var(--accent-color) 20%, #ffffff 80%);
-    --glass-bg-dark: color-mix(in srgb, var(--accent-color) 20%, #000000 80%);
+    --glass-bg-light: color-mix(in srgb, var(--accent-color) 15%, rgba(242, 242, 247, 0.7));
+    --glass-bg-dark: color-mix(in srgb, var(--accent-color) 20%, rgba(44, 44, 46, 0.7));
 }
 
-/* High Contrast Mode */
-body.high-contrast {
-    --bg-color: #000;
-    --content-bg: #000;
-    --text-color: #fff;
-    --secondary-text: #fff;
-    --border-color: #fff;
-    --accent-color: yellow;
-}
 
-/* ===================== */
-/* Motion & Effects Fix  */
-/* ===================== */
-.motion-disabled * {
-  transition: none !important;
-  animation: none !important;
-}
-.motion-disabled a:hover,
-.motion-disabled button:hover,
-.motion-disabled .hover-effect {
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-/* Dyslexia-Friendly Font */
-body.dyslexia-font {
-    font-family: "OpenDyslexic", "Arial", sans-serif !important;
-}
-
-/* Underline Links */
-body.underline-links a {
-    text-decoration: underline !important;
-}
-
-/* ========== General Styles ========== */
+/* ========== GENERAL & ACCESSIBILITY STYLES ========== */
 body.settings-page {
-    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-family-apple);
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-size: var(--font-size-base, 1rem);
-    line-height: 1.4;
+    font-size: var(--text-size, 16px);
+    line-height: 1.5;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+.motion-disabled * { transition: none !important; animation: none !important; }
+.motion-disabled a:hover, .motion-disabled button:hover { transform: none !important; box-shadow: none !important; }
+body.dyslexia-font { font-family: "OpenDyslexic", var(--font-family-apple) !important; }
+body.underline-links a { text-decoration: underline !important; }
+body.settings-page :focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; border-radius: 4px; }
+body.settings-page.focus-outline-disabled :focus-visible { outline: none !important; }
 
-/* ========== Container ========== */
-body.settings-page .container {
-    max-width: 57.5rem;
-    margin: 0 auto;
-    padding: 1.875rem 1.25rem;
-}
 
-/* ========== Settings Header ========== */
-body.settings-page .settings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.875rem;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    border-radius: 0.875rem;
-    padding: 1rem 1.25rem;
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: 0 0.375rem 1.5rem rgba(0,0,0,0.08);
-}
-body.dark-mode .settings-header {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
-}
+/* ========== LAYOUT & STRUCTURE ========== */
+.container { max-width: 680px; margin: 0 auto; padding: 36px 20px; }
 
-body.settings-page .settings-header h1 {
-    font-size: 1.75rem;
-    font-weight: 500;
+.settings-header {
+    padding: 10px 0 10px 15px;
+    margin-bottom: 18px;
+    background: transparent; /* Header is part of the main view */
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+.settings-header h1 {
+    font-size: 32px;
+    font-weight: 700;
     margin: 0;
     color: var(--text-color);
 }
+.version { display: none; } /* Version info better suited for footer in this layout */
 
-body.settings-page .version {
-    font-size: 0.8125rem;
-    color: var(--secondary-text);
-    background-color: var(--border-color);
-    padding: 0.1875rem 0.5rem;
-    border-radius: 0.375rem;
-}
 
-/* ========== Settings Subsection ========== */
-body.settings-page .settings-subsection {
-    border-radius: 0.75rem;
-    margin-bottom: 1.5rem;
+/* ========== SETTINGS GROUPS (iOS Style by Default) ========== */
+.settings-subsection {
+    background-color: var(--content-bg);
+    border-radius: 12px;
+    margin: 18px 0;
     overflow: hidden;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: 0 0.375rem 1.5rem rgba(0,0,0,0.08);
-}
-body.dark-mode .settings-subsection {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
-}
-
-body.settings-page .subsection-title {
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 1rem 1.25rem;
-    margin: 0;
-    border-bottom: 0.0625rem solid var(--border-color);
-    color: var(--text-color);
-}
-
-/* ========== Setting Card ========== */
-body.settings-page .setting-card {
-    padding: 1rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 3.5rem;
-    border-bottom: 0.0625rem solid var(--border-color);
-    position: relative;
-    overflow: hidden;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-body.settings-page .setting-card:last-child { border-bottom: none; }
-body.settings-page .setting-card:hover {
-    background-color: color-mix(in srgb, var(--bg-color) 50%, var(--content-bg));
-    box-shadow: var(--shadow-elevation-2);
-}
-
-body.settings-page .setting-label { flex: 1; padding-right: 0.75rem; }
-body.settings-page .setting-title { font-size: 0.9375rem; font-weight: 500; margin: 0 0 0.25rem 0; }
-body.settings-page .setting-description { font-size: 0.8125rem; color: var(--secondary-text); margin: 0; }
-
-/* Ripple */
-body.settings-page .setting-card:active::after {
-    width: 18.75rem; height: 18.75rem; opacity: 0.14;
-    transition: width 0s, height 0s;
-}
-
-/* Chevron */
-body.settings-page .chevron { margin-left: 0.75rem; color: var(--secondary-text); font-size: 1.25rem; }
-
-/* ========== Modern Dark Mode Scheduler ========== */
-#darkModeScheduler {
-    appearance: none;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    border-radius: 0.75rem;
-    padding: 0.5rem 2.25rem 0.5rem 0.75rem;
-    font-size: 0.875rem;
-    color: var(--text-color);
-    cursor: pointer;
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: var(--shadow-elevation-1);
-    transition: background 0.2s ease, box-shadow 0.2s ease;
-    position: relative;
-}
-#darkModeScheduler option {
-    font-size: 0.875rem;
-    color: var(--text-color);
-    background: var(--content-bg);
-}
-/* Hover & Dark adjustments */
-#darkModeScheduler:hover {
-    background: color-mix(in srgb, var(--accent-color) 15%, var(--glass-bg-light));
-    box-shadow: var(--shadow-elevation-2);
-}
-body.dark-mode #darkModeScheduler {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-}
-#darkModeScheduler::after {
-    content: "▾";
-    position: absolute;
-    right: 0.75rem;
-    color: var(--secondary-text);
-    pointer-events: none;
-}
-
-/* ========== Modern Accent Color Picker ========== */
-#accentColorPicker {
-    -webkit-appearance: none;
-    appearance: none;
     border: none;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.2);
-    border: 0.125rem solid var(--border-color);
-    background: transparent;
-    padding: 0;
-    position: relative;
+    box-shadow: none;
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-#accentColorPicker::-webkit-color-swatch {
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-}
-#accentColorPicker::-moz-color-swatch {
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-}
-#accentColorPicker::after {
-    content: '';
-    position: absolute;
-    top: -0.25rem;
-    left: -0.25rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    border: 0.125rem solid var(--accent-color);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-}
-#accentColorPicker.selected::after {
-    opacity: 1;
-}
-#accentColorPicker:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
+.subsection-title {
+    font-size: 13px; font-weight: 400; text-transform: uppercase;
+    color: var(--secondary-text); padding: 24px 15px 6px 15px; margin: 0;
+    border-bottom: none;
 }
 
-/* ========== Appearance Mode Select ========== */
-body.settings-page #appearanceModeSelect {
-    font-size: 0.9375rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    border: 0.0625rem solid var(--border-color);
-    background: var(--bg-color);
-    color: var(--text-color);
-    margin-left: 0.625rem;
+/* ========== SETTINGS CARDS (List Items) ========== */
+.setting-card {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 13px 15px; min-height: 46px; position: relative;
+    margin-left: 15px; border-bottom: 0.5px solid var(--border-color);
+    transition: background-color 0.2s;
 }
+.setting-card:last-child { border-bottom: none; }
+.setting-label { flex: 1; padding-right: 15px; }
+.setting-title { font-size: 16px; font-weight: 400; margin: 0; }
+.setting-description { font-size: 13px; color: var(--secondary-text); margin-top: 3px; }
+.chevron::after { content: '›'; font-size: 24px; font-weight: 300; color: #c6c6c8; margin-left: 8px; }
 
-/* ========== Material Switch ========== */
+
+/* ========== CONTROLS (Apple Native Style) ========== */
 .md-switch {
-    --width: 2.25rem; --height: 1.25rem; --thumb-size: 1rem;
-    display: inline-flex; align-items: center; position: relative;
-    width: var(--width); height: var(--height); flex-shrink: 0;
+    --width: 51px; --height: 31px; --thumb-size: 27px;
+    display: inline-flex; position: relative; width: var(--width); height: var(--height); flex-shrink: 0;
 }
-.md-switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 2; }
-.md-switch .track { width: var(--width); height: var(--height); background: var(--toggle-off); border-radius: 999px; transition: background 0.18s; }
-.md-switch .thumb { position: absolute; top: 50%; left: 0.125rem; transform: translateY(-50%); width: var(--thumb-size); height: var(--thumb-size); background: var(--slider-thumb-color); border-radius: 50%; transition: left 0.18s; }
+.md-switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.md-switch .track { width: var(--width); height: var(--height); background: var(--toggle-off); border-radius: 999px; transition: background-color 0.2s ease-in-out; }
+.md-switch .thumb { position: absolute; top: 2px; left: 2px; width: var(--thumb-size); height: var(--thumb-size); background: #ffffff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.15); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .md-switch input:checked ~ .track { background: var(--toggle-on); }
-.md-switch input:checked ~ .track .thumb { left: calc(var(--width) - var(--thumb-size) - 0.125rem); }
+.md-switch input:checked ~ .track .thumb { transform: translateX(calc(var(--width) - var(--thumb-size) - 4px)); }
 
-/* ========== Text Size Slider ========== */
-.setting-card:has(.text-size-control) { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
-.setting-card:has(.text-size-control) > *:first-child { flex: 1; min-width: 15.625rem; }
-.text-size-control { flex-shrink: 0; width: 17.5rem; display: flex; flex-direction: column; align-items: center; }
-.font-size-badge { padding: 0.25rem 0.75rem; background-color: var(--accent-color); color: var(--content-bg); border-radius: 0.75rem; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.75rem; }
-#text-size-slider { -webkit-appearance: none; width: 100%; height: 0.25rem; border-radius: 999px; outline: none;
-    background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) var(--slider-value-percentage, 50%), var(--slider-track-color) var(--slider-value-percentage, 50%), var(--slider-track-color) 100%); }
-#text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
-#text-size-slider::-moz-range-thumb { width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
+#accentColorPicker {
+    width: 29px; height: 29px; border-radius: 50%; cursor: pointer;
+    border: 0.5px solid var(--border-color); overflow: hidden; padding: 0;
+}
+#accentColorPicker::-webkit-color-swatch, #accentColorPicker::-moz-color-swatch { border-radius: 50%; border: none; }
 
-/* ========== Responsive ========== */
-@media (max-width: 600px) {
-    .setting-card:has(.text-size-control) { flex-direction: column; align-items: flex-start; }
-    .text-size-control { width: 100%; align-items: flex-start; }
-    #text-size-slider { max-width: 100%; }
-}
-@media (max-width: 768px) {
-    body.settings-page .container { padding: 1.25rem 0.9375rem; }
-    body.settings-page .settings-header h1 { font-size: 1.625rem; }
-    body.settings-page .setting-card { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1rem; }
-    body.settings-page .setting-label { width: 100%; }
-    body.settings-page #cookie-consent-banner { flex-direction: column; text-align: center; width: 90%; gap: 0.75rem; }
-}
-@media (max-width: 480px) {
-    body.settings-page .container { padding: 0.9375rem 0.625rem; }
-    body.settings-page .settings-header h1 { font-size: 1.375rem; }
-    body.settings-page footer { padding: 0.9375rem; flex-direction: column; gap: 0.625rem; }
-}
+.segmented-control { display: flex; align-items: center; background-color: var(--toggle-off); border-radius: 8px; padding: 2px; border: none;}
+.segmented-control button { font-family: inherit; font-size: 14px; font-weight: 500; padding: 6px 12px; border: none; background-color: transparent; color: var(--text-color); border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; }
+.segmented-control button.active { background-color: var(--content-bg); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+html.dark-mode .segmented-control button.active { background-color: #636366; color: var(--dark-text); }
 
-/* ========== Danger Zone ========== */
-body.settings-page .danger-zone .settings-subsection {
-    background: color-mix(in srgb, var(--red-color) 15%, var(--glass-bg-light));
-    border: 0.0625rem solid color-mix(in srgb, var(--red-color) 50%, transparent);
-}
-body.dark-mode .danger-zone .settings-subsection {
-    background: color-mix(in srgb, var(--red-color) 20%, var(--glass-bg-dark));
-    border: 0.0625rem solid color-mix(in srgb, var(--red-color) 50%, transparent);
-}
 
-/* ========== Buttons ========== */
-body.settings-page .reset-button,
-body.settings-page #cookie-consent-banner button {
-    color: var(--text-color);
-    border: 0.0625rem solid var(--glass-border-light);
-    border-radius: 0.5rem;
-    font-size: 0.875rem; font-weight: 500; cursor: pointer;
-    padding: 0.625rem 1.125rem;
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    background: var(--glass-bg-light);
-}
-body.dark-mode .reset-button,
-body.dark-mode #cookie-consent-banner button {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-}
-body.settings-page .reset-button:hover,
-body.settings-page #cookie-consent-banner button:hover {
-    background: color-mix(in srgb, var(--accent-color) 25%, var(--glass-bg-light));
-}
-body.dark-mode .reset-button:hover,
-body.dark-mode #cookie-consent-banner button:hover {
-    background: color-mix(in srgb, var(--accent-color) 25%, var(--glass-bg-dark));
-}
+/* ========== DANGER ZONE & FOOTER ========== */
+.danger-zone .setting-title { color: var(--red-color); text-align: center; width: 100%; }
+.danger-zone .setting-card { justify-content: center; cursor: pointer; margin-left: 0; }
+footer { text-align: center; padding: 20px 15px 40px 15px; font-size: 13px; color: var(--secondary-text); background: transparent; border: none; backdrop-filter: none; }
+footer a { color: var(--accent-color); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
 
-/* ========== Footer & Back Link ========== */
-body.settings-page .back-link { display: inline-flex; align-items: center; color: var(--accent-color); text-decoration: none; font-size: 1rem; }
-body.settings-page .back-link:hover { color: var(--hover-color); }
-body.settings-page footer {
-    text-align: center; padding: 1.25rem; font-size: 0.875rem; color: var(--secondary-text);
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-}
-body.dark-mode footer {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-}
 
-/* ========== Cookie Consent Banner ========== */
-body.settings-page #cookie-consent-banner {
-    position: fixed; bottom: 1.25rem; left: 50%; transform: translateX(-50%);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    max-width: 92%; width: 40rem; z-index: 1000;
-    background: var(--glass-bg-light);
-    border: 0.0625rem solid var(--glass-border-light);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-}
-body.dark-mode #cookie-consent-banner {
-    background: var(--glass-bg-dark);
-    border: 0.0625rem solid var(--glass-border-dark);
-}
-
-/* ============================== */
-/* Focus outline                  */
-/* ============================== */
-body.settings-page :focus-visible {
-  outline: 0.125rem solid var(--accent-color);
-  outline-offset: 0.125rem;
-  border-radius: 0.375rem;
-}
-body.settings-page.focus-outline-disabled :focus-visible {
-    outline: none !important;
-    outline-offset: 0 !important;
-}
-
-/* ========== Segmented Control ========== */
-.segmented-control {
-    display: flex;
-    align-items: center;
-    background-color: var(--slider-track-color);
-    border-radius: 0.625rem;
-    padding: 0.25rem;
-    border: 0.0625rem solid var(--border-color);
-}
-.segmented-control button {
-    font-family: inherit;
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: transparent;
-    color: var(--secondary-text);
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-}
-.segmented-control button:hover { color: var(--text-color); }
-.segmented-control button.active {
-    background-color: var(--accent-color);
-    color: var(--content-bg);
-    box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.15);
-}
-
-body.dark-mode .segmented-control button.active {
-      box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.3);
-}
-
-/* ===================== */
-/* Mouse Trail Effect    */
-/* ===================== */
-#mouse-trail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-}
-.trail {
-  width: 10px;
-  height: 10px;
-  background: var(--accent-color, #3ddc84);
-  border-radius: 50%;
-  position: absolute;
-  opacity: 0.6;
-  transform: scale(1);
-  animation: fadeOut 0.8s forwards;
-}
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    transform: scale(2);
-  }
-}
-
-/* ===================== */
-/* Focus Outline Control */
-/* ===================== */
-body:not(.focus-outline-disabled) :focus {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-}
-body.focus-outline-disabled :focus {
-  outline: none !important;
+/* ========================================================= */
+/* === DESKTOP / MACOS STYLES (@media min-width: 768px) ==== */
+/* ========================================================= */
+@media (min-width: 768px) {
+    /* Apply macOS Material look to section groups on larger screens */
+    .settings-subsection, footer {
+        background: var(--glass-bg-light);
+        border: 1px solid var(--glass-border-light);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        box-shadow: 0 0 0 0.5px var(--glass-border-light), 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .setting-card { border-radius: 6px; transition: background-color 0.2s ease-in-out; }
+    .setting-card:hover { background-color: rgba(128, 128, 128, 0.1); }
+    .danger-zone .setting-card:hover { background-color: rgba(255, 59, 48, 0.1); }
 }
