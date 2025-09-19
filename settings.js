@@ -21,7 +21,10 @@ class SettingsManager {
 
             loadingScreen: 'disabled',
             mouseTrail: 'disabled',
-            liveStatus: 'disabled'
+            liveStatus: 'disabled',
+            
+            // --- ADD THIS LINE ---
+            rearrangingEnabled: 'enabled' // enabled | disabled
         };
 
         this.settings = this.loadSettings();
@@ -76,14 +79,25 @@ class SettingsManager {
     loadSettings() {
         try {
             const stored = localStorage.getItem('websiteSettings');
-            return stored ? { ...this.defaultSettings, ...JSON.parse(stored) } : { ...this.defaultSettings };
+            // A small change here to merge default settings into the loaded ones
+            // This ensures new settings are picked up by users with old configs
+            const loadedSettings = stored ? JSON.parse(stored) : {};
+            return { ...this.defaultSettings, ...loadedSettings };
         } catch {
             return { ...this.defaultSettings };
         }
     }
 
     saveSettings() {
-        localStorage.setItem('websiteSettings', JSON.stringify(this.settings));
+        // Before saving, we'll remove any properties that are not in the default settings
+        // This cleans up old, deprecated settings from localStorage
+        const settingsToSave = {};
+        for (const key in this.defaultSettings) {
+            if (this.settings.hasOwnProperty(key)) {
+                settingsToSave[key] = this.settings[key];
+            }
+        }
+        localStorage.setItem('websiteSettings', JSON.stringify(settingsToSave));
     }
 
     // ========================
@@ -121,7 +135,8 @@ class SettingsManager {
         const toggles = [
             'focusOutline', 'motionEffects', 'highContrast',
             'dyslexiaFont', 'underlineLinks', 'loadingScreen',
-            'mouseTrail', 'liveStatus'
+            'mouseTrail', 'liveStatus', 
+            'rearrangingEnabled' // --- ADD THIS LINE ---
         ];
         toggles.forEach(key => this.setToggle(key));
     }
@@ -135,6 +150,8 @@ class SettingsManager {
     }
 
     setToggle(key) {
+        // Important: The HTML ID must match the setting key + "Toggle"
+        // e.g., setting 'rearrangingEnabled' needs id="rearrangingEnabledToggle"
         const el = document.getElementById(`${key}Toggle`);
         if (el) el.checked = this.settings[key] === 'enabled';
     }
@@ -188,11 +205,11 @@ class SettingsManager {
             this.updateSchedulerPreview(id, id.replace('Input',''));
 
             input.addEventListener('input', e => {
-                const key = id.replace('Input','');        // "darkModeStart" or "darkModeEnd"
+                const key = id.replace('Input','');       // "darkModeStart" or "darkModeEnd"
                 this.settings[key] = e.target.value;       // Save to settings
-                this.saveSettings();                        // Persist to localStorage
+                this.saveSettings();                       // Persist to localStorage
                 this.updateSchedulerPreview(id, key);      // Update displayed AM/PM
-                this.applyAppearanceMode();                 // Apply dark/light mode based on new times
+                this.applyAppearanceMode();                // Apply dark/light mode based on new times
             });
         });
 
@@ -210,7 +227,9 @@ class SettingsManager {
         }
 
         ['focusOutline', 'motionEffects', 'highContrast', 'dyslexiaFont',
-         'underlineLinks', 'loadingScreen', 'mouseTrail', 'liveStatus'].forEach(key => {
+         'underlineLinks', 'loadingScreen', 'mouseTrail', 'liveStatus',
+         'rearrangingEnabled' // --- AND ADD THIS LINE ---
+        ].forEach(key => {
             const el = document.getElementById(`${key}Toggle`);
             if (!el) return;
             el.addEventListener('change', () => {
@@ -246,11 +265,12 @@ class SettingsManager {
     // Apply Settings
     // ========================
     applyAllSettings() {
-        ['appearanceMode','themeStyle','accentColor','fontSize','focusOutline','motionEffects','highContrast',
-         'dyslexiaFont','underlineLinks','loadingScreen','mouseTrail','liveStatus'].forEach(key => this.applySetting(key));
+        Object.keys(this.defaultSettings).forEach(key => this.applySetting(key));
     }
 
     applySetting(key) {
+        // This switch statement will automatically handle the new setting
+        // because we won't add a case for it. It doesn't need to apply any styles.
         switch(key) {
             case 'appearanceMode': this.applyAppearanceMode(); break;
             case 'themeStyle': this.applyThemeStyle(); break;
@@ -264,6 +284,7 @@ class SettingsManager {
             case 'loadingScreen': this.applyLoadingScreen(); break;
             case 'mouseTrail': this.applyMouseTrail(); break;
             case 'liveStatus': this.applyLiveStatus(); break;
+            // No case for 'rearrangingEnabled' is needed here, as it's handled by rearrange.js
         }
     }
 
