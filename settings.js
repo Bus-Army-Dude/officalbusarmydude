@@ -6,22 +6,15 @@ class SettingsManager {
     constructor() {
         this.defaultSettings = {
             appearanceMode: 'device',   // device | light | dark
-            themeStyle: 'clear',        // clear | tinted
             accentColor: '#3ddc84',
-            darkModeScheduler: 'off',   // off | sunset | custom
-            darkModeStart: '20:00',
-            darkModeEnd: '06:00',
 
             fontSize: 16,               // 12–24 px
-            focusOutline: 'disabled',    // enabled | disabled
-            motionEffects: 'enabled',   // enabled | disabled
+            focusOutline: 'enabled',    // enabled | disabled
             highContrast: 'disabled',
             dyslexiaFont: 'disabled',
             underlineLinks: 'disabled',
 
-            loadingScreen: 'disabled',
             mouseTrail: 'disabled',
-            liveStatus: 'disabled'
         };
 
         this.settings = this.loadSettings();
@@ -97,17 +90,6 @@ class SettingsManager {
         const accentPicker = document.getElementById('accentColorPicker');
         if (accentPicker) accentPicker.value = this.settings.accentColor;
 
-        // Dark Mode Scheduler
-        const schedulerSelect = document.getElementById('darkModeScheduler');
-        if (schedulerSelect) schedulerSelect.value = this.settings.darkModeScheduler;
-
-        const customInputs = document.getElementById('customTimeInputs');
-        if (customInputs) {
-            customInputs.style.display = this.settings.darkModeScheduler === 'custom' ? 'flex' : 'none';
-            this.updateSchedulerPreview('darkModeStartInput', 'darkModeStart');
-            this.updateSchedulerPreview('darkModeEndInput', 'darkModeEnd');
-        }
-
         // Text size slider
         const slider = document.getElementById('text-size-slider');
         const badge = document.getElementById('textSizeValue');
@@ -119,9 +101,9 @@ class SettingsManager {
 
         // Toggles
         const toggles = [
-            'focusOutline', 'motionEffects', 'highContrast',
-            'dyslexiaFont', 'underlineLinks', 'loadingScreen',
-            'mouseTrail', 'liveStatus'
+            'focusOutline', 'highContrast',
+            'dyslexiaFont', 'underlineLinks',
+            'mouseTrail'
         ];
         toggles.forEach(key => this.setToggle(key));
     }
@@ -253,17 +235,13 @@ class SettingsManager {
     applySetting(key) {
         switch(key) {
             case 'appearanceMode': this.applyAppearanceMode(); break;
-            case 'themeStyle': this.applyThemeStyle(); break;
             case 'accentColor': this.applyAccentColor(); break;
             case 'fontSize': this.applyFontSize(); break;
             case 'focusOutline': this.applyFocusOutline(); break;
-            case 'motionEffects': this.applyMotionEffects(); break;
             case 'highContrast': this.applyHighContrast(); break;
             case 'dyslexiaFont': this.applyDyslexiaFont(); break;
             case 'underlineLinks': this.applyUnderlineLinks(); break;
-            case 'loadingScreen': this.applyLoadingScreen(); break;
             case 'mouseTrail': this.applyMouseTrail(); break;
-            case 'liveStatus': this.applyLiveStatus(); break;
         }
     }
 
