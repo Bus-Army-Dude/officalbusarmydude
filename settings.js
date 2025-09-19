@@ -23,7 +23,6 @@ class SettingsManager {
             mouseTrail: 'disabled',
             liveStatus: 'disabled',
             
-            // --- ADD THIS LINE ---
             rearrangingEnabled: 'enabled' // enabled | disabled
         };
 
@@ -79,8 +78,6 @@ class SettingsManager {
     loadSettings() {
         try {
             const stored = localStorage.getItem('websiteSettings');
-            // A small change here to merge default settings into the loaded ones
-            // This ensures new settings are picked up by users with old configs
             const loadedSettings = stored ? JSON.parse(stored) : {};
             return { ...this.defaultSettings, ...loadedSettings };
         } catch {
@@ -89,8 +86,6 @@ class SettingsManager {
     }
 
     saveSettings() {
-        // Before saving, we'll remove any properties that are not in the default settings
-        // This cleans up old, deprecated settings from localStorage
         const settingsToSave = {};
         for (const key in this.defaultSettings) {
             if (this.settings.hasOwnProperty(key)) {
@@ -107,11 +102,9 @@ class SettingsManager {
         this.initSegmentedControl('appearanceModeControl', this.settings.appearanceMode);
         this.initSegmentedControl('themeStyleControl', this.settings.themeStyle);
 
-        // Accent color picker
         const accentPicker = document.getElementById('accentColorPicker');
         if (accentPicker) accentPicker.value = this.settings.accentColor;
 
-        // Dark Mode Scheduler
         const schedulerSelect = document.getElementById('darkModeScheduler');
         if (schedulerSelect) schedulerSelect.value = this.settings.darkModeScheduler;
 
@@ -122,7 +115,6 @@ class SettingsManager {
             this.updateSchedulerPreview('darkModeEndInput', 'darkModeEnd');
         }
 
-        // Text size slider
         const slider = document.getElementById('text-size-slider');
         const badge = document.getElementById('textSizeValue');
         if (slider && badge) {
@@ -131,12 +123,11 @@ class SettingsManager {
             this.updateSliderFill(slider);
         }
 
-        // Toggles
         const toggles = [
             'focusOutline', 'motionEffects', 'highContrast',
             'dyslexiaFont', 'underlineLinks', 'loadingScreen',
             'mouseTrail', 'liveStatus', 
-            'rearrangingEnabled' // --- ADD THIS LINE ---
+            'rearrangingEnabled'
         ];
         toggles.forEach(key => this.setToggle(key));
     }
@@ -150,8 +141,6 @@ class SettingsManager {
     }
 
     setToggle(key) {
-        // Important: The HTML ID must match the setting key + "Toggle"
-        // e.g., setting 'rearrangingEnabled' needs id="rearrangingEnabledToggle"
         const el = document.getElementById(`${key}Toggle`);
         if (el) el.checked = this.settings[key] === 'enabled';
     }
@@ -192,27 +181,20 @@ class SettingsManager {
             });
         }
 
-        // Custom scheduler inputs with live preview and saving
         ['darkModeStartInput','darkModeEndInput'].forEach(id => {
             const input = document.getElementById(id);
             const display = document.getElementById(id.replace('Input',''));
             if (!input || !display) return;
-
-            // Load saved value into input
             input.value = this.settings[id.replace('Input','')];
-
-            // Update the display immediately
             this.updateSchedulerPreview(id, id.replace('Input',''));
-
             input.addEventListener('input', e => {
-                const key = id.replace('Input','');       // "darkModeStart" or "darkModeEnd"
-                this.settings[key] = e.target.value;       // Save to settings
-                this.saveSettings();                       // Persist to localStorage
-                this.updateSchedulerPreview(id, key);      // Update displayed AM/PM
-                this.applyAppearanceMode();                // Apply dark/light mode based on new times
+                const key = id.replace('Input','');
+                this.settings[key] = e.target.value;
+                this.saveSettings();
+                this.updateSchedulerPreview(id, key);
+                this.applyAppearanceMode();
             });
         });
-
 
         const slider = document.getElementById('text-size-slider');
         const badge = document.getElementById('textSizeValue');
@@ -228,7 +210,7 @@ class SettingsManager {
 
         ['focusOutline', 'motionEffects', 'highContrast', 'dyslexiaFont',
          'underlineLinks', 'loadingScreen', 'mouseTrail', 'liveStatus',
-         'rearrangingEnabled' // --- AND ADD THIS LINE ---
+         'rearrangingEnabled'
         ].forEach(key => {
             const el = document.getElementById(`${key}Toggle`);
             if (!el) return;
@@ -239,11 +221,20 @@ class SettingsManager {
             });
         });
 
+        const resetLayoutBtn = document.getElementById('resetLayoutBtn');
+        if (resetLayoutBtn) {
+            resetLayoutBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to reset the section layout to default?')) {
+                    localStorage.removeItem('sectionOrder');
+                    alert('Layout has been reset. Please refresh the homepage to see the changes.');
+                }
+            });
+        }
+
         const resetBtn = document.getElementById('resetSettings');
         if (resetBtn) resetBtn.addEventListener('click', () => this.resetSettings());
     }
 
-    // Live preview for custom scheduler
     updateSchedulerPreview(inputId, displayId) {
         const input = document.getElementById(inputId);
         const display = document.getElementById(displayId);
@@ -269,8 +260,6 @@ class SettingsManager {
     }
 
     applySetting(key) {
-        // This switch statement will automatically handle the new setting
-        // because we won't add a case for it. It doesn't need to apply any styles.
         switch(key) {
             case 'appearanceMode': this.applyAppearanceMode(); break;
             case 'themeStyle': this.applyThemeStyle(); break;
@@ -284,7 +273,6 @@ class SettingsManager {
             case 'loadingScreen': this.applyLoadingScreen(); break;
             case 'mouseTrail': this.applyMouseTrail(); break;
             case 'liveStatus': this.applyLiveStatus(); break;
-            // No case for 'rearrangingEnabled' is needed here, as it's handled by rearrange.js
         }
     }
 
@@ -389,7 +377,9 @@ class SettingsManager {
             this.saveSettings();
             this.initializeControls();
             this.applyAllSettings();
-            alert('Settings reset to defaults.');
+            // We should also remove the layout setting when resetting all
+            localStorage.removeItem('sectionOrder'); 
+            alert('All settings and the layout have been reset to default.');
         }
     }
 }
