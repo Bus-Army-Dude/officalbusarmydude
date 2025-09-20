@@ -14,7 +14,7 @@
     --light-secondary-text: #8a8a8e;
     --light-border: #c6c6c8; /* Separator color */
     --light-hover: rgba(0, 0, 0, 0.05); /* Subtle tap/hover highlight */
-    --light-toggle-on: #34c759; /* Standard iOS green */
+    --light-toggle-on: var(--accent-color);
     --light-toggle-off: #e9e9eb;
     --light-red-color: #ff3b30; /* Destructive action red */
     --light-slider-track: #e9e9eb;
@@ -29,7 +29,7 @@
     --dark-hover: rgba(255, 255, 255, 0.1); /* Subtle tap/hover highlight */
     --dark-toggle-on: var(--light-toggle-on); /* Green is the same in dark mode */
     --dark-toggle-off: #39393d;
-    --dark-red-color: #ff453a;
+    --dark-toggle-on: var(--accent-color);
     --dark-slider-track: #2f2f31;
     --dark-slider-thumb: #e6e6e6;
 
