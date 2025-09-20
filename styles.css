@@ -478,7 +478,7 @@ body {
 
 .social-button:hover .social-icon,
 .social-button:hover span {
-	color: var(--content-bg);
+    color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
 }
 
 /* Responsive */
@@ -576,12 +576,12 @@ body {
 
 /* Hover / Active State */
 .link-button:hover {
-	background: var(--accent-color);
-	border-color: var(--accent-color);
-	color: var(--content-bg);
-	transform: translateY(-2px);
-	box-shadow: 0 6px 18px var(--shadow-color),
-				  0 0 12px var(--accent-color);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--shadow-color),
+                  0 0 12px var(--accent-color);
 }
 
 /* --- Responsive Design --- */
