@@ -34,6 +34,7 @@
     --border-color: var(--dark-border);
     /* ✨ UPDATED: --accent-color is now set by the settings.js script, but we can keep a fallback */
     --accent-color: #3ddc84; 
+    --accent-text-color: white; /* Fallback color */
     --hover-color: var(--dark-hover);
     --link-color: var(--dark-link);
     --shadow-color: var(--dark-shadow);
@@ -135,7 +136,7 @@ header {
     transform: translateY(-2px);
     background: var(--accent-color);
     border-color: var(--accent-color);
-    color: var(--content-bg);
+    color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
     box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
@@ -257,7 +258,8 @@ header {
 /* Price Styling */
 .product-item .price {
     font-size: 1.3rem;
-    color: var(--text-color); /* FIX: Use the standard text color for readability */
+    /* ✨ UPDATED: Price now uses the accent color */
+    color: var(--text-color);
     font-weight: 700;
     margin: 10px 0;
 }
@@ -293,7 +295,7 @@ header {
     /* ✨ UPDATED: Hover effect now uses the accent color */
     background: var(--accent-color);
     border-color: var(--accent-color);
-    color: var(--content-bg);
+    color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
     box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
