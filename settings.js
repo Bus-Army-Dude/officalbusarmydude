@@ -9,6 +9,7 @@ class SettingsManager {
             accentColor: '#007AFF',
             motionEffects: 'standard', // 'standard', 'subtle', or 'off'
             fontSize: 17,
+            focusOutline: 'enabled',
             highContrast: 'disabled',
             dyslexiaFont: 'disabled',
             underlineLinks: 'disabled',
@@ -172,6 +173,7 @@ class SettingsManager {
             accentColor: () => this.applyAccentColor(),
             motionEffects: () => this.applyMotionEffects(),
             fontSize: () => this.applyFontSize(),
+            focusOutline: () => document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline === 'disabled'),
             highContrast: () => document.body.classList.toggle('high-contrast', this.settings.highContrast === 'enabled'),
             dyslexiaFont: () => document.body.classList.toggle('dyslexia-font', this.settings.dyslexiaFont === 'enabled'),
             underlineLinks: () => document.body.classList.toggle('underline-links', this.settings.underlineLinks === 'enabled'),
