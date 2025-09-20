@@ -1,22 +1,31 @@
 /**
  * settings.js
- * Manages all user-configurable settings for the website.
+ * Fully functional settings manager with live previews and real-time scheduler
  */
 class SettingsManager {
     constructor() {
         this.defaultSettings = {
-            appearanceMode: 'device',
-            accentColor: '#007AFF',
-            motionEffects: 'standard', // 'standard', 'subtle', or 'off'
-            fontSize: 17,
-            focusOutline: 'enabled',
+            appearanceMode: 'device',   // device | light | dark
+            themeStyle: 'clear',        // clear | tinted
+            accentColor: '#3ddc84',
+            darkModeScheduler: 'off',   // off | sunset | custom
+            darkModeStart: '20:00',
+            darkModeEnd: '06:00',
+
+            fontSize: 16,               // 12–24 px
+            focusOutline: 'enabled',    // enabled | disabled
+            motionEffects: 'enabled',   // enabled | disabled
             highContrast: 'disabled',
             dyslexiaFont: 'disabled',
             underlineLinks: 'disabled',
+
+            loadingScreen: 'disabled',
             mouseTrail: 'disabled',
-            rearrangingEnabled: 'enabled',
+            liveStatus: 'disabled',
             
-            // Homepage Section Visibility
+            rearrangingEnabled: 'enabled', // enabled | disabled
+
+            // New settings for section visibility
             showSocialLinks: 'enabled',
             showPresidentSection: 'enabled',
             showTiktokShoutouts: 'enabled',
@@ -31,21 +40,53 @@ class SettingsManager {
 
         this.settings = this.loadSettings();
         this.deviceThemeMedia = null;
+        this.schedulerInterval = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             this.initializeControls();
             this.applyAllSettings();
             this.setupEventListeners();
+            this.initMouseTrail();
+            this.initLoadingScreen();
+            this.initSchedulerInterval();
 
+            // Watch for system theme changes
             if (window.matchMedia) {
                 this.deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
                 this.deviceThemeMedia.addEventListener('change', () => {
                     if (this.settings.appearanceMode === 'device') this.applyAppearanceMode();
                 });
             }
+
+            // Watch for system reduced motion preference
+            if (window.matchMedia) {
+                const motionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+                motionMedia.addEventListener('change', (e) => {
+                    if (!localStorage.getItem('websiteSettings')) {
+                        this.settings.motionEffects = e.matches ? 'disabled' : 'enabled';
+                        this.applyMotionEffects();
+                        this.saveSettings();
+                        this.setToggle('motionEffects');
+                    }
+                });
+            }
+
+            // Watch for localStorage changes
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'websiteSettings') {
+                    this.settings = this.loadSettings();
+                    this.applyAllSettings();
+                    this.initializeControls();
+                }
+            });
+
+            // Set year in footer
+            const yearSpan = document.getElementById('year');
+            if (yearSpan) yearSpan.textContent = new Date().getFullYear();
         });
     }
 
+    // Load/Save
     loadSettings() {
         try {
             const stored = localStorage.getItem('websiteSettings');
@@ -57,30 +98,58 @@ class SettingsManager {
     }
 
     saveSettings() {
-        localStorage.setItem('websiteSettings', JSON.stringify(this.settings));
+        const settingsToSave = {};
+        for (const key in this.defaultSettings) {
+            if (this.settings.hasOwnProperty(key)) {
+                settingsToSave[key] = this.settings[key];
+            }
+        }
+        localStorage.setItem('websiteSettings', JSON.stringify(settingsToSave));
     }
 
+    // ========================
+    // Initialize Controls
+    // ========================
     initializeControls() {
-        // Appearance
         this.initSegmentedControl('appearanceModeControl', this.settings.appearanceMode);
+        this.initSegmentedControl('themeStyleControl', this.settings.themeStyle);
+
         const accentPicker = document.getElementById('accentColorPicker');
         if (accentPicker) {
             accentPicker.value = this.settings.accentColor;
+            this.checkAccentColor(this.settings.accentColor); // Initial check
         }
 
-        // Accessibility
-        this.initSegmentedControl('animationControl', this.settings.motionEffects);
+        const schedulerSelect = document.getElementById('darkModeScheduler');
+        if (schedulerSelect) schedulerSelect.value = this.settings.darkModeScheduler;
+
+        const customInputs = document.getElementById('customTimeInputs');
+        if (customInputs) {
+            customInputs.style.display = this.settings.darkModeScheduler === 'custom' ? 'flex' : 'none';
+            this.updateSchedulerPreview('darkModeStartInput', 'darkModeStart');
+            this.updateSchedulerPreview('darkModeEndInput', 'darkModeEnd');
+        }
+
         const slider = document.getElementById('text-size-slider');
         const badge = document.getElementById('textSizeValue');
         if (slider && badge) {
             slider.value = this.settings.fontSize;
             badge.textContent = `${this.settings.fontSize}px`;
-            this.updateSliderFill(slider); // Correctly update slider on load
+            this.updateSliderFill(slider);
         }
 
-        // Toggles
-        const toggleKeys = Object.keys(this.defaultSettings).filter(k => this.defaultSettings[k] === 'enabled' || this.defaultSettings[k] === 'disabled');
-        toggleKeys.forEach(key => this.setToggle(key));
+        const toggles = [
+            'focusOutline', 'motionEffects', 'highContrast',
+            'dyslexiaFont', 'underlineLinks', 'loadingScreen',
+            'mouseTrail', 'liveStatus', 
+            'rearrangingEnabled', 
+            // Add all new toggles here
+            'showSocialLinks', 'showPresidentSection', 'showTiktokShoutouts',
+            'showInstagramShoutouts', 'showYoutubeShoutouts', 'showUsefulLinks',
+            'showCountdown', 'showBusinessSection', 'showTechInformation',
+            'showDisabilitiesSection'
+        ];
+        toggles.forEach(key => this.setToggle(key));
     }
 
     initSegmentedControl(controlId, value) {
@@ -96,136 +165,267 @@ class SettingsManager {
         if (el) el.checked = this.settings[key] === 'enabled';
     }
 
+    // ========================
+    // Event Listeners
+    // ========================
     setupEventListeners() {
-        // Appearance Mode
-        document.getElementById('appearanceModeControl')?.addEventListener('click', e => {
-            const btn = e.target.closest('button');
-            if (btn) {
-                this.settings.appearanceMode = btn.dataset.value;
-                this.applySetting('appearanceMode');
+        ['appearanceMode', 'themeStyle'].forEach(key => {
+            const control = document.getElementById(`${key}Control`);
+            if (!control) return;
+            control.addEventListener('click', e => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+                this.settings[key] = btn.dataset.value;
+                this.applySetting(key);
                 this.saveSettings();
-                this.initSegmentedControl('appearanceModeControl', this.settings.appearanceMode);
-            }
+                this.initSegmentedControl(`${key}Control`, this.settings[key]);
+            });
         });
 
-        // Accent Color
-        document.getElementById('accentColorPicker')?.addEventListener('input', e => {
-            this.settings.accentColor = e.target.value;
-            this.applyAccentColor();
-            this.saveSettings();
-        });
-
-        // Animation Control
-        document.getElementById('animationControl')?.addEventListener('click', e => {
-            const btn = e.target.closest('button');
-            if (btn) {
-                this.settings.motionEffects = btn.dataset.value;
-                this.applySetting('motionEffects');
-                this.saveSettings();
-                this.initSegmentedControl('animationControl', this.settings.motionEffects);
-            }
-        });
-
-        // Text Size Slider
-        const slider = document.getElementById('text-size-slider');
-        if (slider) {
-            slider.addEventListener('input', e => {
-                this.settings.fontSize = parseInt(e.target.value, 10);
-                this.applyFontSize();
-                document.getElementById('textSizeValue').textContent = `${this.settings.fontSize}px`;
-                this.updateSliderFill(e.target); // Correctly update slider on input
+        const accentPicker = document.getElementById('accentColorPicker');
+        if (accentPicker) {
+            accentPicker.addEventListener('input', e => {
+                this.settings.accentColor = e.target.value;
+                this.applyAccentColor();
                 this.saveSettings();
             });
         }
 
-        // All Toggle Switches
-        const toggleKeys = Object.keys(this.defaultSettings).filter(k => this.defaultSettings[k] === 'enabled' || this.defaultSettings[k] === 'disabled');
-        toggleKeys.forEach(key => {
-            const el = document.getElementById(`${key}Toggle`);
-            if (el) {
-                el.addEventListener('change', () => {
-                    this.settings[key] = el.checked ? 'enabled' : 'disabled';
-                    this.applySetting(key);
-                    this.saveSettings();
-                });
-            }
+        const schedulerSelect = document.getElementById('darkModeScheduler');
+        if (schedulerSelect) {
+            schedulerSelect.addEventListener('change', e => {
+                this.settings.darkModeScheduler = e.target.value;
+                this.applyAppearanceMode();
+                this.saveSettings();
+                document.getElementById('customTimeInputs').style.display = this.settings.darkModeScheduler === 'custom' ? 'flex' : 'none';
+            });
+        }
+
+        ['darkModeStartInput','darkModeEndInput'].forEach(id => {
+            const input = document.getElementById(id);
+            const display = document.getElementById(id.replace('Input',''));
+            if (!input || !display) return;
+            input.value = this.settings[id.replace('Input','')];
+            this.updateSchedulerPreview(id, id.replace('Input',''));
+            input.addEventListener('input', e => {
+                const key = id.replace('Input','');
+                this.settings[key] = e.target.value;
+                this.saveSettings();
+                this.updateSchedulerPreview(id, key);
+                this.applyAppearanceMode();
+            });
         });
 
-        // Reset Buttons
-        document.getElementById('resetLayoutBtn')?.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset the section layout to default?')) {
-                localStorage.removeItem('sectionOrder');
-                alert('Layout has been reset. Please refresh the homepage to see the changes.');
-            }
+        const slider = document.getElementById('text-size-slider');
+        const badge = document.getElementById('textSizeValue');
+        if (slider && badge) {
+            slider.addEventListener('input', e => {
+                this.settings.fontSize = parseInt(e.target.value,10);
+                this.applyFontSize();
+                this.updateSliderFill(slider);
+                badge.textContent = `${this.settings.fontSize}px`;
+                this.saveSettings();
+            });
+        }
+
+        [
+            'focusOutline', 'motionEffects', 'highContrast', 'dyslexiaFont',
+            'underlineLinks', 'loadingScreen', 'mouseTrail', 'liveStatus',
+            'rearrangingEnabled',
+            // Add all new toggles here
+            'showSocialLinks', 'showPresidentSection', 'showTiktokShoutouts',
+            'showInstagramShoutouts', 'showYoutubeShoutouts', 'showUsefulLinks',
+            'showCountdown', 'showBusinessSection', 'showTechInformation',
+            'showDisabilitiesSection'
+        ].forEach(key => {
+            const el = document.getElementById(`${key}Toggle`);
+            if (!el) return;
+            el.addEventListener('change', () => {
+                this.settings[key] = el.checked ? 'enabled' : 'disabled';
+                this.applySetting(key);
+                this.saveSettings();
+            });
         });
-        
-        document.getElementById('resetSectionsBtn')?.addEventListener('click', () => this.resetSectionVisibility());
-        
-        document.getElementById('resetSettings')?.addEventListener('click', () => this.resetSettings());
+
+        const resetLayoutBtn = document.getElementById('resetLayoutBtn');
+        if (resetLayoutBtn) {
+            resetLayoutBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to reset the section layout to default?')) {
+                    localStorage.removeItem('sectionOrder');
+                    alert('Layout has been reset. Please refresh the homepage to see the changes.');
+                }
+            });
+        }
+
+        const resetBtn = document.getElementById('resetSettings');
+        if (resetBtn) resetBtn.addEventListener('click', () => this.resetSettings());
+    }
+
+    updateSchedulerPreview(inputId, displayId) {
+        const input = document.getElementById(inputId);
+        const display = document.getElementById(displayId);
+        if (!input || !display) return;
+        const [h, m] = input.value.split(':').map(Number);
+        let hour = h, period = 'AM';
+        if(h === 0) hour = 12;
+        else if(h === 12) period = 'PM';
+        else if(h > 12) { hour = h-12; period = 'PM'; }
+        display.textContent = `${hour}:${String(m).padStart(2,'0')} ${period}`;
     }
 
     updateSliderFill(slider) {
-        if (!slider) return;
-        const percentage = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-        slider.style.background = `linear-gradient(to right, var(--accent-color) ${percentage}%, var(--slider-track-color) ${percentage}%)`;
+        const pct = ((slider.value - slider.min)/(slider.max - slider.min))*100;
+        slider.style.background = `linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color) ${pct}%, var(--slider-track-color) ${pct}%, var(--slider-track-color) 100%)`;
+    }
+
+    /**
+     * Calculates the best contrasting text color (black or white) for a given background hex color.
+     * @param {string} hexcolor - The hex color code (e.g., "#3ddc84").
+     * @returns {string} '#000000' for black or '#ffffff' for white.
+     */
+    getContrastColor(hexcolor) {
+        if (!hexcolor) return '#ffffff';
+        hexcolor = hexcolor.replace("#", "");
+        const r = parseInt(hexcolor.substr(0, 2), 16);
+        const g = parseInt(hexcolor.substr(2, 2), 16);
+        const b = parseInt(hexcolor.substr(4, 2), 16);
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (yiq >= 128) ? '#000000' : '#ffffff';
     }
     
+    /**
+     * Checks if the selected accent color is close to white and shows a warning if it is,
+     * but only when in light mode.
+     * @param {string} hexcolor - The hex color code (e.g., "#FFFFFF").
+     */
+    checkAccentColor(hexcolor) {
+        const warningElement = document.getElementById('whiteAccentWarning');
+        if (!warningElement) return;
+
+        // Determine if we are in light mode.
+        let isLightMode = false;
+        const appearanceMode = this.settings.appearanceMode;
+        if (appearanceMode === 'light') {
+            isLightMode = true;
+        } else if (appearanceMode === 'device' && window.matchMedia) {
+            isLightMode = !window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        // Convert hex to RGB to check its brightness.
+        const r = parseInt(hexcolor.substr(1, 2), 16);
+        const g = parseInt(hexcolor.substr(3, 2), 16);
+        const b = parseInt(hexcolor.substr(5, 2), 16);
+
+        // A threshold to determine if a color is "close to white".
+        const threshold = 240;
+        const isLightColor = r > threshold && g > threshold && b > threshold;
+
+        // Show the warning only if the color is light AND the theme is light.
+        if (isLightColor && isLightMode) {
+            warningElement.style.display = 'block';
+        } else {
+            warningElement.style.display = 'none';
+        }
+    }
+
+
+    // ========================
+    // Apply Settings
+    // ========================
     applyAllSettings() {
         Object.keys(this.defaultSettings).forEach(key => this.applySetting(key));
     }
 
     applySetting(key) {
-        const actions = {
-            appearanceMode: () => this.applyAppearanceMode(),
-            accentColor: () => this.applyAccentColor(),
-            motionEffects: () => this.applyMotionEffects(),
-            fontSize: () => this.applyFontSize(),
-            focusOutline: () => document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline === 'disabled'),
-            highContrast: () => document.body.classList.toggle('high-contrast', this.settings.highContrast === 'enabled'),
-            dyslexiaFont: () => document.body.classList.toggle('dyslexia-font', this.settings.dyslexiaFont === 'enabled'),
-            underlineLinks: () => document.body.classList.toggle('underline-links', this.settings.underlineLinks === 'enabled'),
-            mouseTrail: () => document.body.classList.toggle('mouse-trail-enabled', this.settings.mouseTrail === 'enabled'),
-            showSocialLinks: () => this.applySectionVisibility('social-links-section', this.settings.showSocialLinks),
-            showPresidentSection: () => this.applySectionVisibility('president-section', this.settings.showPresidentSection),
-            showTiktokShoutouts: () => this.applySectionVisibility('tiktok-shoutouts-section', this.settings.showTiktokShoutouts),
-            showInstagramShoutouts: () => this.applySectionVisibility('instagram-shoutouts-section', this.settings.showInstagramShoutouts),
-            showYoutubeShoutouts: () => this.applySectionVisibility('youtube-shoutouts-section', this.settings.showYoutubeShoutouts),
-            showUsefulLinks: () => this.applySectionVisibility('useful-links-section', this.settings.showUsefulLinks),
-            showCountdown: () => this.applySectionVisibility('countdown-section', this.settings.showCountdown),
-            showBusinessSection: () => this.applySectionVisibility('business-section', this.settings.showBusinessSection),
-            showTechInformation: () => this.applySectionVisibility('tech-information-section', this.settings.showTechInformation),
-            showDisabilitiesSection: () => this.applySectionVisibility('disabilities-section', this.settings.showDisabilitiesSection),
-        };
-        actions[key]?.();
-    }
-
-    applyAppearanceMode() {
-        let isDark = this.settings.appearanceMode === 'dark' || (this.settings.appearanceMode === 'device' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        document.body.classList.toggle('dark-mode', isDark);
-        document.body.classList.toggle('light-mode', !isDark);
-        this.checkAccentColor(this.settings.accentColor);
-    }
-
-    applyAccentColor() {
-        const accentColor = this.settings.accentColor;
-        document.documentElement.style.setProperty('--accent-color', accentColor);
-        document.documentElement.style.setProperty('--accent-text-color', this.getContrastColor(accentColor));
-        this.checkAccentColor(accentColor);
-    }
-
-    applyMotionEffects() {
-        document.body.classList.remove('reduce-motion', 'subtle-motion');
-        if (this.settings.motionEffects === 'subtle') {
-            document.body.classList.add('subtle-motion');
-        } else if (this.settings.motionEffects === 'off') {
-            document.body.classList.add('reduce-motion');
+        switch(key) {
+            case 'appearanceMode': this.applyAppearanceMode(); break;
+            case 'themeStyle': this.applyThemeStyle(); break;
+            case 'accentColor': this.applyAccentColor(); break;
+            case 'fontSize': this.applyFontSize(); break;
+            case 'focusOutline': this.applyFocusOutline(); break;
+            case 'motionEffects': this.applyMotionEffects(); break;
+            case 'highContrast': this.applyHighContrast(); break;
+            case 'dyslexiaFont': this.applyDyslexiaFont(); break;
+            case 'underlineLinks': this.applyUnderlineLinks(); break;
+            case 'loadingScreen': this.applyLoadingScreen(); break;
+            case 'mouseTrail': this.applyMouseTrail(); break;
+            case 'liveStatus': this.applyLiveStatus(); break;
+            // Add cases for all the new settings
+            case 'showSocialLinks': this.applySectionVisibility('social-links-section', this.settings.showSocialLinks); break;
+            case 'showPresidentSection': this.applySectionVisibility('president-section', this.settings.showPresidentSection); break;
+            case 'showTiktokShoutouts': this.applySectionVisibility('tiktok-shoutouts-section', this.settings.showTiktokShoutouts); break;
+            case 'showInstagramShoutouts': this.applySectionVisibility('instagram-shoutouts-section', this.settings.showInstagramShoutouts); break;
+            case 'showYoutubeShoutouts': this.applySectionVisibility('youtube-shoutouts-section', this.settings.showYoutubeShoutouts); break;
+            case 'showUsefulLinks': this.applySectionVisibility('useful-links-section', this.settings.showUsefulLinks); break;
+            case 'showCountdown': this.applySectionVisibility('countdown-section', this.settings.showCountdown); break;
+            case 'showBusinessSection': this.applySectionVisibility('business-section', this.settings.showBusinessSection); break;
+            case 'showTechInformation': this.applySectionVisibility('tech-information-section', this.settings.showTechInformation); break;
+            case 'showDisabilitiesSection': this.applySectionVisibility('disabilities-section', this.settings.showDisabilitiesSection); break;
         }
     }
 
-    applyFontSize() {
-        document.documentElement.style.setProperty('--font-size-base', `${this.settings.fontSize}px`);
+    applyAppearanceMode() {
+        const body = document.body;
+        let isDark = false;
+
+        if (this.settings.appearanceMode === 'dark') isDark = true;
+        else if (this.settings.appearanceMode === 'light') isDark = false;
+        else if (this.settings.appearanceMode === 'device') isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if(this.settings.darkModeScheduler !== 'off' && this.settings.appearanceMode === 'device') {
+            isDark = this.checkScheduler();
+        }
+
+        body.classList.toggle('dark-mode', isDark);
+        body.classList.toggle('light-mode', !isDark);
+
+        // Re-check the accent color warning visibility whenever the theme changes.
+        this.checkAccentColor(this.settings.accentColor);
     }
 
+
+    checkScheduler() {
+        const now = new Date();
+        const start = this.parseTime(this.settings.darkModeStart);
+        const end = this.parseTime(this.settings.darkModeEnd);
+        const current = now.getHours()*60 + now.getMinutes();
+
+        if(this.settings.darkModeScheduler==='sunset') return now.getHours()>=18 || now.getHours()<6;
+        if(this.settings.darkModeScheduler==='custom') return start<end ? current>=start && current<end : current>=start || current<end;
+
+        return false;
+    }
+
+    parseTime(str){ const [h,m]=str.split(':').map(Number); return h*60+m; }
+
+    applyThemeStyle() { document.body.classList.toggle('theme-tinted', this.settings.themeStyle==='tinted'); }
+    
+    applyAccentColor() {
+        const accentColor = this.settings.accentColor;
+        document.documentElement.style.setProperty('--accent-color', accentColor);
+
+        // NEW: Calculate and set the contrasting text color
+        const contrastColor = this.getContrastColor(accentColor);
+        document.documentElement.style.setProperty('--accent-text-color', contrastColor);
+        this.checkAccentColor(accentColor);
+    }
+
+    applyFontSize() { document.documentElement.style.setProperty('--font-size-base', `${this.settings.fontSize}px`); }
+    applyFocusOutline() { document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline==='disabled'); }
+    applyMotionEffects() { document.body.classList.toggle('reduce-motion', this.settings.motionEffects==='disabled'); }
+    applyHighContrast() { document.body.classList.toggle('high-contrast', this.settings.highContrast==='enabled'); }
+    applyDyslexiaFont() { document.body.classList.toggle('dyslexia-font', this.settings.dyslexiaFont==='enabled'); }
+    applyUnderlineLinks() { document.body.classList.toggle('underline-links', this.settings.underlineLinks==='enabled'); }
+    applyLoadingScreen() { 
+        const ls = document.getElementById('loading-screen');
+        if(!ls) return;
+        if(this.settings.loadingScreen==='enabled') ls.style.display='flex';
+        else ls.classList.add('loaded'); 
+    }
+    applyMouseTrail() { document.body.classList.toggle('mouse-trail-enabled', this.settings.mouseTrail==='enabled'); }
+    applyLiveStatus() { document.body.classList.toggle('live-status-enabled', this.settings.liveStatus==='enabled'); }
+
+    // New function to handle section visibility
     applySectionVisibility(sectionId, status) {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -233,51 +433,69 @@ class SettingsManager {
         }
     }
 
-    checkAccentColor(hexcolor) {
-        const warningElement = document.getElementById('whiteAccentWarning');
-        if (!warningElement) return;
-        let isLightMode = this.settings.appearanceMode === 'light' || (this.settings.appearanceMode === 'device' && !window.matchMedia('(prefers-color-scheme: dark)').matches);
-        const r = parseInt(hexcolor.substr(1, 2), 16);
-        const g = parseInt(hexcolor.substr(3, 2), 16);
-        const b = parseInt(hexcolor.substr(5, 2), 16);
-        const isLightColor = r > 240 && g > 240 && b > 240;
-        warningElement.style.display = isLightColor && isLightMode ? 'block' : 'none';
+
+    // ========================
+    // Mouse Trail
+    // ========================
+    initMouseTrail() {
+        const trailContainer = document.createElement('div');
+        trailContainer.id = 'mouse-trail';
+        document.body.appendChild(trailContainer);
+
+        document.addEventListener('mousemove', e => {
+            if(this.settings.mouseTrail!=='enabled') return;
+            const dot = document.createElement('div');
+            dot.className='trail';
+            dot.style.left=`${e.clientX - 5}px`;
+            dot.style.top=`${e.clientY - 5}px`;
+            trailContainer.appendChild(dot);
+            setTimeout(()=>dot.remove(),800);
+        });
     }
 
-    getContrastColor(hexcolor) {
-        if (!hexcolor) return '#ffffff';
-        const r = parseInt(hexcolor.substr(1, 2), 16);
-        const g = parseInt(hexcolor.substr(3, 2), 16);
-        const b = parseInt(hexcolor.substr(5, 2), 16);
-        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-        return (yiq >= 128) ? '#000000' : '#ffffff';
+    // ========================
+    // Loading Screen
+    // ========================
+    initLoadingScreen() {
+        const ls = document.getElementById('loading-screen');
+        if(!ls) return;
+        window.addEventListener('load',()=>{
+            if(this.settings.loadingScreen==='enabled'){
+                ls.classList.add('loaded');
+                setTimeout(()=>{ ls.style.display='none'; },600);
+            }
+        });
     }
 
-    resetSectionVisibility() {
-        if (confirm('Are you sure you want to make all homepage sections visible again?')) {
-            const sectionKeys = Object.keys(this.defaultSettings).filter(k => k.startsWith('show'));
-            sectionKeys.forEach(key => {
-                this.settings[key] = 'enabled';
-            });
-            this.saveSettings();
-            this.initializeControls();
-            this.applyAllSettings();
-            alert('All homepage sections have been made visible.');
-        }
+    // ========================
+    // Scheduler Auto Update
+    // ========================
+    initSchedulerInterval() {
+        if(this.schedulerInterval) clearInterval(this.schedulerInterval);
+        this.schedulerInterval = setInterval(() => {
+            if(this.settings.appearanceMode==='device' && this.settings.darkModeScheduler!=='off'){
+                this.applyAppearanceMode();
+            }
+        }, 30000); // check every 30s
     }
 
+    // ========================
+    // Reset
+    // ========================
     resetSettings() {
-        if (confirm('Reset all settings to default values?')) {
+        if(confirm('Reset all settings to default values?')) {
             this.settings = { ...this.defaultSettings };
             this.saveSettings();
-            localStorage.removeItem('sectionOrder');
             this.initializeControls();
             this.applyAllSettings();
+            // We should also remove the layout setting when resetting all
+            localStorage.removeItem('sectionOrder'); 
             alert('All settings and the layout have been reset to default.');
         }
     }
 }
 
-if (!window.settingsManagerInstance) {
-    window.settingsManagerInstance = new SettingsManager();
+// Init
+if(!window.settingsManagerInstance){
+    window.settingsManagerInstance=new SettingsManager();
 }
