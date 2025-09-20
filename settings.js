@@ -271,27 +271,40 @@ class SettingsManager {
     }
     
     /**
-     * Checks if the selected accent color is close to white and shows a warning if it is.
+     * Checks if the selected accent color is close to white and shows a warning if it is,
+     * but only when in light mode.
      * @param {string} hexcolor - The hex color code (e.g., "#FFFFFF").
      */
     checkAccentColor(hexcolor) {
         const warningElement = document.getElementById('whiteAccentWarning');
         if (!warningElement) return;
 
-        // Convert hex to RGB
+        // Determine if we are in light mode.
+        let isLightMode = false;
+        const appearanceMode = this.settings.appearanceMode;
+        if (appearanceMode === 'light') {
+            isLightMode = true;
+        } else if (appearanceMode === 'device' && window.matchMedia) {
+            isLightMode = !window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        // Convert hex to RGB to check its brightness.
         const r = parseInt(hexcolor.substr(1, 2), 16);
         const g = parseInt(hexcolor.substr(3, 2), 16);
         const b = parseInt(hexcolor.substr(5, 2), 16);
 
-        // Threshold for being "close to white"
+        // A threshold to determine if a color is "close to white".
         const threshold = 240;
+        const isLightColor = r > threshold && g > threshold && b > threshold;
 
-        if (r > threshold && g > threshold && b > threshold) {
+        // Show the warning only if the color is light AND the theme is light.
+        if (isLightColor && isLightMode) {
             warningElement.style.display = 'block';
         } else {
             warningElement.style.display = 'none';
         }
     }
+
 
     // ========================
     // Apply Settings
@@ -331,7 +344,11 @@ class SettingsManager {
 
         body.classList.toggle('dark-mode', isDark);
         body.classList.toggle('light-mode', !isDark);
+
+        // Re-check the accent color warning visibility whenever the theme changes.
+        this.checkAccentColor(this.settings.accentColor);
     }
+
 
     checkScheduler() {
         const now = new Date();
