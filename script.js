@@ -15,7 +15,7 @@ window.addEventListener('load', () => {
 document.addEventListener('DOMContentLoaded', () => {
 
     // =================================================================
-    // --- Live Settings Application (for Instant Updates) ---
+    // --- Live Settings Application (for Instant Updates & Bug Fixes) ---
     // =================================================================
     const applyAllHomepageSettings = () => {
         const settings = JSON.parse(localStorage.getItem('websiteSettings')) || {};
@@ -147,37 +147,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scrollBtn) {
         const arrow = scrollBtn.querySelector('.arrow');
         const progressCircle = scrollBtn.querySelector('.progress-indicator');
-        const radius = progressCircle.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        progressCircle.style.strokeDasharray = `${circumference}`;
-        progressCircle.style.strokeDashoffset = `${circumference}`;
-        let lastScrollY = window.scrollY;
+        if (arrow && progressCircle) {
+            const radius = progressCircle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            progressCircle.style.strokeDasharray = `${circumference}`;
+            progressCircle.style.strokeDashoffset = `${circumference}`;
+            let lastScrollY = window.scrollY;
 
-        function updateProgress() {
-            const scrollTop = window.scrollY;
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = scrollHeight ? (scrollTop / scrollHeight) : 0;
-            progressCircle.style.strokeDashoffset = `${circumference * (1 - progress)}`;
-            if (scrollTop > lastScrollY) {
-                arrow.classList.remove('up');
-                arrow.classList.add('down');
-            } else if (scrollTop < lastScrollY) {
+            function updateProgress() {
+                const scrollTop = window.scrollY;
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+                progressCircle.style.strokeDashoffset = `${circumference * (1 - progress)}`;
+                if (scrollTop > lastScrollY) {
+                    arrow.classList.remove('up');
+                    arrow.classList.add('down');
+                } else if (scrollTop < lastScrollY) {
+                    arrow.classList.remove('down');
+                    arrow.classList.add('up');
+                }
+                lastScrollY = scrollTop;
+                if (scrollTop > 100) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
+            }
+            window.addEventListener('scroll', updateProgress);
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 arrow.classList.remove('down');
                 arrow.classList.add('up');
-            }
-            lastScrollY = scrollTop;
-            if (scrollTop > 100) {
-                scrollBtn.classList.add('visible');
-            } else {
-                scrollBtn.classList.remove('visible');
-            }
+            });
         }
-        window.addEventListener('scroll', updateProgress);
-        scrollBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            arrow.classList.remove('down');
-            arrow.classList.add('up');
-        });
     }
 
     // --- Cookie Consent ---
