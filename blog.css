@@ -1,9 +1,13 @@
-/* Blog Page Specific Styles */
-
-/* Header above the blog post */
+/* --- Main Blog Header (Used on both pages) --- */
 .blog-main-header {
     text-align: center;
     margin-bottom: 30px;
+}
+
+.blog-main-header h1 {
+    font-size: clamp(2em, 6vw, 3em);
+    margin-top: 20px;
+    color: var(--text-color);
 }
 
 .home-button {
@@ -33,7 +37,52 @@
     height: 20px;
 }
 
-/* Main blog post container with bubble glass effect */
+/* --- Blog Dashboard List (`blog.html`) --- */
+.blog-dashboard-list {
+    display: grid;
+    gap: 25px;
+}
+
+.blog-summary-card {
+    display: block;
+    text-decoration: none;
+    color: var(--text-color);
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    padding: clamp(20px, 4vw, 30px);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-color), 0 0 12px var(--accent-color);
+}
+
+.blog-summary-card h2 {
+    font-size: 1.6em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.blog-summary-card .blog-meta {
+    font-size: 0.9em;
+    color: var(--secondary-text);
+    margin-bottom: 15px;
+}
+
+.blog-summary-card .post-excerpt {
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--secondary-text);
+}
+
+/* --- Single Blog Post (`blog-post.html`) --- */
 .blog-post {
     background: var(--content-bg);
     background-image: var(--bubble-gradient);
@@ -61,18 +110,13 @@
     line-height: 1.2;
 }
 
-.blog-meta {
-    font-size: 0.9em;
-    color: var(--secondary-text);
-}
-
-.author-name {
+.blog-meta .author-name {
     color: var(--accent-color);
     text-decoration: none;
     font-weight: 600;
 }
 
-.author-name:hover {
+.blog-meta .author-name:hover {
     text-decoration: underline;
 }
 
@@ -88,27 +132,4 @@
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--border-color);
-}
-
-.blog-content p {
-    margin-bottom: 20px;
-}
-
-.blog-content ul {
-    margin-bottom: 20px;
-    padding-left: 25px;
-}
-
-.blog-content li {
-    margin-bottom: 12px;
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-    .blog-title {
-        font-size: 2em;
-    }
-    .blog-content {
-        font-size: 1em;
-    }
 }
