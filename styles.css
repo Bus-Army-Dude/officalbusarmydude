@@ -2382,13 +2382,17 @@ body.maintenance-active {
 
 /* Subtle Motion: Reduces animation times for a faster, less distracting experience */
 .subtle-motion * {
-    /* Speeds up all transitions and animations */
     transition-duration: 0.15s !important;
     animation-duration: 0.25s !important;
 }
 
-/* Reduce Motion: Disables animations and transforms completely for accessibility */
-.reduce-motion * {
+/* FIXED Reduce Motion: 
+  This version is more specific. It disables common animations on general elements 
+  but EXCLUDES classes like `.md-switch` and `.scroll-to-top` to ensure they still function.
+*/
+.reduce-motion .animate-slide-in,
+.reduce-motion .back-icon,
+.reduce-motion .trail {
     transition: none !important;
     animation: none !important;
     transform: none !important;
