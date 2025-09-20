@@ -7,101 +7,114 @@ document.addEventListener('DOMContentLoaded', () => {
     const blogDataElement = document.getElementById('blog-posts-data');
     const mainContent = document.getElementById('main-content');
     const modal = document.getElementById('post-modal');
+    const modalContainer = modal.querySelector('.modal-content-container');
     const modalContent = document.getElementById('modal-post-content');
     const modalCloseButton = document.getElementById('modal-close-button');
 
-    // --- Early exit if essential elements are missing ---
-    if (!blogDataElement || !mainContent || !modal || !modalContent || !modalCloseButton) {
-        console.error("One or more essential blog elements are missing from the DOM.");
+    if (!blogDataElement || !mainContent || !modal) {
+        console.error("Essential blog elements are missing.");
         return;
     }
     const posts = JSON.parse(blogDataElement.innerHTML);
 
-    // --- Date Formatting Function ---
+    // --- Helper Functions ---
     function formatRelativeDate(dateString) {
         try {
             const date = new Date(dateString);
             const now = new Date();
             const seconds = Math.round((now - date) / 1000);
-            if (seconds < 5) return "just now";
             const minutes = Math.round(seconds / 60);
-            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
             const hours = Math.round(minutes / 60);
-            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
             const days = Math.round(hours / 24);
-            if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
-            return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-        } catch (e) {
-            console.error("Invalid date format:", dateString);
-            return dateString;
-        }
+            if (seconds < 60) return `Just now`;
+            if (minutes < 60) return `${minutes} min ago`;
+            if (hours < 24) return `${hours} hr ago`;
+            if (days < 7) return `${days} days ago`;
+            return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        } catch (e) { return dateString; }
     }
 
-    // --- Modal Control Functions ---
+    function calculateReadingTime(content) {
+        const text = content.replace(/<[^>]+>/g, ''); // Strip HTML tags
+        const wordsPerMinute = 200;
+        const wordCount = text.split(/\s+/).length;
+        const minutes = Math.ceil(wordCount / wordsPerMinute);
+        return `${minutes} min read`;
+    }
+
+    // --- Modal Logic ---
+    let progressBar;
     function openModalWithPost(postId) {
         const post = posts.find(p => p.id === postId);
         if (post) {
+            // Create and prepend progress bar
+            const progressBarHTML = `<div class="reading-progress-bar"><div class="bar"></div></div>`;
+            modalContainer.insertAdjacentHTML('afterbegin', progressBarHTML);
+            progressBar = modalContainer.querySelector('.reading-progress-bar .bar');
+
             modalContent.innerHTML = `
                 <header class="blog-header">
                     <h1 class="blog-title">${post.title}</h1>
                     <div class="blog-meta">
                         <img src="${post.authorImage}" alt="Author" class="author-image">
-                        By <a href="#" class="author-name">${post.author}</a> | Published <time datetime="${post.date}">${formatRelativeDate(post.date)}</time>
+                        <div>
+                            <span class="author-name">${post.author}</span><br>
+                            <span>${formatRelativeDate(post.date)} · ${calculateReadingTime(post.content)}</span>
+                        </div>
                     </div>
                 </header>
                 <div class="blog-content">${post.content}</div>`;
             
             modal.classList.add('visible');
             document.body.classList.add('modal-open');
+            
+            modalContainer.addEventListener('scroll', updateReadingProgress);
         }
     }
 
     function closeModal() {
         modal.classList.remove('visible');
         document.body.classList.remove('modal-open');
+        modalContainer.removeEventListener('scroll', updateReadingProgress);
+        // Remove progress bar to clean up
+        const barElement = modalContainer.querySelector('.reading-progress-bar');
+        if(barElement) barElement.remove();
     }
     
+    function updateReadingProgress() {
+        if (!progressBar) return;
+        const scrollableHeight = modalContainer.scrollHeight - modalContainer.clientHeight;
+        const scrollTop = modalContainer.scrollTop;
+        const progress = (scrollTop / scrollableHeight) * 100;
+        progressBar.style.width = `${progress}%`;
+    }
+
     // --- Render Dashboard ---
     function renderDashboard() {
-        let dashboardHTML = '';
-        const [featuredPost, ...otherPosts] = posts;
+        if (posts.length === 0) {
+            mainContent.innerHTML = '<p>No posts yet. Stay tuned!</p>';
+            return;
+        }
 
-        if (featuredPost) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = featuredPost.content;
-            const excerpt = (tempDiv.textContent || "").substring(0, 180) + '...';
-            dashboardHTML += `
-                <div class="featured-post-card" data-post-id="${featuredPost.id}">
-                    <div class="featured-content">
-                        <span class="featured-badge">Featured Post</span>
-                        <h2>${featuredPost.title}</h2>
-                        <p class="post-excerpt">${excerpt}</p>
-                        <div class="blog-meta">Published ${formatRelativeDate(featuredPost.date)}</div>
+        const cardsHTML = posts.map(post => `
+            <div class="blog-card" data-post-id="${post.id}">
+                <div class="card-image-container" style="background-image: url('${post.image}')"></div>
+                <div class="card-content">
+                    <span class="card-category">${post.category}</span>
+                    <h2 class="card-title">${post.title}</h2>
+                    <div class="card-meta">
+                        <span>${formatRelativeDate(post.date)} · ${calculateReadingTime(post.content)}</span>
                     </div>
-                </div>`;
-        }
+                </div>
+            </div>
+        `).join('');
 
-        if (otherPosts.length > 0) {
-            dashboardHTML += '<div class="blog-grid">';
-            otherPosts.forEach(post => {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = post.content;
-                const excerpt = (tempDiv.textContent || "").substring(0, 100) + '...';
-                dashboardHTML += `
-                    <div class="blog-summary-card" data-post-id="${post.id}">
-                        <h3>${post.title}</h3>
-                        <p class="post-excerpt">${excerpt}</p>
-                        <div class="blog-meta meta-bottom">Published ${formatRelativeDate(post.date)}</div>
-                    </div>`;
-            });
-            dashboardHTML += '</div>';
-        }
-        mainContent.innerHTML = dashboardHTML || '<p>No posts have been written yet.</p>';
+        mainContent.innerHTML = cardsHTML;
     }
 
     // --- Event Listeners ---
     mainContent.addEventListener('click', (e) => {
-        const card = e.target.closest('[data-post-id]');
+        const card = e.target.closest('.blog-card');
         if (card) {
             openModalWithPost(card.dataset.postId);
         }
@@ -109,7 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalCloseButton.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) {
             closeModal();
         }
     });
