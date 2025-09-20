@@ -257,8 +257,7 @@ header {
 /* Price Styling */
 .product-item .price {
     font-size: 1.3rem;
-    /* ✨ UPDATED: Price now uses the accent color */
-    color: var(--accent-color);
+    color: var(--text-color); /* FIX: Use the standard text color for readability */
     font-weight: 700;
     margin: 10px 0;
 }
