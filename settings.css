@@ -565,21 +565,26 @@ body.focus-outline-disabled :focus {
   outline: none !important;
 }
 
-/* In settings.css */
+/* Add this new, specific rule to settings.css */
+.accent-color-card {
+  flex-wrap: wrap;
+}
+
+/* Add or replace the .color-warning rule with this one */
 .color-warning {
+  width: 100%;
   margin-top: 1rem;
   padding: 0.75rem 1rem;
-  background-color: #fffbe6; /* A light yellow */
-  color: #9c6f00; /* A dark yellow/brown for text */
+  background-color: #fffbe6;
+  color: #9c6f00;
   border: 1px solid #ffe58f;
   border-radius: var(--border-radius-md, 8px);
   font-size: 0.875rem;
-  width: 100%;
   box-sizing: border-box;
 }
 
 body.dark-mode .color-warning {
-  background-color: #4d3c1a; /* A dark yellow */
-  color: #ffeca7; /* A light yellow for text */
+  background-color: #4d3c1a;
+  color: #ffeca7;
   border-color: #8b6b1f;
 }
