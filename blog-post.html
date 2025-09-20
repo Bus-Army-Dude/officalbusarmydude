@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Title - Your Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <header class="blog-main-header">
+            <a href="index.html" class="home-button">
+                <img src="apple-touch-icon.png" alt="Home Icon">
+                <span>Back to Profile</span>
+            </a>
+        </header>
+
+        <main>
+            <article class="blog-post">
+                <header class="blog-header">
+                    <h1 class="blog-title">Loading Post...</h1>
+                    <p class="blog-meta">
+                        By <a href="#" class="author-name">...</a> | Published on <time datetime="">...</time>
+                    </p>
+                </header>
+
+                <div class="blog-content">
+                    <p>Please wait while we fetch the latest content.</p>
+                </div>
+            </article>
+        </main>
+
+        <footer>
+            <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script type="module" src="blog.js"></script>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
