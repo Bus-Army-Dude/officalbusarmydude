@@ -14,7 +14,46 @@ window.addEventListener('load', () => {
 // --- Main script execution after HTML is parsed ---
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Enhanced Interaction Control (Copy Protection, Drag Prevention, Context Menu)
+    // ===============================================
+    // --- Homepage Section Visibility Customization ---
+    // ===============================================
+    const applyHomepageSettings = () => {
+        const settings = JSON.parse(localStorage.getItem('websiteSettings')) || {};
+
+        // Helper function to check the setting and hide/show the element
+        const setVisibility = (settingKey, elementId) => {
+            const isEnabled = settings[settingKey] !== 'disabled'; // Default to enabled if not set
+            const section = document.getElementById(elementId);
+            if (section) {
+                section.style.display = isEnabled ? '' : 'none';
+            }
+        };
+
+        // Apply settings for each section you have
+        setVisibility('showSocialLinks', 'social-links-section');
+        setVisibility('showPresidentSection', 'president-section');
+        setVisibility('showTiktokShoutouts', 'tiktok-shoutouts-section');
+        setVisibility('showInstagramShoutouts', 'instagram-shoutouts-section');
+        setVisibility('showYoutubeShoutouts', 'youtube-shoutouts-section');
+        setVisibility('showUsefulLinks', 'useful-links-section');
+        setVisibility('showCountdown', 'countdown-section');
+        setVisibility('showBusinessSection', 'business-section');
+        setVisibility('showTechInformation', 'tech-information-section');
+        setVisibility('showDisabilitiesSection', 'disabilities-section');
+    };
+
+    // Apply settings on initial page load
+    applyHomepageSettings();
+
+    // Listen for changes from the settings page to update live
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'websiteSettings') {
+            applyHomepageSettings();
+        }
+    });
+
+
+    // --- Enhanced Interaction Control (Copy Protection, Drag Prevention, Context Menu) ---
     const enhancedInteractionControl = {
         init() {
             // Prevent context menu (right-click/long-press menu)
@@ -54,83 +93,79 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     enhancedInteractionControl.init();
 
- // --- Live Date & Time Update ---
-function updateTime() {
-    const now = new Date();
-    const locale = navigator.language || 'en-US';
+    // --- Live Date & Time Update ---
+    function updateTime() {
+        const now = new Date();
+        const locale = navigator.language || 'en-US';
 
-    const datePart = now.toLocaleDateString(locale, {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-    const timePart = now.toLocaleTimeString(locale, {
-        hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, timeZoneName: 'short'
-    });
-    const formattedDateTime = `${datePart} at ${timePart}`;
+        const datePart = now.toLocaleDateString(locale, {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+        const timePart = now.toLocaleTimeString(locale, {
+            hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, timeZoneName: 'short'
+        });
+        const formattedDateTime = `${datePart} at ${timePart}`;
 
-    // Update main date/time section
-    const dateTimeSectionElement = document.querySelector('.datetime-section .current-datetime');
-    if (dateTimeSectionElement) {
-        dateTimeSectionElement.textContent = formattedDateTime;
+        // Update main date/time section
+        const dateTimeSectionElement = document.querySelector('.datetime-section .current-datetime');
+        if (dateTimeSectionElement) {
+            dateTimeSectionElement.textContent = formattedDateTime;
+        }
+
+        // Update version info section time
+        const versionTimeElement = document.querySelector('.version-info-section .update-time .version-value');
+        if (versionTimeElement) {
+            versionTimeElement.textContent = formattedDateTime;
+        }
     }
 
-    // Update version info section time
-    // FIX: Target the inner '.version-value' span to avoid deleting the label
-    const versionTimeElement = document.querySelector('.version-info-section .update-time .version-value');
-    if (versionTimeElement) {
-        versionTimeElement.textContent = formattedDateTime;
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // ========================
+    // Scroll to Top Orb Logic
+    // ========================
+    const scrollBtn = document.querySelector('.scroll-to-top');
+    const arrow = scrollBtn.querySelector('.arrow');
+    const progressCircle = scrollBtn.querySelector('.progress-indicator');
+
+    const radius = progressCircle.r.baseVal.value;
+    const circumference = 2 * Math.PI * radius;
+    progressCircle.style.strokeDasharray = `${circumference}`;
+    progressCircle.style.strokeDashoffset = `${circumference}`;
+
+    let lastScrollY = window.scrollY;
+
+    function updateProgress() {
+        const scrollTop = window.scrollY;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollHeight ? (scrollTop / scrollHeight) : 0;
+        progressCircle.style.strokeDashoffset = `${circumference * (1 - progress)}`;
+
+        if (scrollTop > lastScrollY) {
+            arrow.classList.remove('up');
+            arrow.classList.add('down');
+        } else if (scrollTop < lastScrollY) {
+            arrow.classList.remove('down');
+            arrow.classList.add('up');
+        }
+
+        lastScrollY = scrollTop;
+
+        if (scrollTop > 100) {
+            scrollBtn.classList.add('visible');
+        } else {
+            scrollBtn.classList.remove('visible');
+        }
     }
-}
 
-// Ensure this part is placed inside your main DOMContentLoaded event listener, or called after it.
-updateTime();
-setInterval(updateTime, 1000);
+    window.addEventListener('scroll', updateProgress);
 
-// ========================
-// Scroll to Top Orb Logic
-// ========================
-
-const scrollBtn = document.querySelector('.scroll-to-top');
-const arrow = scrollBtn.querySelector('.arrow');
-const progressCircle = scrollBtn.querySelector('.progress-indicator');
-
-const radius = progressCircle.r.baseVal.value;
-const circumference = 2 * Math.PI * radius;
-progressCircle.style.strokeDasharray = `${circumference}`;
-progressCircle.style.strokeDashoffset = `${circumference}`;
-
-let lastScrollY = window.scrollY;
-
-function updateProgress() {
-    const scrollTop = window.scrollY;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = scrollHeight ? (scrollTop / scrollHeight) : 0;
-    progressCircle.style.strokeDashoffset = `${circumference * (1 - progress)}`;
-
-    if (scrollTop > lastScrollY) {
-        arrow.classList.remove('up');
-        arrow.classList.add('down');
-    } else if (scrollTop < lastScrollY) {
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         arrow.classList.remove('down');
         arrow.classList.add('up');
-    }
-
-    lastScrollY = scrollTop;
-
-    if (scrollTop > 100) {
-        scrollBtn.classList.add('visible');
-    } else {
-        scrollBtn.classList.remove('visible');
-    }
-}
-
-window.addEventListener('scroll', updateProgress);
-
-scrollBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    arrow.classList.remove('down');
-    arrow.classList.add('up');
-});
-
+    });
 
     // --- Cookie Consent ---
     const cookieConsent = document.getElementById('cookieConsent');
