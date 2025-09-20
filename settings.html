@@ -104,7 +104,6 @@
 
       <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Homepage Sections</h2>
-
         <div class="setting-card">
           <label for="showSocialLinksToggle" class="setting-label"><strong class="setting-title">Social Links</strong></label>
           <div class="md-switch">
@@ -175,7 +174,6 @@
             <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
-
         <div class="setting-card">
             <div class="setting-label">
                 <strong class="setting-title">Reset Visible Sections</strong>
@@ -187,6 +185,18 @@
 
       <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Accessibility</h2>
+
+        <div class="setting-card">
+            <div class="setting-label">
+                <strong class="setting-title">Animation Control</strong>
+                <p class="setting-description">Choose the level of motion and animation.</p>
+            </div>
+            <div class="segmented-control" id="animationControl">
+                <button type="button" data-value="standard">Standard</button>
+                <button type="button" data-value="subtle">Subtle</button>
+                <button type="button" data-value="off">Off</button>
+            </div>
+        </div>
 
         <div class="setting-card">
           <label for="text-size-slider" class="setting-label">
@@ -204,17 +214,6 @@
               step="1"
               aria-label="Adjust text size"
             />
-          </div>
-        </div>
-
-        <div class="setting-card focus-outline-setting-card">
-          <label for="focusOutlineToggle" class="setting-label">
-            <strong class="setting-title">Focus Outline</strong>
-            <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
-          </label>
-          <div class="md-switch">
-            <input type="checkbox" id="focusOutlineToggle" role="switch" aria-label="Toggle focus outline" />
-            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
 
@@ -254,7 +253,6 @@
 
       <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Visual Flair</h2>
-
         <div class="setting-card">
           <label for="mouseTrailToggle" class="setting-label">
             <strong class="setting-title">Mouse Trail Effect</strong>
