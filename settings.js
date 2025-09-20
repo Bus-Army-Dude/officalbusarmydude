@@ -23,7 +23,19 @@ class SettingsManager {
             mouseTrail: 'disabled',
             liveStatus: 'disabled',
             
-            rearrangingEnabled: 'enabled' // enabled | disabled
+            rearrangingEnabled: 'enabled', // enabled | disabled
+
+            // New settings for section visibility
+            showSocialLinks: 'enabled',
+            showPresidentSection: 'enabled',
+            showTiktokShoutouts: 'enabled',
+            showInstagramShoutouts: 'enabled',
+            showYoutubeShoutouts: 'enabled',
+            showUsefulLinks: 'enabled',
+            showCountdown: 'enabled',
+            showBusinessSection: 'enabled',
+            showTechInformation: 'enabled',
+            showDisabilitiesSection: 'enabled'
         };
 
         this.settings = this.loadSettings();
@@ -130,7 +142,12 @@ class SettingsManager {
             'focusOutline', 'motionEffects', 'highContrast',
             'dyslexiaFont', 'underlineLinks', 'loadingScreen',
             'mouseTrail', 'liveStatus', 
-            'rearrangingEnabled'
+            'rearrangingEnabled', 
+            // Add all new toggles here
+            'showSocialLinks', 'showPresidentSection', 'showTiktokShoutouts',
+            'showInstagramShoutouts', 'showYoutubeShoutouts', 'showUsefulLinks',
+            'showCountdown', 'showBusinessSection', 'showTechInformation',
+            'showDisabilitiesSection'
         ];
         toggles.forEach(key => this.setToggle(key));
     }
@@ -211,9 +228,15 @@ class SettingsManager {
             });
         }
 
-        ['focusOutline', 'motionEffects', 'highContrast', 'dyslexiaFont',
-         'underlineLinks', 'loadingScreen', 'mouseTrail', 'liveStatus',
-         'rearrangingEnabled'
+        [
+            'focusOutline', 'motionEffects', 'highContrast', 'dyslexiaFont',
+            'underlineLinks', 'loadingScreen', 'mouseTrail', 'liveStatus',
+            'rearrangingEnabled',
+            // Add all new toggles here
+            'showSocialLinks', 'showPresidentSection', 'showTiktokShoutouts',
+            'showInstagramShoutouts', 'showYoutubeShoutouts', 'showUsefulLinks',
+            'showCountdown', 'showBusinessSection', 'showTechInformation',
+            'showDisabilitiesSection'
         ].forEach(key => {
             const el = document.getElementById(`${key}Toggle`);
             if (!el) return;
@@ -327,6 +350,17 @@ class SettingsManager {
             case 'loadingScreen': this.applyLoadingScreen(); break;
             case 'mouseTrail': this.applyMouseTrail(); break;
             case 'liveStatus': this.applyLiveStatus(); break;
+            // Add cases for all the new settings
+            case 'showSocialLinks': this.applySectionVisibility('social-links-section', this.settings.showSocialLinks); break;
+            case 'showPresidentSection': this.applySectionVisibility('president-section', this.settings.showPresidentSection); break;
+            case 'showTiktokShoutouts': this.applySectionVisibility('tiktok-shoutouts-section', this.settings.showTiktokShoutouts); break;
+            case 'showInstagramShoutouts': this.applySectionVisibility('instagram-shoutouts-section', this.settings.showInstagramShoutouts); break;
+            case 'showYoutubeShoutouts': this.applySectionVisibility('youtube-shoutouts-section', this.settings.showYoutubeShoutouts); break;
+            case 'showUsefulLinks': this.applySectionVisibility('useful-links-section', this.settings.showUsefulLinks); break;
+            case 'showCountdown': this.applySectionVisibility('countdown-section', this.settings.showCountdown); break;
+            case 'showBusinessSection': this.applySectionVisibility('business-section', this.settings.showBusinessSection); break;
+            case 'showTechInformation': this.applySectionVisibility('tech-information-section', this.settings.showTechInformation); break;
+            case 'showDisabilitiesSection': this.applySectionVisibility('disabilities-section', this.settings.showDisabilitiesSection); break;
         }
     }
 
@@ -390,6 +424,15 @@ class SettingsManager {
     }
     applyMouseTrail() { document.body.classList.toggle('mouse-trail-enabled', this.settings.mouseTrail==='enabled'); }
     applyLiveStatus() { document.body.classList.toggle('live-status-enabled', this.settings.liveStatus==='enabled'); }
+
+    // New function to handle section visibility
+    applySectionVisibility(sectionId, status) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.style.display = status === 'enabled' ? '' : 'none';
+        }
+    }
+
 
     // ========================
     // Mouse Trail
