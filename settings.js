@@ -37,7 +37,6 @@ class SettingsManager {
             this.applyAllSettings();
             this.setupEventListeners();
 
-            // Watch for system theme changes
             if (window.matchMedia) {
                 this.deviceThemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
                 this.deviceThemeMedia.addEventListener('change', () => {
@@ -76,6 +75,7 @@ class SettingsManager {
         if (slider && badge) {
             slider.value = this.settings.fontSize;
             badge.textContent = `${this.settings.fontSize}px`;
+            this.updateSliderFill(slider); // Correctly update slider on load
         }
 
         // Toggles
@@ -133,6 +133,7 @@ class SettingsManager {
                 this.settings.fontSize = parseInt(e.target.value, 10);
                 this.applyFontSize();
                 document.getElementById('textSizeValue').textContent = `${this.settings.fontSize}px`;
+                this.updateSliderFill(e.target); // Correctly update slider on input
                 this.saveSettings();
             });
         }
@@ -163,6 +164,12 @@ class SettingsManager {
         document.getElementById('resetSettings')?.addEventListener('click', () => this.resetSettings());
     }
 
+    updateSliderFill(slider) {
+        if (!slider) return;
+        const percentage = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+        slider.style.background = `linear-gradient(to right, var(--accent-color) ${percentage}%, var(--slider-track-color) ${percentage}%)`;
+    }
+    
     applyAllSettings() {
         Object.keys(this.defaultSettings).forEach(key => this.applySetting(key));
     }
