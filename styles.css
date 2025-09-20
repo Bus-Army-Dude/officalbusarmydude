@@ -2375,25 +2375,3 @@ body.maintenance-active {
 	#scrollTopBtn { width: 2.8125rem; height: 2.8125rem; bottom: 0.9375rem; left: 0.9375rem; }
 	#scrollTopBtn .arrow { font-size: var(--font-size-base, 20px); } /* ✨ Updated for text scaling ✨ */
 }
-
-/* =================================== */
-/* === Animation Control Classes ===== */
-/* =================================== */
-
-/* Subtle Motion: Reduces animation times for a faster, less distracting experience */
-.subtle-motion * {
-    transition-duration: 0.15s !important;
-    animation-duration: 0.25s !important;
-}
-
-/* FIXED Reduce Motion: 
-  This version is more specific. It disables common animations on general elements 
-  but EXCLUDES classes like `.md-switch` and `.scroll-to-top` to ensure they still function.
-*/
-.reduce-motion .animate-slide-in,
-.reduce-motion .back-icon,
-.reduce-motion .trail {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-}
