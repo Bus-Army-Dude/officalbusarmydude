@@ -103,7 +103,10 @@ class SettingsManager {
         this.initSegmentedControl('themeStyleControl', this.settings.themeStyle);
 
         const accentPicker = document.getElementById('accentColorPicker');
-        if (accentPicker) accentPicker.value = this.settings.accentColor;
+        if (accentPicker) {
+            accentPicker.value = this.settings.accentColor;
+            this.checkAccentColor(this.settings.accentColor); // Initial check
+        }
 
         const schedulerSelect = document.getElementById('darkModeScheduler');
         if (schedulerSelect) schedulerSelect.value = this.settings.darkModeScheduler;
@@ -266,6 +269,29 @@ class SettingsManager {
         const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
         return (yiq >= 128) ? '#000000' : '#ffffff';
     }
+    
+    /**
+     * Checks if the selected accent color is close to white and shows a warning if it is.
+     * @param {string} hexcolor - The hex color code (e.g., "#FFFFFF").
+     */
+    checkAccentColor(hexcolor) {
+        const warningElement = document.getElementById('whiteAccentWarning');
+        if (!warningElement) return;
+
+        // Convert hex to RGB
+        const r = parseInt(hexcolor.substr(1, 2), 16);
+        const g = parseInt(hexcolor.substr(3, 2), 16);
+        const b = parseInt(hexcolor.substr(5, 2), 16);
+
+        // Threshold for being "close to white"
+        const threshold = 240;
+
+        if (r > threshold && g > threshold && b > threshold) {
+            warningElement.style.display = 'block';
+        } else {
+            warningElement.style.display = 'none';
+        }
+    }
 
     // ========================
     // Apply Settings
@@ -330,6 +356,7 @@ class SettingsManager {
         // NEW: Calculate and set the contrasting text color
         const contrastColor = this.getContrastColor(accentColor);
         document.documentElement.style.setProperty('--accent-text-color', contrastColor);
+        this.checkAccentColor(accentColor);
     }
 
     applyFontSize() { document.documentElement.style.setProperty('--font-size-base', `${this.settings.fontSize}px`); }
