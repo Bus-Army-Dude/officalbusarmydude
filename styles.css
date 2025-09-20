@@ -640,13 +640,13 @@ body {
 
 /* Tech Item Titles */
 .tech-item h3 {
-	margin: 0 0 15px 0;
-	color: var(--accent-color);
-	font-size: calc(var(--font-size-base, 20px) * 0.96); /* ✨ Updated for text scaling ✨ */
-	font-weight: 600;
-	display: flex;
-	align-items: center;
-	gap: 10px;
+    margin: 0 0 15px 0;
+    color: var(--text-color); /* FIX: Use the standard text color */
+    font-size: calc(var(--font-size-base, 20px) * 0.96);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .tech-item h3 i {
@@ -793,10 +793,10 @@ body {
 /* Modern Button Links – Bubble Glass */
 .disabilities-section a {
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--accent-color);
-	font-weight: 500;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color); /* FIX: Use the standard text color */
+    font-weight: 500;
 	text-decoration: none;
 	padding: 12px 18px;
 	border-radius: 25px;
@@ -1063,10 +1063,10 @@ body {
 .instagram-visit-profile,
 .youtube-visit-profile {
 	background: var(--content-bg);
-	background-image: var(--bubble-gradient);
-	border: 2px solid var(--accent-color);
-	color: var(--accent-color);
-	padding: 8px 20px;
+    background-image: var(--bubble-gradient);
+    border: 2px solid var(--accent-color);
+    color: var(--text-color); /* FIX: Use the standard text color */
+    padding: 8px 20px;
 	border-radius: 25px;
 	text-decoration: none;
 	font-weight: 500;
@@ -2032,8 +2032,8 @@ body.maintenance-active {
 }
 .hours-list li.current-day strong,
 .hours-list li.current-day span {
-	color: var(--accent-color);
-	font-weight: 700;
+    color: var(--text-color); /* FIX: Use the standard text color */
+    font-weight: 700;
 }
 
 /* --- Special Hours Display --- */
