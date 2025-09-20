@@ -10,15 +10,12 @@
   <link rel="stylesheet" href="settings.css" />
 
   <script>
-  // This script runs instantly to apply a user's specific theme choice,
-  // overriding the CSS default if necessary.
+  // This script runs instantly to apply a user's specific theme choice
   (function() {
     try {
       const storedSettings = localStorage.getItem('websiteSettings');
       if (!storedSettings) return;
-
       const settings = JSON.parse(storedSettings);
-      
       if (settings.appearanceMode === 'dark') {
         document.documentElement.classList.add('dark-mode');
       } else if (settings.appearanceMode === 'light') {
@@ -48,7 +45,6 @@
 
       <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Appearance</h2>
-
         <div class="setting-card">
           <div class="setting-label">
             <strong class="setting-title">Appearance Mode</strong>
@@ -60,19 +56,13 @@
             <button type="button" data-value="dark">Dark</button>
           </div>
         </div>
-
         <div class="setting-card accent-color-card">
           <label for="accentColorPicker" class="setting-label">
             <strong class="setting-title">Accent Color</strong>
             <p class="setting-description">Pick a custom highlight color.</p>
           </label>
           <div class="accent-picker-container">
-            <input
-              type="color"
-              id="accentColorPicker"
-              value="#007AFF"
-              aria-label="Choose accent color"
-            />
+            <input type="color" id="accentColorPicker" value="#007AFF" aria-label="Choose accent color"/>
             <div id="accentColorPreview" class="accent-color-preview"></div>
           </div>
           <div id="whiteAccentWarning" class="color-warning" style="display: none;">
@@ -185,7 +175,6 @@
 
       <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Accessibility</h2>
-
         <div class="setting-card">
             <div class="setting-label">
                 <strong class="setting-title">Animation Control</strong>
@@ -197,7 +186,6 @@
                 <button type="button" data-value="off">Off</button>
             </div>
         </div>
-
         <div class="setting-card">
           <label for="text-size-slider" class="setting-label">
             <strong class="setting-title">Text Size</strong>
@@ -205,18 +193,19 @@
           </label>
           <div class="text-size-control">
             <span id="textSizeValue" class="font-size-badge">17px</span>
-            <input
-              type="range"
-              id="text-size-slider"
-              min="12"
-              max="24"
-              value="17"
-              step="1"
-              aria-label="Adjust text size"
-            />
+            <input type="range" id="text-size-slider" min="12" max="24" value="17" step="1" aria-label="Adjust text size"/>
           </div>
         </div>
-
+        <div class="setting-card">
+          <label for="focusOutlineToggle" class="setting-label">
+            <strong class="setting-title">Focus Outline</strong>
+            <p class="setting-description">Toggle the focus outline for accessibility purposes</p>
+          </label>
+          <div class="md-switch">
+            <input type="checkbox" id="focusOutlineToggle" role="switch" aria-label="Toggle focus outline" />
+            <div class="track"><div class="thumb"></div></div>
+          </div>
+        </div>
         <div class="setting-card">
           <label for="highContrastToggle" class="setting-label">
             <strong class="setting-title">High Contrast Mode</strong>
@@ -227,7 +216,6 @@
             <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
-
         <div class="setting-card">
           <label for="dyslexiaFontToggle" class="setting-label">
             <strong class="setting-title">Dyslexia-Friendly Font</strong>
@@ -238,7 +226,6 @@
             <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
-
         <div class="setting-card">
           <label for="underlineLinksToggle" class="setting-label">
             <strong class="setting-title">Underline Links</strong>
@@ -286,18 +273,17 @@
   </main>
 
   <footer class="settings-footer">
-    <div class="footer-content">
-      <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
-      <div class="footer-links">
-        <a href="privacy-policy.html">Privacy Policy</a>
-        <a href="terms-of-service.html">Terms of Service</a>
-        <a href="accessibility-statement.html">Accessibility Statement</a>
+      <div class="footer-content">
+        <p>© <span id="year"></span> Caleb Kritzar. All Rights Reserved.</p>
+        <div class="footer-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-of-service.html">Terms of Service</a>
+          <a href="accessibility-statement.html">Accessibility Statement</a>
+        </div>
       </div>
-    </div>
   </footer>
 
   <div id="mouse-trail"></div>
-
   <script src="settings.js"></script>
   <script src="script.js"></script>
 </body>
