@@ -37,6 +37,7 @@
 	--secondary-text: var(--dark-secondary-text);
 	--border-color: var(--dark-border);
 	--accent-color: var(--dark-accent);
+    --accent-text-color: white; /* Fallback color */
 	--hover-color: var(--dark-hover);
 	--link-color: var(--dark-link);
 	--shadow-color: var(--dark-shadow);
@@ -478,7 +479,7 @@ body {
 
 .social-button:hover .social-icon,
 .social-button:hover span {
-    color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
+	color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
 }
 
 /* Responsive */
@@ -576,12 +577,12 @@ body {
 
 /* Hover / Active State */
 .link-button:hover {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px var(--shadow-color),
-                  0 0 12px var(--accent-color);
+	background: var(--accent-color);
+	border-color: var(--accent-color);
+	color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
+	transform: translateY(-2px);
+	box-shadow: 0 6px 18px var(--shadow-color),
+				  0 0 12px var(--accent-color);
 }
 
 /* --- Responsive Design --- */
@@ -826,7 +827,7 @@ body {
 /* Hover effect – Bubble Glass style */
 .disabilities-section a:hover {
 	background: var(--accent-color);
-	color: var(--content-bg);
+	color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
 	transform: translateY(-3px);
 	box-shadow: 0 4px 12px var(--shadow-color),
 				  0 0 10px var(--accent-color);
@@ -1081,7 +1082,7 @@ body {
 .instagram-visit-profile:hover,
 .youtube-visit-profile:hover {
 	background-color: var(--accent-color);
-	color: white;
+	color: var(--accent-text-color, white); /* FIX: Use the new contrast variable */
 	box-shadow: 0 0 10px var(--accent-color),
 				  0 0 20px var(--accent-color);
 	transform: translateY(-2px);
@@ -2374,4 +2375,6 @@ body.maintenance-active {
 @media screen and (max-width: 480px) {
 	#scrollTopBtn { width: 2.8125rem; height: 2.8125rem; bottom: 0.9375rem; left: 0.9375rem; }
 	#scrollTopBtn .arrow { font-size: var(--font-size-base, 20px); } /* ✨ Updated for text scaling ✨ */
+}
+
 }
