@@ -1,0 +1,114 @@
+/* Blog Page Specific Styles */
+
+/* Header above the blog post */
+.blog-main-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.home-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-medium);
+}
+
+.home-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color), 0 0 8px var(--glow-color);
+}
+
+.home-button img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Main blog post container with bubble glass effect */
+.blog-post {
+    background: var(--content-bg);
+    background-image: var(--bubble-gradient);
+    padding: clamp(25px, 6vw, 40px);
+    border-radius: var(--radius-xl);
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--bubble-shadow), var(--bubble-highlight);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+}
+
+.blog-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.blog-title {
+    font-size: clamp(1.8em, 5vw, 2.8em);
+    margin-bottom: 15px;
+    font-weight: 800;
+    color: var(--text-color);
+    line-height: 1.2;
+}
+
+.blog-meta {
+    font-size: 0.9em;
+    color: var(--secondary-text);
+}
+
+.author-name {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.author-name:hover {
+    text-decoration: underline;
+}
+
+.blog-content {
+    line-height: 1.8;
+    font-size: 1.05em;
+}
+
+.blog-content h2 {
+    font-size: 1.6em;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.blog-content p {
+    margin-bottom: 20px;
+}
+
+.blog-content ul {
+    margin-bottom: 20px;
+    padding-left: 25px;
+}
+
+.blog-content li {
+    margin-bottom: 12px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .blog-title {
+        font-size: 2em;
+    }
+    .blog-content {
+        font-size: 1em;
+    }
+}
