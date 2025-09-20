@@ -252,6 +252,21 @@ class SettingsManager {
         slider.style.background = `linear-gradient(90deg, var(--accent-color) 0%, var(--accent-color) ${pct}%, var(--slider-track-color) ${pct}%, var(--slider-track-color) 100%)`;
     }
 
+    /**
+     * Calculates the best contrasting text color (black or white) for a given background hex color.
+     * @param {string} hexcolor - The hex color code (e.g., "#3ddc84").
+     * @returns {string} '#000000' for black or '#ffffff' for white.
+     */
+    getContrastColor(hexcolor) {
+        if (!hexcolor) return '#ffffff';
+        hexcolor = hexcolor.replace("#", "");
+        const r = parseInt(hexcolor.substr(0, 2), 16);
+        const g = parseInt(hexcolor.substr(2, 2), 16);
+        const b = parseInt(hexcolor.substr(4, 2), 16);
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (yiq >= 128) ? '#000000' : '#ffffff';
+    }
+
     // ========================
     // Apply Settings
     // ========================
@@ -307,7 +322,16 @@ class SettingsManager {
     parseTime(str){ const [h,m]=str.split(':').map(Number); return h*60+m; }
 
     applyThemeStyle() { document.body.classList.toggle('theme-tinted', this.settings.themeStyle==='tinted'); }
-    applyAccentColor() { document.documentElement.style.setProperty('--accent-color',this.settings.accentColor); }
+    
+    applyAccentColor() {
+        const accentColor = this.settings.accentColor;
+        document.documentElement.style.setProperty('--accent-color', accentColor);
+
+        // NEW: Calculate and set the contrasting text color
+        const contrastColor = this.getContrastColor(accentColor);
+        document.documentElement.style.setProperty('--accent-text-color', contrastColor);
+    }
+
     applyFontSize() { document.documentElement.style.setProperty('--font-size-base', `${this.settings.fontSize}px`); }
     applyFocusOutline() { document.body.classList.toggle('focus-outline-disabled', this.settings.focusOutline==='disabled'); }
     applyMotionEffects() { document.body.classList.toggle('reduce-motion', this.settings.motionEffects==='disabled'); }
