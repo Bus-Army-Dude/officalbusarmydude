@@ -1,109 +1,120 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, doc, getDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+document.addEventListener('DOMContentLoaded', () => {
+    // Set footer year
+    const yearSpan = document.getElementById('year');
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCIZ0fri5V1E2si1xXpBPQQJqj1F_KuuG0",
-    authDomain: "busarmydudewebsite.firebaseapp.com",
-    projectId: "busarmydudewebsite",
-    storageBucket: "busarmydudewebsite.firebasestorage.app",
-    messagingSenderId: "42980404680",
-    appId: "1:42980404680:web:f4f1e54789902a4295e4fd",
-    measurementId: "G-DQPH8YL789"
-};
+    // --- DOM Elements ---
+    const blogDataElement = document.getElementById('blog-posts-data');
+    const mainContent = document.getElementById('main-content');
+    const modal = document.getElementById('post-modal');
+    const modalContent = document.getElementById('modal-post-content');
+    const modalCloseButton = document.getElementById('modal-close-button');
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const blogPostsCollectionRef = collection(db, "blog_posts");
-
-// --- Function to load all posts for the dashboard ---
-async function loadBlogDashboard() {
-    const dashboardContainer = document.querySelector('.blog-dashboard-list');
-    if (!dashboardContainer) return;
-
-    dashboardContainer.innerHTML = '<p>Loading posts...</p>';
-    try {
-        const q = query(blogPostsCollectionRef, where("isPublished", "==", true), orderBy("publishedDate", "desc"));
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.empty) {
-            dashboardContainer.innerHTML = '<p>No posts have been published yet.</p>';
-            return;
-        }
-
-        dashboardContainer.innerHTML = '';
-        querySnapshot.forEach(doc => {
-            const post = doc.data();
-            const postCard = document.createElement('a');
-            postCard.className = 'blog-summary-card';
-            postCard.href = `blog-post.html?id=${doc.id}`; // Link to the single post page
-
-            // Create a sanitized excerpt
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = post.content;
-            const textContent = tempDiv.textContent || tempDiv.innerText || "";
-            const excerpt = textContent.substring(0, 150) + (textContent.length > 150 ? '...' : '');
-
-            postCard.innerHTML = `
-                <h2>${post.title}</h2>
-                <p class="blog-meta">By ${post.author} on ${post.publishedDate.toDate().toLocaleDateString()}</p>
-                <div class="post-excerpt">${excerpt}</div>
-            `;
-            dashboardContainer.appendChild(postCard);
-        });
-    } catch (error) {
-        console.error("Error loading blog posts for dashboard:", error);
-        dashboardContainer.innerHTML = '<p class="error">Could not load posts. Please try again later.</p>';
-    }
-}
-
-// --- Function to load a single post ---
-async function loadSingleBlogPost() {
-    const postContainer = document.querySelector('.blog-post');
-    if (!postContainer) return;
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
-
-    if (!postId) {
-        postContainer.innerHTML = '<p class="error">No post ID provided. <a href="blog.html">Return to blog list</a>.</p>';
+    // --- Early exit if essential elements are missing ---
+    if (!blogDataElement || !mainContent || !modal || !modalContent || !modalCloseButton) {
+        console.error("One or more essential blog elements are missing from the DOM.");
         return;
     }
+    const posts = JSON.parse(blogDataElement.innerHTML);
 
-    try {
-        const docRef = doc(db, "blog_posts", postId);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists() && docSnap.data().isPublished) {
-            const post = docSnap.data();
-            // Update page title
-            document.title = `${post.title} - Your Blog`;
-
-            // Populate the template
-            postContainer.querySelector('.blog-title').textContent = post.title;
-            postContainer.querySelector('.author-name').textContent = post.author;
-            const timeEl = postContainer.querySelector('time');
-            const postDate = post.publishedDate.toDate();
-            timeEl.textContent = postDate.toLocaleDateString();
-            timeEl.setAttribute('datetime', postDate.toISOString().split('T')[0]);
-
-            // Use innerHTML to render HTML content from the admin panel
-            postContainer.querySelector('.blog-content').innerHTML = post.content;
-        } else {
-            postContainer.innerHTML = '<p class="error">This post could not be found or is not published. <a href="blog.html">Return to blog list</a>.</p>';
+    // --- Date Formatting Function ---
+    function formatRelativeDate(dateString) {
+        try {
+            const date = new Date(dateString);
+            const now = new Date();
+            const seconds = Math.round((now - date) / 1000);
+            if (seconds < 5) return "just now";
+            const minutes = Math.round(seconds / 60);
+            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            const hours = Math.round(minutes / 60);
+            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            const days = Math.round(hours / 24);
+            if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+            return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+        } catch (e) {
+            console.error("Invalid date format:", dateString);
+            return dateString;
         }
-    } catch (error) {
-        console.error("Error loading single blog post:", error);
-        postContainer.innerHTML = '<p class="error">There was an error loading this post.</p>';
     }
-}
 
-
-// --- Main Logic ---
-// Checks which page we are on and runs the correct function.
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelector('.blog-dashboard-list')) {
-        loadBlogDashboard();
-    } else if (document.querySelector('.blog-post')) {
-        loadSingleBlogPost();
+    // --- Modal Control Functions ---
+    function openModalWithPost(postId) {
+        const post = posts.find(p => p.id === postId);
+        if (post) {
+            modalContent.innerHTML = `
+                <header class="blog-header">
+                    <h1 class="blog-title">${post.title}</h1>
+                    <div class="blog-meta">
+                        <img src="${post.authorImage}" alt="Author" class="author-image">
+                        By <a href="#" class="author-name">${post.author}</a> | Published <time datetime="${post.date}">${formatRelativeDate(post.date)}</time>
+                    </div>
+                </header>
+                <div class="blog-content">${post.content}</div>`;
+            
+            modal.classList.add('visible');
+            document.body.classList.add('modal-open');
+        }
     }
+
+    function closeModal() {
+        modal.classList.remove('visible');
+        document.body.classList.remove('modal-open');
+    }
+    
+    // --- Render Dashboard ---
+    function renderDashboard() {
+        let dashboardHTML = '';
+        const [featuredPost, ...otherPosts] = posts;
+
+        if (featuredPost) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = featuredPost.content;
+            const excerpt = (tempDiv.textContent || "").substring(0, 180) + '...';
+            dashboardHTML += `
+                <div class="featured-post-card" data-post-id="${featuredPost.id}">
+                    <div class="featured-content">
+                        <span class="featured-badge">Featured Post</span>
+                        <h2>${featuredPost.title}</h2>
+                        <p class="post-excerpt">${excerpt}</p>
+                        <div class="blog-meta">Published ${formatRelativeDate(featuredPost.date)}</div>
+                    </div>
+                </div>`;
+        }
+
+        if (otherPosts.length > 0) {
+            dashboardHTML += '<div class="blog-grid">';
+            otherPosts.forEach(post => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = post.content;
+                const excerpt = (tempDiv.textContent || "").substring(0, 100) + '...';
+                dashboardHTML += `
+                    <div class="blog-summary-card" data-post-id="${post.id}">
+                        <h3>${post.title}</h3>
+                        <p class="post-excerpt">${excerpt}</p>
+                        <div class="blog-meta meta-bottom">Published ${formatRelativeDate(post.date)}</div>
+                    </div>`;
+            });
+            dashboardHTML += '</div>';
+        }
+        mainContent.innerHTML = dashboardHTML || '<p>No posts have been written yet.</p>';
+    }
+
+    // --- Event Listeners ---
+    mainContent.addEventListener('click', (e) => {
+        const card = e.target.closest('[data-post-id]');
+        if (card) {
+            openModalWithPost(card.dataset.postId);
+        }
+    });
+
+    modalCloseButton.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // --- Initial Load ---
+    renderDashboard();
 });
+
