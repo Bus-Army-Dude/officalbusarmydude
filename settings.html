@@ -19,8 +19,6 @@
 
       const settings = JSON.parse(storedSettings);
       
-      // If the user has explicitly chosen "dark" or "light", we apply that class.
-      // If they chose "device", we do nothing and let the CSS media query handle it.
       if (settings.appearanceMode === 'dark') {
         document.documentElement.classList.add('dark-mode');
       } else if (settings.appearanceMode === 'light') {
@@ -32,10 +30,10 @@
   })();
   </script>
   
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body class="settings-page">
@@ -106,70 +104,86 @@
 
       <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Homepage Sections</h2>
-        
+
         <div class="setting-card">
-          <label for="showSocialLinksToggle" class="setting-label"><strong class="setting-title">Show Social Links</strong></label>
+          <label for="showSocialLinksToggle" class="setting-label"><strong class="setting-title">Social Links</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showSocialLinksToggle" role="switch" />
+            <input type="checkbox" id="showSocialLinksToggle" role="switch" aria-label="Toggle Social Links Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showPresidentSectionToggle" class="setting-label"><strong class="setting-title">Show President Section</strong></label>
+          <label for="showPresidentSectionToggle" class="setting-label"><strong class="setting-title">President Section</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showPresidentSectionToggle" role="switch" />
+            <input type="checkbox" id="showPresidentSectionToggle" role="switch" aria-label="Toggle President Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showTiktokShoutoutsToggle" class="setting-label"><strong class="setting-title">Show TikTok Shoutouts</strong></label>
+          <label for="showTiktokShoutoutsToggle" class="setting-label"><strong class="setting-title">TikTok Shoutouts</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showTiktokShoutoutsToggle" role="switch" />
+            <input type="checkbox" id="showTiktokShoutoutsToggle" role="switch" aria-label="Toggle TikTok Shoutouts Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showInstagramShoutoutsToggle" class="setting-label"><strong class="setting-title">Show Instagram Shoutouts</strong></label>
+          <label for="showInstagramShoutoutsToggle" class="setting-label"><strong class="setting-title">Instagram Shoutouts</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showInstagramShoutoutsToggle" role="switch" />
+            <input type="checkbox" id="showInstagramShoutoutsToggle" role="switch" aria-label="Toggle Instagram Shoutouts Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showYoutubeShoutoutsToggle" class="setting-label"><strong class="setting-title">Show YouTube Shoutouts</strong></label>
+          <label for="showYoutubeShoutoutsToggle" class="setting-label"><strong class="setting-title">YouTube Shoutouts</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showYoutubeShoutoutsToggle" role="switch" />
+            <input type="checkbox" id="showYoutubeShoutoutsToggle" role="switch" aria-label="Toggle YouTube Shoutouts Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showUsefulLinksToggle" class="setting-label"><strong class="setting-title">Show Useful Links</strong></label>
+          <label for="showUsefulLinksToggle" class="setting-label"><strong class="setting-title">Useful Links</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showUsefulLinksToggle" role="switch" />
+            <input type="checkbox" id="showUsefulLinksToggle" role="switch" aria-label="Toggle Useful Links Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showCountdownToggle" class="setting-label"><strong class="setting-title">Show Countdown</strong></label>
+          <label for="showCountdownToggle" class="setting-label"><strong class="setting-title">Countdown</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showCountdownToggle" role="switch" />
+            <input type="checkbox" id="showCountdownToggle" role="switch" aria-label="Toggle Countdown Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showBusinessSectionToggle" class="setting-label"><strong class="setting-title">Show Business Section</strong></label>
+          <label for="showBusinessSectionToggle" class="setting-label"><strong class="setting-title">Business Section</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showBusinessSectionToggle" role="switch" />
+            <input type="checkbox" id="showBusinessSectionToggle" role="switch" aria-label="Toggle Business Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showTechInformationToggle" class="setting-label"><strong class="setting-title">Show Tech Information</strong></label>
+          <label for="showTechInformationToggle" class="setting-label"><strong class="setting-title">Tech Information</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showTechInformationToggle" role="switch" />
+            <input type="checkbox" id="showTechInformationToggle" role="switch" aria-label="Toggle Tech Information Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
         <div class="setting-card">
-          <label for="showDisabilitiesSectionToggle" class="setting-label"><strong class="setting-title">Show Disabilities Section</strong></label>
+          <label for="showDisabilitiesSectionToggle" class="setting-label"><strong class="setting-title">Disabilities Section</strong></label>
           <div class="md-switch">
-            <input type="checkbox" id="showDisabilitiesSectionToggle" role="switch" />
+            <input type="checkbox" id="showDisabilitiesSectionToggle" role="switch" aria-label="Toggle Disabilities Section"/>
+            <div class="track"><div class="thumb"></div></div>
           </div>
         </div>
 
+        <div class="setting-card">
+            <div class="setting-label">
+                <strong class="setting-title">Reset Visible Sections</strong>
+                <p class="setting-description">Make all homepage sections visible again.</p>
+            </div>
+            <button id="resetSectionsBtn" class="button reset-button">Reset</button>
+        </div>
       </div>
-
 
       <div class="settings-subsection animate-slide-in">
         <h2 class="subsection-title">Accessibility</h2>
