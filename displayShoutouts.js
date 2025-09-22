@@ -1254,6 +1254,252 @@ function calculateAndDisplayStatusConvertedBI(businessData) {
    }
 } // --- END OF calculateAndDisplayStatusConvertedBI ---
 
+// displayShoutouts.js (Complete Homepage & Blog Display Controller)
+
+// Use the same Firebase config as in admin.js
+const firebaseConfig = {
+    apiKey: "AIzaSyCIZ0fri5V1E2si1xXpBPQQJqj1F_KuuG0",
+    authDomain: "busarmydudewebsite.firebaseapp.com",
+    projectId: "busarmydudewebsite",
+    storageBucket: "busarmydudewebsite.firebasestorage.app",
+    messagingSenderId: "42980404680",
+    appId: "1:42980404680:web:f4f1e54789902a4295e4fd",
+    measurementId: "G-DQPH8YL789"
+};
+
+// Import necessary Firebase functions
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc, Timestamp, orderBy, query, where } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+
+// --- Initialize Firebase ---
+let db;
+let firebaseAppInitialized = false;
+let profileDocRef, presidentDocRef, usefulLinksCollectionRef, socialLinksCollectionRef, disabilitiesCollectionRef, techItemsCollectionRef, shoutoutsMetaRef, faqsCollectionRef, businessDocRef, postsCollectionRef;
+
+try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    // Assign references for all collections
+    profileDocRef = doc(db, "site_config", "mainProfile");
+    businessDocRef = doc(db, "site_config", "businessDetails");
+    presidentDocRef = doc(db, "site_config", "currentPresident");
+    usefulLinksCollectionRef = collection(db, "useful_links");
+    socialLinksCollectionRef = collection(db, "social_links");
+    disabilitiesCollectionRef = collection(db, "disabilities");
+    techItemsCollectionRef = collection(db, "tech_items");
+    shoutoutsMetaRef = doc(db, 'siteConfig', 'shoutoutsMetadata');
+    faqsCollectionRef = collection(db, "faqs");
+    postsCollectionRef = collection(db, "posts"); // Reference for the new blog posts
+    firebaseAppInitialized = true;
+    console.log("Firebase initialized for display.");
+} catch (error) {
+    console.error("Firebase initialization failed:", error);
+    document.body.innerHTML = '<p class="error" style="text-align: center; padding: 50px; color: red; font-size: 1.2em;">Could not connect to required services. Please try again later.</p>';
+}
+
+const assumedBusinessTimezone = 'America/New_York';
+
+// --- ALL YOUR ORIGINAL HELPER AND RENDER FUNCTIONS GO HERE ---
+// (e.g., formatFirestoreTimestamp, renderTikTokCard, renderInstagramCard, displayProfileData, etc.)
+// PASTE ALL OF YOUR ORIGINAL FUNCTIONS FROM YOUR FILE HERE.
+// ...
+// ...
+// --- END OF YOUR ORIGINAL FUNCTIONS ---
+
+
+// ======================================================
+// ===== BLOG LIST PAGE SPECIFIC FUNCTIONS
+// ======================================================
+async function initializeBlogListPageContent() {
+    if (!firebaseAppInitialized) return;
+    console.log("Initializing Blog List Page...");
+
+    const postsGrid = document.getElementById('posts-grid');
+    const featuredContainer = document.getElementById('featured-post-container');
+    const categoryFiltersContainer = document.getElementById('category-filters');
+    const searchInput = document.getElementById('search-input');
+    let allPosts = [];
+
+    function formatBlogTimestamp(timestamp) {
+        if (!timestamp || !(timestamp instanceof Timestamp)) return 'Date not available';
+        return new Date(timestamp.seconds * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    async function fetchPosts() {
+        postsGrid.innerHTML = '<p>Loading latest posts...</p>';
+        try {
+            const postsQuery = query(postsCollectionRef, orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(postsQuery);
+            if (snapshot.empty) {
+                postsGrid.innerHTML = '<p>No posts have been published yet.</p>';
+                return;
+            }
+            allPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            displayPosts(allPosts);
+            populateCategories(allPosts);
+            displayFeaturedPost(allPosts);
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+            postsGrid.innerHTML = `<p class="error">Error loading posts. Check Firestore rules and console.</p>`;
+        }
+    }
+
+    function displayFeaturedPost(posts) {
+        const featuredPost = posts.find(post => post.isFeatured);
+        if (featuredPost) {
+            featuredContainer.innerHTML = `
+                <article class="featured-post">
+                    <h2>${featuredPost.title}</h2>
+                    <div class="post-meta">By ${featuredPost.author} on ${formatBlogTimestamp(featuredPost.createdAt)}</div>
+                    <p>${featuredPost.content.substring(0, 200)}...</p>
+                    <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                </article>`;
+        }
+    }
+
+    function displayPosts(posts) {
+        postsGrid.innerHTML = '';
+        const postsToDisplay = posts.filter(post => !post.isFeatured);
+        if (postsToDisplay.length === 0) {
+            postsGrid.innerHTML = posts.find(p => p.isFeatured) ? '<p>No other posts to display.</p>' : '<p>No posts match your search or filter.</p>';
+            return;
+        }
+        postsToDisplay.forEach(post => {
+            const postCard = document.createElement('div');
+            postCard.className = 'post-card';
+            postCard.innerHTML = `
+                <div class="post-card-content">
+                    <span class="post-category">${post.category}</span>
+                    <h3>${post.title}</h3>
+                    <p class="post-meta">By ${post.author} on ${formatBlogTimestamp(post.createdAt)}</p>
+                    <p>${post.content.substring(0, 100)}...</p>
+                    <a href="post.html?id=${post.id}" class="read-more-btn">Read More</a>
+                </div>`;
+            postsGrid.appendChild(postCard);
+        });
+    }
+
+    function populateCategories(posts) {
+        categoryFiltersContainer.innerHTML = '<button class="category-btn active" data-category="all">All</button>';
+        const categories = [...new Set(posts.map(post => post.category))];
+        categories.forEach(category => {
+            const btn = document.createElement('button');
+            btn.className = 'category-btn';
+            btn.dataset.category = category;
+            btn.textContent = category;
+            categoryFiltersContainer.appendChild(btn);
+        });
+    }
+
+    function filterAndSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const activeCategory = categoryFiltersContainer.querySelector('.category-btn.active').dataset.category;
+        let filteredPosts = allPosts;
+        if (activeCategory !== 'all') {
+            filteredPosts = filteredPosts.filter(post => post.category === activeCategory);
+        }
+        if (searchTerm) {
+            filteredPosts = filteredPosts.filter(post =>
+                post.title.toLowerCase().includes(searchTerm) ||
+                post.content.toLowerCase().includes(searchTerm) ||
+                post.author.toLowerCase().includes(searchTerm)
+            );
+        }
+        displayPosts(filteredPosts);
+    }
+    
+    searchInput.addEventListener('input', filterAndSearch);
+    categoryFiltersContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('category-btn')) {
+            categoryFiltersContainer.querySelector('.category-btn.active').classList.remove('active');
+            e.target.classList.add('active');
+            filterAndSearch();
+        }
+    });
+
+    fetchPosts();
+}
+
+
+// ======================================================
+// ===== SINGLE POST PAGE SPECIFIC FUNCTIONS
+// ======================================================
+async function initializePostPageContent() {
+    if (!firebaseAppInitialized) return;
+    console.log("Initializing Single Post Page...");
+
+    const postContentArea = document.getElementById('post-content-area');
+    const postTitleHeader = document.getElementById('post-title-header');
+    
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('id');
+
+    if (!postId) {
+        postContentArea.innerHTML = '<h1>Post not found</h1><p>No post ID was provided.</p>';
+        return;
+    }
+
+    function formatFullTimestamp(timestamp) {
+        if (!timestamp || !(timestamp instanceof Timestamp)) return '';
+        return new Date(timestamp.seconds * 1000).toLocaleString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+    }
+
+    try {
+        const docRef = doc(db, 'posts', postId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const post = docSnap.data();
+            document.title = post.title;
+            postTitleHeader.textContent = post.title;
+
+            let timestampsHTML = `<span class="post-date">Posted on ${formatFullTimestamp(post.createdAt)}</span>`;
+            if (post.updatedAt && post.createdAt && post.updatedAt.seconds > post.createdAt.seconds + 60) {
+                 timestampsHTML += `<br><span class="update-date">Last updated on ${formatFullTimestamp(post.updatedAt)}</span>`;
+            }
+
+            postContentArea.innerHTML = `
+                <div class="post-author-info">
+                    ${post.authorPfpUrl ? `<img src="${post.authorPfpUrl}" alt="${post.author}" class="author-pfp">` : ''}
+                    <div class="author-details">
+                        <span class="author-name">${post.author}</span>
+                        <div class="post-timestamps">${timestampsHTML}</div>
+                    </div>
+                </div>
+                <div class="post-main-content">
+                    ${post.content.replace(/\n/g, '<br>')}
+                </div>`;
+        } else {
+            postContentArea.innerHTML = '<h1>Post not found</h1><p>The requested post does not exist.</p>';
+        }
+    } catch (error) {
+        console.error("Error fetching post:", error);
+        postContentArea.innerHTML = '<h1>Error</h1><p>Could not load the post.</p>';
+    }
+}
+
+
+// ======================================================
+// ===== PAGE ROUTER (This decides what to run) ======
+// ======================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if we are on the blog list page
+    if (document.getElementById('posts-grid')) {
+        initializeBlogListPageContent();
+    } 
+    // Check if we are on the single post page
+    else if (document.getElementById('post-content-area')) {
+        initializePostPageContent();
+    }
+    // Otherwise, assume we are on the main homepage
+    else if (document.getElementById('main-content-wrapper')) {
+        initializeHomepageContent();
+    }
+});
+
+
 // --- ***** Countdown Timer Logic (v7) ***** ---
 function startEventCountdown(targetTimestamp, countdownTitle, expiredMessageOverride) { 
     const countdownSection = document.querySelector('.countdown-section');
