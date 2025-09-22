@@ -153,19 +153,14 @@ body {
 }
 
 /* --- Profile Status --- */
-/* ✨ FINAL POSITIONING TO PRECISELY MATCH IMAGE ✨ */
 .profile-status-container {
 	position: absolute;
-	width: 12.5%; 
+	width: 12.5%;
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;
 	border: 2px solid var(--content-bg);
 	box-shadow: var(--bubble-shadow);
 	z-index: 2;
-
-	/* * This combination pins the dot to the bottom edge 
-	 * and shifts it horizontally to match the reference.
-	 */
 	bottom: 0;
 	right: 10%;
 }
@@ -181,14 +176,12 @@ body {
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
-	/* ✨ UPDATED MARGIN TO PREVENT OVERLAP ✨ */
 	margin: max(1.875rem, 25px) 0 0.625rem;
 	flex-wrap: wrap;
 }
 
 .username-checkmark h1 {
 	margin: 0;
-	/* ✨ Updated for text scaling ✨ */
 	font-size: clamp(calc(var(--font-size-base, 20px) * 1.5), 3vw, calc(var(--font-size-base, 20px) * 2.5));
 	font-weight: 800;
 	background: linear-gradient(120deg, var(--secondary-text), var(--accent-color));
@@ -197,15 +190,14 @@ body {
 	color: transparent;
 }
 
-.verified { 
+.verified {
 	width: 1.25rem;
 	height: 1.25rem;
-	flex-shrink: 0; 
+	flex-shrink: 0;
 }
 
 /* --- Profile Bio --- */
 .profile-bio {
-	/* ✨ Updated for text scaling ✨ */
 	font-size: var(--font-size-base, 20px);
 	color: var(--secondary-text);
 	line-height: 1.6;
@@ -215,9 +207,9 @@ body {
 
 /* --- Corner Buttons – Onyx Bubble + Icons --- */
 .settings-button,
-.merch-button {
+.merch-button,
+.blog-button {
 	position: absolute;
-	top: 1.25rem;
 	width: 2.75rem;
 	height: 2.75rem;
 	border-radius: var(--radius-lg);
@@ -237,11 +229,13 @@ body {
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.settings-button { right: 1.25rem; }
-.merch-button    { left: 1.25rem; }
+.settings-button { top: 1.25rem; right: 1.25rem; }
+.merch-button    { top: 1.25rem; left: 1.25rem; }
+.blog-button     { bottom: 1.25rem; left: 1.25rem; }
 
 .settings-button:hover,
-.merch-button:hover {
+.merch-button:hover,
+.blog-button:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 6px 20px var(--shadow-color), 0 0 8px var(--glow-color);
 }
@@ -249,9 +243,11 @@ body {
 .settings-button img,
 .merch-button img,
 .settings-button svg,
-.merch-button svg {
+.merch-button svg,
+.blog-button i {
 	width: 1.25rem;
 	height: 1.25rem;
+    font-size: 1.25rem;
 	object-fit: contain;
 }
 
@@ -264,18 +260,19 @@ body {
 @media screen and (max-width: 768px) {
 	.profile-pic-wrapper { width: 7.5rem; height: 7.5rem; }
 	.profile-status-container { width: 14%; }
-	.settings-button, .merch-button { width: 2.375rem; height: 2.375rem; }
-	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.3); } /* ✨ Updated for text scaling ✨ */
-	.profile-bio { font-size: calc(var(--font-size-base, 20px) * 0.95); } /* ✨ Updated for text scaling ✨ */
+	.settings-button, .merch-button, .blog-button { width: 2.375rem; height: 2.375rem; }
+	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.3); }
+	.profile-bio { font-size: calc(var(--font-size-base, 20px) * 0.95); }
 }
 
 @media screen and (max-width: 480px) {
 	.profile-pic-wrapper { width: 6.25rem; height: 6.25rem; }
 	.profile-status-container { width: 16%; }
-	.settings-button, .merch-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
+	.settings-button, .merch-button, .blog-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
+    .blog-button { top: auto; bottom: 0.9375rem; left: 0.9375rem;}
 	.settings-button { right: 0.9375rem; }
 	.merch-button { left: 0.9375rem; }
-	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.2); } /* ✨ Updated for text scaling ✨ */
+	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.2); }
 }
 
 #status-widget {
