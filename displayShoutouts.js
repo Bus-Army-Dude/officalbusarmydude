@@ -28,6 +28,8 @@ let techItemsCollectionRef;
 let shoutoutsMetaRef; 
 let faqsCollectionRef;
 let businessDocRef; 
+let postsCollectionRef; // 🔥 declare this too
+
 
 try {
     const app = initializeApp(firebaseConfig);
@@ -42,7 +44,7 @@ try {
     techItemsCollectionRef = collection(db, "tech_items");
     shoutoutsMetaRef = doc(db, 'siteConfig', 'shoutoutsMetadata');
     faqsCollectionRef = collection(db, "faqs");
-    postsCollectionRef = collection(db, "posts"); // Blog collection reference
+    postsCollectionRef = collection(db, "posts");
     firebaseAppInitialized = true;
     console.log("Firebase initialized for display.");
 } catch (error) {
