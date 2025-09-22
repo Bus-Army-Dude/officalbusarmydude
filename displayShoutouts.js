@@ -89,6 +89,34 @@ function formatFirestoreTimestamp(firestoreTimestamp) {
     }
 }
 
+function formatRelativeTime(createdAt, updatedAt) {
+    if (!createdAt) return "Posted (unknown time)";
+    const createdDate = createdAt.toDate();
+    const now = new Date();
+    const diffMs = now - createdDate;
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    let result = "";
+    if (diffMinutes < 60) {
+        result = `Posted ${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
+    } else if (diffHours < 24) {
+        result = `Posted ${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+    } else if (diffDays < 30) {
+        result = `Posted ${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+    } else {
+        result = `Posted on ${createdDate.toLocaleDateString()}`;
+    }
+
+        if (updatedAt && updatedAt.toDate() > createdDate) {
+        const updatedDate = updatedAt.toDate();
+        result += ` (Edited on ${updatedDate.toLocaleDateString()} at ${updatedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
+    }
+
+    return result;
+}
+
 // --- Functions to Render Cards (Shoutouts, Tech, FAQs) ---
 // (Your existing renderTikTokCard, renderInstagramCard, renderYouTubeCard, renderTechItemHomepage, renderFaqItemHomepage functions remain here, unchanged from your provided file)
 function renderTikTokCard(account) {
@@ -1271,33 +1299,7 @@ async function initializeBlogListPageContent() {
     let allPosts = [];
 
     // --- Helper: relative time formatting ---
-function formatRelativeTime(createdAt, updatedAt) {
-    if (!createdAt) return "Posted (unknown time)";
-    const createdDate = createdAt.toDate();
-    const now = new Date();
-    const diffMs = now - createdDate;
-    const diffMinutes = Math.floor(diffMs / (1000 * 60));
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-    let result = "";
-    if (diffMinutes < 60) {
-        result = `Posted ${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
-    } else if (diffHours < 24) {
-        result = `Posted ${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
-    } else if (diffDays < 30) {
-        result = `Posted ${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
-    } else {
-        result = `Posted on ${createdDate.toLocaleDateString()}`;
-    }
-
-        if (updatedAt && updatedAt.toDate() > createdDate) {
-        const updatedDate = updatedAt.toDate();
-        result += ` (Edited on ${updatedDate.toLocaleDateString()} at ${updatedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
-    }
-
-    return result;
-}
     async function fetchPosts() {
         postsGrid.innerHTML = '<p>Loading latest posts...</p>';
         try {
