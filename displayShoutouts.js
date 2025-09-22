@@ -11,13 +11,13 @@ const firebaseConfig = {
     measurementId: "G-DQPH8YL789" // Optional
 };
 
-// Import initialized Firebase instances from firebase-init.js
-import { db } from './firebase-init.js';
-import { 
-    collection, getDocs, doc, getDoc, Timestamp, orderBy, query, where 
-} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+// Import necessary Firebase functions (v9+ modular SDK)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, getDoc, Timestamp, orderBy, query, where } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 
-let firebaseAppInitialized = !!db; // true if db exists
+// --- Initialize Firebase ---
+let db;
+let firebaseAppInitialized = false;
 // Declare references in module scope
 let profileDocRef; 
 let presidentDocRef;
