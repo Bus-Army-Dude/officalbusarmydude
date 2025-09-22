@@ -1270,9 +1270,33 @@ async function initializeBlogListPageContent() {
     const searchInput = document.getElementById('search-input');
     let allPosts = [];
 
-    function formatBlogTimestamp(timestamp) {
-        if (!timestamp || !(timestamp instanceof Timestamp)) return 'Date not available';
-        return new Date(timestamp.seconds * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    // --- Helper: relative time formatting ---
+    function formatRelativeTime(createdAt, updatedAt) {
+        if (!createdAt) return "Posted (unknown time)";
+        const createdDate = createdAt.toDate();
+        const now = new Date();
+        const diffMs = now - createdDate;
+        const diffMinutes = Math.floor(diffMs / (1000 * 60));
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        let result = "";
+        if (diffMinutes < 60) {
+            result = `Posted ${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
+        } else if (diffHours < 24) {
+            result = `Posted ${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+        } else if (diffDays < 30) {
+            result = `Posted ${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+        } else {
+            result = `Posted on ${createdDate.toLocaleDateString()}`;
+        }
+
+        if (updatedAt && updatedAt.toDate() > createdDate) {
+            const updatedDate = updatedAt.toDate();
+            result += ` (Edited on ${updatedDate.toLocaleDateString()} at ${updatedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
+        }
+
+        return result;
     }
 
     async function fetchPosts() {
@@ -1300,7 +1324,11 @@ async function initializeBlogListPageContent() {
             featuredContainer.innerHTML = `
                 <article class="featured-post">
                     <h2>${featuredPost.title}</h2>
-                    <div class="post-meta">By ${featuredPost.author} on ${formatBlogTimestamp(featuredPost.createdAt)}</div>
+                    <div class="post-meta">
+                        ${featuredPost.authorPfpUrl ? `<img src="${featuredPost.authorPfpUrl}" class="author-pfp" alt="${featuredPost.author}">` : ""}
+                        <span>By ${featuredPost.author}</span>
+                        <span class="post-time">${formatRelativeTime(featuredPost.createdAt, featuredPost.updatedAt)}</span>
+                    </div>
                     <p>${featuredPost.content.substring(0, 200)}...</p>
                     <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read Full Story <i class="fas fa-arrow-right"></i></a>
                 </article>`;
@@ -1321,7 +1349,11 @@ async function initializeBlogListPageContent() {
                 <div class="post-card-content">
                     <span class="post-category">${post.category}</span>
                     <h3>${post.title}</h3>
-                    <p class="post-meta">By ${post.author} on ${formatBlogTimestamp(post.createdAt)}</p>
+                    <div class="post-meta">
+                        ${post.authorPfpUrl ? `<img src="${post.authorPfpUrl}" class="author-pfp" alt="${post.author}">` : ""}
+                        <span>By ${post.author}</span>
+                        <span class="post-time">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>
+                    </div>
                     <p>${post.content.substring(0, 100)}...</p>
                     <a href="post.html?id=${post.id}" class="read-more-btn">Read More</a>
                 </div>`;
@@ -1389,13 +1421,6 @@ async function initializePostPageContent() {
         return;
     }
 
-    function formatFullTimestamp(timestamp) {
-        if (!timestamp || !(timestamp instanceof Timestamp)) return '';
-        return new Date(timestamp.seconds * 1000).toLocaleString('en-US', {
-            year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-    }
-
     try {
         const docRef = doc(db, 'posts', postId);
         const docSnap = await getDoc(docRef);
@@ -1405,10 +1430,7 @@ async function initializePostPageContent() {
             document.title = post.title;
             postTitleHeader.textContent = post.title;
 
-            let timestampsHTML = `<span class="post-date">Posted on ${formatFullTimestamp(post.createdAt)}</span>`;
-            if (post.updatedAt && post.createdAt && post.updatedAt.seconds > post.createdAt.seconds + 60) {
-                 timestampsHTML += `<br><span class="update-date">Last updated on ${formatFullTimestamp(post.updatedAt)}</span>`;
-            }
+            let timestampsHTML = `<span class="post-date">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>`;
 
             postContentArea.innerHTML = `
                 <div class="post-author-info">
@@ -1419,7 +1441,7 @@ async function initializePostPageContent() {
                     </div>
                 </div>
                 <div class="post-main-content">
-                    ${post.content.replace(/\n/g, '<br>')}
+                    ${post.content.replace(/\\n/g, '<br>')}
                 </div>`;
         } else {
             postContentArea.innerHTML = '<h1>Post not found</h1><p>The requested post does not exist.</p>';
@@ -1448,6 +1470,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeHomepageContent();
     }
 });
+
 
 
 // --- ***** Countdown Timer Logic (v7) ***** ---
