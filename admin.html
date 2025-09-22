@@ -154,7 +154,7 @@
     <div class="form-group">
         <label for="countdown-datetime-input">Countdown Target Date & Time:</label>
         <input type="text" id="countdown-datetime-input" name="countdownTargetDateTime" placeholder="YYYY-MM-DDTHH:MM:SS (e.g., 2025-12-31T23:59:59)">
-         <small>Enter the target date and time in your local timezone (Bowling Green, Ohio is EDT - current time Sun, Apr 20 2025 2:21 PM EDT) using the specified format.</small>
+         <small>Enter the target date and time in your local timezone (Bowling Green, Ohio is EDT - current time Mon, Sep 22 2025 1:14 PM EDT) using the specified format.</small>
     </div>
 
     <div class="form-group">
@@ -170,6 +170,25 @@
     <div id="settings-status-message" class="status-message" role="status" aria-live="polite"></div>
 
 </section>
+            
+            <section class="admin-section" id="blog-management" aria-labelledby="blog-heading">
+                <h3 id="blog-heading">Blog Management</h3>
+                <div class="form-group">
+                    <input type="text" id="post-title" placeholder="Post Title" class="admin-input">
+                    <input type="text" id="post-author" placeholder="Author Name" class="admin-input">
+                    <input type="text" id="post-author-pfp" placeholder="Author Profile Picture URL" class="admin-input">
+                    <input type="text" id="post-category" placeholder="Category (e.g., Tech, Updates)" class="admin-input">
+                    <textarea id="post-content" placeholder="Post Content (supports basic HTML)" class="admin-textarea"></textarea>
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox" id="post-featured">
+                        Mark as Featured Post (This will un-feature any other post)
+                    </label>
+                    <input type="hidden" id="post-id">
+                    <button onclick="savePost()" class="admin-btn">Save Post</button>
+                </div>
+                <h3>Existing Posts</h3>
+                <div id="posts-list" class="admin-list"></div>
+            </section>
 
              <section class="admin-section" id="president-management" aria-labelledby="president-heading">
                 <h3 id="president-heading">Manage Current President Info</h3>
@@ -472,7 +491,7 @@
 
                     <h4>Regular Business Hours</h4>
                     <p><small><i>Enter all times based on US Eastern Time (ET / New York).
-                            They will be automatically converted for visitors.</i></small></p>
+                                 They will be automatically converted for visitors.</i></small></p>
                     <div id="regular-hours-container" class="hours-grid"></div>
 
                     <h4>Holiday Hours / Specific Date Closures</h4>
@@ -510,9 +529,9 @@
                 <div class="admin-preview-container">
                     <h4>Live Preview (Simulated Visitor View)</h4>
                     <p><small><i>This preview uses your current browser time and attempts to simulate
-                            how a visitor in your timezone would see the hours and status based on the
-                            unsaved values above. The actual display depends on each visitor's timezone.
-                            Assumes ET input.</i></small></p>
+                                 how a visitor in your timezone would see the hours and status based on the
+                                 unsaved values above. The actual display depends on each visitor's timezone.
+                                 Assumes ET input.</i></small></p>
                     <div class="preview-content">
                         <div id="admin-preview-status" class="preview-status">
                             Status: Update form to preview...
@@ -592,7 +611,7 @@
                     <div class="form-group">
                         <label>Preview:</label>
                         <div id="add-tech-item-preview" class="tech-preview-area">
-                               <p><small>Preview will appear here as you type.</small></p>
+                             <p><small>Preview will appear here as you type.</small></p>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -639,7 +658,7 @@
                 </h5>
                 <div class="list-controls">
                      <input type="search" id="search-disabilities" placeholder="Search Disability Links..." aria-label="Search Disability Links">
-                  </div>
+                   </div>
                 <div id="disabilities-list-admin" class="list-container-admin" role="list" aria-labelledby="existing-disabilities-heading">
                     <p>Loading disability links...</p>
                     </div>
@@ -863,11 +882,13 @@
         </div>
         <div id="edit-tech-status-message" class="status-message" role="status" aria-live="polite"></div>
        <div class="form-actions">
-          <button type="submit" class="button-primary">Save Tech Changes</button>
-          <button type="button" class="secondary-button" id="cancel-edit-tech-button-secondary">Cancel</button>
+         <button type="submit" class="button-primary">Save Tech Changes</button>
+         <button type="button" class="secondary-button" id="cancel-edit-tech-button-secondary">Cancel</button>
        </div>
         </form>
     </div>
 </div>
 
 <script type="module" src="admin.js"></script>
+</body>
+</html>
