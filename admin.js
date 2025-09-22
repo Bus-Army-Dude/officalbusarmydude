@@ -1342,140 +1342,158 @@ function setupBusinessInfoListeners() {
 // == END: ALL BUSINESS INFO CODE FOR admin.js ==========
 // ======================================================
 
-    // --- Blog Management Functions ---
+   // ======================================================
+    // ===== START: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
+    // ======================================================
 
-// Save or Update a Blog Post
-async function savePost() {
-    const postId = document.getElementById('post-id').value;
-    const title = document.getElementById('post-title').value;
-    const author = document.getElementById('post-author').value;
-    const authorPfpUrl = document.getElementById('post-author-pfp').value;
-    const category = document.getElementById('post-category').value;
-    const content = document.getElementById('post-content').value;
-    const isFeatured = document.getElementById('post-featured').checked;
+    // Save or Update a Blog Post
+    async function savePost() {
+        const postId = document.getElementById('post-id').value;
+        const title = document.getElementById('post-title').value;
+        const author = document.getElementById('post-author').value;
+        const authorPfpUrl = document.getElementById('post-author-pfp').value;
+        const category = document.getElementById('post-category').value;
+        const content = document.getElementById('post-content').value;
+        const isFeatured = document.getElementById('post-featured').checked;
 
-    if (!title || !author || !content || !category) {
-        alert('Please fill out all fields, including Category.');
-        return;
-    }
-
-    // If marking as featured, ensure no other post is featured
-    if (isFeatured) {
-        const featuredQuery = await db.collection('posts').where('isFeatured', '==', true).get();
-        const batch = db.batch();
-        featuredQuery.forEach(doc => {
-            if (doc.id !== postId) {
-                batch.update(doc.ref, { isFeatured: false });
-            }
-        });
-        await batch.commit();
-    }
-
-    const postData = {
-        title,
-        author,
-        authorPfpUrl,
-        category,
-        content,
-        isFeatured,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    try {
-        if (postId) {
-            await db.collection('posts').doc(postId).update(postData);
-            alert('Post updated successfully!');
-        } else {
-            postData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-            await db.collection('posts').add(postData);
-            alert('Post saved successfully!');
-        }
-        resetPostForm();
-        loadPosts();
-    } catch (error) {
-        console.error("Error saving post: ", error);
-        alert('Error saving post.');
-    }
-}
-
-function resetPostForm() {
-    document.getElementById('post-id').value = '';
-    document.getElementById('post-title').value = '';
-    document.getElementById('post-author').value = '';
-    document.getElementById('post-author-pfp').value = '';
-    document.getElementById('post-category').value = '';
-    document.getElementById('post-content').value = '';
-    document.getElementById('post-featured').checked = false;
-}
-
-
-// Load Posts into Admin Panel
-async function loadPosts() {
-    const postsListDiv = document.getElementById('posts-list');
-    postsListDiv.innerHTML = 'Loading posts...';
-    try {
-        const snapshot = await db.collection('posts').orderBy('createdAt', 'desc').get();
-        if (snapshot.empty) {
-            postsListDiv.innerHTML = 'No posts found.';
+        if (!title || !author || !content || !category) {
+            alert('Please fill out all fields, including Category.');
             return;
         }
-        let html = '';
-        snapshot.forEach(doc => {
-            const post = doc.data();
-            html += `
-                <div class="admin-list-item">
-                    <span>
-                        ${post.title}
-                        <small>(${post.category})</small>
-                        ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
-                    </span>
-                    <div>
-                        <button onclick="editPost('${doc.id}')" class="admin-btn-small">Edit</button>
-                        <button onclick="deletePost('${doc.id}')" class="admin-btn-small-danger">Delete</button>
-                    </div>
-                </div>
-            `;
-        });
-        postsListDiv.innerHTML = html;
-    } catch (error) {
-        console.error("Error loading posts: ", error);
-        postsListDiv.innerHTML = 'Error loading posts.';
-    }
-}
 
-// Edit a Post
-async function editPost(id) {
-    try {
-        const doc = await db.collection('posts').doc(id).get();
-        if (doc.exists) {
-            const post = doc.data();
-            document.getElementById('post-id').value = id;
-            document.getElementById('post-title').value = post.title;
-            document.getElementById('post-author').value = post.author;
-            document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
-            document.getElementById('post-category').value = post.category || '';
-            document.getElementById('post-content').value = post.content;
-            document.getElementById('post-featured').checked = post.isFeatured || false;
-            window.scrollTo(0, document.getElementById('post-title').offsetTop);
+        // If marking as featured, ensure no other post is featured
+        if (isFeatured) {
+            const postsRef = collection(db, 'posts');
+            const featuredQuery = query(postsRef, where('isFeatured', '==', true));
+            const featuredSnapshot = await getDocs(featuredQuery);
+            
+            const batch = writeBatch(db);
+            featuredSnapshot.forEach(doc => {
+                // Un-feature any document that isn't the current one being edited
+                if (doc.id !== postId) {
+                    batch.update(doc.ref, { isFeatured: false });
+                }
+            });
+            await batch.commit();
         }
-    } catch (error) {
-        console.error("Error fetching post for edit: ", error);
-    }
-}
 
-// --- Make sure you still have your deletePost function! ---
-async function deletePost(id) {
-    if (confirm('Are you sure you want to delete this post?')) {
+        const postData = {
+            title,
+            author,
+            authorPfpUrl,
+            category,
+            content,
+            isFeatured,
+            updatedAt: serverTimestamp() // Use server's timestamp
+        };
+
         try {
-            await db.collection('posts').doc(id).delete();
-            alert('Post deleted successfully!');
-            loadPosts(); // Refresh the list
+            if (postId) {
+                // Update existing post
+                const postRef = doc(db, 'posts', postId);
+                await updateDoc(postRef, postData);
+                alert('Post updated successfully!');
+            } else {
+                // Add new post - also set createdAt
+                postData.createdAt = serverTimestamp();
+                await addDoc(collection(db, 'posts'), postData);
+                alert('Post saved successfully!');
+            }
+            resetPostForm();
+            loadPosts();
         } catch (error) {
-            console.error("Error deleting post: ", error);
-            alert('Error deleting post.');
+            console.error("Error saving post: ", error);
+            alert('Error saving post.');
         }
     }
-}
+
+    function resetPostForm() {
+        document.getElementById('post-id').value = '';
+        document.getElementById('post-title').value = '';
+        document.getElementById('post-author').value = '';
+        document.getElementById('post-author-pfp').value = '';
+        document.getElementById('post-category').value = '';
+        document.getElementById('post-content').value = '';
+        document.getElementById('post-featured').checked = false;
+    }
+
+    // Load Posts into Admin Panel
+    async function loadPosts() {
+        const postsListDiv = document.getElementById('posts-list');
+        if (!postsListDiv) return; // Safety check
+        postsListDiv.innerHTML = 'Loading posts...';
+        try {
+            const postsRef = collection(db, 'posts');
+            const q = query(postsRef, orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+            
+            if (snapshot.empty) {
+                postsListDiv.innerHTML = 'No posts found.';
+                return;
+            }
+            let html = '';
+            snapshot.forEach(doc => {
+                const post = doc.data();
+                html += `
+                    <div class="admin-list-item">
+                        <span>
+                            ${post.title}
+                            <small>(${post.category})</small>
+                            ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
+                        </span>
+                        <div>
+                            <button onclick="editPost('${doc.id}')" class="admin-btn-small">Edit</button>
+                            <button onclick="deletePost('${doc.id}')" class="admin-btn-small-danger">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+            postsListDiv.innerHTML = html;
+        } catch (error) {
+            console.error("Error loading posts: ", error);
+            postsListDiv.innerHTML = '<p class="error">Error loading posts. Check console.</p>';
+        }
+    }
+
+    // Edit a Post
+    async function editPost(id) {
+        try {
+            const postRef = doc(db, 'posts', id);
+            const docSnap = await getDoc(postRef);
+
+            if (docSnap.exists()) {
+                const post = docSnap.data();
+                document.getElementById('post-id').value = id;
+                document.getElementById('post-title').value = post.title;
+                document.getElementById('post-author').value = post.author;
+                document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
+                document.getElementById('post-category').value = post.category || '';
+                document.getElementById('post-content').value = post.content;
+                document.getElementById('post-featured').checked = post.isFeatured || false;
+                window.scrollTo(0, document.getElementById('post-title').offsetTop);
+            }
+        } catch (error) {
+            console.error("Error fetching post for edit: ", error);
+            alert("Error fetching post for editing.");
+        }
+    }
+
+    // Delete a Post
+    async function deletePost(id) {
+        if (confirm('Are you sure you want to delete this post?')) {
+            try {
+                await deleteDoc(doc(db, 'posts', id));
+                alert('Post deleted successfully!');
+                loadPosts(); // Refresh the list
+            } catch (error) {
+                console.error("Error deleting post: ", error);
+                alert('Error deleting post.');
+            }
+        }
+    }
+    // ======================================================
+    // ===== END: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
+    // ======================================================
     
 /** Filters and displays shoutouts in the admin list */
 function displayFilteredShoutouts(platform) {
@@ -2093,15 +2111,14 @@ onAuthStateChanged(auth, user => {
                 loadPresidentData();
                 loadTechItemsAdmin();
                 loadPosts();
+
+                resetInactivityTimer();
+                addActivityListeners();
             } catch (error) {
                 // If any data-loading function fails, it will be caught here
                 console.error("❌ CRITICAL ERROR during data loading:", error);
                 showAdminStatus(`Error loading admin data: ${error.message}. Check console.`, true);
             }
-
-            // 3. Start the inactivity timer
-            resetInactivityTimer();
-            addActivityListeners();
 
         } else {
             // --- User is NOT an authorized admin ---
@@ -4175,6 +4192,10 @@ async function loadDisabilitiesAdmin() {
 
 }); // End DOMContentLoaded Event Listener
 
+// Blog Functions
+window.savePost = savePost;
+window.editPost = editPost;
+window.deletePost = deletePost;
 
 window.handleCredentialResponse = (response) => {
   handleGoogleSignIn(response);
