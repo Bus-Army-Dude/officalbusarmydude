@@ -42,6 +42,7 @@ try {
     techItemsCollectionRef = collection(db, "tech_items");
     shoutoutsMetaRef = doc(db, 'siteConfig', 'shoutoutsMetadata');
     faqsCollectionRef = collection(db, "faqs");
+    postsCollectionRef = collection(db, "posts"); // Blog collection reference
     firebaseAppInitialized = true;
     console.log("Firebase initialized for display.");
 } catch (error) {
