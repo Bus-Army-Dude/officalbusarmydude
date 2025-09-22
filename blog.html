@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF--8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusArmyDude - Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>My Blog & News</h1>
+        <a href="index.html" class="home-link"><i class="fas fa-home"></i> Back to Home</a>
+    </header>
+
+    <main class="blog-container">
+        <section id="featured-post-container" class="featured-post-container"></section>
+
+        <div class="filter-controls">
+            <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
+            <div id="category-filters" class="category-filters">
+                <button class="category-btn active" data-category="all">All</button>
+            </div>
+        </div>
+
+        <section id="posts-grid" class="posts-grid">
+            </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="firebase-init.js"></script>
+    <script src="blog.js"></script>
+    <script src="script.js"></script>
+    <script src="settings.js"></script>
+</body>
+</html>
