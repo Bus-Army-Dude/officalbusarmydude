@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Caleb's Link In Bio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="settings.css">
-    <link rel="stylesheet" href="blog.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Caleb's Link In Bio</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="settings.css">
+  <link rel="stylesheet" href="blog.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="dark-mode">
-    <header class="main-header">
-        <h1>Blog & News</h1>
-        <a href="index.html" class="home-link"><i class="fas fa-home"></i> Back to Main Page</a>
-    </header>
-    <main class="blog-container">
-        <section id="featured-post-container" class="featured-post-container"></section>
-        <div class="filter-controls">
-            <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
-            <div id="category-filters" class="category-filters">
-                <button class="category-btn active" data-category="all">All</button>
-            </div>
-        </div>
-        <section id="posts-grid" class="posts-grid"></section>
-    </main>
-    
-    <script type="module" src="displayShoutouts.js"></script>
-    <script src="settings.js"></script>
+  <header class="main-header">
+    <h1>Blog & News</h1>
+    <a href="index.html" class="home-link"><i class="fas fa-home"></i> Back to Main Page</a>
+  </header>
+
+  <main class="blog-container">
+    <!-- Featured Post -->
+    <section id="featured-post-container" class="featured-post-container">
+      <h2 class="section-title">Featured Post</h2>
+      <!-- JS will inject featured post here -->
+    </section>
+
+    <!-- Search + Categories -->
+    <div class="filter-controls">
+      <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
+      <div id="category-filters" class="category-filters">
+        <button class="category-btn active" data-category="all">All</button>
+      </div>
+    </div>
+
+    <!-- Posts Grid -->
+    <section id="posts-grid" class="posts-grid">
+      <!-- JS will inject posts here -->
+    </section>
+  </main>
+  
+  <!-- Scripts -->
+  <script type="module" src="displayShoutouts.js"></script>
+  <script src="settings.js"></script>
 </body>
 </html>
