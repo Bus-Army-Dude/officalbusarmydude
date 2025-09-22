@@ -1254,59 +1254,6 @@ function calculateAndDisplayStatusConvertedBI(businessData) {
    }
 } // --- END OF calculateAndDisplayStatusConvertedBI ---
 
-// displayShoutouts.js (Complete Homepage & Blog Display Controller)
-
-// Use the same Firebase config as in admin.js
-const firebaseConfig = {
-    apiKey: "AIzaSyCIZ0fri5V1E2si1xXpBPQQJqj1F_KuuG0",
-    authDomain: "busarmydudewebsite.firebaseapp.com",
-    projectId: "busarmydudewebsite",
-    storageBucket: "busarmydudewebsite.firebasestorage.app",
-    messagingSenderId: "42980404680",
-    appId: "1:42980404680:web:f4f1e54789902a4295e4fd",
-    measurementId: "G-DQPH8YL789"
-};
-
-// Import necessary Firebase functions
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc, Timestamp, orderBy, query, where } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-
-// --- Initialize Firebase ---
-let db;
-let firebaseAppInitialized = false;
-let profileDocRef, presidentDocRef, usefulLinksCollectionRef, socialLinksCollectionRef, disabilitiesCollectionRef, techItemsCollectionRef, shoutoutsMetaRef, faqsCollectionRef, businessDocRef, postsCollectionRef;
-
-try {
-    const app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
-    // Assign references for all collections
-    profileDocRef = doc(db, "site_config", "mainProfile");
-    businessDocRef = doc(db, "site_config", "businessDetails");
-    presidentDocRef = doc(db, "site_config", "currentPresident");
-    usefulLinksCollectionRef = collection(db, "useful_links");
-    socialLinksCollectionRef = collection(db, "social_links");
-    disabilitiesCollectionRef = collection(db, "disabilities");
-    techItemsCollectionRef = collection(db, "tech_items");
-    shoutoutsMetaRef = doc(db, 'siteConfig', 'shoutoutsMetadata');
-    faqsCollectionRef = collection(db, "faqs");
-    postsCollectionRef = collection(db, "posts"); // Reference for the new blog posts
-    firebaseAppInitialized = true;
-    console.log("Firebase initialized for display.");
-} catch (error) {
-    console.error("Firebase initialization failed:", error);
-    document.body.innerHTML = '<p class="error" style="text-align: center; padding: 50px; color: red; font-size: 1.2em;">Could not connect to required services. Please try again later.</p>';
-}
-
-const assumedBusinessTimezone = 'America/New_York';
-
-// --- ALL YOUR ORIGINAL HELPER AND RENDER FUNCTIONS GO HERE ---
-// (e.g., formatFirestoreTimestamp, renderTikTokCard, renderInstagramCard, displayProfileData, etc.)
-// PASTE ALL OF YOUR ORIGINAL FUNCTIONS FROM YOUR FILE HERE.
-// ...
-// ...
-// --- END OF YOUR ORIGINAL FUNCTIONS ---
-
-
 // ======================================================
 // ===== BLOG LIST PAGE SPECIFIC FUNCTIONS
 // ======================================================
