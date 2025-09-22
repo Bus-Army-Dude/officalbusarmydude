@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => { //
     const socialLinksCollectionRef = collection(db, "social_links");
     // Reference for President Info
     const presidentDocRef = doc(db, "site_config", "currentPresident"); 
+    // Reference for Blog Posts
+    const postsCollectionRef = collection(db, "posts"); // Blog collection reference
+
 
     // Firestore Reference for Disabilities
     const disabilitiesCollectionRef = collection(db, "disabilities");
@@ -1361,42 +1364,30 @@ function setupBusinessInfoListeners() {
             return;
         }
 
-        // If marking as featured, ensure no other post is featured
         if (isFeatured) {
-            const postsRef = collection(db, 'posts');
-            const featuredQuery = query(postsRef, where('isFeatured', '==', true));
+            const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
             const featuredSnapshot = await getDocs(featuredQuery);
-            
             const batch = writeBatch(db);
-            featuredSnapshot.forEach(doc => {
-                // Un-feature any document that isn't the current one being edited
-                if (doc.id !== postId) {
-                    batch.update(doc.ref, { isFeatured: false });
+            featuredSnapshot.forEach(docSnapshot => {
+                if (docSnapshot.id !== postId) {
+                    batch.update(docSnapshot.ref, { isFeatured: false });
                 }
             });
             await batch.commit();
         }
 
         const postData = {
-            title,
-            author,
-            authorPfpUrl,
-            category,
-            content,
-            isFeatured,
-            updatedAt: serverTimestamp() // Use server's timestamp
+            title, author, authorPfpUrl, category, content, isFeatured,
+            updatedAt: serverTimestamp()
         };
 
         try {
             if (postId) {
-                // Update existing post
-                const postRef = doc(db, 'posts', postId);
-                await updateDoc(postRef, postData);
+                await updateDoc(doc(db, 'posts', postId), postData);
                 alert('Post updated successfully!');
             } else {
-                // Add new post - also set createdAt
                 postData.createdAt = serverTimestamp();
-                await addDoc(collection(db, 'posts'), postData);
+                await addDoc(postsCollectionRef, postData);
                 alert('Post saved successfully!');
             }
             resetPostForm();
@@ -1408,59 +1399,52 @@ function setupBusinessInfoListeners() {
     }
 
     function resetPostForm() {
-        document.getElementById('post-id').value = '';
-        document.getElementById('post-title').value = '';
-        document.getElementById('post-author').value = '';
-        document.getElementById('post-author-pfp').value = '';
-        document.getElementById('post-category').value = '';
-        document.getElementById('post-content').value = '';
-        document.getElementById('post-featured').checked = false;
+        const form = document.getElementById('blog-management');
+        if (form) {
+            form.querySelector('#post-id').value = '';
+            form.querySelector('#post-title').value = '';
+            form.querySelector('#post-author').value = '';
+            form.querySelector('#post-author-pfp').value = '';
+            form.querySelector('#post-category').value = '';
+            form.querySelector('#post-content').value = '';
+            form.querySelector('#post-featured').checked = false;
+        }
     }
 
-    // Load Posts into Admin Panel
     async function loadPosts() {
         const postsListDiv = document.getElementById('posts-list');
-        if (!postsListDiv) return; // Safety check
+        if (!postsListDiv) return;
         postsListDiv.innerHTML = 'Loading posts...';
         try {
-            const postsRef = collection(db, 'posts');
-            const q = query(postsRef, orderBy('createdAt', 'desc'));
+            const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
             const snapshot = await getDocs(q);
-            
             if (snapshot.empty) {
                 postsListDiv.innerHTML = 'No posts found.';
                 return;
             }
-            let html = '';
-            snapshot.forEach(doc => {
-                const post = doc.data();
-                html += `
+            postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
+                const post = docSnapshot.data();
+                return `
                     <div class="admin-list-item">
                         <span>
-                            ${post.title}
-                            <small>(${post.category})</small>
+                            ${post.title} <small>(${post.category})</small>
                             ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
                         </span>
                         <div>
-                            <button onclick="editPost('${doc.id}')" class="admin-btn-small">Edit</button>
-                            <button onclick="deletePost('${doc.id}')" class="admin-btn-small-danger">Delete</button>
+                            <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
+                            <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
                         </div>
-                    </div>
-                `;
-            });
-            postsListDiv.innerHTML = html;
+                    </div>`;
+            }).join('');
         } catch (error) {
             console.error("Error loading posts: ", error);
-            postsListDiv.innerHTML = '<p class="error">Error loading posts. Check console.</p>';
+            postsListDiv.innerHTML = `<p class="error">Error loading posts: ${error.message}. Check console and Firestore rules.</p>`;
         }
     }
 
-    // Edit a Post
     async function editPost(id) {
         try {
-            const postRef = doc(db, 'posts', id);
-            const docSnap = await getDoc(postRef);
-
+            const docSnap = await getDoc(doc(db, 'posts', id));
             if (docSnap.exists()) {
                 const post = docSnap.data();
                 document.getElementById('post-id').value = id;
@@ -1470,21 +1454,19 @@ function setupBusinessInfoListeners() {
                 document.getElementById('post-category').value = post.category || '';
                 document.getElementById('post-content').value = post.content;
                 document.getElementById('post-featured').checked = post.isFeatured || false;
-                window.scrollTo(0, document.getElementById('post-title').offsetTop);
+                document.getElementById('post-title').focus();
             }
         } catch (error) {
             console.error("Error fetching post for edit: ", error);
-            alert("Error fetching post for editing.");
         }
     }
 
-    // Delete a Post
     async function deletePost(id) {
         if (confirm('Are you sure you want to delete this post?')) {
             try {
                 await deleteDoc(doc(db, 'posts', id));
                 alert('Post deleted successfully!');
-                loadPosts(); // Refresh the list
+                loadPosts();
             } catch (error) {
                 console.error("Error deleting post: ", error);
                 alert('Error deleting post.');
@@ -2099,6 +2081,7 @@ onAuthStateChanged(auth, user => {
             // 2. Safely load all data
             try {
                 console.log("Loading all admin panel data...");
+                loadPosts(); // Load blog posts
                 loadProfileData();
                 loadBusinessInfoData();
                 setupBusinessInfoListeners();
@@ -2110,7 +2093,7 @@ onAuthStateChanged(auth, user => {
                 loadDisabilitiesAdmin();
                 loadPresidentData();
                 loadTechItemsAdmin();
-                loadPosts();
+                
 
                 resetInactivityTimer();
                 addActivityListeners();
@@ -4038,165 +4021,147 @@ async function loadDisabilitiesAdmin() {
     }
 // --- Attach Event Listeners for Section Forms & Modals ---
 
-    // Profile Save Form
-    if (profileForm) { profileForm.addEventListener('submit', saveProfileData); }
+    // Profile Save Form
+    if (profileForm) { profileForm.addEventListener('submit', saveProfileData); }
 
-    // Maintenance Mode Toggle
-    if (maintenanceModeToggle) { maintenanceModeToggle.addEventListener('change', (e) => { saveMaintenanceModeStatus(e.target.checked); }); }
+    // Maintenance Mode Toggle
+    if (maintenanceModeToggle) { maintenanceModeToggle.addEventListener('change', (e) => { saveMaintenanceModeStatus(e.target.checked); }); }
 
-    // Hide TikTok Toggle
-    if (hideTikTokSectionToggle) { hideTikTokSectionToggle.addEventListener('change', (e) => { saveHideTikTokSectionStatus(e.target.checked); }); }
-    
-    // President Form & Preview (Added)
-    if (presidentForm) {
-        const presidentPreviewInputs = [ presidentNameInput, presidentBornInput, presidentHeightInput, presidentPartyInput, presidentTermInput, presidentVpInput, presidentImageUrlInput ];
-        // Add listeners to update preview on input
-        presidentPreviewInputs.forEach(inputElement => {
-            if (inputElement) {
-                inputElement.addEventListener('input', () => {
-                    if (typeof updatePresidentPreview === 'function') {
-                        updatePresidentPreview();
-                    } else { console.error("updatePresidentPreview function missing!"); }
-                });
-            }
-        });
-        // Add listener for form submission (Save)
-        presidentForm.addEventListener('submit', savePresidentData);
-    }
+    // Hide TikTok Toggle
+    if (hideTikTokSectionToggle) { hideTikTokSectionToggle.addEventListener('change', (e) => { saveHideTikTokSectionStatus(e.target.checked); }); }
+    
+    // President Form & Preview (Added)
+    if (presidentForm) {
+        const presidentPreviewInputs = [ presidentNameInput, presidentBornInput, presidentHeightInput, presidentPartyInput, presidentTermInput, presidentVpInput, presidentImageUrlInput ];
+        // Add listeners to update preview on input
+        presidentPreviewInputs.forEach(inputElement => {
+            if (inputElement) {
+                inputElement.addEventListener('input', () => {
+                    if (typeof updatePresidentPreview === 'function') {
+                        updatePresidentPreview();
+                    } else { console.error("updatePresidentPreview function missing!"); }
+                });
+            }
+        });
+        // Add listener for form submission (Save)
+        presidentForm.addEventListener('submit', savePresidentData);
+    }
 
-    // Add Shoutout Forms
-    if (addShoutoutTiktokForm) { addShoutoutTiktokForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('tiktok', addShoutoutTiktokForm); }); }
-    if (addShoutoutInstagramForm) { addShoutoutInstagramForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('instagram', addShoutoutInstagramForm); }); }
-    if (addShoutoutYoutubeForm) { addShoutoutYoutubeForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('youtube', addShoutoutYoutubeForm); }); }
+    // Add Shoutout Forms
+    if (addShoutoutTiktokForm) { addShoutoutTiktokForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('tiktok', addShoutoutTiktokForm); }); }
+    if (addShoutoutInstagramForm) { addShoutoutInstagramForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('instagram', addShoutoutInstagramForm); }); }
+    if (addShoutoutYoutubeForm) { addShoutoutYoutubeForm.addEventListener('submit', (e) => { e.preventDefault(); handleAddShoutout('youtube', addShoutoutYoutubeForm); }); }
 
-    // Edit Shoutout Form (in modal) & Close Button
-    if (editForm) { editForm.addEventListener('submit', handleUpdateShoutout); }
-    if (cancelEditButton) { cancelEditButton.addEventListener('click', closeEditModal); }
+    // Edit Shoutout Form (in modal) & Close Button
+    if (editForm) { editForm.addEventListener('submit', handleUpdateShoutout); }
+    if (cancelEditButton) { cancelEditButton.addEventListener('click', closeEditModal); }
 
-    // --- Tech Management Listeners ---
-     if (addTechItemForm) {
-        addTechItemForm.addEventListener('submit', handleAddTechItem);
-        // Attach preview listeners for the add form on initial load
-        attachTechPreviewListeners(addTechItemForm, 'add');
-     }
-     if (editTechItemForm) {
-        editTechItemForm.addEventListener('submit', handleUpdateTechItem);
-        // Note: Preview listeners for edit form are attached in openEditTechItemModal
-     }
-      if (cancelEditTechButton) {
-        cancelEditTechButton.addEventListener('click', closeEditTechItemModal);
-     }
-     if (cancelEditTechButtonSecondary) {
-        cancelEditTechButtonSecondary.addEventListener('click', closeEditTechItemModal);
-     }
-     if (searchTechItemsInput) {
-        searchTechItemsInput.addEventListener('input', displayFilteredTechItems);
-     }
+    // --- Tech Management Listeners ---
+     if (addTechItemForm) {
+        addTechItemForm.addEventListener('submit', handleAddTechItem);
+        // Attach preview listeners for the add form on initial load
+        attachTechPreviewListeners(addTechItemForm, 'add');
+     }
+     if (editTechItemForm) {
+        editTechItemForm.addEventListener('submit', handleUpdateTechItem);
+        // Note: Preview listeners for edit form are attached in openEditTechItemModal
+     }
+      if (cancelEditTechButton) {
+        cancelEditTechButton.addEventListener('click', closeEditTechItemModal);
+     }
+     if (cancelEditTechButtonSecondary) {
+        cancelEditTechButtonSecondary.addEventListener('click', closeEditTechItemModal);
+     }
+     if (searchTechItemsInput) {
+        searchTechItemsInput.addEventListener('input', displayFilteredTechItems);
+     }
 
-    // --- Activity Log Listeners ---
-    const clearLogBtn = document.getElementById('clear-log-button');
-    if (clearLogBtn) {
-        clearLogBtn.addEventListener('click', () => { 
+    // --- Activity Log Listeners ---
+    const clearLogBtn = document.getElementById('clear-log-button');
+    if (clearLogBtn) {
+        clearLogBtn.addEventListener('click', () => { 
             // In a real app, you would have a function here like handleClearActivityLog()
             console.warn("Clear activity log functionality not yet implemented.");
         });
-    } else {
-        console.warn("Clear log button not found.");
-    }
-
-    // Useful Links Forms & Modals
-    if (addUsefulLinkForm) { addUsefulLinkForm.addEventListener('submit', handleAddUsefulLink); }
-    if (editUsefulLinkForm) { editUsefulLinkForm.addEventListener('submit', handleUpdateUsefulLink); }
-    if (cancelEditLinkButton) { cancelEditLinkButton.addEventListener('click', closeEditUsefulLinkModal); }
-    if (cancelEditLinkButtonSecondary) { cancelEditLinkButtonSecondary.addEventListener('click', closeEditUsefulLinkModal); }
-
-    // Social Links Forms & Modals
-    if (addSocialLinkForm) { addSocialLinkForm.addEventListener('submit', handleAddSocialLink); }
-    if (editSocialLinkForm) { editSocialLinkForm.addEventListener('submit', handleUpdateSocialLink); }
-    if (cancelEditSocialLinkButton) { cancelEditSocialLinkButton.addEventListener('click', closeEditSocialLinkModal); }
-    if (cancelEditSocialLinkButtonSecondary) { cancelEditSocialLinkButtonSecondary.addEventListener('click', closeEditSocialLinkModal); }
-
-    // Disabilities Forms & Modals (Added)
-    if (addDisabilityForm) { addDisabilityForm.addEventListener('submit', handleAddDisability); }
-    if (editDisabilityForm) { editDisabilityForm.addEventListener('submit', handleUpdateDisability); }
-    if (cancelEditDisabilityButton) { cancelEditDisabilityButton.addEventListener('click', closeEditDisabilityModal); }
-    if (cancelEditDisabilityButtonSecondary) { cancelEditDisabilityButtonSecondary.addEventListener('click', closeEditDisabilityModal); }
-
-
-    // --- Attach Event Listeners for Search & Previews ---
-
-    // Search Input Listeners
-    if (searchInputTiktok) { searchInputTiktok.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('tiktok'); } }); }
-    if (searchInputInstagram) { searchInputInstagram.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('instagram'); } }); }
-    if (searchInputYoutube) { searchInputYoutube.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('youtube'); } }); }
-
-    // Helper function to attach preview listeners (Shoutouts)
-    function attachPreviewListeners(formElement, platform, formType) { if (!formElement) return; const previewInputs = [ 'username', 'nickname', 'bio', 'profilePic', 'isVerified', 'followers', 'subscribers', 'coverPhoto' ]; previewInputs.forEach(name => { const inputElement = formElement.querySelector(`[name="${name}"]`); if (inputElement) { const eventType = (inputElement.type === 'checkbox') ? 'change' : 'input'; inputElement.addEventListener(eventType, () => { if (typeof updateShoutoutPreview === 'function') { updateShoutoutPreview(formType, platform); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
-    // Attach shoutout preview listeners
-    if (addShoutoutTiktokForm) attachPreviewListeners(addShoutoutTiktokForm, 'tiktok', 'add');
-    if (addShoutoutInstagramForm) attachPreviewListeners(addShoutoutInstagramForm, 'instagram', 'add');
-    if (addShoutoutYoutubeForm) attachPreviewListeners(addShoutoutYoutubeForm, 'youtube', 'add');
-    if (editForm) { const editPreviewInputs = [ editUsernameInput, editNicknameInput, editBioInput, editProfilePicInput, editIsVerifiedInput, editFollowersInput, editSubscribersInput, editCoverPhotoInput ]; editPreviewInputs.forEach(el => { if (el) { const eventType = (el.type === 'checkbox') ? 'change' : 'input'; el.addEventListener(eventType, () => { const currentPlatform = editForm.getAttribute('data-platform'); if (currentPlatform && typeof updateShoutoutPreview === 'function') { updateShoutoutPreview('edit', currentPlatform); } else if (!currentPlatform) { console.warn("Edit form platform not set."); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
-
-    // Profile Pic URL Preview Listener
-    if (profilePicUrlInput && adminPfpPreview) { profilePicUrlInput.addEventListener('input', () => { const url = profilePicUrlInput.value.trim(); if (url) { adminPfpPreview.src = url; adminPfpPreview.style.display = 'inline-block'; } else { adminPfpPreview.style.display = 'none'; } }); adminPfpPreview.onerror = () => { console.warn("Preview image load failed:", adminPfpPreview.src); adminPfpPreview.style.display = 'none'; profilePicUrlInput.classList.add('input-error'); }; profilePicUrlInput.addEventListener('focus', () => { profilePicUrlInput.classList.remove('input-error'); }); }
-
-    // --- Google Sign-In Handler ---
-    /**
-     * Takes the credential response from Google, creates a Firebase credential,
-     * and signs the user in.
-     * @param {object} response The credential response object from Google.
-     */
-    async function handleGoogleSignIn(response) {
-        console.log("Received response from Google Sign-In...");
-        const authStatus = document.getElementById('auth-status');
-        
-        if (authStatus) {
-            authStatus.textContent = 'Verifying with Google...';
-            authStatus.className = 'status-message';
-            authStatus.style.display = 'block';
-        }
-
-        // Get the ID token from the Google response
-        const idToken = response.credential;
-        // Create a Google Auth provider credential using the ID token
-        const credential = GoogleAuthProvider.credential(idToken);
-
-        try {
-            // Sign in to Firebase with the Google credential
-            await signInWithCredential(auth, credential);
-            console.log("Successfully signed in with Google.");
-            // The `onAuthStateChanged` listener will now handle showing the admin panel.
-        } catch (error) {
-            console.error("Firebase Google Sign-In Error:", error);
-            if (authStatus) {
-                authStatus.textContent = `Google Login Failed: ${error.message}`;
-                authStatus.className = 'status-message error';
-            }
-        }
+    } else {
+        console.warn("Clear log button not found.");
     }
 
-    // --- Make the Google Sign-In handler accessible from the HTML ---
-    // Since this script is a module, we attach our handler to the window object
-    // so the global `handleCredentialResponse` function can call it.
+    // Useful Links Forms & Modals
+    if (addUsefulLinkForm) { addUsefulLinkForm.addEventListener('submit', handleAddUsefulLink); }
+    if (editUsefulLinkForm) { editUsefulLinkForm.addEventListener('submit', handleUpdateUsefulLink); }
+    if (cancelEditLinkButton) { cancelEditLinkButton.addEventListener('click', closeEditUsefulLinkModal); }
+    if (cancelEditLinkButtonSecondary) { cancelEditLinkButtonSecondary.addEventListener('click', closeEditUsefulLinkModal); }
+
+    // Social Links Forms & Modals
+    if (addSocialLinkForm) { addSocialLinkForm.addEventListener('submit', handleAddSocialLink); }
+    if (editSocialLinkForm) { editSocialLinkForm.addEventListener('submit', handleUpdateSocialLink); }
+    if (cancelEditSocialLinkButton) { cancelEditSocialLinkButton.addEventListener('click', closeEditSocialLinkModal); }
+    if (cancelEditSocialLinkButtonSecondary) { cancelEditSocialLinkButtonSecondary.addEventListener('click', closeEditSocialLinkModal); }
+
+    // Disabilities Forms & Modals (Added)
+    if (addDisabilityForm) { addDisabilityForm.addEventListener('submit', handleAddDisability); }
+    if (editDisabilityForm) { editDisabilityForm.addEventListener('submit', handleUpdateDisability); }
+    if (cancelEditDisabilityButton) { cancelEditDisabilityButton.addEventListener('click', closeEditDisabilityModal); }
+    if (cancelEditDisabilityButtonSecondary) { cancelEditDisabilityButtonSecondary.addEventListener('click', closeEditDisabilityModal); }
+
+
+    // --- Attach Event Listeners for Search & Previews ---
+
+    // Search Input Listeners
+    if (searchInputTiktok) { searchInputTiktok.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('tiktok'); } }); }
+    if (searchInputInstagram) { searchInputInstagram.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('instagram'); } }); }
+    if (searchInputYoutube) { searchInputYoutube.addEventListener('input', () => { if (typeof displayFilteredShoutouts === 'function') { displayFilteredShoutouts('youtube'); } }); }
+
+    // Helper function to attach preview listeners (Shoutouts)
+    function attachPreviewListeners(formElement, platform, formType) { if (!formElement) return; const previewInputs = [ 'username', 'nickname', 'bio', 'profilePic', 'isVerified', 'followers', 'subscribers', 'coverPhoto' ]; previewInputs.forEach(name => { const inputElement = formElement.querySelector(`[name="${name}"]`); if (inputElement) { const eventType = (inputElement.type === 'checkbox') ? 'change' : 'input'; inputElement.addEventListener(eventType, () => { if (typeof updateShoutoutPreview === 'function') { updateShoutoutPreview(formType, platform); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
+    // Attach shoutout preview listeners
+    if (addShoutoutTiktokForm) attachPreviewListeners(addShoutoutTiktokForm, 'tiktok', 'add');
+    if (addShoutoutInstagramForm) attachPreviewListeners(addShoutoutInstagramForm, 'instagram', 'add');
+    if (addShoutoutYoutubeForm) attachPreviewListeners(addShoutoutYoutubeForm, 'youtube', 'add');
+    if (editForm) { const editPreviewInputs = [ editUsernameInput, editNicknameInput, editBioInput, editProfilePicInput, editIsVerifiedInput, editFollowersInput, editSubscribersInput, editCoverPhotoInput ]; editPreviewInputs.forEach(el => { if (el) { const eventType = (el.type === 'checkbox') ? 'change' : 'input'; el.addEventListener(eventType, () => { const currentPlatform = editForm.getAttribute('data-platform'); if (currentPlatform && typeof updateShoutoutPreview === 'function') { updateShoutoutPreview('edit', currentPlatform); } else if (!currentPlatform) { console.warn("Edit form platform not set."); } else { console.error("updateShoutoutPreview missing!"); } }); } }); }
+
+    // Profile Pic URL Preview Listener
+    if (profilePicUrlInput && adminPfpPreview) { profilePicUrlInput.addEventListener('input', () => { const url = profilePicUrlInput.value.trim(); if (url) { adminPfpPreview.src = url; adminPfpPreview.style.display = 'inline-block'; } else { adminPfpPreview.style.display = 'none'; } }); adminPfpPreview.onerror = () => { console.warn("Preview image load failed:", adminPfpPreview.src); adminPfpPreview.style.display = 'none'; profilePicUrlInput.classList.add('input-error'); }; profilePicUrlInput.addEventListener('focus', () => { profilePicUrlInput.classList.remove('input-error'); }); }
+
+    // Combined Window Click Listener for Closing Modals
+    window.addEventListener('click', (event) => {
+        if (event.target === editModal) { closeEditModal(); }
+        if (event.target === editUsefulLinkModal) { closeEditUsefulLinkModal(); }
+        if (event.target === editSocialLinkModal) { closeEditSocialLinkModal(); }
+        if (event.target === editDisabilityModal) { closeEditDisabilityModal(); }
+        if (event.target === editTechItemModal) { closeEditTechItemModal(); }
+    });
+
+    // ======================================================
+    // ===== GLOBAL HANDLERS (THE CORRECT LOCATION) ======
+    // ======================================================
+    // This section makes functions inside the module accessible to the HTML's onclick attributes.
+    // It MUST be INSIDE the DOMContentLoaded listener, after the functions are defined.
+    
+    // Blog Functions
+    window.savePost = savePost;
+    window.editPost = editPost;
+    window.deletePost = deletePost;
+
+    // Google Sign-In
     window.handleGoogleSignIn = handleGoogleSignIn;
 
-    // Combined Window Click Listener for Closing Modals
-    window.addEventListener('click', (event) => {
-        if (event.target === editModal) { closeEditModal(); }
-        if (event.target === editUsefulLinkModal) { closeEditUsefulLinkModal(); }
-        if (event.target === editSocialLinkModal) { closeEditSocialLinkModal(); }
-        if (event.target === editDisabilityModal) { closeEditDisabilityModal(); } // Handles Disability Modal
-        if (event.target === editTechItemModal) { closeEditTechItemModal(); } // Tech modal close
-    });
+    // You MUST add any other functions called by 'onclick' in your HTML here.
+    // For example:
+    // window.openEditShoutoutModal = openEditShoutoutModal;
+    // window.handleDeleteTechItem = handleDeleteTechItem;
 
-}); // End DOMContentLoaded Event Listener
 
-// Blog Functions
-window.savePost = savePost;
-window.editPost = editPost;
-window.deletePost = deletePost;
+}); // <-- END OF THE DOMContentLoaded LISTENER
 
+
+// This special handler for Google's library must remain outside and global.
+// It calls the `handleGoogleSignIn` function that we made global above.
 window.handleCredentialResponse = (response) => {
-  handleGoogleSignIn(response);
+    if (typeof window.handleGoogleSignIn === 'function') {
+        window.handleGoogleSignIn(response);
+    } else {
+        console.error("Critical Error: handleGoogleSignIn is not globally available for the Google callback.");
+    }
 };
