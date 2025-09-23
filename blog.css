@@ -73,15 +73,19 @@ body::before {
 .post-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.75rem; box-shadow: var(--card-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); animation: fadeInUp 0.5s ease-out forwards; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .post-card:nth-child(2) { animation-delay: 0.1s; } .post-card:nth-child(3) { animation-delay: 0.2s; } .post-card:nth-child(4) { animation-delay: 0.3s; } .post-card:nth-child(5) { animation-delay: 0.4s; } .post-card:nth-child(6) { animation-delay: 0.5s; }
 .post-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
-.post-card h3 { margin: 0.75rem 0; font-size: 1.75rem; font-weight: 700; color: var(--text-color); line-height: 1.2; flex-grow: 1; }
+.post-card h3 { margin: 0.75rem 0; font-size: 1.75rem; font-weight: 700; color: var(--text-color); line-height: 1.2; }
+.post-card .post-card-content > p { font-size: 1rem; color: var(--secondary-text); line-height: 1.7; margin-bottom: 1.5rem; flex-grow: 1; }
 .post-category { display: inline-block; font-size: 0.8rem; font-weight: 600; background: color-mix(in srgb, var(--accent-color, #3ddc84) 15%, transparent); color: var(--accent-color, #3ddc84); padding: 0.3rem 0.8rem; border-radius: 999px; margin-bottom: 0.5rem; }
-.read-more-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; font-size: 1rem; color: var(--accent-color, #3ddc84); font-weight: 600; text-decoration: none; transition: all 0.2s ease; padding: 0.5rem 0; }
+.read-more-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: auto; font-size: 1rem; color: var(--accent-color, #3ddc84); font-weight: 600; text-decoration: none; transition: all 0.2s ease; padding: 0.5rem 0; }
 .read-more-btn:hover { color: color-mix(in srgb, var(--accent-color, #3ddc84) 70%, black); text-decoration: none; transform: translateX(5px); letter-spacing: 0.5px; }
+body.dark-mode .read-more-btn:hover { color: color-mix(in srgb, var(--accent-color, #3ddc84) 90%, white); }
 
-/* --- Author & Meta (Layout Fix) --- */
+/* ======================================== */
+/* == Author & Meta (Layout Fix) ========= */
+/* ======================================== */
 .author-pfp { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 3px color-mix(in srgb, var(--content-bg) 50%, transparent); transition: all 0.3s ease; }
 .post-card:hover .author-pfp { box-shadow: 0 0 0 2px var(--accent-color); }
-.post-meta { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); }
+.post-meta { display: flex; align-items: center; gap: 0.75rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); }
 .author-details { display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem; text-align: left; }
 .author-name { font-weight: 700; font-size: 1rem; }
 .author-name a { color: var(--text-color); text-decoration: none; transition: color 0.2s ease; }
@@ -89,7 +93,9 @@ body::before {
 .post-time { font-size: 0.85rem; color: var(--secondary-text); }
 .featured-post .post-meta { border-top: none; padding-top: 0; margin-top: 0; }
 
-/* --- Single Post Page Styles --- */
+/* ======================================== */
+/* == Single Post Page Styles ============= */
+/* ======================================== */
 .post-full-content { background: var(--card-bg); border-radius: 1.5rem; padding: clamp(2rem, 5vw, 4rem); border: 1px solid var(--card-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); animation: fadeIn 0.8s ease-out forwards; }
 .post-full-content .post-title { font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; font-weight: 800; margin: 0 0 2rem 0; color: var(--text-color); }
 .post-author-info { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
