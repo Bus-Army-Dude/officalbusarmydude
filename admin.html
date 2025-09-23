@@ -6,6 +6,9 @@
     <title>Admin Panel - Caleb's Profile</title>
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ADD THESE TWO LINES FOR THE RICH TEXT EDITOR -->
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0RSQS1MS7"></script>
     <script>
@@ -178,7 +181,7 @@
                     <input type="text" id="post-author" placeholder="Author Name" class="admin-input">
                     <input type="text" id="post-author-pfp" placeholder="Author Profile Picture URL" class="admin-input">
                     <input type="text" id="post-category" placeholder="Category (e.g., Tech, Updates)" class="admin-input">
-                    <textarea id="post-content" placeholder="Post Content (supports basic HTML)" class="admin-textarea"></textarea>
+                    <div id="post-content-editor" class="admin-editor"></div>
                     <label class="admin-checkbox-label">
                         <input type="checkbox" id="post-featured">
                         Mark as Featured Post (This will un-feature any other post)
