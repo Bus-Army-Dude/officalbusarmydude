@@ -117,7 +117,7 @@ body {
 
 /* ======================================== */
 /* == Profile Section – Onyx Bubble Glass == */
-/* (Final Consolidated Version)      */
+/* (Final Version with Mobile Fix)   */
 /* ======================================== */
 
 .profile-section {
@@ -166,7 +166,7 @@ body {
 	z-index: 2;
 	bottom: 0;
 	right: 0;
-	transition: background-color 0.3s ease;
+	transition: all 0.3s ease;
 }
 
 .profile-status-container.status-online   { background-color: #31a24c; }
@@ -283,6 +283,11 @@ a.corner-button {
 	}
 	.profile-pic-wrapper {
 		--profile-pic-size: 6.25rem;
+	}
+	.profile-status-container {
+		bottom: 3%;
+		right: 3%;
+		border-width: 3px;
 	}
 	.corner-button {
 		width: 2.25rem;
