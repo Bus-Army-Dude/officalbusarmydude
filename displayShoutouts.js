@@ -264,52 +264,10 @@ function renderFaqItemHomepage(faqData) {
             </div>`;
 }
 
-// --- DATA LOADING AND DISPLAY FUNCTIONS ---
+function displayProfileData(profileData) 
 
-function displayProfileData(profileData) {
-    const profileUsernameElement = document.getElementById('profile-username-main');
-    const profilePicElement = document.getElementById('profile-pic-main');
-    const profileBioElement = document.getElementById('profile-bio-main');
-    const profileStatusContainerElement = document.getElementById('profile-status-main-container');
-    const profileStatusTextElement = document.getElementById('profile-status-text-main');
+{
 
-    if (!profileUsernameElement || !profilePicElement || !profileBioElement) {
-        console.warn("Core profile display elements missing.");
-        return;
-    }
-
-    const defaultUsername = "Username";
-    const defaultBio = "";
-    const defaultProfilePic = "images/default-profile.jpg";
-
-    if (!profileData) {
-        profileUsernameElement.textContent = defaultUsername;
-        profilePicElement.src = defaultProfilePic;
-        profileBioElement.textContent = defaultBio;
-        if (profileStatusContainerElement) profileStatusContainerElement.className = "profile-status-container status-offline";
-        if (profileStatusTextElement) {
-            profileStatusTextElement.textContent = 'Offline';
-            profileStatusTextElement.className = "profile-status-text status-offline";
-        }
-        return;
-    }
-
-    profileUsernameElement.textContent = profileData.username || defaultUsername;
-    profilePicElement.src = profileData.profilePicUrl || defaultProfilePic;
-    profileBioElement.textContent = profileData.bio || defaultBio;
-
-    const statusKey = profileData.status || 'offline';
-    const statusText = statusKey.charAt(0).toUpperCase() + statusKey.slice(1);
-
-    if (profileStatusContainerElement) {
-        profileStatusContainerElement.className = `profile-status-container status-${statusKey}`;
-    }
-    if (profileStatusTextElement) {
-        profileStatusTextElement.textContent = statusText;
-        profileStatusTextElement.className = `profile-status-text status-${statusKey}`;
-    }
-    console.log("Profile section updated with status:", statusKey);
-}
 
 async function displayPresidentData() {
     const placeholderElement = document.getElementById('president-placeholder');
