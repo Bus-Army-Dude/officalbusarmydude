@@ -1336,7 +1336,7 @@ async function initializeBlogListPageContent() {
         }
     }
 
-    function displayFeaturedPost(posts) {
+   function displayFeaturedPost(posts) {
     const featuredPost = posts.find(post => post.isFeatured);
     if (featuredPost && featuredContainer) {
         const authorLink = `author.html?name=${encodeURIComponent(featuredPost.author)}`;
@@ -1345,7 +1345,7 @@ async function initializeBlogListPageContent() {
                 <h2>${featuredPost.title}</h2>
                 <div class="post-meta">
                     ${featuredPost.authorPfpUrl ? `<img src="${featuredPost.authorPfpUrl}" class="author-pfp" alt="${featuredPost.author}">` : ""}
-                    <!-- This div groups the name and time together -->
+                    <!-- This div groups the name and time for correct layout -->
                     <div class="author-details">
                         <span class="author-name"><a href="${authorLink}">${featuredPost.author}</a></span>
                         <span class="post-time">${formatRelativeTime(featuredPost.createdAt, featuredPost.updatedAt)}</span>
@@ -1368,25 +1368,26 @@ function displayPosts(posts) {
         const authorLink = `author.html?name=${encodeURIComponent(post.author)}`;
         const postCard = document.createElement('div');
         postCard.className = 'post-card';
+        // The <p> tag for content is now moved above the post-meta for correct layout
         postCard.innerHTML = `
             <div class="post-card-content">
                 <span class="post-category">${post.category}</span>
                 <h3>${post.title}</h3>
+                <p>${post.content.substring(0, 100)}...</p>
                 <div class="post-meta">
                     ${post.authorPfpUrl ? `<img src="${post.authorPfpUrl}" class="author-pfp" alt="${post.author}">` : ""}
-                    <!-- This div groups the name and time together -->
+                    <!-- This div groups the name and time for correct layout -->
                     <div class="author-details">
                         <span class="author-name"><a href="${authorLink}">${post.author}</a></span>
                         <span class="post-time">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>
                     </div>
                 </div>
-                <p>${post.content.substring(0, 100)}...</p>
                 <a href="post.html?id=${post.id}" class="read-more-btn">Read More</a>
             </div>`;
         postsGrid.appendChild(postCard);
     });
 }
-
+    
     function populateCategories(posts) {
         categoryFiltersContainer.innerHTML = '<button class="category-btn active" data-category="all">All</button>';
         const categories = [...new Set(posts.map(post => post.category))];
