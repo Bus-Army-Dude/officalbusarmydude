@@ -32,8 +32,8 @@ function formatRelativeTime(createdAt, updatedAt) {
 document.addEventListener('DOMContentLoaded', () => {
     const postsGrid = document.getElementById('posts-grid');
     const titleElement = document.getElementById('author-page-title');
+    const authorPfpHeaderElement = document.getElementById('author-header-pfp');
 
-    // Get the author's name from the URL (e.g., author.html?name=Caleb)
     const params = new URLSearchParams(window.location.search);
     const authorName = params.get('name');
 
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Set the page title
     const pageTitle = `Posts by ${authorName}`;
     titleElement.textContent = pageTitle;
     document.title = pageTitle;
@@ -52,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         postsGrid.innerHTML = `<p>Loading posts by ${authorName}...</p>`;
         try {
             const postsRef = collection(db, 'posts');
-            // Create a query to find all posts WHERE the 'author' field matches the name
             const authorQuery = query(postsRef, where("author", "==", authorName), orderBy("createdAt", "desc"));
             const snapshot = await getDocs(authorQuery);
 
@@ -61,20 +59,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Get the author's profile picture from the first post.
+            // We will reuse this for all cards on this page.
+            const firstPostData = snapshot.docs[0].data();
+            const authorPfpUrl = firstPostData.authorPfpUrl || 'images/default-profile.jpg';
+            
+            // Also update the header PFP
+            if(authorPfpHeaderElement) {
+                authorPfpHeaderElement.src = authorPfpUrl;
+                authorPfpHeaderElement.alt = authorName;
+            }
+
             postsGrid.innerHTML = ''; // Clear loading message
+
             snapshot.forEach(doc => {
                 const post = { id: doc.id, ...doc.data() };
                 const postCard = document.createElement('div');
                 postCard.className = 'post-card';
-                // Render the post card, just like on the main blog page
+
+                // --- THIS IS THE CORRECTED HTML STRUCTURE ---
+                // It now includes the post-meta section with the author's picture
                 postCard.innerHTML = `
                     <div class="post-card-content">
                         <span class="post-category">${post.category}</span>
                         <h3>${post.title}</h3>
-                        <div class="post-meta">
-                             <span class="post-time">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>
-                        </div>
                         <p>${post.content.substring(0, 100)}...</p>
+                        <div class="post-meta">
+                            <img src="${authorPfpUrl}" class="author-pfp" alt="${authorName}">
+                            <div class="author-details">
+                                <span class="author-name">${authorName}</span>
+                                <span class="post-time">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>
+                            </div>
+                        </div>
                         <a href="post.html?id=${post.id}" class="read-more-btn">Read More</a>
                     </div>`;
                 postsGrid.appendChild(postCard);
