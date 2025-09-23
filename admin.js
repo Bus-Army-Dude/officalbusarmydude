@@ -2121,7 +2121,24 @@ onAuthStateChanged(auth, user => {
                     }
                 });
                 // Make the editor instance globally available for other functions
-                window.quill = quill;
+                window.quill = quill; // Make editor globally accessible
+                console.log("✅ Rich Text Editor initialized.");
+                // ===============================================
+                // == THIS IS THE FIX: CONNECT THE FORM TO THE SCRIPT ==
+                // ===============================================
+                const blogForm = document.getElementById('blog-management-form'); // CORRECT ID
+                if (blogForm) {
+                    if (!blogForm.dataset.listenerAttached) { // Prevent adding multiple listeners
+                        blogForm.addEventListener('submit', (e) => {
+                            e.preventDefault(); // This is CRITICAL - it stops the page from reloading
+                            console.log("Save Post form submitted.");
+                            savePost();
+                        });
+                        blogForm.dataset.listenerAttached = 'true';
+                    }
+                } else {
+                    console.error("CRITICAL: Blog management form not found!");
+                }
 
                 resetInactivityTimer();
                 addActivityListeners();
