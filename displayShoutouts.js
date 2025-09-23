@@ -264,59 +264,50 @@ function renderFaqItemHomepage(faqData) {
             </div>`;
 }
 
-/**
- * Updates the profile display elements with new data and status classes.
- * Assumes a parent container for the status dot to apply classes.
- */
+// --- DATA LOADING AND DISPLAY FUNCTIONS ---
+
 function displayProfileData(profileData) {
     const profileUsernameElement = document.getElementById('profile-username-main');
     const profilePicElement = document.getElementById('profile-pic-main');
     const profileBioElement = document.getElementById('profile-bio-main');
-    const profileStatusElement = document.getElementById('profile-status-main'); // The span itself
+    const profileStatusContainerElement = document.getElementById('profile-status-main-container');
+    const profileStatusTextElement = document.getElementById('profile-status-text-main');
 
-    // Default values
+    if (!profileUsernameElement || !profilePicElement || !profileBioElement) {
+        console.warn("Core profile display elements missing.");
+        return;
+    }
+
     const defaultUsername = "Username";
     const defaultBio = "";
     const defaultProfilePic = "images/default-profile.jpg";
 
-    // Basic element check
-    if (!profileUsernameElement || !profilePicElement || !profileBioElement || !profileStatusElement) {
-        console.warn("Profile display elements missing.");
-        return;
-    }
-
-    // Get the parent container of the status span to apply style classes
-    const profileStatusContainerElement = profileStatusElement.parentElement;
-
     if (!profileData) {
-        console.warn("Profile data not provided to displayProfileData. Using defaults.");
         profileUsernameElement.textContent = defaultUsername;
         profilePicElement.src = defaultProfilePic;
         profileBioElement.textContent = defaultBio;
-        // Set default offline class on the container
-        if (profileStatusContainerElement) {
-            profileStatusContainerElement.className = "profile-status-container status-offline";
+        if (profileStatusContainerElement) profileStatusContainerElement.className = "profile-status-container status-offline";
+        if (profileStatusTextElement) {
+            profileStatusTextElement.textContent = 'Offline';
+            profileStatusTextElement.className = "profile-status-text status-offline";
         }
         return;
     }
 
-    // Update profile content
     profileUsernameElement.textContent = profileData.username || defaultUsername;
     profilePicElement.src = profileData.profilePicUrl || defaultProfilePic;
     profileBioElement.textContent = profileData.bio || defaultBio;
 
-    // --- Status Update Logic ---
     const statusKey = profileData.status || 'offline';
+    const statusText = statusKey.charAt(0).toUpperCase() + statusKey.slice(1);
 
-    // Update CSS class on the container based on status_key.
-    // This dynamically changes the dot color via CSS rules.
     if (profileStatusContainerElement) {
-        // Reset classes first, keeping the base class
-        profileStatusContainerElement.className = 'profile-status-container';
-        // Add new status class
-        profileStatusContainerElement.classList.add(`status-${statusKey}`);
+        profileStatusContainerElement.className = `profile-status-container status-${statusKey}`;
     }
-
+    if (profileStatusTextElement) {
+        profileStatusTextElement.textContent = statusText;
+        profileStatusTextElement.className = `profile-status-text status-${statusKey}`;
+    }
     console.log("Profile section updated with status:", statusKey);
 }
 
