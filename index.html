@@ -60,23 +60,19 @@ s0.parentNode.insertBefore(s1,s0);
 <div id="main-content-wrapper">
     </div>
   <div class="profile-section">
-    <button class="merch-button" aria-label="Merch" onclick="window.location.href='merchandise.html'">
-        <img src="gift-bag-icon.png" alt="Merch">
-    </button>
-    <button class="settings-button" aria-label="Settings" onclick="window.location.href='settings.html'">
-        <img src="settings-icon.png" alt="Settings">
-    </button>
-    <button class="blog-button" aria-label="Blog" onclick="window.location.href='blog.html'">
+    <a href="merchandise.html" class="corner-button merch-button" aria-label="Merchandise">
+        <img src="gift-bag-icon.png" alt="">
+    </a>
+    <a href="settings.html" class="corner-button settings-button" aria-label="Settings">
+        <img src="settings-icon.png" alt="">
+    </a>
+    <a href="blog.html" class="corner-button blog-button" aria-label="Blog">
         <i class="fas fa-newspaper"></i>
-    </button>
+    </a>
 
     <div class="profile-pic-wrapper">
-        <img src="path/to/default-profile.jpg" alt="Profile Picture"
-                 class="profile-pic"
-                 id="profile-pic-main">
-
-        <div class="profile-status-container">
-            <span class="profile-status" id="profile-status-main"></span>
+        <img src="path/to/default-profile.jpg" alt="Profile Picture" class="profile-pic" id="profile-pic-main">
+        <div class="profile-status-container status-online"> <span class="profile-status" id="profile-status-main"></span>
         </div>
     </div>
 
@@ -85,7 +81,7 @@ s0.parentNode.insertBefore(s1,s0);
         <img src="check.png" alt="Verified" class="verified">
     </div>
 
-    <p class="profile-bio" id="profile-bio-main">Loading bio...</p>
+    <p class="profile-bio" id="profile-bio-main">Loading...</p>
 </div>
 
 <div id="rearrangeable-container">
