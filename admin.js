@@ -1346,7 +1346,7 @@ function setupBusinessInfoListeners() {
 // ======================================================
 
 // ======================================================
-// ===== START: BLOG MANAGEMENT FUNCTIONS (CORRECTED FOR RICH TEXT EDITOR) =====
+// ===== BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
 // ======================================================
 
 // Save or Update a Blog Post
@@ -1403,7 +1403,7 @@ async function savePost() {
 }
 
 function resetPostForm() {
-    const form = document.getElementById('blog-management');
+    const form = document.getElementById('blog-management-form'); // CORRECT ID
     if (form) {
         form.querySelector('#post-id').value = '';
         form.querySelector('#post-title').value = '';
@@ -1412,7 +1412,7 @@ function resetPostForm() {
         form.querySelector('#post-category').value = '';
         form.querySelector('#post-featured').checked = false;
         if (window.quill) {
-            window.quill.root.innerHTML = '';
+            window.quill.root.innerHTML = ''; // Correctly clears the editor
         }
     }
 }
