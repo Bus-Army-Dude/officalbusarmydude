@@ -6,16 +6,14 @@
     <title>Posts by Author</title>
     <!-- Links to your existing stylesheets -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="blog.css">
     <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="blog.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="dark-mode">
+<body class="dark-mode"> <!-- Starts in dark mode, JS will correct it -->
 
     <header class="main-header author-page-header">
-        <!-- This new div wraps the author info -->
         <div class="author-header-info">
-            <!-- Placeholder for the author's picture -->
             <img src="images/default-profile.jpg" alt="" class="author-header-pfp" id="author-header-pfp">
             <h1 id="author-page-title">Loading...</h1>
         </div>
@@ -28,9 +26,14 @@
         </section>
     </main>
 
-    <!-- The new script to power this page -->
+    <!-- ====================================================== -->
+    <!-- == THIS IS THE FIX: ADDING THE CORRECT SCRIPTS ======= -->
+    <!-- ====================================================== -->
+    <script src="common.js"></script>
+    <script src="settings.js"></script>
     <script type="module" src="author.js"></script>
-    <script rc="settings.js"></script>
+    <!-- ====================================================== -->
+
 </body>
 </html>
 
