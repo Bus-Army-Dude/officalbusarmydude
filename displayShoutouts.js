@@ -1431,7 +1431,7 @@ function displayPosts(posts) {
 
 
 // ======================================================
-// ===== SINGLE POST PAGE SPECIFIC FUNCTIONS
+// ===== SINGLE POST PAGE SPECIFIC FUNCTIONS (CORRECTED)
 // ======================================================
 async function initializePostPageContent() {
     if (!firebaseAppInitialized) return;
@@ -1455,20 +1455,24 @@ async function initializePostPageContent() {
         if (docSnap.exists()) {
             const post = docSnap.data();
             document.title = post.title;
-            postTitleHeader.textContent = post.title;
+            // Use textContent for security, as title is user-generated
+            if (postTitleHeader) postTitleHeader.textContent = post.title;
 
             let timestampsHTML = `<span class="post-date">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>`;
 
+            // This is the corrected innerHTML structure
             postContentArea.innerHTML = `
                 <div class="post-author-info">
                     ${post.authorPfpUrl ? `<img src="${post.authorPfpUrl}" alt="${post.author}" class="author-pfp">` : ''}
                     <div class="author-details">
-                        <span class="author-name">${post.author}</span>
+                        <!-- Made author name a link for consistency -->
+                        <span class="author-name"><a href="author.html?name=${encodeURIComponent(post.author)}">${post.author}</a></span>
                         <div class="post-timestamps">${timestampsHTML}</div>
                     </div>
                 </div>
                 <div class="post-main-content">
-                    ${post.content.replace(/\\n/g, '<br>')}
+                    <!-- THIS IS THE FIX: We now insert the raw HTML directly -->
+                    ${post.content}
                 </div>`;
         } else {
             postContentArea.innerHTML = '<h1>Post not found</h1><p>The requested post does not exist.</p>';
@@ -1478,7 +1482,6 @@ async function initializePostPageContent() {
         postContentArea.innerHTML = '<h1>Error</h1><p>Could not load the post.</p>';
     }
 }
-
 
 // ======================================================
 // ===== PAGE ROUTER (This decides what to run) ======
