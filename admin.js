@@ -2093,7 +2093,26 @@ onAuthStateChanged(auth, user => {
                 loadDisabilitiesAdmin();
                 loadPresidentData();
                 loadTechItemsAdmin();
+
+                // ===============================================
+                // == THIS IS THE NEW CODE TO ADD ================
+                // ===============================================
                 
+                console.log("Initializing Rich Text Editor...");
+                const quill = new Quill('#post-content-editor', {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: [
+                            [{ 'header': [1, 2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            ['link', 'image', 'video', 'blockquote'],
+                            ['clean']
+                        ]
+                    }
+                });
+                // Make the editor instance globally available for other functions
+                window.quill = quill;
 
                 resetInactivityTimer();
                 addActivityListeners();
