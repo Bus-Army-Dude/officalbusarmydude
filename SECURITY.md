@@ -100,7 +100,8 @@ To report a security vulnerability, please follow these steps:
 
 | Version  | Supported          |
 | -------- | ------------------ |
-| 1.26     | :white_check_mark: |
+| 26.1.2   | :white_check_mark: |
+| 1.26     | :x: |
 | 1.15.0   | :x:                |
 | 1.14.0   | :x:                |
 | 1.13.0   | :x:                |
