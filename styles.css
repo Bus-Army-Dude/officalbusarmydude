@@ -117,14 +117,14 @@ body {
 
 /* ======================================== */
 /* == Profile Section – Onyx Bubble Glass == */
-/* (Revised Hybrid Approach)     */
+/* (Final Hybrid Version)        */
 /* ======================================== */
 
 .profile-section {
 	position: relative;
 	text-align: center;
 	margin: 1.25rem 0 1.875rem 0;
-	padding: 1.875rem; /* Reverted to fixed padding, but will adjust on mobile */
+	padding: 1.875rem;
 	background: var(--content-bg);
 	background-image: var(--bubble-gradient);
 	border-radius: var(--radius-xl);
@@ -139,7 +139,7 @@ body {
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
 	position: relative;
-	--profile-pic-size: 9.375rem; /* Back to a single source of truth, adjusted in media queries */
+	--profile-pic-size: 9.375rem; /* Base size, adjusted in media queries */
 	width: var(--profile-pic-size);
 	height: var(--profile-pic-size);
 	margin: 0 auto;
@@ -185,7 +185,7 @@ body {
 
 .username-checkmark h1 {
 	margin: 0;
-	/* Using clamp() here is still a big win for responsive headings */
+	/* Fluid font-size for the heading looks best on all screens */
 	font-size: clamp(1.5rem, 5vw, 2.25rem);
 	font-weight: 800;
 	background: linear-gradient(120deg, var(--secondary-text), var(--accent-color));
@@ -202,14 +202,14 @@ body {
 
 /* --- Profile Bio --- */
 .profile-bio {
-	font-size: var(--font-size-base, 1rem); /* Revert to base, adjust in media queries */
+	font-size: var(--font-size-base, 1rem); /* Base size, adjusted in media queries */
 	color: var(--secondary-text);
 	line-height: 1.6;
 	max-width: 37.5rem;
 	margin: 0.625rem auto 1.25rem;
 }
 
-/* --- Corner Buttons (Cleaned up structure) --- */
+/* --- Corner Buttons (Shared Styles) --- */
 .corner-button {
 	position: absolute;
 	width: 2.75rem;
@@ -230,6 +230,7 @@ body {
 	transition: transform 0.2s ease, box-shadow 0.2s ease, width 0.3s ease, height 0.3s ease;
 }
 
+/* Individual button positioning */
 .settings-button { top: 1.25rem; right: 1.25rem; }
 .merch-button    { top: 1.25rem; left: 1.25rem; }
 .blog-button     { bottom: 1.25rem; left: 1.25rem; }
@@ -241,11 +242,17 @@ body {
 	outline: none;
 }
 
+/* Styles for icons inside the buttons */
 .corner-button > * {
 	width: 1.25rem;
 	height: 1.25rem;
 	font-size: 1.25rem;
 	object-fit: contain;
+}
+
+/* Ensures <a> tags used as buttons don't have an underline */
+a.corner-button {
+    text-decoration: none;
 }
 
 /* --- Responsive (Breakpoint-based) --- */
