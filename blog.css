@@ -216,3 +216,20 @@ body.dark-mode .read-more-btn:hover {
     background-color: color-mix(in srgb, var(--accent-color) 90%, white);
 }
 
+/* ======================================== */
+/* == Author Page Header Styles ========== */
+/* ======================================== */
+.author-page-header .author-header-info {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem; /* Space between picture and text */
+}
+
+.author-header-pfp {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* This makes the image round */
+    object-fit: cover;
+    border: 3px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
