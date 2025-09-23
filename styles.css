@@ -117,7 +117,7 @@ body {
 
 /* ======================================== */
 /* == Profile Section – Onyx Bubble Glass == */
-/* (Final Version with Refined Statuses)  */
+/* (Final Version with CORRECT Mobile Status) */
 /* ======================================== */
 
 .profile-section {
@@ -179,12 +179,20 @@ body {
 /* --- Username & Verified --- */
 .username-checkmark {
 	display: flex;
+	/* THIS IS THE KEY CHANGE: Stack items vertically */
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5rem;
+	gap: 0.25rem; /* Reduced gap for vertical stacking */
 	margin: 1.875rem 0 0.625rem;
-	flex-wrap: wrap;
-	flex-direction: row;
+}
+
+/* This is the new wrapper for the top line */
+.username-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .username-checkmark h1 {
