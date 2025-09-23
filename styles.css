@@ -117,15 +117,14 @@ body {
 
 /* ======================================== */
 /* == Profile Section – Onyx Bubble Glass == */
-/* (Fluid & Refactored)          */
+/* (Revised Hybrid Approach)     */
 /* ======================================== */
 
 .profile-section {
 	position: relative;
 	text-align: center;
 	margin: 1.25rem 0 1.875rem 0;
-	/* Fluid padding that shrinks on smaller screens */
-	padding: clamp(1rem, 5vw, 1.875rem);
+	padding: 1.875rem; /* Reverted to fixed padding, but will adjust on mobile */
 	background: var(--content-bg);
 	background-image: var(--bubble-gradient);
 	border-radius: var(--radius-xl);
@@ -140,11 +139,11 @@ body {
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
 	position: relative;
-	/* Fluid profile picture size using clamp() */
-	--profile-pic-size: clamp(6.25rem, 18vw, 9.375rem); /* min, ideal, max */
+	--profile-pic-size: 9.375rem; /* Back to a single source of truth, adjusted in media queries */
 	width: var(--profile-pic-size);
 	height: var(--profile-pic-size);
 	margin: 0 auto;
+	transition: width 0.3s ease, height 0.3s ease; /* Smooth transition between sizes */
 }
 
 .profile-pic {
@@ -159,18 +158,16 @@ body {
 /* --- Profile Status --- */
 .profile-status-container {
 	position: absolute;
-	/* Size is still relative to the profile pic, so it scales fluidly! */
 	width: calc(var(--profile-pic-size) * 0.15);
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;
-	border: 3px solid var(--content-bg); /* Increased border for better visibility */
+	border: 3px solid var(--content-bg);
 	box-shadow: var(--bubble-shadow);
 	z-index: 2;
 	bottom: 2%;
 	right: 8%;
 }
 
-/* Note: Removed unnecessary whitespace from original class selectors */
 .profile-status-container.status-online   { background-color: #31a24c; }
 .profile-status-container.status-idle     { background-color: #ffc107; }
 .profile-status-container.status-dnd      { background-color: #dc3545; }
@@ -182,14 +179,13 @@ body {
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
-	/* Fluid top margin */
-	margin: clamp(1rem, 4vw, 1.875rem) 0 0.625rem;
+	margin: 1.875rem 0 0.625rem;
 	flex-wrap: wrap;
 }
 
 .username-checkmark h1 {
 	margin: 0;
-	/* The original clamp() function was already great for fluidity */
+	/* Using clamp() here is still a big win for responsive headings */
 	font-size: clamp(1.5rem, 5vw, 2.25rem);
 	font-weight: 800;
 	background: linear-gradient(120deg, var(--secondary-text), var(--accent-color));
@@ -199,31 +195,25 @@ body {
 }
 
 .verified {
-	/* Using `em` allows the icon to scale relative to the h1 font size */
-	width: 1em;
-	height: 1em;
+	width: 1.25rem;
+	height: 1.25rem;
 	flex-shrink: 0;
 }
 
 /* --- Profile Bio --- */
 .profile-bio {
-	/* Fluid font size for better readability on all devices */
-	font-size: clamp(0.9rem, 2.5vw, 1rem);
+	font-size: var(--font-size-base, 1rem); /* Revert to base, adjust in media queries */
 	color: var(--secondary-text);
 	line-height: 1.6;
 	max-width: 37.5rem;
 	margin: 0.625rem auto 1.25rem;
-	padding: 0 1rem; /* Add horizontal padding to prevent text from touching edges on small screens */
-	box-sizing: border-box;
 }
 
-/* --- Corner Buttons (Refactored for DRY principle) --- */
+/* --- Corner Buttons (Cleaned up structure) --- */
 .corner-button {
 	position: absolute;
-	/* Fluid button size */
-	--button-size: clamp(2.25rem, 8vw, 2.75rem);
-	width: var(--button-size);
-	height: var(--button-size);
+	width: 2.75rem;
+	height: 2.75rem;
 	border-radius: var(--radius-lg);
 	border: none;
 	cursor: pointer;
@@ -237,37 +227,67 @@ body {
 	align-items: center;
 	justify-content: center;
 	color: var(--icon-color);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, width 0.3s ease, height 0.3s ease;
 }
 
-/* Fluid positioning for buttons */
-.settings-button { top: clamp(1rem, 3vw, 1.25rem); right: clamp(1rem, 3vw, 1.25rem); }
-.merch-button    { top: clamp(1rem, 3vw, 1.25rem); left: clamp(1rem, 3vw, 1.25rem); }
-.blog-button     { bottom: clamp(1rem, 3vw, 1.25rem); left: clamp(1rem, 3vw, 1.25rem); }
+.settings-button { top: 1.25rem; right: 1.25rem; }
+.merch-button    { top: 1.25rem; left: 1.25rem; }
+.blog-button     { bottom: 1.25rem; left: 1.25rem; }
 
 .corner-button:hover,
-.corner-button:focus-visible { /* Added focus-visible for accessibility */
+.corner-button:focus-visible {
 	transform: translateY(-2px);
 	box-shadow: 0 6px 20px var(--shadow-color), 0 0 8px var(--glow-color);
-	outline: none; /* Remove default outline for focused state */
+	outline: none;
 }
 
-/* Simplified selector for icons inside buttons */
 .corner-button > * {
-	--icon-size: clamp(1rem, 4vw, 1.25rem);
-	width: var(--icon-size);
-	height: var(--icon-size);
-	font-size: var(--icon-size); /* For font-based icons like <i> */
+	width: 1.25rem;
+	height: 1.25rem;
+	font-size: 1.25rem;
 	object-fit: contain;
 }
 
-/* --- Responsive Overrides --- */
-/* Media queries are now minimal, only for changes that clamp() can't handle */
-@media screen and (max-width: 480px) {
-	.profile-bio {
-		/* Slightly reduce max-width on very small screens for better centering */
-		max-width: 95%;
+/* --- Responsive (Breakpoint-based) --- */
+@media screen and (max-width: 1024px) {
+	.profile-pic-wrapper {
+		--profile-pic-size: 8.5rem;
 	}
+}
+
+@media screen and (max-width: 768px) {
+	.profile-section {
+		padding: 1.5rem;
+	}
+	.profile-pic-wrapper {
+		--profile-pic-size: 7.5rem;
+	}
+	.corner-button {
+		width: 2.375rem;
+		height: 2.375rem;
+	}
+	.profile-bio {
+		font-size: 0.95rem;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.profile-section {
+		padding: 1.25rem;
+		margin: 1rem 0;
+	}
+	.profile-pic-wrapper {
+		--profile-pic-size: 6.25rem;
+	}
+	.corner-button {
+		width: 2.25rem;
+		height: 2.25rem;
+		top: 0.9375rem;
+	}
+	.blog-button { top: auto; bottom: 0.9375rem; left: 0.9375rem; }
+	.settings-button { right: 0.9375rem; }
+	.merch-button { left: 0.9375rem; }
+	.profile-bio { font-size: 0.9rem; }
 }
 
 #status-widget {
