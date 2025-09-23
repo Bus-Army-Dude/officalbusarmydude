@@ -144,7 +144,7 @@ This website is built using a combination of **JavaScript**, **CSS**, and **HTML
 
 ## Version History
 
-- **v1.26.0**: Introduced the option in the settings for the appearance to allow users to match their device appearance or to manually change it between light and dark mode.
+- **v26.0**: Introduced the option in the settings for the appearance to allow users to match their device appearance or to manually change it between light and dark mode.
 - **v1.17.0**: Bug Fixes.
 - **v1.16.0**: Introduced the **Admin Portal**, used to manage all the content on the website that only the owner can access
 - **v1.15.0**: Bug Fixes.
