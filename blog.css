@@ -35,7 +35,7 @@ body {
 .main-header h1 {
     margin: 0;
     font-size: clamp(1.5rem, 4vw, 2.25rem);
-    font-weight: 800;
+    font-weight: 800; /* Bolder */
     color: var(--text-color);
 }
 
@@ -49,7 +49,7 @@ body {
     color: var(--accent-color, #3ddc84);
     border: 1px solid var(--accent-color, #3ddc84);
     border-radius: 999px;
-    font-weight: 600;
+    font-weight: 600; /* Bolder */
     transition: all 0.2s ease;
 }
 
@@ -62,8 +62,8 @@ body {
 
 /* --- Section Titles --- */
 .section-title {
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 2rem; /* Larger */
+    font-weight: 800; /* Bolder */
     margin-bottom: 1.5rem;
     color: var(--text-color);
     padding-bottom: 0.5rem;
@@ -77,11 +77,9 @@ body {
 .featured-post h2 { font-size: clamp(2rem, 5vw, 2.75rem); margin: 0 0 1rem 0; color: var(--text-color); line-height: 1.2; }
 .featured-post > p { font-size: 1.1rem; color: var(--secondary-text); margin: 1rem 0; line-height: 1.7; }
 
-
 /* ======================================== */
 /* == Filter Controls (ENHANCED) ========= */
 /* ======================================== */
-
 .filter-controls {
     display: flex;
     flex-wrap: wrap;
@@ -104,7 +102,7 @@ body {
 
 .search-input {
     width: 100%;
-    padding: 0.85rem 1.25rem 0.85rem 2.5rem; /* Left padding for icon */
+    padding: 0.85rem 1.25rem 0.85rem 2.75rem; /* Left padding for icon */
     border-radius: 0.75rem;
     border: 1px solid var(--border-color);
     font-size: 1rem;
@@ -123,7 +121,7 @@ body {
     position: absolute;
     left: 1rem;
     color: var(--secondary-text);
-    pointer-events: none; /* Allows clicks to go through to the input */
+    pointer-events: none;
 }
 
 .category-filters {
@@ -162,8 +160,8 @@ body {
 .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
 .post-card { background: var(--content-bg); border: 1px solid var(--border-color); border-radius: 1.25rem; padding: 1.75rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; }
 .post-card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-.post-card h3 { margin: 0.75rem 0; font-size: 1.6rem; font-weight: 700; color: var(--text-color); line-height: 1.3; }
-.post-card .post-card-content > p { font-size: 1rem; color: var(--secondary-text); line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+.post-card h3 { margin: 0.75rem 0; font-size: 1.6rem; font-weight: 700; color: var(--text-color); line-height: 1.3; flex-grow: 1; }
+.post-card p { font-size: 1rem; color: var(--secondary-text); line-height: 1.6; margin-bottom: 1.5rem; }
 .post-category { display: inline-block; font-size: 0.8rem; font-weight: 600; background: color-mix(in srgb, var(--accent-color, #3ddc84) 20%, transparent); color: var(--accent-color, #3ddc84); padding: 0.25rem 0.75rem; border-radius: 999px; margin-bottom: 0.5rem; }
 
 /* --- Post Meta (Author & Time) --- */
@@ -176,7 +174,6 @@ body {
 .post-timestamps, .post-time { font-size: 0.85rem; color: var(--secondary-text); }
 .featured-post .post-meta { border-top: none; padding-top: 0; }
 
-
 /* ======================================== */
 /* == Read More Button (ENHANCED) ========= */
 /* ======================================== */
@@ -186,7 +183,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    margin-top: 1rem; /* Added margin for spacing */
+    margin-top: 1rem;
     font-size: 0.95rem;
     color: var(--accent-text-color, #fff);
     background-color: var(--accent-color);
@@ -195,7 +192,7 @@ body {
     padding: 0.75rem 1.5rem;
     border-radius: 999px;
     transition: all 0.2s ease;
-    align-self: flex-start; /* Aligns button to the left */
+    align-self: flex-start;
 }
 
 .read-more-btn:hover {
@@ -205,7 +202,6 @@ body {
     transform: translateY(-2px);
 }
 
-
 /* --- Single Post Page Styles --- */
 .post-full-content { background: var(--content-bg); border-radius: 1rem; padding: clamp(1.5rem, 5vw, 3rem); border: 1px solid var(--border-color); }
 .post-full-content .post-title { font-size: clamp(2.25rem, 7vw, 3.75rem); line-height: 1.15; font-weight: 800; margin: 0 0 1.5rem 0; color: var(--text-color); }
@@ -214,4 +210,9 @@ body {
 .post-main-content { font-size: 1.15rem; line-height: 1.8; color: var(--secondary-text); max-width: 70ch; margin: 0 auto; }
 .post-main-content strong { color: var(--text-color); }
 .post-main-content a { color: var(--accent-color, #3ddc84); text-decoration: underline; text-decoration-thickness: 1.5px; }
+
+/* --- Dark Mode Fine-Tuning --- */
+body.dark-mode .read-more-btn:hover {
+    background-color: color-mix(in srgb, var(--accent-color) 90%, white);
+}
 
