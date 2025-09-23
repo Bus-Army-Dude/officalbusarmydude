@@ -1337,52 +1337,52 @@ async function initializeBlogListPageContent() {
     }
 
     function displayFeaturedPost(posts) {
-    const featuredPost = posts.find(post => post.isFeatured);
-    if (featuredPost) {
-        // Create a link to the author page
-        const authorLink = `author.html?name=${encodeURIComponent(featuredPost.author)}`;
-        featuredContainer.innerHTML = `
-            <article class="featured-post">
-                <h2>${featuredPost.title}</h2>
-                <div class="post-meta">
-                    ${featuredPost.authorPfpUrl ? `<img src="${featuredPost.authorPfpUrl}" class="author-pfp" alt="${featuredPost.author}">` : ""}
-                    <!-- Author name is now a link -->
-                    <span>By <a href="${authorLink}">${featuredPost.author}</a></span>
-                    <span class="post-time">${formatRelativeTime(featuredPost.createdAt, featuredPost.updatedAt)}</span>
-                </div>
-                <p>${featuredPost.content.substring(0, 200)}...</p>
-                <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read Full Story <i class="fas fa-arrow-right"></i></a>
-            </article>`;
-    }
+    const featuredPost = posts.find(post => post.isFeatured);
+    if (featuredPost && featuredContainer) {
+        // Create a link to the author page, e.g., author.html?name=Caleb
+        const authorLink = `author.html?name=${encodeURIComponent(featuredPost.author)}`;
+        featuredContainer.innerHTML = `
+            <article class="featured-post">
+                <h2>${featuredPost.title}</h2>
+                <div class="post-meta">
+                    ${featuredPost.authorPfpUrl ? `<img src="${featuredPost.authorPfpUrl}" class="author-pfp" alt="${featuredPost.author}">` : ""}
+                    <!-- Author name is now a link -->
+                    <span class="author-name"><a href="${authorLink}">${featuredPost.author}</a></span>
+                    <span class="post-time">${formatRelativeTime(featuredPost.createdAt, featuredPost.updatedAt)}</span>
+                </div>
+                <p>${featuredPost.content.substring(0, 200)}...</p>
+                <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read Full Story <i class="fas fa-arrow-right"></i></a>
+            </article>`;
+    }
 }
 
     function displayPosts(posts) {
-    postsGrid.innerHTML = '';
-    const postsToDisplay = posts.filter(post => !post.isFeatured);
-    if (postsToDisplay.length === 0) {
-        postsGrid.innerHTML = posts.find(p => p.isFeatured) ? '<p>No other posts to display.</p>' : '<p>No posts match your search or filter.</p>';
-        return;
-    }
-    postsToDisplay.forEach(post => {
+    postsGrid.innerHTML = '';
+    const postsToDisplay = posts.filter(post => !post.isFeatured);
+    if (postsToDisplay.length === 0) {
+        postsGrid.innerHTML = posts.find(p => p.isFeatured) ? '<p>No other posts to display.</p>' : '<p>No posts match your search or filter.</p>';
+        return;
+    }
+    postsToDisplay.forEach(post => {
         // Create a link for each author
-        const authorLink = `author.html?name=${encodeURIComponent(post.author)}`;
-        const postCard = document.createElement('div');
-        postCard.className = 'post-card';
-        postCard.innerHTML = `
-            <div class="post-card-content">
-                <span class="post-category">${post.category}</span>
-                <h3>${post.title}</h3>
-                <div class="post-meta">
-                    ${post.authorPfpUrl ? `<img src="${post.authorPfpUrl}" class="author-pfp" alt="${post.author}">` : ""}
-                    <!-- Author name is now a link -->
-                    <span>By <a href="${authorLink}">${post.author}</a></span>
-                    <span class="post-time">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>
-                </div>
-                <p>${post.content.substring(0, 100)}...</p>
-                <a href="post.html?id=${post.id}" class="read-more-btn">Read More</a>
-            </div>`;
-        postsGrid.appendChild(postCard);
-    });
+        const authorLink = `author.html?name=${encodeURIComponent(post.author)}`;
+        const postCard = document.createElement('div');
+        postCard.className = 'post-card';
+        postCard.innerHTML = `
+            <div class="post-card-content">
+                <span class="post-category">${post.category}</span>
+                <h3>${post.title}</h3>
+                <div class="post-meta">
+                    ${post.authorPfpUrl ? `<img src="${post.authorPfpUrl}" class="author-pfp" alt="${post.author}">` : ""}
+                    <!-- Author name is now a link -->
+                    <span class="author-name"><a href="${authorLink}">${post.author}</a></span>
+                    <span class="post-time">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>
+                </div>
+                <p>${post.content.substring(0, 100)}...</p>
+                <a href="post.html?id=${post.id}" class="read-more-btn">Read More</a>
+            </div>`;
+        postsGrid.appendChild(postCard);
+    });
 }
 
     function populateCategories(posts) {
