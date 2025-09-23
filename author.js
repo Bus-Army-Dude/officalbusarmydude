@@ -2,7 +2,7 @@
 import { db } from './firebase-init.js';
 import { collection, query, where, getDocs, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 
-// Helper function to format time (needed for this page)
+// Helper function to format time
 function formatRelativeTime(createdAt, updatedAt) {
     if (!createdAt) return "Posted (unknown time)";
     const createdDate = createdAt.toDate();
@@ -28,11 +28,10 @@ function formatRelativeTime(createdAt, updatedAt) {
     return result;
 }
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const postsGrid = document.getElementById('posts-grid');
     const titleElement = document.getElementById('author-page-title');
-    const authorPfpHeaderElement = document.getElementById('author-header-pfp');
+    const authorPfpElement = document.getElementById('author-header-pfp'); // Get the new image element
 
     const params = new URLSearchParams(window.location.search);
     const authorName = params.get('name');
@@ -59,33 +58,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Get the author's profile picture from the first post.
-            // We will reuse this for all cards on this page.
-            const firstPostData = snapshot.docs[0].data();
-            const authorPfpUrl = firstPostData.authorPfpUrl || 'images/default-profile.jpg';
-            
-            // Also update the header PFP
-            if(authorPfpHeaderElement) {
-                authorPfpHeaderElement.src = authorPfpUrl;
-                authorPfpHeaderElement.alt = authorName;
+            // --- THIS IS THE NEW LOGIC ---
+            // Get the first post to find the author's profile picture URL
+            const firstPost = snapshot.docs[0].data();
+            if (firstPost.authorPfpUrl && authorPfpElement) {
+                authorPfpElement.src = firstPost.authorPfpUrl;
+                authorPfpElement.alt = authorName; // Set alt text for accessibility
             }
+            // --- END OF NEW LOGIC ---
 
             postsGrid.innerHTML = ''; // Clear loading message
-
             snapshot.forEach(doc => {
                 const post = { id: doc.id, ...doc.data() };
                 const postCard = document.createElement('div');
                 postCard.className = 'post-card';
-
-                // --- THIS IS THE CORRECTED HTML STRUCTURE ---
-                // It now includes the post-meta section with the author's picture
+                // This structure matches the main blog page for consistency
                 postCard.innerHTML = `
                     <div class="post-card-content">
                         <span class="post-category">${post.category}</span>
                         <h3>${post.title}</h3>
                         <p>${post.content.substring(0, 100)}...</p>
                         <div class="post-meta">
-                            <img src="${authorPfpUrl}" class="author-pfp" alt="${authorName}">
+                            <img src="${firstPost.authorPfpUrl || 'images/default-profile.jpg'}" class="author-pfp" alt="${authorName}">
                             <div class="author-details">
                                 <span class="author-name">${authorName}</span>
                                 <span class="post-time">${formatRelativeTime(post.createdAt, post.updatedAt)}</span>
