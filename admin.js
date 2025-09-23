@@ -1348,8 +1348,6 @@ function setupBusinessInfoListeners() {
 // ======================================================
 // ===== BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
 // ======================================================
-
-// Save or Update a Blog Post
 async function savePost() {
     const postId = document.getElementById('post-id').value;
     const title = document.getElementById('post-title').value;
@@ -1403,16 +1401,11 @@ async function savePost() {
 }
 
 function resetPostForm() {
-    const form = document.getElementById('blog-management-form'); // CORRECT ID
+    const form = document.getElementById('blog-management-form'); // Use the CORRECT ID
     if (form) {
-        form.querySelector('#post-id').value = '';
-        form.querySelector('#post-title').value = '';
-        form.querySelector('#post-author').value = '';
-        form.querySelector('#post-author-pfp').value = '';
-        form.querySelector('#post-category').value = '';
-        form.querySelector('#post-featured').checked = false;
+        form.reset(); // This is a simpler way to clear most fields
         if (window.quill) {
-            window.quill.root.innerHTML = ''; // Correctly clears the editor
+            window.quill.root.innerHTML = ''; // Clear the editor
         }
     }
 }
@@ -1444,7 +1437,7 @@ async function loadPosts() {
         }).join('');
     } catch (error) {
         console.error("Error loading posts: ", error);
-        postsListDiv.innerHTML = `<p class="error">Error loading posts: ${error.message}.</p>`;
+        postsListDiv.innerHTML = `<p class="error">Error loading posts.</p>`;
     }
 }
 
@@ -2120,24 +2113,24 @@ onAuthStateChanged(auth, user => {
                         ]
                     }
                 });
-                // Make the editor instance globally available for other functions
-                window.quill = quill; // Make editor globally accessible
+                window.quill = quill;
                 console.log("✅ Rich Text Editor initialized.");
                 // ===============================================
                 // == THIS IS THE FIX: CONNECT THE FORM TO THE SCRIPT ==
                 // ===============================================
-                const blogForm = document.getElementById('blog-management-form'); // CORRECT ID
+                const blogForm = document.getElementById('blog-management-form'); // Use the CORRECT ID
                 if (blogForm) {
-                    if (!blogForm.dataset.listenerAttached) { // Prevent adding multiple listeners
+                    // This prevents adding the same listener multiple times
+                    if (!blogForm.dataset.listenerAttached) {
                         blogForm.addEventListener('submit', (e) => {
-                            e.preventDefault(); // This is CRITICAL - it stops the page from reloading
-                            console.log("Save Post form submitted.");
+                            e.preventDefault(); // CRITICAL: stops the page from reloading
+                            console.log("Save Post form submitted via listener.");
                             savePost();
                         });
                         blogForm.dataset.listenerAttached = 'true';
                     }
                 } else {
-                    console.error("CRITICAL: Blog management form not found!");
+                    console.error("CRITICAL ERROR: Blog management form with ID 'blog-management-form' not found!");
                 }
 
                 resetInactivityTimer();
