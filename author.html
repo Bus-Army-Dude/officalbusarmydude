@@ -12,8 +12,13 @@
 </head>
 <body class="dark-mode">
 
-    <header class="main-header">
-        <h1 id="author-page-title">Loading...</h1>
+    <header class="main-header author-page-header">
+        <!-- This new div wraps the author info -->
+        <div class="author-header-info">
+            <!-- Placeholder for the author's picture -->
+            <img src="images/default-profile.jpg" alt="" class="author-header-pfp" id="author-header-pfp">
+            <h1 id="author-page-title">Loading...</h1>
+        </div>
         <a href="blog.html" class="home-link"><i class="fas fa-arrow-left"></i> Back to All Posts</a>
     </header>
 
@@ -25,6 +30,7 @@
 
     <!-- The new script to power this page -->
     <script type="module" src="author.js"></script>
-    <script type="module" src="settings.js"></script>
+    <script rc="settings.js"></script>
 </body>
 </html>
+
