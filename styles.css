@@ -117,7 +117,7 @@ body {
 
 /* ======================================== */
 /* == Profile Section – Onyx Bubble Glass == */
-/* (Final Version for Provided HTML)      */
+/* (Final Version with Correct Badge Width) */
 /* ======================================== */
 
 .profile-section {
@@ -183,7 +183,7 @@ body {
 	justify-content: center;
 	gap: 0.5rem;
 	margin: 1.875rem 0 0.625rem;
-	flex-wrap: wrap; /* This allows items to wrap to the next line */
+	flex-wrap: wrap;
 }
 
 .username-checkmark h1 {
@@ -202,30 +202,36 @@ body {
 	flex-shrink: 0;
 }
 
-/* --- Text-Based Profile Status Badge (Hidden on Desktop) --- */
+/* --- Text-Based Profile Status --- */
+/* This outer <p> is now just for positioning */
 .profile-status-text {
-	display: none;
+	display: none; /* Hidden on desktop */
+	width: 100%;
+	margin-top: 0.35rem;
+}
+
+/* The inner <span> is now the styled badge */
+.profile-status-text span {
 	font-size: 0.85rem;
 	font-weight: 700;
-	margin-top: 0.35rem; /* Adds space above the badge */
 	padding: 0.25em 0.8em;
 	border-radius: 999px;
 	line-height: 1;
 }
 
-.profile-status-text.status-online {
+.profile-status-text.status-online span {
 	background-color: #31a24c;
 	color: #ffffff;
 }
-.profile-status-text.status-idle {
+.profile-status-text.status-idle span {
 	background-color: #ffc107;
 	color: #1f1f1f;
 }
-.profile-status-text.status-dnd {
+.profile-status-text.status-dnd span {
 	background-color: #dc3545;
 	color: #ffffff;
 }
-.profile-status-text.status-offline {
+.profile-status-text.status-offline span {
 	background-color: #747f8d;
 	color: #ffffff;
 }
@@ -307,7 +313,6 @@ a.corner-button {
 	/* SHOW the text status on mobile */
 	.profile-status-text {
 		display: block;
-        /* KEY CHANGE: This forces the badge to a new line below the username */
 		flex-basis: 100%;
 	}
 	.corner-button {
