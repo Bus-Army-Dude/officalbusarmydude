@@ -35,13 +35,14 @@ body {
 	background: var(--content-bg);
 	border: 1px solid var(--border-color);
 	border-radius: 1.25rem;
+	/* A deeper, more subtle shadow */
 	box-shadow: 0 4px 12px -2px rgba(0,0,0,0.05), 0 8px 32px -4px rgba(0,0,0,0.07);
 }
 
 .main-header h1 {
 	margin: 0;
 	font-size: clamp(1.5rem, 4vw, 2.25rem);
-	font-weight: 800;
+	font-weight: 800; /* Bolder for more impact */
 	color: var(--text-color);
 }
 
@@ -53,9 +54,9 @@ body {
 	padding: 0.6rem 1.2rem;
 	background-color: color-mix(in srgb, var(--accent-color, #3ddc84) 10%, transparent);
 	color: var(--accent-color, #3ddc84);
-	border: 1px solid transparent;
+	border: 1px solid transparent; /* Start with a transparent border */
 	border-radius: 999px;
-	font-weight: 600;
+	font-weight: 600; /* Bolder */
 	transition: all 0.2s ease;
 }
 
@@ -63,7 +64,7 @@ body {
 	background-color: var(--accent-color, #3ddc84);
 	color: var(--accent-text-color, #fff);
 	box-shadow: var(--accent-glow);
-	transform: translateY(-2px) scale(1.02);
+	transform: translateY(-2px) scale(1.02); /* Add a slight scale effect */
 }
 
 /* --- Section Titles --- */
@@ -77,7 +78,9 @@ body {
 	text-align: left;
 }
 
-/* --- Keyframes for Animations --- */
+/* ======================================== */
+/* == Keyframes for Animations =========== */
+/* ======================================== */
 @keyframes fadeInUp {
 	from {
 		opacity: 0;
@@ -89,29 +92,32 @@ body {
 	}
 }
 
-/* --- Featured Post Card --- */
+/* ======================================== */
+/* == Featured Post Card ================== */
+/* ======================================== */
 .featured-post-container {
 	margin-bottom: 3rem;
 	animation: fadeInUp 0.6s ease-out forwards;
 }
 
 .featured-post {
-	position: relative;
+	position: relative; /* For pseudo-elements */
 	background: var(--content-bg);
 	border: 1px solid var(--border-color);
-	border-radius: 1.25rem;
-	padding: 2.5rem;
+	border-radius: 1.25rem; /* Increased radius */
+	padding: 2.5rem; /* More padding */
 	box-shadow: 0 8px 40px -10px var(--shadow-color, rgba(0,0,0,0.1));
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
-	overflow: hidden;
+	overflow: hidden; /* Hide overflow for the glow effect */
 }
 
+/* Awesome glowing border effect on hover */
 .featured-post::before {
 	content: '';
 	position: absolute;
 	top: 0; right: 0; bottom: 0; left: 0;
 	z-index: -1;
-	margin: -1px;
+	margin: -1px; /* Adjust to border width */
 	border-radius: inherit;
 	background: conic-gradient(from 180deg at 50% 50%, var(--accent-color), #888, var(--accent-color));
 	opacity: 0;
@@ -128,33 +134,43 @@ body {
 }
 
 .featured-post h2 {
-	font-size: clamp(2rem, 5vw, 3rem);
+	font-size: clamp(2rem, 5vw, 3rem); /* Larger font */
 	font-weight: 800;
 	margin: 0 0 1rem 0;
 	color: var(--text-color);
 	line-height: 1.2;
 }
 
-/* --- Filter Controls --- */
+.featured-post > p {
+	font-size: 1.1rem;
+	color: var(--secondary-text);
+	margin: 1rem 0;
+	line-height: 1.7;
+	max-width: 75ch; /* Improves readability */
+}
+
+/* ======================================== */
+/* == Filter Controls ===================== */
+/* ======================================== */
 .filter-controls {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 1.5rem;
-	margin-bottom: 3rem;
+	margin-bottom: 3rem; /* More space */
 	padding: 1rem;
-	background-color: transparent;
+	background-color: transparent; /* Cleaner look */
 	border-radius: 1rem;
 	border: none;
 }
 
 .search-input {
 	flex: 1 1 300px;
-	padding: 0.85rem 1.25rem;
+	padding: 0.85rem 1.25rem; /* Larger padding */
 	border-radius: 0.75rem;
 	border: 1px solid var(--border-color);
 	font-size: 1rem;
-	background-color: var(--content-bg);
+	background-color: var(--content-bg); /* Use content bg for consistency */
 	color: var(--text-color);
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -168,17 +184,17 @@ body {
 .category-filters {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.75rem;
+	gap: 0.75rem; /* More gap */
 }
 
 .category-btn {
-	padding: 0.6rem 1.3rem;
+	padding: 0.6rem 1.3rem; /* Taller buttons */
 	border: 1px solid var(--border-color);
 	border-radius: 999px;
 	background: transparent;
 	color: var(--secondary-text);
 	font-size: 0.9rem;
-	font-weight: 600;
+	font-weight: 600; /* Bolder */
 	cursor: pointer;
 	transition: all 0.2s ease-in-out;
 }
@@ -196,7 +212,9 @@ body {
 	box-shadow: var(--accent-glow);
 }
 
-/* --- Posts Grid & Cards --- */
+/* ======================================== */
+/* == Posts Grid & Cards ================== */
+/* ======================================== */
 .posts-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -206,18 +224,52 @@ body {
 .post-card {
 	background: var(--content-bg);
 	border: 1px solid var(--border-color);
-	border-radius: 1.25rem;
+	border-radius: 1.25rem; /* Match featured card */
 	padding: 1.5rem;
 	box-shadow: 0 4px 12px -2px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.05);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 	display: flex;
 	flex-direction: column;
-	opacity: 0;
+	opacity: 0; /* Start hidden for animation */
 	transform: translateY(20px);
 	animation: fadeInUp 0.5s ease-out forwards;
 }
 
-/* --- Post Meta (Author + Time) --- */
+.post-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 10px 40px -8px var(--shadow-color, rgba(0,0,0,0.15));
+}
+
+.post-card h3 {
+	margin: 0.75rem 0;
+	font-size: 1.6rem;
+	font-weight: 700; /* Bolder */
+	color: var(--text-color);
+	line-height: 1.3;
+}
+
+.post-card > p {
+	font-size: 1rem;
+	color: var(--secondary-text);
+	line-height: 1.7; /* Increased for readability */
+	margin-bottom: 1.5rem;
+	flex-grow: 1;
+}
+
+.post-category {
+	display: inline-block;
+	font-size: 0.8rem;
+	font-weight: 600;
+	background: color-mix(in srgb, var(--accent-color, #3ddc84) 15%, transparent);
+	color: var(--accent-color, #3ddc84);
+	padding: 0.3rem 0.8rem;
+	border-radius: 999px;
+	margin-bottom: 0.5rem;
+}
+
+/* ======================================== */
+/* == Post Meta (Author + Time) =========== */
+/* ======================================== */
 .post-meta {
 	display: flex;
 	align-items: center;
@@ -228,6 +280,14 @@ body {
 	margin-bottom: 1rem;
 	padding-top: 1rem;
 	border-top: 1px solid var(--border-color);
+}
+
+.author-pfp, .post-profile-pic {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid var(--border-color);
 }
 
 .post-meta a {
@@ -241,59 +301,109 @@ body {
     text-decoration: underline;
 }
 
-.author-pfp {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	object-fit: cover;
-	border: 2px solid var(--border-color);
-}
-
 .featured-post .post-meta {
 	border-top: none;
 	padding-top: 0;
 }
 
-/* --- Single Post Page Styles --- */
+/* ======================================== */
+/* == Read More Links & Buttons =========== */
+/* ======================================== */
+.read-more-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: auto;
+	font-size: 1rem; /* Larger */
+	color: var(--accent-color, #3ddc84);
+	font-weight: 600;
+	text-decoration: none;
+	transition: color 0.2s ease, transform 0.2s ease, letter-spacing 0.2s ease;
+	padding: 0.5rem 0;
+}
+
+.read-more-btn:hover {
+	color: color-mix(in srgb, var(--accent-color, #3ddc84) 70%, black);
+	text-decoration: none;
+	transform: translateX(5px);
+	letter-spacing: 0.5px; /* Adds a nice dynamic feel */
+}
+
+/* ======================================== */
+/* == Single Post Page Styles ============= */
+/* ======================================== */
 .post-full-content {
 	background: var(--content-bg);
 	border-radius: 1.25rem;
-	padding: clamp(1.5rem, 5vw, 4rem);
+	padding: clamp(1.5rem, 5vw, 4rem); /* More generous padding */
 	border: 1px solid var(--border-color);
+}
+
+.post-full-content .post-title {
+	font-size: clamp(2.25rem, 7vw, 4rem);
+	line-height: 1.15;
+	font-weight: 800;
+	margin: 0 0 1.5rem 0;
+	color: var(--text-color);
 }
 
 .post-author-info {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	margin-bottom: 3rem;
+	margin-bottom: 3rem; /* More space */
 	padding-bottom: 1.5rem;
 	border-bottom: 1px solid var(--border-color);
 }
 
-.author-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
+.post-author-info .author-pfp {
+	width: 55px; /* Larger */
+	height: 55px;
 }
 
+.author-details { display: flex; flex-direction: column; gap: 0.2rem; }
+.author-name { font-weight: 600; font-size: 1.1rem; }
 .author-name a {
-    font-weight: 600;
-    font-size: 1.1rem;
     color: var(--text-color);
     text-decoration: none;
     transition: color 0.2s ease;
 }
-
 .author-name a:hover {
     color: var(--accent-color);
 }
+.post-timestamps { font-size: 0.9rem; color: var(--secondary-text); }
 
 .post-main-content {
-	font-size: 1.15rem;
-	line-height: 1.8;
+	font-size: 1.15rem; /* Larger for readability */
+	line-height: 1.8; /* Increased for readability */
 	color: var(--text-color);
-	max-width: 70ch; /* Optimal for readability */
+	max-width: 70ch; /* THE KEY to readability */
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.post-main-content p,
+.post-main-content ul,
+.post-main-content ol,
+.post-main-content blockquote {
+	margin-bottom: 1.75rem;
+}
+
+.post-main-content a {
+	color: var(--accent-color, #3ddc84);
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 3px;
+	transition: all 0.2s ease;
+}
+
+.post-main-content a:hover {
+	color: var(--text-color);
+	background-color: var(--accent-color);
+	text-decoration: none;
+}
+
+/* --- Dark Mode Fine-Tuning --- */
+body.dark-mode .read-more-btn:hover {
+	color: color-mix(in srgb, var(--accent-color, #3ddc84) 90%, white);
 }
