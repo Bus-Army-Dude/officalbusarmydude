@@ -117,13 +117,15 @@ body {
 
 /* ======================================== */
 /* == Profile Section – Onyx Bubble Glass == */
+/* (Fluid & Refactored)          */
 /* ======================================== */
 
 .profile-section {
 	position: relative;
 	text-align: center;
 	margin: 1.25rem 0 1.875rem 0;
-	padding: 1.875rem;
+	/* Fluid padding that shrinks on smaller screens */
+	padding: clamp(1rem, 5vw, 1.875rem);
 	background: var(--content-bg);
 	background-image: var(--bubble-gradient);
 	border-radius: var(--radius-xl);
@@ -138,7 +140,8 @@ body {
 /* --- Profile Pic Wrapper --- */
 .profile-pic-wrapper {
 	position: relative;
-	--profile-pic-size: 9.375rem; /* 150px -- Our single source of truth */
+	/* Fluid profile picture size using clamp() */
+	--profile-pic-size: clamp(6.25rem, 18vw, 9.375rem); /* min, ideal, max */
 	width: var(--profile-pic-size);
 	height: var(--profile-pic-size);
 	margin: 0 auto;
@@ -150,27 +153,28 @@ body {
 	border-radius: 50%;
 	object-fit: cover;
 	box-shadow: var(--bubble-shadow);
-	border: 2px solid rgba(255,255,255,0.1);
+	border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 /* --- Profile Status --- */
 .profile-status-container {
 	position: absolute;
-	/* Calculate width based on the parent's size variable */
+	/* Size is still relative to the profile pic, so it scales fluidly! */
 	width: calc(var(--profile-pic-size) * 0.15);
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;
-	border: 2px solid var(--content-bg);
+	border: 3px solid var(--content-bg); /* Increased border for better visibility */
 	box-shadow: var(--bubble-shadow);
 	z-index: 2;
-	bottom: 0;
-	right: 10%;
+	bottom: 2%;
+	right: 8%;
 }
 
-.profile-status-container.status-online    { background-color: #31a24c; }
-.profile-status-container.status-idle      { background-color: #ffc107; }
-.profile-status-container.status-dnd       { background-color: #dc3545; }
-.profile-status-container.status-offline   { background-color: #adb5bd; }
+/* Note: Removed unnecessary whitespace from original class selectors */
+.profile-status-container.status-online   { background-color: #31a24c; }
+.profile-status-container.status-idle     { background-color: #ffc107; }
+.profile-status-container.status-dnd      { background-color: #dc3545; }
+.profile-status-container.status-offline  { background-color: #adb5bd; }
 
 /* --- Username & Verified --- */
 .username-checkmark {
@@ -178,13 +182,15 @@ body {
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
-	margin: max(1.875rem, 25px) 0 0.625rem;
+	/* Fluid top margin */
+	margin: clamp(1rem, 4vw, 1.875rem) 0 0.625rem;
 	flex-wrap: wrap;
 }
 
 .username-checkmark h1 {
 	margin: 0;
-	font-size: clamp(calc(var(--font-size-base, 20px) * 1.5), 3vw, calc(var(--font-size-base, 20px) * 2.5));
+	/* The original clamp() function was already great for fluidity */
+	font-size: clamp(1.5rem, 5vw, 2.25rem);
 	font-weight: 800;
 	background: linear-gradient(120deg, var(--secondary-text), var(--accent-color));
 	-webkit-background-clip: text;
@@ -193,31 +199,34 @@ body {
 }
 
 .verified {
-	width: 1.25rem;
-	height: 1.25rem;
+	/* Using `em` allows the icon to scale relative to the h1 font size */
+	width: 1em;
+	height: 1em;
 	flex-shrink: 0;
 }
 
 /* --- Profile Bio --- */
 .profile-bio {
-	font-size: var(--font-size-base, 20px);
+	/* Fluid font size for better readability on all devices */
+	font-size: clamp(0.9rem, 2.5vw, 1rem);
 	color: var(--secondary-text);
 	line-height: 1.6;
 	max-width: 37.5rem;
 	margin: 0.625rem auto 1.25rem;
+	padding: 0 1rem; /* Add horizontal padding to prevent text from touching edges on small screens */
+	box-sizing: border-box;
 }
 
-/* --- Corner Buttons – Onyx Bubble + Icons --- */
-.settings-button,
-.merch-button,
-.blog-button {
+/* --- Corner Buttons (Refactored for DRY principle) --- */
+.corner-button {
 	position: absolute;
-	width: 2.75rem;
-	height: 2.75rem;
+	/* Fluid button size */
+	--button-size: clamp(2.25rem, 8vw, 2.75rem);
+	width: var(--button-size);
+	height: var(--button-size);
 	border-radius: var(--radius-lg);
 	border: none;
 	cursor: pointer;
-	padding: 0;
 	z-index: 10;
 	background: var(--content-bg);
 	background-image: var(--bubble-gradient);
@@ -231,53 +240,34 @@ body {
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.settings-button { top: 1.25rem; right: 1.25rem; }
-.merch-button    { top: 1.25rem; left: 1.25rem; }
-.blog-button     { bottom: 1.25rem; left: 1.25rem; }
+/* Fluid positioning for buttons */
+.settings-button { top: clamp(1rem, 3vw, 1.25rem); right: clamp(1rem, 3vw, 1.25rem); }
+.merch-button    { top: clamp(1rem, 3vw, 1.25rem); left: clamp(1rem, 3vw, 1.25rem); }
+.blog-button     { bottom: clamp(1rem, 3vw, 1.25rem); left: clamp(1rem, 3vw, 1.25rem); }
 
-.settings-button:hover,
-.merch-button:hover,
-.blog-button:hover {
+.corner-button:hover,
+.corner-button:focus-visible { /* Added focus-visible for accessibility */
 	transform: translateY(-2px);
 	box-shadow: 0 6px 20px var(--shadow-color), 0 0 8px var(--glow-color);
+	outline: none; /* Remove default outline for focused state */
 }
 
-.settings-button img,
-.merch-button img,
-.settings-button svg,
-.merch-button svg,
-.blog-button i {
-	width: 1.25rem;
-	height: 1.25rem;
-    font-size: 1.25rem;
+/* Simplified selector for icons inside buttons */
+.corner-button > * {
+	--icon-size: clamp(1rem, 4vw, 1.25rem);
+	width: var(--icon-size);
+	height: var(--icon-size);
+	font-size: var(--icon-size); /* For font-based icons like <i> */
 	object-fit: contain;
 }
 
-/* --- Responsive --- */
-@media screen and (max-width: 1024px) {
-	.profile-pic-wrapper {
-		--profile-pic-size: 8.5rem;
-	}
-}
-
-@media screen and (max-width: 768px) {
-	.profile-pic-wrapper {
-		--profile-pic-size: 7.5rem;
-	}
-	.settings-button, .merch-button, .blog-button { width: 2.375rem; height: 2.375rem; }
-	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.3); }
-	.profile-bio { font-size: calc(var(--font-size-base, 20px) * 0.95); }
-}
-
+/* --- Responsive Overrides --- */
+/* Media queries are now minimal, only for changes that clamp() can't handle */
 @media screen and (max-width: 480px) {
-	.profile-pic-wrapper {
-		--profile-pic-size: 6.25rem;
+	.profile-bio {
+		/* Slightly reduce max-width on very small screens for better centering */
+		max-width: 95%;
 	}
-	.settings-button, .merch-button, .blog-button { width: 2.125rem; height: 2.125rem; top: 0.9375rem; }
-    .blog-button { top: auto; bottom: 0.9375rem; left: 0.9375rem;}
-	.settings-button { right: 0.9375rem; }
-	.merch-button { left: 0.9375rem; }
-	.username-checkmark h1 { font-size: calc(var(--font-size-base, 20px) * 1.2); }
 }
 
 #status-widget {
