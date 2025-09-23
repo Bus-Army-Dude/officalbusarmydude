@@ -1,21 +1,8 @@
-// We can't use the full displayShoutouts.js, so we need a minimal setup
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+// Import the initialized Firebase database instance from your existing file
+import { db } from './firebase-init.js';
+import { collection, query, where, getDocs, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 
-// Use the same Firebase config
-const firebaseConfig = {
-    apiKey: "AIzaSyCIZ0fri5V1E2si1xXpBPQQJqj1F_KuuG0", // Replace with your actual API key
-    authDomain: "busarmydudewebsite.firebaseapp.com",
-    projectId: "busarmydudewebsite",
-    storageBucket: "busarmydudewebsite.firebasestorage.app",
-    messagingSenderId: "42980404680",
-    appId: "1:42980404680:web:f4f1e54789902a4295e4fd"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// Helper function to format time (copied from displayShoutouts.js)
+// Helper function to format time (needed for this page)
 function formatRelativeTime(createdAt, updatedAt) {
     if (!createdAt) return "Posted (unknown time)";
     const createdDate = createdAt.toDate();
@@ -46,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const postsGrid = document.getElementById('posts-grid');
     const titleElement = document.getElementById('author-page-title');
 
+    // Get the author's name from the URL (e.g., author.html?name=Caleb)
     const params = new URLSearchParams(window.location.search);
     const authorName = params.get('name');
 
@@ -55,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Set the page title with the author's name
+    // Set the page title
     const pageTitle = `Posts by ${authorName}`;
     titleElement.textContent = pageTitle;
     document.title = pageTitle;
@@ -64,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         postsGrid.innerHTML = `<p>Loading posts by ${authorName}...</p>`;
         try {
             const postsRef = collection(db, 'posts');
-            // Query for posts where the 'author' field matches the name from the URL
+            // Create a query to find all posts WHERE the 'author' field matches the name
             const authorQuery = query(postsRef, where("author", "==", authorName), orderBy("createdAt", "desc"));
             const snapshot = await getDocs(authorQuery);
 
@@ -78,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const post = { id: doc.id, ...doc.data() };
                 const postCard = document.createElement('div');
                 postCard.className = 'post-card';
-                // We use the same card structure as the main blog page
+                // Render the post card, just like on the main blog page
                 postCard.innerHTML = `
                     <div class="post-card-content">
                         <span class="post-category">${post.category}</span>
@@ -100,3 +88,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchPostsByAuthor();
 });
+
