@@ -2,10 +2,12 @@
 /* == Blog & Post Page: Awesome Theme    == */
 /* ======================================== */
 
-/* --- Font Import & Root Styles --- */
+/* --- Font Import --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+/* --- Theme Variables --- */
 :root {
+	/* These variables derive their colors from your main styles.css, ensuring themes match */
 	--accent-glow: 0 0 25px -5px color-mix(in srgb, var(--accent-color, #3ddc84) 60%, transparent);
 	--card-bg: color-mix(in srgb, var(--content-bg) 75%, transparent);
 	--card-border: color-mix(in srgb, var(--border-color) 40%, transparent);
@@ -15,15 +17,12 @@
 body {
 	font-family: 'Inter', sans-serif;
 	scroll-behavior: smooth;
+	/* This is the key: it uses the background from your main theme */
+	background-color: var(--bg-color);
 }
 
-body.dark-mode { background-color: var(--bg-color); }
-body:not(.dark-mode) { background-color: var(--bg-color); }
 
-
-/* ======================================== */
-/* == Animated Aurora Background ========= */
-/* ======================================== */
+/* --- Animated Aurora Background --- */
 body::before {
 	content: '';
 	position: fixed;
@@ -38,7 +37,7 @@ body::before {
 	animation: fadeIn 2s ease-out forwards;
 }
 
-/* --- General Layout & Header --- */
+/* --- General Layout & Header (Glassmorphism) --- */
 .blog-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
 .main-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.5rem 2rem; margin: 1rem auto; max-width: 1200px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 1.25rem; box-shadow: var(--card-shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .main-header h1 { margin: 0; font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 800; color: var(--text-color); }
@@ -74,70 +73,28 @@ body::before {
 .post-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 1.25rem; padding: 1.75rem; box-shadow: var(--card-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); animation: fadeInUp 0.5s ease-out forwards; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .post-card:nth-child(2) { animation-delay: 0.1s; } .post-card:nth-child(3) { animation-delay: 0.2s; } .post-card:nth-child(4) { animation-delay: 0.3s; } .post-card:nth-child(5) { animation-delay: 0.4s; } .post-card:nth-child(6) { animation-delay: 0.5s; }
 .post-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
-.post-card h3 { margin: 0.75rem 0; font-size: 1.75rem; font-weight: 700; color: var(--text-color); line-height: 1.2; }
-.post-card .post-card-content > p { font-size: 1rem; color: var(--secondary-text); line-height: 1.7; margin-bottom: 1.5rem; flex-grow: 1; }
+.post-card h3 { margin: 0.75rem 0; font-size: 1.75rem; font-weight: 700; color: var(--text-color); line-height: 1.2; flex-grow: 1; }
 .post-category { display: inline-block; font-size: 0.8rem; font-weight: 600; background: color-mix(in srgb, var(--accent-color, #3ddc84) 15%, transparent); color: var(--accent-color, #3ddc84); padding: 0.3rem 0.8rem; border-radius: 999px; margin-bottom: 0.5rem; }
-.read-more-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: auto; font-size: 1rem; color: var(--accent-color, #3ddc84); font-weight: 600; text-decoration: none; transition: all 0.2s ease; padding: 0.5rem 0; }
+.read-more-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; font-size: 1rem; color: var(--accent-color, #3ddc84); font-weight: 600; text-decoration: none; transition: all 0.2s ease; padding: 0.5rem 0; }
 .read-more-btn:hover { color: color-mix(in srgb, var(--accent-color, #3ddc84) 70%, black); text-decoration: none; transform: translateX(5px); letter-spacing: 0.5px; }
 
-/* ======================================== */
-/* == Author & Meta (Layout Fix) ========= */
-/* ======================================== */
-.author-pfp {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	object-fit: cover;
-	box-shadow: 0 0 0 3px color-mix(in srgb, var(--content-bg) 50%, transparent);
-	transition: all 0.3s ease;
-}
-
+/* --- Author & Meta (Layout Fix) --- */
+.author-pfp { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 3px color-mix(in srgb, var(--content-bg) 50%, transparent); transition: all 0.3s ease; }
 .post-card:hover .author-pfp { box-shadow: 0 0 0 2px var(--accent-color); }
-
-.post-meta {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-	margin-top: auto;
-	padding-top: 1rem;
-	border-top: 1px solid var(--border-color);
-	flex-grow: 0;
-}
-
-/* This is the key change: stack the name and time vertically */
-.author-details {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 0.1rem;
-	text-align: left;
-}
-
+.post-meta { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); }
+.author-details { display: flex; flex-direction: column; align-items: flex-start; gap: 0.1rem; text-align: left; }
 .author-name { font-weight: 700; font-size: 1rem; }
 .author-name a { color: var(--text-color); text-decoration: none; transition: color 0.2s ease; }
 .author-name a:hover { color: var(--accent-color); }
 .post-time { font-size: 0.85rem; color: var(--secondary-text); }
-
 .featured-post .post-meta { border-top: none; padding-top: 0; margin-top: 0; }
 
-/* ======================================== */
-/* == Single Post Page Styles ============= */
-/* ======================================== */
+/* --- Single Post Page Styles --- */
 .post-full-content { background: var(--card-bg); border-radius: 1.5rem; padding: clamp(2rem, 5vw, 4rem); border: 1px solid var(--card-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); animation: fadeIn 0.8s ease-out forwards; }
 .post-full-content .post-title { font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; font-weight: 800; margin: 0 0 2rem 0; color: var(--text-color); }
-
-.post-author-info {
-	display: flex;
-	align-items: center;
-	gap: 1.25rem;
-	margin-bottom: 3rem;
-	padding-bottom: 1.5rem;
-	border-bottom: 1px solid var(--border-color);
-}
-
+.post-author-info { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
 .post-author-info .author-pfp { width: 60px; height: 60px; }
 .post-author-info .author-name a { font-size: 1.25rem; color: var(--text-color); }
-
 .post-main-content { font-size: 1.15rem; line-height: 1.8; color: var(--secondary-text); max-width: 70ch; margin: 0 auto; }
 .post-main-content strong { color: var(--text-color); font-weight: 600; }
 .post-main-content h1, .post-main-content h2, .post-main-content h3 { color: var(--text-color); margin-top: 3rem; margin-bottom: 1.5rem; line-height: 1.2; }
