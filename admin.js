@@ -1357,23 +1357,17 @@ async function savePost() {
     const authorPfpUrl = document.getElementById('post-author-pfp').value;
     const category = document.getElementById('post-category').value;
     const isFeatured = document.getElementById('post-featured').checked;
-
-    // === THIS IS THE CRITICAL CHANGE ===
-    // Get the rich HTML content from the Quill editor instead of a textarea
     const content = window.quill.root.innerHTML;
 
     if (!title || !author || !category) {
         alert('Please fill out Title, Author, and Category.');
         return;
     }
-
-    // This checks if the editor is empty (Quill considers '<p><br></p>' as empty)
     if (content.trim() === '<p><br></p>' || content.trim() === '') {
         alert('Post Content cannot be empty.');
         return;
     }
 
-    // Your existing logic for handling the featured post is perfect.
     if (isFeatured) {
         const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
         const featuredSnapshot = await getDocs(featuredQuery);
@@ -1417,16 +1411,12 @@ function resetPostForm() {
         form.querySelector('#post-author-pfp').value = '';
         form.querySelector('#post-category').value = '';
         form.querySelector('#post-featured').checked = false;
-        
-        // === THIS IS THE CRITICAL CHANGE ===
-        // Clear the Quill editor
         if (window.quill) {
             window.quill.root.innerHTML = '';
         }
     }
 }
 
-// loadPosts function remains unchanged, it's correct.
 async function loadPosts() {
     const postsListDiv = document.getElementById('posts-list');
     if (!postsListDiv) return;
@@ -1454,7 +1444,7 @@ async function loadPosts() {
         }).join('');
     } catch (error) {
         console.error("Error loading posts: ", error);
-        postsListDiv.innerHTML = `<p class="error">Error loading posts: ${error.message}. Check console and Firestore rules.</p>`;
+        postsListDiv.innerHTML = `<p class="error">Error loading posts: ${error.message}.</p>`;
     }
 }
 
@@ -1469,13 +1459,9 @@ async function editPost(id) {
             document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
             document.getElementById('post-category').value = post.category || '';
             document.getElementById('post-featured').checked = post.isFeatured || false;
-
-            // === THIS IS THE CRITICAL CHANGE ===
-            // Load the rich HTML content into the Quill editor
             if (window.quill) {
                 window.quill.root.innerHTML = post.content;
             }
-
             document.getElementById('post-title').focus();
         }
     } catch (error) {
@@ -1483,7 +1469,6 @@ async function editPost(id) {
     }
 }
 
-// deletePost function remains unchanged, it's correct.
 async function deletePost(id) {
     if (confirm('Are you sure you want to delete this post?')) {
         try {
@@ -1496,6 +1481,7 @@ async function deletePost(id) {
         }
     }
 }
+    
 // ======================================================
 // ===== END: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
 // ======================================================
