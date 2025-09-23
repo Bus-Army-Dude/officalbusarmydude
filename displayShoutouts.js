@@ -264,9 +264,77 @@ function renderFaqItemHomepage(faqData) {
             </div>`;
 }
 
-function displayProfileData(profileData) 
+function displayProfileData(profileData) {
+    const profileUsernameElement = document.getElementById('profile-username-main');
+    const profilePicElement = document.getElementById('profile-pic-main');
+    const profileBioElement = document.getElementById('profile-bio-main');
+    const profileStatusContainerElement = document.getElementById('profile-status-main-container');
+    const profileStatusTextElement = document.getElementById('profile-status-text-main');
 
-{
+    // Check for the essential HTML elements
+    if (!profileUsernameElement || !profilePicElement || !profileBioElement) {
+        console.warn("Core profile display elements missing.");
+        return;
+    }
+
+    // Define default values for when data isn't available
+    const defaultUsername = "Username";
+    const defaultBio = "";
+    const defaultProfilePic = "images/default-profile.jpg";
+
+    if (!profileData) {
+        profileUsernameElement.textContent = defaultUsername;
+        profilePicElement.src = defaultProfilePic;
+        profileBioElement.textContent = defaultBio;
+        if (profileStatusContainerElement) profileStatusContainerElement.className = "profile-status-container status-offline";
+        if (profileStatusTextElement) {
+            profileStatusTextElement.textContent = 'Offline';
+            profileStatusTextElement.className = "profile-status-text status-offline";
+        }
+        return;
+    }
+
+    // Update the main profile info
+    profileUsernameElement.textContent = profileData.username || defaultUsername;
+    profilePicElement.src = profileData.profilePicUrl || defaultProfilePic;
+    profileBioElement.textContent = profileData.bio || defaultBio;
+
+    // --- Status Update Logic ---
+    const statusKey = profileData.status || 'offline';
+    let statusText = ''; // Initialize an empty string for the display text
+
+    // Map the status key from the database to the desired full text
+    switch (statusKey) {
+        case 'online':
+            statusText = 'Active';
+            break;
+        case 'idle':
+            statusText = 'Idle';
+            break;
+        case 'dnd':
+            statusText = 'Do Not Disturb'; // This is the change you wanted
+            break;
+        case 'offline':
+            statusText = 'Offline';
+            break;
+        default:
+            // As a fallback, just capitalize any unknown status
+            statusText = statusKey.charAt(0).toUpperCase() + statusKey.slice(1);
+    }
+
+    // Update the desktop corner status indicator
+    if (profileStatusContainerElement) {
+        profileStatusContainerElement.className = `profile-status-container status-${statusKey}`;
+    }
+
+    // Update the mobile text status indicator
+    if (profileStatusTextElement) {
+        profileStatusTextElement.textContent = statusText;
+        profileStatusTextElement.className = `profile-status-text status-${statusKey}`;
+    }
+
+    console.log("Profile section updated with status:", statusKey);
+}
 
 
 async function displayPresidentData() {
