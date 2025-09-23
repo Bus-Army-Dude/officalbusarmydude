@@ -1345,137 +1345,160 @@ function setupBusinessInfoListeners() {
 // == END: ALL BUSINESS INFO CODE FOR admin.js ==========
 // ======================================================
 
-   // ======================================================
-    // ===== START: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
-    // ======================================================
+// ======================================================
+// ===== START: BLOG MANAGEMENT FUNCTIONS (CORRECTED FOR RICH TEXT EDITOR) =====
+// ======================================================
 
-    // Save or Update a Blog Post
-    async function savePost() {
-        const postId = document.getElementById('post-id').value;
-        const title = document.getElementById('post-title').value;
-        const author = document.getElementById('post-author').value;
-        const authorPfpUrl = document.getElementById('post-author-pfp').value;
-        const category = document.getElementById('post-category').value;
-        const content = document.getElementById('post-content').value;
-        const isFeatured = document.getElementById('post-featured').checked;
+// Save or Update a Blog Post
+async function savePost() {
+    const postId = document.getElementById('post-id').value;
+    const title = document.getElementById('post-title').value;
+    const author = document.getElementById('post-author').value;
+    const authorPfpUrl = document.getElementById('post-author-pfp').value;
+    const category = document.getElementById('post-category').value;
+    const isFeatured = document.getElementById('post-featured').checked;
 
-        if (!title || !author || !content || !category) {
-            alert('Please fill out all fields, including Category.');
+    // === THIS IS THE CRITICAL CHANGE ===
+    // Get the rich HTML content from the Quill editor instead of a textarea
+    const content = window.quill.root.innerHTML;
+
+    if (!title || !author || !category) {
+        alert('Please fill out Title, Author, and Category.');
+        return;
+    }
+
+    // This checks if the editor is empty (Quill considers '<p><br></p>' as empty)
+    if (content.trim() === '<p><br></p>' || content.trim() === '') {
+        alert('Post Content cannot be empty.');
+        return;
+    }
+
+    // Your existing logic for handling the featured post is perfect.
+    if (isFeatured) {
+        const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
+        const featuredSnapshot = await getDocs(featuredQuery);
+        const batch = writeBatch(db);
+        featuredSnapshot.forEach(docSnapshot => {
+            if (docSnapshot.id !== postId) {
+                batch.update(docSnapshot.ref, { isFeatured: false });
+            }
+        });
+        await batch.commit();
+    }
+
+    const postData = {
+        title, author, authorPfpUrl, category, content, isFeatured,
+        updatedAt: serverTimestamp()
+    };
+
+    try {
+        if (postId) {
+            await updateDoc(doc(db, 'posts', postId), postData);
+            alert('Post updated successfully!');
+        } else {
+            postData.createdAt = serverTimestamp();
+            await addDoc(postsCollectionRef, postData);
+            alert('Post saved successfully!');
+        }
+        resetPostForm();
+        loadPosts();
+    } catch (error) {
+        console.error("Error saving post: ", error);
+        alert('Error saving post.');
+    }
+}
+
+function resetPostForm() {
+    const form = document.getElementById('blog-management');
+    if (form) {
+        form.querySelector('#post-id').value = '';
+        form.querySelector('#post-title').value = '';
+        form.querySelector('#post-author').value = '';
+        form.querySelector('#post-author-pfp').value = '';
+        form.querySelector('#post-category').value = '';
+        form.querySelector('#post-featured').checked = false;
+        
+        // === THIS IS THE CRITICAL CHANGE ===
+        // Clear the Quill editor
+        if (window.quill) {
+            window.quill.root.innerHTML = '';
+        }
+    }
+}
+
+// loadPosts function remains unchanged, it's correct.
+async function loadPosts() {
+    const postsListDiv = document.getElementById('posts-list');
+    if (!postsListDiv) return;
+    postsListDiv.innerHTML = 'Loading posts...';
+    try {
+        const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) {
+            postsListDiv.innerHTML = 'No posts found.';
             return;
         }
+        postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
+            const post = docSnapshot.data();
+            return `
+                <div class="admin-list-item">
+                    <span>
+                        ${post.title} <small>(${post.category})</small>
+                        ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
+                    </span>
+                    <div>
+                        <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
+                        <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
+                    </div>
+                </div>`;
+        }).join('');
+    } catch (error) {
+        console.error("Error loading posts: ", error);
+        postsListDiv.innerHTML = `<p class="error">Error loading posts: ${error.message}. Check console and Firestore rules.</p>`;
+    }
+}
 
-        if (isFeatured) {
-            const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
-            const featuredSnapshot = await getDocs(featuredQuery);
-            const batch = writeBatch(db);
-            featuredSnapshot.forEach(docSnapshot => {
-                if (docSnapshot.id !== postId) {
-                    batch.update(docSnapshot.ref, { isFeatured: false });
-                }
-            });
-            await batch.commit();
-        }
+async function editPost(id) {
+    try {
+        const docSnap = await getDoc(doc(db, 'posts', id));
+        if (docSnap.exists()) {
+            const post = docSnap.data();
+            document.getElementById('post-id').value = id;
+            document.getElementById('post-title').value = post.title;
+            document.getElementById('post-author').value = post.author;
+            document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
+            document.getElementById('post-category').value = post.category || '';
+            document.getElementById('post-featured').checked = post.isFeatured || false;
 
-        const postData = {
-            title, author, authorPfpUrl, category, content, isFeatured,
-            updatedAt: serverTimestamp()
-        };
-
-        try {
-            if (postId) {
-                await updateDoc(doc(db, 'posts', postId), postData);
-                alert('Post updated successfully!');
-            } else {
-                postData.createdAt = serverTimestamp();
-                await addDoc(postsCollectionRef, postData);
-                alert('Post saved successfully!');
+            // === THIS IS THE CRITICAL CHANGE ===
+            // Load the rich HTML content into the Quill editor
+            if (window.quill) {
+                window.quill.root.innerHTML = post.content;
             }
-            resetPostForm();
+
+            document.getElementById('post-title').focus();
+        }
+    } catch (error) {
+        console.error("Error fetching post for edit: ", error);
+    }
+}
+
+// deletePost function remains unchanged, it's correct.
+async function deletePost(id) {
+    if (confirm('Are you sure you want to delete this post?')) {
+        try {
+            await deleteDoc(doc(db, 'posts', id));
+            alert('Post deleted successfully!');
             loadPosts();
         } catch (error) {
-            console.error("Error saving post: ", error);
-            alert('Error saving post.');
+            console.error("Error deleting post: ", error);
+            alert('Error deleting post.');
         }
     }
-
-    function resetPostForm() {
-        const form = document.getElementById('blog-management');
-        if (form) {
-            form.querySelector('#post-id').value = '';
-            form.querySelector('#post-title').value = '';
-            form.querySelector('#post-author').value = '';
-            form.querySelector('#post-author-pfp').value = '';
-            form.querySelector('#post-category').value = '';
-            form.querySelector('#post-content').value = '';
-            form.querySelector('#post-featured').checked = false;
-        }
-    }
-
-    async function loadPosts() {
-        const postsListDiv = document.getElementById('posts-list');
-        if (!postsListDiv) return;
-        postsListDiv.innerHTML = 'Loading posts...';
-        try {
-            const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
-            const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                postsListDiv.innerHTML = 'No posts found.';
-                return;
-            }
-            postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
-                const post = docSnapshot.data();
-                return `
-                    <div class="admin-list-item">
-                        <span>
-                            ${post.title} <small>(${post.category})</small>
-                            ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
-                        </span>
-                        <div>
-                            <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
-                            <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
-                        </div>
-                    </div>`;
-            }).join('');
-        } catch (error) {
-            console.error("Error loading posts: ", error);
-            postsListDiv.innerHTML = `<p class="error">Error loading posts: ${error.message}. Check console and Firestore rules.</p>`;
-        }
-    }
-
-    async function editPost(id) {
-        try {
-            const docSnap = await getDoc(doc(db, 'posts', id));
-            if (docSnap.exists()) {
-                const post = docSnap.data();
-                document.getElementById('post-id').value = id;
-                document.getElementById('post-title').value = post.title;
-                document.getElementById('post-author').value = post.author;
-                document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
-                document.getElementById('post-category').value = post.category || '';
-                document.getElementById('post-content').value = post.content;
-                document.getElementById('post-featured').checked = post.isFeatured || false;
-                document.getElementById('post-title').focus();
-            }
-        } catch (error) {
-            console.error("Error fetching post for edit: ", error);
-        }
-    }
-
-    async function deletePost(id) {
-        if (confirm('Are you sure you want to delete this post?')) {
-            try {
-                await deleteDoc(doc(db, 'posts', id));
-                alert('Post deleted successfully!');
-                loadPosts();
-            } catch (error) {
-                console.error("Error deleting post: ", error);
-                alert('Error deleting post.');
-            }
-        }
-    }
-    // ======================================================
-    // ===== END: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
-    // ======================================================
+}
+// ======================================================
+// ===== END: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
+// ======================================================
     
 /** Filters and displays shoutouts in the admin list */
 function displayFilteredShoutouts(platform) {
