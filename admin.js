@@ -1346,8 +1346,9 @@ function setupBusinessInfoListeners() {
 // ======================================================
 
 // ======================================================
-// ===== BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
+// ===== BLOG MANAGEMENT FUNCTIONS (COMPLETE & CORRECT) =====
 // ======================================================
+
 async function savePost() {
     const postId = document.getElementById('post-id').value;
     const title = document.getElementById('post-title').value;
@@ -1401,11 +1402,11 @@ async function savePost() {
 }
 
 function resetPostForm() {
-    const form = document.getElementById('blog-management-form'); // Use the CORRECT ID
+    const form = document.getElementById('blog-management-form');
     if (form) {
-        form.reset(); // This is a simpler way to clear most fields
+        form.reset();
         if (window.quill) {
-            window.quill.root.innerHTML = ''; // Clear the editor
+            window.quill.root.innerHTML = '';
         }
     }
 }
@@ -1474,10 +1475,6 @@ async function deletePost(id) {
         }
     }
 }
-    
-// ======================================================
-// ===== END: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
-// ======================================================
     
 /** Filters and displays shoutouts in the admin list */
 function displayFilteredShoutouts(platform) {
@@ -2096,9 +2093,7 @@ onAuthStateChanged(auth, user => {
                 loadPresidentData();
                 loadTechItemsAdmin();
 
-               // ===================================================
-                // === NEW: IMAGE UPLOAD HANDLER FOR THE EDITOR ====
-                // ===================================================
+               // --- Image Upload Handler for the Editor ---
                 function imageHandler() {
                     const input = document.createElement('input');
                     input.setAttribute('type', 'file');
@@ -2115,8 +2110,7 @@ onAuthStateChanged(auth, user => {
                                 const snapshot = await uploadBytes(storageRef, file);
                                 const downloadURL = await getDownloadURL(snapshot.ref);
                                 console.log("Image uploaded, URL:", downloadURL);
-
-                                // Insert the image into the editor
+                                
                                 const range = window.quill.getSelection(true);
                                 window.quill.insertEmbed(range.index, 'image', downloadURL);
 
@@ -2127,7 +2121,6 @@ onAuthStateChanged(auth, user => {
                         }
                     };
                 }
-                // ===================================================
 
                 console.log("Initializing Rich Text Editor...");
                 const quill = new Quill('#post-content-editor', {
@@ -2138,12 +2131,10 @@ onAuthStateChanged(auth, user => {
                                 [{ 'header': [1, 2, 3, false] }],
                                 ['bold', 'italic', 'underline', 'strike'],
                                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                ['link', 'image', 'video', 'blockquote'], // 'image' will now be handled
+                                ['link', 'image', 'video', 'blockquote'],
                                 ['clean']
                             ],
-                            handlers: {
-                                'image': imageHandler // Link the handler to the toolbar button
-                            }
+                            handlers: { 'image': imageHandler }
                         }
                     }
                 });
