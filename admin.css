@@ -362,15 +362,15 @@ a:hover {
 }
 
 /* ======================================== */
-/* == BLOG MANAGEMENT FORM STYLES (v4.0) == */
+/* == BLOG MANAGEMENT FORM STYLES (v4.1) == */
 /* ======================================== */
 
-/* --- Container & Form Layout --- */
+/* --- Container & Section Spacing --- */
 #blog-management {
     padding: 2rem 1.5rem;
     max-width: 900px;
     margin: 0 auto;
-	margin-bottom: 4rem; /* 64px gap below the blog section */
+    margin-bottom: 4rem; /* Extra space below the blog section */
 }
 
 #blog-management h3 {
@@ -465,6 +465,7 @@ a:hover {
     font-weight: 600;
     color: var(--text-color, #111);
     user-select: none;
+    position: relative;
 }
 
 #post-featured {
@@ -575,7 +576,6 @@ a:hover {
 .admin-list-item small {
     color: var(--secondary-text, #6b7280);
 }
-
 
 /* ======================== */
 /* Form Element Styles      */
