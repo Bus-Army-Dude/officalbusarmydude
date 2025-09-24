@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                         <p>${getShortContent(featuredPost.content, 200)}...</p>
-                        <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
+                        <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read Post <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
             `;
