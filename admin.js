@@ -1339,8 +1339,10 @@ function setupBusinessInfoListeners() {
 // ======================================================
 
 // ======================================================
-    // ===== BLOG MANAGEMENT FUNCTIONS (COMPLETE & CORRECT) =====
+    // ===== ALL OTHER FUNCTIONS GO HERE =====================
     // ======================================================
+
+    // --- BLOG MANAGEMENT FUNCTIONS ---
     async function savePost() {
         const postId = document.getElementById('post-id').value;
         const title = document.getElementById('post-title').value;
@@ -1350,12 +1352,8 @@ function setupBusinessInfoListeners() {
         const isFeatured = document.getElementById('post-featured').checked;
         const content = window.quill.root.innerHTML;
 
-        if (!title || !author || !category) {
-            alert('Please fill out Title, Author, and Category.');
-            return;
-        }
-        if (content.trim() === '<p><br></p>' || content.trim() === '') {
-            alert('Post Content cannot be empty.');
+        if (!title || !author || !category || (content.trim() === '<p><br></p>' || content.trim() === '')) {
+            alert('Please fill out all required fields.');
             return;
         }
 
@@ -1371,10 +1369,7 @@ function setupBusinessInfoListeners() {
             await batch.commit();
         }
 
-        const postData = {
-            title, author, authorPfpUrl, category, content, isFeatured,
-            updatedAt: serverTimestamp()
-        };
+        const postData = { title, author, authorPfpUrl, category, content, isFeatured, updatedAt: serverTimestamp() };
 
         try {
             if (postId) {
@@ -1397,9 +1392,7 @@ function setupBusinessInfoListeners() {
         const form = document.getElementById('blog-management-form');
         if (form) {
             form.reset();
-            if (window.quill) {
-                window.quill.root.innerHTML = '';
-            }
+            if (window.quill) window.quill.root.innerHTML = '';
         }
     }
 
@@ -1410,11 +1403,7 @@ function setupBusinessInfoListeners() {
         try {
             const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
             const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                postsListDiv.innerHTML = 'No posts found.';
-                return;
-            }
-            postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
+            postsListDiv.innerHTML = snapshot.empty ? 'No posts found.' : snapshot.docs.map(docSnapshot => {
                 const post = docSnapshot.data();
                 return `
                     <div class="admin-list-item">
@@ -1442,9 +1431,7 @@ function setupBusinessInfoListeners() {
                 document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
                 document.getElementById('post-category').value = post.category || '';
                 document.getElementById('post-featured').checked = post.isFeatured || false;
-                if (window.quill) {
-                    window.quill.root.innerHTML = post.content;
-                }
+                if (window.quill) window.quill.root.innerHTML = post.content;
                 document.getElementById('post-title').focus();
             }
         } catch (error) {
@@ -2068,83 +2055,82 @@ onAuthStateChanged(auth, user => {
             
             // 2. Safely load all data
             try {
-                console.log("Loading all admin panel data...");
-                loadPosts(); // Load blog posts
-                loadProfileData();
-                loadBusinessInfoData();
-                setupBusinessInfoListeners();
-                loadShoutoutsAdmin('tiktok');
-                loadShoutoutsAdmin('instagram');
-                loadShoutoutsAdmin('youtube');
-                loadUsefulLinksAdmin();
-                loadSocialLinksAdmin();
-                loadDisabilitiesAdmin();
-                loadPresidentData();
-                loadTechItemsAdmin();
+                    // --- Load all admin data ---
+                    loadPosts();
+                    loadProfileData();
+                    loadBusinessInfoData();
+                    setupBusinessInfoListeners();
+                    loadShoutoutsAdmin('tiktok');
+                    loadShoutoutsAdmin('instagram');
+                    loadShoutoutsAdmin('youtube');
+                    loadUsefulLinksAdmin();
+                    loadSocialLinksAdmin();
+                    loadDisabilitiesAdmin();
+                    loadPresidentData();
+                    loadTechItemsAdmin();
 
-             // --- Initialize Rich Text Editor with Image Upload Handler ---
-                    function imageHandler() {
-                        const input = document.createElement('input');
-                        input.setAttribute('type', 'file');
-                        input.setAttribute('accept', 'image/*');
-                        input.click();
-                        input.onchange = async () => {
-                            const file = input.files[0];
-                            if (file) {
-                                const storageRef = ref(storage, `posts_images/${Date.now()}_${file.name}`);
-                                try {
-                                    const snapshot = await uploadBytes(storageRef, file);
-                                    const downloadURL = await getDownloadURL(snapshot.ref);
-                                    const range = window.quill.getSelection(true);
-                                    window.quill.insertEmbed(range.index, 'image', downloadURL);
-                                } catch (error) {
-                                    console.error("Image upload failed:", error);
-                                    alert("Error saving pic. Check console and storage rules.");
+                    // --- Initialize Rich Text Editor with Image Upload Handler ---
+                    if (!window.quill) { // Only initialize if it doesn't exist
+                        function imageHandler() {
+                            const input = document.createElement('input');
+                            input.setAttribute('type', 'file');
+                            input.setAttribute('accept', 'image/*');
+                            input.click();
+                            input.onchange = async () => {
+                                const file = input.files[0];
+                                if (file) {
+                                    const storageRef = ref(storage, `posts_images/${Date.now()}_${file.name}`);
+                                    try {
+                                        const snapshot = await uploadBytes(storageRef, file);
+                                        const downloadURL = await getDownloadURL(snapshot.ref);
+                                        const range = window.quill.getSelection(true);
+                                        window.quill.insertEmbed(range.index, 'image', downloadURL);
+                                    } catch (error) {
+                                        console.error("Image upload failed:", error);
+                                        alert("Error saving pic. Check console and storage rules.");
+                                    }
+                                }
+                            };
+                        }
+
+                        console.log("Initializing Rich Text Editor...");
+                        window.quill = new Quill('#post-content-editor', {
+                            theme: 'snow',
+                            modules: {
+                                toolbar: {
+                                    container: [
+                                        [{ 'header': [1, 2, 3, false] }],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                        ['link', 'image', 'video', 'blockquote'],
+                                        ['clean']
+                                    ],
+                                    handlers: { 'image': imageHandler }
                                 }
                             }
-                        };
+                        });
                     }
-
-                    console.log("Initializing Rich Text Editor...");
-                    const quill = new Quill('#post-content-editor', {
-                        theme: 'snow',
-                        modules: {
-                            toolbar: {
-                                container: [
-                                    [{ 'header': [1, 2, 3, false] }],
-                                    ['bold', 'italic', 'underline', 'strike'],
-                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                    ['link', 'image', 'video', 'blockquote'],
-                                    ['clean']
-                                ],
-                                handlers: { 'image': imageHandler }
-                            }
-                        }
-                    });
-                    window.quill = quill; // Make editor globally accessible
 
                     // --- Connect the Blog Form to the savePost function ---
                     const blogForm = document.getElementById('blog-management-form');
                     if (blogForm && !blogForm.dataset.listenerAttached) {
                         blogForm.addEventListener('submit', (e) => {
-                            e.preventDefault(); // CRITICAL: stops page reload
+                            e.preventDefault();
                             savePost();
                         });
                         blogForm.dataset.listenerAttached = 'true';
                     }
-
                 } catch (error) {
                     console.error("❌ CRITICAL ERROR during init:", error);
                 }
-
             } else {
                 alert("Access Denied. This account is not authorized.");
                 signOut(auth);
             }
         } else {
-            console.log("User is signed out.");
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('admin-content').style.display = 'none';
+            // User is signed out
+            loginSection.style.display = 'block';
+            adminContent.style.display = 'none';
         }
     });
 
@@ -4171,19 +4157,6 @@ async function loadDisabilitiesAdmin() {
         if (event.target === editTechItemModal) { closeEditTechItemModal(); }
     });
 
-    // ======================================================
-    // ===== GLOBAL HANDLERS (THE CORRECT LOCATION) ======
-    // ======================================================
-    // This section makes functions inside the module accessible to the HTML's onclick attributes.
-    // It MUST be INSIDE the DOMContentLoaded listener, after the functions are defined.
-    
-    // Blog Functions
-    window.savePost = savePost;
-    window.editPost = editPost;
-    window.deletePost = deletePost;
-    window.resetPostForm = resetPostForm;
-
-
     // Google Sign-In
     window.handleGoogleSignIn = handleGoogleSignIn;
 
@@ -4205,3 +4178,16 @@ window.handleCredentialResponse = (response) => {
         console.error("Critical Error: handleGoogleSignIn is not globally available for the Google callback.");
     }
 };
+
+// ======================================================
+    // ===== GLOBAL HANDLERS (THE CORRECT LOCATION) ======
+    // ======================================================
+    // This section makes functions inside the module accessible to the HTML's onclick attributes.
+    // It MUST be INSIDE the DOMContentLoaded listener, after the functions are defined.
+    
+    // Blog Functions
+    window.savePost = savePost;
+    window.editPost = editPost;
+    window.deletePost = deletePost;
+    window.resetPostForm = resetPostForm;
+});
