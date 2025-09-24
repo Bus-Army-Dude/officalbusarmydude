@@ -362,7 +362,7 @@ a:hover {
 }
 
 /* ======================================== */
-/* == BLOG MANAGEMENT FORM STYLES (v4.1) == */
+/* == BLOG MANAGEMENT FORM STYLES (v5.0) == */
 /* ======================================== */
 
 /* --- Container & Section Spacing --- */
@@ -370,7 +370,7 @@ a:hover {
     padding: 2rem 1.5rem;
     max-width: 900px;
     margin: 0 auto;
-    margin-bottom: 4rem; /* Extra space below the blog section */
+    margin-bottom: 4rem; /* Space below blog section */
 }
 
 #blog-management h3 {
@@ -426,7 +426,7 @@ a:hover {
 /* --- Rich Text Editor --- */
 .admin-editor {
     grid-column: 1 / -1;
-    min-height: 280px;
+    min-height: 300px;
     border-radius: 12px;
     border: 1px solid var(--border-color, #d1d5db);
     overflow: hidden;
@@ -440,7 +440,7 @@ a:hover {
 
 .ql-container.ql-snow {
     border: none;
-    min-height: 200px;
+    min-height: 280px;
 }
 
 .ql-editor {
@@ -451,9 +451,11 @@ a:hover {
     color: var(--text-color, #111);
 }
 
-.ql-editor.ql-blank::before {
-    color: var(--secondary-text, #6b7280);
-}
+/* Rich text features: */
+.ql-align-center { text-align: center; }
+.ql-align-right { text-align: right; }
+.ql-align-justify { text-align: justify; }
+.ql-highlight { background-color: var(--accent-color, #3ddc84); color: #fff; }
 
 /* --- Apple-style Toggle --- */
 .admin-checkbox-label {
@@ -474,7 +476,6 @@ a:hover {
     pointer-events: none;
 }
 
-/* Toggle track */
 .toggle-switch {
     position: relative;
     width: 50px;
@@ -485,7 +486,6 @@ a:hover {
     flex-shrink: 0;
 }
 
-/* Toggle thumb */
 .toggle-switch::before {
     content: "";
     position: absolute;
@@ -575,6 +575,15 @@ a:hover {
 
 .admin-list-item small {
     color: var(--secondary-text, #6b7280);
+}
+
+/* --- Image Preview --- */
+.image-preview img {
+    max-width: 250px;
+    display: block;
+    margin-top: 0.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color, #d1d5db);
 }
 
 /* ======================== */
