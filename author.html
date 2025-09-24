@@ -12,10 +12,14 @@
 </head>
 <body class="dark-mode"> <!-- Starts in dark mode, JS will correct it -->
 
+    <!-- MODIFIED: Updated header structure to match the new design -->
     <header class="main-header author-page-header">
         <div class="author-header-info">
             <img src="images/default-profile.jpg" alt="" class="author-header-pfp" id="author-header-pfp">
-            <h1 id="author-page-title">Loading...</h1>
+            <div class="author-header-text">
+                <span class="posts-by-label">Posts by</span>
+                <h2 id="author-header-name">Loading...</h2>
+            </div>
         </div>
         <a href="blog.html" class="home-link"><i class="fas fa-arrow-left"></i> Back to All Posts</a>
     </header>
@@ -26,14 +30,10 @@
         </section>
     </main>
 
-    <!-- ====================================================== -->
-    <!-- == THIS IS THE FIX: ADDING THE CORRECT SCRIPTS ======= -->
-    <!-- ====================================================== -->
+    <!-- Scripts remain the same -->
     <script src="common.js"></script>
     <script src="settings.js"></script>
     <script type="module" src="author.js"></script>
-    <!-- ====================================================== -->
 
 </body>
 </html>
-
