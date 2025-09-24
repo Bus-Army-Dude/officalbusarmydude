@@ -176,6 +176,7 @@
             
             <section class="admin-section" id="blog-management" aria-labelledby="blog-heading">
   <h3 id="blog-heading">Blog Management</h3>
+  
   <div class="form-group">
       <input type="text" id="post-title" placeholder="Post Title" class="admin-input">
       <input type="text" id="post-author" placeholder="Author Name" class="admin-input">
@@ -194,16 +195,17 @@
 
       <input type="hidden" id="post-id">
 
-      <!-- Buttons -->
-      <div class="admin-actions">
-        <button type="button" onclick="savePost()" class="admin-btn admin-submit">Save Post</button>
-        <button type="button" onclick="cancelPost()" class="admin-btn admin-cancel">Cancel</button>
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" onclick="savePost()" class="admin-btn is-primary">Save Post</button>
+        <button type="button" onclick="cancelPost()" class="admin-btn is-secondary">Cancel</button>
       </div>
   </div>
 
   <h3>Existing Posts</h3>
   <div id="posts-list" class="admin-list"></div>
 </section>
+
             
              <section class="admin-section" id="president-management" aria-labelledby="president-heading">
                 <h3 id="president-heading">Manage Current President Info</h3>
