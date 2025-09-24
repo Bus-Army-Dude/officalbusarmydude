@@ -1348,259 +1348,243 @@ function setupBusinessInfoListeners() {
 // == END: ALL BUSINESS INFO CODE FOR admin.js ==========
 // ======================================================
 
-// ======================
-// Save Blog Post (Corrected for Atomic Featured Post Update)
-// ======================
+// =======================================
+// Blog Management Admin Portal (Full)
+// =======================================
+
+// Initialize Quill editor (make sure you have quill.js included)
+const quill = new Quill('#post-content-editor', {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'image'],
+      ['clean']
+    ]
+  }
+});
+
+// ======================================================
+// Save Blog Post (supports main image + embedded images)
+// ======================================================
 async function savePost() {
-    const postId = document.getElementById('post-id').value;
-    const title = document.getElementById('post-title').value;
-    const author = document.getElementById('post-author').value;
-    const authorPfpUrl = document.getElementById('post-author-pfp').value;
-    const category = document.getElementById('post-category').value;
-    const isFeatured = document.getElementById('post-featured').checked;
-    const content = window.quill.root.innerHTML;
-    const imageFile = document.getElementById('post-image')?.files[0];
+  const postId = document.getElementById('post-id').value;
+  const title = document.getElementById('post-title').value.trim();
+  const author = document.getElementById('post-author').value.trim();
+  const authorPfpUrl = document.getElementById('post-author-pfp').value.trim();
+  const category = document.getElementById('post-category').value.trim();
+  const isFeatured = document.getElementById('post-featured').checked;
+  const contentHTML = await processQuillImages(); // handle embedded images
+  const mainImageFile = document.getElementById('post-image')?.files[0];
 
-    // --- Validation ---
-    if (!title || !author || !category) {
-        alert('Please fill out Title, Author, and Category.');
-        return;
+  if (!title || !author || !category) {
+    alert('Please fill out Title, Author, and Category.');
+    return;
+  }
+  if (!contentHTML || contentHTML === '<p><br></p>') {
+    alert('Post content cannot be empty.');
+    return;
+  }
+
+  try {
+    const batch = writeBatch(db);
+    let mainImageUrl = null;
+
+    // -------------------
+    // Handle Featured Post Uniqueness
+    // -------------------
+    if (isFeatured) {
+      const featuredSnapshot = await getDocs(query(postsCollectionRef, where('isFeatured', '==', true)));
+      featuredSnapshot.forEach(docSnap => {
+        if (docSnap.id !== postId) {
+          batch.update(docSnap.ref, { isFeatured: false });
+        }
+      });
     }
-    if (content.trim() === '<p><br></p>' || content.trim() === '') {
-        alert('Post Content cannot be empty.');
-        return;
+
+    // -------------------
+    // Handle Main Image Upload
+    // -------------------
+    if (mainImageFile) {
+      const storageRef = ref(storage, `blogImages/${Date.now()}_${mainImageFile.name}`);
+      await uploadBytes(storageRef, mainImageFile);
+      mainImageUrl = await getDownloadURL(storageRef);
+
+      // Delete old image if updating
+      if (postId) {
+        const oldDoc = await getDoc(doc(db, 'posts', postId));
+        if (oldDoc.exists() && oldDoc.data().imageUrl) {
+          try {
+            await deleteObject(ref(storage, oldDoc.data().imageUrl));
+          } catch (delErr) {
+            console.warn('Old image could not be deleted:', delErr);
+          }
+        }
+      }
     }
 
-    try {
-        const batch = writeBatch(db); // Initialize the batch operation
-        let imageUrl = null;
+    // -------------------
+    // Prepare Post Data
+    // -------------------
+    const postData = {
+      title,
+      author,
+      authorPfpUrl,
+      category,
+      content: contentHTML,
+      isFeatured,
+      updatedAt: serverTimestamp()
+    };
+    if (mainImageUrl) postData.imageUrl = mainImageUrl;
 
-        // --- Step 1: Handle Featured Post Uniqueness ---
-        // If this post is being marked as featured, find and un-feature any others within the batch.
-        if (isFeatured) {
-            const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
-            const featuredSnapshot = await getDocs(featuredQuery);
-            featuredSnapshot.forEach(docSnapshot => {
-                // Un-feature any post that isn't the one we are currently saving
-                if (docSnapshot.id !== postId) {
-                    batch.update(docSnapshot.ref, { isFeatured: false });
-                }
-            });
-        }
-
-        // --- Step 2: Handle Image Upload & Deletion ---
-        // If editing and a new image is chosen, delete the old one first
-        if (postId && imageFile) {
-            const oldDoc = await getDoc(doc(db, "posts", postId));
-            if (oldDoc.exists() && oldDoc.data().imageUrl) {
-                const oldUrl = oldDoc.data().imageUrl;
-                try {
-                    const oldRef = ref(storage, oldUrl);
-                    await deleteObject(oldRef);
-                    console.log("Old image deleted:", oldUrl);
-                } catch (delErr) {
-                    console.warn("Could not delete old image (it may have already been removed):", delErr);
-                }
-            }
-        }
-
-        // Upload new image if one was selected
-        if (imageFile) {
-            const storageRef = ref(storage, `blogImages/${Date.now()}_${imageFile.name}`);
-            await uploadBytes(storageRef, imageFile);
-            imageUrl = await getDownloadURL(storageRef);
-        }
-
-        // --- Step 3: Prepare Post Data ---
-        const postData = {
-            title,
-            author,
-            authorPfpUrl,
-            category,
-            content,
-            isFeatured,
-            updatedAt: serverTimestamp(),
-        };
-
-        if (imageUrl) {
-            postData.imageUrl = imageUrl;
-        }
-
-        // --- Step 4: Add the Save/Update Operation to the Batch ---
-        if (postId) {
-            // If we are editing an existing post, add an 'update' operation to the batch
-            const postRef = doc(db, 'posts', postId);
-            batch.update(postRef, postData);
-        } else {
-            // If this is a new post, add a 'set' operation for a new document to the batch
-            postData.createdAt = serverTimestamp();
-            const newPostRef = doc(collection(db, 'posts')); // Create a new document reference
-            batch.set(newPostRef, postData);
-        }
-
-        // --- Step 5: Commit all batched changes at once ---
-        await batch.commit();
-
-        alert(`Post ${postId ? 'updated' : 'saved'} successfully!`);
-        resetPostForm();
-        loadPosts();
-
-    } catch (error) {
-        console.error("Error saving post: ", error);
-        alert('An error occurred while saving the post. Please check the console for details.');
+    // -------------------
+    // Add Save/Update to Batch
+    // -------------------
+    if (postId) {
+      batch.update(doc(db, 'posts', postId), postData);
+    } else {
+      postData.createdAt = serverTimestamp();
+      const newPostRef = doc(collection(db, 'posts'));
+      batch.set(newPostRef, postData);
     }
+
+    await batch.commit();
+    alert(`Post ${postId ? 'updated' : 'saved'} successfully!`);
+    resetPostForm();
+    loadPosts();
+
+  } catch (error) {
+    console.error('Error saving post:', error);
+    alert('Failed to save post. Check console for details.');
+  }
 }
-    
-// ======================
-// Reset Blog Form (with image input reset)
-// ======================
+
+// ======================================================
+// Reset Post Form
+// ======================================================
 function resetPostForm() {
-    document.getElementById('post-id').value = '';
-    document.getElementById('post-title').value = '';
-    document.getElementById('post-author').value = '';
-    document.getElementById('post-author-pfp').value = '';
-    document.getElementById('post-category').value = '';
-    document.getElementById('post-featured').checked = false;
-    window.quill.root.innerHTML = '';
-    const imageInput = document.getElementById('post-image');
-    if (imageInput) {
-        imageInput.value = ''; // clears file input
-    }
+  document.getElementById('post-id').value = '';
+  document.getElementById('post-title').value = '';
+  document.getElementById('post-author').value = '';
+  document.getElementById('post-author-pfp').value = '';
+  document.getElementById('post-category').value = '';
+  document.getElementById('post-featured').checked = false;
+  window.quill.root.innerHTML = '';
+  const imageInput = document.getElementById('post-image');
+  if (imageInput) imageInput.value = '';
 }
 
-// ======================
-// Load and Render Blog Posts (with image support)
-// ======================
+// ======================================================
+// Process Quill Embedded Images
+// Uploads any base64 images to Firebase Storage and replaces the src
+// ======================================================
+async function processQuillImages() {
+  const delta = quill.getContents();
+  const container = document.createElement('div');
+
+  quill.root.childNodes.forEach(async node => {
+    if (node.tagName === 'IMG' && node.src.startsWith('data:')) {
+      // Upload image
+      const base64 = node.src;
+      const blob = await fetch(base64).then(res => res.blob());
+      const storageRef = ref(storage, `blogImages/${Date.now()}_editor.png`);
+      await uploadBytes(storageRef, blob);
+      const url = await getDownloadURL(storageRef);
+      node.src = url;
+    }
+  });
+
+  return quill.root.innerHTML;
+}
+
+// ======================================================
+// Load Posts
+// ======================================================
 async function loadPosts() {
-    const postsList = document.getElementById('posts-list');
-    if (!postsList) return;
+  const postsList = document.getElementById('posts-list');
+  if (!postsList) return;
+  postsList.innerHTML = '<p>Loading posts...</p>';
 
-    postsList.innerHTML = '<p>Loading posts...</p>';
+  try {
+    const postsQuery = query(postsCollectionRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(postsQuery);
 
-    try {
-        const postsQuery = query(postsCollectionRef, orderBy('createdAt', 'desc'));
-        const querySnapshot = await getDocs(postsQuery);
-
-        if (querySnapshot.empty) {
-            postsList.innerHTML = '<p>No posts found.</p>';
-            return;
-        }
-
-        postsList.innerHTML = ''; // clear
-
-        querySnapshot.forEach((docSnap) => {
-            const post = docSnap.data();
-            const postId = docSnap.id;
-
-            // Build post HTML
-            let html = `
-                <div class="post-item" data-id="${postId}">
-                    <h3>${post.title || 'Untitled Post'}</h3>
-                    <p><strong>Author:</strong> ${post.author || 'Unknown'}</p>
-                    <p><strong>Category:</strong> ${post.category || 'Uncategorized'}</p>
-                    <p><strong>Featured:</strong> ${post.isFeatured ? 'Yes' : 'No'}</p>
-            `;
-
-            // Add image if available
-            if (post.imageUrl) {
-                html += `<img src="${post.imageUrl}" alt="${post.title}" class="post-image" style="max-width:200px; display:block; margin:8px 0;">`;
-            }
-
-            // Content preview (shortened)
-            if (post.content) {
-                const previewText = post.content.replace(/<[^>]+>/g, '').substring(0, 120);
-                html += `<p><strong>Preview:</strong> ${previewText}...</p>`;
-            }
-
-            html += `
-                    <button class="edit-post" data-id="${postId}">Edit</button>
-                    <button class="delete-post" data-id="${postId}">Delete</button>
-                </div>
-            `;
-
-            postsList.innerHTML += html;
-        });
-
-        // Attach edit/delete listeners
-        document.querySelectorAll('.edit-post').forEach(btn => {
-            btn.addEventListener('click', () => editPost(btn.getAttribute('data-id')));
-        });
-
-        document.querySelectorAll('.delete-post').forEach(btn => {
-            btn.addEventListener('click', () => deletePost(btn.getAttribute('data-id')));
-        });
-
-    } catch (error) {
-        console.error("Error loading posts:", error);
-        postsList.innerHTML = '<p>Error loading posts.</p>';
+    if (snapshot.empty) {
+      postsList.innerHTML = '<p>No posts found.</p>';
+      return;
     }
+
+    postsList.innerHTML = '';
+    snapshot.forEach(docSnap => {
+      const post = docSnap.data();
+      const postId = docSnap.id;
+      let html = `
+        <div class="post-item" data-id="${postId}">
+          <h3>${post.title || 'Untitled Post'}</h3>
+          <p><strong>Author:</strong> ${post.author || 'Unknown'}</p>
+          <p><strong>Category:</strong> ${post.category || 'Uncategorized'}</p>
+          <p><strong>Featured:</strong> ${post.isFeatured ? 'Yes' : 'No'}</p>
+      `;
+      if (post.imageUrl) html += `<img src="${post.imageUrl}" alt="${post.title}" class="post-image" style="max-width:200px; margin:8px 0;">`;
+      if (post.content) {
+        const preview = post.content.replace(/<[^>]+>/g, '').substring(0, 120);
+        html += `<p><strong>Preview:</strong> ${preview}...</p>`;
+      }
+      html += `<button class="edit-post" data-id="${postId}">Edit</button>
+               <button class="delete-post" data-id="${postId}">Delete</button>
+      </div>`;
+      postsList.innerHTML += html;
+    });
+
+    // Add listeners
+    document.querySelectorAll('.edit-post').forEach(btn => btn.addEventListener('click', () => editPost(btn.dataset.id)));
+    document.querySelectorAll('.delete-post').forEach(btn => btn.addEventListener('click', () => deletePost(btn.dataset.id)));
+
+  } catch (err) {
+    console.error('Error loading posts:', err);
+    postsList.innerHTML = '<p>Error loading posts.</p>';
+  }
 }
 
-    // ======================
-// Edit Blog Post (with image preview + replace option)
-// ======================
+// ======================================================
+// Edit Post
+// ======================================================
 async function editPost(postId) {
-    try {
-        const docRef = doc(db, "posts", postId);
-        const docSnap = await getDoc(docRef);
+  try {
+    const docSnap = await getDoc(doc(db, 'posts', postId));
+    if (!docSnap.exists()) return alert('Post not found.');
 
-        if (!docSnap.exists()) {
-            alert("Post not found.");
-            return;
-        }
-
-        const post = docSnap.data();
-
-        // Fill form fields
-        document.getElementById('post-id').value = postId;
-        document.getElementById('post-title').value = post.title || '';
-        document.getElementById('post-author').value = post.author || '';
-        document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
-        document.getElementById('post-category').value = post.category || '';
-        document.getElementById('post-featured').checked = post.isFeatured || false;
-        window.quill.root.innerHTML = post.content || '';
-
-        const imageInput = document.getElementById('post-image');
-        const imagePreviewContainer = document.getElementById('post-image-preview');
-
-        if (imagePreviewContainer) {
-            if (post.imageUrl) {
-                imagePreviewContainer.innerHTML = `
-                    <p>Current Image:</p>
-                    <img src="${post.imageUrl}" alt="${post.title}" style="max-width:200px; display:block; margin:8px 0;">
-                    <small>Choose a new file below to replace this image.</small>
-                `;
-            } else {
-                imagePreviewContainer.innerHTML = `<p>No image uploaded yet.</p>`;
-            }
-        }
-
-        if (imageInput) {
-            imageInput.value = ""; // reset file input so user can pick new image
-        }
-
-    } catch (error) {
-        console.error("Error loading post for edit:", error);
-        alert("Error loading post.");
-    }
+    const post = docSnap.data();
+    document.getElementById('post-id').value = postId;
+    document.getElementById('post-title').value = post.title || '';
+    document.getElementById('post-author').value = post.author || '';
+    document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
+    document.getElementById('post-category').value = post.category || '';
+    document.getElementById('post-featured').checked = post.isFeatured || false;
+    window.quill.root.innerHTML = post.content || '';
+  } catch (err) {
+    console.error('Error editing post:', err);
+    alert('Failed to load post for editing.');
+  }
 }
 
-async function deletePost(id) {
-    if (confirm('Are you sure you want to delete this post?')) {
-        try {
-            await deleteDoc(doc(db, 'posts', id));
-            alert('Post deleted successfully!');
-            loadPosts();
-        } catch (error) {
-            console.error("Error deleting post: ", error);
-            alert('Error deleting post.');
-        }
-    }
+// ======================================================
+// Delete Post
+// ======================================================
+async function deletePost(postId) {
+  if (!confirm('Are you sure you want to delete this post?')) return;
+  try {
+    await deleteDoc(doc(db, 'posts', postId));
+    alert('Post deleted successfully!');
+    loadPosts();
+  } catch (err) {
+    console.error('Error deleting post:', err);
+    alert('Failed to delete post.');
+  }
 }
-    
-// ======================================================
-// ===== END: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
-// ======================================================
+
     
 /** Filters and displays shoutouts in the admin list */
 function displayFilteredShoutouts(platform) {
@@ -2224,18 +2208,6 @@ onAuthStateChanged(auth, user => {
                 // ===============================================
                 
                 console.log("Initializing Rich Text Editor...");
-                const quill = new Quill('#post-content-editor', {
-                    theme: 'snow',
-                    modules: {
-                        toolbar: [
-                            [{ 'header': [1, 2, 3, false] }],
-                            ['bold', 'italic', 'underline', 'strike'],
-                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                            ['link', 'image', 'video', 'blockquote'],
-                            ['clean']
-                        ]
-                    }
-                });
                 window.quill = quill;
                 console.log("✅ Rich Text Editor initialized.");
                 // ===============================================
