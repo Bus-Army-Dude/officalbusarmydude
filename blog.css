@@ -99,7 +99,7 @@ body {
 }
 
 /* ======================================== */
-/* == Filter Controls ==================== */
+/* == Filter Controls (ENHANCED) ========= */
 /* ======================================== */
 .filter-controls {
   display: flex;
@@ -151,7 +151,7 @@ body {
 }
 
 .category-btn {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.3rem;
   border: 1px solid var(--border-color);
   border-radius: 999px;
   background: transparent;
@@ -181,6 +181,7 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
 }
+
 .post-card {
   background: var(--content-bg);
   border: 1px solid var(--border-color);
@@ -195,12 +196,14 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
+
 .post-card-content {
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
+
 .post-card h3 {
   margin: 0.75rem 0;
   font-size: 1.6rem;
@@ -271,13 +274,14 @@ body {
 }
 
 /* ======================================== */
-/* == Read More Button =================== */
+/* == Read More Button (ENHANCED) ========= */
 /* ======================================== */
 .read-more-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
+  margin-top: 1rem;
   font-size: 0.95rem;
   color: var(--accent-text-color, #fff);
   background-color: var(--accent-color);
@@ -287,14 +291,16 @@ body {
   border-radius: 999px;
   transition: all 0.2s ease;
   align-self: flex-start;
-  margin-top: auto;
-  margin-bottom: 0.75rem;
 }
 .read-more-btn:hover {
   color: var(--accent-text-color, #fff);
   background-color: color-mix(in srgb, var(--accent-color) 85%, black);
   box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-color, #3ddc84) 30%, transparent);
   transform: translateY(-2px);
+}
+.post-card .read-more-btn {
+  margin-top: auto;
+  margin-bottom: 0.75rem;
 }
 .featured-post .read-more-btn {
   margin-top: 1.25rem;
@@ -336,16 +342,14 @@ body {
   max-width: 70ch;
   margin: 0 auto;
 }
-.post-main-content strong {
-  color: var(--text-color);
-}
+.post-main-content strong { color: var(--text-color); }
 .post-main-content a {
   color: var(--accent-color, #3ddc84);
   text-decoration: underline;
   text-decoration-thickness: 1.5px;
 }
 
-/* === Fix long content in posts === */
+/* --- Media Inside Posts --- */
 .post-main-content {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -370,18 +374,20 @@ body.dark-mode .read-more-btn:hover {
 }
 
 /* ======================================== */
-/* == Author Page Styles ================= */
+/* == Author Page Header (Fixed Left) ==== */
 /* ======================================== */
 .author-page-header {
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
+  text-align: left;
 }
 
 .author-page-header .author-header-info {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  justify-content: flex-start;
 }
 
 .author-page-header .author-header-pfp {
@@ -390,11 +396,13 @@ body.dark-mode .read-more-btn:hover {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--border-color);
+  flex-shrink: 0;
 }
 
 .author-page-header .author-header-text {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .author-page-header h2 {
@@ -404,8 +412,9 @@ body.dark-mode .read-more-btn:hover {
   color: var(--text-color);
 }
 
-.author-page-header .author-bio {
-  font-size: 0.95rem;
+.author-page-header .posts-by-label {
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--secondary-text);
-  margin-top: 0.25rem;
+  margin-top: 0.15rem;
 }
