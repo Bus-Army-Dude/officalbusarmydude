@@ -229,7 +229,8 @@ body {
 
 .search-wrapper {
   position: relative;
-  flex: 1 1 350px;
+  flex: 1 1 100%;
+  min-width: 0; /* allow it to shrink below 350px */
   display: flex;
   align-items: center;
 }
@@ -758,6 +759,12 @@ body {
   
   .search-wrapper {
     flex: 1 1 100%;
+    min-width: 0; /* ✅ allows input to shrink */
+    width: 100%;  /* ✅ forces it to stay inside container */
+  }
+  
+  .search-input {
+    width: 100%; /* ✅ prevents sticking out */
   }
   
   .posts-grid {
@@ -775,3 +782,4 @@ body {
     text-align: center;
   }
 }
+
