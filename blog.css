@@ -374,32 +374,38 @@ body.dark-mode .read-more-btn:hover {
 /* ======================================== */
 .author-page-header {
   margin-bottom: 2.5rem;
-  text-align: left;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
 }
+
 .author-page-header .author-header-info {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.75rem;
 }
-.author-header-pfp {
-  width: 80px;
-  height: 80px;
+
+.author-page-header .author-header-pfp {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--accent-color);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-  flex-shrink: 0;
+  border: 2px solid var(--border-color);
 }
+
+.author-page-header .author-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
 .author-page-header h2 {
   margin: 0;
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--text-color);
-  line-height: 1.2;
 }
+
 .author-page-header .author-bio {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--secondary-text);
-  margin-top: 0.5rem;
-  max-width: 60ch;
+  margin-top: 0.25rem;
 }
