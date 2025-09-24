@@ -362,93 +362,102 @@ a:hover {
 }
 
 /* ======================================== */
-/* == BLOG MANAGEMENT FORM STYLES (v3.1) == */
+/* == BLOG MANAGEMENT FORM STYLES (v3.2) == */
 /* ======================================== */
 
+/* Spacing System */
+:root {
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+}
+
+/* Grid Layout */
 #blog-management .form-group {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-    margin-bottom: 28px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
 }
 
 @media (min-width: 768px) {
-    #blog-management .form-group {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    #blog-management .form-group .full-width {
-        grid-column: 1 / -1;
-    }
+  #blog-management .form-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #blog-management .form-group .full-width {
+    grid-column: 1 / -1;
+  }
 }
 
 #blog-management label {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 6px;
-    display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: var(--space-sm);
+  display: inline-block;
 }
 
+/* Inputs */
 #blog-management .admin-input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    font-size: 1rem;
-    font-family: inherit;
-    background-color: var(--content-bg);
-    color: var(--text-color);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04) inset;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: var(--content-bg);
+  color: var(--text-color);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04) inset;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 #blog-management .admin-input::placeholder {
-    color: var(--secondary-text);
+  color: var(--secondary-text);
 }
 
-#blog-management .admin-input:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    background-color: #fff;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent);
+#blog-management .admin-input:focus-visible {
+  outline: none;
+  border-color: var(--accent-color);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent);
 }
 
 /* ======================================== */
-/* == Rich Text Editor (Quill) Styling ==== */
+/* == Quill Editor Styling ================ */
 /* ======================================== */
 
 .admin-editor {
-    grid-column: 1 / -1;
+  grid-column: 1 / -1;
 }
 
 .ql-toolbar.ql-snow {
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-top-left-radius: var(--radius-lg);
-    border-top-right-radius: var(--radius-lg);
-    padding: 8px;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  padding: var(--space-sm);
 }
 
 .ql-container.ql-snow {
-    background-color: var(--content-bg);
-    border: 1px solid var(--border-color);
-    border-top: none;
-    border-bottom-left-radius: var(--radius-lg);
-    border-bottom-right-radius: var(--radius-lg);
-    color: var(--text-color);
-    font-size: 1rem;
-    min-height: 280px;
+  background-color: var(--content-bg);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+  color: var(--text-color);
+  font-size: 1rem;
+  min-height: 280px;
 }
 
 .ql-editor {
-    font-family: 'Inter', system-ui, sans-serif;
-    line-height: 1.7;
-    padding: 12px 16px;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.7;
+  padding: var(--space-md);
 }
 
 .ql-editor.ql-blank::before {
-    color: var(--secondary-text);
-    font-style: normal;
+  color: var(--secondary-text);
+  font-style: normal;
 }
 
 /* ======================================== */
@@ -456,169 +465,175 @@ a:hover {
 /* ======================================== */
 
 .admin-checkbox-label {
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--text-color);
-    user-select: none;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-color);
+  user-select: none;
 }
 
 #post-featured {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .toggle-switch {
-    position: relative;
-    width: 52px;
-    height: 28px;
-    background-color: var(--border-color);
-    border-radius: 999px;
-    transition: background-color 0.3s ease;
-    flex-shrink: 0;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+  position: relative;
+  width: 52px;
+  height: 28px;
+  background-color: var(--border-color);
+  border-radius: 999px;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .toggle-switch::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #fff;
-    top: 4px;
-    left: 4px;
-    transition: transform 0.25s ease, background-color 0.25s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  top: 4px;
+  left: 4px;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 #post-featured:checked + .toggle-switch {
-    background-color: var(--accent-color);
+  background-color: var(--accent-color);
 }
 
 #post-featured:checked + .toggle-switch::after {
-    transform: translateX(24px);
-    background-color: #fff;
+  transform: translateX(24px);
+  background-color: #fff;
 }
 
 #post-featured:focus-visible + .toggle-switch {
-    outline: 3px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
-    outline-offset: 3px;
+  outline: 3px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+  outline-offset: 3px;
 }
 
 /* ======================================== */
-/* == Save/Submit Button ================== */
+/* == Buttons ============================= */
 /* ======================================== */
 
-#blog-management .admin-submit {
-    grid-column: 1 / -1;
-    padding: 0.9rem 1.75rem;
-    background-color: var(--accent-color);
-    color: var(--accent-text-color, #fff);
-    font-weight: 600;
-    font-size: 1rem;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-#blog-management .admin-submit:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 85%, black);
-    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-color) 30%, transparent);
-    transform: translateY(-2px);
-}
-
-#blog-management .admin-submit:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15) inset;
-}
-
-#blog-management .admin-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* ======================================== */
-/* == Form Actions (Buttons) ============= */
-/* ======================================== */
 .form-actions {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: flex-end; /* Align buttons to the right */
-    gap: 1rem;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
 }
 
-.admin-btn, .admin-btn-secondary {
-    padding: 12px 28px;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
+/* Base Button */
 .admin-btn {
-    background-color: var(--accent-color);
-    color: var(--accent-text-color, #fff);
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+  font-family: inherit;
 }
 
-.admin-btn:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 85%, black);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+/* Primary */
+.admin-btn.is-primary {
+  background-color: var(--accent-color);
+  color: var(--accent-text-color, #fff);
+}
+.admin-btn.is-primary:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 85%, black);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.admin-btn.is-primary:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+  outline-offset: 3px;
 }
 
-.admin-btn-secondary {
-    background-color: var(--content-bg);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+/* Secondary */
+.admin-btn.is-secondary {
+  background-color: var(--content-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+.admin-btn.is-secondary:hover {
+  background-color: var(--border-color);
+  border-color: var(--secondary-text);
+}
+.admin-btn.is-secondary:focus-visible {
+  outline: 3px solid var(--border-color);
+  outline-offset: 3px;
 }
 
-.admin-btn-secondary:hover {
-    background-color: var(--border-color);
-    border-color: var(--secondary-text);
+/* Disabled */
+.admin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
-
 
 /* ======================================== */
-/* == Posts List Styles =================== */
+/* == Posts List ========================== */
 /* ======================================== */
+
 .posts-list-container h3 {
-    grid-column: 1 / -1;
-    margin-top: 40px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    border-top: 1px solid var(--border-color);
-    padding-top: 30px;
+  grid-column: 1 / -1;
+  margin-top: 40px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--space-lg);
+}
+
+#posts-list {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
 }
 
 #posts-list .admin-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s ease;
-}
-#posts-list .admin-list-item:last-child {
-    border-bottom: none;
-}
-#posts-list .admin-list-item:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 5%, transparent);
+  background-color: var(--content-bg);
+  padding: var(--space-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-#posts-list .admin-list-item span {
-    font-weight: 500;
+#posts-list .admin-list-item:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 5%, transparent);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
-#posts-list .admin-list-item small {
-    color: var(--secondary-text);
+
+#posts-list .post-meta {
+  display: flex;
+  flex-direction: column;
+}
+#posts-list .post-meta span {
+  font-weight: 600;
+}
+#posts-list .post-meta small {
+  color: var(--secondary-text);
+  font-size: 0.85rem;
+}
+
+/* Category Badge */
+#posts-list .category-badge {
+  display: inline-block;
+  background-color: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  color: var(--accent-color);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
 }
 
 /* ======================== */
