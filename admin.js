@@ -1,13 +1,20 @@
 // admin.js (Version includes Preview Prep + Previous Features + Social Links)
 
-// ======================================================
-// ===== IMPORTS ========================================
-// ======================================================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, query, orderBy, where, serverTimestamp, addDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-storage.js";
+// *** Import Firebase services from your corrected init file ***
+import { db, auth } from './firebase-init.js'; // Ensure path is correct
 
+// Import Firebase functions (Includes 'where', 'query', 'orderBy', 'limit')
+import {
+    getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp, getDoc, query, orderBy, where, limit, Timestamp, deleteField // <<< MAKE SURE Timestamp IS HERE
+} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithCredential
+} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 // *** Global Variable for Client-Side Filtering ***
 let allShoutouts = { tiktok: [], instagram: [], youtube: [] }; // Stores the full lists for filtering
 
@@ -1339,118 +1346,138 @@ function setupBusinessInfoListeners() {
 // ======================================================
 
 // ======================================================
-    // ===== ALL OTHER FUNCTIONS GO HERE =====================
-    // ======================================================
+// ===== BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
+// ======================================================
+async function savePost() {
+    const postId = document.getElementById('post-id').value;
+    const title = document.getElementById('post-title').value;
+    const author = document.getElementById('post-author').value;
+    const authorPfpUrl = document.getElementById('post-author-pfp').value;
+    const category = document.getElementById('post-category').value;
+    const isFeatured = document.getElementById('post-featured').checked;
+    const content = window.quill.root.innerHTML;
 
-    // --- BLOG MANAGEMENT FUNCTIONS ---
-    async function savePost() {
-        const postId = document.getElementById('post-id').value;
-        const title = document.getElementById('post-title').value;
-        const author = document.getElementById('post-author').value;
-        const authorPfpUrl = document.getElementById('post-author-pfp').value;
-        const category = document.getElementById('post-category').value;
-        const isFeatured = document.getElementById('post-featured').checked;
-        const content = window.quill.root.innerHTML;
+    if (!title || !author || !category) {
+        alert('Please fill out Title, Author, and Category.');
+        return;
+    }
+    if (content.trim() === '<p><br></p>' || content.trim() === '') {
+        alert('Post Content cannot be empty.');
+        return;
+    }
 
-        if (!title || !author || !category || (content.trim() === '<p><br></p>' || content.trim() === '')) {
-            alert('Please fill out all required fields.');
+    if (isFeatured) {
+        const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
+        const featuredSnapshot = await getDocs(featuredQuery);
+        const batch = writeBatch(db);
+        featuredSnapshot.forEach(docSnapshot => {
+            if (docSnapshot.id !== postId) {
+                batch.update(docSnapshot.ref, { isFeatured: false });
+            }
+        });
+        await batch.commit();
+    }
+
+    const postData = {
+        title, author, authorPfpUrl, category, content, isFeatured,
+        updatedAt: serverTimestamp()
+    };
+
+    try {
+        if (postId) {
+            await updateDoc(doc(db, 'posts', postId), postData);
+            alert('Post updated successfully!');
+        } else {
+            postData.createdAt = serverTimestamp();
+            await addDoc(postsCollectionRef, postData);
+            alert('Post saved successfully!');
+        }
+        resetPostForm();
+        loadPosts();
+    } catch (error) {
+        console.error("Error saving post: ", error);
+        alert('Error saving post.');
+    }
+}
+
+function resetPostForm() {
+    const form = document.getElementById('blog-management-form'); // Use the CORRECT ID
+    if (form) {
+        form.reset(); // This is a simpler way to clear most fields
+        if (window.quill) {
+            window.quill.root.innerHTML = ''; // Clear the editor
+        }
+    }
+}
+
+async function loadPosts() {
+    const postsListDiv = document.getElementById('posts-list');
+    if (!postsListDiv) return;
+    postsListDiv.innerHTML = 'Loading posts...';
+    try {
+        const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) {
+            postsListDiv.innerHTML = 'No posts found.';
             return;
         }
+        postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
+            const post = docSnapshot.data();
+            return `
+                <div class="admin-list-item">
+                    <span>
+                        ${post.title} <small>(${post.category})</small>
+                        ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
+                    </span>
+                    <div>
+                        <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
+                        <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
+                    </div>
+                </div>`;
+        }).join('');
+    } catch (error) {
+        console.error("Error loading posts: ", error);
+        postsListDiv.innerHTML = `<p class="error">Error loading posts.</p>`;
+    }
+}
 
-        if (isFeatured) {
-            const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
-            const featuredSnapshot = await getDocs(featuredQuery);
-            const batch = writeBatch(db);
-            featuredSnapshot.forEach(docSnapshot => {
-                if (docSnapshot.id !== postId) {
-                    batch.update(docSnapshot.ref, { isFeatured: false });
-                }
-            });
-            await batch.commit();
-        }
-
-        const postData = { title, author, authorPfpUrl, category, content, isFeatured, updatedAt: serverTimestamp() };
-
-        try {
-            if (postId) {
-                await updateDoc(doc(db, 'posts', postId), postData);
-                alert('Post updated successfully!');
-            } else {
-                postData.createdAt = serverTimestamp();
-                await addDoc(postsCollectionRef, postData);
-                alert('Post saved successfully!');
+async function editPost(id) {
+    try {
+        const docSnap = await getDoc(doc(db, 'posts', id));
+        if (docSnap.exists()) {
+            const post = docSnap.data();
+            document.getElementById('post-id').value = id;
+            document.getElementById('post-title').value = post.title;
+            document.getElementById('post-author').value = post.author;
+            document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
+            document.getElementById('post-category').value = post.category || '';
+            document.getElementById('post-featured').checked = post.isFeatured || false;
+            if (window.quill) {
+                window.quill.root.innerHTML = post.content;
             }
-            resetPostForm();
+            document.getElementById('post-title').focus();
+        }
+    } catch (error) {
+        console.error("Error fetching post for edit: ", error);
+    }
+}
+
+async function deletePost(id) {
+    if (confirm('Are you sure you want to delete this post?')) {
+        try {
+            await deleteDoc(doc(db, 'posts', id));
+            alert('Post deleted successfully!');
             loadPosts();
         } catch (error) {
-            console.error("Error saving post: ", error);
-            alert('Error saving post.');
+            console.error("Error deleting post: ", error);
+            alert('Error deleting post.');
         }
     }
-
-    function resetPostForm() {
-        const form = document.getElementById('blog-management-form');
-        if (form) {
-            form.reset();
-            if (window.quill) window.quill.root.innerHTML = '';
-        }
-    }
-
-    async function loadPosts() {
-        const postsListDiv = document.getElementById('posts-list');
-        if (!postsListDiv) return;
-        postsListDiv.innerHTML = 'Loading posts...';
-        try {
-            const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
-            const snapshot = await getDocs(q);
-            postsListDiv.innerHTML = snapshot.empty ? 'No posts found.' : snapshot.docs.map(docSnapshot => {
-                const post = docSnapshot.data();
-                return `
-                    <div class="admin-list-item">
-                        <span>${post.title} <small>(${post.category})</small> ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}</span>
-                        <div>
-                            <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
-                            <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
-                        </div>
-                    </div>`;
-            }).join('');
-        } catch (error) {
-            console.error("Error loading posts: ", error);
-            postsListDiv.innerHTML = `<p class="error">Error loading posts.</p>`;
-        }
-    }
-
-    async function editPost(id) {
-        try {
-            const docSnap = await getDoc(doc(db, 'posts', id));
-            if (docSnap.exists()) {
-                const post = docSnap.data();
-                document.getElementById('post-id').value = id;
-                document.getElementById('post-title').value = post.title;
-                document.getElementById('post-author').value = post.author;
-                document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
-                document.getElementById('post-category').value = post.category || '';
-                document.getElementById('post-featured').checked = post.isFeatured || false;
-                if (window.quill) window.quill.root.innerHTML = post.content;
-                document.getElementById('post-title').focus();
-            }
-        } catch (error) {
-            console.error("Error fetching post for edit: ", error);
-        }
-    }
-
-    async function deletePost(id) {
-        if (confirm('Are you sure you want to delete this post?')) {
-            try {
-                await deleteDoc(doc(db, 'posts', id));
-                alert('Post deleted successfully!');
-                loadPosts();
-            } catch (error) {
-                console.error("Error deleting post: ", error);
-                alert('Error deleting post.');
-            }
-        }
-    }
+}
+    
+// ======================================================
+// ===== END: BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
+// ======================================================
     
 /** Filters and displays shoutouts in the admin list */
 function displayFilteredShoutouts(platform) {
@@ -2055,84 +2082,71 @@ onAuthStateChanged(auth, user => {
             
             // 2. Safely load all data
             try {
-                    // --- Load all admin data ---
-                    loadPosts();
-                    loadProfileData();
-                    loadBusinessInfoData();
-                    setupBusinessInfoListeners();
-                    loadShoutoutsAdmin('tiktok');
-                    loadShoutoutsAdmin('instagram');
-                    loadShoutoutsAdmin('youtube');
-                    loadUsefulLinksAdmin();
-                    loadSocialLinksAdmin();
-                    loadDisabilitiesAdmin();
-                    loadPresidentData();
-                    loadTechItemsAdmin();
+                console.log("Loading all admin panel data...");
+                loadPosts(); // Load blog posts
+                loadProfileData();
+                loadBusinessInfoData();
+                setupBusinessInfoListeners();
+                loadShoutoutsAdmin('tiktok');
+                loadShoutoutsAdmin('instagram');
+                loadShoutoutsAdmin('youtube');
+                loadUsefulLinksAdmin();
+                loadSocialLinksAdmin();
+                loadDisabilitiesAdmin();
+                loadPresidentData();
+                loadTechItemsAdmin();
 
-                    // --- Initialize Rich Text Editor with Image Upload Handler ---
-                    if (!window.quill) { // Only initialize if it doesn't exist
-                        function imageHandler() {
-                            const input = document.createElement('input');
-                            input.setAttribute('type', 'file');
-                            input.setAttribute('accept', 'image/*');
-                            input.click();
-                            input.onchange = async () => {
-                                const file = input.files[0];
-                                if (file) {
-                                    const storageRef = ref(storage, `posts_images/${Date.now()}_${file.name}`);
-                                    try {
-                                        const snapshot = await uploadBytes(storageRef, file);
-                                        const downloadURL = await getDownloadURL(snapshot.ref);
-                                        const range = window.quill.getSelection(true);
-                                        window.quill.insertEmbed(range.index, 'image', downloadURL);
-                                    } catch (error) {
-                                        console.error("Image upload failed:", error);
-                                        alert("Error saving pic. Check console and storage rules.");
-                                    }
-                                }
-                            };
-                        }
-
-                        console.log("Initializing Rich Text Editor...");
-                        window.quill = new Quill('#post-content-editor', {
-                            theme: 'snow',
-                            modules: {
-                                toolbar: {
-                                    container: [
-                                        [{ 'header': [1, 2, 3, false] }],
-                                        ['bold', 'italic', 'underline', 'strike'],
-                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                        ['link', 'image', 'video', 'blockquote'],
-                                        ['clean']
-                                    ],
-                                    handlers: { 'image': imageHandler }
-                                }
-                            }
-                        });
+                // ===============================================
+                // == THIS IS THE NEW CODE TO ADD ================
+                // ===============================================
+                
+                console.log("Initializing Rich Text Editor...");
+                const quill = new Quill('#post-content-editor', {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: [
+                            [{ 'header': [1, 2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            ['link', 'image', 'video', 'blockquote'],
+                            ['clean']
+                        ]
                     }
-
-                    // --- Connect the Blog Form to the savePost function ---
-                    const blogForm = document.getElementById('blog-management-form');
-                    if (blogForm && !blogForm.dataset.listenerAttached) {
+                });
+                window.quill = quill;
+                console.log("✅ Rich Text Editor initialized.");
+                // ===============================================
+                // == THIS IS THE FIX: CONNECT THE FORM TO THE SCRIPT ==
+                // ===============================================
+                const blogForm = document.getElementById('blog-management-form'); // Use the CORRECT ID
+                if (blogForm) {
+                    // This prevents adding the same listener multiple times
+                    if (!blogForm.dataset.listenerAttached) {
                         blogForm.addEventListener('submit', (e) => {
-                            e.preventDefault();
+                            e.preventDefault(); // CRITICAL: stops the page from reloading
+                            console.log("Save Post form submitted via listener.");
                             savePost();
                         });
                         blogForm.dataset.listenerAttached = 'true';
                     }
-                } catch (error) {
-                    console.error("❌ CRITICAL ERROR during init:", error);
+                } else {
+                    console.error("CRITICAL ERROR: Blog management form with ID 'blog-management-form' not found!");
                 }
-            } else {
-                alert("Access Denied. This account is not authorized.");
-                signOut(auth);
+
+                resetInactivityTimer();
+                addActivityListeners();
+            } catch (error) {
+                // If any data-loading function fails, it will be caught here
+                console.error("❌ CRITICAL ERROR during data loading:", error);
+                showAdminStatus(`Error loading admin data: ${error.message}. Check console.`, true);
             }
+
         } else {
-            // User is signed out
-            loginSection.style.display = 'block';
-            adminContent.style.display = 'none';
+            // --- User is NOT an authorized admin ---
+            console.warn(`❌ Access DENIED for user: ${user.email}. Not in the admin list.`);
+            alert("Access Denied. This account is not authorized to access the admin panel.");
+            signOut(auth);
         }
-    });
 
     } else {
         // --- User is signed OUT ---
@@ -4157,6 +4171,17 @@ async function loadDisabilitiesAdmin() {
         if (event.target === editTechItemModal) { closeEditTechItemModal(); }
     });
 
+    // ======================================================
+    // ===== GLOBAL HANDLERS (THE CORRECT LOCATION) ======
+    // ======================================================
+    // This section makes functions inside the module accessible to the HTML's onclick attributes.
+    // It MUST be INSIDE the DOMContentLoaded listener, after the functions are defined.
+    
+    // Blog Functions
+    window.savePost = savePost;
+    window.editPost = editPost;
+    window.deletePost = deletePost;
+
     // Google Sign-In
     window.handleGoogleSignIn = handleGoogleSignIn;
 
@@ -4178,16 +4203,3 @@ window.handleCredentialResponse = (response) => {
         console.error("Critical Error: handleGoogleSignIn is not globally available for the Google callback.");
     }
 };
-
-// ======================================================
-    // ===== GLOBAL HANDLERS (THE CORRECT LOCATION) ======
-    // ======================================================
-    // This section makes functions inside the module accessible to the HTML's onclick attributes.
-    // It MUST be INSIDE the DOMContentLoaded listener, after the functions are defined.
-    
-    // Blog Functions
-    window.savePost = savePost;
-    window.editPost = editPost;
-    window.deletePost = deletePost;
-    window.resetPostForm = resetPostForm;
-});
