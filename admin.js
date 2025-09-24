@@ -2096,57 +2096,81 @@ onAuthStateChanged(auth, user => {
                 loadPresidentData();
                 loadTechItemsAdmin();
 
-                // ===============================================
-                // == THIS IS THE NEW CODE TO ADD ================
-                // ===============================================
-                
+               // ===================================================
+                // === NEW: IMAGE UPLOAD HANDLER FOR THE EDITOR ====
+                // ===================================================
+                function imageHandler() {
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'file');
+                    input.setAttribute('accept', 'image/*');
+                    input.click();
+
+                    input.onchange = async () => {
+                        const file = input.files[0];
+                        if (file) {
+                            console.log("Uploading image:", file.name);
+                            const storageRef = ref(storage, `posts_images/${Date.now()}_${file.name}`);
+                            
+                            try {
+                                const snapshot = await uploadBytes(storageRef, file);
+                                const downloadURL = await getDownloadURL(snapshot.ref);
+                                console.log("Image uploaded, URL:", downloadURL);
+
+                                // Insert the image into the editor
+                                const range = window.quill.getSelection(true);
+                                window.quill.insertEmbed(range.index, 'image', downloadURL);
+
+                            } catch (error) {
+                                console.error("Image upload failed:", error);
+                                alert("Error saving pic. Check the console and storage rules.");
+                            }
+                        }
+                    };
+                }
+                // ===================================================
+
                 console.log("Initializing Rich Text Editor...");
                 const quill = new Quill('#post-content-editor', {
                     theme: 'snow',
                     modules: {
-                        toolbar: [
-                            [{ 'header': [1, 2, 3, false] }],
-                            ['bold', 'italic', 'underline', 'strike'],
-                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                            ['link', 'image', 'video', 'blockquote'],
-                            ['clean']
-                        ]
+                        toolbar: {
+                            container: [
+                                [{ 'header': [1, 2, 3, false] }],
+                                ['bold', 'italic', 'underline', 'strike'],
+                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                ['link', 'image', 'video', 'blockquote'], // 'image' will now be handled
+                                ['clean']
+                            ],
+                            handlers: {
+                                'image': imageHandler // Link the handler to the toolbar button
+                            }
+                        }
                     }
                 });
                 window.quill = quill;
-                console.log("✅ Rich Text Editor initialized.");
-                // ===============================================
-                // == THIS IS THE FIX: CONNECT THE FORM TO THE SCRIPT ==
-                // ===============================================
-                const blogForm = document.getElementById('blog-management-form'); // Use the CORRECT ID
-                if (blogForm) {
-                    // This prevents adding the same listener multiple times
-                    if (!blogForm.dataset.listenerAttached) {
-                        blogForm.addEventListener('submit', (e) => {
-                            e.preventDefault(); // CRITICAL: stops the page from reloading
-                            console.log("Save Post form submitted via listener.");
-                            savePost();
-                        });
-                        blogForm.dataset.listenerAttached = 'true';
-                    }
-                } else {
-                    console.error("CRITICAL ERROR: Blog management form with ID 'blog-management-form' not found!");
+
+                const blogForm = document.getElementById('blog-management-form');
+                if (blogForm && !blogForm.dataset.listenerAttached) {
+                    blogForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        savePost();
+                    });
+                    blogForm.dataset.listenerAttached = 'true';
                 }
 
-                resetInactivityTimer();
-                addActivityListeners();
             } catch (error) {
-                // If any data-loading function fails, it will be caught here
-                console.error("❌ CRITICAL ERROR during data loading:", error);
-                showAdminStatus(`Error loading admin data: ${error.message}. Check console.`, true);
+                console.error("❌ CRITICAL ERROR during init:", error);
             }
 
         } else {
-            // --- User is NOT an authorized admin ---
-            console.warn(`❌ Access DENIED for user: ${user.email}. Not in the admin list.`);
-            alert("Access Denied. This account is not authorized to access the admin panel.");
+            alert("Access Denied. This account is not authorized.");
             signOut(auth);
         }
+    } else {
+        document.getElementById('login-section').style.display = 'block';
+        document.getElementById('admin-content').style.display = 'none';
+    }
+});
 
     } else {
         // --- User is signed OUT ---
