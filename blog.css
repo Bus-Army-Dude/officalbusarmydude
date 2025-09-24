@@ -157,8 +157,17 @@ body {
 
 /* --- Posts Grid & Cards --- */
 .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
-.post-card { background: var(--content-bg); border: 1px solid var(--border-color); border-radius: 1.25rem; padding: 1.75rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; }
+.post-card { background: var(--content-bg); border: 1px solid var(--border-color); border-radius: 1.25rem; /* REMOVED padding: 1.75rem; */ box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; overflow: hidden; }
 .post-card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+/* NEW WRAPPER for card text content to restore padding */
+.post-card-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* This makes sure the content fills the card */
+}
+
 .post-card h3 { margin: 0.75rem 0; font-size: 1.6rem; font-weight: 700; color: var(--text-color); line-height: 1.3; flex-grow: 1; }
 .post-card p { font-size: 1rem; color: var(--secondary-text); line-height: 1.6; margin-bottom: 1.5rem; }
 .post-category { display: inline-block; font-size: 0.8rem; font-weight: 600; background: color-mix(in srgb, var(--accent-color, #3ddc84) 20%, transparent); color: var(--accent-color, #3ddc84); padding: 0.25rem 0.75rem; border-radius: 999px; margin-bottom: 0.5rem; }
@@ -211,18 +220,19 @@ body {
 .post-main-content a { color: var(--accent-color, #3ddc84); text-decoration: underline; text-decoration-thickness: 1.5px; }
 
 
-/* ================================================= */
-/* == >> START: CORRECTED CONTAINER & IMAGE FIX << == */
-/* ================================================= */
+/* ========================================================= */
+/* == >> START: CORRECTED CONTAINER & IMAGE FIX (FINAL) << == */
+/* ========================================================= */
 
-/* --- Prevent Text & Media Overflow in Post Content --- */
+/* --- This targets ONLY the main content of a single post --- */
 .post-main-content {
-    /* Forces long strings of text (like URLs) to wrap */
+    /* Forces long strings of text (like URLs) to wrap and not break the layout */
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
 
-/* Ensures all media scales down to fit the container */
+/* This targets ONLY media inside the post content. It makes them responsive and adds rounded corners. */
+/* This will NOT affect author profile pictures or other images outside this specific container. */
 .post-main-content img,
 .post-main-content video,
 .post-main-content iframe {
@@ -233,15 +243,15 @@ body {
     border-radius: 0.75rem; /* Makes images in the description rounded */
 }
 
-/* Handles pre-formatted text like code blocks */
+/* Handles pre-formatted text like code blocks to prevent them from overflowing */
 .post-main-content pre {
     white-space: pre-wrap;    /* Allows lines to wrap */
-    overflow-x: auto;         /* Adds a scrollbar if a line is still too long */
+    overflow-x: auto;         /* Adds a horizontal scrollbar if a line is still too long */
 }
 
-/* =============================================== */
-/* == >> END: CORRECTED CONTAINER & IMAGE FIX << == */
-/* =============================================== */
+/* ======================================================= */
+/* == >> END: CORRECTED CONTAINER & IMAGE FIX (FINAL) << == */
+/* ======================================================= */
 
 
 /* --- Dark Mode Fine-Tuning --- */
@@ -266,4 +276,3 @@ body.dark-mode .read-more-btn:hover {
     border: 3px solid var(--border-color);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-
