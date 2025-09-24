@@ -1,20 +1,13 @@
 // admin.js (Version includes Preview Prep + Previous Features + Social Links)
 
-// *** Import Firebase services from your corrected init file ***
-import { db, auth } from './firebase-init.js'; // Ensure path is correct
+// ======================================================
+// ===== IMPORTS ========================================
+// ======================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, query, orderBy, where, serverTimestamp, addDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-storage.js";
 
-// Import Firebase functions (Includes 'where', 'query', 'orderBy', 'limit')
-import {
-    getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp, getDoc, query, orderBy, where, limit, Timestamp, deleteField // <<< MAKE SURE Timestamp IS HERE
-} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged,
-    GoogleAuthProvider,
-    signInWithCredential
-} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
 // *** Global Variable for Client-Side Filtering ***
 let allShoutouts = { tiktok: [], instagram: [], youtube: [] }; // Stores the full lists for filtering
 
@@ -2093,7 +2086,7 @@ onAuthStateChanged(auth, user => {
                 loadPresidentData();
                 loadTechItemsAdmin();
 
-               // --- Image Upload Handler for the Editor ---
+              // --- Image Upload Handler for the Editor ---
                 function imageHandler() {
                     const input = document.createElement('input');
                     input.setAttribute('type', 'file');
@@ -2103,20 +2096,15 @@ onAuthStateChanged(auth, user => {
                     input.onchange = async () => {
                         const file = input.files[0];
                         if (file) {
-                            console.log("Uploading image:", file.name);
                             const storageRef = ref(storage, `posts_images/${Date.now()}_${file.name}`);
-                            
                             try {
                                 const snapshot = await uploadBytes(storageRef, file);
                                 const downloadURL = await getDownloadURL(snapshot.ref);
-                                console.log("Image uploaded, URL:", downloadURL);
-                                
                                 const range = window.quill.getSelection(true);
                                 window.quill.insertEmbed(range.index, 'image', downloadURL);
-
                             } catch (error) {
                                 console.error("Image upload failed:", error);
-                                alert("Error saving pic. Check the console and storage rules.");
+                                alert("Error saving pic. Check console and storage rules.");
                             }
                         }
                     };
@@ -2140,6 +2128,7 @@ onAuthStateChanged(auth, user => {
                 });
                 window.quill = quill;
 
+                // Connect the form to the savePost function
                 const blogForm = document.getElementById('blog-management-form');
                 if (blogForm && !blogForm.dataset.listenerAttached) {
                     blogForm.addEventListener('submit', (e) => {
