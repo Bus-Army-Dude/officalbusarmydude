@@ -16,9 +16,10 @@ body {
 
 /* --- General Layout & Typography --- */
 .blog-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
+  max-width: 100%;    /* full width */
+  margin: 0;
+  padding: 0 0.5rem;  /* tiny breathing room */
+  box-sizing: border-box;
 }
 
 /* --- EPIC Main Header --- */
@@ -28,9 +29,9 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 2rem 2.5rem;
-  margin: 1rem auto;
-  max-width: 1200px;
+  padding: 2rem 0.5rem;    /* reduced side padding so header reaches near edges */
+  margin: 0 0 1rem 0;      /* no centered gap */
+  max-width: 100%;
   background: var(--content-bg);
   border: 1px solid var(--border-color);
   border-radius: 24px;
@@ -94,7 +95,7 @@ body {
   font-size: 1rem;
   box-shadow: 
     0 8px 25px color-mix(in srgb, var(--accent-color, #3ddc84) 30%, transparent),
-    0 0 0 1px rgba(255,255,255,0.2) inset;
+    0 0 0 1px rgba(255,255,255,0.1) inset;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   position: relative;
   overflow: hidden;
@@ -156,7 +157,7 @@ body {
   border: 1px solid var(--border-color);
   border-left: 6px solid var(--accent-color, #3ddc84);
   border-radius: 24px;
-  padding: 3rem;
+  padding: 3rem 0.5rem; /* reduced horizontal padding so it goes near edges */
   box-shadow: 
     0 25px 60px -10px rgba(0,0,0,0.1),
     0 0 0 1px rgba(255,255,255,0.1) inset;
@@ -215,8 +216,8 @@ body {
   flex-wrap: wrap;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 3rem;
-  padding: 2rem;
+  margin: 0 0 1.5rem 0;       /* reduced bottom gap and no side centering */
+  padding: 1.5rem 0.5rem;     /* reduced side padding so it reaches near the edges */
   background: var(--content-bg);
   border-radius: 20px;
   border: 1px solid var(--border-color);
@@ -225,22 +226,24 @@ body {
     0 0 0 1px rgba(255,255,255,0.1) inset;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .search-wrapper {
   position: relative;
   flex: 1 1 100%;
-  min-width: 0; /* ✅ allows shrinking below 350px */
+  min-width: 0; /* allows shrinking below 350px */
   display: flex;
   align-items: center;
-  width: 100%;       /* ✅ makes wrapper respect parent */
+  width: 100%;
   box-sizing: border-box;
 }
 
 .search-input {
   width: 100%;
-  max-width: 100%;   /* ✅ prevents sticking out */
-  box-sizing: border-box; /* ✅ includes padding/border in width */
+  max-width: 100%;   /* prevents sticking out */
+  box-sizing: border-box; /* includes padding/border in width */
   padding: 1.2rem 1.5rem 1.2rem 3.2rem;
   border-radius: 16px;
   border: 1px solid var(--border-color);
@@ -343,6 +346,9 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem 0.5rem;
 }
 
 .post-card {
@@ -661,9 +667,9 @@ body {
 /* == EPIC AUTHOR PAGE HEADER ============ */
 /* ======================================== */
 .author-page-header {
-  max-width: 850px;
-  margin: 2.5rem auto;
-  padding: 3rem;
+  width: 100%;
+  margin: 1.5rem 0;
+  padding: 1.5rem 0.5rem;
   background: var(--content-bg);
   border: 1px solid var(--border-color);
   border-radius: 24px;
@@ -749,7 +755,7 @@ body {
 /* ======================================== */
 @media (max-width: 768px) {
   .main-header {
-    padding: 1.5rem;
+    padding: 1.5rem 0.5rem;
     flex-direction: column;
     text-align: center;
     gap: 1.5rem;
@@ -757,33 +763,39 @@ body {
   
   .filter-controls {
     flex-direction: column;
-    gap: 1.5rem;
-    padding: 1.5rem;
+    gap: 1rem;
+    padding: 0.75rem 0.5rem;
   }
   
   .search-wrapper {
     flex: 1 1 100%;
-    min-width: 0; /* ✅ allows input to shrink */
-    width: 100%;  /* ✅ forces it to stay inside container */
+    min-width: 0; /* allows input to shrink */
+    width: 100%;
   }
   
   .search-input {
-    width: 100%; /* ✅ prevents sticking out */
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 2.5rem; /* slightly reduced on mobile */
+  }
+  
+  .search-icon {
+    left: 0.8rem;
+    font-size: 1rem;
   }
   
   .posts-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.25rem;
+    padding: 0.5rem;
   }
   
+  .featured-post {
+    padding: 1rem 0.5rem;
+  }
+
   .author-page-header {
-    margin: 1rem;
-    padding: 2rem;
-  }
-  
-  .author-page-header .author-header-info {
-    flex-direction: column;
-    text-align: center;
+    padding: 1rem 0.5rem;
+    margin: 0.75rem 0;
   }
 }
-
