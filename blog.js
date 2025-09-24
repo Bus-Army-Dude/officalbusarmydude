@@ -41,65 +41,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Display the featured post
+// Display the featured post with the new layout
 function displayFeaturedPost(posts) {
     if (!featuredContainer) return;
-    const featuredPost = posts.find(post => post.isFeatured); // Find a post that is actually featured
+    const featuredPost = posts.find(post => post.isFeatured);
 
     if (featuredPost) {
-        // If a featured post is found, show it
-        featuredContainer.style.display = ''; // Ensure the container is visible
+        featuredContainer.style.display = 'block'; // Ensure it's visible
         featuredContainer.innerHTML = `
             <h2 class="section-title">Featured Post</h2>
             <article class="featured-post">
-                <h2><a href="post.html?id=${featuredPost.id}">${featuredPost.title}</a></h2>
-                <p>${featuredPost.content.substring(0, 200)}...</p>
-                <div class="post-meta">
-                    <img src="${featuredPost.authorPfpUrl || 'images/default-profile.jpg'}" alt="${featuredPost.author}" class="author-pfp">
-                    <div class="author-details">
-                        <span class="author-name"><a href="author.html?name=${encodeURIComponent(featuredPost.author)}">${featuredPost.author}</a></span>
-                        <span class="post-timestamps">${formatDate(featuredPost.createdAt)}</span>
+                <img src="${featuredPost.imageUrl || 'images/default-post-image.jpg'}" alt="${featuredPost.title}" class="post-image-featured" onerror="this.style.display='none';">
+                <div class="post-content-featured">
+                    <h2><a href="post.html?id=${featuredPost.id}">${featuredPost.title}</a></h2>
+                    <div class="post-meta">
+                        <img src="${featuredPost.authorPfpUrl || 'images/default-profile.jpg'}" alt="${featuredPost.author}" class="author-pfp">
+                        <div class="author-details">
+                            <span class="author-name"><a href="author.html?name=${encodeURIComponent(featuredPost.author)}">${featuredPost.author}</a></span>
+                            <span class="post-timestamps">${formatDate(featuredPost.createdAt)}</span>
+                        </div>
                     </div>
+                    <p>${getShortContent(featuredPost.content, 200)}...</p>
+                    <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
             </article>
         `;
     } else {
-        // If no featured post is found, hide the entire container
-        featuredContainer.style.display = 'none';
-        featuredContainer.innerHTML = ''; // Clear it just in case
+        featuredContainer.style.display = 'none'; // Hide if no featured post
     }
 }
 
-    // Display posts in the grid
-    function displayPosts(posts) {
-        postsGrid.innerHTML = ''; // Clear existing posts
-        const postsToDisplay = posts.filter(post => !post.isFeatured);
+    // Display all other posts with the new layout
+function displayPosts(posts) {
+    if (!postsContainer) return;
+    postsContainer.innerHTML = ''; // Clear existing posts
 
-        if (postsToDisplay.length === 0) {
-            postsGrid.innerHTML = allPosts.length > 0 ? '<p>No other posts match your search or filter.</p>' : '<p>No posts to display.</p>';
-        } else {
-            postsToDisplay.forEach(post => {
-                const postCard = document.createElement('article');
-                postCard.className = 'post-card';
-                postCard.innerHTML = `
-                    <div class="post-card-content">
-                        <span class="post-category">${post.category}</span>
-                        <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
-                        <p>${post.content.substring(0, 100)}...</p>
-                        <div class="post-meta">
-                            <img src="${post.authorPfpUrl || 'images/default-profile.jpg'}" class="author-pfp" alt="${post.author}">
-                            <div class="author-details">
-                                <span class="author-name"><a href="author.html?name=${encodeURIComponent(post.author)}">${post.author}</a></span>
-                                <span class="post-time">${formatDate(post.createdAt)}</span>
-                            </div>
+    // Filter out the featured post so it doesn't appear twice
+    const otherPosts = posts.filter(post => !post.isFeatured);
+
+    if (otherPosts.length > 0) {
+        otherPosts.forEach(post => {
+            const postElement = document.createElement('article');
+            postElement.className = 'post-item';
+            postElement.innerHTML = `
+                <img src="${post.imageUrl || 'images/default-post-image.jpg'}" alt="${post.title}" class="post-image" onerror="this.style.display='none';">
+                <div class="post-content">
+                    <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+                    <div class="post-meta">
+                        <img src="${post.authorPfpUrl || 'images/default-profile.jpg'}" alt="${post.author}" class="author-pfp">
+                        <div class="author-details">
+                            <span class="author-name"><a href="author.html?name=${encodeURIComponent(post.author)}">${post.author}</a></span>
+                            <span class="post-timestamps">${formatDate(post.createdAt)}</span>
                         </div>
-                        <a href="post.html?id=${post.id}" class="read-more-btn">Read More</a>
-                    </div>
-                `;
-                postsGrid.appendChild(postCard);
-            });
+                    </div>
+                    <p>${getShortContent(post.content, 150)}...</p>
+                    <a href="post.html?id=${post.id}" class="read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            `;
+            postsContainer.appendChild(postElement);
+        });
+    } else {
+        // Only show this if there are NO posts at all (featured or otherwise)
+        if (posts.length === 0) {
+            postsContainer.innerHTML = '<p>No posts found.</p>';
         }
-    }
+    }
+}
 
     // Populate category filters
     function populateCategories(posts) {
