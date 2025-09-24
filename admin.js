@@ -1352,19 +1352,49 @@ function setupBusinessInfoListeners() {
 // Blog Management Admin Portal (Full)
 // =======================================
 
-// Initialize Quill editor (make sure you have quill.js included)
-const quill = new Quill('#post-content-editor', {
+// Initialize Quill with full toolbar and headings
+window.quill = new Quill('#post-content-editor', {
   theme: 'snow',
+  placeholder: 'Write your post here...',
   modules: {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image'],
-      ['clean']
-    ]
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, false] }], // h1, h2, h3, normal
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link', 'image'],
+        ['clean']
+      ],
+      handlers: {
+        image: imageHandler
+      }
+    }
   }
 });
+
+// Custom image handler for Quill
+async function imageHandler() {
+  const input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'image/*');
+  input.click();
+
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (file) {
+      const range = window.quill.getSelection(true);
+
+      // Upload to Firebase Storage
+      const storageRef = ref(storage, `blogContentImages/${Date.now()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+
+      // Insert uploaded image into Quill
+      window.quill.insertEmbed(range.index, 'image', url);
+      window.quill.setSelection(range.index + 1); // Move cursor after image
+    }
+  };
+}
 
 // ======================================================
 // Save Blog Post (supports main image + embedded images)
@@ -1376,58 +1406,30 @@ async function savePost() {
   const authorPfpUrl = document.getElementById('post-author-pfp').value.trim();
   const category = document.getElementById('post-category').value.trim();
   const isFeatured = document.getElementById('post-featured').checked;
-  const contentHTML = await processQuillImages(); // handle embedded images
-  const mainImageFile = document.getElementById('post-image')?.files[0];
+  const contentHTML = window.quill.root.innerHTML;
 
   if (!title || !author || !category) {
     alert('Please fill out Title, Author, and Category.');
     return;
   }
-  if (!contentHTML || contentHTML === '<p><br></p>') {
-    alert('Post content cannot be empty.');
+  if (contentHTML.trim() === '<p><br></p>' || contentHTML.trim() === '') {
+    alert('Post Content cannot be empty.');
     return;
   }
 
   try {
     const batch = writeBatch(db);
-    let mainImageUrl = null;
 
-    // -------------------
-    // Handle Featured Post Uniqueness
-    // -------------------
+    // ====== Handle Featured Post Uniqueness ======
     if (isFeatured) {
-      const featuredSnapshot = await getDocs(query(postsCollectionRef, where('isFeatured', '==', true)));
+      const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
+      const featuredSnapshot = await getDocs(featuredQuery);
       featuredSnapshot.forEach(docSnap => {
-        if (docSnap.id !== postId) {
-          batch.update(docSnap.ref, { isFeatured: false });
-        }
+        if (docSnap.id !== postId) batch.update(docSnap.ref, { isFeatured: false });
       });
     }
 
-    // -------------------
-    // Handle Main Image Upload
-    // -------------------
-    if (mainImageFile) {
-      const storageRef = ref(storage, `blogImages/${Date.now()}_${mainImageFile.name}`);
-      await uploadBytes(storageRef, mainImageFile);
-      mainImageUrl = await getDownloadURL(storageRef);
-
-      // Delete old image if updating
-      if (postId) {
-        const oldDoc = await getDoc(doc(db, 'posts', postId));
-        if (oldDoc.exists() && oldDoc.data().imageUrl) {
-          try {
-            await deleteObject(ref(storage, oldDoc.data().imageUrl));
-          } catch (delErr) {
-            console.warn('Old image could not be deleted:', delErr);
-          }
-        }
-      }
-    }
-
-    // -------------------
-    // Prepare Post Data
-    // -------------------
+    // ====== Prepare Post Data ======
     const postData = {
       title,
       author,
@@ -1435,15 +1437,12 @@ async function savePost() {
       category,
       content: contentHTML,
       isFeatured,
-      updatedAt: serverTimestamp()
+      updatedAt: serverTimestamp(),
     };
-    if (mainImageUrl) postData.imageUrl = mainImageUrl;
 
-    // -------------------
-    // Add Save/Update to Batch
-    // -------------------
     if (postId) {
-      batch.update(doc(db, 'posts', postId), postData);
+      const postRef = doc(db, 'posts', postId);
+      batch.update(postRef, postData);
     } else {
       postData.createdAt = serverTimestamp();
       const newPostRef = doc(collection(db, 'posts'));
@@ -1454,16 +1453,12 @@ async function savePost() {
     alert(`Post ${postId ? 'updated' : 'saved'} successfully!`);
     resetPostForm();
     loadPosts();
-
   } catch (error) {
-    console.error('Error saving post:', error);
-    alert('Failed to save post. Check console for details.');
+    console.error("Error saving post:", error);
+    alert('An error occurred while saving the post. Check console for details.');
   }
 }
 
-// ======================================================
-// Reset Post Form
-// ======================================================
 function resetPostForm() {
   document.getElementById('post-id').value = '';
   document.getElementById('post-title').value = '';
@@ -1472,10 +1467,7 @@ function resetPostForm() {
   document.getElementById('post-category').value = '';
   document.getElementById('post-featured').checked = false;
   window.quill.root.innerHTML = '';
-  const imageInput = document.getElementById('post-image');
-  if (imageInput) imageInput.value = '';
 }
-
 // ======================================================
 // Process Quill Embedded Images
 // Uploads any base64 images to Firebase Storage and replaces the src
