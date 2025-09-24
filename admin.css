@@ -362,225 +362,392 @@ a:hover {
 }
 
 /* ======================================== */
-/* == BLOG MANAGEMENT FORM STYLES (v4.0) == */
+/* == BLOG & POSTS MODERN REDESIGN CSS ==== */
 /* ======================================== */
 
-#blog-management {
+/* --- Fonts & Base --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color, #f2f4f7);
+    color: var(--text-color, #212529);
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Blog Container --- */
+.blog-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
-    font-family: 'Inter', sans-serif;
-    color: var(--text-color);
-}
-
-/* ===== Form Group ===== */
-#blog-management .form-group {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
-    margin-bottom: 28px;
-}
-
-@media (min-width: 768px) {
-    #blog-management .form-group {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    #blog-management .form-group .full-width {
-        grid-column: 1 / -1;
-    }
-}
-
-/* ===== Inputs ===== */
-#blog-management label {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: inline-block;
-}
-
-#blog-management .admin-input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    font-size: 1rem;
-    background-color: var(--content-bg);
-    color: var(--text-color);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
-
-#blog-management .admin-input::placeholder {
-    color: var(--secondary-text);
-}
-
-#blog-management .admin-input:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    background-color: #fff;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent);
-}
-
-/* ===== Rich Text Editor ===== */
-.admin-editor {
-    grid-column: 1 / -1;
-}
-
-.ql-toolbar.ql-snow {
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-top-left-radius: var(--radius-lg);
-    border-top-right-radius: var(--radius-lg);
-    padding: 8px;
-}
-
-.ql-container.ql-snow {
-    background-color: var(--content-bg);
-    border: 1px solid var(--border-color);
-    border-top: none;
-    border-bottom-left-radius: var(--radius-lg);
-    border-bottom-right-radius: var(--radius-lg);
-    color: var(--text-color);
-    font-size: 1rem;
-    min-height: 280px;
-}
-
-.ql-editor {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.7;
-    padding: 12px 16px;
-}
-
-.ql-editor.ql-blank::before {
-    color: var(--secondary-text);
-    font-style: normal;
-}
-
-/* ===== Apple-Style Toggle ===== */
-.admin-checkbox-label {
-    grid-column: 1 / -1;
     display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-color);
-    user-select: none;
+    flex-direction: column;
+    gap: 3rem; /* Gap between sections */
 }
 
-.admin-checkbox-label input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.toggle-switch {
-    position: relative;
-    width: 50px;
-    height: 30px;
-    background-color: #e5e5ea;
-    border-radius: 50px;
-    transition: background-color 0.25s ease-in-out;
-    flex-shrink: 0;
-}
-
-.toggle-switch::after {
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 24px;
-    height: 24px;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-    transition: transform 0.25s ease-in-out;
-}
-
-.admin-checkbox-label input[type="checkbox"]:checked + .toggle-switch {
-    background-color: var(--accent-color, #34c759);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color, #34c759) 40%, transparent);
-}
-
-.admin-checkbox-label input[type="checkbox"]:checked + .toggle-switch::after {
-    transform: translateX(20px);
-}
-
-.admin-checkbox-label input[type="checkbox"]:focus-visible + .toggle-switch {
-    outline: 3px solid color-mix(in srgb, var(--accent-color, #34c759) 40%, transparent);
-    outline-offset: 3px;
-}
-
-/* ===== Buttons ===== */
-.form-actions {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-}
-
-.admin-btn, .admin-btn-secondary {
-    padding: 12px 28px;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-}
-
-.admin-btn.is-primary {
-    background-color: var(--accent-color);
-    color: var(--accent-text-color, #fff);
-}
-
-.admin-btn.is-primary:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 85%, black);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
-}
-
-.admin-btn.is-secondary {
-    background-color: var(--content-bg);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-}
-
-.admin-btn.is-secondary:hover {
-    background-color: var(--border-color);
-    border-color: var(--secondary-text);
-}
-
-/* ===== Posts List ===== */
-#posts-list {
-    margin-top: 2rem;
-}
-
-#posts-list .admin-list-item {
+/* --- Main Header --- */
+.main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: var(--content-bg, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.main-header h1 {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.main-header .home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    background-color: color-mix(in srgb, var(--accent-color, #3ddc84) 15%, transparent);
+    color: var(--accent-color, #3ddc84);
+    border: 1px solid var(--accent-color, #3ddc84);
+    border-radius: 999px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.main-header .home-link:hover {
+    background-color: var(--accent-color, #3ddc84);
+    color: var(--accent-text-color, #fff);
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-color, #3ddc84) 30%, transparent);
+    transform: translateY(-2px);
+}
+
+/* --- Section Titles --- */
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s ease;
 }
 
-#posts-list .admin-list-item:last-child {
-    border-bottom: none;
+/* --- Featured Post --- */
+.featured-post-container {
+    margin-bottom: 3rem;
 }
 
-#posts-list .admin-list-item:hover {
-    background-color: color-mix(in srgb, var(--accent-color) 5%, transparent);
+.featured-post {
+    background: var(--content-bg, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-left: 5px solid var(--accent-color, #3ddc84);
+    border-radius: 1.25rem;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#posts-list .admin-list-item span {
-    font-weight: 500;
+.featured-post:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 40px -8px var(--shadow-color, rgba(0,0,0,0.15));
 }
 
-#posts-list .admin-list-item small {
-    color: var(--secondary-text);
+.featured-post h2 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 1rem 0;
+    color: var(--text-color);
+    line-height: 1.2;
+}
+
+.featured-post p {
+    font-size: 1.1rem;
+    color: var(--secondary-text, #5f6368);
+    margin: 1rem 0;
+    line-height: 1.7;
+}
+
+/* --- Filter Controls --- */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding: 1rem;
+    background-color: var(--content-bg, #fff);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1 1 300px;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.85rem 1.25rem 0.85rem 2.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color, #e0e0e0);
+    font-size: 1rem;
+    background-color: var(--bg-color, #f2f4f7);
+    color: var(--text-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-color, #3ddc84);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color, #3ddc84) 20%, transparent);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--secondary-text, #5f6368);
+    pointer-events: none;
+}
+
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.category-btn {
+    padding: 0.6rem 1.3rem;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--secondary-text, #5f6368);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.category-btn:hover {
+    color: var(--text-color);
+    border-color: var(--text-color);
+    transform: translateY(-2px);
+}
+
+.category-btn.active {
+    background: var(--accent-color, #3ddc84);
+    color: var(--accent-text-color, #fff);
+    border-color: var(--accent-color, #3ddc84);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--accent-color, #3ddc84) 25%, transparent);
+}
+
+/* --- Posts Grid & Cards --- */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.post-card {
+    background: var(--content-bg, #fff);
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.post-card-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.post-card h3 {
+    margin: 0.75rem 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1.3;
+    flex-grow: 1;
+}
+
+.post-card p {
+    font-size: 1rem;
+    color: var(--secondary-text, #5f6368);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.post-category {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: color-mix(in srgb, var(--accent-color, #3ddc84) 20%, transparent);
+    color: var(--accent-color, #3ddc84);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
+}
+
+/* --- Post Meta (Author & Time) --- */
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.author-pfp {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color, #e0e0e0);
+}
+
+.author-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    text-align: left;
+}
+
+.author-name {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.author-name a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.author-name a:hover {
+    color: var(--accent-color, #3ddc84);
+}
+
+.post-timestamps, .post-time {
+    font-size: 0.85rem;
+    color: var(--secondary-text, #5f6368);
+}
+
+/* --- Read More Button --- */
+.read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--accent-text-color, #fff);
+    background-color: var(--accent-color, #3ddc84);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.65rem 1.25rem;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+    text-align: center;
+}
+
+.read-more-btn:hover {
+    color: var(--accent-text-color, #fff);
+    background-color: color-mix(in srgb, var(--accent-color, #3ddc84) 85%, black);
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-color, #3ddc84) 30%, transparent);
+    transform: translateY(-2px);
+}
+
+/* --- Author Page Header --- */
+.author-page-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.author-header-pfp {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--border-color, #e0e0e0);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --- Single Post Content --- */
+.post-full-content {
+    background: var(--content-bg, #fff);
+    border-radius: 1rem;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.post-full-content .post-title {
+    font-size: clamp(2.25rem, 7vw, 3.75rem);
+    line-height: 1.15;
+    font-weight: 800;
+    margin: 0 0 1.5rem 0;
+    color: var(--text-color);
+}
+
+.post-main-content {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--secondary-text, #5f6368);
+    max-width: 70ch;
+    margin: 0 auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.post-main-content strong {
+    color: var(--text-color);
+}
+
+.post-main-content a {
+    color: var(--accent-color, #3ddc84);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+}
+
+.post-main-content img,
+.post-main-content video,
+.post-main-content iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto;
+    border-radius: 0.75rem;
+}
+
+.post-main-content pre {
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+/* --- Dark Mode Tweaks --- */
+body.dark-mode .read-more-btn:hover {
+    background-color: color-mix(in srgb, var(--accent-color, #3ddc84) 90%, white);
 }
 
 /* ======================== */
