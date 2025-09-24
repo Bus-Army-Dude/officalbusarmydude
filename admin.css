@@ -370,6 +370,7 @@ a:hover {
     padding: 2rem 1.5rem;
     max-width: 900px;
     margin: 0 auto;
+	margin-bottom: 4rem; /* 64px gap below the blog section */
 }
 
 #blog-management h3 {
