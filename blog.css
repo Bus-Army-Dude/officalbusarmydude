@@ -211,38 +211,37 @@ body {
 .post-main-content a { color: var(--accent-color, #3ddc84); text-decoration: underline; text-decoration-thickness: 1.5px; }
 
 
-/* ======================================== */
-/* == >> START: Container Overflow Fix << == */
-/* ======================================== */
+/* ================================================= */
+/* == >> START: CORRECTED CONTAINER & IMAGE FIX << == */
+/* ================================================= */
 
 /* --- Prevent Text & Media Overflow in Post Content --- */
 .post-main-content {
-    /* This forces long strings of text (like URLs) to wrap to the next line */
+    /* Forces long strings of text (like URLs) to wrap */
     overflow-wrap: break-word;
-    word-wrap: break-word; /* Legacy fallback for older browsers */
+    word-wrap: break-word;
 }
 
-/* This ensures all media scales down to fit the container */
+/* Ensures all media scales down to fit the container */
 .post-main-content img,
 .post-main-content video,
-.post-main-content iframe,
-.post-main-content figure {
+.post-main-content iframe {
     max-width: 100%;
     height: auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 2rem auto;
+    border-radius: 0.75rem; /* Makes images in the description rounded */
 }
 
-/* This handles pre-formatted text like code blocks */
+/* Handles pre-formatted text like code blocks */
 .post-main-content pre {
     white-space: pre-wrap;    /* Allows lines to wrap */
     overflow-x: auto;         /* Adds a scrollbar if a line is still too long */
 }
 
-/* ======================================== */
-/* == >> END: Container Overflow Fix << ==== */
-/* ======================================== */
+/* =============================================== */
+/* == >> END: CORRECTED CONTAINER & IMAGE FIX << == */
+/* =============================================== */
 
 
 /* --- Dark Mode Fine-Tuning --- */
