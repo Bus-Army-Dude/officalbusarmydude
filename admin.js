@@ -8,7 +8,7 @@ import { db, auth } from './firebase-init.js'; // Ensure path is correct
 
 // Import Firebase functions (Includes 'where', 'query', 'orderBy', 'limit')
 import {
-    getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp, getDoc, query, orderBy, where, limit, Timestamp, deleteField // <<< MAKE SURE Timestamp IS HERE
+    getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, setDoc, serverTimestamp, getDoc, query, orderBy, where, limit, Timestamp, deleteField, writeBatch // <<< MAKE SURE Timestamp IS HERE
 } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 import {
     getAuth,
@@ -1349,7 +1349,7 @@ function setupBusinessInfoListeners() {
 // ======================================================
 
 // ======================
-// Save Blog Post (with image replace + delete old image)
+// Save Blog Post (Corrected for Atomic Featured Post Update)
 // ======================
 async function savePost() {
     const postId = document.getElementById('post-id').value;
@@ -1359,9 +1359,9 @@ async function savePost() {
     const category = document.getElementById('post-category').value;
     const isFeatured = document.getElementById('post-featured').checked;
     const content = window.quill.root.innerHTML;
-
     const imageFile = document.getElementById('post-image')?.files[0];
 
+    // --- Validation ---
     if (!title || !author || !category) {
         alert('Please fill out Title, Author, and Category.');
         return;
@@ -1371,24 +1371,26 @@ async function savePost() {
         return;
     }
 
-    // Handle featured post uniqueness
-    if (isFeatured) {
-        const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
-        const featuredSnapshot = await getDocs(featuredQuery);
-        const batch = writeBatch(db);
-        featuredSnapshot.forEach(docSnapshot => {
-            if (docSnapshot.id !== postId) {
-                batch.update(docSnapshot.ref, { isFeatured: false });
-            }
-        });
-        await batch.commit();
-    }
+    try {
+        const batch = writeBatch(db); // Initialize the batch operation
+        let imageUrl = null;
 
-    let imageUrl = null;
+        // --- Step 1: Handle Featured Post Uniqueness ---
+        // If this post is being marked as featured, find and un-feature any others within the batch.
+        if (isFeatured) {
+            const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
+            const featuredSnapshot = await getDocs(featuredQuery);
+            featuredSnapshot.forEach(docSnapshot => {
+                // Un-feature any post that isn't the one we are currently saving
+                if (docSnapshot.id !== postId) {
+                    batch.update(docSnapshot.ref, { isFeatured: false });
+                }
+            });
+        }
 
-    // If editing & new image chosen, delete old one first
-    if (postId && imageFile) {
-        try {
+        // --- Step 2: Handle Image Upload & Deletion ---
+        // If editing and a new image is chosen, delete the old one first
+        if (postId && imageFile) {
             const oldDoc = await getDoc(doc(db, "posts", postId));
             if (oldDoc.exists() && oldDoc.data().imageUrl) {
                 const oldUrl = oldDoc.data().imageUrl;
@@ -1397,55 +1399,55 @@ async function savePost() {
                     await deleteObject(oldRef);
                     console.log("Old image deleted:", oldUrl);
                 } catch (delErr) {
-                    console.warn("Could not delete old image:", delErr);
+                    console.warn("Could not delete old image (it may have already been removed):", delErr);
                 }
             }
-        } catch (err) {
-            console.warn("Error checking old post image:", err);
         }
-    }
 
-    // Upload new image if selected
-    if (imageFile) {
-        try {
+        // Upload new image if one was selected
+        if (imageFile) {
             const storageRef = ref(storage, `blogImages/${Date.now()}_${imageFile.name}`);
             await uploadBytes(storageRef, imageFile);
             imageUrl = await getDownloadURL(storageRef);
-        } catch (uploadError) {
-            console.error("Image upload failed:", uploadError);
-            alert("Failed to upload image. Post not saved.");
-            return;
         }
-    }
 
-    const postData = {
-        title,
-        author,
-        authorPfpUrl,
-        category,
-        content,
-        isFeatured,
-        updatedAt: serverTimestamp(),
-    };
+        // --- Step 3: Prepare Post Data ---
+        const postData = {
+            title,
+            author,
+            authorPfpUrl,
+            category,
+            content,
+            isFeatured,
+            updatedAt: serverTimestamp(),
+        };
 
-    if (imageUrl) {
-        postData.imageUrl = imageUrl;
-    }
+        if (imageUrl) {
+            postData.imageUrl = imageUrl;
+        }
 
-    try {
+        // --- Step 4: Add the Save/Update Operation to the Batch ---
         if (postId) {
-            await updateDoc(doc(db, 'posts', postId), postData);
-            alert('Post updated successfully!');
+            // If we are editing an existing post, add an 'update' operation to the batch
+            const postRef = doc(db, 'posts', postId);
+            batch.update(postRef, postData);
         } else {
+            // If this is a new post, add a 'set' operation for a new document to the batch
             postData.createdAt = serverTimestamp();
-            await addDoc(postsCollectionRef, postData);
-            alert('Post saved successfully!');
+            const newPostRef = doc(collection(db, 'posts')); // Create a new document reference
+            batch.set(newPostRef, postData);
         }
+
+        // --- Step 5: Commit all batched changes at once ---
+        await batch.commit();
+
+        alert(`Post ${postId ? 'updated' : 'saved'} successfully!`);
         resetPostForm();
         loadPosts();
+
     } catch (error) {
         console.error("Error saving post: ", error);
-        alert('Error saving post.');
+        alert('An error occurred while saving the post. Please check the console for details.');
     }
 }
     
