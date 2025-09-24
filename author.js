@@ -30,28 +30,28 @@ function formatRelativeTime(createdAt, updatedAt) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const postsGrid = document.getElementById('posts-grid');
-    const titleElement = document.getElementById('author-page-title');
+    // MODIFIED: Get the new h2 element for the author's name
+    const authorNameHeader = document.getElementById('author-header-name');
     const authorPfpHeaderElement = document.getElementById('author-header-pfp');
 
     const params = new URLSearchParams(window.location.search);
     const authorName = params.get('name');
 
     if (!authorName) {
-        titleElement.textContent = "Author Not Found";
+        // MODIFIED: Update the new header element if author not found
+        authorNameHeader.textContent = "Author Not Found";
         postsGrid.innerHTML = '<p>No author was specified in the URL.</p>';
         return;
     }
 
-    const pageTitle = `Posts by ${authorName}`;
-    titleElement.textContent = pageTitle;
-    document.title = pageTitle;
+    // MODIFIED: Update the new header element with the author's name
+    authorNameHeader.textContent = authorName;
+    document.title = `Posts by ${authorName}`; // Keep the page title the same
 
     async function fetchPostsByAuthor() {
         postsGrid.innerHTML = `<p>Loading posts by ${authorName}...</p>`;
         try {
             const postsRef = collection(db, 'posts');
-            // Note: This query requires a composite index in Firestore. 
-            // If you get an error in the console, follow the link it provides to create it.
             const authorQuery = query(postsRef, where("author", "==", authorName), orderBy("createdAt", "desc"));
             const snapshot = await getDocs(authorQuery);
 
@@ -60,17 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Get the author's profile picture from the first post
             const firstPostData = snapshot.docs[0].data();
             const authorPfpUrl = firstPostData.authorPfpUrl || 'images/default-profile.jpg';
            
-            // Update the header PFP
             if(authorPfpHeaderElement) {
                 authorPfpHeaderElement.src = authorPfpUrl;
                 authorPfpHeaderElement.alt = authorName;
             }
 
-            postsGrid.innerHTML = ''; // Clear loading message
+            postsGrid.innerHTML = ''; 
 
             snapshot.forEach(doc => {
                 const post = { id: doc.id, ...doc.data() };
