@@ -230,13 +230,17 @@ body {
 .search-wrapper {
   position: relative;
   flex: 1 1 100%;
-  min-width: 0; /* allow it to shrink below 350px */
+  min-width: 0; /* ✅ allows shrinking below 350px */
   display: flex;
   align-items: center;
+  width: 100%;       /* ✅ makes wrapper respect parent */
+  box-sizing: border-box;
 }
 
 .search-input {
   width: 100%;
+  max-width: 100%;   /* ✅ prevents sticking out */
+  box-sizing: border-box; /* ✅ includes padding/border in width */
   padding: 1.2rem 1.5rem 1.2rem 3.2rem;
   border-radius: 16px;
   border: 1px solid var(--border-color);
