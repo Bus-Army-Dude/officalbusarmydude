@@ -1339,135 +1339,131 @@ function setupBusinessInfoListeners() {
 // ======================================================
 
 // ======================================================
-// ===== BLOG MANAGEMENT FUNCTIONS (COMPLETE & CORRECT) =====
-// ======================================================
+    // ===== BLOG MANAGEMENT FUNCTIONS (COMPLETE & CORRECT) =====
+    // ======================================================
+    async function savePost() {
+        const postId = document.getElementById('post-id').value;
+        const title = document.getElementById('post-title').value;
+        const author = document.getElementById('post-author').value;
+        const authorPfpUrl = document.getElementById('post-author-pfp').value;
+        const category = document.getElementById('post-category').value;
+        const isFeatured = document.getElementById('post-featured').checked;
+        const content = window.quill.root.innerHTML;
 
-async function savePost() {
-    const postId = document.getElementById('post-id').value;
-    const title = document.getElementById('post-title').value;
-    const author = document.getElementById('post-author').value;
-    const authorPfpUrl = document.getElementById('post-author-pfp').value;
-    const category = document.getElementById('post-category').value;
-    const isFeatured = document.getElementById('post-featured').checked;
-    const content = window.quill.root.innerHTML;
-
-    if (!title || !author || !category) {
-        alert('Please fill out Title, Author, and Category.');
-        return;
-    }
-    if (content.trim() === '<p><br></p>' || content.trim() === '') {
-        alert('Post Content cannot be empty.');
-        return;
-    }
-
-    if (isFeatured) {
-        const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
-        const featuredSnapshot = await getDocs(featuredQuery);
-        const batch = writeBatch(db);
-        featuredSnapshot.forEach(docSnapshot => {
-            if (docSnapshot.id !== postId) {
-                batch.update(docSnapshot.ref, { isFeatured: false });
-            }
-        });
-        await batch.commit();
-    }
-
-    const postData = {
-        title, author, authorPfpUrl, category, content, isFeatured,
-        updatedAt: serverTimestamp()
-    };
-
-    try {
-        if (postId) {
-            await updateDoc(doc(db, 'posts', postId), postData);
-            alert('Post updated successfully!');
-        } else {
-            postData.createdAt = serverTimestamp();
-            await addDoc(postsCollectionRef, postData);
-            alert('Post saved successfully!');
-        }
-        resetPostForm();
-        loadPosts();
-    } catch (error) {
-        console.error("Error saving post: ", error);
-        alert('Error saving post.');
-    }
-}
-
-function resetPostForm() {
-    const form = document.getElementById('blog-management-form');
-    if (form) {
-        form.reset();
-        if (window.quill) {
-            window.quill.root.innerHTML = '';
-        }
-    }
-}
-
-async function loadPosts() {
-    const postsListDiv = document.getElementById('posts-list');
-    if (!postsListDiv) return;
-    postsListDiv.innerHTML = 'Loading posts...';
-    try {
-        const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
-        const snapshot = await getDocs(q);
-        if (snapshot.empty) {
-            postsListDiv.innerHTML = 'No posts found.';
+        if (!title || !author || !category) {
+            alert('Please fill out Title, Author, and Category.');
             return;
         }
-        postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
-            const post = docSnapshot.data();
-            return `
-                <div class="admin-list-item">
-                    <span>
-                        ${post.title} <small>(${post.category})</small>
-                        ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
-                    </span>
-                    <div>
-                        <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
-                        <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
-                    </div>
-                </div>`;
-        }).join('');
-    } catch (error) {
-        console.error("Error loading posts: ", error);
-        postsListDiv.innerHTML = `<p class="error">Error loading posts.</p>`;
-    }
-}
-
-async function editPost(id) {
-    try {
-        const docSnap = await getDoc(doc(db, 'posts', id));
-        if (docSnap.exists()) {
-            const post = docSnap.data();
-            document.getElementById('post-id').value = id;
-            document.getElementById('post-title').value = post.title;
-            document.getElementById('post-author').value = post.author;
-            document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
-            document.getElementById('post-category').value = post.category || '';
-            document.getElementById('post-featured').checked = post.isFeatured || false;
-            if (window.quill) {
-                window.quill.root.innerHTML = post.content;
-            }
-            document.getElementById('post-title').focus();
+        if (content.trim() === '<p><br></p>' || content.trim() === '') {
+            alert('Post Content cannot be empty.');
+            return;
         }
-    } catch (error) {
-        console.error("Error fetching post for edit: ", error);
-    }
-}
 
-async function deletePost(id) {
-    if (confirm('Are you sure you want to delete this post?')) {
+        if (isFeatured) {
+            const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
+            const featuredSnapshot = await getDocs(featuredQuery);
+            const batch = writeBatch(db);
+            featuredSnapshot.forEach(docSnapshot => {
+                if (docSnapshot.id !== postId) {
+                    batch.update(docSnapshot.ref, { isFeatured: false });
+                }
+            });
+            await batch.commit();
+        }
+
+        const postData = {
+            title, author, authorPfpUrl, category, content, isFeatured,
+            updatedAt: serverTimestamp()
+        };
+
         try {
-            await deleteDoc(doc(db, 'posts', id));
-            alert('Post deleted successfully!');
+            if (postId) {
+                await updateDoc(doc(db, 'posts', postId), postData);
+                alert('Post updated successfully!');
+            } else {
+                postData.createdAt = serverTimestamp();
+                await addDoc(postsCollectionRef, postData);
+                alert('Post saved successfully!');
+            }
+            resetPostForm();
             loadPosts();
         } catch (error) {
-            console.error("Error deleting post: ", error);
-            alert('Error deleting post.');
+            console.error("Error saving post: ", error);
+            alert('Error saving post.');
         }
     }
-}
+
+    function resetPostForm() {
+        const form = document.getElementById('blog-management-form');
+        if (form) {
+            form.reset();
+            if (window.quill) {
+                window.quill.root.innerHTML = '';
+            }
+        }
+    }
+
+    async function loadPosts() {
+        const postsListDiv = document.getElementById('posts-list');
+        if (!postsListDiv) return;
+        postsListDiv.innerHTML = 'Loading posts...';
+        try {
+            const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) {
+                postsListDiv.innerHTML = 'No posts found.';
+                return;
+            }
+            postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
+                const post = docSnapshot.data();
+                return `
+                    <div class="admin-list-item">
+                        <span>${post.title} <small>(${post.category})</small> ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}</span>
+                        <div>
+                            <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
+                            <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
+                        </div>
+                    </div>`;
+            }).join('');
+        } catch (error) {
+            console.error("Error loading posts: ", error);
+            postsListDiv.innerHTML = `<p class="error">Error loading posts.</p>`;
+        }
+    }
+
+    async function editPost(id) {
+        try {
+            const docSnap = await getDoc(doc(db, 'posts', id));
+            if (docSnap.exists()) {
+                const post = docSnap.data();
+                document.getElementById('post-id').value = id;
+                document.getElementById('post-title').value = post.title;
+                document.getElementById('post-author').value = post.author;
+                document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
+                document.getElementById('post-category').value = post.category || '';
+                document.getElementById('post-featured').checked = post.isFeatured || false;
+                if (window.quill) {
+                    window.quill.root.innerHTML = post.content;
+                }
+                document.getElementById('post-title').focus();
+            }
+        } catch (error) {
+            console.error("Error fetching post for edit: ", error);
+        }
+    }
+
+    async function deletePost(id) {
+        if (confirm('Are you sure you want to delete this post?')) {
+            try {
+                await deleteDoc(doc(db, 'posts', id));
+                alert('Post deleted successfully!');
+                loadPosts();
+            } catch (error) {
+                console.error("Error deleting post: ", error);
+                alert('Error deleting post.');
+            }
+        }
+    }
     
 /** Filters and displays shoutouts in the admin list */
 function displayFilteredShoutouts(platform) {
@@ -2086,71 +2082,71 @@ onAuthStateChanged(auth, user => {
                 loadPresidentData();
                 loadTechItemsAdmin();
 
-              // --- Image Upload Handler for the Editor ---
-                function imageHandler() {
-                    const input = document.createElement('input');
-                    input.setAttribute('type', 'file');
-                    input.setAttribute('accept', 'image/*');
-                    input.click();
+             // --- Initialize Rich Text Editor with Image Upload Handler ---
+                    function imageHandler() {
+                        const input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', 'image/*');
+                        input.click();
+                        input.onchange = async () => {
+                            const file = input.files[0];
+                            if (file) {
+                                const storageRef = ref(storage, `posts_images/${Date.now()}_${file.name}`);
+                                try {
+                                    const snapshot = await uploadBytes(storageRef, file);
+                                    const downloadURL = await getDownloadURL(snapshot.ref);
+                                    const range = window.quill.getSelection(true);
+                                    window.quill.insertEmbed(range.index, 'image', downloadURL);
+                                } catch (error) {
+                                    console.error("Image upload failed:", error);
+                                    alert("Error saving pic. Check console and storage rules.");
+                                }
+                            }
+                        };
+                    }
 
-                    input.onchange = async () => {
-                        const file = input.files[0];
-                        if (file) {
-                            const storageRef = ref(storage, `posts_images/${Date.now()}_${file.name}`);
-                            try {
-                                const snapshot = await uploadBytes(storageRef, file);
-                                const downloadURL = await getDownloadURL(snapshot.ref);
-                                const range = window.quill.getSelection(true);
-                                window.quill.insertEmbed(range.index, 'image', downloadURL);
-                            } catch (error) {
-                                console.error("Image upload failed:", error);
-                                alert("Error saving pic. Check console and storage rules.");
+                    console.log("Initializing Rich Text Editor...");
+                    const quill = new Quill('#post-content-editor', {
+                        theme: 'snow',
+                        modules: {
+                            toolbar: {
+                                container: [
+                                    [{ 'header': [1, 2, 3, false] }],
+                                    ['bold', 'italic', 'underline', 'strike'],
+                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                    ['link', 'image', 'video', 'blockquote'],
+                                    ['clean']
+                                ],
+                                handlers: { 'image': imageHandler }
                             }
                         }
-                    };
-                }
-
-                console.log("Initializing Rich Text Editor...");
-                const quill = new Quill('#post-content-editor', {
-                    theme: 'snow',
-                    modules: {
-                        toolbar: {
-                            container: [
-                                [{ 'header': [1, 2, 3, false] }],
-                                ['bold', 'italic', 'underline', 'strike'],
-                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                ['link', 'image', 'video', 'blockquote'],
-                                ['clean']
-                            ],
-                            handlers: { 'image': imageHandler }
-                        }
-                    }
-                });
-                window.quill = quill;
-
-                // Connect the form to the savePost function
-                const blogForm = document.getElementById('blog-management-form');
-                if (blogForm && !blogForm.dataset.listenerAttached) {
-                    blogForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        savePost();
                     });
-                    blogForm.dataset.listenerAttached = 'true';
+                    window.quill = quill; // Make editor globally accessible
+
+                    // --- Connect the Blog Form to the savePost function ---
+                    const blogForm = document.getElementById('blog-management-form');
+                    if (blogForm && !blogForm.dataset.listenerAttached) {
+                        blogForm.addEventListener('submit', (e) => {
+                            e.preventDefault(); // CRITICAL: stops page reload
+                            savePost();
+                        });
+                        blogForm.dataset.listenerAttached = 'true';
+                    }
+
+                } catch (error) {
+                    console.error("❌ CRITICAL ERROR during init:", error);
                 }
 
-            } catch (error) {
-                console.error("❌ CRITICAL ERROR during init:", error);
+            } else {
+                alert("Access Denied. This account is not authorized.");
+                signOut(auth);
             }
-
         } else {
-            alert("Access Denied. This account is not authorized.");
-            signOut(auth);
+            console.log("User is signed out.");
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('admin-content').style.display = 'none';
         }
-    } else {
-        document.getElementById('login-section').style.display = 'block';
-        document.getElementById('admin-content').style.display = 'none';
-    }
-});
+    });
 
     } else {
         // --- User is signed OUT ---
@@ -4185,6 +4181,8 @@ async function loadDisabilitiesAdmin() {
     window.savePost = savePost;
     window.editPost = editPost;
     window.deletePost = deletePost;
+    window.resetPostForm = resetPostForm;
+
 
     // Google Sign-In
     window.handleGoogleSignIn = handleGoogleSignIn;
