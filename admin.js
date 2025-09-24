@@ -1348,31 +1348,37 @@ function setupBusinessInfoListeners() {
 // == END: ALL BUSINESS INFO CODE FOR admin.js ==========
 // ======================================================
 
-// =======================================
-// Blog Management Admin Portal (Full)
-// =======================================
+// ======================================
+// BLOG MANAGEMENT FUNCTIONS (FULL)
+// ======================================
 
-// Initialize Quill with full toolbar and headings
+// Initialize Quill with full features
 window.quill = new Quill('#post-content-editor', {
   theme: 'snow',
   placeholder: 'Write your post here...',
   modules: {
     toolbar: {
       container: [
-        [{ header: [1, 2, 3, false] }], // h1, h2, h3, normal
+        [{ font: [] }, { size: ['small', false, 'large', 'huge'] }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
         ['bold', 'italic', 'underline', 'strike'],
+        [{ color: [] }, { background: [] }],
+        [{ align: [] }],
+        ['blockquote', 'code-block'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image'],
+        ['link', 'image', 'video'],
         ['clean']
       ],
       handlers: {
-        image: imageHandler
+        image: imageHandler,
+        video: videoHandler
       }
-    }
+    },
+    clipboard: { matchVisual: false }
   }
 });
 
-// Custom image handler for Quill
+// Custom Image Upload Handler
 async function imageHandler() {
   const input = document.createElement('input');
   input.setAttribute('type', 'file');
@@ -1381,38 +1387,54 @@ async function imageHandler() {
 
   input.onchange = async () => {
     const file = input.files[0];
-    if (file) {
-      const range = window.quill.getSelection(true);
+    if (!file) return;
+    const range = window.quill.getSelection(true);
 
-      // Upload to Firebase Storage
-      const storageRef = ref(storage, `blogContentImages/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
+    const storageRef = ref(storage, `blogContentImages/${Date.now()}_${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
 
-      // Insert uploaded image into Quill
-      window.quill.insertEmbed(range.index, 'image', url);
-      window.quill.setSelection(range.index + 1); // Move cursor after image
-    }
+    window.quill.insertEmbed(range.index, 'image', url);
+    window.quill.setSelection(range.index + 1);
   };
 }
 
-// ======================================================
-// Save Blog Post (supports main image + embedded images)
-// ======================================================
+// Custom Video Upload Handler
+async function videoHandler() {
+  const input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'video/*');
+  input.click();
+
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) return;
+    const range = window.quill.getSelection(true);
+
+    const storageRef = ref(storage, `blogContentVideos/${Date.now()}_${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+
+    window.quill.insertEmbed(range.index, 'video', url);
+    window.quill.setSelection(range.index + 1);
+  };
+}
+
+// Save Blog Post
 async function savePost() {
   const postId = document.getElementById('post-id').value;
-  const title = document.getElementById('post-title').value.trim();
-  const author = document.getElementById('post-author').value.trim();
-  const authorPfpUrl = document.getElementById('post-author-pfp').value.trim();
-  const category = document.getElementById('post-category').value.trim();
+  const title = document.getElementById('post-title').value;
+  const author = document.getElementById('post-author').value;
+  const authorPfpUrl = document.getElementById('post-author-pfp').value;
+  const category = document.getElementById('post-category').value;
   const isFeatured = document.getElementById('post-featured').checked;
-  const contentHTML = window.quill.root.innerHTML;
+  const content = window.quill.root.innerHTML;
 
   if (!title || !author || !category) {
     alert('Please fill out Title, Author, and Category.');
     return;
   }
-  if (contentHTML.trim() === '<p><br></p>' || contentHTML.trim() === '') {
+  if (!content || content.trim() === '<p><br></p>') {
     alert('Post Content cannot be empty.');
     return;
   }
@@ -1420,24 +1442,26 @@ async function savePost() {
   try {
     const batch = writeBatch(db);
 
-    // ====== Handle Featured Post Uniqueness ======
+    // Un-feature other posts if this is featured
     if (isFeatured) {
       const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
       const featuredSnapshot = await getDocs(featuredQuery);
-      featuredSnapshot.forEach(docSnap => {
-        if (docSnap.id !== postId) batch.update(docSnap.ref, { isFeatured: false });
+      featuredSnapshot.forEach(docSnapshot => {
+        if (docSnapshot.id !== postId) {
+          batch.update(docSnapshot.ref, { isFeatured: false });
+        }
       });
     }
 
-    // ====== Prepare Post Data ======
+    // Prepare post data
     const postData = {
       title,
       author,
       authorPfpUrl,
       category,
-      content: contentHTML,
+      content,
       isFeatured,
-      updatedAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
     };
 
     if (postId) {
@@ -1453,12 +1477,14 @@ async function savePost() {
     alert(`Post ${postId ? 'updated' : 'saved'} successfully!`);
     resetPostForm();
     loadPosts();
+
   } catch (error) {
-    console.error("Error saving post:", error);
+    console.error("Error saving post: ", error);
     alert('An error occurred while saving the post. Check console for details.');
   }
 }
 
+// Reset Blog Form
 function resetPostForm() {
   document.getElementById('post-id').value = '';
   document.getElementById('post-title').value = '';
@@ -1468,50 +1494,29 @@ function resetPostForm() {
   document.getElementById('post-featured').checked = false;
   window.quill.root.innerHTML = '';
 }
-// ======================================================
-// Process Quill Embedded Images
-// Uploads any base64 images to Firebase Storage and replaces the src
-// ======================================================
-async function processQuillImages() {
-  const delta = quill.getContents();
-  const container = document.createElement('div');
 
-  quill.root.childNodes.forEach(async node => {
-    if (node.tagName === 'IMG' && node.src.startsWith('data:')) {
-      // Upload image
-      const base64 = node.src;
-      const blob = await fetch(base64).then(res => res.blob());
-      const storageRef = ref(storage, `blogImages/${Date.now()}_editor.png`);
-      await uploadBytes(storageRef, blob);
-      const url = await getDownloadURL(storageRef);
-      node.src = url;
-    }
-  });
-
-  return quill.root.innerHTML;
-}
-
-// ======================================================
-// Load Posts
-// ======================================================
+// Load & Render Posts
 async function loadPosts() {
   const postsList = document.getElementById('posts-list');
   if (!postsList) return;
+
   postsList.innerHTML = '<p>Loading posts...</p>';
 
   try {
     const postsQuery = query(postsCollectionRef, orderBy('createdAt', 'desc'));
-    const snapshot = await getDocs(postsQuery);
+    const querySnapshot = await getDocs(postsQuery);
 
-    if (snapshot.empty) {
+    if (querySnapshot.empty) {
       postsList.innerHTML = '<p>No posts found.</p>';
       return;
     }
 
     postsList.innerHTML = '';
-    snapshot.forEach(docSnap => {
+
+    querySnapshot.forEach(docSnap => {
       const post = docSnap.data();
       const postId = docSnap.id;
+
       let html = `
         <div class="post-item" data-id="${postId}">
           <h3>${post.title || 'Untitled Post'}</h3>
@@ -1519,34 +1524,49 @@ async function loadPosts() {
           <p><strong>Category:</strong> ${post.category || 'Uncategorized'}</p>
           <p><strong>Featured:</strong> ${post.isFeatured ? 'Yes' : 'No'}</p>
       `;
-      if (post.imageUrl) html += `<img src="${post.imageUrl}" alt="${post.title}" class="post-image" style="max-width:200px; margin:8px 0;">`;
-      if (post.content) {
-        const preview = post.content.replace(/<[^>]+>/g, '').substring(0, 120);
-        html += `<p><strong>Preview:</strong> ${preview}...</p>`;
+
+      if (post.imageUrl) {
+        html += `<img src="${post.imageUrl}" alt="${post.title}" class="post-image" style="max-width:200px; display:block; margin:8px 0;">`;
       }
-      html += `<button class="edit-post" data-id="${postId}">Edit</button>
-               <button class="delete-post" data-id="${postId}">Delete</button>
-      </div>`;
+
+      if (post.content) {
+        const previewText = post.content.replace(/<[^>]+>/g, '').substring(0, 120);
+        html += `<p><strong>Preview:</strong> ${previewText}...</p>`;
+      }
+
+      html += `
+        <button class="edit-post" data-id="${postId}">Edit</button>
+        <button class="delete-post" data-id="${postId}">Delete</button>
+      </div>
+      `;
+
       postsList.innerHTML += html;
     });
 
-    // Add listeners
-    document.querySelectorAll('.edit-post').forEach(btn => btn.addEventListener('click', () => editPost(btn.dataset.id)));
-    document.querySelectorAll('.delete-post').forEach(btn => btn.addEventListener('click', () => deletePost(btn.dataset.id)));
+    document.querySelectorAll('.edit-post').forEach(btn => {
+      btn.addEventListener('click', () => editPost(btn.getAttribute('data-id')));
+    });
 
-  } catch (err) {
-    console.error('Error loading posts:', err);
+    document.querySelectorAll('.delete-post').forEach(btn => {
+      btn.addEventListener('click', () => deletePost(btn.getAttribute('data-id')));
+    });
+
+  } catch (error) {
+    console.error("Error loading posts:", error);
     postsList.innerHTML = '<p>Error loading posts.</p>';
   }
 }
 
-// ======================================================
 // Edit Post
-// ======================================================
 async function editPost(postId) {
   try {
-    const docSnap = await getDoc(doc(db, 'posts', postId));
-    if (!docSnap.exists()) return alert('Post not found.');
+    const docRef = doc(db, "posts", postId);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      alert("Post not found.");
+      return;
+    }
 
     const post = docSnap.data();
     document.getElementById('post-id').value = postId;
@@ -1556,27 +1576,26 @@ async function editPost(postId) {
     document.getElementById('post-category').value = post.category || '';
     document.getElementById('post-featured').checked = post.isFeatured || false;
     window.quill.root.innerHTML = post.content || '';
-  } catch (err) {
-    console.error('Error editing post:', err);
-    alert('Failed to load post for editing.');
+
+  } catch (error) {
+    console.error("Error loading post for edit:", error);
+    alert("Error loading post.");
   }
 }
 
-// ======================================================
 // Delete Post
-// ======================================================
-async function deletePost(postId) {
-  if (!confirm('Are you sure you want to delete this post?')) return;
-  try {
-    await deleteDoc(doc(db, 'posts', postId));
-    alert('Post deleted successfully!');
-    loadPosts();
-  } catch (err) {
-    console.error('Error deleting post:', err);
-    alert('Failed to delete post.');
+async function deletePost(id) {
+  if (confirm('Are you sure you want to delete this post?')) {
+    try {
+      await deleteDoc(doc(db, 'posts', id));
+      alert('Post deleted successfully!');
+      loadPosts();
+    } catch (error) {
+      console.error("Error deleting post: ", error);
+      alert('Error deleting post.');
+    }
   }
 }
-
     
 /** Filters and displays shoutouts in the admin list */
 function displayFilteredShoutouts(platform) {
