@@ -41,27 +41,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Display the featured post
-    function displayFeaturedPost(posts) {
-        if (!featuredContainer) return;
-        const featuredPost = posts.find(post => post.isFeatured) || posts[0]; // Fallback to the latest post
-        if (featuredPost) {
-            featuredContainer.innerHTML = `
-                <h2 class="section-title">Featured Post</h2>
-                <article class="featured-post">
-                    <h2><a href="post.html?id=${featuredPost.id}">${featuredPost.title}</a></h2>
-                    <p>${featuredPost.content.substring(0, 200)}...</p>
-                    <div class="post-meta">
-                        <img src="${featuredPost.authorPfpUrl || 'images/default-profile.jpg'}" alt="${featuredPost.author}" class="author-pfp">
-                        <div class="author-details">
-                           <span class="author-name"><a href="author.html?name=${encodeURIComponent(featuredPost.author)}">${featuredPost.author}</a></span>
-                           <span class="post-timestamps">${formatDate(featuredPost.createdAt)}</span>
-                        </div>
-                    </div>
-                    <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
-                </article>
-            `;
-        }
-    }
+function displayFeaturedPost(posts) {
+    if (!featuredContainer) return;
+    const featuredPost = posts.find(post => post.isFeatured); // Find a post that is actually featured
+
+    if (featuredPost) {
+        // If a featured post is found, show it
+        featuredContainer.style.display = ''; // Ensure the container is visible
+        featuredContainer.innerHTML = `
+            <h2 class="section-title">Featured Post</h2>
+            <article class="featured-post">
+                <h2><a href="post.html?id=${featuredPost.id}">${featuredPost.title}</a></h2>
+                <p>${featuredPost.content.substring(0, 200)}...</p>
+                <div class="post-meta">
+                    <img src="${featuredPost.authorPfpUrl || 'images/default-profile.jpg'}" alt="${featuredPost.author}" class="author-pfp">
+                    <div class="author-details">
+                        <span class="author-name"><a href="author.html?name=${encodeURIComponent(featuredPost.author)}">${featuredPost.author}</a></span>
+                        <span class="post-timestamps">${formatDate(featuredPost.createdAt)}</span>
+                    </div>
+                </div>
+                <a href="post.html?id=${featuredPost.id}" class="read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
+            </article>
+        `;
+    } else {
+        // If no featured post is found, hide the entire container
+        featuredContainer.style.display = 'none';
+        featuredContainer.innerHTML = ''; // Clear it just in case
+    }
+}
 
     // Display posts in the grid
     function displayPosts(posts) {
