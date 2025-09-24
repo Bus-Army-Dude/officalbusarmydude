@@ -1,4 +1,7 @@
 // admin.js (Version includes Preview Prep + Previous Features + Social Links)
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-storage.js";
+
+const storage = getStorage();
 
 // *** Import Firebase services from your corrected init file ***
 import { db, auth } from './firebase-init.js'; // Ensure path is correct
@@ -1345,9 +1348,9 @@ function setupBusinessInfoListeners() {
 // == END: ALL BUSINESS INFO CODE FOR admin.js ==========
 // ======================================================
 
-// ======================================================
-// ===== BLOG MANAGEMENT FUNCTIONS (CORRECTED) =====
-// ======================================================
+// ======================
+// Save Blog Post (with image replace + delete old image)
+// ======================
 async function savePost() {
     const postId = document.getElementById('post-id').value;
     const title = document.getElementById('post-title').value;
@@ -1356,6 +1359,8 @@ async function savePost() {
     const category = document.getElementById('post-category').value;
     const isFeatured = document.getElementById('post-featured').checked;
     const content = window.quill.root.innerHTML;
+
+    const imageFile = document.getElementById('post-image')?.files[0];
 
     if (!title || !author || !category) {
         alert('Please fill out Title, Author, and Category.');
@@ -1366,6 +1371,7 @@ async function savePost() {
         return;
     }
 
+    // Handle featured post uniqueness
     if (isFeatured) {
         const featuredQuery = query(postsCollectionRef, where('isFeatured', '==', true));
         const featuredSnapshot = await getDocs(featuredQuery);
@@ -1378,10 +1384,53 @@ async function savePost() {
         await batch.commit();
     }
 
+    let imageUrl = null;
+
+    // If editing & new image chosen, delete old one first
+    if (postId && imageFile) {
+        try {
+            const oldDoc = await getDoc(doc(db, "posts", postId));
+            if (oldDoc.exists() && oldDoc.data().imageUrl) {
+                const oldUrl = oldDoc.data().imageUrl;
+                try {
+                    const oldRef = ref(storage, oldUrl);
+                    await deleteObject(oldRef);
+                    console.log("Old image deleted:", oldUrl);
+                } catch (delErr) {
+                    console.warn("Could not delete old image:", delErr);
+                }
+            }
+        } catch (err) {
+            console.warn("Error checking old post image:", err);
+        }
+    }
+
+    // Upload new image if selected
+    if (imageFile) {
+        try {
+            const storageRef = ref(storage, `blogImages/${Date.now()}_${imageFile.name}`);
+            await uploadBytes(storageRef, imageFile);
+            imageUrl = await getDownloadURL(storageRef);
+        } catch (uploadError) {
+            console.error("Image upload failed:", uploadError);
+            alert("Failed to upload image. Post not saved.");
+            return;
+        }
+    }
+
     const postData = {
-        title, author, authorPfpUrl, category, content, isFeatured,
-        updatedAt: serverTimestamp()
+        title,
+        author,
+        authorPfpUrl,
+        category,
+        content,
+        isFeatured,
+        updatedAt: serverTimestamp(),
     };
+
+    if (imageUrl) {
+        postData.imageUrl = imageUrl;
+    }
 
     try {
         if (postId) {
@@ -1399,66 +1448,138 @@ async function savePost() {
         alert('Error saving post.');
     }
 }
-
+    
+// ======================
+// Reset Blog Form (with image input reset)
+// ======================
 function resetPostForm() {
-    const form = document.getElementById('blog-management-form'); // Use the CORRECT ID
-    if (form) {
-        form.reset(); // This is a simpler way to clear most fields
-        if (window.quill) {
-            window.quill.root.innerHTML = ''; // Clear the editor
-        }
+    document.getElementById('post-id').value = '';
+    document.getElementById('post-title').value = '';
+    document.getElementById('post-author').value = '';
+    document.getElementById('post-author-pfp').value = '';
+    document.getElementById('post-category').value = '';
+    document.getElementById('post-featured').checked = false;
+    window.quill.root.innerHTML = '';
+    const imageInput = document.getElementById('post-image');
+    if (imageInput) {
+        imageInput.value = ''; // clears file input
     }
 }
 
+// ======================
+// Load and Render Blog Posts (with image support)
+// ======================
 async function loadPosts() {
-    const postsListDiv = document.getElementById('posts-list');
-    if (!postsListDiv) return;
-    postsListDiv.innerHTML = 'Loading posts...';
+    const postsList = document.getElementById('posts-list');
+    if (!postsList) return;
+
+    postsList.innerHTML = '<p>Loading posts...</p>';
+
     try {
-        const q = query(postsCollectionRef, orderBy('createdAt', 'desc'));
-        const snapshot = await getDocs(q);
-        if (snapshot.empty) {
-            postsListDiv.innerHTML = 'No posts found.';
+        const postsQuery = query(postsCollectionRef, orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(postsQuery);
+
+        if (querySnapshot.empty) {
+            postsList.innerHTML = '<p>No posts found.</p>';
             return;
         }
-        postsListDiv.innerHTML = snapshot.docs.map(docSnapshot => {
-            const post = docSnapshot.data();
-            return `
-                <div class="admin-list-item">
-                    <span>
-                        ${post.title} <small>(${post.category})</small>
-                        ${post.isFeatured ? '<strong>[Featured]</strong>' : ''}
-                    </span>
-                    <div>
-                        <button onclick="editPost('${docSnapshot.id}')" class="admin-btn-small">Edit</button>
-                        <button onclick="deletePost('${docSnapshot.id}')" class="admin-btn-small-danger">Delete</button>
-                    </div>
-                </div>`;
-        }).join('');
+
+        postsList.innerHTML = ''; // clear
+
+        querySnapshot.forEach((docSnap) => {
+            const post = docSnap.data();
+            const postId = docSnap.id;
+
+            // Build post HTML
+            let html = `
+                <div class="post-item" data-id="${postId}">
+                    <h3>${post.title || 'Untitled Post'}</h3>
+                    <p><strong>Author:</strong> ${post.author || 'Unknown'}</p>
+                    <p><strong>Category:</strong> ${post.category || 'Uncategorized'}</p>
+                    <p><strong>Featured:</strong> ${post.isFeatured ? 'Yes' : 'No'}</p>
+            `;
+
+            // Add image if available
+            if (post.imageUrl) {
+                html += `<img src="${post.imageUrl}" alt="${post.title}" class="post-image" style="max-width:200px; display:block; margin:8px 0;">`;
+            }
+
+            // Content preview (shortened)
+            if (post.content) {
+                const previewText = post.content.replace(/<[^>]+>/g, '').substring(0, 120);
+                html += `<p><strong>Preview:</strong> ${previewText}...</p>`;
+            }
+
+            html += `
+                    <button class="edit-post" data-id="${postId}">Edit</button>
+                    <button class="delete-post" data-id="${postId}">Delete</button>
+                </div>
+            `;
+
+            postsList.innerHTML += html;
+        });
+
+        // Attach edit/delete listeners
+        document.querySelectorAll('.edit-post').forEach(btn => {
+            btn.addEventListener('click', () => editPost(btn.getAttribute('data-id')));
+        });
+
+        document.querySelectorAll('.delete-post').forEach(btn => {
+            btn.addEventListener('click', () => deletePost(btn.getAttribute('data-id')));
+        });
+
     } catch (error) {
-        console.error("Error loading posts: ", error);
-        postsListDiv.innerHTML = `<p class="error">Error loading posts.</p>`;
+        console.error("Error loading posts:", error);
+        postsList.innerHTML = '<p>Error loading posts.</p>';
     }
 }
 
-async function editPost(id) {
+    // ======================
+// Edit Blog Post (with image preview + replace option)
+// ======================
+async function editPost(postId) {
     try {
-        const docSnap = await getDoc(doc(db, 'posts', id));
-        if (docSnap.exists()) {
-            const post = docSnap.data();
-            document.getElementById('post-id').value = id;
-            document.getElementById('post-title').value = post.title;
-            document.getElementById('post-author').value = post.author;
-            document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
-            document.getElementById('post-category').value = post.category || '';
-            document.getElementById('post-featured').checked = post.isFeatured || false;
-            if (window.quill) {
-                window.quill.root.innerHTML = post.content;
-            }
-            document.getElementById('post-title').focus();
+        const docRef = doc(db, "posts", postId);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) {
+            alert("Post not found.");
+            return;
         }
+
+        const post = docSnap.data();
+
+        // Fill form fields
+        document.getElementById('post-id').value = postId;
+        document.getElementById('post-title').value = post.title || '';
+        document.getElementById('post-author').value = post.author || '';
+        document.getElementById('post-author-pfp').value = post.authorPfpUrl || '';
+        document.getElementById('post-category').value = post.category || '';
+        document.getElementById('post-featured').checked = post.isFeatured || false;
+        window.quill.root.innerHTML = post.content || '';
+
+        const imageInput = document.getElementById('post-image');
+        const imagePreviewContainer = document.getElementById('post-image-preview');
+
+        if (imagePreviewContainer) {
+            if (post.imageUrl) {
+                imagePreviewContainer.innerHTML = `
+                    <p>Current Image:</p>
+                    <img src="${post.imageUrl}" alt="${post.title}" style="max-width:200px; display:block; margin:8px 0;">
+                    <small>Choose a new file below to replace this image.</small>
+                `;
+            } else {
+                imagePreviewContainer.innerHTML = `<p>No image uploaded yet.</p>`;
+            }
+        }
+
+        if (imageInput) {
+            imageInput.value = ""; // reset file input so user can pick new image
+        }
+
     } catch (error) {
-        console.error("Error fetching post for edit: ", error);
+        console.error("Error loading post for edit:", error);
+        alert("Error loading post.");
     }
 }
 
