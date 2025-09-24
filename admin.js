@@ -1368,9 +1368,6 @@ const quill = new Quill('#post-content-editor', {
         ]
     }
 });
-
-const postsCollectionRef = collection(db, 'posts');
-
 // ----------------------------
 // Save or update a blog post
 // ----------------------------
