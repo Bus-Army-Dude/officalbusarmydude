@@ -218,15 +218,20 @@ body {
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
+
+/* MODIFIED: Updated post-category to match the desired look */
 .post-category {
-  display: inline-block;
+  display: inline-block; /* Ensures the element only takes up the necessary width */
+  width: fit-content; /* Explicitly set width to content size */
   font-size: 0.8rem;
   font-weight: 600;
-  background: color-mix(in srgb, var(--accent-color, #3ddc84) 20%, transparent);
+  /* Updated background to be a semi-transparent pill */
+  background: color-mix(in srgb, var(--accent-color, #3ddc84) 15%, transparent);
   color: var(--accent-color, #3ddc84);
-  padding: 0.25rem 0.75rem;
+  padding: 0.4rem 0.9rem; /* Adjusted padding for a better pill shape */
   border-radius: 999px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  align-self: flex-start; /* Prevents stretching in a flex container */
 }
 
 /* --- Post Meta (Author & Time) --- */
@@ -374,28 +379,35 @@ body.dark-mode .read-more-btn:hover {
 }
 
 /* ======================================== */
-/* == Author Page Header (Fixed Left) ==== */
+/* == Author Page Header (REVAMPED) ==== */
 /* ======================================== */
+
+/* MODIFIED: Changed the author page header to be a centered card */
 .author-page-header {
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
+  max-width: 800px; /* Constrain width */
+  margin: 2rem auto 2.5rem auto; /* Center the card */
+  padding: 2rem;
+  background: var(--content-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem; /* Rounded corners */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* Add depth */
   text-align: left;
 }
 
 .author-page-header .author-header-info {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1.5rem; /* Increased gap */
   justify-content: flex-start;
 }
 
+/* MODIFIED: Made the author avatar larger */
 .author-page-header .author-header-pfp {
-  width: 40px;
-  height: 40px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--border-color);
+  border: 3px solid var(--border-color);
   flex-shrink: 0;
 }
 
@@ -405,16 +417,17 @@ body.dark-mode .read-more-btn:hover {
   align-items: flex-start;
 }
 
+/* MODIFIED: Increased font size for author name */
 .author-page-header h2 {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
   color: var(--text-color);
 }
 
 .author-page-header .posts-by-label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--secondary-text);
-  margin-top: 0.15rem;
+  margin-top: 0.25rem;
 }
