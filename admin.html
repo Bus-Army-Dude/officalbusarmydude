@@ -181,24 +181,30 @@
       <input type="text" id="post-author" placeholder="Author Name" class="admin-input">
       <input type="text" id="post-author-pfp" placeholder="Author Profile Picture URL" class="admin-input">
       <input type="text" id="post-category" placeholder="Category (e.g., Tech, Updates)" class="admin-input">
+
+      <!-- Rich text editor -->
       <div id="post-content-editor" class="admin-editor"></div>
-      <label class="admin-checkbox-label">
+
+      <!-- Featured Post Toggle -->
+      <label class="admin-checkbox-label" for="post-featured">
           <input type="checkbox" id="post-featured">
+          <span class="toggle-switch"></span>
           Mark as Featured Post (This will un-feature any other post)
       </label>
+
       <input type="hidden" id="post-id">
 
-      <!-- NEW IMAGE UPLOAD + PREVIEW -->
-      <label for="post-image">Upload Post Image:</label>
-      <input type="file" id="post-image" accept="image/*">
-      <div id="post-image-preview"></div>
-
-      <button onclick="savePost()" class="admin-btn">Save Post</button>
+      <!-- Buttons -->
+      <div class="admin-actions">
+        <button type="button" onclick="savePost()" class="admin-btn admin-submit">Save Post</button>
+        <button type="button" onclick="cancelPost()" class="admin-btn admin-cancel">Cancel</button>
+      </div>
   </div>
+
   <h3>Existing Posts</h3>
   <div id="posts-list" class="admin-list"></div>
 </section>
-
+            
              <section class="admin-section" id="president-management" aria-labelledby="president-heading">
                 <h3 id="president-heading">Manage Current President Info</h3>
 
