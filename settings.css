@@ -50,10 +50,10 @@
     --shadow-elevation-2: 0 4px 10px rgba(0,0,0,0.12);
 
     /* Glass / Translucent Material Variables */
-    --glass-blur: blur(20px);
-    --glass-bg-light: rgba(242, 242, 247, 0.80); /* Light Material */
+    --glass-blur: blur(30px); /* Increased blur */
+    --glass-bg-light: rgba(242, 242, 247, 0.85); /* Light Material */
     --glass-border-light: rgba(0, 0, 0, 0.1);
-    --glass-bg-dark: rgba(28, 28, 30, 0.75);   /* Dark Material */
+    --glass-bg-dark: rgba(28, 28, 30, 0.80);   /* Dark Material */
     --glass-border-dark: rgba(255, 255, 255, 0.15);
 }
 
@@ -390,10 +390,38 @@ body.settings-page #appearanceModeSelect {
     font-size: 0.875rem;
     margin-bottom: 0.75rem;
 }
-#text-size-slider { -webkit-appearance: none; width: 100%; height: 0.25rem; border-radius: 999px; outline: none;
-    background: linear-gradient(90deg, var(--slider-track-filled-color) 0%, var(--slider-track-filled-color) var(--slider-value-percentage, 50%), var(--slider-track-color) var(--slider-value-percentage, 50%), var(--slider-track-color) 100%); }
-#text-size-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
-#text-size-slider::-moz-range-thumb { width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--slider-thumb-color); cursor: pointer; }
+#text-size-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    outline: none;
+    background: var(--slider-track-color);
+}
+#text-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+    border: 0.5px solid rgba(0,0,0,0.04);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+}
+#text-size-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+#text-size-slider::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color);
+    cursor: pointer;
+    border: 0.5px solid rgba(0,0,0,0.04);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
 
 /* ========== Responsive ========== */
 @media (max-width: 600px) {
