@@ -49,9 +49,9 @@
     --shadow-elevation-1: 0 1px 1px rgba(0,0,0,0.08); /* Softer iOS shadows */
     --shadow-elevation-2: 0 4px 10px rgba(0,0,0,0.12);
 
-    /* Glass / Translucent Material Variables */
-    --glass-blur: blur(30px); /* Increased blur */
-    --glass-bg-light: rgba(242, 242, 247, 0.85); /* Light Material */
+    /* Glass / Translucent Material Variables --- iOS 26 ENHANCEMENT */
+    --glass-blur: blur(30px); /* Increased blur for a more futuristic feel */
+    --glass-bg-light: rgba(242, 242, 247, 0.85); /* Light Material, slightly more opaque */
     --glass-border-light: rgba(0, 0, 0, 0.1);
     --glass-bg-dark: rgba(28, 28, 30, 0.80);   /* Dark Material */
     --glass-border-dark: rgba(255, 255, 255, 0.15);
@@ -185,16 +185,16 @@ body.settings-page .settings-header {
     margin-bottom: 1.875rem;
     background: var(--glass-bg-light);
     border: 0.0625rem solid var(--glass-border-light);
-    border-radius: 0.875rem;
+    border-radius: 1.25rem; /* iOS 26: Larger radius */
     padding: 1rem 1.25rem;
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: 0 0.375rem 1.5rem rgba(0,0,0,0.08);
+    box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.1);
 }
 body.dark-mode .settings-header {
     background: var(--glass-bg-dark);
     border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
+    box-shadow: 0 0.625rem 2.25rem rgba(0,0,0,0.5);
 }
 
 body.settings-page .settings-header h1 {
@@ -214,19 +214,19 @@ body.settings-page .version {
 
 /* ========== Settings Subsection ========== */
 body.settings-page .settings-subsection {
-    border-radius: 0.75rem;
+    border-radius: 1rem; /* iOS 26: Larger radius */
     margin-bottom: 1.5rem;
     overflow: hidden;
     background: var(--glass-bg-light);
     border: 0.0625rem solid var(--glass-border-light);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    box-shadow: 0 0.375rem 1.5rem rgba(0,0,0,0.08);
+    box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.1);
 }
 body.dark-mode .settings-subsection {
     background: var(--glass-bg-dark);
     border: 0.0625rem solid var(--glass-border-dark);
-    box-shadow: 0 0.5rem 1.75rem rgba(0,0,0,0.5);
+    box-shadow: 0 0.625rem 2.25rem rgba(0,0,0,0.5);
 }
 
 body.settings-page .subsection-title {
@@ -377,7 +377,7 @@ body.settings-page #appearanceModeSelect {
 .md-switch input:checked ~ .track { background: var(--toggle-on); }
 .md-switch input:checked ~ .track .thumb { left: calc(var(--width) - var(--thumb-size) - 0.125rem); }
 
-/* ========== Text Size Slider ========== */
+/* ========== Text Size Slider --- iOS 26 REDESIGN ========== */
 .setting-card:has(.text-size-control) { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
 .setting-card:has(.text-size-control) > *:first-child { flex: 1; min-width: 15.625rem; }
 .text-size-control { flex-shrink: 0; width: 17.5rem; display: flex; flex-direction: column; align-items: center; }
@@ -392,21 +392,24 @@ body.settings-page #appearanceModeSelect {
 }
 #text-size-slider {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
-    height: 8px;
+    height: 8px; /* Thicker track */
     border-radius: 999px;
     outline: none;
     background: var(--slider-track-color);
+    transition: background 0.2s ease;
 }
 #text-size-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 28px;
-    height: 28px;
+    appearance: none;
+    width: 28px; /* Larger thumb */
+    height: 28px; /* Larger thumb */
     border-radius: 50%;
     background: var(--slider-thumb-color);
     cursor: pointer;
     border: 0.5px solid rgba(0,0,0,0.04);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15); /* Softer iOS shadow */
     transition: transform 0.2s ease;
 }
 #text-size-slider::-webkit-slider-thumb:hover {
