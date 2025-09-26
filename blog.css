@@ -1,8 +1,6 @@
 /* ======================================== */
-/* == Blog & Post Page: EPIC LAYOUT ===== */
+/* == Onyx Theme Variables ============== */
 /* ======================================== */
-
-/* --- Onyx Theme Variables --- */
 :root {
   --bg-color: #0D0D12; /* Very dark, cool background */
   --content-bg: rgba(22, 22, 28, 0.75); /* Translucent content background for glass effect */
@@ -14,6 +12,9 @@
   --shadow-color: rgba(0, 0, 0, 0.5); /* Darker shadow for depth */
 }
 
+/* ======================================== */
+/* == Blog & Post Page: EPIC LAYOUT ===== */
+/* ======================================== */
 
 /* --- Font Import --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -103,13 +104,13 @@ body {
   text-decoration: none;
   padding: 1rem 1.8rem;
   background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 80%, black));
-  color: var(--accent-text-color, #fff);
+  color: var(--accent-text-color);
   border: 1px solid color-mix(in srgb, var(--accent-color) 80%, transparent);
   border-radius: 50px;
   font-weight: 700;
   font-size: 1rem;
   box-shadow: 
-    0 8px 25px color-mix(in srgb, var(--accent-color, #C430D4) 30%, transparent),
+    0 8px 25px color-mix(in srgb, var(--accent-color) 30%, transparent),
     0 0 0 1px rgba(255,255,255,0.1) inset;
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   position: relative;
@@ -130,7 +131,7 @@ body {
 .main-header .home-link:hover {
   transform: translateY(-3px) scale(1.05);
   box-shadow: 
-    0 15px 40px color-mix(in srgb, var(--accent-color, #C430D4) 40%, transparent),
+    0 15px 40px color-mix(in srgb, var(--accent-color) 40%, transparent),
     0 0 0 1px rgba(255,255,255,0.3) inset;
 }
 
@@ -170,7 +171,7 @@ body {
 .featured-post {
   background: var(--content-bg);
   border: 1px solid var(--border-color);
-  border-left: 6px solid var(--accent-color, #C430D4);
+  border-left: 6px solid var(--accent-color);
   border-radius: 24px;
   padding: 3rem 0.5rem; /* reduced horizontal padding so it goes near edges */
   box-shadow: 
@@ -198,7 +199,7 @@ body {
 .featured-post:hover {
   transform: translateY(-8px) rotateX(1deg);
   box-shadow: 
-    0 35px 80px -15px var(--shadow-color, rgba(0,0,0,0.15)),
+    0 35px 80px -15px var(--shadow-color),
     0 0 0 1px rgba(255,255,255,0.15) inset,
     0 0 50px color-mix(in srgb, var(--accent-color) 20%, transparent);
 }
@@ -285,10 +286,10 @@ body {
 
 .search-input:focus {
   outline: none;
-  border-color: var(--accent-color, #C430D4);
+  border-color: var(--accent-color);
   background: var(--content-bg);
   box-shadow: 
-    0 0 0 3px color-mix(in srgb, var(--accent-color, #C430D4) 20%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent),
     0 8px 25px rgba(0,0,0,0.1),
     0 0 0 1px rgba(255,255,255,0.15) inset;
   transform: translateY(-2px);
@@ -357,12 +358,12 @@ body {
 }
 
 .category-btn.active {
-  background: var(--accent-color, #C430D4);
-  color: var(--accent-text-color, #fff);
-  border-color: var(--accent-color, #C430D4);
+  background: var(--accent-color);
+  color: var(--accent-text-color);
+  border-color: var(--accent-color);
   transform: translateY(-2px);
   box-shadow: 
-    0 8px 25px color-mix(in srgb, var(--accent-color, #C430D4) 30%, transparent),
+    0 8px 25px color-mix(in srgb, var(--accent-color) 30%, transparent),
     0 0 0 1px rgba(255,255,255,0.2) inset;
 }
 
@@ -454,14 +455,14 @@ body {
   width: fit-content;
   font-size: 0.85rem;
   font-weight: 700;
-  background: color-mix(in srgb, var(--accent-color, #C430D4) 15%, transparent);
-  color: var(--accent-color, #C430D4);
+  background: color-mix(in srgb, var(--accent-color) 15%, transparent);
+  color: var(--accent-color);
   padding: 0.6rem 1.2rem;
   border-radius: 50px;
   margin-bottom: 0.8rem;
   align-self: flex-start;
-  border: 1px solid color-mix(in srgb, var(--accent-color, #C430D4) 30%, transparent);
-  box-shadow: 0 2px 10px color-mix(in srgb, var(--accent-color, #C430D4) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--accent-color) 15%, transparent);
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -470,8 +471,8 @@ body {
 .post-category:hover {
   transform: translateY(-2px) scale(1.05);
   background: var(--accent-color);
-  color: var(--accent-text-color, #fff);
-  box-shadow: 0 5px 20px color-mix(in srgb, var(--accent-color, #C430D4) 30%, transparent);
+  color: var(--accent-text-color);
+  box-shadow: 0 5px 20px color-mix(in srgb, var(--accent-color) 30%, transparent);
 }
 
 /* --- Enhanced Post Meta --- */
@@ -541,7 +542,7 @@ body {
   margin-top: 1.5rem;
   padding: 0.9rem 1.6rem;
   background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 85%, black));
-  color: #fff;
+  color: var(--accent-text-color);
   font-weight: 700;
   font-size: 1rem;
   border-radius: 12px;
@@ -640,7 +641,7 @@ body {
 }
 
 .post-main-content a {
-  color: var(--accent-color, #C430D4);
+  color: var(--accent-color);
   text-decoration: underline;
   text-decoration-thickness: 1.5px;
   transition: all 0.2s ease;
@@ -821,3 +822,4 @@ body {
     margin: 0.75rem 0;
   }
 }
+
