@@ -27,7 +27,11 @@
 
         <!-- Search and Filter Controls -->
         <section class="filter-controls">
-            <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
+            <!-- This wrapper is the key to positioning the icon -->
+            <div class="search-wrapper">
+                <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
             <div id="category-filters" class="category-filters">
                 <!-- JavaScript will inject category buttons here -->
             </div>
