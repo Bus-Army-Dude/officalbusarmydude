@@ -1,8 +1,5 @@
 /* admin.css - Apple-Inspired Theme (Unified Preview Styles + President Preview + Toggles + Admin List PFP) */
 
-/* ======================== */
-/* Theme Variables          */
-/* ======================== */
 :root {
     /* --- Base & Typography --- */
     --system-font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -15,6 +12,12 @@
     --border-radius-lg: 12px;
     --transition-speed: 0.2s;
     --transition-timing: ease-in-out;
+
+    /* --- Glass Design Variables --- */
+    --glass-background: rgba(255, 255, 255, 0.7);
+    --glass-blur: 10px;
+    --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    --glass-border-radius: 16px;
 
     /* ======================== */
     /* Light Mode Colors (Apple Style) */
